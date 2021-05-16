@@ -1,0 +1,303 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../Interface.xsd">
+    <Scripts>
+        <Script file="Source/MainMenuWindow.lua"/>
+    </Scripts>
+    <Windows>
+        <Window name="MenuItemTemplate">
+            <Size>
+                <AbsPoint x="200" y="41"/>
+            </Size>
+            <Windows>
+                <Button name="$parentButton" texturescale="0.9" backgroundtexture="" highlighttexture="Menu_Selection"
+                        font="UO_GoldButtonText" layer="default">
+                    <Size>
+                        <AbsPoint x="195" y="45"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords>
+                        <NormalHighlit x="10" y="10"/>
+                        <PressedHighlit x="10" y="10"/>
+                    </TexCoords>
+                </Button>
+                <Label name="$parentText" font="uo_classic_20" maxchars="64" textalign="center" handleinput="false">
+                    <Size>
+                        <AbsPoint x="200" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="34" g="34" b="34" a="0"/>
+                </Label>
+                <Label name="$parentHotkey" font="UO_DefaultText" maxchars="64" textalign="right" handleinput="false">
+                    <Size>
+                        <AbsPoint x="100" y="18"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="right">
+                            <AbsPoint x="-10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255"/>
+                </Label>
+            </Windows>
+        </Window>
+
+        <HorizontalResizeImage name="MenuSmallDivider" inherits="UO_Default_Horizontal_Rule" layer="popup"
+                               handleinput="true">
+            <Size>
+                <AbsPoint x="190" y="2"/>
+            </Size>
+        </HorizontalResizeImage>
+
+
+        <Window name="MainMenuWindow" movable="true" layer="popup">
+            <Size>
+                <AbsPoint x="214" y="440"/>
+            </Size>
+            <Anchors>
+                <Anchor point="center" relativePoint="center" relativeTo="">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="MainMenuWindow.Initialize"/>
+                <EventHandler event="OnRButtonUp" function="MainMenuWindow.Destroy"/>
+            </EventHandlers>
+            <Windows>
+                <FullResizeImage name="main_window_background" texture="TMapBG" handleinput="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                    <Sizes>
+                        <TopLeft x="70" y="70" />
+                        <BottomRight x="70" y="70" />
+                        <Middle x="70" y="70" />
+                    </Sizes>
+                    <TexCoords>
+                        <TopLeft x="0" y="0" />
+                        <TopCenter x="70" y="0" />
+                        <TopRight x="140" y="0" />
+                        <MiddleLeft x="0" y="70" />
+                        <MiddleCenter x="70" y="70" />
+                        <MiddleRight x="140" y="70" />
+                        <BottomLeft x="0" y="140" />
+                        <BottomCenter x="70" y="140" />
+                        <BottomRight x="140" y="140" />
+                    </TexCoords>
+                </FullResizeImage>
+
+                <HorizontalResizeImage texture="TMapOverlay" handleinput="false">
+                    <Size>
+                        <AbsPoint x="250" y="43" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="main_window_background">
+                            <AbsPoint x="-10" y="-2" />
+                        </Anchor>
+                    </Anchors>
+                    <Sizes left="60" middle="60" right="60"/>
+                    <TexCoords>
+                        <Left x="0" y="213" />
+                        <Middle x="70" y="213" />
+                        <Right x="179" y="215" />
+                    </TexCoords>
+                </HorizontalResizeImage>
+
+                <HorizontalResizeImage name="$parentBottom" texture="TMapBG" handleinput="false">
+                    <Size>
+                        <AbsPoint x="218" y="18" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="main_window_background">
+                            <AbsPoint x="2" y="4" />
+                        </Anchor>
+                    </Anchors>
+                    <Sizes left="40" middle="40" right="40"/>
+                    <TexCoords>
+                        <Left x="0" y="212" />
+                        <Middle x="70" y="212" />
+                        <Right x="176" y="210" />
+                    </TexCoords>
+                </HorizontalResizeImage>
+
+                <!-- Log Out -->
+                <Window name="$parentLogOutItem" inherits="MenuItemTemplate">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="7" y="35"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnLogOut"/>
+                    </EventHandlers>
+                </Window>
+                <HorizontalResizeImage name="$parentLogOutItemDivider" inherits="MenuSmallDivider">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="MainMenuWindowLogOutItem">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </HorizontalResizeImage>
+
+                <!-- Exit Game -->
+                <Window name="$parentExitGameItem" inherits="MenuItemTemplate">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentLogOutItemDivider">
+                            <AbsPoint x="3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="InterfaceCore.OnExitGame"/>
+                    </EventHandlers>
+                </Window>
+                <HorizontalResizeImage name="$parentDivider1" inherits="MenuSmallDivider">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentExitGameItem">
+                            <AbsPoint x="-3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </HorizontalResizeImage>
+
+                <!-- User Settings -->
+                <Window name="$parentUserSettingsItem" inherits="MenuItemTemplate">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider1">
+                            <AbsPoint x="3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenUserSettings"/>
+                    </EventHandlers>
+                </Window>
+
+                <HorizontalResizeImage name="$parentDivider2" inherits="MenuSmallDivider">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentUserSettingsItem">
+                            <AbsPoint x="-3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </HorizontalResizeImage>
+
+                <!-- User Settings -->
+                <Window name="$parentUOStore" inherits="MenuItemTemplate">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider2">
+                            <AbsPoint x="3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenUOStore"/>
+                    </EventHandlers>
+                </Window>
+
+                <HorizontalResizeImage name="$parentDivider3" inherits="MenuSmallDivider">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentUOStore">
+                            <AbsPoint x="-3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </HorizontalResizeImage>
+
+                <!-- Agents Settings -->
+                <Window name="$parentAgentsSettingsItem" inherits="MenuItemTemplate">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider3">
+                            <AbsPoint x="3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnToggleAgentsSettings"/>
+                    </EventHandlers>
+                </Window>
+
+
+                <HorizontalResizeImage name="$parentDivider8" inherits="MenuSmallDivider">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentAgentsSettingsItem">
+                            <AbsPoint x="-3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </HorizontalResizeImage>
+
+                <!-- Macros -->
+                <Window name="$parentMacrosItem" inherits="MenuItemTemplate">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider8">
+                            <AbsPoint x="3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenMacros"/>
+                    </EventHandlers>
+                </Window>
+
+                <HorizontalResizeImage name="$parentDivider4" inherits="MenuSmallDivider">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentMacrosItem">
+                            <AbsPoint x="-3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </HorizontalResizeImage>
+
+                <!-- Actions -->
+                <Window name="$parentActionsItem" inherits="MenuItemTemplate">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider4">
+                            <AbsPoint x="3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenActions"/>
+                    </EventHandlers>
+                </Window>
+
+                <HorizontalResizeImage name="$parentDivider5" inherits="MenuSmallDivider">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentActionsItem">
+                            <AbsPoint x="-3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </HorizontalResizeImage>
+
+                <!-- Help Menu -->
+                <Window name="$parentHelpItem" inherits="MenuItemTemplate">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider5">
+                            <AbsPoint x="3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenHelp"/>
+                    </EventHandlers>
+                </Window>
+
+                <HorizontalResizeImage name="$parentDivider6" inherits="MenuSmallDivider">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentHelpItem">
+                            <AbsPoint x="-3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </HorizontalResizeImage>
+
+                <Window name="$parentDebugItem" inherits="MenuItemTemplate">
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider6">
+                            <AbsPoint x="3" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnDebug"/>
+                    </EventHandlers>
+                </Window>
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>

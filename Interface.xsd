@@ -1,0 +1,942 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <!-- ATTRIBUTES - Giving these default values does not work! !-->
+
+    <xs:attribute name="a" type="xs:string"/>
+    <xs:attribute name="b" type="xs:string"/>
+    <xs:attribute name="background" type="xs:string"/>
+    <xs:attribute name="backgroundtexture" type="xs:string"/>
+    <xs:attribute name="childscrollwindow" type="xs:string"/>
+    <xs:attribute name="def" type="xs:string"/>
+    <xs:attribute name="down" type="xs:string"/>
+    <xs:attribute name="event" type="Events"/>
+    <xs:attribute name="face" type="xs:string"/>
+    <xs:attribute name="file" type="xs:string"/>
+    <xs:attribute name="font" type="xs:string"/>
+    <xs:attribute name="foreground" type="xs:string"/>
+    <xs:attribute name="function" type="xs:string"/>
+    <xs:attribute name="g" type="xs:string"/>
+    <xs:attribute name="gutter" type="xs:string"/>
+    <xs:attribute name="highlighttexture" type="xs:string"/>
+    <xs:attribute name="input" type="Inputs"/>
+    <xs:attribute name="inherits" type="xs:string"/>
+    <xs:attribute name="layer" type="Layers"/>
+    <xs:attribute name="menubackground" type="xs:string"/>
+    <xs:attribute name="menuitembutton" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string"/>
+    <xs:attribute name="point" type="Alignments"/>
+    <xs:attribute name="r" type="xs:string"/>
+    <xs:attribute name="relativePoint" type="Alignments"/>
+    <xs:attribute name="relativeTo" type="xs:string"/>
+    <xs:attribute name="scaleAnchor" type="xs:string"/>
+    <xs:attribute name="scrollbar" type="xs:string"/>
+    <xs:attribute name="scrollbarPosition" type="xs:string"/>
+    <xs:attribute name="scrolling" type="Scrolling"/>
+    <xs:attribute name="selectedbutton" type="xs:string"/>
+    <xs:attribute name="sliderbutton" type="xs:string"/>
+    <xs:attribute name="szTabDef" type="xs:string"/>
+    <xs:attribute name="text" type="xs:string"/>
+    <xs:attribute name="texture" type="xs:string"/>
+    <xs:attribute name="thumb" type="xs:string"/>
+    <xs:attribute name="tickmark" type="xs:string"/>
+    <xs:attribute name="up" type="xs:string"/>
+
+    <xs:attribute name="alpha" type="xs:float"/>
+    <xs:attribute name="texturescale" type="xs:float"/>
+    <xs:attribute name="textAutoFitMinScale" type="xs:float"/>
+
+    <xs:attribute name="Bottom" type="xs:int"/>
+    <xs:attribute name="bottom" type="xs:int"/>
+    <xs:attribute name="columnsPerRow" type="xs:int"/>
+    <xs:attribute name="fps" type="xs:int"/>
+    <xs:attribute name="height" type="xs:int"/>
+    <xs:attribute name="history" type="xs:int"/>
+    <xs:attribute name="id" type="xs:int"/>
+    <xs:attribute name="left" type="xs:int"/>
+    <xs:attribute name="lineheight" type="xs:int"/>
+    <xs:attribute name="linespacing" type="xs:int"/>
+    <xs:attribute name="linewidth" type="xs:int"/>
+    <xs:attribute name="maxchars" type="xs:int"/>
+    <xs:attribute name="maxentries" type="xs:int"/>
+    <xs:attribute name="maxvisibleitems" type="xs:int"/>
+    <xs:attribute name="Middle" type="xs:int"/>
+    <xs:attribute name="middle" type="xs:int"/>
+    <xs:attribute name="numsegments" type="xs:int"/>
+    <xs:attribute name="numticks" type="xs:int"/>
+    <xs:attribute name="right" type="xs:int"/>
+    <xs:attribute name="taborder" type="xs:int"/>
+    <xs:attribute name="texsize" type="xs:int"/>
+    <xs:attribute name="textFadeTime" type="xs:int"/>
+    <xs:attribute name="textureScale" type="xs:int"/>
+    <xs:attribute name="Top" type="xs:int"/>
+    <xs:attribute name="top" type="xs:int"/>
+    <xs:attribute name="typeid" type="xs:int"/>
+    <xs:attribute name="wordwrapwidth" type="xs:int"/>
+    <xs:attribute name="x" type="xs:int"/>
+    <xs:attribute name="y" type="xs:int"/>
+
+    <xs:attribute name="acceptInput" type="xs:boolean"/>
+    <xs:attribute name="antialias" type="xs:boolean"/>
+    <xs:attribute name="autoHideScrollBar" type="xs:boolean"/>
+    <xs:attribute name="autohinting" type="xs:boolean"/>
+    <xs:attribute name="autoresize" type="xs:boolean"/>
+    <xs:attribute name="autosize" type="xs:boolean"/>
+    <xs:attribute name="autoresizewidth" type="xs:boolean"/>
+    <xs:attribute name="draganddrop" type="xs:boolean"/>
+    <xs:attribute name="drawchildrenfirst" type="xs:boolean"/>
+    <xs:attribute name="filtering" type="xs:boolean"/>
+    <xs:attribute name="frameonly" type="xs:boolean"/>
+    <xs:attribute name="handleinput" type="xs:boolean"/>
+    <xs:attribute name="hinting" type="xs:boolean"/>
+    <xs:attribute name="ignoreFormattingTags" type="xs:boolean"/>
+    <xs:attribute name="locktoticks" type="xs:boolean"/>
+    <xs:attribute name="movable" type="xs:boolean"/>
+    <xs:attribute name="moveable" type="xs:boolean"/>
+    <xs:attribute name="outline" type="xs:boolean"/>
+    <xs:attribute name="popable" type="xs:boolean"/>
+    <xs:attribute name="poppable" type="xs:boolean"/>
+    <xs:attribute name="reverseFill" type="xs:boolean"/>
+    <xs:attribute name="savesettings" type="xs:boolean"/>
+    <xs:attribute name="shadow" type="xs:boolean"/>
+    <xs:attribute name="sticky" type="xs:boolean"/>
+    <xs:attribute name="wordwrap" type="xs:boolean"/>
+
+    <xs:attribute name="textalign" type="Alignments"/>
+
+    <!-- ENUMERATIONS !-->
+
+    <xs:simpleType name="Alignments">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="top"/>
+            <xs:enumeration value="center"/>
+            <xs:enumeration value="right"/>
+            <xs:enumeration value="leftcenter"/>
+            <xs:enumeration value="rightcenter"/>
+            <xs:enumeration value="bottom"/>
+            <xs:enumeration value="bottomleft"/>
+            <xs:enumeration value="bottomright"/>
+            <xs:enumeration value="middle"/>
+            <xs:enumeration value="topleft"/>
+            <xs:enumeration value="topcenter"/>
+            <xs:enumeration value="topright"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="Events">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="OnInitialize"/>
+            <xs:enumeration value="OnShutdown"/>
+            <xs:enumeration value="OnLButtonUp"/>
+            <xs:enumeration value="OnLButtonDown"/>
+            <xs:enumeration value="OnLButtonDblClick"/>
+            <xs:enumeration value="OnHyperLinkClicked"/>
+            <xs:enumeration value="OnMouseWheel"/>
+            <xs:enumeration value="OnShown"/>
+            <xs:enumeration value="OnHidden"/>
+            <xs:enumeration value="OnMouseOver"/>
+            <xs:enumeration value="OnMouseOverEnd"/>
+            <xs:enumeration value="OnMouseDrag"/>
+            <xs:enumeration value="OnUpdate"/>
+            <xs:enumeration value="OnRButtonUp"/>
+            <xs:enumeration value="OnTextChanged"/>
+            <xs:enumeration value="OnSelChanged"/>
+            <xs:enumeration value="OnKeyEnter"/>
+            <xs:enumeration value="OnKeyEscape"/>
+            <xs:enumeration value="OnKeyTab"/>
+            <xs:enumeration value="OnSlide"/>
+            <xs:enumeration value="OnLButtonDblClk"/>
+            <xs:enumeration value="OnRButtonDown"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="Formats">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="icon"/>
+            <xs:enumeration value="wstring"/>
+            <xs:enumeration value="number"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="Inputs">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="all"/>
+            <xs:enumeration value="nospaces"/>
+            <xs:enumeration value="text"/>
+            <xs:enumeration value="numbers"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="Layers">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="background"/>
+            <xs:enumeration value="default"/>
+            <xs:enumeration value="secondary"/>
+            <xs:enumeration value="popup"/>
+            <xs:enumeration value="overlay"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="Scrolling">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="horz"/>
+            <xs:enumeration value="vert"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="Styles">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="default"/>
+            <xs:enumeration value="comma"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- ELEMENTS !-->
+
+    <xs:element name="AbsPoint" type="Coords"/>
+
+    <xs:element name="Anchors">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Anchor" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="Size"/>
+                <xs:element ref="AbsPoint"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Anchor">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="AbsPoint"/>
+            </xs:sequence>
+            <xs:attribute ref="point"/>
+            <xs:attribute ref="relativePoint"/>
+            <xs:attribute ref="relativeTo"/>
+            <xs:attribute ref="layer"/>
+            <xs:attribute ref="handleinput"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="AnimatedImage">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element ref="AnimFrames"/>
+                    </xs:choice>
+                    <xs:attribute ref="fps"/>
+                    <xs:attribute ref="texture"/>
+                    <xs:attribute ref="movable"/>
+                    <xs:attribute ref="poppable"/>
+                    <xs:attribute ref="sticky"/>
+                    <xs:attribute ref="textureScale"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="AnimFrame">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="Coords">
+                    <xs:attribute ref="id"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="AnimFrames">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="AnimFrame" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Assets">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="Texture" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element ref="Font" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="BaseElement">
+        <xs:all>
+            <xs:element ref="Size"/>
+            <xs:element ref="EventHandlers"/>
+            <xs:element ref="Windows"/>
+            <xs:element ref="DynamicImage"/>
+            <xs:element ref="Anchors"/>
+            <xs:element ref="Anchor"/>
+        </xs:all>
+        <xs:attribute ref="name"/>
+        <xs:attribute ref="inherits"/>
+        <xs:attribute ref="handleinput"/>
+        <xs:attribute ref="draganddrop"/>
+        <xs:attribute ref="layer"/>
+        <xs:attribute ref="id"/>
+        <xs:attribute ref="movable"/>
+        <xs:attribute ref="moveable"/>
+    </xs:complexType>
+
+    <xs:element name="Button">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element ref="TexCoords"/>
+                        <xs:element ref="TextColors"/>
+                        <xs:element ref="ResizeImages"/>
+                        <xs:element ref="TextOffset"/>
+                    </xs:choice>
+                    <xs:attribute ref="texturescale"/>
+                    <xs:attribute ref="textureScale"/>
+                    <xs:attribute ref="drawchildrenfirst"/>
+                    <xs:attribute ref="textalign"/>
+                    <xs:attribute ref="backgroundtexture"/>
+                    <xs:attribute ref="highlighttexture"/>
+                    <xs:attribute ref="font"/>
+                    <xs:attribute ref="autoresize"/>
+                    <xs:attribute ref="autoresizewidth"/>
+                    <xs:attribute ref="sticky"/>
+                    <xs:attribute ref="popable"/>
+                    <xs:attribute ref="movable"/>
+                    <xs:attribute ref="text"/>
+                    <xs:attribute ref="textAutoFitMinScale"/>
+                    <xs:attribute ref="wordwrap"/>
+                    <xs:attribute ref="lineheight"/>
+                    <xs:attribute ref="texture"/>
+                    <xs:attribute ref="taborder"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="CircleImage">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element ref="TexCoords"/>
+                    </xs:choice>
+                    <xs:attribute ref="numsegments"/>
+                    <xs:attribute ref="texturescale"/>
+                    <xs:attribute ref="texture"/>
+                    <xs:attribute ref="popable"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Color">
+        <xs:attribute ref="r"/>
+        <xs:attribute ref="g"/>
+        <xs:attribute ref="b"/>
+        <xs:attribute ref="a"/>
+    </xs:complexType>
+
+    <xs:element name="Color" type="Color"/>
+
+    <xs:element name="ColorPicker">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element name="ColorTexCoords" type="Coords"/>
+                        <xs:element name="ColorTexDims" type="Coords"/>
+                        <xs:element name="ColorSize" type="Coords"/>
+                        <xs:element name="ColorSpacing" type="Coords"/>
+                    </xs:choice>
+                    <xs:attribute ref="texture"/>
+                    <xs:attribute ref="columnsPerRow"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ComboBox">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element name="MenuButtonOffset" type="Coords"/>
+                        <xs:element ref="Anchor"/>
+                    </xs:choice>
+                    <xs:attribute ref="menuitembutton"/>
+                    <xs:attribute ref="menubackground"/>
+                    <xs:attribute ref="selectedbutton"/>
+                    <xs:attribute ref="scrollbar"/>
+                    <xs:attribute ref="maxvisibleitems"/>
+                    <xs:attribute ref="font"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="Coords">
+        <xs:attribute ref="x"/>
+        <xs:attribute ref="y"/>
+    </xs:complexType>
+
+    <xs:complexType name="Def">
+        <xs:attribute ref="def"/>
+    </xs:complexType>
+
+    <xs:element name="DockableWindow">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:attribute ref="savesettings"/>
+                    <xs:attribute ref="szTabDef"/>
+                    <xs:attribute ref="movable"/>
+                    <xs:attribute ref="sticky"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="DynamicImage">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:sequence>
+                        <xs:element ref="TexCoords"/>
+                        <xs:element name="TintColor" type="Color"/>
+                    </xs:sequence>
+                    <xs:attribute ref="texture"/>
+                    <xs:attribute ref="texturescale"/>
+                    <xs:attribute ref="textureScale"/>
+                    <xs:attribute ref="popable"/>
+                    <xs:attribute ref="sticky"/>
+                    <xs:attribute ref="alpha"/>
+                    <xs:attribute ref="acceptInput"/>
+                    <xs:attribute ref="movable"/>
+                    <xs:attribute ref="scaleAnchor"/>
+                    <xs:attribute ref="filtering"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="EditBox">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element ref="TextOffset"/>
+                        <xs:element ref="Color"/>
+                        <xs:element name="TextColor" type="Color"/>
+                    </xs:choice>
+                    <xs:attribute ref="maxchars"/>
+                    <xs:attribute ref="taborder"/>
+                    <xs:attribute ref="sticky"/>
+                    <xs:attribute ref="history"/>
+                    <xs:attribute ref="font"/>
+                    <xs:attribute ref="scrolling"/>
+                    <xs:attribute ref="autoresize"/>
+                    <xs:attribute ref="textalign"/>
+                    <xs:attribute ref="wordwrap"/>
+                    <xs:attribute ref="wordwrapwidth"/>
+                    <xs:attribute ref="relativeTo"/>
+                    <xs:attribute ref="background"/>
+                    <xs:attribute ref="input"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="EventHandlers">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="Anchor"/>
+                <xs:element name="EventHandler">
+                    <xs:complexType>
+                        <xs:attribute ref="event"/>
+                        <xs:attribute ref="function"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Font">
+        <xs:complexType>
+            <xs:attribute ref="name"/>
+            <xs:attribute ref="file"/>
+            <xs:attribute ref="shadow"/>
+            <xs:attribute ref="autohinting"/>
+            <xs:attribute ref="hinting"/>
+            <xs:attribute ref="texsize"/>
+            <xs:attribute ref="height"/>
+            <xs:attribute ref="antialias"/>
+            <xs:attribute ref="outline"/>
+            <xs:attribute ref="face"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="FullResizeImage">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element ref="Sizes"/>
+                        <xs:element ref="TexCoords"/>
+                    </xs:choice>
+                    <xs:attribute ref="texture"/>
+                    <xs:attribute ref="frameonly"/>
+                    <xs:attribute ref="sticky"/>
+                    <xs:attribute ref="alpha"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="HorizontalResizeImage">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element ref="Sizes"/>
+                        <xs:element ref="TexCoords"/>
+                        <xs:element ref="TextColors"/>
+                    </xs:choice>
+                    <xs:attribute ref="texture"/>
+                    <xs:attribute ref="texturescale"/>
+                    <xs:attribute ref="popable"/>
+                    <xs:attribute ref="font"/>
+                    <xs:attribute ref="textalign"/>
+                    <xs:attribute ref="highlighttexture"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="HorizontalScrollbar">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element name="ThumbOffset" type="Coords"/>
+                        <xs:element name="ActiveZoneOffset" type="Coords"/>
+                    </xs:choice>
+                    <xs:attribute ref="up"/>
+                    <xs:attribute ref="down"/>
+                    <xs:attribute ref="thumb"/>
+                    <xs:attribute ref="gutter"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="HorizontalScrollWindow">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:attribute ref="autoHideScrollBar"/>
+                    <xs:attribute ref="childscrollwindow"/>
+                    <xs:attribute ref="linewidth"/>
+                    <xs:attribute ref="scrollbar"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Include">
+        <xs:complexType>
+            <xs:attribute ref="file"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Interface">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element ref="Scripts" minOccurs="0"/>
+                <xs:element ref="Script" minOccurs="0"/>
+                <xs:element ref="Include" minOccurs="0"/>
+                <xs:element ref="Assets"/>
+                <xs:element ref="Windows"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Label">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element ref="Color"/>
+                        <xs:element ref="TextColors"/>
+                        <xs:element ref="LinkColor"/>
+                        <xs:element ref="LinkHighlightColor"/>
+                    </xs:choice>
+                    <xs:attribute ref="font"/>
+                    <xs:attribute ref="maxchars"/>
+                    <xs:attribute ref="textalign"/>
+                    <xs:attribute ref="autoresize"/>
+                    <xs:attribute ref="autoresizewidth"/>
+                    <xs:attribute ref="wordwrap"/>
+                    <xs:attribute ref="linespacing"/>
+                    <xs:attribute ref="sticky"/>
+                    <xs:attribute ref="relativeTo"/>
+                    <xs:attribute ref="lineheight"/>
+                    <xs:attribute ref="popable"/>
+                    <xs:attribute ref="poppable"/>
+                    <xs:attribute ref="ignoreFormattingTags"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="LinkColor" type="Color"/>
+
+    <xs:element name="LinkHighlightColor" type="Color"/>
+
+    <xs:element name="ListBox">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:sequence>
+                        <xs:element ref="ListData"/>
+                    </xs:sequence>
+                    <xs:attribute name="rowdef" type="xs:string"/>
+                    <xs:attribute name="visiblerows" type="xs:int"/>
+                    <xs:attribute name="rowcount" type="xs:int"/>
+                    <xs:attribute name="rowspacing" type="xs:int"/>
+                    <xs:attribute ref="scrollbar"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ListColumn">
+        <xs:complexType>
+            <xs:attribute name="windowname" type="xs:string"/>
+            <xs:attribute name="variable" type="xs:string"/>
+            <xs:attribute name="format" type="Formats"/>
+            <xs:attribute name="style" type="Styles"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ListColumns">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ListColumn"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ListData">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="ListColumns"/>
+            </xs:sequence>
+            <xs:attribute name="populationfunction" type="xs:string"/>
+            <xs:attribute name="table" type="xs:string"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="LogDisplay">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element ref="TextOffset"/>
+                    </xs:choice>
+                    <xs:attribute ref="textFadeTime"/>
+                    <xs:attribute ref="background"/>
+                    <xs:attribute ref="maxchars"/>
+                    <xs:attribute ref="scrollbarPosition"/>
+                    <xs:attribute ref="scrollbar"/>
+                    <xs:attribute ref="font"/>
+                    <xs:attribute ref="wordwrap"/>
+                    <xs:attribute ref="maxentries"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ManagedTextures">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="Textures"/>
+            </xs:choice>
+        </xs:complexType>
+
+    </xs:element>
+    <xs:element name="MaskWindow">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:attribute ref="movable"/>
+                    <xs:attribute ref="popable"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ResizeImages">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element name="Normal" type="Def"/>
+                <xs:element name="NormalHighlit" type="Def"/>
+                <xs:element name="Disabled" type="Def"/>
+                <xs:element name="Pressed" type="Def"/>
+                <xs:element name="PressedHighlit" type="Def"/>
+                <xs:element name="DisabledPressed" type="Def"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Script">
+        <xs:complexType>
+            <xs:attribute ref="file"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Scripts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="Script" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="ScrollWindow">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:attribute ref="childscrollwindow"/>
+                    <xs:attribute ref="scrollbar"/>
+                    <xs:attribute ref="lineheight"/>
+                    <xs:attribute ref="autoHideScrollBar"/>
+                    <xs:attribute ref="popable"/>
+                    <xs:attribute ref="movable"/>
+                    <xs:attribute ref="moveable"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Size">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="AbsPoint"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Sizes">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element name="TopLeft" type="Coords"/>
+                <xs:element name="TopRight" type="Coords"/>
+                <xs:element name="BottomRight" type="Coords"/>
+                <xs:element name="Middle" type="Coords"/>
+                <xs:element name="TopCenter" type="Coords"/>
+                <xs:element name="MiddleLeft" type="Coords"/>
+                <xs:element name="MiddleRight" type="Coords"/>
+                <xs:element name="MiddleCenter" type="Coords"/>
+                <xs:element name="BottomLeft" type="Coords"/>
+                <xs:element name="BottomCenter" type="Coords"/>
+            </xs:choice>
+            <xs:attribute ref="left"/>
+            <xs:attribute ref="right"/>
+            <xs:attribute ref="Middle"/>
+            <xs:attribute ref="middle"/>
+            <xs:attribute ref="Top"/>
+            <xs:attribute ref="top"/>
+            <xs:attribute ref="Bottom"/>
+            <xs:attribute ref="bottom"/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="SliderBar">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:attribute ref="sliderbutton"/>
+                    <xs:attribute ref="tickmark"/>
+                    <xs:attribute ref="background"/>
+                    <xs:attribute ref="numticks"/>
+                    <xs:attribute ref="locktoticks"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="StatusBar">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element name="ForegroundOffset" type="Coords"/>
+                    </xs:choice>
+                    <xs:attribute ref="foreground"/>
+                    <xs:attribute ref="background"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TexCoords">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="Coords">
+                    <xs:choice>
+                        <xs:element name="Normal" type="Texture"/>
+                        <xs:element name="NormalHighlit" type="Texture"/>
+                        <xs:element name="Disabled" type="Texture"/>
+                        <xs:element name="Pressed" type="Texture"/>
+                        <xs:element name="PressedHighlit" type="Texture"/>
+                        <xs:element name="DisabledPressed" type="Texture"/>
+                        <xs:element name="TopLeft" type="Coords"/>
+                        <xs:element name="TopRight" type="Coords"/>
+                        <xs:element name="BottomRight" type="Coords"/>
+                        <xs:element name="Middle" type="Coords"/>
+                        <xs:element name="TopCenter" type="Coords"/>
+                        <xs:element name="MiddleLeft" type="Coords"/>
+                        <xs:element name="MiddleRight" type="Coords"/>
+                        <xs:element name="MiddleCenter" type="Coords"/>
+                        <xs:element name="BottomLeft" type="Coords"/>
+                        <xs:element name="BottomCenter" type="Coords"/>
+                        <xs:element name="Left" type="Coords"/>
+                        <xs:element name="Right" type="Coords"/>
+                        <xs:element name="Top" type="Coords"/>
+                        <xs:element name="Bottom" type="Coords"/>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TextColors">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="Normal" type="Color"/>
+                <xs:element name="NormalHighlit" type="Color"/>
+                <xs:element name="Disabled" type="Color"/>
+                <xs:element name="Pressed" type="Color"/>
+                <xs:element name="PressedHighlit" type="Color"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="TextOffset" type="Coords"/>
+
+    <xs:complexType name="Texture">
+        <xs:complexContent>
+            <xs:extension base="Coords">
+                <xs:attribute ref="texture"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="Texture">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="Texture">
+                    <xs:attribute ref="id"/>
+                    <xs:attribute ref="typeid"/>
+                    <xs:attribute ref="file"/>
+                    <xs:attribute ref="name"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Textures">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element ref="Texture" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="VerticalResizeImage">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element ref="Sizes"/>
+                        <xs:element ref="TexCoords"/>
+                    </xs:choice>
+                    <xs:attribute ref="texture"/>
+                    <xs:attribute ref="reverseFill"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="VerticalScrollbar">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:sequence>
+                        <xs:element ref="EventHandlers"/>
+                        <xs:element name="ActiveZoneOffset" type="Coords"/>
+                        <xs:element name="ThumbOffset" type="Coords"/>
+                    </xs:sequence>
+                    <xs:attribute ref="up"/>
+                    <xs:attribute ref="down"/>
+                    <xs:attribute ref="thumb"/>
+                    <xs:attribute ref="gutter"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Window">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:attribute ref="popable"/>
+                    <xs:attribute ref="sticky"/>
+                    <xs:attribute ref="savesettings"/>
+                    <xs:attribute ref="frameonly"/>
+                    <xs:attribute ref="autosize"/>
+                    <xs:attribute ref="poppable"/>
+                    <xs:attribute ref="autoresize"/>
+                    <xs:attribute ref="backgroundtexture"/>
+                    <xs:attribute ref="highlighttexture"/>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="Windows">
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="BaseElement">
+                    <xs:choice>
+                        <xs:element ref="DockableWindow"/>
+                        <xs:element ref="Window"/>
+                        <xs:element ref="Label"/>
+                        <xs:element ref="Button"/>
+                        <xs:element ref="ListBox"/>
+                        <xs:element ref="ScrollWindow"/>
+                        <xs:element ref="VerticalScrollbar"/>
+                        <xs:element ref="ColorPicker"/>
+                        <xs:element ref="FullResizeImage"/>
+                        <xs:element ref="SliderBar"/>
+                        <xs:element ref="VerticalResizeImage"/>
+                        <xs:element ref="CircleImage"/>
+                        <xs:element ref="StatusBar"/>
+                        <xs:element ref="EditBox"/>
+                        <xs:element ref="HorizontalResizeImage"/>
+                        <xs:element ref="LogDisplay"/>
+                        <xs:element ref="ComboBox"/>
+                        <xs:element ref="HorizontalScrollWindow"/>
+                        <xs:element ref="AnimatedImage"/>
+                        <xs:element ref="HorizontalScrollbar"/>
+                        <xs:element ref="MaskWindow"/>
+                    </xs:choice>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>

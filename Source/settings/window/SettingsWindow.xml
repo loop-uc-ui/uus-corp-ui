@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Interface.xsd">
+    <Scripts>
+        <Script file="SettingsKeyBindingsWindow.lua"/>
+        <Script file="SettingsWindow.lua"/>
+    </Scripts>
+    <Windows>
+        <Label name="SectionTitle" font="UO_DefaultText" maxchars="64" textalign="left">
+            <Color r="255" g="255" b="255" a="255"/>
+        </Label>
+
+        <Label name="Settings_ItemTitle" font="UO_DefaultText" linespacing="20" autoresize="true" wordwrap="true"
+               maxchars="64" textalign="left">
+            <Color r="255" g="255" b="255" a="255"/>
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="SettingsWindow.LabelOnMouseOver"/>
+            </EventHandlers>
+        </Label>
+
+        <Window name="LabelCheckButton">
+            <Size>
+                <AbsPoint x="350" y="32"/>
+            </Size>
+            <Windows>
+                <Button name="$parentButton" inherits="UO_Default_Check_Button">
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Button>
+                <Label name="$parentLabel" inherits="Settings_ItemTitle">
+                    <Size>
+                        <AbsPoint x="700" y="16"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentButton">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255"/>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="SettingsWindow.Check"/>
+                    </EventHandlers>
+                </Label>
+            </Windows>
+        </Window>
+
+        <Window name="Settings_LabelCheckButton">
+            <Size>
+                <AbsPoint x="350" y="32"/>
+            </Size>
+            <Windows>
+                <Button name="$parentButton" inherits="UO_Default_Check_Button">
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Button>
+                <Label name="$parentLabel" inherits="Settings_ItemTitle">
+                    <Size>
+                        <AbsPoint x="700" y="16"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentButton">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255"/>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="SettingsWindow.Check"/>
+                        <EventHandler event="OnMouseOver" function="SettingsWindow.LabelOnMouseOver"/>
+                    </EventHandlers>
+                </Label>
+            </Windows>
+        </Window>
+
+        <Window name="Settings_LabelRadioButton">
+            <Size>
+                <AbsPoint x="350" y="32"/>
+            </Size>
+            <Windows>
+                <Button name="$parentButton" backgroundtexture="UO_Core" highlighttexture="UO_Core">
+                    <Size>
+                        <AbsPoint x="22" y="22"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left">
+                            <AbsPoint x="5" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords>
+                        <Normal x="166" y="25"/>
+                        <NormalHighlit x="166" y="25"/>
+                        <Pressed x="193" y="25"/>
+                        <PressedHighlit x="193" y="25"/>
+                        <Disabled x="166" y="25"/>
+                    </TexCoords>
+                </Button>
+                <Label name="$parentLabel" inherits="Settings_ItemTitle">
+                    <Size>
+                        <AbsPoint x="700" y="16"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentButton">
+                            <AbsPoint x="10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255"/>
+                </Label>
+            </Windows>
+        </Window>
+
+        <Window name="LabelEditBox">
+            <Size>
+                <AbsPoint x="230" y="32"/>
+            </Size>
+            <Windows>
+                <EditBox name="$parentEdit" font="UO_DefaultText" taborder="1" maxchars="24" scrolling="horz"
+                         input="text">
+                    <Size>
+                        <AbsPoint x="50" y="40"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" relativeTo="">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </EditBox>
+                <Label name="$parentLabel" font="UO_DefaultText" maxchars="64" textalign="left" layer="background">
+                    <Size>
+                        <AbsPoint x="175" y="16"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentEdit">
+                            <AbsPoint x="5" y="3"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255"/>
+                </Label>
+            </Windows>
+        </Window>
+
+        <Window name="SubSectionLabelTemplate">
+            <Size>
+                <AbsPoint/>
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" font="UO_DefaultText">
+                    <Size>
+                        <AbsPoint x="650" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <FullResizeImage name="$parentGoldLine" inherits="UO_Default_Horizontal_Gold_Line">
+                    <Size>
+                        <AbsPoint x="650" y="2"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentLabel">
+                            <AbsPoint x="0" y="30"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+
+        <Button name="SettingsWindowTabButton" inherits="UO_Default_PaperDollTabButton">
+            <Size>
+                <AbsPoint x="117" y="23"/>
+            </Size>
+            <Windows>
+                <HorizontalResizeImage name="$parentTab" inherits="UO_Default_Medium_Tab_Disabled">
+                    <Size>
+                        <AbsPoint x="120" y="30"/>
+                    </Size>
+                </HorizontalResizeImage>
+                <HorizontalResizeImage name="$parentTabSelected" inherits="UO_Default_Medium_Tab_Enabled">
+                    <Size>
+                        <AbsPoint x="120" y="30"/>
+                    </Size>
+                </HorizontalResizeImage>
+            </Windows>
+        </Button>
+
+        <!-- Settings Window -->
+        <Window name="SettingsWindow" movable="true">
+            <Size>
+                <AbsPoint x="740" y="620"/>
+            </Size>
+            <Anchors>
+                <Anchor point="center" relativePoint="center"/>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="SettingsWindow.Initialize"/>
+                <EventHandler event="OnKeyEnter" function="SettingsWindow.Cancel"/>
+            </EventHandlers>
+            <Windows>
+                <!-- Default chrome. Alter this at your own peril. -->
+                <Window name="$parentChrome" inherits="UO_DefaultWindow">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </Window>
+                <!-- End of default chrome boilerplate code -->
+
+                <!-- Buttons -->
+                <Button name="$parentOkayButton" inherits="UO_Default_Medium_Select_Button">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="SettingsWindow">
+                            <AbsPoint x="19" y="-18"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OnOkayButton"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentApplyButton" inherits="UO_Default_Medium_Select_Button">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentOkayButton">
+                            <AbsPoint x="10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OnApplyButton"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentResetButton" inherits="UO_Default_Medium_Select_Button">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentApplyButton">
+                            <AbsPoint x="10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OnResetButton"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentCancelButton" inherits="UO_Default_Medium_Select_Button">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentResetButton">
+                            <AbsPoint x="10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OnCancelButton"/>
+                    </EventHandlers>
+                </Button>
+                <!-- Tab Buttons -->
+                <Button name="$parentGraphicsTabButton" inherits="SettingsWindowTabButton">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="16" y="68"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenGraphicsTab"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentKeyBindingsTabButton" inherits="SettingsWindowTabButton">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentGraphicsTabButton">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenKeyBindingsTab"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentSoundTabButton" inherits="SettingsWindowTabButton">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentKeyBindingsTabButton">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenSoundTab"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentOptionsTabButton" inherits="SettingsWindowTabButton">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentSoundTabButton">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenOptionsTab"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentProfanityTabButton" inherits="SettingsWindowTabButton">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentOptionsTabButton">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenProfanityTab"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentOverheadTextTabButton" inherits="SettingsWindowTabButton">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentGraphicsTabButton">
+                            <AbsPoint x="0" y="-30"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenOverheadTextTab"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentContainersTabButton" inherits="SettingsWindowTabButton">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentOverheadTextTabButton">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenContainersTab"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentHealthbarsTabButton" inherits="SettingsWindowTabButton">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentContainersTabButton">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenHealthbarsTab"/>
+                    </EventHandlers>
+                </Button>
+                <Button name="$parentMobilesOnScreenTabButton" inherits="SettingsWindowTabButton">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentHealthbarsTabButton">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenMobilesTab"/>
+                    </EventHandlers>
+                </Button>
+                <!-- Gold lines -->
+                <FullResizeImage name="$parentGoldLine1" inherits="UO_Default_Horizontal_Gold_Line">
+                    <Size>
+                        <AbsPoint x="2" y="2"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="10" y="72"/>
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright">
+                            <AbsPoint x="-10" y="72"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+                <FullResizeImage name="$parentGoldLine2" inherits="UO_Default_Horizontal_Gold_Line">
+                    <Size>
+                        <AbsPoint x="2" y="2"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft">
+                            <AbsPoint x="10" y="-68"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright">
+                            <AbsPoint x="-10" y="-68"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+                <!-- End of Gold Lines -->
+
+                <!-- Graphics Settings -->
+				<ScrollWindow inherits="SettingsGraphicsWindow"/>
+
+                <!-- Bindings Scrolling Window -->
+                <ScrollWindow inherits="SettingsKeyBindingsWindow"/>
+
+                <!-- Sound Scrolling Window-->
+                <ScrollWindow inherits="SettingsSoundWindow"/>
+
+                <!-- Options Scrolling Window-->
+                <ScrollWindow inherits="SettingsOptionsWindow"/>
+
+                <!-- Filters Scrolling Window -->
+                <ScrollWindow inherits="SettingsProfanityWindow"/>
+                <ScrollWindow inherits="HealthbarsSettingsWindow"/>
+                <ScrollWindow inherits="ContainersSettingsWindow"/>
+                <ScrollWindow inherits="OverheadTextSettingsWindow"/>
+                <ScrollWindow inherits="SettingsMobilesOnScreen"/>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

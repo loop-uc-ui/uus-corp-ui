@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Interface.xsd">
+    <Scripts>
+        <Script file="SettingsProfanityWindow.lua"/>
+    </Scripts>
+    <Windows>
+        <Label name="IgnoreListItem" inherits="Settings_ItemTitle">
+            <Size>
+                <AbsPoint x="400" y="32"/>
+            </Size>
+            <Color r="255" g="255" b="255" a="255"/>
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="SettingsProfanityWindow.OnIgnoreListItemClicked"/>
+            </EventHandlers>
+        </Label>
+        <Label name="IgnoreConfListItem" inherits="Settings_ItemTitle">
+            <Size>
+                <AbsPoint x="400" y="32"/>
+            </Size>
+            <Color r="255" g="255" b="255" a="255"/>
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="SettingsProfanityWindow.OnIgnoreConfListItemClicked"/>
+            </EventHandlers>
+        </Label>
+        <ScrollWindow name="SettingsProfanityWindow" childscrollwindow="SettingsProfanityWindowScrollChild"
+                      scrollbar="SettingsProfanityWindowScrollbar" lineheight="18" autoHideScrollBar="true">
+            <Size>
+                <AbsPoint x="710" y="456"/>
+            </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentGraphicsTabButton">
+                    <AbsPoint x="0" y="10"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <VerticalScrollbar name="$parentScrollbar" inherits="StandardVertScroll"/>
+
+                <Window name="$parentScrollChild">
+                    <Size>
+                        <AbsPoint x="695" y="456"/>
+                    </Size>
+                    <Windows>
+                        <Window name="SettingsBadWordFilter">
+                            <Size>
+                                <AbsPoint x="695" y="2000"/>
+                                <!-- TODO = FIX THIS so it doesn't always scroll but makes space on the fly -->
+                            </Size>
+                            <Windows>
+
+                                <Window name="$parentFilterSubSection" inherits="SubSectionLabelTemplate">
+                                    <Anchors>
+                                        <Anchor point="topleft" relativePoint="topleft">
+                                            <AbsPoint x="35" y="30"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <!--ignore player list-->
+                                <Window name="IgnoreListOption" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="150" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="topleft" relativePoint="topleft"
+                                                relativeTo="$parentFilterSubSection">
+                                            <AbsPoint x="0" y="32"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+                                <Button name="IgnoreListAddButton" inherits="UO_Default_Medium_Select_Button">
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="IgnoreListOption">
+                                            <AbsPoint x="26" y="10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <EventHandlers>
+                                        <EventHandler event="OnLButtonUp"
+                                                      function="SettingsProfanityWindow.OnIgnoreListAddButton"/>
+                                    </EventHandlers>
+                                </Button>
+                                <Button name="IgnoreListChatListButton"
+                                        inherits="UO_Default_Medium_Select_Button">
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="IgnoreListAddButton">
+                                            <AbsPoint x="0" y="10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <EventHandlers>
+                                        <EventHandler event="OnLButtonUp"
+                                                      function="SettingsProfanityWindow.OnIgnoreListChatListButton"/>
+                                    </EventHandlers>
+                                </Button>
+                                <Button name="IgnoreListDeleteButton"
+                                        inherits="UO_Default_Medium_Select_Button">
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="IgnoreListChatListButton">
+                                            <AbsPoint x="0" y="10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <EventHandlers>
+                                        <EventHandler event="OnLButtonUp"
+                                                      function="SettingsProfanityWindow.OnIgnoreListDeleteButton"/>
+                                    </EventHandlers>
+                                </Button>
+
+
+                                <!--ignore conf player list-->
+                                <Window name="IgnoreConfListOption" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="150" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentFilterSubSection">
+                                            <AbsPoint x="300" y="32"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+                                <Button name="IgnoreConfListAddButton"
+                                        inherits="UO_Default_Medium_Select_Button">
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="IgnoreConfListOption">
+                                            <AbsPoint x="26" y="10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <EventHandlers>
+                                        <EventHandler event="OnLButtonUp"
+                                                      function="SettingsProfanityWindow.OnIgnoreConfListAddButton"/>
+                                    </EventHandlers>
+                                </Button>
+                                <Button name="IgnoreConfListChatListButton"
+                                        inherits="UO_Default_Medium_Select_Button">
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="IgnoreConfListAddButton">
+                                            <AbsPoint x="0" y="10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <EventHandlers>
+                                        <EventHandler event="OnLButtonUp"
+                                                      function="SettingsProfanityWindow.OnIgnoreConfListChatListButton"/>
+                                    </EventHandlers>
+                                </Button>
+                                <Button name="IgnoreConfListDeleteButton"
+                                        inherits="UO_Default_Medium_Select_Button">
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="IgnoreConfListChatListButton">
+                                            <AbsPoint x="0" y="10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <EventHandlers>
+                                        <EventHandler event="OnLButtonUp"
+                                                      function="SettingsProfanityWindow.OnIgnoreConfListDeleteButton"/>
+                                    </EventHandlers>
+                                </Button>
+                            </Windows>
+                        </Window>
+                    </Windows>
+                </Window>
+            </Windows>
+        </ScrollWindow>
+    </Windows>
+</Interface>

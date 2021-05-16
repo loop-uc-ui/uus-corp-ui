@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../Interface.xsd">
+    <Scripts>
+        <Script file="Source/UO_DefaultWindow.lua"/>
+    </Scripts>
+    <Windows>
+        <Window name="UO_DefaultWindow" movable="false" popable="false">
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="UO_DefaultWindow.Initialize"/>
+            </EventHandlers>
+
+            <Windows>
+                <!-- Body background -->
+                <FullResizeImage name="$parent_UO_DefaultWindowBackground" inherits="UO_Default_Black_Background"
+                                 handleinput="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="4" y="28"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright">
+                            <AbsPoint x="-4" y="-1"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+
+                <!-- Title bar -->
+                <HorizontalResizeImage name="$parent_UO_TitleBar" inherits="UO_Default_Title_Bar" handleinput="true"
+                                       popable="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="topright" relativePoint="topright"/>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnRButtonUp" function="UO_DefaultWindow.CloseDialog"/>
+                    </EventHandlers>
+                </HorizontalResizeImage>
+
+                <Label name="$parent_UO_TitleBar_WindowTitle" inherits="UO_Default_Label_Color" font="UO_Title"
+                       maxchars="256" handleinput="false" layer="popup" autoresizewidth="true">
+                    <Size>
+                        <AbsPoint x="0" y="24"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parent_UO_TitleBar">
+                            <AbsPoint x="-15" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="159" g="177" b="189"/>
+                </Label>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Interface.xsd">
+    <Scripts>
+        <Script file="SettingsGraphicsWindow.lua"/>
+    </Scripts>
+    <Windows>
+        <ScrollWindow name="SettingsGraphicsWindow" childscrollwindow="SettingsGraphicsWindowScrollChild"
+                      scrollbar="SettingsGraphicsWindowScrollbar" lineheight="18" autoHideScrollBar="true">
+            <Size>
+                <AbsPoint x="710" y="456"/>
+            </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentGraphicsTabButton">
+                    <AbsPoint x="0" y="10"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <VerticalScrollbar name="$parentScrollbar" inherits="StandardVertScroll"/>
+
+                <Window name="$parentScrollChild">
+                    <Size>
+                        <AbsPoint x="695" y="456"/>
+                    </Size>
+                    <Windows>
+
+                        <!-- Graphics -->
+                        <Window name="SettingsGraphics">
+                            <Size>
+                                <AbsPoint x="695" y="764"/>
+                            </Size>
+                            <Windows>
+                                <Window name="$parentDisplaySubSection" inherits="SubSectionLabelTemplate">
+                                    <Anchors>
+                                        <Anchor point="topleft" relativePoint="topleft">
+                                            <AbsPoint x="35" y="30"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <!-- Use Fullscreen -->
+                                <Window name="$parentUseFullscreen" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="150" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="topleft" relativePoint="topleft"
+                                                relativeTo="$parentDisplaySubSection">
+                                            <AbsPoint x="0" y="32"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <!-- Full Screen Resolution -->
+                                <Label name="$parentFullScreenResLabel" inherits="Settings_ItemTitle">
+                                    <Size>
+                                        <AbsPoint x="190" y="20"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentUseFullscreen">
+                                            <AbsPoint x="26" y="15"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <Color r="255" g="255" b="255" a="255"/>
+                                </Label>
+                                <ComboBox name="$parentFullScreenResCombo" inherits="UO_Default_ComboBox">
+                                    <Anchors>
+                                        <Anchor point="topright" relativePoint="topleft"
+                                                relativeTo="$parentFullScreenResLabel">
+                                            <AbsPoint x="105" y="-10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </ComboBox>
+
+                                <!-- Full Screen Resolution -->
+                                <Label name="$parentFramerateMaxLabel" inherits="Settings_ItemTitle">
+                                    <Size>
+                                        <AbsPoint x="130" y="20"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentFullScreenResLabel">
+                                            <AbsPoint x="0" y="20"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <Color r="255" g="255" b="255" a="255"/>
+                                </Label>
+                                <ComboBox name="$parentFramerateMaxCombo" inherits="UO_Default_ComboBox">
+                                    <Anchors>
+                                        <Anchor point="topright" relativePoint="topleft"
+                                                relativeTo="$parentFramerateMaxLabel">
+                                            <AbsPoint x="165" y="-10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </ComboBox>
+
+                                <!-- Show Window Frame -->
+                                <Window name="$parentShowFrame" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="205" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentFramerateMaxLabel">
+                                            <AbsPoint x="-26" y="15"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <!-- Brightness -->
+                                <Window name="Gamma">
+                                    <Size>
+                                        <AbsPoint x="500" y="40"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentShowFrame">
+                                            <AbsPoint x="26" y="15"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <Windows>
+                                        <Label name="$parentText" font="UO_DefaultText" maxchars="64"
+                                               textalign="left">
+                                            <Size>
+                                                <AbsPoint x="100" y="16"/>
+                                            </Size>
+                                            <Anchors>
+                                                <Anchor point="bottomleft" relativePoint="topleft"
+                                                        relativeTo="$parentToggle">
+                                                    <AbsPoint x="26" y="10"/>
+                                                </Anchor>
+                                            </Anchors>
+                                            <Color r="255" g="255" b="255" a="255"/>
+                                        </Label>
+                                        <SliderBar name="$parentSliderBar"
+                                                   inherits="UO_Default_Horizontal_SliderBar">
+                                            <Anchors>
+                                                <Anchor point="topright" relativePoint="topleft"
+                                                        relativeTo="$parentText">
+                                                    <AbsPoint x="200" y="0"/>
+                                                </Anchor>
+                                            </Anchors>
+                                            <EventHandlers>
+                                                <EventHandler event="OnSlide"
+                                                              function="SettingsGraphicsWindow.UpdateGammaVal"/>
+                                            </EventHandlers>
+                                        </SliderBar>
+                                        <Label name="$parentVal" font="UO_DefaultText" maxchars="64"
+                                               textalign="right">
+                                            <Size>
+                                                <AbsPoint x="40" y="20"/>
+                                            </Size>
+                                            <Anchors>
+                                                <Anchor point="topright" relativePoint="topleft"
+                                                        relativeTo="$parentSliderBar">
+                                                    <AbsPoint x="20" y="0"/>
+                                                </Anchor>
+                                            </Anchors>
+                                            <Color r="255" g="255" b="255" a="255"/>
+                                        </Label>
+                                    </Windows>
+                                </Window>
+
+                                <Window name="$parentEnvironmentSubSection" inherits="SubSectionLabelTemplate">
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="Gamma">
+                                            <AbsPoint x="-26" y="20"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <!-- Show Foliage -->
+                                <Window name="$parentShowFoliage" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="140" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentEnvironmentSubSection">
+                                            <AbsPoint x="0" y="32"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Window name="$parentShowShadows" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="190" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentShowFoliage">
+                                            <AbsPoint x="0" y="9"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Window name="$parentEnableVSync" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="140" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentShowShadows">
+                                            <AbsPoint x="0" y="9"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Window name="$parentCircleOfTransparency" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="240" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentEnableVSync">
+                                            <AbsPoint x="0" y="9"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Window name="$parentHardwareDeathEffect" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="240" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentCircleOfTransparency">
+                                            <AbsPoint x="0" y="9"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <!-- Particle Detail Selection -->
+                                <Label name="$parentParticleLODLabel" inherits="Settings_ItemTitle">
+                                    <Size>
+                                        <AbsPoint x="120" y="10"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentHardwareDeathEffect">
+                                            <AbsPoint x="26" y="15"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <Color r="255" g="255" b="255" a="255"/>
+                                </Label>
+                                <ComboBox name="$parentParticleLODCombo" inherits="UO_Default_ComboBox">
+                                    <Anchors>
+                                        <Anchor point="topright" relativePoint="topleft"
+                                                relativeTo="$parentParticleLODLabel">
+                                            <AbsPoint x="175" y="-10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </ComboBox>
+
+                                <!-- Particle Filter Selection -->
+                                <Label name="$parentParticleFilterLabel" inherits="Settings_ItemTitle">
+                                    <Size>
+                                        <AbsPoint x="115" y="10"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentParticleLODLabel">
+                                            <AbsPoint x="0" y="20"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <Color r="255" g="255" b="255" a="255"/>
+                                </Label>
+                                <ComboBox name="$parentParticleFilterCombo" inherits="UO_Default_ComboBox">
+                                    <Anchors>
+                                        <Anchor point="topright" relativePoint="topleft"
+                                                relativeTo="$parentParticleFilterLabel">
+                                            <AbsPoint x="180" y="-10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </ComboBox>
+
+                                <Window name="$parentPlayIdleAnimation" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="300" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentParticleFilterLabel">
+                                            <AbsPoint x="-26" y="15"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Label name="$parentAnimationLabel" inherits="Settings_ItemTitle">
+                                    <Size>
+                                        <AbsPoint x="245" y="20"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentPlayIdleAnimation">
+                                            <AbsPoint x="26" y="15"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <Color r="255" g="255" b="255" a="255"/>
+                                </Label>
+                                <ComboBox name="$parentAnimationCombo" inherits="UO_Default_ComboBox">
+                                    <Anchors>
+                                        <Anchor point="topright" relativePoint="topleft"
+                                                relativeTo="$parentAnimationLabel">
+                                            <AbsPoint x="50" y="-10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </ComboBox>
+
+                                <Window name="$parentPlayFlyingAnimation" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="300" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentAnimationLabel">
+                                            <AbsPoint x="-26" y="15"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Window name="$parentDisplayAllHouseContents"
+                                        inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="300" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentPlayFlyingAnimation">
+                                            <AbsPoint x="0" y="9"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                            </Windows>
+                        </Window>
+
+                    </Windows>
+                </Window>
+            </Windows>
+        </ScrollWindow>
+    </Windows>
+</Interface>

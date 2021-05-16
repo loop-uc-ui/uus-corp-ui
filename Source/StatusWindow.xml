@@ -1,0 +1,436 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../Interface.xsd">
+	<Windows>
+		
+		<!-- TC TOOLS button -->
+		<Window name="TCTOOLS" sticky="true" layer="default" handleinput="true" movable="true">
+			<Size>
+				<AbsPoint x="71" y="120"/>
+			</Size>
+			<EventHandlers>
+				<EventHandler event="OnMouseOver" function="StatusWindow.TCToolsOver" />
+				<EventHandler event="OnMouseOverEnd" function="StatusWindow.TCToolsOverend" />
+				<EventHandler event="OnLButtonDown" function="StatusWindow.TCToolsOnLButtonDown" />
+			</EventHandlers>
+			<Windows>
+				<HorizontalResizeImage name="$parentIMG" inherits="UO_Default_Medium_Tab_Enabled" >
+					<Size>
+						<AbsPoint x="71" y="30"/>
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft"  relativeTo="$parent">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnMouseOver" function="StatusWindow.TCToolsOver" />
+						<EventHandler event="OnMouseOverEnd" function="StatusWindow.TCToolsOverend" />
+					</EventHandlers>
+
+				</HorizontalResizeImage>
+				<Button name="$parentBTN" movable="false" backgroundtexture="tcTools" highlighttexture="tcTools" texturescale="1">
+					<Size>
+						<AbsPoint x="71" y="84" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottom" relativePoint="top"  relativeTo="$parentIMG">
+							<AbsPoint x="0" y="6" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="StatusWindow.TCTools" />
+						<EventHandler event="OnMouseOver" function="StatusWindow.TCToolsTooltip" />
+					</EventHandlers>
+					<TexCoords>
+						<Normal x="-2" y="4" />
+						<NormalHighlit x="80" y="1" />
+						<Pressed x="80" y="1" />
+						<PressedHighlit x="80" y="1" />
+					</TexCoords>
+				</Button>
+			</Windows>
+		</Window>
+		<HorizontalResizeImage name="StaminaFill" texture="StamFill" layer="default">
+			<Size>
+				<AbsPoint x="427" y="40" />
+			</Size>
+			<Sizes left="540" middle="0" right="0" />
+			<TexCoords>
+				<Left x="112" y="0" />
+				<Middle x="213" y="0" />
+				<Right x="540" y="0" />
+			</TexCoords>
+		</HorizontalResizeImage>
+		<HorizontalResizeImage name="RedBar" texture="bars">
+			<Size>
+				<AbsPoint x="154" y="6" />
+			</Size>
+			<Sizes left="162" middle="0" right="0" />
+			<TexCoords>
+				<Left x="0" y="0" />
+				<Middle x="81" y="0" />
+				<Right x="162" y="0" />
+			</TexCoords>
+		</HorizontalResizeImage>
+		<HorizontalResizeImage name="BlueBar" texture="bars">
+			<Size>
+				<AbsPoint x="154" y="6" />
+			</Size>
+			<Sizes left="162" middle="0" right="0" />
+			<TexCoords>
+				<Left x="0" y="11" />
+				<Middle x="81" y="11" />
+				<Right x="162" y="11" />
+			</TexCoords>
+		</HorizontalResizeImage>
+		<HorizontalResizeImage name="YellowBar" texture="bars">
+			<Size>
+				<AbsPoint x="154" y="6" />
+			</Size>
+			<Sizes left="162" middle="0" right="0" />
+			<TexCoords>
+				<Left x="0" y="23" />
+				<Middle x="81" y="23" />
+				<Right x="162" y="23" />
+			</TexCoords>
+		</HorizontalResizeImage>
+
+		<Window name="StatusWindow" movable="false" layer="background" sticky="true">
+			<Size>
+				<!--<AbsPoint x="290" y="133" /> -->
+				<AbsPoint x="266" y="94" />
+			</Size>
+			<Anchors>
+				<Anchor point="topleft" relativePoint="topleft" relativeTo="">
+					<AbsPoint x="5" y="5" />
+				</Anchor>
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnShutdown" function="StatusWindow.Shutdown" />
+        <EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
+			</EventHandlers>
+			<Windows>
+
+				<Window name="BuffDebuff" layer="default" popable="false">
+					<Size>
+						<AbsPoint x="0" y="0" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="StatusWindow">
+							<!--<AbsPoint x="135" y="55" />-->
+							<AbsPoint x="91" y="57" />
+						</Anchor>
+					</Anchors>
+				</Window>
+
+				<Window name="$parentClickableRegion1" layer="default" draganddrop="true" popable="false">
+					<Size>
+						<AbsPoint x="90" y="90" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="StatusWindow.OnLButtonUp" />
+						<EventHandler event="OnLButtonDown" function="StatusWindow.OnLButtonDown" />
+						<EventHandler event="OnRButtonUp" function="StatusWindow.OnRButtonUp" />
+						<EventHandler event="OnLButtonDblClk" function="StatusWindow.OnMouseDlbClk" />
+						<EventHandler event="OnMouseOver" function="StatusWindow.OnMouseOver" />
+						<EventHandler event="OnMouseOverEnd" function="StatusWindow.OnMouseOverEnd" />
+					</EventHandlers>
+				</Window>
+
+				<Window name="$parentClickableRegion2" layer="default" popable="false">
+					<Size>
+						<AbsPoint x="165" y="55" />
+					</Size>
+					<Anchors>
+						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentClickableRegion1">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnMouseOver" function="StatusWindow.OnMouseOver" />
+						<EventHandler event="OnMouseOverEnd" function="StatusWindow.OnMouseOverEnd" />
+						<EventHandler event="OnLButtonUp" function="StatusWindow.OnLButtonUp" />
+						<EventHandler event="OnLButtonDown" function="StatusWindow.OnLButtonDown" />
+						<EventHandler event="OnRButtonUp" function="StatusWindow.OnRButtonUp" />
+						<EventHandler event="OnLButtonDblClk" function="StatusWindow.OnMouseDlbClk" />
+					</EventHandlers>
+				</Window>
+
+				<Button name="StatusWindowMenu" layer="popup">
+					<Size>
+						<AbsPoint x="20" y="20" />
+					</Size>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="StatusWindow.Menu" />
+						<EventHandler event="OnMouseOver" function="StatusWindow.MenuTooltip" />
+					</EventHandlers>
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright">
+							<AbsPoint x="-30" y="0" />
+						</Anchor>
+					</Anchors>
+				</Button>
+
+				<Button name="StatusWindowLock" layer="popup" textureScale="1">
+					<Size>
+						<AbsPoint x="20" y="20" />
+					</Size>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="StatusWindow.Lock" />
+						<EventHandler event="OnMouseOver" function="StatusWindow.LockTooltip" />
+					</EventHandlers>
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright">
+							<AbsPoint x="-8" y="-3" />
+						</Anchor>
+					</Anchors>
+				</Button>
+
+				<Button name="$parentRedButton" backgroundtexture="healB" highlighttexture="healB" texturescale="1">
+					<Size>
+						<AbsPoint x="17" y="17" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft">
+							<AbsPoint x="95" y="4" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal  x="0" y="0" />
+						<NormalHighlit x="18" y="0" />
+						<Pressed x="18" y="0" />
+						<PressedHighlit x="18" y="0" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnRButtonUp" function="PartyHealthBar.Button_OnRButtonUp" />
+						<EventHandler event="OnLButtonUp" function="PartyHealthBar.RedButton_OnLButtonUp" />
+						<EventHandler event="OnMouseOver" function="PartyHealthBar.RedButton_OnMouseOver" />
+						<EventHandler event="OnMouseOverEnd" function="PartyHealthBar.OnMouseOverEnd" />
+					</EventHandlers>
+				</Button>
+				<Button name="$parentGreenButton" backgroundtexture="cureB" highlighttexture="cureB"  texturescale="1">
+					<Size>
+						<AbsPoint x="17" y="17" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft"  relativeTo="$parentRedButton">
+							<AbsPoint x="20" y="0" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal  x="0" y="0" />
+						<NormalHighlit x="18" y="0" />
+						<Pressed x="18" y="0" />
+						<PressedHighlit x="18" y="0" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnRButtonUp" function="PartyHealthBar.Button_OnRButtonUp" />
+						<EventHandler event="OnLButtonUp" function="PartyHealthBar.GreenButton_OnLButtonUp" />
+						<EventHandler event="OnMouseOver" function="PartyHealthBar.GreenButton_OnMouseOver" />
+						<EventHandler event="OnMouseOverEnd" function="PartyHealthBar.OnMouseOverEnd" />
+
+					</EventHandlers>
+				</Button>
+				<Button name="$parentBlueButton" backgroundtexture="invisB" highlighttexture="invisB"  texturescale="1">
+					<Size>
+						<AbsPoint x="17" y="17" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft"  relativeTo="$parentGreenButton">
+							<AbsPoint x="20" y="0" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal  x="0" y="0" />
+						<NormalHighlit x="18" y="0" />
+						<Pressed x="18" y="0" />
+						<PressedHighlit x="18" y="0" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnRButtonUp" function="PartyHealthBar.Button_OnRButtonUp" />
+						<EventHandler event="OnRButtonUp" function="PartyHealthBar.BlueButton_OnRButtonUp" />
+						<EventHandler event="OnLButtonUp" function="PartyHealthBar.BlueButton_OnLButtonUp" />
+						<EventHandler event="OnMouseOver" function="PartyHealthBar.BlueButton_OnMouseOver" />
+						<EventHandler event="OnMouseOverEnd" function="PartyHealthBar.OnMouseOverEnd" />
+
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentGuardsButton" backgroundtexture="guards" highlighttexture="guards"  texturescale="1">
+					<Size>
+						<AbsPoint x="57" y="17" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft"  relativeTo="$parentBlueButton">
+							<AbsPoint x="20" y="0" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal  x="0" y="0" />
+						<NormalHighlit x="57" y="0" />
+						<Pressed x="57" y="0" />
+						<PressedHighlit x="57" y="0" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="StatusWindow.GuardsButton_OnLButtonUp" />
+						<EventHandler event="OnMouseOver" function="StatusWindow.GuardsButton_OnMouseOver" />
+						<EventHandler event="OnMouseOverEnd" function="PartyHealthBar.OnMouseOverEnd" />
+
+					</EventHandlers>
+				</Button>
+
+				<CircleImage name="$parentPortraitBg" texture="blackBg" numsegments="16" texturescale="10.95" layer="background" popable="false" handleinput="false">
+					<Size>
+						<AbsPoint x="75" y="75" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft"  relativeTo="$parent">
+							<AbsPoint x="13" y="15" />
+						</Anchor>
+					</Anchors>
+					<TexCoords x="40" y="40" />
+				</CircleImage>
+				<CircleImage name="$parentPortrait" numsegments="16" texturescale="1.0" layer="background" popable="false" handleinput="false" >
+					<Size>
+						<AbsPoint x="75" y="75" />
+					</Size>
+					<Anchors>
+						<Anchor point="center" relativePoint="center" relativeTo="$parentPortraitBg">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+				</CircleImage>
+
+				<CircleImage name="$parentDead" numsegments="16" texturescale="1.0" layer="background" popable="false" handleinput="false" texture="dead">
+					<Size>
+						<AbsPoint x="75" y="75" />
+					</Size>
+					<Anchors>
+						<Anchor point="center" relativePoint="center" relativeTo="$parentPortraitBg">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+				</CircleImage>
+
+				<DynamicImage name="$parentImage" texture="status" layer="background" popable="false" handleinput="false">
+					<Size>
+						<!--<AbsPoint x="290" y="133" />-->
+						<AbsPoint x="266" y="98" />
+					</Size>
+				</DynamicImage>
+
+
+				<StatusBar name="$parentHealthBar" foreground="RedBar" handleinput="false">
+					<Size>
+						<AbsPoint x="154" y="7" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft">
+							<AbsPoint x="96" y="27" />
+						</Anchor>
+					</Anchors>
+				</StatusBar>
+
+				<StatusBar name="$parentManaBar" foreground="BlueBar" handleinput="false">
+					<Size>
+						<AbsPoint x="154" y="7" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parentHealthBar" handleinput="false">
+							<AbsPoint x="0" y="13" />
+						</Anchor>
+					</Anchors>
+				</StatusBar>
+
+				<StatusBar name="$parentStaminaBar" foreground="YellowBar" handleinput="false">
+					<Size>
+						<AbsPoint x="154" y="7" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parentManaBar">
+							<AbsPoint x="0" y="13" />
+						</Anchor>
+					</Anchors>
+				</StatusBar>
+
+
+				<VerticalResizeImage name="$parentLagBar" texture="Vbar" layer="background">
+					<Size>
+						<AbsPoint x="5" y="52" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+							<AbsPoint x="-3" y="-31" />
+						</Anchor>
+					</Anchors>
+					<Sizes Top="52" Middle="0" Bottom="0" />
+					<TexCoords>
+						<Top x="0" y="0" />
+						<Middle x="0" y="26" />
+						<Bottom x="0" y="52" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnMouseOver" function="StatusWindow.Latency_OnMouseOver" />
+					</EventHandlers>
+				</VerticalResizeImage>
+
+				<Window name="$parentClickableRegion3" layer="default" draganddrop="true" popable="false">
+					<Size>
+						<AbsPoint x="5" y="52"  />
+					</Size>
+					<Anchors>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+							<AbsPoint x="-3" y="-31" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnMouseOver" function="StatusWindow.Latency_OnMouseOver" />
+					</EventHandlers>
+				</Window>
+				
+				<Label name="StatusWindowWhite" handleinput="false">
+					<Color r="255" g="255" b="255"/>
+				</Label>
+
+				<Label name="$parentHealthTooltip" inherits="StatusWindowWhite" font="Arial_Black_Shadow_12" maxchars="100" textalign="center" autoresize="true" wordwrap="true" layer="secondary" handleinput="false">
+					<Size>
+						<AbsPoint x="100" y="60" />
+					</Size>
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright" relativeTo="$parentHealthBar">
+							<AbsPoint x="-20" y="-6" />
+						</Anchor>
+					</Anchors>
+				</Label>
+
+				<Label name="$parentManaTooltip" inherits="StatusWindowWhite" font="Arial_Black_Shadow_12" maxchars="100" textalign="center" autoresize="true" wordwrap="true" layer="secondary" handleinput="false">
+					<Size>
+						<AbsPoint x="100" y="60" />
+					</Size>
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright" relativeTo="$parentManaBar">
+							<AbsPoint x="-20" y="-5" />
+						</Anchor>
+					</Anchors>
+				</Label>
+
+				<Label name="$parentStaminaTooltip" inherits="StatusWindowWhite" font="Arial_Black_Shadow_12" maxchars="100" textalign="center" autoresize="true" wordwrap="true" layer="secondary" handleinput="false">
+					<Size>
+						<AbsPoint x="100" y="60" />
+					</Size>
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright" relativeTo="$parentStaminaBar">
+							<AbsPoint x="-20" y="-5" />
+						</Anchor>
+					</Anchors>
+				</Label>
+
+			</Windows>
+		</Window>
+
+	</Windows>
+</Interface>

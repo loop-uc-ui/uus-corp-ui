@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="SettingsContainersWindow.lua"/>
+    </Scripts>
+    <Windows>
+        <ScrollWindow name="ContainersSettingsWindow" childscrollwindow="ContainersSettingsWindowScrollChild"
+                      scrollbar="ContainersSettingsWindowScrollbar" lineheight="18" autoHideScrollBar="true">
+            <Size>
+                <AbsPoint x="710" y="456"/>
+            </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentGraphicsTabButton">
+                    <AbsPoint x="0" y="10"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <VerticalScrollbar name="$parentScrollbar" inherits="StandardVertScroll"/>
+
+                <Window name="$parentScrollChild">
+                    <Size>
+                        <AbsPoint x="695" y="456"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                    </Anchors>
+                    <Windows>
+                        <Window name="ContainersOptions">
+                            <Size>
+                                <AbsPoint x="695" y="600"/>
+                            </Size>
+                            <Windows>
+                                <Window name="$parentSystemSubSection" inherits="SubSectionLabelTemplate">
+                                    <Anchors>
+                                        <Anchor point="topleft" relativePoint="topleft">
+                                            <AbsPoint x="35" y="30"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+                                <Window name="ToggleContentsInfo" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="280" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="$parentSystemSubSection">
+                                            <AbsPoint x="0" y="52"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+                                <Label name="ContainerViewLabel" inherits="Settings_ItemTitle">
+                                    <Size>
+                                        <AbsPoint x="200" y="20"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="ToggleContentsInfo">
+                                            <AbsPoint x="28" y="26"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <Color r="255" g="255" b="255" a="255"/>
+                                </Label>
+                                <ComboBox name="ContainerViewCombo" inherits="UO_Default_ComboBox">
+                                    <Anchors>
+                                        <Anchor point="topright" relativePoint="topleft"
+                                                relativeTo="ContainerViewLabel">
+                                            <AbsPoint x="95" y="-10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </ComboBox>
+
+                                <Label name="CorpseViewLabel" inherits="Settings_ItemTitle">
+                                    <Size>
+                                        <AbsPoint x="175" y="20"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="ContainerViewLabel">
+                                            <AbsPoint x="0" y="26"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <Color r="255" g="255" b="255" a="255"/>
+                                </Label>
+                                <ComboBox name="CorpseViewCombo" inherits="UO_Default_ComboBox">
+                                    <Anchors>
+                                        <Anchor point="topright" relativePoint="topleft"
+                                                relativeTo="CorpseViewLabel">
+                                            <AbsPoint x="120" y="-10"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </ComboBox>
+
+                                <Window name="ToggleGridLegacy" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="280" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="CorpseViewLabel">
+                                            <AbsPoint x="-28" y="26"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Window name="ToggleGrid" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="250" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="ToggleGridLegacy">
+                                            <AbsPoint x="0" y="26"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Window name="ToggleAlternateGrid" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="250" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="ToggleGrid">
+                                            <AbsPoint x="0" y="26"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Window name="ToggleExtraBright" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <AbsPoint x="280" y="32"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="ToggleAlternateGrid">
+                                            <AbsPoint x="0" y="26"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Window name="ContainerGridColor" inherits="Settings_ColorButton">
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="ToggleExtraBright">
+                                            <AbsPoint x="0" y="22"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+
+                                <Window name="ContainerGridAlternateColor" inherits="Settings_ColorButton">
+                                    <Anchors>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="ContainerGridColor">
+                                            <AbsPoint x="0" y="42"/>
+                                        </Anchor>
+                                    </Anchors>
+                                </Window>
+                            </Windows>
+                        </Window>
+                    </Windows>
+                </Window>
+            </Windows>
+        </ScrollWindow>
+    </Windows>
+</Interface>
