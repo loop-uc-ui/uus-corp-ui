@@ -38,16 +38,15 @@ function SettingsWindow.Initialize()
 	SettingsKeyBindingsWindow.Initialize()
 	SettingsSoundWindow.Initialize()
 	SettingsOptionsWindow.Initialize()
+	SettingsProfanityWindow.Initialize()
+	SettingsContainersWindow.Initialize()
+	SettingsHealthBarsWindow.Initialize()
+	SettingsOverheadTextWindow.Initialize()
 	SettingsWindow.UpdateSettings()
 	
 	-- Call backs
 	WindowRegisterEventHandler( "SettingsWindow", SystemData.Events.USER_SETTINGS_UPDATED, "SettingsWindow.UpdateSettings" )
 	WindowRegisterEventHandler( "SettingsWindow", SystemData.Events.TOGGLE_USER_PREFERENCE, "SettingsWindow.ToggleSettingsWindow" )
-
-	SettingsProfanityWindow.Initialize()
-	SettingsContainersWindow.Initialize()
-	SettingsHealthBarsWindow.Initialize()
-	SettingsOverheadTextWindow.Initialize()
 end
 
 function SettingsWindow.ToggleSettingsWindow()	

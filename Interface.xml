@@ -117,6 +117,7 @@
 		<Script file="Source/core/util/StringFormatter.lua"/>
 		<Script file="Source/core/view/SliderView.lua"/>
 		<Script file="Source/core/view/CheckBoxView.lua"/>
+		<Script file="Source/core/view/ButtonView.lua"/>
 		<Script file="Source/core/view/ComboBoxView.lua"/>
 		<Script file="Source/core/data/UserSoundSettings.lua"/>
 		<Script file="Source/core/data/UserControlSettings.lua"/>

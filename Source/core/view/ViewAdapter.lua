@@ -79,12 +79,23 @@ function ViewAdapter:addSlider(id, position)
     return self
 end
 
+function ViewAdapter:addButton(id, text)
+    local button = ButtonView:new(id)
+    button:setText(text)
+    self.views[button.id] = button
+    return self
+end
+
 function ViewAdapter:setOffset(offset)
     ScrollWindowSetOffset(self.name, offset)
     return self
 end
 
-function ViewAdapter:updateScrollRect()
-    ScrollWindowUpdateScrollRect(self.name)
+function ViewAdapter:updateScrollRect(title)
+    if title == nil then
+        ScrollWindowUpdateScrollRect(self.name)
+    else
+        ScrollWindowUpdateScrollRect(title)
+    end
     return self
 end

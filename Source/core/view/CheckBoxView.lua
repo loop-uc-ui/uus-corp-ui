@@ -1,7 +1,7 @@
 CheckBoxView = {}
 CheckBoxView.__index = CheckBoxView
 
-function CheckBoxView:new(id, label)
+function CheckBoxView:new(id)
     local this = {
         id = id
     }
