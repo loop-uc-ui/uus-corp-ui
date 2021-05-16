@@ -105,59 +105,6 @@
                                                       function="SettingsProfanityWindow.OnIgnoreListDeleteButton"/>
                                     </EventHandlers>
                                 </Button>
-
-
-                                <!--ignore conf player list-->
-                                <Window name="IgnoreConfListOption" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="150" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="$parentFilterSubSection">
-                                            <AbsPoint x="300" y="32"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-                                <Button name="IgnoreConfListAddButton"
-                                        inherits="UO_Default_Medium_Select_Button">
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="IgnoreConfListOption">
-                                            <AbsPoint x="26" y="10"/>
-                                        </Anchor>
-                                    </Anchors>
-                                    <EventHandlers>
-                                        <EventHandler event="OnLButtonUp"
-                                                      function="SettingsProfanityWindow.OnIgnoreConfListAddButton"/>
-                                    </EventHandlers>
-                                </Button>
-                                <Button name="IgnoreConfListChatListButton"
-                                        inherits="UO_Default_Medium_Select_Button">
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="IgnoreConfListAddButton">
-                                            <AbsPoint x="0" y="10"/>
-                                        </Anchor>
-                                    </Anchors>
-                                    <EventHandlers>
-                                        <EventHandler event="OnLButtonUp"
-                                                      function="SettingsProfanityWindow.OnIgnoreConfListChatListButton"/>
-                                    </EventHandlers>
-                                </Button>
-                                <Button name="IgnoreConfListDeleteButton"
-                                        inherits="UO_Default_Medium_Select_Button">
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="IgnoreConfListChatListButton">
-                                            <AbsPoint x="0" y="10"/>
-                                        </Anchor>
-                                    </Anchors>
-                                    <EventHandlers>
-                                        <EventHandler event="OnLButtonUp"
-                                                      function="SettingsProfanityWindow.OnIgnoreConfListDeleteButton"/>
-                                    </EventHandlers>
-                                </Button>
                             </Windows>
                         </Window>
                     </Windows>
