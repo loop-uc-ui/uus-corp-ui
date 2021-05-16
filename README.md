@@ -4,7 +4,8 @@ Uus Corp UI is a mod for Ultima Online's Enhanced Client. Its goals are:
 
 * Refactor all UI to follow a more object-oriented design pattern.
 * Remove all bloated, bug-ridden features from the default UI.
-* Re-design UI to fit the fantasy theme.
+* Remove all ugly UI components.
+* Re-design the UI to fit the fantasy theme.
 
 The mod's guiding principles are:
 
