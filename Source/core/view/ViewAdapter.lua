@@ -85,16 +85,37 @@ function ViewAdapter:addButton(id, text)
     return self
 end
 
+function ViewAdapter:addTemplate(
+        root,
+        template,
+        type,
+        text
+)
+    CreateWindowFromTemplate(self.name, template, root)
+    self:setShowing(true)
+    if type == "Label" then
+        return self:addLabel(self.name, text)
+    elseif type == "Button" then
+        return self:addButton(self.name, text)
+    elseif type == "CheckBox" then
+        return self:addCheckBox(self.name, true)
+    elseif type == "Slider" then
+        return self:addSlider(self.name)
+    else
+        return nil
+    end
+end
+
 function ViewAdapter:setOffset(offset)
     ScrollWindowSetOffset(self.name, offset)
     return self
 end
 
-function ViewAdapter:updateScrollRect(title)
-    if title == nil then
-        ScrollWindowUpdateScrollRect(self.name)
-    else
-        ScrollWindowUpdateScrollRect(title)
-    end
+function ViewAdapter:updateScrollRect()
+    ScrollWindowUpdateScrollRect(self.name)
     return self
+end
+
+function ViewAdapter:destroy()
+    DestroyWindow(self.name)
 end

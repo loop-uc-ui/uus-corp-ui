@@ -1,68 +1,71 @@
 SettingsProfanityWindow = {}
 
+SettingsProfanityWindow.ignoreListType = IGNORE_LIST_ALL
+
 local PreviousIgnoreListCount = 0
 local CurIgnoreListIdx = -1
 local IGNORE_LIST_ALL = 0
 local checkBox = "IgnoreListOptionButton"
-
-SettingsProfanityWindow.ignoreListType = IGNORE_LIST_ALL
-
-local adapter = ViewAdapter:new("SettingsWindow", "SettingsProfanityWindow")
+local mainAdapter = ViewAdapter:new("SettingsWindow", "SettingsProfanityWindow")
+local listAdapters = { }
 
 local function overrideSettings()
     SystemData.Settings.Profanity.BadWordFilter = false
+    WindowData.IgnoreConfListCount = 0
+    SystemData.Settings.Profanity.IgnoreConfListFilter = false
 end
 
 local function PopulateProfanityList()
     -- clear ignore list
     for i = 1, PreviousIgnoreListCount do
-        DestroyWindow( "IgnoreListItem"..i)
+        if next(listAdapters) ~= nil then
+            listAdapters[i]:destroy()
+        end
     end
 
-    -- list all player in the ignore list
-    local first = true
-    local previousListItem = ""
+    listAdapters = {}
 
     for i = 1, WindowData.IgnoreListCount do
-        CreateWindowFromTemplate( "IgnoreListItem"..i, "IgnoreListItem", "SettingsBadWordFilter" )
+        listAdapters[i] = ViewAdapter:new("IgnoreListItem"..i)
+        listAdapters[i]:addTemplate(
+                "SettingsBadWordFilter",
+                "IgnoreListItem",
+                "Label",
+                L"- "..WindowData.IgnoreNameList[i]
+        )
 
-        WindowSetShowing( "IgnoreListItem"..i, true )
-        LabelSetText( "IgnoreListItem"..i, L"- "..WindowData.IgnoreNameList[i] )
-        if( first )then
-            first = false
-            WindowAddAnchor( "IgnoreListItem"..i, "bottomleft", "IgnoreListDeleteButton", "topleft", 0, 10 )
+        if (i == 1) then
+            listAdapters[i]:addAnchor("bottomleft", "IgnoreListDeleteButton", "topleft", 0, 10)
         else
-            WindowAddAnchor( "IgnoreListItem"..i, "bottomleft", previousListItem, "topleft", 0, 0 )
+            listAdapters[i]:addAnchor("bottomleft", "IgnoreListItem"..(i - 1), "topleft", 0, 0)
         end
-
-        previousListItem = "IgnoreListItem"..i
     end
     PreviousIgnoreListCount = WindowData.IgnoreListCount
-    adapter:updateScrollRect(adapter.title)
+    mainAdapter:updateScrollRect(mainAdapter.title)
 end
 
 function SettingsProfanityWindow.Initialize()
     WindowRegisterEventHandler( "Root", SystemData.Events.PROFANITYLIST_UPDATED, "SettingsProfanityWindow.ProfanityListUpdated" )
     overrideSettings()
-    adapter:addLabel("SettingsBadWordFilterFilterSubSectionLabel", 3000173)
-            :addLabel("IgnoreListOptionLabel", 3000462)
-            :addCheckBox(checkBox, true)
-            :addButton("IgnoreListAddButton", 1155473)
-            :addButton("IgnoreListChatListButton", 1155474)
-            :addButton("IgnoreListDeleteButton", 1155475)
+    mainAdapter:addLabel("SettingsBadWordFilterFilterSubSectionLabel", 3000173)
+               :addLabel("IgnoreListOptionLabel", 3000462)
+               :addCheckBox(checkBox, true)
+               :addButton("IgnoreListAddButton", 1155473)
+               :addButton("IgnoreListChatListButton", 1155474)
+               :addButton("IgnoreListDeleteButton", 1155475)
     PopulateProfanityList()
 end
 
 function SettingsProfanityWindow.UpdateSettings()
-    adapter.views[checkBox]:setChecked(SystemData.Settings.Profanity.IgnoreListFilter)
+    mainAdapter.views[checkBox]:setChecked(SystemData.Settings.Profanity.IgnoreListFilter)
 end
 
 function SettingsProfanityWindow.OnApplyButton()
-    adapter.views[checkBox]:isChecked(SystemData.Settings.Profanity.IgnoreListFilter)
+    mainAdapter.views[checkBox]:isChecked(SystemData.Settings.Profanity.IgnoreListFilter)
 end
 
 function SettingsProfanityWindow.ProfanityListUpdated()
-    WindowSetShowing( "SettingsWindow", true )
+    mainAdapter:setShowing(true)
     PopulateProfanityList()
 end
 
@@ -93,11 +96,11 @@ end
 
 function SettingsProfanityWindow.OnIgnoreListItemClicked()
     for i = 1, WindowData.IgnoreListCount do
-        LabelSetTextColor( "IgnoreListItem"..i, 255, 255, 255)
+        listAdapters[i].views["IgnoreListItem"..i]:setTextColor(255, 255, 255)
         if (SystemData.ActiveWindow.name == "IgnoreListItem"..i) then
             CurIgnoreListIdx = i
             break
         end
     end
-    LabelSetTextColor( SystemData.ActiveWindow.name, 250, 250, 0 )
+    listAdapters[CurIgnoreListIdx].views["IgnoreListItem"..CurIgnoreListIdx]:setTextColor(250, 250, 0)
 end
