@@ -1,12 +1,11 @@
 ComboBoxView = {}
-ComboBoxView.__index = ComboBoxView
 
 function ComboBoxView:new(id)
-    local this = {
-        id = id,
-        items = {}
-    }
+    local this = {}
     setmetatable(this, self)
+    self.__index = self
+    this.id = id
+    this.items = {}
     return this
 end
 

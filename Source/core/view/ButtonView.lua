@@ -1,11 +1,10 @@
 ButtonView = {}
-ButtonView.__index = ButtonView
 
 function ButtonView:new(id)
-    local this = {
-        id = id
-    }
+    local this = {}
     setmetatable(this, self)
+    self.__index = self
+    this.id = id
     return this
 end
 

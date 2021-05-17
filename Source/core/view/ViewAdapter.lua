@@ -1,13 +1,12 @@
 ViewAdapter = {}
-ViewAdapter.__index = ViewAdapter
 
 function ViewAdapter:new(name, title)
-    local this = {
-        name = name,
-        title = title,
-        views = {}
-    }
+    local this = {}
     setmetatable(this, self)
+    self.__index = self
+    this.name = name
+    this.title = title
+    this.views = {}
     return this
 end
 

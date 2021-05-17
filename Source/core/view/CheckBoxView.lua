@@ -1,11 +1,10 @@
 CheckBoxView = {}
-CheckBoxView.__index = CheckBoxView
 
 function CheckBoxView:new(id)
-    local this = {
-        id = id
-    }
+    local this = {}
     setmetatable(this, self)
+    self.__index = self
+    this.id = id
     return this
 end
 
