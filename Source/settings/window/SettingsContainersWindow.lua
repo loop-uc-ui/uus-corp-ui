@@ -1,8 +1,19 @@
 SettingsContainersWindow = {}
 
-local ContainerViewOptions = {}
-ContainerViewOptions[1] = {name="List", tid=1079824}
-ContainerViewOptions[2] = {name="Grid", tid=1079825}
+local ComboBoxes = {
+    ContainerView = "ContainerViewCombo",
+    CorpseView = "CorpseViewCombo"
+}
+
+local CheckBoxes = {
+    ToggleContentsInfo = "ToggleContentsInfoButton",
+    ToggleGridLegacy = "ToggleGridLegacyButton",
+    ToggleGrid = "ToggleGridButton",
+    ToggleAlternateGrid = "ToggleAlternateGridButton",
+    ToggleExtraBright = "ToggleExtraBrightButton"
+}
+
+local adapter = ViewAdapter:new("SettingsContainersWindow")
 
 local function ResizeContainers()
     for id, value in pairs(ContainerWindow.OpenContainers) do
@@ -11,69 +22,84 @@ local function ResizeContainers()
 end
 
 function SettingsContainersWindow.Initialize()
-    LabelSetText( "ContainersOptionsSystemSubSectionLabel", GetStringFromTid( 1155277 ) )
-    LabelSetText( "ContainerViewLabel", GetStringFromTid( 1079827 )..L":" )
-    WindowSetId( "ContainerViewLabel", 1115302 )
-    LabelSetText( "CorpseViewLabel", GetStringFromTid( 1079828 )..L":" )
-    WindowSetId( "CorpseViewLabel", 1115303 )
-    for id, data in ipairs(ContainerViewOptions) do
-        ComboBoxAddMenuItem( "ContainerViewCombo", GetStringFromTid(data.tid) )
-        ComboBoxAddMenuItem( "CorpseViewCombo", GetStringFromTid(data.tid) )
-    end
+    local containerViewOptions = {
+        1079824,
+        1079825
+    }
 
-    LabelSetText( "ToggleContentsInfo" .. "Label", GetStringFromTid( 1155284 ) )
-    WindowSetId( "ToggleContentsInfo" .. "Label", 1155285 )
-    ButtonSetCheckButtonFlag( "ToggleContentsInfo" .. "Button", true )
-
-    LabelSetText( "ToggleGridLegacy" .. "Label", GetStringFromTid( 1155280 ) )
-    WindowSetId( "ToggleGridLegacy" .. "Label",  1155281 )
-    ButtonSetCheckButtonFlag( "ToggleGridLegacy" .. "Button", true )
-
-    LabelSetText( "ToggleGrid" .. "Label",  GetStringFromTid( 1155282 ) )
-    WindowSetId( "ToggleGrid" .. "Label", 1155283 )
-    ButtonSetCheckButtonFlag( "ToggleGrid" .. "Button", true )
-
-    LabelSetText( "ToggleAlternateGrid" .. "Label", GetStringFromTid( 1155286 ) )
-    WindowSetId( "ToggleAlternateGrid" .. "Label", 1155287 )
-    ButtonSetCheckButtonFlag( "ToggleAlternateGrid" .. "Button", true )
-
-    LabelSetText( "ToggleExtraBright" .. "Label", GetStringFromTid( 1155288 ) )
-    WindowSetId( "ToggleExtraBright" .. "Label", 1155289 )
-    ButtonSetCheckButtonFlag( "ToggleExtraBright" .. "Button", true )
-
-    LabelSetText( "ContainerGridColor" .. "Label", GetStringFromTid( 1155290 ) )
-    WindowSetId( "ContainerGridColor" .. "Label", 1155291 )
-
-    LabelSetText( "ContainerGridAlternateColor" .. "Label", GetStringFromTid( 1155292 ) )
-    WindowSetId( "ContainerGridAlternateColor" .. "Label", 1155293 )
+    adapter:addLabel("ContainersOptionsSystemSubSectionLabel", 1155277)
+            :addLabel("ContainerViewLabel", 1079827)
+            :addLabel("CorpseViewLabel", 1079828)
+            :addComboBox(ComboBoxes.ContainerView, containerViewOptions, 1)
+            :addComboBox(ComboBoxes.CorpseView, containerViewOptions, 1)
+            :addLabel( "ToggleContentsInfoLabel", 1155284)
+            :addCheckBox(CheckBoxes.ToggleContentsInfo)
+            :addLabel("ToggleGridLegacyLabel", 1155280)
+            :addCheckBox( CheckBoxes.ToggleGridLegacy)
+            :addLabel("ToggleGridLabel", 1155282)
+            :addCheckBox(CheckBoxes.ToggleGrid)
+            :addLabel("ToggleAlternateGridLabel", 1155286)
+            :addCheckBox(CheckBoxes.ToggleAlternateGrid)
+            :addLabel("ToggleExtraBrightLabel", 1155288)
+            :addCheckBox(CheckBoxes.ToggleExtraBright)
+            :addLabel("ContainerGridColorLabel", 1155290)
+            :addLabel("ContainerGridAlternateColorLabel", 1155292)
 end
 
 function SettingsContainersWindow.UpdateSettings()
-    ComboBoxSetSelectedMenuItem( "ContainerViewCombo", 1)
-    local containerMode = SystemData.Settings.Interface.defaultContainerMode
-    for id, data in ipairs(ContainerViewOptions) do
-        if( data.name == containerMode ) then
-            ComboBoxSetSelectedMenuItem( "ContainerViewCombo", id)
+    local containerViewComboBox = adapter.views[ComboBoxes.ContainerView]
+
+    for i = 1, #containerViewComboBox.items do
+        if containerViewComboBox.items[i] == UserContainerSettings.containerView() then
+            containerViewComboBox:setSelectedItem(i)
             break
         end
     end
 
-    ComboBoxSetSelectedMenuItem( "CorpseViewCombo", 1)
-    local corpseMode = SystemData.Settings.Interface.defaultCorpseMode
-    for id, data in ipairs(ContainerViewOptions) do
-        if( data.name == corpseMode ) then
-            ComboBoxSetSelectedMenuItem( "CorpseViewCombo", id)
+    local corpseComboBox = adapter.views[ComboBoxes.CorpseView]
+
+    for i = 1, #corpseComboBox.items do
+        if corpseComboBox.items[i] == UserContainerSettings.corpseView() then
+            corpseComboBox:setSelectedItem(i)
             break
         end
     end
 
-    ButtonSetPressedFlag( "ToggleContentsInfo" .. "Button", Interface.ToggleContentsInfo )
-    ButtonSetPressedFlag( "ToggleGridLegacy" .. "Button", Interface.GridLegacy )
-    ButtonSetPressedFlag( "ToggleGrid" .. "Button", Interface.EnableContainerGrid )
-    ButtonSetPressedFlag( "ToggleAlternateGrid" .. "Button", Interface.AlternateGrid )
-    ButtonSetPressedFlag( "ToggleExtraBright" .. "Button", Interface.ExtraBrightContainers )
-    WindowSetTintColor( "ContainerGridColor" .. "Button", ContainerWindow.BaseGridColor.r,ContainerWindow.BaseGridColor.g,ContainerWindow.BaseGridColor.b)
-    WindowSetTintColor( "ContainerGridAlternateColor" .. "Button", ContainerWindow.AlternateBackpack.r,ContainerWindow.AlternateBackpack.g,ContainerWindow.AlternateBackpack.b)
+    adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(UserContainerSettings.toggleContentsInfo())
+    adapter.views[CheckBoxes.ToggleGridLegacy]:setChecked(UserContainerSettings.gridLegacy())
+    adapter.views[CheckBoxes.ToggleGrid]:setChecked(UserContainerSettings.gridContainer())
+    adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(UserContainerSettings.alternateGrid())
+    adapter.views[CheckBoxes.ToggleExtraBright]:setChecked(UserContainerSettings.brightContainers())
+
+    local gridColor = UserContainerSettings.gridColor()
+    if gridColor == nil then
+        gridColor = {
+            r = 255,
+            g = 255,
+            b = 255
+        }
+    end
+    adapter:setColor(
+            "ContainerGridColorButton",
+            gridColor.r,
+            gridColor.g,
+            gridColor.b
+    )
+
+    local alternateGridColor = UserContainerSettings.alternateColor()
+    if alternateGridColor == nil then
+        alternateGridColor = {
+            r = 80,
+            g = 80,
+            b = 80
+        }
+    end
+    adapter:setColor(
+            "ContainerGridAlternateColorButton",
+            alternateGridColor.r,
+            alternateGridColor.g,
+            alternateGridColor.b
+    )
 end
 
 function SettingsContainersWindow.OnApplyButton()
@@ -86,30 +112,13 @@ function SettingsContainersWindow.OnApplyButton()
         UnregisterWindowData(WindowData.ContainerWindow.Type, ContainerWindow.PlayerBackpack)
     end
 
-    local selectedId = ComboBoxGetSelectedMenuItem( "ContainerViewCombo" )
-    SystemData.Settings.Interface.defaultContainerMode = ContainerViewOptions[selectedId].name
-
-    selectedId = ComboBoxGetSelectedMenuItem( "CorpseViewCombo" )
-    SystemData.Settings.Interface.defaultCorpseMode = ContainerViewOptions[selectedId].name
-
-    Interface.ToggleContentsInfo = ButtonGetPressedFlag( "ToggleContentsInfo" .. "Button" )
-    Interface.SaveBoolean( "ToggleContentsInfo" , Interface.ToggleContentsInfo )
-
-    local containerReload = containerReload or Interface.GridLegacy ~= ButtonGetPressedFlag( "ToggleGridLegacy" .. "Button" )
-    Interface.GridLegacy = ButtonGetPressedFlag( "ToggleGridLegacy" .. "Button" )
-    Interface.SaveBoolean( "GridLegacy" , Interface.GridLegacy )
-
-    containerReload = containerReload or Interface.EnableContainerGrid ~= ButtonGetPressedFlag( "ToggleGrid" .. "Button" )
-    Interface.EnableContainerGrid = ButtonGetPressedFlag( "ToggleGrid" .. "Button" )
-    Interface.SaveBoolean( "EnableContainerGrid" , Interface.EnableContainerGrid )
-
-    containerReload = containerReload or Interface.AlternateGrid ~= ButtonGetPressedFlag( "ToggleAlternateGrid" .. "Button" )
-    Interface.AlternateGrid = ButtonGetPressedFlag( "ToggleAlternateGrid" .. "Button" )
-    Interface.SaveBoolean( "AlternateGrid" , Interface.AlternateGrid )
-
-    containerReload = containerReload or Interface.ExtraBrightContainers ~= ButtonGetPressedFlag( "ToggleExtraBright" .. "Button" )
-    Interface.ExtraBrightContainers = ButtonGetPressedFlag( "ToggleExtraBright" .. "Button" )
-    Interface.SaveBoolean( "ExtraBrightContainers" , Interface.ExtraBrightContainers )
+    UserContainerSettings.containerView(adapter.views[ComboBoxes.ContainerView]:getSelectedItem())
+    UserContainerSettings.corpseView(adapter.views[ComboBoxes.CorpseView]:getSelectedItem())
+    UserContainerSettings.toggleContentsInfo(adapter.views[CheckBoxes.ToggleContentsInfo]:isChecked())
+    UserContainerSettings.gridLegacy(adapter.views[CheckBoxes.ToggleGridLegacy]:isChecked())
+    UserContainerSettings.gridContainer(adapter.views[CheckBoxes.ToggleGrid]:isChecked())
+    UserContainerSettings.alternateGrid(adapter.views[CheckBoxes.ToggleAlternateGrid]:isChecked())
+    UserContainerSettings.brightContainers(adapter.views[CheckBoxes.ToggleExtraBright]:isChecked())
 
     if containerReload then
         SettingsContainersWindow.DestroyContainers()

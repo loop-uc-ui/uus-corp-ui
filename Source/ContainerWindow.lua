@@ -313,7 +313,7 @@ function ContainerWindow.Initialize()
 	
 	if (ContainerWindow.ViewModes[id] ~= "Freeform" ) then
 		WindowSetScale(this, SystemData.Settings.Interface.customUiScale * 0.80)
-		if (Interface.GridLegacy ) then
+		if (UserContainerSettings.gridLegacy()) then
 			ContainerWindow.LegacyGridDock(this)
 		else
 			ContainerWindow.Grid.PaddingTop = 50
@@ -521,7 +521,7 @@ function ContainerWindow.LegacyGridDock(this)
 		ContainerWindow.PlayerBank = id		
 	end
 
-	if (not Interface.GridLegacy ) then
+	if (not UserContainerSettings.gridLegacy()) then
 		local windowName = "ContainerWindow_"..id
 		local gridViewName = windowName.."GridView"
 		local listViewName = windowName.."ListView"
@@ -1983,7 +1983,7 @@ function ContainerWindow.UpdateContents(id,forceUpdate)
 	LabelSetText(this.."Content", L"")	
 
 	local content = ContainerWindow.GetContent(id)
-	if (Interface.ToggleContentsInfo) then			
+	if (UserContainerSettings.toggleContentsInfo()) then
 			if content then
 				LabelSetText(this.."Content", content)
 			else
@@ -3072,7 +3072,7 @@ function ContainerWindow.CreateGridViewSockets(dialog, lower, upper)
 		if i > data.maxSlots then
 			socketTemplate = "GridViewSocketBaseTemplate"
 		else
-			if (not Interface.ExtraBrightContainers) then
+			if (not UserContainerSettings.brightContainers()) then
 				socketTemplate = "GridViewSocketTemplate"
 			else
 				socketTemplate = "ColoredGridViewSocketTemplate"
@@ -3089,7 +3089,7 @@ function ContainerWindow.CreateGridViewSockets(dialog, lower, upper)
 		end
 		CreateWindowFromTemplate(socketName, socketTemplate, parent)
 		
-		if (not Interface.EnableContainerGrid) then
+		if (not UserContainerSettings.gridContainer()) then
 			ButtonSetTexture(socketName, Button.ButtonState.NORMAL, "", 0, 0)
 			ButtonSetTexture(socketName, Button.ButtonState.HIGHLIGHTED, "", 0, 0)
 			ButtonSetTexture(socketName, Button.ButtonState.DISABLED, "", 0, 0)
@@ -3098,7 +3098,7 @@ function ContainerWindow.CreateGridViewSockets(dialog, lower, upper)
 		end
 		WindowSetTintColor(socketName, ContainerWindow.BaseGridColor.r,ContainerWindow.BaseGridColor.g,ContainerWindow.BaseGridColor.b)
 		
-		if (color and Interface.AlternateGrid) then
+		if (color and UserContainerSettings.alternateGrid()) then
 			WindowSetTintColor(socketName, ContainerWindow.AlternateBackpack.r,ContainerWindow.AlternateBackpack.g,ContainerWindow.AlternateBackpack.b)
 		end
 		color = not color
@@ -3217,7 +3217,7 @@ function ContainerWindow.UpdateGridItemSlots(id, scrollpos)
 	local sockSizeMod1= 40.5
 	local sockSizeMod2= 60.5 	
 	local beginningRowsToHide =  math.floor(math.floor(scrollOffset) / (sockSizeMod1 - 0.5))
-	if (Interface.GridLegacy ) then
+	if (UserContainerSettings.gridLegacy()) then
 		beginningRowsToHide =  math.floor(math.floor(scrollOffset) / (sockSizeMod1 + 0.5))		
 	end	
 	for i = 1, data.numGridSockets do

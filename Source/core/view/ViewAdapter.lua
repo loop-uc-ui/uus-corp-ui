@@ -119,3 +119,7 @@ end
 function ViewAdapter:destroy()
     DestroyWindow(self.name)
 end
+
+function ViewAdapter:setColor(id, r, g, b)
+    WindowSetTintColor(id, r, g, b)
+end

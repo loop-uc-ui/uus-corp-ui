@@ -2262,6 +2262,7 @@ end
 -- LOAD/SAVE
 
 -------------------------------------------------------------------------------
+--TODO Remove once all references have been moved to UserInterfaceVariables
 -- Interface.SaveBoolean
 -- Description:
 --     Saves a boolean value for a setting
@@ -2281,7 +2282,7 @@ function Interface.SaveBoolean( settingName, settingValue )
 		Debug.Print( "Interface.SaveBoolean: settingValue must be a boolean" )
 		return false
 	end
-	
+
 	local nBools = #SystemData.Settings.Interface.UIVariables.BoolNames
 	if nBools <= 0 then
 		table.insert(SystemData.Settings.Interface.UIVariables.BoolNames, settingName)
@@ -2572,7 +2573,7 @@ end
 -------------------------------------------------------------------------------
 -- Interface.LoadBoolean
 -- Description:
---     Gets the boolean value of a setting 
+--     Gets the boolean value of a setting
 -- Parameters:
 --     settingName - the name of the setting
 --     defaultValue - a value to use as a default if it wasn't saved properly
@@ -2580,6 +2581,7 @@ end
 --     The value of the setting if it was saved properly, the default value if
 --     it wasn't saved properly, or nil if it wasn't saved properly and no
 --     default value was provided
+--TODO Remove once all references have been moved to UserInterfaceVariables
 -------------------------------------------------------------------------------
 function Interface.LoadBoolean( settingName, defaultValue )
 	-- Check the types of the arguments
@@ -2587,14 +2589,14 @@ function Interface.LoadBoolean( settingName, defaultValue )
 		Debug.Print( "Interface.LoadNumber: settingName must be a string" )
 		return defaultValue
 	end
-	
+
 	if not SystemData.Settings.Interface.UIVariables.BoolNames then
 		return defaultValue
 	end
-	
+
 	local nBools = #SystemData.Settings.Interface.UIVariables.BoolNames
 	for i = 1, nBools do
-		
+
 		if SystemData.Settings.Interface.UIVariables.BoolNames[i] == settingName then
 		--[[
 			Debug.Print(settingName)
