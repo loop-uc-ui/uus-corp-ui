@@ -25,12 +25,20 @@ function ViewAdapter:addAnchor(anchorTop, anchorName, anchorBottom, topPos, bott
     return self
 end
 
-function ViewAdapter:isShowing()
-    return WindowGetShowing(self.name)
+function ViewAdapter:isShowing(id)
+    if id ~= nil then
+        return WindowGetShowing(id)
+    else
+        return WindowGetShowing(self.name)
+    end
 end
 
-function ViewAdapter:setShowing(doShow)
-    WindowSetShowing(self.name, doShow)
+function ViewAdapter:setShowing(doShow, id)
+    if id ~= nil then
+        WindowSetShowing(id, doShow)
+    else
+        WindowSetShowing(self.name, doShow)
+    end
     return self
 end
 
@@ -116,8 +124,12 @@ function ViewAdapter:updateScrollRect()
     return self
 end
 
-function ViewAdapter:destroy()
-    DestroyWindow(self.name)
+function ViewAdapter:destroy(id)
+    if id ~= nil then
+        DestroyWindow(id)
+    else
+        DestroyWindow(self.name)
+    end
 end
 
 function ViewAdapter:setColor(id, r, g, b)

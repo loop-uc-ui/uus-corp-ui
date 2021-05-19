@@ -117,11 +117,11 @@ end
 function SettingsContainersWindow.OnApplyButton()
     if (ContainerWindow.PlayerBackpack or UserContainerSettings.gridLegacy()) then
         local playerbackpackWindow = "ContainerWindow_"..ContainerWindow.PlayerBackpack
-        if WindowGetShowing(playerbackpackWindow) then
-            WindowSetShowing(playerbackpackWindow,false)
+        if adapter:isShowing(playerbackpackWindow) then
+            adapter:setShowing(false, playerbackpackWindow)
         end
-        DestroyWindow(playerbackpackWindow)
-        UnregisterWindowData(WindowData.ContainerWindow.Type, ContainerWindow.PlayerBackpack)
+        adapter:destroy(playerbackpackWindow)
+        WindowDataStore.unregister(WindowData.ContainerWindow.Type, ContainerWindow.PlayerBackpack)
     end
 
     UserContainerSettings.containerView(adapter.views[ComboBoxes.ContainerView]:getSelectedItem())
@@ -156,12 +156,11 @@ function SettingsContainersWindow.OnApplyButton()
 end
 
 function SettingsContainersWindow.DestroyContainers()
-    for id, value in pairs(ContainerWindow.OpenContainers) do
-        DestroyWindow("ContainerWindow_"..id)
+    for id, _ in pairs(ContainerWindow.OpenContainers) do
+        adapter:destroy("ContainerWindow_"..id)
     end
 
-    for cId, cValue in pairs(WindowData.ContainerWindow) do
-        --Debug.Print("SettingsWindow.DestroyContainers: "..cId)
-        UnregisterWindowData(WindowData.ContainerWindow.Type, cId)
+    for cId, _ in pairs(WindowData.ContainerWindow) do
+        WindowDataStore.unregister(WindowData.ContainerWindow.Type, cId)
     end
 end

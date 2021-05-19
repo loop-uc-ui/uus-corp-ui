@@ -119,6 +119,7 @@
 		<Script file="Source/core/view/CheckBoxView.lua"/>
 		<Script file="Source/core/view/ButtonView.lua"/>
 		<Script file="Source/core/view/ComboBoxView.lua"/>
+		<Script file="Source/core/data/WindowDataStore.lua"/>
 		<Script file="Source/core/data/UserInterfaceVariables.lua"/>
 		<Script file="Source/core/data/UserContainerSettings.lua"/>
 		<Script file="Source/core/data/UserSoundSettings.lua"/>
