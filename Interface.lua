@@ -331,8 +331,6 @@ Interface.BardMastery = false
 ----------------------------------------------------------------
 -- CONTAINERS: (containers tab)
 ----------------------------------------------------------------
-
-Interface.ToggleContentsInfo = true
 -- default container view
 -- default corpse view
 Interface.GridLegacy = true
@@ -498,7 +496,6 @@ function Interface.LoadVariables()
 
 	Interface.GridLegacy =								Interface.LoadBoolean( "GridLegacy" , Interface.GridLegacy )
 	Interface.BackpackOpen =							Interface.LoadBoolean( "BackpackOpen" , Interface.BackpackOpen )
-	Interface.ToggleContentsInfo =						Interface.LoadBoolean( "ToggleContentsInfo" , Interface.ToggleContentsInfo )
 	ContainerWindow.Locked =							Interface.LoadBoolean( "LockedBackpack" , false )
 	Interface.EnableContainerGrid =						Interface.LoadBoolean( "EnableContainerGrid" , Interface.EnableContainerGrid )
 	Interface.AlternateGrid =							Interface.LoadBoolean( "AlternateGrid" , Interface.AlternateGrid )

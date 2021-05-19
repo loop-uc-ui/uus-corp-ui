@@ -65,12 +65,12 @@ function SettingsContainersWindow.UpdateSettings()
         end
     end
 
-    adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(UserContainerSettings.toggleContentsInfo())
     adapter.views[CheckBoxes.ToggleGridLegacy]:setChecked(UserContainerSettings.gridLegacy())
     adapter.views[CheckBoxes.ToggleGrid]:setChecked(UserContainerSettings.gridContainer())
     adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(UserContainerSettings.alternateGrid())
     adapter.views[CheckBoxes.ToggleExtraBright]:setChecked(UserContainerSettings.brightContainers())
-
+    adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(UserContainerSettings.toggleContentsInfo())
+    
     local gridColor = UserContainerSettings.gridColor()
     if gridColor == nil then
         gridColor = {
