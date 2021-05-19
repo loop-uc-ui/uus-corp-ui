@@ -15,6 +15,12 @@ local CheckBoxes = {
 
 local adapter = ViewAdapter:new("SettingsContainersWindow")
 
+local isGridContainer = true
+local isToggleContentsInfo = false
+local isGridLegacy = false
+local isExtraBrightContainer = false
+local isAlternateGrid = false
+
 local function ResizeContainers()
     for id, value in pairs(ContainerWindow.OpenContainers) do
         ContainerWindow.LegacyGridDock("ContainerWindow_"..id)
@@ -65,12 +71,18 @@ function SettingsContainersWindow.UpdateSettings()
         end
     end
 
-    adapter.views[CheckBoxes.ToggleGridLegacy]:setChecked(UserContainerSettings.gridLegacy())
-    adapter.views[CheckBoxes.ToggleGrid]:setChecked(UserContainerSettings.gridContainer())
-    adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(UserContainerSettings.alternateGrid())
-    adapter.views[CheckBoxes.ToggleExtraBright]:setChecked(UserContainerSettings.brightContainers())
-    adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(UserContainerSettings.toggleContentsInfo())
-    
+    isAlternateGrid = UserContainerSettings.alternateGrid()
+    isExtraBrightContainer = UserContainerSettings.brightContainers()
+    isGridContainer = UserContainerSettings.gridContainer()
+    isGridLegacy = UserContainerSettings.gridLegacy()
+    isToggleContentsInfo = UserContainerSettings.toggleContentsInfo()
+
+    adapter.views[CheckBoxes.ToggleGridLegacy]:setChecked(isGridLegacy)
+    adapter.views[CheckBoxes.ToggleGrid]:setChecked(isGridContainer)
+    adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(isAlternateGrid)
+    adapter.views[CheckBoxes.ToggleExtraBright]:setChecked(isExtraBrightContainer)
+    adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(isToggleContentsInfo)
+
     local gridColor = UserContainerSettings.gridColor()
     if gridColor == nil then
         gridColor = {
@@ -103,7 +115,7 @@ function SettingsContainersWindow.UpdateSettings()
 end
 
 function SettingsContainersWindow.OnApplyButton()
-    if (ContainerWindow.PlayerBackpack or Interface.GridLegacy) then
+    if (ContainerWindow.PlayerBackpack or UserContainerSettings.gridLegacy()) then
         local playerbackpackWindow = "ContainerWindow_"..ContainerWindow.PlayerBackpack
         if WindowGetShowing(playerbackpackWindow) then
             WindowSetShowing(playerbackpackWindow,false)
@@ -114,15 +126,30 @@ function SettingsContainersWindow.OnApplyButton()
 
     UserContainerSettings.containerView(adapter.views[ComboBoxes.ContainerView]:getSelectedItem())
     UserContainerSettings.corpseView(adapter.views[ComboBoxes.CorpseView]:getSelectedItem())
-    UserContainerSettings.toggleContentsInfo(adapter.views[CheckBoxes.ToggleContentsInfo]:isChecked())
-    UserContainerSettings.gridLegacy(adapter.views[CheckBoxes.ToggleGridLegacy]:isChecked())
-    UserContainerSettings.gridContainer(adapter.views[CheckBoxes.ToggleGrid]:isChecked())
-    UserContainerSettings.alternateGrid(adapter.views[CheckBoxes.ToggleAlternateGrid]:isChecked())
-    UserContainerSettings.brightContainers(adapter.views[CheckBoxes.ToggleExtraBright]:isChecked())
 
-    if containerReload then
+    local isChecked = adapter.views[CheckBoxes.ToggleContentsInfo]:isChecked()
+    local doReload = isToggleContentsInfo ~= isChecked
+    UserContainerSettings.toggleContentsInfo(isChecked)
+
+    isChecked = adapter.views[CheckBoxes.ToggleGridLegacy]:isChecked()
+    doReload = doReload or isGridLegacy ~= isChecked
+    UserContainerSettings.gridLegacy(isChecked)
+
+    isChecked = adapter.views[CheckBoxes.ToggleGrid]:isChecked()
+    doReload = doReload or isGridContainer ~= isChecked
+    UserContainerSettings.gridContainer(isChecked)
+
+    isChecked = adapter.views[CheckBoxes.ToggleAlternateGrid]:isChecked()
+    doReload = doReload or isAlternateGrid ~= isChecked
+    UserContainerSettings.alternateGrid(isChecked)
+
+    isChecked = adapter.views[CheckBoxes.ToggleExtraBright]:isChecked()
+    doReload = doReload or isExtraBrightContainer ~= isChecked
+    UserContainerSettings.brightContainers(doReload)
+
+    if doReload then
         SettingsContainersWindow.DestroyContainers()
-        if not Interface.GridLegacy then
+        if not UserContainerSettings.gridLegacy() then
             ResizeContainers()
         end
     end
