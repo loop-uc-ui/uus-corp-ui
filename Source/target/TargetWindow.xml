@@ -1,0 +1,150 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+  <Windows>
+    <Button name="TargetWindowBigButtonTemplate"  draganddrop="false" texturescale="1.2">
+      <Size>
+        <AbsPoint x="56" y="56" />
+      </Size>
+      <EventHandlers>
+        <EventHandler event="OnLButtonDown" function="TargetWindow.ButtonsUse" />
+      </EventHandlers>
+      <TexCoords>
+        <Normal texture="default_grid_backpack" x="0" y="0" />
+        <NormalHighlit texture="default_grid_backpack" x="50" y="0" />
+        <Disabled texture="default_grid_backpack" x="0" y="0" />
+        <Pressed texture="default_grid_backpack" x="0" y="0" />
+        <PressedHighlit texture="default_grid_backpack" x="50" y="0" />
+      </TexCoords>
+      <Windows>
+        
+        <DynamicImage name="$parentIcon" >
+          <Size>
+            <AbsPoint x="56" y="56" />
+          </Size>
+          <Anchors>
+            <Anchor point="center" relativePoint="center" >
+              <AbsPoint x="0" y="0" />
+            </Anchor>
+          </Anchors>
+        </DynamicImage>
+
+        <Label name="$parentLabel" font="Arial_Black_Shadow_15" maxchars="64" textalign="center" draganddrop="false" wordwrap="true" layer="overlay">
+          <Size>
+            <AbsPoint x="56" y="16" />
+          </Size>
+          <Anchors>
+            <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent">
+              <AbsPoint x="0" y="-8" />
+            </Anchor>
+          </Anchors>
+          <Color r="255" g="204" b="0" a="255" />
+        </Label>
+
+        <DynamicImage name="$parentDisabled" texture="disabled" texturescale="5" handleinput="true" layer="overlay">
+          <Size>
+            <AbsPoint x="56" y="56" />
+          </Size>
+          <Anchors>
+            <Anchor point="center" relativePoint="center" relativeTo="">
+              <AbsPoint x="0" y="0" />
+            </Anchor>
+          </Anchors>
+          <TexCoords x="0" y="0" />
+        </DynamicImage>
+      </Windows>
+    </Button>
+    <Window name="TargetWindow" movable="false" draganddrop="true" sticky="true">
+      <Size>
+        <!--<AbsPoint x="295" y="90" />-->
+        <AbsPoint x="289" y="74" />
+      </Size>
+      <Anchors>
+        <Anchor point="center" relativePoint="center" relativeTo="">
+          <AbsPoint x="0" y="-460" />
+        </Anchor>
+      </Anchors>
+      <EventHandlers>
+        <EventHandler event="OnInitialize" function="TargetWindow.Initialize" />
+        <EventHandler event="OnShutdown" function="TargetWindow.Shutdown" />
+        <EventHandler event="OnLButtonDblClk" function="TargetWindow.OnItemDblClicked" />
+        <EventHandler event="OnLButtonUp" function="TargetWindow.OnLClick" />
+        <EventHandler event="OnRButtonUp" function="TargetWindow.OnRClick" />
+        <EventHandler event="OnMouseOver" function="TargetWindow.OnMouseOver" />
+        <EventHandler event="OnMouseOverEnd" function="TargetWindow.OnMouseOverEnd" />
+        <EventHandler event="OnUpdate" function="TargetWindow.ForceUpdate" />
+        <EventHandler event="OnLButtonDown" function="TargetWindow.OnMoveStart" />
+        <EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
+      </EventHandlers>
+      <Windows>
+        <Button name="$parentLock" textureScale="1">
+          <Size>
+            <AbsPoint x="20" y="20" />
+          </Size>
+          <EventHandlers>
+            <EventHandler event="OnLButtonUp" function="TargetWindow.Lock" />
+            <EventHandler event="OnMouseOver" function="TargetWindow.LockTooltip" />
+          </EventHandlers>
+          <Anchors>
+            <Anchor point="topright" relativePoint="topright">
+              <AbsPoint x="-7" y="11" />
+            </Anchor>
+          </Anchors>
+        </Button>
+
+        <Label name="$parentDistance" font="Arial_Black_Shadow_15" maxchars="100" textalign="center" autoresize="true" wordwrap="false" layer="overlay" handleinput="false">
+          <Size>
+            <AbsPoint x="150" y="30" />
+          </Size>
+          <Anchors>
+            <Anchor point="top" relativePoint="top" relativeTo="$parent">
+              <AbsPoint x="0" y="0" />
+            </Anchor>
+          </Anchors>
+          <Color r="255" g="255" b="255" a="30" />
+        </Label>
+
+        <Label name="$parentName" font="Arial_Black_Shadow_15" maxchars="32" textalign="center"   handleinput="false" wordwrap="true" linespacing="18">
+          <Size>
+            <AbsPoint x="289" y="32" />
+          </Size>
+          <Anchors>
+            <Anchor point="bottom" relativePoint="top" relativeTo="$parentDistance">
+              <AbsPoint x="0" y="0" />
+            </Anchor>
+          </Anchors>
+          <Color r="255" g="255" b="255" a="255" />
+        </Label>
+
+        <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
+          <Anchors>
+            <Anchor point="topleft" relativePoint="topleft"/>
+            <Anchor point="bottomright" relativePoint="bottomright"/>
+          </Anchors>
+        </FullResizeImage>
+        
+        <StatusBar name="$parentHealthBar" inherits="TargetStatusBar">
+          <Size>
+            <AbsPoint x="242" y="7" />
+          </Size>
+          <Anchors>
+            <Anchor point="bottom" relativePoint="top" relativeTo="$parentHits">
+              <AbsPoint x="0" y="0" />
+            </Anchor>
+          </Anchors>
+        </StatusBar>
+
+        <Label name="$parentHits" font="UO_DefaultText_15pt" maxchars="16" textalign="center"   handleinput="false" wordwrap="true" linespacing="18">
+          <Size>
+            <AbsPoint x="170" y="20" />
+          </Size>
+          <Anchors>
+            <Anchor point="bottom" relativePoint="top" relativeTo="$parentName">
+              <AbsPoint x="0" y="0" />
+            </Anchor>
+          </Anchors>
+          <Color r="255" g="255" b="255" a="255" />
+        </Label>
+        
+      </Windows>
+    </Window>
+  </Windows>
+</Interface>
