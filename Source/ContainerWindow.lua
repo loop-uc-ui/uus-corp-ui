@@ -2306,11 +2306,10 @@ function ContainerWindow.ToggleView()
 	local id = WindowGetId(WindowUtils.GetActiveDialog())
 	
 	if( WindowData.ContainerWindow[id] and WindowData.ContainerWindow[id].isSnooped == false ) then
-		
         if (ContainerWindow.ViewModes[id] == "List") then
 		    ContainerWindow.ViewModes[id] = "Grid"
 		    ContainerWindow.UpdateGridViewSockets(id)
-        elseif( ContainerWindow.ViewModes[id] == "Grid" ) then 
+        elseif( ContainerWindow.ViewModes[id] == "Grid" ) then
     	    ContainerWindow.ViewModes[id] = "List"    	    
 			ContainerWindow.UpdateListViewSockets(id)
 	    end	    
@@ -2325,7 +2324,7 @@ function ContainerWindow.ToggleView()
 	else
 		SystemData.Settings.Interface.defaultContainerMode = ContainerWindow.ViewModes[id]
 	end
-	
+
 	SettingsWindow.UpdateSettings()
 end
 

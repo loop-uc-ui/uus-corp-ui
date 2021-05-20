@@ -27,7 +27,6 @@
 	<Include file="Source/settings/window/SettingsKeyBindingsWindow.xml"/>
 	<Include file="Source/settings/window/SettingsSoundWindow.xml"/>
 	<Include file="Source/settings/window/SettingsOptionsWindow.xml"/>
-	<Include file="Source/settings/window/SettingsLegacyWindow.xml"/>
 	<Include file="Source/settings/window/SettingsProfanityWindow.xml"/>
 	<Include file="Source/settings/window/SettingsHealthBarsWindow.xml"/>
 	<Include file="Source/settings/window/SettingsContainersWindow.xml"/>
@@ -223,7 +222,6 @@
 		<Script file="Source/settings/view/SettingsColorButton.lua"/>
 		<Script file="Source/settings/window/SettingsOverheadTextWindow.lua"/>
 		<Script file="Source/settings/window/SettingsProfanityWindow.lua"/>
-		<Script file="Source/settings/window/SettingsLegacyWindow.lua"/>
 		<Script file="Source/settings/window/SettingsContainersWindow.lua"/>
 		<Script file="Source/settings/window/SettingsHealthBarsWindow.lua"/>
 		<Script file="Source/settings/window/SettingsOptionsWindow.lua"/>

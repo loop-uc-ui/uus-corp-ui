@@ -115,17 +115,23 @@ function SettingsContainersWindow.UpdateSettings()
 end
 
 function SettingsContainersWindow.OnApplyButton()
-    if (ContainerWindow.PlayerBackpack or UserContainerSettings.gridLegacy()) then
+    if ContainerWindow.PlayerBackpack and UserContainerSettings.gridLegacy() then
         local playerbackpackWindow = "ContainerWindow_"..ContainerWindow.PlayerBackpack
         if adapter:isShowing(playerbackpackWindow) then
-            adapter:setShowing(false, playerbackpackWindow)
+           adapter:setShowing(false, playerbackpackWindow)
         end
         adapter:destroy(playerbackpackWindow)
         WindowDataStore.unregister(WindowData.ContainerWindow.Type, ContainerWindow.PlayerBackpack)
     end
 
-    UserContainerSettings.containerView(adapter.views[ComboBoxes.ContainerView]:getSelectedItem())
-    UserContainerSettings.corpseView(adapter.views[ComboBoxes.CorpseView]:getSelectedItem())
+    local containerView = adapter.views[ComboBoxes.ContainerView]
+    UserContainerSettings.containerView(StringFormatter.fromWString(
+            containerView.items[containerView:getSelectedItem()]
+    ))
+    local corpseView = adapter.views[ComboBoxes.CorpseView]
+    UserContainerSettings.corpseView(StringFormatter.fromWString(
+            containerView.items[corpseView:getSelectedItem()]
+    ))
 
     local isChecked = adapter.views[CheckBoxes.ToggleContentsInfo]:isChecked()
     local doReload = isToggleContentsInfo ~= isChecked
@@ -145,7 +151,7 @@ function SettingsContainersWindow.OnApplyButton()
 
     isChecked = adapter.views[CheckBoxes.ToggleExtraBright]:isChecked()
     doReload = doReload or isExtraBrightContainer ~= isChecked
-    UserContainerSettings.brightContainers(doReload)
+    UserContainerSettings.brightContainers(isChecked)
 
     if doReload then
         SettingsContainersWindow.DestroyContainers()

@@ -11,7 +11,7 @@ function UserContainerSettings.gridLegacy(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("GridLegacy", newValue)
     end
-    return UserInterfaceVariables.LoadBoolean("GridLegacy", false)
+    return UserInterfaceVariables.LoadBoolean("GridLegacy", true)
 end
 
 function UserContainerSettings.gridContainer(newValue)
