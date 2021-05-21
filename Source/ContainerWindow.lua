@@ -59,9 +59,6 @@ ContainerWindow.delta = 0
 
 ContainerWindow.Locked = false
 
-ContainerWindow.BaseGridColor = { r=255, g=255, b=255 }
-ContainerWindow.AlternateBackpack = { r=80, g=80, b=80 }
-
 ContainerWindow.LastUsesDelta = {}
 ContainerWindow.CurrentUses = {}
 ContainerWindow.ItemContainerMap = {}
@@ -3095,10 +3092,12 @@ function ContainerWindow.CreateGridViewSockets(dialog, lower, upper)
 			ButtonSetTexture(socketName, Button.ButtonState.PRESSED, "", 0, 0)
 			ButtonSetTexture(socketName, Button.ButtonState.PRESSED_HIGHLIGHTED, "", 0, 0)
 		end
-		WindowSetTintColor(socketName, ContainerWindow.BaseGridColor.r,ContainerWindow.BaseGridColor.g,ContainerWindow.BaseGridColor.b)
-		
+		local gridColor = UserContainerSettings.gridColor()
+		WindowSetTintColor(socketName, gridColor.r, gridColor.g, gridColor.b)
+
 		if (color and UserContainerSettings.alternateGrid()) then
-			WindowSetTintColor(socketName, ContainerWindow.AlternateBackpack.r,ContainerWindow.AlternateBackpack.g,ContainerWindow.AlternateBackpack.b)
+			local altColor = UserContainerSettings.alternateColor()
+			WindowSetTintColor(socketName, altColor.r, altColor.g, altColor.b)
 		end
 		color = not color
 		

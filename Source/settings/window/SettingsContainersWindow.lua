@@ -84,13 +84,6 @@ function SettingsContainersWindow.UpdateSettings()
     adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(isToggleContentsInfo)
 
     local gridColor = UserContainerSettings.gridColor()
-    if gridColor == nil then
-        gridColor = {
-            r = 255,
-            g = 255,
-            b = 255
-        }
-    end
     adapter:setColor(
             "ContainerGridColorButton",
             gridColor.r,
@@ -99,13 +92,6 @@ function SettingsContainersWindow.UpdateSettings()
     )
 
     local alternateGridColor = UserContainerSettings.alternateColor()
-    if alternateGridColor == nil then
-        alternateGridColor = {
-            r = 80,
-            g = 80,
-            b = 80
-        }
-    end
     adapter:setColor(
             "ContainerGridAlternateColorButton",
             alternateGridColor.r,

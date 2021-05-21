@@ -53,12 +53,20 @@ function UserContainerSettings.gridColor(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveColor("BaseGridColor", newValue)
     end
-    return UserInterfaceVariables.LoadColor("BaseGridColor")
+    return UserInterfaceVariables.LoadColor("BaseGridColor", {
+        r = 255,
+        g = 255,
+        b = 255
+    })
 end
 
 function UserContainerSettings.alternateColor(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveColor("AlternateBackpack", newValue)
     end
-    return UserInterfaceVariables.LoadColor("AlternateBackpack")
+    return UserInterfaceVariables.LoadColor("AlternateBackpack", {
+        r = 80,
+        g = 80,
+        b = 80
+    })
 end

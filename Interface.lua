@@ -500,10 +500,7 @@ function Interface.LoadVariables()
 	Interface.EnableContainerGrid =						Interface.LoadBoolean( "EnableContainerGrid" , Interface.EnableContainerGrid )
 	Interface.AlternateGrid =							Interface.LoadBoolean( "AlternateGrid" , Interface.AlternateGrid )
 	Interface.ExtraBrightContainers =					Interface.LoadBoolean( "ExtraBrightContainers" , Interface.ExtraBrightContainers )
-	
-	ContainerWindow.BaseGridColor =						Interface.LoadColor( "BaseGridColor" , ContainerWindow.BaseGridColor )
-	ContainerWindow.AlternateBackpack =					Interface.LoadColor( "AlternateBackpack" , ContainerWindow.AlternateBackpack )
-	
+
 	PetWindow.CloseLeft =								Interface.LoadBoolean( "PetWindowCloseLeft", true )
 	PetWindow.PetWindowHidden =							Interface.LoadBoolean( "PetWindowHidden", Interface.PetWindowHidden )
 	

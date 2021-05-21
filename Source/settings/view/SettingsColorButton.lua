@@ -1,16 +1,21 @@
 SettingsColorButton = {}
 
-local function ColorPicked(HuePickerWindowRequest, HuePickerWindow)
+local HuePickerWindowRequest
+local HuePickerWindow
+
+function SettingsColorButton.ColorPicked()
     local huePicked = ColorPickerWindow.colorSelected["ColorPicker"]
 
-    if (HuePickerWindowRequest== "ContainerGridColor") then
-        ContainerWindow.BaseGridColor.r,ContainerWindow.BaseGridColor.g,ContainerWindow.BaseGridColor.b,ContainerWindow.BaseGridColor.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("BaseGridColor", ContainerWindow.BaseGridColor)
+    if (HuePickerWindowRequest == "ContainerGridColorButton") then
+        local gridColor = UserContainerSettings.gridColor()
+        gridColor.r, gridColor.g, gridColor.b, gridColor.a = HueRGBAValue(huePicked)
+        Interface.SaveColor("BaseGridColor", gridColor)
         SettingsContainersWindow.DestroyContainers()
 
-    elseif (HuePickerWindowRequest== "ContainerGridAlternateColor") then
-        ContainerWindow.AlternateBackpack.r,ContainerWindow.AlternateBackpack.g,ContainerWindow.AlternateBackpack.b,ContainerWindow.AlternateBackpack.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("AlternateBackpack", ContainerWindow.AlternateBackpack)
+    elseif (HuePickerWindowRequest== "ContainerGridAlternateColorButton") then
+        local altColor = UserContainerSettings.alternateColor()
+        altColor.r, altColor.g, altColor.b, altColor.a = HueRGBAValue(huePicked)
+        Interface.SaveColor("AlternateBackpack", altColor)
         SettingsContainersWindow.DestroyContainers()
 
     elseif (HuePickerWindowRequest== "colorHeal") then
@@ -69,8 +74,8 @@ end
 
 function SettingsColorButton.PickColor()
     local color = SystemData.ActiveWindow.name
-    local HuePickerWindow = string.gsub(color, "Button", "")
-    local HuePickerWindowRequest = string.gsub(color, "OverheadTextOptions", "")
+    HuePickerWindow = string.gsub(color, "Button", "")
+    HuePickerWindowRequest = string.gsub(color, "OverheadTextOptions", "")
     local defaultColors = {
         0, --HUE_NONE
         34, --HUE_RED
@@ -98,11 +103,7 @@ function SettingsColorButton.PickColor()
     ColorPickerWindow.SetCloseButtonEnabled(true)
     ColorPickerWindow.SetColorTable(hueTable,"ColorPicker")
     ColorPickerWindow.DrawColorTable("ColorPicker")
-    ColorPickerWindow.SetAfterColorSelectionFunction(
-            function ()
-                ColorPicked(HuePickerWindowRequest, HuePickerWindow)
-            end
-    )
+    ColorPickerWindow.SetAfterColorSelectionFunction(SettingsColorButton.ColorPicked)
     local h = WindowGetDimensions("ColorPicker")
     WindowAddAnchor( "ColorPicker", "topleft", HuePickerWindow .. "Button", "topleft", 50, -h)
     ColorPickerWindow.SetFrameEnabled(false)
