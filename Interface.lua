@@ -47,9 +47,6 @@ Interface.AlacrityStart = 0
 
 Interface.CurrentSpell = {}
 
-Interface.Latency = {}
-Interface.LatencyDelta = 0
-
 Interface.BlockThisPaperdoll = {}
 
 Interface.Clock = {}
@@ -894,12 +891,7 @@ end
 -------------------------------------------------------------------------------
 
 function Interface.Update( timePassed )
-		
-
 	ok, err = pcall(StatusWindow.EnableInput, timePassed)	
-	Interface.ErrorTracker(ok, err)
-	
-	ok, err = pcall(Interface.UpdateLatency, timePassed)	
 	Interface.ErrorTracker(ok, err)
 	
 	ok, err = pcall(Interface.ChatFixer, timePassed)	
@@ -1191,16 +1183,6 @@ function Interface.LoginTimeoutCheck(timePassed)
 		else
 			BroadcastEvent( SystemData.Events.LOG_OUT )
 		end
-	end
-end
-
-function Interface.UpdateLatency(timePassed)
-	Interface.LatencyDelta = Interface.LatencyDelta + timePassed
-	if Interface.LatencyDelta >= 2 then
-		local shardLatency, packetLoss = GetShardPingInfo(UserData.Settings.Login.lastShardSelected)
-		Interface.Latency = {lag=shardLatency, ploss=packetLoss}
-		StatusWindow.UpdateLatency()
-		Interface.LatencyDelta = 0
 	end
 end
 

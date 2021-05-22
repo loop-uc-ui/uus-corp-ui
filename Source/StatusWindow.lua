@@ -149,30 +149,6 @@ function StatusWindow.Initialize(reinit)
 	ButtonSetTexture("StatusWindowMenu",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, "arrowdown", 22, 0)
 	ButtonSetTexture("StatusWindowMenu", InterfaceCore.ButtonStates.STATE_PRESSED, "arrowdown", 22, 0) 
 	ButtonSetTexture("StatusWindowMenu", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, "arrowdown", 22, 0)
-	
-	local w, h = WindowGetDimensions("StatusWindowLagBar")
-	WindowSetDimensions("StatusWindowLagBar", w+1, h)
-	WindowSetDimensions("StatusWindowLagBar", w, h)
-	
-	WindowSetTintColor("StatusWindowLagBar", 0, 255, 0)
-
-	if DoesWindowNameExist("GlowingEffectHealth") then
-		DestroyWindow("GlowingEffectHealth")
-	end
-	local noto =  1
-	if (not DoesWindowNameExist("GlowingEffectHealth") and Interface.StatusWindowStyle == 0) then		
-		if WindowData.MobileName[WindowData.PlayerStatus.PlayerId] then
-			noto = tonumber(WindowData.MobileName[WindowData.PlayerStatus.PlayerId].Notoriety+1)
-		end		
-		CreateWindowFromTemplate("GlowingEffectHealth", "StatusTEXTs", "StatusWindow")
-		CreateWindowFromTemplate("GlowingEffectAnimHealth", "StatusGlowingEffect", "GlowingEffectHealth")
-		WindowClearAnchors("GlowingEffectHealth")
-		WindowAddAnchor("GlowingEffectHealth", "center", "StatusWindowPortraitBg", "center", 14, 12)
-		WindowSetScale("GlowingEffectHealth", WindowGetScale("StatusWindow"))		
-		AnimatedImageStartAnimation( "GlowingEffectAnimHealth", 1, true, false, 0.0 )		
-		AnimatedImageSetPlaySpeed( "GlowingEffectAnimHealth", 10)
-		WindowSetTintColor("GlowingEffectAnimHealth",StatusWindow.TextColors[noto].r,StatusWindow.TextColors[noto].g,StatusWindow.TextColors[noto].b)
-	end
 
 	StatusWindow.HPLocked = Interface.LoadBoolean( "StatusWindowHPLocked", StatusWindow.HPLocked )
 	StatusWindow.MANALocked = Interface.LoadBoolean( "StatusWindowMANALocked", StatusWindow.MANALocked )
@@ -187,14 +163,6 @@ function StatusWindow.Shutdown()
 	if (DoesWindowNameExist("TCTOOLSWindow")) then
 		SnapUtils.SnappableWindows["TCTOOLSWindow"] = false
 		WindowUtils.SaveWindowPosition("TCTOOLSWindow")
-	end
-end
-
-function StatusWindow.Latency_OnMouseOver()
-	if Interface.Latency then
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, ReplaceTokens(GetStringFromTid(1155254), {towstring(Interface.Latency.lag).. L"ms", towstring(Interface.Latency.ploss) } ))
-		Tooltips.Finalize()
-		Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
 	end
 end
 
@@ -288,26 +256,6 @@ function StatusWindow.Menu()
 	RequestContextMenu(WindowData.PlayerStatus.PlayerId, true)
 end
 
-function StatusWindow.UpdateLatency()
-	local w, h = WindowGetDimensions("StatusWindowLagBar")
-
-	StatusWindow.alternate = not StatusWindow.alternate
-	local hue = {r=0,g=255,b=0}
-	if Interface.Latency.lag < 250 then
-		h = 52
-	elseif Interface.Latency.lag < 650 then
-		hue = {r=255,g=255,b=0}
-		h = 28
-	else
-		hue = {r=255,g=0,b=0}
-		h = 14
-	end
-
-	WindowSetTintColor("StatusWindowLagBar", hue.r, hue.g, hue.b)
-	WindowSetDimensions("StatusWindowLagBar", w+1, h)
-	WindowSetDimensions("StatusWindowLagBar", w, h)
-end
-
 StatusWindow.TempDisabled = false
 
 function StatusWindow.ClickOutside()
@@ -335,10 +283,6 @@ function StatusWindow.UpdateStatus()
 	StatusBarSetCurrentValue( "StatusWindowHealthBar", WindowData.PlayerStatus.CurrentHealth )
 	StatusBarSetCurrentValue( "StatusWindowManaBar", WindowData.PlayerStatus.CurrentMana )
 	StatusBarSetCurrentValue( "StatusWindowStaminaBar", WindowData.PlayerStatus.CurrentStamina )
-
-	if (not Interface.AuraEnabled and DoesWindowNameExist("GlowingEffectAnimHealth")) then
-		DestroyWindow("GlowingEffectAnimHealth")
-	end
 	--Colors the health bar to the correct color
 	HealthBarColor.UpdateHealthBarColor("StatusWindowHealthBar", WindowData.PlayerStatus.VisualStateId)
 	--Update label tooltip health, mana, and stamina
@@ -346,55 +290,6 @@ function StatusWindow.UpdateStatus()
 	
 	UnregisterWindowData(WindowData.MobileName.Type, WindowData.PlayerStatus.PlayerId)
 	RegisterWindowData(WindowData.MobileName.Type, WindowData.PlayerStatus.PlayerId)
-	
-	
-	if WindowData.MobileName[WindowData.PlayerStatus.PlayerId] and DoesWindowNameExist("GlowingEffectAnimHealth") then
-		local noto = tonumber(WindowData.MobileName[WindowData.PlayerStatus.PlayerId].Notoriety+1)
-		WindowSetTintColor("GlowingEffectAnimHealth",StatusWindow.TextColors[noto].r,StatusWindow.TextColors[noto].g,StatusWindow.TextColors[noto].b)
-	end
-
-	if( SystemData.PaperdollTexture[WindowData.PlayerStatus.PlayerId] ~= nil) then
-	
-		local textureData = SystemData.PaperdollTexture[WindowData.PlayerStatus.PlayerId]	
-		
-		local x, y, scale
-		if textureData.IsLegacy == 1 then
-			x, y = -88, 10
-			scale = 1.75
-		else
-			x, y = -11, -191
-			scale = 0.75
-		end
-		
-		local mobileData = Interface.GetMobileData(WindowData.PlayerStatus.PlayerId, true)
-
-		if IsPlayerDead() then
-			WindowSetShowing("StatusWindowPortrait", false)
-			WindowSetShowing("StatusWindowDead", true)
-			CircleImageSetTexture("StatusWindowDead","dead",-32,-30)
-		elseif mobileData then
-			WindowSetShowing("StatusWindowPortrait", true)
-			WindowSetShowing("StatusWindowDead", false)
-			if mobileData.Gender == 1 then
-				if mobileData.Race == PaperdollWindow.GARGOYLE then
-					CircleImageSetTexture("StatusWindowPortrait", "paperdoll_texture"..WindowData.PlayerStatus.PlayerId, x - textureData.xOffset + 8, y - textureData.yOffset - 22 )
-					CircleImageSetTextureScale("StatusWindowPortrait", InterfaceCore.scale * scale - 0.2)
-				else
-					CircleImageSetTexture("StatusWindowPortrait", "paperdoll_texture"..WindowData.PlayerStatus.PlayerId, x - textureData.xOffset + 8, y - textureData.yOffset - 18 )
-					CircleImageSetTextureScale("StatusWindowPortrait", InterfaceCore.scale * scale)
-				end
-			else
-				if mobileData.Race == PaperdollWindow.ELF then
-					CircleImageSetTexture("StatusWindowPortrait", "paperdoll_texture"..WindowData.PlayerStatus.PlayerId, x - textureData.xOffset - 3, y - textureData.yOffset - 5 )
-					CircleImageSetTextureScale("StatusWindowPortrait", InterfaceCore.scale * scale - 0.1)
-				else
-					CircleImageSetTexture("StatusWindowPortrait", "paperdoll_texture"..WindowData.PlayerStatus.PlayerId, x - textureData.xOffset - 3, y - textureData.yOffset - 5 )
-					CircleImageSetTextureScale("StatusWindowPortrait", InterfaceCore.scale * scale)
-				end
-			end
-		end
-		StatusWindow.CurPlayerId = WindowData.PlayerStatus.PlayerId
-	end
 end
 
 function StatusWindow.OnLButtonUp()
