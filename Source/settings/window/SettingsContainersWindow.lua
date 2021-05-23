@@ -23,6 +23,7 @@ local isGridLegacy = false
 local isExtraBrightContainer = false
 local isAlternateGrid = false
 local isUseLegacyContainers = false
+local currentBackPackStyle = UserContainerSettings.LegacyBackpackStyles[1]
 
 local function ResizeContainers()
     for id, _ in pairs(ContainerWindow.OpenContainers) do
@@ -116,8 +117,9 @@ function SettingsContainersWindow.UpdateSettings()
     )
 
     adapter.views[CheckBoxes.UseLegacyContainers]:setChecked(isUseLegacyContainers)
+    currentBackPackStyle = UserContainerSettings.legacyBackPackStyle()
     for i = 1, #UserContainerSettings.LegacyBackpackStyles do
-        if UserContainerSettings.LegacyBackpackStyles[i] == UserContainerSettings.legacyBackPackStyle() then
+        if UserContainerSettings.LegacyBackpackStyles[i] == currentBackPackStyle then
             adapter.views[ComboBoxes.BackpackStyle]:setSelectedItem(i)
             break
         end
@@ -168,6 +170,7 @@ function SettingsContainersWindow.OnApplyButton()
     UserContainerSettings.legacyContainers(isChecked)
 
     local legacyStyle = adapter.views[ComboBoxes.BackpackStyle]:getSelectedItem()
+    doReload = doReload or (currentBackPackStyle ~= UserContainerSettings.LegacyBackpackStyles[legacyStyle] and UserContainerSettings.legacyContainers())
     UserContainerSettings.legacyBackPackStyle(UserContainerSettings.LegacyBackpackStyles[legacyStyle])
 
     if doReload then
