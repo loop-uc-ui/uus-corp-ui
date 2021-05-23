@@ -1,41 +1,39 @@
 SettingsHealthBarsWindow = {}
 
+local adapter = ViewAdapter:new("SettingsWindow", "SettingsHealthBarWindow")
+
+local CHECK_BOXES = {
+    ShowStrButton = "ShowStrButton",
+    HealthBarButtons = "HealthbarsButtons",
+    ToggleNotorietyAura = "ToggleNotorietyAuraButton",
+    ToggleMobileArrow = "ToggleMobileArrowButton",
+    LegacyCloseStyle = "LegacyCloseStyleButton",
+    PetLegacyCloseStyle = "PetLegacyCloseStyleButton",
+    ShowCloseExtract = "ShowCloseExtractButton",
+    HealthBarWod = "HealthBarWodButton"
+}
+
 function SettingsHealthBarsWindow.Initialize()
-    LabelSetText( "HealthbarsOptionsStatusWindowSubSectionLabel", GetStringFromTid( 1155313 ) )
-    LabelSetText( "HealthbarsOptionsButtonsSubSectionLabel", GetStringFromTid( 1155323 ) )
-    LabelSetText( "HealthbarsOptionsSpellsButtonsSubSectionLabel", GetStringFromTid( 1155332 ) )
-
-    LabelSetText( "ShowStrLabel", GetStringFromTid( 1079171 ) )
-    WindowSetId( "ShowStrLabel", 1115304 )
-    ButtonSetCheckButtonFlag( "ShowStrButton", true )
-
-    LabelSetText( "HealthbarsButtons" .. "Label", GetStringFromTid( 1155317 ) )
-    WindowSetId( "HealthbarsButtons" .. "Label", 1155318 )
-    ButtonSetCheckButtonFlag( "HealthbarsButtons" .. "Button", true )
-
-    LabelSetText( "ToggleNotorietyAura" .. "Label", GetStringFromTid( 1155319 ) )
-    WindowSetId( "ToggleNotorietyAura" .. "Label", 1155320 )
-    ButtonSetCheckButtonFlag( "ToggleNotorietyAura" .. "Button", true )
-
-    LabelSetText( "ToggleMobileArrow" .. "Label", GetStringFromTid( 1155321 ) )
-    WindowSetId( "ToggleMobileArrow" .. "Label", 1155322 )
-    ButtonSetCheckButtonFlag( "ToggleMobileArrow" .. "Button", true )
-
-    LabelSetText( "LegacyCloseStyle" .. "Label", GetStringFromTid( 1155324 ) )
-    WindowSetId( "LegacyCloseStyle" .. "Label", 1155325 )
-    ButtonSetCheckButtonFlag( "LegacyCloseStyle" .. "Button", true )
-
-    LabelSetText( "PetLegacyCloseStyle" .. "Label", GetStringFromTid( 1155326 ) )
-    WindowSetId( "PetLegacyCloseStyle" .. "Label", 1155327 )
-    ButtonSetCheckButtonFlag( "PetLegacyCloseStyle" .. "Button", true )
-
-    LabelSetText( "ShowCloseExtract" .. "Label", GetStringFromTid( 1155328 ) )
-    WindowSetId( "ShowCloseExtract" .. "Label", 1155329 )
-    ButtonSetCheckButtonFlag( "ShowCloseExtract" .. "Button", true )
-
-    LabelSetText( "HealthBarWod" .. "Label", GetStringFromTid( 1155330 ) )
-    WindowSetId( "HealthBarWod" .. "Label", 1155331 )
-    ButtonSetCheckButtonFlag( "HealthBarWod" .. "Button", true )
+    adapter:addLabel("HealthbarsOptionsStatusWindowSubSectionLabel", 1155313)
+            :addLabel("HealthbarsOptionsButtonsSubSectionLabel", 1155323)
+            :addLabel("HealthbarsOptionsSpellsButtonsSubSectionLabel", 1155332)
+            :addLabel("HealthbarsOptionsSpellsButtonsSubSectionLabel", 1155332)
+            :addLabel("ShowStrLabel",1079171)
+            :addCheckBox(CHECK_BOXES.ShowStrButton)
+            :addLabel("HealthbarsButtonsLabel", 1155317)
+            :addCheckBox(CHECK_BOXES.HealthBarButtons)
+            :addLabel("ToggleNotorietyAuraLabel", 1155319)
+            :addCheckBox(CHECK_BOXES.ToggleNotorietyAura)
+            :addLabel("ToggleMobileArrowLabel", 1155321)
+            :addCheckBox(CHECK_BOXES.ToggleMobileArrow)
+            :addLabel("LegacyCloseStyleLabel", 1155324)
+            :addCheckBox(CHECK_BOXES.LegacyCloseStyle)
+            :addLabel("PetLegacyCloseStyleLabel", 1155326)
+            :addCheckBox(CHECK_BOXES.PetLegacyCloseStyle)
+            :addLabel("ShowCloseExtractLabel", 1155328)
+            :addCheckBox(CHECK_BOXES.ShowCloseExtract)
+            :addLabel("HealthBarWodLabel", 1155330)
+            :addCheckBox(CHECK_BOXES.HealthBarWod)
 end
 
 function SettingsHealthBarsWindow.UpdateSettings()

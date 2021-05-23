@@ -29,8 +29,9 @@ end
 
 function SettingsContainersWindow.Initialize()
     local containerViewOptions = {
-        1079824,
-        1079825
+        L"Freeform",
+        1079825,
+        1079824
     }
 
     adapter:addLabel("ContainersOptionsSystemSubSectionLabel", 1155277)

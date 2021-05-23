@@ -50,9 +50,17 @@ function StringFormatter.toLower(text)
 end
 
 function StringFormatter.toWString(text)
-    return StringToWString(text)
+    if type(text) == "wstring" then
+        return text
+    else
+        return StringToWString(text)
+    end
 end
 
 function StringFormatter.fromWString(text)
-    return WStringToString(text)
+    if type(text) == "string" then
+        return text
+    else
+        return WStringToString(text)
+    end
 end
