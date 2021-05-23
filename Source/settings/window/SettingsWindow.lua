@@ -1,12 +1,11 @@
 SettingsWindow = {}
 
 local function overrideLegacySettings()
-	--We are disabling all Legacy options and removing them.
+	--We are disabling most Legacy options and removing them.
 	SystemData.Settings.Interface.LegacyChat = false
 	SystemData.Settings.Interface.LegacyContainers = false
 	SystemData.Settings.Interface.LegacyPaperdolls = false
 	SystemData.Settings.GameOptions.legacyTargeting = false
-	SystemData.Settings.GameOptions.myLegacyBackpackType = SystemData.Settings.LegacyBackpackStyle.LEGACY_BACKPACK_DEFAULT
 end
 
 -- OnInitialize Handler()

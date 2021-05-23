@@ -2,7 +2,8 @@ SettingsContainersWindow = {}
 
 local ComboBoxes = {
     ContainerView = "ContainerViewCombo",
-    CorpseView = "CorpseViewCombo"
+    CorpseView = "CorpseViewCombo",
+    BackpackStyle = "SettingsLegacyBackpackStyleCombo"
 }
 
 local CheckBoxes = {
@@ -10,7 +11,8 @@ local CheckBoxes = {
     ToggleGridLegacy = "ToggleGridLegacyButton",
     ToggleGrid = "ToggleGridButton",
     ToggleAlternateGrid = "ToggleAlternateGridButton",
-    ToggleExtraBright = "ToggleExtraBrightButton"
+    ToggleExtraBright = "ToggleExtraBrightButton",
+    UseLegacyContainers = "SettingsLegacyUseLegacyContainersButton"
 }
 
 local adapter = ViewAdapter:new("SettingsContainersWindow")
@@ -20,18 +22,25 @@ local isToggleContentsInfo = false
 local isGridLegacy = false
 local isExtraBrightContainer = false
 local isAlternateGrid = false
+local isUseLegacyContainers = false
 
 local function ResizeContainers()
-    for id, value in pairs(ContainerWindow.OpenContainers) do
+    for id, _ in pairs(ContainerWindow.OpenContainers) do
         ContainerWindow.LegacyGridDock("ContainerWindow_"..id)
     end
 end
 
 function SettingsContainersWindow.Initialize()
     local containerViewOptions = {
-        L"Freeform",
         1079825,
         1079824
+    }
+
+    local backpackStyles = {
+        1157260, --Default
+        1157261, --Suede
+        1157262, --Polar Bear
+        1157263 --Ghoul Skin
     }
 
     adapter:addLabel("ContainersOptionsSystemSubSectionLabel", 1155277)
@@ -51,6 +60,11 @@ function SettingsContainersWindow.Initialize()
             :addCheckBox(CheckBoxes.ToggleExtraBright)
             :addLabel("ContainerGridColorLabel", 1155290)
             :addLabel("ContainerGridAlternateColorLabel", 1155292)
+            :addLabel("SettingsLegacyLegacySubSectionLabel", 1094697)
+            :addLabel("SettingsLegacyUseLegacyContainersLabel", 1094708)
+            :addCheckBox(CheckBoxes.UseLegacyContainers)
+            :addLabel("SettingsLegacyBackpackStyleLabel", 1157257)
+            :addComboBox(ComboBoxes.BackpackStyle, backpackStyles, 1)
 end
 
 function SettingsContainersWindow.UpdateSettings()
@@ -77,6 +91,7 @@ function SettingsContainersWindow.UpdateSettings()
     isGridContainer = UserContainerSettings.gridContainer()
     isGridLegacy = UserContainerSettings.gridLegacy()
     isToggleContentsInfo = UserContainerSettings.toggleContentsInfo()
+    isUseLegacyContainers = UserContainerSettings.legacyContainers()
 
     adapter.views[CheckBoxes.ToggleGridLegacy]:setChecked(isGridLegacy)
     adapter.views[CheckBoxes.ToggleGrid]:setChecked(isGridContainer)
@@ -99,15 +114,23 @@ function SettingsContainersWindow.UpdateSettings()
             alternateGridColor.g,
             alternateGridColor.b
     )
+
+    adapter.views[CheckBoxes.UseLegacyContainers]:setChecked(isUseLegacyContainers)
+    for i = 1, #UserContainerSettings.LegacyBackpackStyles do
+        if UserContainerSettings.LegacyBackpackStyles[i] == UserContainerSettings.legacyBackPackStyle() then
+            adapter.views[ComboBoxes.BackpackStyle]:setSelectedItem(i)
+            break
+        end
+    end
 end
 
 function SettingsContainersWindow.OnApplyButton()
     if ContainerWindow.PlayerBackpack and UserContainerSettings.gridLegacy() then
-        local playerbackpackWindow = "ContainerWindow_"..ContainerWindow.PlayerBackpack
-        if adapter:isShowing(playerbackpackWindow) then
-           adapter:setShowing(false, playerbackpackWindow)
+        local playerBackpackWindow = "ContainerWindow_"..ContainerWindow.PlayerBackpack
+        if adapter:isShowing(playerBackpackWindow) then
+           adapter:setShowing(false, playerBackpackWindow)
         end
-        adapter:destroy(playerbackpackWindow)
+        adapter:destroy(playerBackpackWindow)
         WindowDataStore.unregister(WindowData.ContainerWindow.Type, ContainerWindow.PlayerBackpack)
     end
 
@@ -139,6 +162,13 @@ function SettingsContainersWindow.OnApplyButton()
     isChecked = adapter.views[CheckBoxes.ToggleExtraBright]:isChecked()
     doReload = doReload or isExtraBrightContainer ~= isChecked
     UserContainerSettings.brightContainers(isChecked)
+
+    isChecked = adapter.views[CheckBoxes.UseLegacyContainers]:isChecked()
+    doReload = doReload or isUseLegacyContainers ~= isChecked
+    UserContainerSettings.legacyContainers(isChecked)
+
+    local legacyStyle = adapter.views[ComboBoxes.BackpackStyle]:getSelectedItem()
+    UserContainerSettings.legacyBackPackStyle(UserContainerSettings.LegacyBackpackStyles[legacyStyle])
 
     if doReload then
         SettingsContainersWindow.DestroyContainers()

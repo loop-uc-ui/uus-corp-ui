@@ -1,5 +1,12 @@
 UserContainerSettings = {}
 
+UserContainerSettings.LegacyBackpackStyles = {
+    SystemData.Settings.LegacyBackpackStyle.LEGACY_BACKPACK_DEFAULT,
+    SystemData.Settings.LegacyBackpackStyle.LEGACY_BACKPACK_SUEDE,
+    SystemData.Settings.LegacyBackpackStyle.LEGACY_BACKPACK_POLAR_BEAR,
+    SystemData.Settings.LegacyBackpackStyle.LEGACY_BACKPACK_GHOUL_SKIN
+}
+
 function UserContainerSettings.alternateGrid(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("AlternateGrid", newValue)
@@ -69,4 +76,18 @@ function UserContainerSettings.alternateColor(newValue)
         g = 80,
         b = 80
     })
+end
+
+function UserContainerSettings.legacyBackPackStyle(newValue)
+    if newValue ~= nil then
+        SystemData.Settings.GameOptions.myLegacyBackpackType= newValue
+    end
+    return SystemData.Settings.GameOptions.myLegacyBackpackType
+end
+
+function UserContainerSettings.legacyContainers(newValue)
+    if newValue ~= nil then
+        SystemData.Settings.Interface.LegacyContainers = newValue
+    end
+    return SystemData.Settings.Interface.LegacyContainers
 end

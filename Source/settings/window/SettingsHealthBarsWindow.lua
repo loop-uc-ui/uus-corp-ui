@@ -4,7 +4,7 @@ local adapter = ViewAdapter:new("SettingsWindow", "SettingsHealthBarWindow")
 
 local CHECK_BOXES = {
     ShowStrButton = "ShowStrButton",
-    HealthBarButtons = "HealthbarsButton",
+    HealthBarButtons = "HealthbarsButtons",
     ToggleNotorietyAura = "ToggleNotorietyAuraButton",
     ToggleMobileArrow = "ToggleMobileArrowButton",
     LegacyCloseStyle = "LegacyCloseStyleButton",
