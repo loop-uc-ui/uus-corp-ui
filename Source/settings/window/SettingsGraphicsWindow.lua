@@ -59,6 +59,8 @@ function SettingsGraphicsWindow.Initialize()
             :addCheckBox(checkBoxes.FlyingAnimation)
             :addLabel("SettingsGraphicsDisplayAllHouseContentsLabel", 1159003)
             :addCheckBox(checkBoxes.DisplayHousingContents)
+            :addSlider(slider.id, 0.50)
+            :addLabel(slider.value, "0.50")
             :setOffset(0)
             :updateScrollRect()
 
@@ -120,9 +122,8 @@ function SettingsGraphicsWindow.UpdateSettings()
     adapter.views[checkBoxes.FlyingAnimation]:setChecked(UserGraphicsSettings.flyingAnimation())
     adapter.views[checkBoxes.DisplayHousingContents]:setChecked(UserGraphicsSettings.displayHousingContents())
     adapter.views[checkBoxes.ShowFoliage]:setChecked(UserGraphicsSettings.foliage())
-
-    adapter:addSlider(slider.id, UserGraphicsSettings.gamma())
-            :addLabel(slider.value, StringFormatter.toTwoDecimalPlaces(UserGraphicsSettings.gamma()))
+    adapter.views[slider.id]:setPosition(UserGraphicsSettings.gamma())
+    adapter.views[slider.value]:setText(StringFormatter.toTwoDecimalPlaces(UserGraphicsSettings.gamma()))
 end
 
 function SettingsGraphicsWindow.OnApplyButton()
