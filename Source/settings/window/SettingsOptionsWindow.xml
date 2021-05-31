@@ -417,36 +417,13 @@
                                     </Anchors>
                                 </ComboBox>
 
-                                <!-- Object Handles Selection -->
-                                <Label name="$parentObjHandleSizeLabel" inherits="Settings_ItemTitle">
-                                    <Size>
-                                        <AbsPoint x="200" y="20"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="$parentObjHandleFilterLabel">
-                                            <AbsPoint x="0" y="23"/>
-                                        </Anchor>
-                                    </Anchors>
-                                    <Color r="255" g="255" b="255" a="255"/>
-                                </Label>
-                                <ComboBox name="$parentObjHandleSizeCombo" inherits="UO_Default_ComboBox">
-                                    <Anchors>
-                                        <Anchor point="topright" relativePoint="topleft"
-                                                relativeTo="$parentObjHandleSizeLabel">
-                                            <AbsPoint x="95" y="-10"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </ComboBox>
-
-
                                 <Window name="Tooltips" inherits="Settings_LabelCheckButton">
                                     <Size>
                                         <AbsPoint x="230" y="32"/>
                                     </Size>
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="$parentObjHandleSizeLabel">
+                                                relativeTo="$parentObjHandleFilterLabel">
                                             <AbsPoint x="-26" y="16"/>
                                         </Anchor>
                                     </Anchors>
@@ -528,47 +505,29 @@
                                     </Anchors>
                                 </Window>
 
-                                <Label name="LowHPLabel" inherits="Settings_ItemTitle">
+                                <Window name="LowHP" inherits="Settings_LabelCheckButton">
                                     <Size>
-                                        <AbsPoint x="190" y="20"/>
+                                        <AbsPoint x="350" y="32"/>
                                     </Size>
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
                                                 relativeTo="$parentCenterScreenTextSubSection">
-                                            <AbsPoint x="26" y="54"/>
-                                        </Anchor>
-                                    </Anchors>
-                                    <Color r="255" g="255" b="255" a="255"/>
-                                </Label>
-                                <ComboBox name="LowHPCombo" inherits="UO_Default_ComboBox">
-                                    <Anchors>
-                                        <Anchor point="topright" relativePoint="topleft"
-                                                relativeTo="LowHPLabel">
-                                            <AbsPoint x="105" y="-10"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </ComboBox>
-
-                                <Label name="LowHPPetLabel" inherits="Settings_ItemTitle">
-                                    <Size>
-                                        <AbsPoint x="190" y="20"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="LowHPLabel">
                                             <AbsPoint x="0" y="32"/>
                                         </Anchor>
                                     </Anchors>
-                                    <Color r="255" g="255" b="255" a="255"/>
-                                </Label>
-                                <ComboBox name="LowHPPetCombo" inherits="UO_Default_ComboBox">
+                                </Window>
+
+                                <Window name="LowHPPet" inherits="Settings_LabelCheckButton">
+                                    <Size>
+                                        <<AbsPoint x="350" y="32"/>
+                                    </Size>
                                     <Anchors>
-                                        <Anchor point="topright" relativePoint="topleft"
-                                                relativeTo="LowHPPetLabel">
-                                            <AbsPoint x="105" y="-10"/>
+                                        <Anchor point="bottomleft" relativePoint="topleft"
+                                                relativeTo="LowHP">
+                                            <AbsPoint x="0" y="32"/>
                                         </Anchor>
                                     </Anchors>
-                                </ComboBox>
+                                </Window>
 
                                 <Window name="IgnoreSummons" inherits="Settings_LabelCheckButton">
                                     <Size>
@@ -576,8 +535,8 @@
                                     </Size>
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="LowHPPetLabel">
-                                            <AbsPoint x="-26" y="26"/>
+                                                relativeTo="LowHPPet">
+                                            <AbsPoint x="0" y="32"/>
                                         </Anchor>
                                     </Anchors>
                                 </Window>

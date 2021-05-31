@@ -10,29 +10,37 @@ UserContainerSettings.LegacyBackpackStyles = {
 function UserContainerSettings.alternateGrid(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("AlternateGrid", newValue)
+        return newValue
+    else
+        return UserInterfaceVariables.LoadBoolean("AlternateGrid", false)
     end
-    return UserInterfaceVariables.LoadBoolean("AlternateGrid", false)
 end
 
 function UserContainerSettings.gridLegacy(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("GridLegacy", newValue)
+        return newValue
+    else
+        return UserInterfaceVariables.LoadBoolean("GridLegacy", true)
     end
-    return UserInterfaceVariables.LoadBoolean("GridLegacy", true)
 end
 
 function UserContainerSettings.gridContainer(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("EnableContainerGrid", newValue)
+        return newValue
+    else
+        return UserInterfaceVariables.LoadBoolean("EnableContainerGrid", false)
     end
-    return UserInterfaceVariables.LoadBoolean("EnableContainerGrid", false)
 end
 
 function UserContainerSettings.toggleContentsInfo(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("ToggleContentsInfo", newValue)
+        return newValue
+    else
+        return UserInterfaceVariables.LoadBoolean("ToggleContentsInfo", false)
     end
-    return UserInterfaceVariables.LoadBoolean("ToggleContentsInfo", false)
 end
 
 function UserContainerSettings.corpseView(newValue)
@@ -52,30 +60,36 @@ end
 function UserContainerSettings.brightContainers(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("ExtraBrightContainers", newValue)
+        return newValue
+    else
+        return UserInterfaceVariables.LoadBoolean("ExtraBrightContainers", false)
     end
-    return UserInterfaceVariables.LoadBoolean("ExtraBrightContainers", false)
 end
 
 function UserContainerSettings.gridColor(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveColor("BaseGridColor", newValue)
+        return newValue
+    else
+        return UserInterfaceVariables.LoadColor("BaseGridColor", {
+            r = 255,
+            g = 255,
+            b = 255
+        })
     end
-    return UserInterfaceVariables.LoadColor("BaseGridColor", {
-        r = 255,
-        g = 255,
-        b = 255
-    })
 end
 
 function UserContainerSettings.alternateColor(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveColor("AlternateBackpack", newValue)
+        return newValue
+    else
+        return UserInterfaceVariables.LoadColor("AlternateBackpack", {
+            r = 80,
+            g = 80,
+            b = 80
+        })
     end
-    return UserInterfaceVariables.LoadColor("AlternateBackpack", {
-        r = 80,
-        g = 80,
-        b = 80
-    })
 end
 
 function UserContainerSettings.legacyBackPackStyle(newValue)

@@ -168,3 +168,76 @@ function UserInterfaceVariables.LoadColor( settingName, defaultValue )
     end
     return defaultValue
 end
+
+
+-------------------------------------------------------------------------------
+-- Interface.SaveNumber
+-- Description:
+--     Saves a numeric value for a setting
+-- Parameters:
+--     settingName - the name of the setting to be saved
+--     settingValue - the value to be saved
+-------------------------------------------------------------------------------
+function Interface.SaveNumber( settingName, settingValue )
+    -- Check the types of the arguments
+    if type( settingName ) ~= type( "" ) then
+        Debug.Print( "Interface.SaveNumber: settingName must be a string" )
+        return false
+    end
+    if type( settingValue ) ~= type( 0 ) then
+        Debug.Print( "Interface.SaveNumber: \"" .. settingName .. "\" settingValue must be a number" )
+        return false
+    end
+
+    local nNumbers = #SystemData.Settings.Interface.UIVariables.NumberNames
+    if nNumbers <= 0 then
+        table.insert(SystemData.Settings.Interface.UIVariables.NumberNames, settingName)
+        table.insert(SystemData.Settings.Interface.UIVariables.NumberValues, settingValue)
+    else
+        local found = false
+        for i = 1, nNumbers do
+            if SystemData.Settings.Interface.UIVariables.NumberNames[i] == settingName then
+                SystemData.Settings.Interface.UIVariables.NumberValues[i] = settingValue
+                found = true
+                break
+            end
+        end
+        if not found then
+            table.insert(SystemData.Settings.Interface.UIVariables.NumberNames, settingName)
+            table.insert(SystemData.Settings.Interface.UIVariables.NumberValues, settingValue)
+        end
+    end
+
+end
+
+-------------------------------------------------------------------------------
+-- Interface.LoadNumber
+-- Description:
+--     Gets the numeric value of a setting
+-- Parameters:
+--     settingName - the name of the setting
+--     defaultValue - a value to use as a default if it wasn't saved properly
+-- Returns:
+--     The value of the setting if it was saved properly, the default value if
+--     it wasn't saved properly, or nil if it wasn't saved properly and no
+--     default value was provided
+-------------------------------------------------------------------------------
+function Interface.LoadNumber( settingName, defaultValue )
+    -- Check the types of the arguments
+    if type( settingName ) ~= type( "" ) then
+        Debug.Print( "Interface.LoadNumber: settingName must be a string" )
+        return defaultValue
+    end
+
+    if not SystemData.Settings.Interface.UIVariables.NumberNames then
+        return defaultValue
+    end
+
+    local nNumbers = #SystemData.Settings.Interface.UIVariables.NumberNames
+    for i = 1, nNumbers do
+        if SystemData.Settings.Interface.UIVariables.NumberNames[i] == settingName then
+            return SystemData.Settings.Interface.UIVariables.NumberValues[i]
+        end
+    end
+    return defaultValue
+end

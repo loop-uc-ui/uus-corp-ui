@@ -12,8 +12,10 @@ end
 function ComboBoxView:setItems(items)
     for i = 1, #items do
         local option = items[i]
-        if type(option) ~= "string" and type(option) ~= "wstring" then
+        if type(option) == "number" then
             option = StringFormatter.fromTid(option)
+        elseif type(option) == "string" then
+            option = StringFormatter.toWString(option)
         end
         self.items[i] = option
         ComboBoxAddMenuItem(self.id, option)

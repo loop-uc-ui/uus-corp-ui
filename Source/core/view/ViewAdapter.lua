@@ -81,7 +81,9 @@ end
 
 function ViewAdapter:addSlider(id, position)
     local slider = SliderView:new(id)
-    slider:setPosition(position)
+    if position == nil then
+        slider:setPosition(1)
+    end
     self.views[slider.id] = slider
     return self
 end
