@@ -812,7 +812,7 @@ function SnapUtils.ComputeAnchorScreenPositions( windowName )
 end
 
 function SnapUtils.StartWindowSnap( windowName )
-	if ( not Interface.EnableSnapping) then
+	if ( not UserOptionsSettings.enableSnapping()) then
 		WindowSetMoving(windowName,true)
 		return 
 	end

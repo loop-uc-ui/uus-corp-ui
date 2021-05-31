@@ -494,54 +494,6 @@
                                                       function="SettingsOptionsWindow.OnResetUILocButton"/>
                                     </EventHandlers>
                                 </Button>
-
-                                <Window name="$parentCenterScreenTextSubSection"
-                                        inherits="SubSectionLabelTemplate">
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="ResetUILocButton">
-                                            <AbsPoint x="" y="30"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
-                                <Window name="LowHP" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="350" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="$parentCenterScreenTextSubSection">
-                                            <AbsPoint x="0" y="32"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
-                                <Window name="LowHPPet" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <<AbsPoint x="350" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="LowHP">
-                                            <AbsPoint x="0" y="32"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
-                                <Window name="IgnoreSummons" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="350" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="LowHPPet">
-                                            <AbsPoint x="0" y="32"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
-
                             </Windows>
                         </Window>
                     </Windows>

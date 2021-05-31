@@ -87,7 +87,6 @@
 	<Include file="Source/RenameWindow.xml"/>
 	<Include file="Source/Compass.xml"/>
 	<Include file="Source/MapFind.xml"/>
-	<Include file="Source/CenterScreenText.xml"/>
 	<Include file="Source/WarShield.xml"/>
 	<Include file="Source/CrystalPortal.xml"/>
 	<Include file="Source/VendorSearch.xml"/>
@@ -208,7 +207,6 @@
 		<Script file="Source/HuePickerWindow.lua" />
 		<Script file="Source/OverheadText.lua" />		
 		<Script file="Source/settings/window/IgnoreWindow.lua" />
-		<Script file="Source/CenterScreenText.lua" />
 		<Script file="Source/WarShield.lua"/>
 		<Script file="Source/GumpsParsing.lua"/>
 		<Script file="Source/CrystalPortal.lua"/>

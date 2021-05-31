@@ -201,7 +201,7 @@ function PaperdollWindow.Initialize()
 		ButtonSetPressedFlag( windowName.."ToggleCharacterSheet", showing )
 		WindowSetShowing(windowName, true)
     else
-		if Interface.BlockThisPaperdoll[id] or Interface.BlockOthersPaperdoll then
+		if Interface.BlockThisPaperdoll[id] or UserOptionsSettings.blockOthersPaperdoll() then
 			WindowSetOffsetFromParent(windowName, -1000, -1000)
 		else
 			WindowUtils.RestoreWindowPosition(windowName, false,"PaperdollOthers", false )
@@ -228,7 +228,7 @@ function PaperdollWindow.Initialize()
 		PaperdollWindow.GotDamage = true
 	end
 	
-	if (Interface.BlockOthersPaperdoll and id ~= WindowData.PlayerStatus.PlayerId) then
+	if (UserOptionsSettings.blockOthersPaperdoll() and id ~= WindowData.PlayerStatus.PlayerId) then
 		DestroyWindow(windowName)
 		SnapUtils.SnappableWindows[windowName] = nil
 	end
@@ -289,7 +289,7 @@ function PaperdollWindow.Shutdown()
 		end
 		
 	else
-		if not (Interface.BlockThisPaperdoll[paperdollId] or Interface.BlockOthersPaperdoll) then
+		if not (Interface.BlockThisPaperdoll[paperdollId] or UserOptionsSettings.blockOthersPaperdoll()) then
 			WindowUtils.SaveWindowPosition(windowName, false, "PaperdollOthers")
 		end
 	end
@@ -793,7 +793,7 @@ end
 
 function PaperdollWindow.BlockPaperdolls(timePassed)
 	for id, wc in pairs(PaperdollWindow.OpenPaperdolls) do
-		if (Interface.BlockOthersPaperdoll and id ~= WindowData.PlayerStatus.PlayerId) then
+		if (UserOptionsSettings.blockOthersPaperdoll() and id ~= WindowData.PlayerStatus.PlayerId) then
 			DestroyWindow("PaperdollWindow"..id)
 			PaperdollWindow.OpenPaperdolls[id] = nil
 			if id ~= WindowData.CurrentTarget.TargetId then

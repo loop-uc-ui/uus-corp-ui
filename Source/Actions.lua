@@ -1464,21 +1464,17 @@ function Actions.ClearIgnoreList()
 end
 
 function Actions.ToggleBlockPaperdolls()
-
-	if(Interface.BlockOthersPaperdoll) then
-		Interface.BlockOthersPaperdoll = false
-		Interface.SaveBoolean( "BlockOthersPaperdoll", Interface.BlockOthersPaperdoll )
+	if (UserOptionsSettings.BlockOthersPaperdoll) then
+		UserOptionsSettings.blockOthersPaperdoll(false)
 		WindowUtils.ChatPrint(GetStringFromTid(1155226), SystemData.ChatLogFilters.SYSTEM)
 	else
-		Interface.BlockOthersPaperdoll = true
-		Interface.SaveBoolean( "BlockOthersPaperdoll", Interface.BlockOthersPaperdoll )
+		UserOptionsSettings.blockOthersPaperdoll(true)
 		WindowUtils.ChatPrint(GetStringFromTid(1155227), SystemData.ChatLogFilters.SYSTEM)
 	end	
 end
 
 
 function Actions.UndressMe()
-	
 	Actions.OrganizeBag = nil
 	Actions.OrganizeParent = WindowData.PlayerStatus.PlayerId
 	if (not PaperdollWindow.Organize) then

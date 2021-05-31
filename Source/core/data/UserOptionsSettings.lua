@@ -161,15 +161,6 @@ function UserOptionsSettings.showMapCombos(newValue)
     end
 end
 
-function UserOptionsSettings.enableSnapping(newValue)
-    if  newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("EnableSnapping", newValue)
-        return newValue
-    else
-        return UserInterfaceVariables.LoadBoolean("ShowMapCombos", true)
-    end
-end
-
 function UserOptionsSettings.blockOthersPaperdoll(newValue)
     if  newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("BlockOthersPaperdoll", newValue)
@@ -215,33 +206,6 @@ function UserOptionsSettings.autoIgnoreCorpses(newValue)
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("AutoIgnoreCorpses", true)
-    end
-end
-
-function UserOptionsSettings.ignoreSummons(newValue)
-    if  newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("EnableIgnoreSummons", newValue)
-        return newValue
-    else
-        return UserInterfaceVariables.LoadBoolean("EnableIgnoreSummons", true)
-    end
-end
-
-function UserOptionsSettings.showLowHpWarning(newValue)
-    if  newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("LowHPPercDisabled", newValue)
-        return newValue
-    else
-        return UserInterfaceVariables.LoadBoolean("LowHPPercDisabled", true)
-    end
-end
-
-function UserOptionsSettings.showLowPetHpWarning(newValue)
-    if  newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("LowHPPETPercDisabled", newValue)
-        return newValue
-    else
-        return UserInterfaceVariables.LoadBoolean("LowHPPETPercDisabled", true)
     end
 end
 

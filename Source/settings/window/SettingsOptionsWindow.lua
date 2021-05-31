@@ -26,13 +26,10 @@ local CHECK_BOXES = {
     BlockWarOnGuild = "BlockWarOnGuildButton",
     ToggleWarShield = "ToggleWarShieldButton",
     AutoIgnoreCorpses = "AutoIgnoreCorpsesButton",
-    IgnoreSummons = "IgnoreSummonsButton",
     ToolTips = "TooltipsButton",
     PartyInvitePopUp = "PartyInvitePopUpButton",
     ToggleWindowSnap = "ToggleWindowSnapButton",
-    EnableChatLog = "EnableChatLogButton",
-    LowPetHPWarning = "LowHPPetButton",
-    LowHPWarning = "LowHPButton"
+    EnableChatLog = "EnableChatLogButton"
 }
 
 local SLIDERS = {
@@ -99,12 +96,6 @@ function SettingsOptionsWindow.Initialize()
             :addCheckBox(CHECK_BOXES.ToggleWarShield)
             :addLabel("AutoIgnoreCorpsesLabel", 1156263)
             :addCheckBox(CHECK_BOXES.AutoIgnoreCorpses)
-            :addLabel("LowHPLabel", 1155306)
-            :addCheckBox(CHECK_BOXES.LowHPWarning)
-            :addLabel("LowHPPetLabel", 1155307)
-            :addCheckBox(CHECK_BOXES.LowPetHPWarning)
-            :addLabel("IgnoreSummonsLabel", 1155311)
-            :addCheckBox(CHECK_BOXES.IgnoreSummons)
             :addLabel("UiScaleText", 1079205)
             :addLabel("GenericGumpScaleText", 1158011)
             :addLabel("TooltipsLabel", 1115211)
@@ -198,7 +189,6 @@ function SettingsOptionsWindow.UpdateSettings()
     adapter.views[CHECK_BOXES.BlockWarOnGuild]:setChecked(UserOptionsSettings.blockWarOnFriendly())
     adapter.views[CHECK_BOXES.ToggleWarShield]:setChecked(UserOptionsSettings.showWarShield())
     adapter.views[CHECK_BOXES.AutoIgnoreCorpses]:setChecked(UserOptionsSettings.autoIgnoreCorpses())
-    adapter.views[CHECK_BOXES.IgnoreSummons]:setChecked(UserOptionsSettings.ignoreSummons())
     adapter.views[CHECK_BOXES.ToggleWindowSnap]:setChecked(UserOptionsSettings.enableSnapping())
 end
 
@@ -231,10 +221,7 @@ function SettingsOptionsWindow.OnApplyButton()
     UserOptionsSettings.blockWarOnFriendly(adapter.views[CHECK_BOXES.BlockWarOnGuild]:isChecked())
     UserOptionsSettings.showWarShield(adapter.views[CHECK_BOXES.ToggleWarShield]:isChecked())
     UserOptionsSettings.autoIgnoreCorpses(adapter.views[CHECK_BOXES.AutoIgnoreCorpses]:isChecked())
-    UserOptionsSettings.ignoreSummons(adapter.views[CHECK_BOXES.IgnoreSummons]:isChecked())
     UserOptionsSettings.enableSnapping(adapter.views[CHECK_BOXES.ToggleWindowSnap]:isChecked())
-    UserOptionsSettings.showLowHpWarning(adapter.views[CHECK_BOXES.LowHPWarning]:isChecked())
-    UserOptionsSettings.showLowPetHpWarning(adapter.views[CHECK_BOXES.LowPetHPWarning]:isChecked())
 
     UserOptionsSettings.uiScale(adapter.views[SLIDERS.UiScale]:getPosition() / 2 + 0.5)
     UserOptionsSettings.genericGumpScale(((adapter.views[SLIDERS.GenericGumpScale]:getPosition() * 0.115) + 0.885) * 1.2)

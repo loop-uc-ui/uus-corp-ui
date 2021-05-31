@@ -356,7 +356,6 @@ Interface.StatusWindowStyle = 0
 Interface.StatusButtons = true
 Interface.AuraEnabled = true
 Interface.EnableMobileArrow = true
-Interface.HeartBeat = true -- Not available on the settings window at the moment.
 
 -- MobileHealthBar.LegacyCloseStyle
 -- MobileHealthBar.PetLegacyCloseStyle
@@ -408,29 +407,11 @@ Interface.OverhedTextSize = InterfaceCore.scale
 -- positive/negative messages colors
 
 ----------------------------------------------------------------
--- MISC: (options tab)
-----------------------------------------------------------------
-
-Interface.BlockOthersPaperdoll = false
-Interface.EnableSnapping = true
--- block war on pets
--- block war on party
--- block war on guild
-Interface.WarShield = true
--- -- CENTER SCREEN TEXT --
---CenterScreenText.EnableIgnoreSummons
---CenterScreenText.LowHPPercDisabled
---CenterScreenText.LowHPPETPercDisabled
--- CenterScreenText.LowHPPerc
--- CenterScreenText.LowPETHPPerc
-
-----------------------------------------------------------------
 --
 -- INTERFACE STARTUP
 --
 ----------------------------------------------------------------
 function Interface.CreatePlayWindowSet()
-
 	if Interface.DebugMode then
 		WindowSetShowing("DebugWindow", true)
 		if not DebugWindow.logging then
@@ -550,9 +531,7 @@ function Interface.LoadVariables()
 	Interface.TokensReceived =							Interface.LoadNumber( "TokensReceived" , Interface.TokensReceived )
 	
 	ActionsWindow.CurrentGroup =						Interface.LoadNumber( "ActionsWindowCurrentGroup", ActionsWindow.CurrentGroup )
-		
-	Interface.BlockOthersPaperdoll =					Interface.LoadBoolean( "BlockOthersPaperdoll", Interface.BlockOthersPaperdoll ) 
-	
+
 	Interface.TrapBoxID = 								Interface.LoadNumber( "TrapBoxID" , Interface.TrapBoxID )
 	Interface.LootBoxID = 								Interface.LoadNumber( "LootBoxID" , Interface.LootBoxID )
 	
@@ -570,19 +549,7 @@ function Interface.LoadVariables()
 	Interface.NewPlayerWarToggled =						Interface.LoadBoolean( "NewPlayerWarToggled", Interface.NewPlayerWarToggled ) 
 		
 	Interface.LockChatLine = 							Interface.LoadBoolean( "LockChatLine" , Interface.LockChatLine )
-	
-	Interface.EnableSnapping = 							Interface.LoadBoolean( "EnableSnapping" , Interface.EnableSnapping )
-	
-	SystemData.Settings.GameOptions.noWarOnPets =		Interface.LoadBoolean( "noWarOnPets" , true )
-	SystemData.Settings.GameOptions.noWarOnParty =		Interface.LoadBoolean( "noWarOnParty" , true )
-	SystemData.Settings.GameOptions.noWarOnFriendly =	Interface.LoadBoolean( "noWarOnFriendly" , true )
-	
-	CenterScreenText.EnableIgnoreSummons =				Interface.LoadBoolean( "EnableIgnoreSummons" , CenterScreenText.EnableIgnoreSummons )
-	CenterScreenText.LowHPPercDisabled =				Interface.LoadBoolean( "LowHPPercDisabled" , CenterScreenText.LowHPPercDisabled )
-	CenterScreenText.LowHPPETPercDisabled =				Interface.LoadBoolean( "LowHPPETPercDisabled" , CenterScreenText.LowHPPETPercDisabled )
-	CenterScreenText.LowHPPerc =						Interface.LoadNumber( "LowHPPerc" , CenterScreenText.LowHPPerc )
-	CenterScreenText.LowPETHPPerc =						Interface.LoadNumber( "LowPETHPPerc" , CenterScreenText.LowPETHPPerc )
-	
+
 	Interface.StatusButtons =							Interface.LoadBoolean( "StatusButtons" , Interface.StatusButtons )
 	Interface.AuraEnabled =								Interface.LoadBoolean( "AuraEnabled" , Interface.AuraEnabled )
 	SystemData.Settings.GameOptions.showStrLabel =		Interface.LoadBoolean( "StatusLabels", true ) 
@@ -639,7 +606,6 @@ function Interface.LoadVariables()
 	SpellsInfo.ENERGY  =								Interface.LoadColor("SpellsInfoENERGY",SpellsInfo.ENERGY)
 	SpellsInfo.Chaos  =									Interface.LoadColor("SpellsInfoChaos",SpellsInfo.Chaos)
 	
-	Interface.WarShield =								Interface.LoadBoolean( "WarShield", Interface.WarShield )
 	ContainerWindow.EnableAutoIgnoreCorpses =			Interface.LoadBoolean( "AutoIgnoreCorpses", ContainerWindow.EnableAutoIgnoreCorpses)
 	
 	Interface.ForceEnchant =							Interface.LoadNumber("ForceEnchant", Interface.ForceEnchant)
@@ -649,8 +615,6 @@ function Interface.LoadVariables()
 	Interface.ForceFamiliar =							Interface.LoadNumber("ForceFamiliar", Interface.ForceFamiliar)
 	
 	Interface.AllowTrades =								Interface.LoadBoolean( "AllowTrades", Interface.AllowTrades )
-	
-	
 end
 
 function Interface.CreateWindows()
@@ -684,8 +648,7 @@ function Interface.CreateWindows()
 	CreateWindow( "MobilesOnScreenWindow", true)
 	CreateWindow( "Compass", false)
 	CreateWindow( "MapFindWindow", false)
-	CreateWindow( "CenterScreenText", true)
-	CreateWindow( "WarShield", Interface.WarShield)
+	CreateWindow( "WarShield", UserOptionsSettings.showWarShield())
 	CreateWindow( "CrystalPortal", false)
 	Interface.CreateTCTools()
 end
@@ -986,9 +949,6 @@ function Interface.Update( timePassed )
 	
 	ok, err = pcall(Interface.ClearWindowData, timePassed)	
 	Interface.ErrorTracker(ok, err)
-		
-	ok, err = pcall(CenterScreenText.OnUpdate, timePassed)	
-	Interface.ErrorTracker(ok, err)
 	
 	ok, err = pcall(Interface.SOSWaypointsCleaner, timePassed)	
 	Interface.ErrorTracker(ok, err)
@@ -1019,11 +979,6 @@ function Interface.Update( timePassed )
 
 		ok, err = pcall(TrackingPointer.UpdateAll, timePassed)	
 		Interface.ErrorTracker(ok, err)
-
-		if WindowData.PlayerStatus.PlayerId ~= 0 then
-			ok, err = pcall(Interface.LowHPManager, timePassed)	
-			Interface.ErrorTracker(ok, err)
-		end
 	
 		Interface.DeltaTime = 0
 	end	
@@ -1564,96 +1519,6 @@ Interface.Beat = false
 Interface.BeatSoundStartDelta = 0 
 Interface.BeatSoundLength = 0
 
-function Interface.LowHPManager(timePassed)
-	local curr = WindowData.PlayerStatus.CurrentHealth
-	local max = WindowData.PlayerStatus.MaxHealth
-	local perc = (curr/max)*100
-	if (max == 0) then
-		perc = 100
-	end
-	perc = math.floor(perc)	
-	if (perc <= CenterScreenText.LowHPPerc and not IsPlayerDead()) and not CenterScreenText.LOWHPMEStarted then
-		CenterScreenText.SendCenterScreenTexture("lowhp")
-		CenterScreenText.LOWHPMEStarted = true
-		CenterScreenText.LOWHPPetStarted = false
-	elseif(perc > CenterScreenText.LowHPPerc or IsPlayerDead()) and CenterScreenText.LOWHPMEStarted then
-		CenterScreenText.LOWHPMEStarted = false
-		WindowStopAlphaAnimation("CenterScreenTextImage")
-		WindowSetAlpha("CenterScreenTextImage", 0)
-
-	end
-
-	if (Interface.HeartBeat) then
-		
-		if (perc <= 50 and not IsPlayerDead()) then
-			Interface.BeatSoundStartDelta = Interface.BeatSoundStartDelta + timePassed
-			local changeBeat = false
-
-			if (perc >35 and perc <= 50 and not Interface.BeatSlow) then
-				Interface.BeatSlow = true
-				Interface.BeatMed = false
-				Interface.BeatFast = false
-				changeBeat = true
-			end
-			if (perc >20 and perc <= 35 and not Interface.BeatMed) then
-				Interface.BeatSlow = false
-				Interface.BeatMed = true
-				Interface.BeatFast = false
-				changeBeat = true
-			end
-			if (perc >0 and perc <= 20 and not Interface.BeatFast) then
-				Interface.BeatSlow = false
-				Interface.BeatMed = false
-				Interface.BeatFast = true
-				changeBeat = true
-			end
-			if Interface.BeatSoundStartDelta >= Interface.BeatSoundLength then
-				changeBeat = true
-			end
-			if (changeBeat) then
-				--PlaySound(2, 0, WindowData.PlayerLocation.x, WindowData.PlayerLocation.y, WindowData.PlayerLocation.z)
-				if (Interface.BeatSlow ) then
-					--PlaySound(1, 1657 ,WindowData.PlayerLocation.x, WindowData.PlayerLocation.y, WindowData.PlayerLocation.z)
-					--Debug.Print("BEATSLOW")
-					Interface.BeatSoundLength = 48
-				elseif (Interface.BeatMed) then
-					--PlaySound(1, 1656 ,WindowData.PlayerLocation.x, WindowData.PlayerLocation.y, WindowData.PlayerLocation.z)
-					--Debug.Print("BEATMED")
-					Interface.BeatSoundLength = 58
-				elseif (Interface.BeatFast) then
-					--PlaySound(1, 1655 ,WindowData.PlayerLocation.x, WindowData.PlayerLocation.y, WindowData.PlayerLocation.z)
-					--Debug.Print("BEATFAST")
-					Interface.BeatSoundLength = 120
-				end
-				Interface.BeatSoundStartDelta = 0
-			end
-			Interface.Beat = true
-		else
-			if (Interface.Beat) then
-				--PlaySound(2, 0, WindowData.PlayerLocation.x, WindowData.PlayerLocation.y, WindowData.PlayerLocation.z)
-				Interface.Beat = false
-				Interface.BeatSlow = false
-				Interface.BeatMed = false
-				Interface.BeatFast = false
-			end
-			Interface.BeatSoundStartDelta = 0
-			Interface.BeatSoundLength = 0
-		end
-		
-		
-	elseif( IsPlayerDead() ) then
-		if (Interface.Beat) then
-		--	PlaySound(2, 0, WindowData.PlayerLocation.x, WindowData.PlayerLocation.y, WindowData.PlayerLocation.z)
-			Interface.Beat = false
-			Interface.BeatSlow = false
-			Interface.BeatMed = false
-			Interface.BeatFast = false
-		end
-		Interface.BeatSoundStartDelta = 0
-		Interface.BeatSoundLength = 0
-	end
-end
-
 function Interface.ClearWindowData(timePassed)
 	for mobileId, value in pairs(WindowData.MobileName) do
 		if tonumber(mobileId) and mobileId ~= WindowData.PlayerStatus.PlayerId and mobileId ~= WindowData.CurrentTarget.TargetId then
@@ -1701,10 +1566,6 @@ function Interface.NewChatText()
 	Interface.ErrorTracker(ok, err)
 	
 	ok, err = pcall(TextParsing.Taunts)
-	Interface.ErrorTracker(ok, err)
-	
-		
-	ok, err = pcall(TextParsing.CenterScreenText, timePassed)	
 	Interface.ErrorTracker(ok, err)
 	
 	if (SystemData.TextSourceID == WindowData.PlayerStatus.PlayerId) then
