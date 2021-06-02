@@ -16,7 +16,10 @@ The mod's guiding principles are:
 Current phase: The mod is still in early phases. 
 I am currently refactoring all modules and cleaning up code.
 
-Disclaimer: I'm not a fan of the Enhanced Client or the lua language. I don't trust the client or the default UI codebase. To that end, I'm basing what I'd like to see from the client more on Classic Client re-implementations than on the Enhanced Client itself, so you're going to see a lot of things removed. Wherever I've removed things, I've asked the following questions:
+[Release Status](https://github.com/loop-uc-ui/uus-corp-ui/projects)
+[Milestones](https://github.com/loop-uc-ui/uus-corp-ui/milestones)
+
+Disclaimer: I'm not a fan of the Enhanced Client or the Lua language. I don't trust the client or the default UI codebase. To that end, I'm basing what I'd like to see from the client more on Classic Client re-implementations than on the Enhanced Client itself, so you're going to see a lot of things removed. Wherever I've removed things, I've asked the following questions:
 
 * Is it buggy?
 * Does it really add value, or does it just add noise?
