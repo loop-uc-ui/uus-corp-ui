@@ -249,7 +249,7 @@ function SettingsHealthBarsWindow.OnApplyButton()
     UserHealthBarsSettings.blueButtonSpell3(
             SPELLS[adapter.views[COMBO_BOXES.Blue3]:getSelectedItem()].SpellId
     )
-    
+
     if (updateHealthbars) then
         for key, _ in pairs(MobileHealthBar.hasWindow) do
             MobileHealthBar.UpdateStatus(key)

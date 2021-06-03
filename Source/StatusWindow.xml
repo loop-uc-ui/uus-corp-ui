@@ -162,7 +162,7 @@
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
-                            <AbsPoint x="12" y="0"/>
+                            <AbsPoint x="20" y="1"/>
                         </Anchor>
                     </Anchors>
                     <TexCoords>
@@ -184,7 +184,7 @@
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentRedButton">
-                            <AbsPoint x="20" y="0"/>
+                            <AbsPoint x="20" y="-1"/>
                         </Anchor>
                     </Anchors>
                     <TexCoords>
@@ -207,7 +207,7 @@
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentGreenButton">
-                            <AbsPoint x="20" y="0"/>
+                            <AbsPoint x="20" y="-1"/>
                         </Anchor>
                     </Anchors>
                     <TexCoords>

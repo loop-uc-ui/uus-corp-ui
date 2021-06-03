@@ -46,7 +46,7 @@
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
                                                 relativeTo="$parentStatusWindowSubSection">
-                                            <AbsPoint x="-26" y="32"/>
+                                            <AbsPoint x="0" y="48"/>
                                         </Anchor>
                                     </Anchors>
                                 </Window>
