@@ -30,6 +30,15 @@ function ComboBoxView:setSelectedItem(item)
     ComboBoxSetSelectedMenuItem(self.id, item)
 end
 
+function ComboBoxView:findItem(find)
+    for i = 1, #self.items do
+        if find(self.items[i]) then
+            self:setSelectedItem(i)
+            break;
+        end
+    end
+end
+
 function ComboBoxView:getSelectedItem()
     return ComboBoxGetSelectedMenuItem(self.id)
 end

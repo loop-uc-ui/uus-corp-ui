@@ -178,7 +178,7 @@ end
 --     settingName - the name of the setting to be saved
 --     settingValue - the value to be saved
 -------------------------------------------------------------------------------
-function Interface.SaveNumber( settingName, settingValue )
+function UserInterfaceVariables.SaveNumber( settingName, settingValue )
     -- Check the types of the arguments
     if type( settingName ) ~= type( "" ) then
         Debug.Print( "Interface.SaveNumber: settingName must be a string" )
@@ -222,7 +222,7 @@ end
 --     it wasn't saved properly, or nil if it wasn't saved properly and no
 --     default value was provided
 -------------------------------------------------------------------------------
-function Interface.LoadNumber( settingName, defaultValue )
+function UserInterfaceVariables.LoadNumber( settingName, defaultValue )
     -- Check the types of the arguments
     if type( settingName ) ~= type( "" ) then
         Debug.Print( "Interface.LoadNumber: settingName must be a string" )

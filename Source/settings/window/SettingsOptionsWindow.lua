@@ -51,7 +51,6 @@ function SettingsOptionsWindow.Initialize()
 
     adapter:addLabel("SettingsOptionsMapOptionsSubSectionLabel", 1155405)
             :addLabel("SettingsOptionsGameOptionsSubSectionLabel", 1094695)
-            :addLabel("SettingsOptionsCenterScreenTextSubSectionLabel", 1155428)
             :addLabel("SettingsOptionsInterfaceSubSectionLabel", 3000395)
             :addLabel("SettingsOptionsSystemSubSectionLabel", 1078905)
             :addLabel("SettingsOptionsLanguageLabel", 1077824)

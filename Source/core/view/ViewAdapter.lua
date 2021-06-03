@@ -65,8 +65,8 @@ function ViewAdapter:addComboBox(
 )
     local comboBox = ComboBoxView:new(id)
     comboBox:setItems(items)
-    if selectedItem ~= nil then
-        comboBox:setSelectedItem(selectedItem)
+    if selectedItem == nil then
+        comboBox:setSelectedItem(1)
     end
     self.views[comboBox.id] = comboBox
     return self

@@ -363,19 +363,8 @@ Interface.ShowCloseExtract = true
 Interface.HealthBarWod = true
 
 Interface.RedDef = 1
-Interface.RedButton = 29
-Interface.RedButton2 = 59
-Interface.RedButton3 = 0
-
 Interface.GreenDef = 1
-Interface.GreenButton = 25
-Interface.GreenButton2 = 17
-Interface.GreenButton3 = 0
-
 Interface.BlueDef = 1
-Interface.BlueButton = 44
-Interface.BlueButton2 = 6
-Interface.BlueButton3 = 0
 
 
 ----------------------------------------------------------------
@@ -485,19 +474,7 @@ function Interface.LoadVariables()
 	Interface.ShowMapCombos =							Interface.LoadBoolean( "ShowMapCombos", Interface.ShowMapCombos )
 	
 	Interface.AuraEnabled =								Interface.LoadBoolean( "AuraEnabled", Interface.AuraEnabled )
-	
-	Interface.RedButton =								Interface.LoadNumber( "RedButton", Interface.RedButton )
-	Interface.GreenButton =								Interface.LoadNumber( "GreenButton", Interface.GreenButton )
-	Interface.BlueButton =								Interface.LoadNumber( "BlueButton", Interface.BlueButton )
-	
-	Interface.RedButton2 =								Interface.LoadNumber( "RedButton2", Interface.RedButton2 )
-	Interface.GreenButton2 =							Interface.LoadNumber( "GreenButton2", Interface.GreenButton2 )
-	Interface.BlueButton2 =								Interface.LoadNumber( "BlueButton2", Interface.BlueButton2 )
 
-	Interface.RedButton3 =								Interface.LoadNumber( "RedButton3", Interface.RedButton3 )
-	Interface.GreenButton3 =							Interface.LoadNumber( "GreenButton3", Interface.GreenButton3 )
-	Interface.BlueButton3 =								Interface.LoadNumber( "BlueButton3", Interface.BlueButton3 )
-	
 	Interface.RedDef =									Interface.LoadNumber( "RedDef", Interface.RedDef )
 	Interface.GreenDef =								Interface.LoadNumber( "GreenDef", Interface.GreenDef )
 	Interface.BlueDef =									Interface.LoadNumber( "BlueDef", Interface.BlueDef )
@@ -559,23 +536,7 @@ function Interface.LoadVariables()
 	MobileHealthBar.PetLegacyCloseStyle =				Interface.LoadBoolean( "PetLegacyCloseStyle", MobileHealthBar.PetLegacyCloseStyle ) 
 	Interface.ShowCloseExtract =						Interface.LoadBoolean( "ShowCloseExtract", Interface.ShowCloseExtract ) 
 	Interface.HealthBarWod =							Interface.LoadBoolean( "HealthBarWod", Interface.HealthBarWod ) 
-	
-	Interface.RedButton =								Interface.LoadNumber( "RedButton", Interface.RedButton )
-	Interface.GreenButton = 							Interface.LoadNumber( "GreenButton", Interface.GreenButton )
-	Interface.BlueButton =								Interface.LoadNumber( "BlueButton", Interface.BlueButton )
-	
-	Interface.RedButton2 =								Interface.LoadNumber( "RedButton2", Interface.RedButton2 )
-	Interface.GreenButton2 =							Interface.LoadNumber( "GreenButton2", Interface.GreenButton2 )
-	Interface.BlueButton2 =								Interface.LoadNumber( "BlueButton2", Interface.BlueButton2 )
 
-	Interface.RedButton3 =								Interface.LoadNumber( "RedButton3", Interface.RedButton3 )
-	Interface.GreenButton3 =							Interface.LoadNumber( "GreenButton3", Interface.GreenButton3 )
-	Interface.BlueButton3 =								Interface.LoadNumber( "BlueButton3", Interface.BlueButton3 )
-	
-	Interface.RedDef =									Interface.LoadNumber( "RedDef", Interface.RedDef )
-	Interface.GreenDef =								Interface.LoadNumber( "GreenDef", Interface.GreenDef )
-	Interface.BlueDef =									Interface.LoadNumber( "BlueDef", Interface.BlueDef )
-	
 	Interface.ShowSpellName =							Interface.LoadBoolean( "ShowSpellName", Interface.ShowSpellName )
 	Interface.DisableSpells =							Interface.LoadBoolean( "DisableSpells", Interface.DisableSpells )
 	Interface.noPoisonOthers =							Interface.LoadBoolean( "noPoisonOthers", Interface.noPoisonOthers )
