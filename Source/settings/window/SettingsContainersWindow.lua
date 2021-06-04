@@ -69,23 +69,17 @@ function SettingsContainersWindow.Initialize()
 end
 
 function SettingsContainersWindow.UpdateSettings()
-    local containerViewComboBox = adapter.views[ComboBoxes.ContainerView]
-
-    for i = 1, #containerViewComboBox.items do
-        if containerViewComboBox.items[i] == UserContainerSettings.containerView() then
-            containerViewComboBox:setSelectedItem(i)
-            break
+    adapter.views[ComboBoxes.ContainerView]:findItem(
+        function (item)
+            return item == StringFormatter.toWString(UserContainerSettings.containerView())
         end
-    end
+    )
 
-    local corpseComboBox = adapter.views[ComboBoxes.CorpseView]
-
-    for i = 1, #corpseComboBox.items do
-        if corpseComboBox.items[i] == UserContainerSettings.corpseView() then
-            corpseComboBox:setSelectedItem(i)
-            break
-        end
-    end
+    adapter.views[ComboBoxes.CorpseView]:findItem(
+            function (item)
+                return item == StringFormatter.toWString(UserContainerSettings.corpseView())
+            end
+    )
 
     isAlternateGrid = UserContainerSettings.alternateGrid()
     isExtraBrightContainer = UserContainerSettings.brightContainers()
@@ -117,6 +111,7 @@ function SettingsContainersWindow.UpdateSettings()
     )
 
     adapter.views[CheckBoxes.UseLegacyContainers]:setChecked(isUseLegacyContainers)
+
     currentBackPackStyle = UserContainerSettings.legacyBackPackStyle()
     for i = 1, #UserContainerSettings.LegacyBackpackStyles do
         if UserContainerSettings.LegacyBackpackStyles[i] == currentBackPackStyle then
