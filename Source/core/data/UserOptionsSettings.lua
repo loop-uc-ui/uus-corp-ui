@@ -152,15 +152,6 @@ function UserOptionsSettings.enableChatLog(newValue)
     return SystemData.Settings.GameOptions.enableChatLog
 end
 
-function UserOptionsSettings.showMapCombos(newValue)
-    if  newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("ShowMapCombos", newValue)
-        return newValue
-    else
-        return UserInterfaceVariables.LoadBoolean("ShowMapCombos", true)
-    end
-end
-
 function UserOptionsSettings.blockOthersPaperdoll(newValue)
     if  newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("BlockOthersPaperdoll", newValue)

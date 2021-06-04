@@ -10,7 +10,6 @@ local COMBO_BOXES = {
 
 local CHECK_BOXES = {
     EnglishNames = "SettingsOptionsEnglishNamesButton",
-    ToggleMap = "ToggleMapComboButton",
     AlwaysRun = "AlwaysRunButton",
     AutoRun = "EnableAutorunButton",
     PathFinding = "EnablePathfindingButton",
@@ -49,8 +48,7 @@ function SettingsOptionsWindow.Initialize()
         end
     end
 
-    adapter:addLabel("SettingsOptionsMapOptionsSubSectionLabel", 1155405)
-            :addLabel("SettingsOptionsGameOptionsSubSectionLabel", 1094695)
+    adapter:addLabel("SettingsOptionsGameOptionsSubSectionLabel", 1094695)
             :addLabel("SettingsOptionsInterfaceSubSectionLabel", 3000395)
             :addLabel("SettingsOptionsSystemSubSectionLabel", 1078905)
             :addLabel("SettingsOptionsLanguageLabel", 1077824)
@@ -63,8 +61,6 @@ function SettingsOptionsWindow.Initialize()
             :addLabel("SettingsOptionsEnglishNamesLabel", 1115913)
             :addCheckBox(CHECK_BOXES.EnglishNames)
             :addLabel("SettingsOptionsCacheSizeText", 1079480)
-            :addLabel("ToggleMapComboLabel", 1155294)
-            :addCheckBox(CHECK_BOXES.ToggleMap)
             :addLabel("AlwaysRunLabel", 1078078)
             :addCheckBox(CHECK_BOXES.AlwaysRun)
             :addLabel("EnableAutorunLabel", 1115321)
@@ -180,7 +176,6 @@ function SettingsOptionsWindow.UpdateSettings()
     adapter.views[CHECK_BOXES.ToolTips]:setChecked(UserOptionsSettings.showTooltips())
     adapter.views[CHECK_BOXES.PartyInvitePopUp]:setChecked(UserOptionsSettings.partyInvitePopUp())
     adapter.views[CHECK_BOXES.EnableChatLog]:setChecked(UserOptionsSettings.enableChatLog())
-    adapter.views[CHECK_BOXES.ToggleMap]:setChecked(UserOptionsSettings.showMapCombos())
     adapter.views[CHECK_BOXES.ToggleWindowSnap]:setChecked(UserOptionsSettings.enableSnapping())
     adapter.views[CHECK_BOXES.BlockOthersPaperdolls]:setChecked(UserOptionsSettings.blockOthersPaperdoll())
     adapter.views[CHECK_BOXES.BlockWarOnPets]:setChecked(UserOptionsSettings.blockWarOnPets())
@@ -213,7 +208,6 @@ function SettingsOptionsWindow.OnApplyButton()
     UserOptionsSettings.showTooltips(adapter.views[CHECK_BOXES.ToolTips]:isChecked())
     UserOptionsSettings.partyInvitePopUp(adapter.views[CHECK_BOXES.PartyInvitePopUp]:isChecked())
     UserOptionsSettings.enableChatLog(adapter.views[CHECK_BOXES.EnableChatLog]:isChecked())
-    UserOptionsSettings.showMapCombos(adapter.views[CHECK_BOXES.ToggleMap]:isChecked())
     UserOptionsSettings.blockOthersPaperdoll(adapter.views[CHECK_BOXES.BlockOthersPaperdolls]:isChecked())
     UserOptionsSettings.blockWarOnPets(adapter.views[CHECK_BOXES.BlockWarOnPets]:isChecked())
     UserOptionsSettings.blockWarOnParty(adapter.views[CHECK_BOXES.BlockWarOnParty]:isChecked())
@@ -227,9 +221,6 @@ function SettingsOptionsWindow.OnApplyButton()
     UserOptionsSettings.cacheSize(adapter.views[SLIDERS.CacheSize]:getPosition() * 1024)
 
     WindowSetShowing("WarShield",UserOptionsSettings.showWarShield())
-
-    --TODO this is spaghetti, remove when we refactor MapWindow
-    MapWindow.ToggleCombos(UserOptionsSettings.showMapCombos())
 end
 
 --TODO move this when we've refactored everything

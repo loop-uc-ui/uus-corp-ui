@@ -115,17 +115,15 @@ function MapWindow.Initialize()
 	WindowAddAnchor("MapCompass", "topright", "MapWindowPlayerCoordsText", "topright", 0, - (y*scale))
 end
 
-function MapWindow.ToggleCombos(value)
-	UserOptionsSettings.showMapCombos(value)
-	local showMapCombos = UserOptionsSettings.showMapCombos()
-	WindowSetShowing("MapWindowFacetCombo", showMapCombos)
-	WindowSetShowing("MapWindowFacetNextButton", showMapCombos)
-	WindowSetShowing("MapWindowFacetPrevButton", showMapCombos)
-	WindowSetShowing("MapWindowAreaCombo", showMapCombos)
-	WindowSetShowing("MapWindowAreaNextButton", showMapCombos)
-	WindowSetShowing("MapWindowAreaPrevButton", showMapCombos)
+function MapWindow.ToggleCombos()
+	WindowSetShowing("MapWindowFacetCombo", MapWindow.Big)
+	WindowSetShowing("MapWindowFacetNextButton", MapWindow.Big)
+	WindowSetShowing("MapWindowFacetPrevButton", MapWindow.Big)
+	WindowSetShowing("MapWindowAreaCombo", MapWindow.Big)
+	WindowSetShowing("MapWindowAreaNextButton", MapWindow.Big)
+	WindowSetShowing("MapWindowAreaPrevButton", MapWindow.Big)
 	WindowClearAnchors("Map")
-	if (not showMapCombos) then
+	if (not MapWindow.Big) then
 		WindowAddAnchor("Map", "topleft", "MapWindow", "topleft", 12, 35 )
 		WindowAddAnchor("Map", "bottomright", "MapWindow", "bottomright", -12, -13 )
 		MapWindow.MAP_HEIGHT_DIFFERENCE = MapWindow.MAP_HEIGHT_DIFFERENCE -55
@@ -134,7 +132,7 @@ function MapWindow.ToggleCombos(value)
 		WindowAddAnchor("Map", "bottom", "MapWindowAreaCombo", "top", 0, 3 )
 		local windowWidth, windowHeight = WindowGetDimensions("MapWindow")
 		WindowSetDimensions("Map", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)
-		
+
 	end
 end
 
@@ -303,9 +301,7 @@ function MapWindow.ActivateMap()
     
     MapWindow.UpdateMap()
     MapWindow.UpdateWaypoints()
-
-    MapWindow.ToggleCombos(UserOptionsSettings.showMapCombos())
-
+	MapWindow.ToggleCombos()
 end
 
 -----------------------------------------------------------------
@@ -463,11 +459,11 @@ function MapWindow.MapOnRButtonUp(flags,x,y)
 		ContextMenu.CreateLuaContextMenuItem(MapCommon.TID.CreateWaypoint,0,MapCommon.ContextReturnCodes.CREATE_WAYPOINT,params)
 		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(1154860),0,"magnetize", params,false)
 
-		if (not UserOptionsSettings.showMapCombos()) then
+		if (not MapWindow.Big) then
 			ContextMenu.CreateLuaContextMenuItemWithString(L"",0,0,"null",false)
 		end
 	end
-	if (not UserOptionsSettings.showMapCombos()) then
+	if (not MapWindow.Big) then
 		local subMenu = {}
 		local currfacet = UOGetRadarFacet()
 		for facet = 0, (MapCommon.NumFacets - 1) do
@@ -669,9 +665,7 @@ function MapWindow.BigToggle()
 		MapWindow.OnResizeEnd("MapWindow")
 		WindowSetScale("MapWindow", SystemData.Settings.Interface.customUiScale * 0.80)
 		WindowUtils.LoadScale( "MapWindow" )
-		
-		MapWindow.ComboBCK = UserOptionsSettings.showMapCombos()
-		MapWindow.ToggleCombos(true)
+		MapWindow.ToggleCombos()
 		WindowClearAnchors("MapWindow")
 		WindowAddAnchor("MapWindow", "center", "Root", "center",0,0)
 		WindowUtils.RestoreWindowPosition("MapWindow", false, "mapwindowBig")
@@ -687,7 +681,7 @@ function MapWindow.BigToggle()
 		MapWindow.OnResizeEnd("MapWindow")
 		WindowSetScale("MapWindow", SystemData.Settings.Interface.customUiScale * 0.80)
 		WindowUtils.LoadScale( "MapWindow" )
-		MapWindow.ToggleCombos(MapWindow.ComboBCK)
+		MapWindow.ToggleCombos()
 		WindowSetShowing("MapWindow".."ResizeButton", true)
 		WindowUtils.RestoreWindowPosition("MapWindow", true)
 		MapCommon.ForcedUpdate = true

@@ -127,26 +127,6 @@
                                     </Anchors>
                                 </Window>
 
-                                <Window name="$parentMapOptionsSubSection" inherits="SubSectionLabelTemplate">
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="$parentCacheSize">
-                                            <AbsPoint x="-26" y="30"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
-                                <Window name="ToggleMapCombo" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="320" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="$parentMapOptionsSubSection">
-                                            <AbsPoint x="0" y="32"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
                                 <!--
                                 <Window name="ToggleCartographer" inherits="Settings_LabelCheckButton" >
                                     <Size>
@@ -162,8 +142,8 @@
                                 <Window name="$parentGameOptionsSubSection" inherits="SubSectionLabelTemplate">
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="ToggleMapCombo">
-                                            <AbsPoint x="0" y="30"/>
+                                                relativeTo="$parentCacheSize">
+                                            <AbsPoint x="-26" y="30"/>
                                         </Anchor>
                                     </Anchors>
                                 </Window>

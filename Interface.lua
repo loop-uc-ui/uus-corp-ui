@@ -338,12 +338,6 @@ Interface.ExtraBrightContainers = false
 --ContainerWindow.AlternateBackpack
 
 ----------------------------------------------------------------
--- MAP: (options tab)
-----------------------------------------------------------------
-
-Interface.ShowMapCombos = false
-
-----------------------------------------------------------------
 -- HEALTHBARS/STATUS: (healthbars tab)
 
 -- STATUS WINDOW STYLES:
@@ -468,9 +462,7 @@ function Interface.LoadVariables()
 
 	PetWindow.CloseLeft =								Interface.LoadBoolean( "PetWindowCloseLeft", true )
 	PetWindow.PetWindowHidden =							Interface.LoadBoolean( "PetWindowHidden", Interface.PetWindowHidden )
-	
-	Interface.ShowMapCombos =							Interface.LoadBoolean( "ShowMapCombos", Interface.ShowMapCombos )
-	
+
 	Interface.AuraEnabled =								Interface.LoadBoolean( "AuraEnabled", Interface.AuraEnabled )
 
 	Interface.RedDef =									Interface.LoadNumber( "RedDef", Interface.RedDef )
