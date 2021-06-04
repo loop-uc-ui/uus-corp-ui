@@ -106,7 +106,6 @@ function StatusWindow.Initialize(reinit)
 	end
 	
 	StatusWindow.UpdateStatus()
-	StatusWindow.ToggleStrLabel()
 	-- TODO: Once someone fixes the baseline alignment of the various fonts (so that English isn't 3 pixels above every other language), remove this hack.
 	-- START HACK
 	if GetStringFromTid( 1011036 ) ~= L"OKAY" then -- assume not English
@@ -126,8 +125,6 @@ function StatusWindow.Initialize(reinit)
 	-- END HACK
 	WindowUtils.RestoreWindowPosition("StatusWindow")
 	WindowUtils.LoadScale("StatusWindow")
-	
-	WindowSetShowing("StatusWindowGuardsButton", true)
 	
 	Interface.StatusWindowStyle = Interface.LoadNumber( "StatusWindowStyle", Interface.StatusWindowStyle )
 	StatusWindow.Locked = Interface.LoadBoolean( "StatusWindowLocked", StatusWindow.Locked )
@@ -153,8 +150,6 @@ function StatusWindow.Initialize(reinit)
 	StatusWindow.HPLocked = Interface.LoadBoolean( "StatusWindowHPLocked", StatusWindow.HPLocked )
 	StatusWindow.MANALocked = Interface.LoadBoolean( "StatusWindowMANALocked", StatusWindow.MANALocked )
 	StatusWindow.STAMLocked = Interface.LoadBoolean( "StatusWindowSTAMLocked", StatusWindow.STAMLocked )
-	StatusWindow.ToggleStrLabel()
-	StatusWindow.ToggleButtons()
 end
 
 function StatusWindow.Shutdown()
@@ -336,25 +331,6 @@ function StatusWindow.OnSTAMLButtonDown()
 
 end
 
-
-function StatusWindow.GuardsButton_OnLButtonUp()
-	SendChat( _channel, L"/say Guards ! Help Me !!!" )
-end
-
-function StatusWindow.GuardsButton_OnMouseOver()
-
-	local itemData = { windowName = SystemData.ActiveWindow.name,
-						itemId = 1234,
-						itemType = WindowData.ItemProperties.TYPE_WSTRINGDATA,
-						binding = L"",
-						detail = nil,
-						title =	GetStringFromTid(1155253),
-						body = L""}
-						
-	ItemProperties.SetActiveItem(itemData)
-	PartyHealthBar.mouseOverId = StatusWindow.CurPlayerId
-end
-
 function StatusWindow.OnRButtonUp()
 	RequestContextMenu(WindowData.PlayerStatus.PlayerId)
 end
@@ -379,29 +355,11 @@ function StatusWindow.OnMouseOver()
 		itemId = StatusWindow.CurPlayerId,
 		itemType = WindowData.ItemProperties.TYPE_ITEM,
 	}					
-	ItemProperties.SetActiveItem(itemData)	
-
-	if(SystemData.Settings.GameOptions.showStrLabel == false) then
-		WindowSetShowing("StatusWindowHealthTooltip", true)
-		WindowSetShowing("StatusWindowManaTooltip", true)
-		WindowSetShowing("StatusWindowStaminaTooltip", true)
-	end
+	ItemProperties.SetActiveItem(itemData)
 end
 
 function StatusWindow.OnMouseOverEnd()
 	ItemProperties.ClearMouseOverItem()
-
-	if(SystemData.Settings.GameOptions.showStrLabel == false) then
-		WindowSetShowing("StatusWindowHealthTooltip", false)
-		WindowSetShowing("StatusWindowManaTooltip", false)
-		WindowSetShowing("StatusWindowStaminaTooltip", false)
-	end
-end
-
-function StatusWindow.ToggleStrLabel()
-	WindowSetShowing("StatusWindowHealthTooltip", SystemData.Settings.GameOptions.showStrLabel)
-	WindowSetShowing("StatusWindowManaTooltip", SystemData.Settings.GameOptions.showStrLabel)
-	WindowSetShowing("StatusWindowStaminaTooltip", SystemData.Settings.GameOptions.showStrLabel)
 end
 
 function StatusWindow.OnMouseDlbClk()
@@ -697,12 +655,4 @@ end
 function StatusWindow.ChangeStyle( style )
 	WindowSetShowing( "StatusWindow",  true)
 	StatusWindow.Initialize(true)
-end
-
-function StatusWindow.ToggleButtons()
-	WindowSetShowing("StatusWindowGuardsButton", Interface.StatusButtons)
-	WindowSetShowing("StatusWindowMenu", Interface.StatusButtons)
-	WindowSetShowing("StatusWindowRedButton", Interface.StatusButtons)
-	WindowSetShowing("StatusWindowGreenButton", Interface.StatusButtons)
-	WindowSetShowing("StatusWindowBlueButton", Interface.StatusButtons)
 end

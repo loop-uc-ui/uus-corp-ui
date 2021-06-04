@@ -1,20 +1,5 @@
 UserHealthBarsSettings = {}
 
-function UserHealthBarsSettings.showStrLabel(newValue)
-    if newValue ~= nil then
-        SystemData.Settings.GameOptions.showStrLabel = newValue
-    end
-    return SystemData.Settings.GameOptions.showStrLabel
-end
-
-function UserHealthBarsSettings.showStatusButtons(newValue)
-    if newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("StatusButtons" , newValue)
-        return newValue
-    end
-    return UserInterfaceVariables.LoadBoolean("StatusButtons", true)
-end
-
 function UserHealthBarsSettings.enableAura(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("AuraEnabled", newValue)

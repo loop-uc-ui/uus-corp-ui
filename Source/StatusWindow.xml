@@ -135,7 +135,7 @@
                         <EventHandler event="OnMouseOver" function="StatusWindow.MenuTooltip"/>
                     </EventHandlers>
                     <Anchors>
-                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentGuardsButton">
+                        <Anchor point="topleft" relativePoint="topright" relativeTo="StatusWindowLock">
                             <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
@@ -150,7 +150,7 @@
                         <EventHandler event="OnMouseOver" function="StatusWindow.LockTooltip"/>
                     </EventHandlers>
                     <Anchors>
-                        <Anchor point="topright" relativePoint="topleft" relativeTo="StatusWindowMenu">
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
                             <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
@@ -221,30 +221,6 @@
                         <EventHandler event="OnRButtonUp" function="PartyHealthBar.BlueButton_OnRButtonUp"/>
                         <EventHandler event="OnLButtonUp" function="PartyHealthBar.BlueButton_OnLButtonUp"/>
                         <EventHandler event="OnMouseOver" function="PartyHealthBar.BlueButton_OnMouseOver"/>
-                        <EventHandler event="OnMouseOverEnd" function="PartyHealthBar.OnMouseOverEnd"/>
-
-                    </EventHandlers>
-                </Button>
-
-                <Button name="$parentGuardsButton" backgroundtexture="guards" highlighttexture="guards"
-                        texturescale="1">
-                    <Size>
-                        <AbsPoint x="57" y="17"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBlueButton">
-                            <AbsPoint x="20" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                    <TexCoords>
-                        <Normal x="0" y="0"/>
-                        <NormalHighlit x="57" y="0"/>
-                        <Pressed x="57" y="0"/>
-                        <PressedHighlit x="57" y="0"/>
-                    </TexCoords>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="StatusWindow.GuardsButton_OnLButtonUp"/>
-                        <EventHandler event="OnMouseOver" function="StatusWindow.GuardsButton_OnMouseOver"/>
                         <EventHandler event="OnMouseOverEnd" function="PartyHealthBar.OnMouseOverEnd"/>
 
                     </EventHandlers>

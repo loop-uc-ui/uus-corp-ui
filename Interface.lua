@@ -352,8 +352,6 @@ Interface.ShowMapCombos = false
 ----------------------------------------------------------------
 
 Interface.StatusWindowStyle = 0
--- always show health, stamina, mana
-Interface.StatusButtons = true
 Interface.AuraEnabled = true
 Interface.EnableMobileArrow = true
 
@@ -527,10 +525,8 @@ function Interface.LoadVariables()
 		
 	Interface.LockChatLine = 							Interface.LoadBoolean( "LockChatLine" , Interface.LockChatLine )
 
-	Interface.StatusButtons =							Interface.LoadBoolean( "StatusButtons" , Interface.StatusButtons )
 	Interface.AuraEnabled =								Interface.LoadBoolean( "AuraEnabled" , Interface.AuraEnabled )
-	SystemData.Settings.GameOptions.showStrLabel =		Interface.LoadBoolean( "StatusLabels", true ) 
-	Interface.EnableMobileArrow =						Interface.LoadBoolean( "EnableMobileArrow", Interface.EnableMobileArrow ) 
+	Interface.EnableMobileArrow =						Interface.LoadBoolean( "EnableMobileArrow", Interface.EnableMobileArrow )
 	
 	MobileHealthBar.LegacyCloseStyle =					Interface.LoadBoolean( "LegacyCloseStyle", MobileHealthBar.LegacyCloseStyle ) 
 	MobileHealthBar.PetLegacyCloseStyle =				Interface.LoadBoolean( "PetLegacyCloseStyle", MobileHealthBar.PetLegacyCloseStyle ) 
@@ -689,10 +685,7 @@ function Interface.InterfaceInitialize()
 		SystemData.Settings.GameOptions.enableAutorun = true		
 		SystemData.Settings.GameOptions.holdShiftToUnstack = true 
 		SystemData.Settings.Interface.defaultCorpseMode = "List"
-		SystemData.Settings.GameOptions.showStrLabel = true
-		
-		Interface.SaveBoolean( "StatusLabels", SystemData.Settings.GameOptions.showStrLabel )
-		
+
 		SystemData.Settings.GameOptions.mouseScrollUpAction = SystemData.Settings.GameOptions.MOUSESCROLL_NONE
 		SystemData.Settings.GameOptions.mouseScrollDownAction = SystemData.Settings.GameOptions.MOUSESCROLL_NONE
 		

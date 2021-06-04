@@ -80,8 +80,7 @@ function SettingsWindow.OnApplyButton()
 	SettingsKeyBindingsWindow.OnApplyButton()
 	SettingsHealthBarsWindow.OnApplyButton()
 	SettingsOverheadTextWindow.OnApplyButton()
-	MobilesOnScreen.SaveFilterSettings()	
-	StatusWindow.ToggleStrLabel()
+	MobilesOnScreen.SaveFilterSettings()
 	-- push the new values to c++
 	needsReload = UserSettingsChanged()
 	if ( needsReload == true ) then

@@ -1181,19 +1181,6 @@ function MapCommon.UpdateAreaInfo(timePassed)
 			end
 			desc = desc .. extraDesc
 		end
-		
-		
-		if (MapCommon.CurrentArea and KnownAreas[MapCommon.CurrentArea] and Interface.StatusButtons) then					
-			if (MapCommon.CurrentSubArea and KnownAreas[MapCommon.CurrentArea].SubAreas[MapCommon.CurrentSubArea].Guarded) then
-				WindowSetShowing("StatusWindowGuardsButton", KnownAreas[MapCommon.CurrentArea].SubAreas[MapCommon.CurrentSubArea].Guarded)
-			else
-				WindowSetShowing("StatusWindowGuardsButton", KnownAreas[MapCommon.CurrentArea].Guarded)
-			end
-		else
-			WindowSetShowing("StatusWindowGuardsButton", false)
-		end
-			
-			
 	end
 end
 
