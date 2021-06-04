@@ -346,7 +346,6 @@ Interface.ExtraBrightContainers = false
 ----------------------------------------------------------------
 
 Interface.StatusWindowStyle = 0
-Interface.AuraEnabled = true
 Interface.EnableMobileArrow = true
 
 -- MobileHealthBar.LegacyCloseStyle
@@ -463,8 +462,6 @@ function Interface.LoadVariables()
 	PetWindow.CloseLeft =								Interface.LoadBoolean( "PetWindowCloseLeft", true )
 	PetWindow.PetWindowHidden =							Interface.LoadBoolean( "PetWindowHidden", Interface.PetWindowHidden )
 
-	Interface.AuraEnabled =								Interface.LoadBoolean( "AuraEnabled", Interface.AuraEnabled )
-
 	Interface.RedDef =									Interface.LoadNumber( "RedDef", Interface.RedDef )
 	Interface.GreenDef =								Interface.LoadNumber( "GreenDef", Interface.GreenDef )
 	Interface.BlueDef =									Interface.LoadNumber( "BlueDef", Interface.BlueDef )
@@ -517,7 +514,6 @@ function Interface.LoadVariables()
 		
 	Interface.LockChatLine = 							Interface.LoadBoolean( "LockChatLine" , Interface.LockChatLine )
 
-	Interface.AuraEnabled =								Interface.LoadBoolean( "AuraEnabled" , Interface.AuraEnabled )
 	Interface.EnableMobileArrow =						Interface.LoadBoolean( "EnableMobileArrow", Interface.EnableMobileArrow )
 	
 	MobileHealthBar.LegacyCloseStyle =					Interface.LoadBoolean( "LegacyCloseStyle", MobileHealthBar.LegacyCloseStyle ) 

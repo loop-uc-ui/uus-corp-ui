@@ -91,15 +91,7 @@ function PartyHealthBar.CreateHealthBar(mobileId, useDefaultPos)
 
 		WindowSetShowing("PartyHealthBarPortraitA_"..mobileId, true)
 		--WindowSetShowing(windowName .. "PortraitBgA", true)
-		
-		if (Interface.AuraEnabled) then
-			if (not DoesWindowNameExist("PartyGlowingEffect"..mobileId)) then
-				CreateWindowFromTemplate("PartyGlowingEffect"..mobileId, "PartyGlowingEffect", windowName)
 
-			end
-			AnimatedImageStartAnimation( "PartyGlowingEffect"..mobileId, 1, true, false, 0.0 )  
-			AnimatedImageSetPlaySpeed ( "PartyGlowingEffect"..mobileId, 10 )
-		end
 		WindowSetId(windowName, mobileId)
 		WindowSetId(windowName.."CloseButton", mobileId)
 		WindowSetId(windowName.."RedButton", mobileId)
@@ -362,21 +354,6 @@ function PartyHealthBar.UpdateName(mobileId)
 			LabelSetText(windowName.."Name", data.MobName)
 			WindowUtils.FitTextToLabel(windowName.."Name", data.MobName)
 			NameColor.UpdateLabelNameColor(windowName.."Name", data.Notoriety+1)
-			local noto = data.Notoriety+1
-			if (Interface.AuraEnabled) then
-				if (not DoesWindowNameExist("PartyGlowingEffect"..mobileId)) then
-					CreateWindowFromTemplate("PartyGlowingEffect"..mobileId, "PartyGlowingEffect", windowName)
-					AnimatedImageStartAnimation( "PartyGlowingEffect"..mobileId, 1, true, false, 0.0 ) 
-				end
-				AnimatedImageSetPlaySpeed ( "PartyGlowingEffect"..mobileId, 10 )
-				WindowSetTintColor("PartyGlowingEffect"..mobileId,NameColor.AuraColors[noto].r,NameColor.AuraColors[noto].g,NameColor.AuraColors[noto].b)
-			else
-				if (DoesWindowNameExist("PartyGlowingEffect"..mobileId)) then
-					AnimatedImageStopAnimation( "PartyGlowingEffect"..mobileId )
-					DestroyWindow("PartyGlowingEffect"..mobileId)
-				end
-			end
-			
 		else
 			local memberIndex = HealthBarManager.GetMemberIndex(mobileId)
 			local windowName = "PartyHealthBar_"..memberIndex
@@ -443,24 +420,11 @@ function PartyHealthBar.UpdateHealthBarState(mobileId)
 	
 		local memberIndex = HealthBarManager.GetMemberIndex(mobileId)
 		local windowName = "PartyHealthBar_"..memberIndex
-		if (Interface.AuraEnabled) then
-			if (not DoesWindowNameExist("PartyGlowingEffect"..mobileId)) then
-				CreateWindowFromTemplate("PartyGlowingEffect"..mobileId, "PartyGlowingEffect", windowName)
-				AnimatedImageStartAnimation( "PartyGlowingEffect"..mobileId, 1, true, false, 0.0 )
-				PartyHealthBar.UpdateName(mobileId)
-			end
-			AnimatedImageSetPlaySpeed ( "PartyGlowingEffect"..mobileId, 10 )
-		elseif DoesWindowNameExist("PartyGlowingEffect"..mobileId) then
-			DestroyWindow("PartyGlowingEffect"..mobileId)
-		end
 		-- enable window
 		if( IsHealthBarEnabled(mobileId) == true and PartyHealthBar.windowDisabled[mobileId]==true ) then
 			WindowSetShowing(windowName.."HealthBar", true)
 			WindowSetShowing(windowName.."ManaBar", true)
 			WindowSetShowing(windowName.."StaminaBar", true)
-			WindowSetShowing("PartyGlowingEffect"..mobileId, true)
-			AnimatedImageStartAnimation( "PartyGlowingEffect"..mobileId, 1, true, false, 0.0 )  
-
 			PartyHealthBar.UpdateStatus(mobileId)
 			PartyHealthBar.windowDisabled[mobileId] = false
 			WindowSetShowing("PartyHealthBarPortraitA_"..mobileId, true)
@@ -470,10 +434,6 @@ function PartyHealthBar.UpdateHealthBarState(mobileId)
 			WindowSetShowing(windowName.."HealthBar",false)
 			WindowSetShowing(windowName.."ManaBar", false)
 			WindowSetShowing(windowName.."StaminaBar", false)
-			WindowSetShowing("PartyGlowingEffect"..mobileId, false)
-			if (DoesWindowNameExist("PartyGlowingEffect"..mobileId)) then
-				AnimatedImageStopAnimation( "PartyGlowingEffect"..mobileId )  
-			end
 			--WindowSetShowing("PartyHealthBarPortraitA_"..mobileId, false)
 			LabelSetTextColor(windowName.."Name", 128, 128, 128)
 			if not PartyHealthBar.PartyMembers[mobileId].sharing then

@@ -39,26 +39,14 @@
                                     </Anchors>
                                 </Window>
 
-                                <Window name="ToggleNotorietyAura" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="210" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="$parentStatusWindowSubSection">
-                                            <AbsPoint x="0" y="48"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
                                 <Window name="ToggleMobileArrow" inherits="Settings_LabelCheckButton">
                                     <Size>
                                         <AbsPoint x="350" y="32"/>
                                     </Size>
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="ToggleNotorietyAura">
-                                            <AbsPoint x="0" y="26"/>
+                                                relativeTo="$parentStatusWindowSubSection">
+                                            <AbsPoint x="0" y="48"/>
                                         </Anchor>
                                     </Anchors>
                                 </Window>

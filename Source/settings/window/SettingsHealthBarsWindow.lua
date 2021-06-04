@@ -3,7 +3,6 @@ SettingsHealthBarsWindow = {}
 local adapter = ViewAdapter:new("SettingsWindow", "SettingsHealthBarWindow")
 
 local CHECK_BOXES = {
-    ToggleNotorietyAura = "ToggleNotorietyAuraButton",
     ToggleMobileArrow = "ToggleMobileArrowButton",
     LegacyCloseStyle = "LegacyCloseStyleButton",
     PetLegacyCloseStyle = "PetLegacyCloseStyleButton",
@@ -108,8 +107,6 @@ function SettingsHealthBarsWindow.Initialize()
             :addLabel("HealthbarsOptionsButtonsSubSectionLabel", 1155323)
             :addLabel("HealthbarsOptionsSpellsButtonsSubSectionLabel", 1155332)
             :addLabel("HealthbarsOptionsSpellsButtonsSubSectionLabel", 1155332)
-            :addLabel("ToggleNotorietyAuraLabel", 1155319)
-            :addCheckBox(CHECK_BOXES.ToggleNotorietyAura)
             :addLabel("ToggleMobileArrowLabel", 1155321)
             :addCheckBox(CHECK_BOXES.ToggleMobileArrow)
             :addLabel("LegacyCloseStyleLabel", 1155324)
@@ -132,7 +129,6 @@ function SettingsHealthBarsWindow.Initialize()
 end
 
 function SettingsHealthBarsWindow.UpdateSettings()
-    adapter.views[CHECK_BOXES.ToggleNotorietyAura]:setChecked(UserHealthBarsSettings.enableAura())
     adapter.views[CHECK_BOXES.ToggleMobileArrow]:setChecked(UserHealthBarsSettings.enableMobileArrow())
     adapter.views[CHECK_BOXES.LegacyCloseStyle]:setChecked(UserHealthBarsSettings.legacyCloseStyle())
     adapter.views[CHECK_BOXES.PetLegacyCloseStyle]:setChecked(UserHealthBarsSettings.legacyPetCloseStyle())
@@ -189,7 +185,6 @@ function SettingsHealthBarsWindow.UpdateSettings()
 end
 
 function SettingsHealthBarsWindow.OnApplyButton()
-    UserHealthBarsSettings.enableAura(adapter.views[CHECK_BOXES.ToggleNotorietyAura]:isChecked())
     UserHealthBarsSettings.enableMobileArrow(adapter.views[CHECK_BOXES.ToggleMobileArrow]:isChecked())
 
     if (DoesWindowNameExist("MobileArrow") and not Interface.EnableMobileArrow) then

@@ -1,13 +1,5 @@
 UserHealthBarsSettings = {}
 
-function UserHealthBarsSettings.enableAura(newValue)
-    if newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("AuraEnabled", newValue)
-        return newValue
-    end
-    return UserInterfaceVariables.LoadBoolean("AuraEnabled", true)
-end
-
 function UserHealthBarsSettings.enableMobileArrow(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("EnableMobileArrow", newValue)
