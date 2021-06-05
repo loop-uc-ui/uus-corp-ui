@@ -59,36 +59,34 @@ local SPELLS = {
     [26] = { SpellId = 687; AltText = StringFormatter.fromTid(1031687)};
     [27] = { SpellId = 688; AltText = StringFormatter.fromTid(1031688)};
 
-    [28] = { SpellId = 0; AltText = StringFormatter.fromTid(1011051)};
-    [29] = { SpellId = 6; AltText = StringFormatter.fromTid(1044387)};
-    [30] = { SpellId = 44; AltText = StringFormatter.fromTid(1044424)};
+    [28] = { SpellId = 6; AltText = StringFormatter.fromTid(1044387)};
+    [29] = { SpellId = 44; AltText = StringFormatter.fromTid(1044424)};
 
-    [31] = { SpellId = 5; AltText = StringFormatter.fromTid(1044386)};
-    [32] = { SpellId = 12; AltText = StringFormatter.fromTid(1044392)};
-    [33] = { SpellId = 18; AltText = StringFormatter.fromTid(1044398)};
-    [34] = { SpellId = 30; AltText = StringFormatter.fromTid(1044410)};
-    [35] = { SpellId = 37; AltText = StringFormatter.fromTid(1044417)};
-    [36] = { SpellId = 38; AltText = StringFormatter.fromTid(1044418)};
-    [37] = { SpellId = 41; AltText = StringFormatter.fromTid(1044421)};
-    [38] = { SpellId = 42; AltText = StringFormatter.fromTid(1044422)};
-    [39] = { SpellId = 43; AltText = StringFormatter.fromTid(1044423)};
-    [40] = { SpellId = 49; AltText = StringFormatter.fromTid(1044429)};
-    [41] = { SpellId = 51; AltText = StringFormatter.fromTid(1044431)};
-    [42] = { SpellId = 55; AltText = StringFormatter.fromTid(1044435)};
+    [30] = { SpellId = 5; AltText = StringFormatter.fromTid(1044386)};
+    [31] = { SpellId = 12; AltText = StringFormatter.fromTid(1044392)};
+    [32] = { SpellId = 18; AltText = StringFormatter.fromTid(1044398)};
+    [33] = { SpellId = 30; AltText = StringFormatter.fromTid(1044410)};
+    [34] = { SpellId = 37; AltText = StringFormatter.fromTid(1044417)};
+    [35] = { SpellId = 38; AltText = StringFormatter.fromTid(1044418)};
+    [36] = { SpellId = 41; AltText = StringFormatter.fromTid(1044421)};
+    [37] = { SpellId = 42; AltText = StringFormatter.fromTid(1044422)};
+    [38] = { SpellId = 43; AltText = StringFormatter.fromTid(1044423)};
+    [39] = { SpellId = 49; AltText = StringFormatter.fromTid(1044429)};
+    [40] = { SpellId = 51; AltText = StringFormatter.fromTid(1044431)};
+    [41] = { SpellId = 55; AltText = StringFormatter.fromTid(1044435)};
 
-    [43] = { SpellId = 109; AltText = StringFormatter.fromTid(1060517)};
-    [44] = { SpellId = 110; AltText = StringFormatter.fromTid(1060518)};
-    [45] = { SpellId = 111; AltText = StringFormatter.fromTid(1060519)};
+    [42] = { SpellId = 109; AltText = StringFormatter.fromTid(1060517)};
+    [43] = { SpellId = 110; AltText = StringFormatter.fromTid(1060518)};
+    [44] = { SpellId = 111; AltText = StringFormatter.fromTid(1060519)};
 
-    [46] = { SpellId = 614; AltText = StringFormatter.fromTid(1071039)};
+    [45] = { SpellId = 614; AltText = StringFormatter.fromTid(1071039)};
 
-    [47] = { SpellId = 678; AltText = StringFormatter.fromTid(1031678)};
-    [48] = { SpellId = 683; AltText = StringFormatter.fromTid(1031683)};
-    [49] = { SpellId = 689; AltText = StringFormatter.fromTid(1031689)};
-    [50] = { SpellId = 690; AltText = StringFormatter.fromTid(1031690)};
-    [51] = { SpellId = 691; AltText = StringFormatter.fromTid(1031691)};
-    [52] = { SpellId = 692; AltText = StringFormatter.fromTid(1031692)};
-    [53] = { SpellId = 209; AltText = StringFormatter.fromTid(1060501)};
+    [46] = { SpellId = 678; AltText = StringFormatter.fromTid(1031678)};
+    [47] = { SpellId = 683; AltText = StringFormatter.fromTid(1031683)};
+    [48] = { SpellId = 689; AltText = StringFormatter.fromTid(1031689)};
+    [49] = { SpellId = 690; AltText = StringFormatter.fromTid(1031690)};
+    [50] = { SpellId = 691; AltText = StringFormatter.fromTid(1031691)};
+    [51] = { SpellId = 692; AltText = StringFormatter.fromTid(1031692)};
 }
 
 local SPELL_TEXT = {} do
