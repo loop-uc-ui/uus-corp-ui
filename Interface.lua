@@ -330,7 +330,6 @@ Interface.BardMastery = false
 ----------------------------------------------------------------
 -- default container view
 -- default corpse view
-Interface.GridLegacy = true
 Interface.EnableContainerGrid = true
 Interface.AlternateGrid = false
 Interface.ExtraBrightContainers = false
@@ -452,7 +451,6 @@ function Interface.LoadVariables()
 	UOBuildTableFromCSV("Data/GameData/playerstats.csv", "PlayerStatsDataCSV")	
 	WindowData.PlayerStatsDataCSV[Spellbook.tithId].iconId = 85800
 
-	Interface.GridLegacy =								Interface.LoadBoolean( "GridLegacy" , Interface.GridLegacy )
 	Interface.BackpackOpen =							Interface.LoadBoolean( "BackpackOpen" , Interface.BackpackOpen )
 	ContainerWindow.Locked =							Interface.LoadBoolean( "LockedBackpack" , false )
 	Interface.EnableContainerGrid =						Interface.LoadBoolean( "EnableContainerGrid" , Interface.EnableContainerGrid )

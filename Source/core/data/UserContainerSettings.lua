@@ -16,15 +16,6 @@ function UserContainerSettings.alternateGrid(newValue)
     end
 end
 
-function UserContainerSettings.gridLegacy(newValue)
-    if newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("GridLegacy", newValue)
-        return newValue
-    else
-        return UserInterfaceVariables.LoadBoolean("GridLegacy", true)
-    end
-end
-
 function UserContainerSettings.gridContainer(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("EnableContainerGrid", newValue)

@@ -8,7 +8,6 @@ local ComboBoxes = {
 
 local CheckBoxes = {
     ToggleContentsInfo = "ToggleContentsInfoButton",
-    ToggleGridLegacy = "ToggleGridLegacyButton",
     ToggleGrid = "ToggleGridButton",
     ToggleAlternateGrid = "ToggleAlternateGridButton",
     ToggleExtraBright = "ToggleExtraBrightButton",
@@ -19,7 +18,6 @@ local adapter = ViewAdapter:new("SettingsContainersWindow")
 
 local isGridContainer = true
 local isToggleContentsInfo = false
-local isGridLegacy = false
 local isExtraBrightContainer = false
 local isAlternateGrid = false
 local isUseLegacyContainers = false
@@ -51,8 +49,6 @@ function SettingsContainersWindow.Initialize()
             :addComboBox(ComboBoxes.CorpseView, containerViewOptions, 1)
             :addLabel( "ToggleContentsInfoLabel", 1155284)
             :addCheckBox(CheckBoxes.ToggleContentsInfo)
-            :addLabel("ToggleGridLegacyLabel", 1155280)
-            :addCheckBox( CheckBoxes.ToggleGridLegacy)
             :addLabel("ToggleGridLabel", 1155282)
             :addCheckBox(CheckBoxes.ToggleGrid)
             :addLabel("ToggleAlternateGridLabel", 1155286)
@@ -84,11 +80,9 @@ function SettingsContainersWindow.UpdateSettings()
     isAlternateGrid = UserContainerSettings.alternateGrid()
     isExtraBrightContainer = UserContainerSettings.brightContainers()
     isGridContainer = UserContainerSettings.gridContainer()
-    isGridLegacy = UserContainerSettings.gridLegacy()
     isToggleContentsInfo = UserContainerSettings.toggleContentsInfo()
     isUseLegacyContainers = UserContainerSettings.legacyContainers()
 
-    adapter.views[CheckBoxes.ToggleGridLegacy]:setChecked(isGridLegacy)
     adapter.views[CheckBoxes.ToggleGrid]:setChecked(isGridContainer)
     adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(isAlternateGrid)
     adapter.views[CheckBoxes.ToggleExtraBright]:setChecked(isExtraBrightContainer)
@@ -122,15 +116,6 @@ function SettingsContainersWindow.UpdateSettings()
 end
 
 function SettingsContainersWindow.OnApplyButton()
-    if ContainerWindow.PlayerBackpack and UserContainerSettings.gridLegacy() then
-        local playerBackpackWindow = "ContainerWindow_"..ContainerWindow.PlayerBackpack
-        if adapter:isShowing(playerBackpackWindow) then
-           adapter:setShowing(false, playerBackpackWindow)
-        end
-        adapter:destroy(playerBackpackWindow)
-        WindowDataStore.unregister(WindowData.ContainerWindow.Type, ContainerWindow.PlayerBackpack)
-    end
-
     local containerView = adapter.views[ComboBoxes.ContainerView]
     UserContainerSettings.containerView(StringFormatter.fromWString(
             containerView.items[containerView:getSelectedItem()]
@@ -143,10 +128,6 @@ function SettingsContainersWindow.OnApplyButton()
     local isChecked = adapter.views[CheckBoxes.ToggleContentsInfo]:isChecked()
     local doReload = isToggleContentsInfo ~= isChecked
     UserContainerSettings.toggleContentsInfo(isChecked)
-
-    isChecked = adapter.views[CheckBoxes.ToggleGridLegacy]:isChecked()
-    doReload = doReload or isGridLegacy ~= isChecked
-    UserContainerSettings.gridLegacy(isChecked)
 
     isChecked = adapter.views[CheckBoxes.ToggleGrid]:isChecked()
     doReload = doReload or isGridContainer ~= isChecked
@@ -170,9 +151,7 @@ function SettingsContainersWindow.OnApplyButton()
 
     if doReload then
         SettingsContainersWindow.DestroyContainers()
-        if not UserContainerSettings.gridLegacy() then
-            ResizeContainers()
-        end
+        ResizeContainers()
     end
 end
 

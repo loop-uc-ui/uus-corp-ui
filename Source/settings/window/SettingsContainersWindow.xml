@@ -90,26 +90,14 @@
                                     </Anchors>
                                 </ComboBox>
 
-                                <Window name="ToggleGridLegacy" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="280" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="CorpseViewLabel">
-                                            <AbsPoint x="-28" y="26"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
                                 <Window name="ToggleGrid" inherits="Settings_LabelCheckButton">
                                     <Size>
                                         <AbsPoint x="250" y="32"/>
                                     </Size>
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="ToggleGridLegacy">
-                                            <AbsPoint x="0" y="26"/>
+                                                relativeTo="CorpseViewLabel">
+                                            <AbsPoint x="-28" y="26"/>
                                         </Anchor>
                                     </Anchors>
                                 </Window>
