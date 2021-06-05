@@ -277,7 +277,6 @@ function MobileHealthBar.RegisterHealthBar(windowName)
 	MobileHealthBar.RegisterTime[mobileId] = Interface.TimeSinceLogin
 	
 	SnapUtils.SnappableWindows[windowName] = true
-	WindowSetShowing(windowName .. "Wod", false)
 end
 
 function MobileHealthBar.UnregisterHealthBar(windowName)
@@ -394,25 +393,6 @@ function MobileHealthBar.UpdateStatus(mobileId)
 			local gb = math.floor(2.55 * perc)
 			LabelSetTextColor(windowName .. "HealthBarPerc", 255, gb, gb)
 			LabelSetText(windowName .. "HealthBarPerc", perc .. L"%")
-			if (WindowData.SkillsCSV) then
-				local serverId = WindowData.SkillsCSV[Interface.SpellweavingID].ServerId
-				local skillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10	
-				
-				
-				if (skillLevel >= 83 and Interface.HealthBarWod and data.Notoriety+1 ~= 3 and not MobilesOnScreen.IsPet(mobileId) ) then		
-					local circleLimit = (Interface.ArcaneFocusLevel + 1) * 5
-					if (circleLimit <= 0) then
-						circleLimit = 0
-					end
-
-					if (perc < circleLimit) then						
-						WindowSetShowing(windowName .. "Wod", true)			
-					else
-						WindowSetShowing(windowName .. "Wod", false)				
-					end
-
-				end
-			end
 		elseif ((data == nil or tostring(perc) == "-1.#IND") and not MobileHealthBar.Handled[mobileId] and  mobileId ~= WindowData.PlayerStatus.PlayerId ) then
 			MobileHealthBar.CheckStatus[mobileId] = true
 			
@@ -825,48 +805,6 @@ end
 function MobileHealthBar.kill(mobileId)
 	local spellId = 614
 	UserActionCastSpellOnId(spellId, mobileId)
-end
-
-function MobileHealthBar.WodButton_OnLButtonUp()
-	local mobileId = WindowGetId(WindowUtils.GetActiveDialog())
-	if(mobileId) then
-		local data = WindowData.MobileName[mobileId]
-		if (data.Notoriety+1 == 1 or data.Notoriety+1 == 2) then
-			if (SystemData.Settings.GameOptions.queryBeforeCriminalAction) then
-				local okayButton = { textTid=1013076, callback=function()  MobileHealthBar.kill(mobileId ) end }
-                local cancelButton = { textTid=UO_StandardDialog.TID_CANCEL, callback=MobileHealthBar.Null();}
-				local DestroyConfirmWindow = 
-				{
-				    windowName = "Warning"..mobileId,
-					title = GetStringFromTid(1111873),
-					body= GetStringFromTid(3000032),
-					buttons = { okayButton, cancelButton }
-				}
-				UO_StandardDialog.CreateDialog(DestroyConfirmWindow)
-			else
-				MobileHealthBar.kill(mobileId )
-			end
-		else
-			MobileHealthBar.kill(mobileId )
-		end 
-		
-	end
-end
-
-
-function MobileHealthBar.WodButton_OnMouseOver()
-	local mobileId = WindowGetId(WindowUtils.GetActiveDialog())
-	
-	local spellId = 614
-	
-	local itemData = { windowName = SystemData.ActiveWindow.name,
-						itemId = spellId,
-						itemType = WindowData.ItemProperties.TYPE_ACTION,
-						actionType = SystemData.UserAction.TYPE_SPELL,
-						detail = ItemProperties.DETAIL_SHORT }
-						
-	ItemProperties.SetActiveItem(itemData)
-	MobileHealthBar.mouseOverId = mobileId
 end
 
 function MobileHealthBar.OnBPackLButtonUp()

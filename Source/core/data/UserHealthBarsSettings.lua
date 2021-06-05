@@ -24,14 +24,6 @@ function UserHealthBarsSettings.legacyPetCloseStyle(newValue)
     return UserInterfaceVariables.LoadBoolean("PetLegacyCloseStyle", true)
 end
 
-function UserHealthBarsSettings.showWordOfDeath(newValue)
-    if newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("HealthBarWod", newValue)
-        return newValue
-    end
-    return UserInterfaceVariables.LoadBoolean("HealthBarWod", true)
-end
-
 function UserHealthBarsSettings.showClose(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("ShowCloseExtract", newValue)

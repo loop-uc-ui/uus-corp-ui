@@ -350,7 +350,6 @@ Interface.EnableMobileArrow = true
 -- MobileHealthBar.LegacyCloseStyle
 -- MobileHealthBar.PetLegacyCloseStyle
 Interface.ShowCloseExtract = true
-Interface.HealthBarWod = true
 
 Interface.RedDef = 1
 Interface.GreenDef = 1
@@ -517,7 +516,6 @@ function Interface.LoadVariables()
 	MobileHealthBar.LegacyCloseStyle =					Interface.LoadBoolean( "LegacyCloseStyle", MobileHealthBar.LegacyCloseStyle ) 
 	MobileHealthBar.PetLegacyCloseStyle =				Interface.LoadBoolean( "PetLegacyCloseStyle", MobileHealthBar.PetLegacyCloseStyle ) 
 	Interface.ShowCloseExtract =						Interface.LoadBoolean( "ShowCloseExtract", Interface.ShowCloseExtract ) 
-	Interface.HealthBarWod =							Interface.LoadBoolean( "HealthBarWod", Interface.HealthBarWod ) 
 
 	Interface.ShowSpellName =							Interface.LoadBoolean( "ShowSpellName", Interface.ShowSpellName )
 	Interface.DisableSpells =							Interface.LoadBoolean( "DisableSpells", Interface.DisableSpells )

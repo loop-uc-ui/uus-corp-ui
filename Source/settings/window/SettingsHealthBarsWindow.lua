@@ -6,8 +6,7 @@ local CHECK_BOXES = {
     ToggleMobileArrow = "ToggleMobileArrowButton",
     LegacyCloseStyle = "LegacyCloseStyleButton",
     PetLegacyCloseStyle = "PetLegacyCloseStyleButton",
-    ShowCloseExtract = "ShowCloseExtractButton",
-    HealthBarWod = "HealthBarWodButton"
+    ShowCloseExtract = "ShowCloseExtractButton"
 }
 
 local COMBO_BOXES = {
@@ -113,8 +112,6 @@ function SettingsHealthBarsWindow.Initialize()
             :addCheckBox(CHECK_BOXES.PetLegacyCloseStyle)
             :addLabel("ShowCloseExtractLabel", 1155328)
             :addCheckBox(CHECK_BOXES.ShowCloseExtract)
-            :addLabel("HealthBarWodLabel", 1155330)
-            :addCheckBox(CHECK_BOXES.HealthBarWod)
             :addComboBox(COMBO_BOXES.Red, SPELL_TEXT)
             :addComboBox(COMBO_BOXES.Red2, SPELL_TEXT)
             :addComboBox(COMBO_BOXES.Red3, SPELL_TEXT)
@@ -131,7 +128,6 @@ function SettingsHealthBarsWindow.UpdateSettings()
     adapter.views[CHECK_BOXES.LegacyCloseStyle]:setChecked(UserHealthBarsSettings.legacyCloseStyle())
     adapter.views[CHECK_BOXES.PetLegacyCloseStyle]:setChecked(UserHealthBarsSettings.legacyPetCloseStyle())
     adapter.views[CHECK_BOXES.ShowCloseExtract]:setChecked(UserHealthBarsSettings.showClose())
-    adapter.views[CHECK_BOXES.HealthBarWod]:setChecked(UserHealthBarsSettings.showWordOfDeath())
 
     adapter.views[COMBO_BOXES.Red]:findItem(
             function (item)
@@ -196,10 +192,6 @@ function SettingsHealthBarsWindow.OnApplyButton()
     local isChecked = adapter.views[CHECK_BOXES.ShowCloseExtract]:isChecked()
     local updateHotbars = UserHealthBarsSettings.showClose() ~=	isChecked
     UserHealthBarsSettings.showClose(isChecked)
-
-    isChecked = adapter.views[CHECK_BOXES.HealthBarWod]:isChecked()
-    local updateHealthbars = updateHotbars or UserHealthBarsSettings.showWordOfDeath() ~= isChecked
-    UserHealthBarsSettings.showWordOfDeath(isChecked)
 
     UserHealthBarsSettings.redButtonSpell1(
             SPELLS[adapter.views[COMBO_BOXES.Red]:getSelectedItem()].SpellId

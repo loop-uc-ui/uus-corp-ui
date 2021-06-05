@@ -95,23 +95,11 @@
                                     </Anchors>
                                 </Window>
 
-                                <Window name="HealthBarWod" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="400" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="ShowCloseExtract">
-                                            <AbsPoint x="0" y="26"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
                                 <Window name="$parentSpellsButtonsSubSection"
                                         inherits="SubSectionLabelTemplate">
                                     <Anchors>
                                         <Anchor point="topleft" relativePoint="topleft"
-                                                relativeTo="HealthBarWod">
+                                                relativeTo="ShowCloseExtract">
                                             <AbsPoint x="0" y="80"/>
                                         </Anchor>
                                     </Anchors>
