@@ -32,9 +32,18 @@ local CHECK_BOXES = {
 }
 
 local SLIDERS = {
-    UiScale = "UiScaleSliderBar",
-    GenericGumpScale = "GenericGumpScaleSliderBar",
-    CacheSize = "SettingsOptionsCacheSizeSliderBar"
+    UiScale = {
+        Bar = "UiScaleSliderBar",
+        Label = "UiScaleVal"
+    },
+    GenericGumpScale = {
+        Bar = "GenericGumpScaleSliderBar",
+        Label = "GenericGumpScaleVal"
+    },
+    CacheSize = {
+        Bar = "SettingsOptionsCacheSizeSliderBar",
+        Label = "SettingsOptionsCacheSizeVal"
+    }
 }
 
 function SettingsOptionsWindow.Initialize()
@@ -115,9 +124,9 @@ function SettingsOptionsWindow.Initialize()
                     UserOptionsSettings.ObjectHandleFilters[7].text,
                 }
             )
-            :addSlider(SLIDERS.CacheSize)
-            :addSlider(SLIDERS.UiScale)
-            :addSlider(SLIDERS.GenericGumpScale)
+            :addSlider(SLIDERS.CacheSize.Bar)
+            :addSlider(SLIDERS.UiScale.Bar)
+            :addSlider(SLIDERS.GenericGumpScale.Bar)
             :setOffset(0)
             :updateScrollRect()
 
@@ -141,8 +150,8 @@ function SettingsOptionsWindow.UpdateSettings()
     end
 
     adapter.views[CHECK_BOXES.EnglishNames]:setChecked(UserOptionsSettings.useEnglishNames())
-    adapter:addLabel("SettingsOptionsCacheSizeVal",  L""..math.floor(UserOptionsSettings.cacheSize()))
-    adapter.views[SLIDERS.CacheSize]:setPosition(UserOptionsSettings.cacheSize() / 1024)
+    adapter:addLabel(SLIDERS.CacheSize.Label,  L""..math.floor(UserOptionsSettings.cacheSize()))
+    adapter.views[SLIDERS.CacheSize.Bar]:setPosition(UserOptionsSettings.cacheSize() / 1024)
 
     for i = 1, #UserOptionsSettings.ObjectHandleFilters do
         local filter = UserOptionsSettings.ObjectHandleFilters[i].id
@@ -159,10 +168,10 @@ function SettingsOptionsWindow.UpdateSettings()
         end
     end
 
-    adapter.views[SLIDERS.UiScale]:setPosition((UserOptionsSettings.uiScale() - 0.5) * 2)
-    adapter:addLabel("UiScaleVal", wstring.format( L"%2.2f", UserOptionsSettings.uiScale()))
-    adapter.views[SLIDERS.GenericGumpScale]:setPosition(((UserOptionsSettings.genericGumpScale() / 1.2) - 0.885) / 0.115)
-    adapter:addLabel("GenericGumpScaleVal", wstring.format( L"%2.2f", UserOptionsSettings.genericGumpScale()))
+    adapter.views[SLIDERS.UiScale.Bar]:setPosition((UserOptionsSettings.uiScale() - 0.5) * 2)
+    adapter:addLabel(SLIDERS.UiScale.Label, wstring.format( L"%2.2f", UserOptionsSettings.uiScale()))
+    adapter.views[SLIDERS.GenericGumpScale.Bar]:setPosition(((UserOptionsSettings.genericGumpScale() / 1.2) - 0.885) / 0.115)
+    adapter:addLabel(SLIDERS.GenericGumpScale.Label, wstring.format( L"%2.2f", UserOptionsSettings.genericGumpScale()))
 
     adapter.views[CHECK_BOXES.AlwaysAttack]:setChecked(UserOptionsSettings.alwaysAttack())
     adapter.views[CHECK_BOXES.AutoRun]:setChecked(UserOptionsSettings.autoRun())
@@ -195,7 +204,6 @@ function SettingsOptionsWindow.OnApplyButton()
     UserOptionsSettings.customUI(UserOptionsSettings.CustomUI[index])
 
     UserOptionsSettings.useEnglishNames(adapter.views[CHECK_BOXES.EnglishNames]:isChecked())
-    UserOptionsSettings.cacheSize(adapter.views[SLIDERS.CacheSize]:getPosition() * 1024)
     UserOptionsSettings.alwaysRun(adapter.views[CHECK_BOXES.AlwaysRun]:isChecked())
     UserOptionsSettings.autoRun(adapter.views[CHECK_BOXES.AutoRun]:isChecked())
     UserOptionsSettings.pathfinding(adapter.views[CHECK_BOXES.PathFinding]:isChecked())
@@ -216,9 +224,9 @@ function SettingsOptionsWindow.OnApplyButton()
     UserOptionsSettings.autoIgnoreCorpses(adapter.views[CHECK_BOXES.AutoIgnoreCorpses]:isChecked())
     UserOptionsSettings.enableSnapping(adapter.views[CHECK_BOXES.ToggleWindowSnap]:isChecked())
 
-    UserOptionsSettings.uiScale(adapter.views[SLIDERS.UiScale]:getPosition() / 2 + 0.5)
-    UserOptionsSettings.genericGumpScale(((adapter.views[SLIDERS.GenericGumpScale]:getPosition() * 0.115) + 0.885) * 1.2)
-    UserOptionsSettings.cacheSize(adapter.views[SLIDERS.CacheSize]:getPosition() * 1024)
+    UserOptionsSettings.uiScale(adapter.views[SLIDERS.UiScale.Bar]:getPosition() / 2 + 0.5)
+    UserOptionsSettings.genericGumpScale(((adapter.views[SLIDERS.GenericGumpScale.Bar]:getPosition() * 0.115) + 0.885) * 1.2)
+    UserOptionsSettings.cacheSize(adapter.views[SLIDERS.CacheSize.Bar]:getPosition() * 1024)
 
     WindowSetShowing("WarShield",UserOptionsSettings.showWarShield())
 end
@@ -242,7 +250,7 @@ function SettingsOptionsWindow.UpdateSliderSettings(curPos)
         return
     end
 
-    if (barName == "UiScale") then
+    if (barName == "SettingsOptionsCacheSize") then
         -- update the cache size value
         local cacheSize = math.floor( SliderBarGetCurrentPosition( "SettingsOptionsCacheSizeSliderBar" ) * 1024 )
         LabelSetText( "SettingsOptionsCacheSizeVal", L""..cacheSize )
