@@ -1,6 +1,6 @@
 SettingsKeyBindingsWindow = {}
 
-local adapter = ViewAdapter:new("SettingsWindow", "SettingsKeyBindings")
+local adapter = ViewAdapter:new("SettingsKeyBindingsWindow", "SettingsKeyBindingsWindow")
 
 local mouseComboBoxes = {
     ScrollUp = "SettingsKeyBindingsScrollWheelUpCombo",

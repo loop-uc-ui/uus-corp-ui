@@ -3,7 +3,6 @@ SettingsWindow = {}
 local function overrideLegacySettings()
 	--We are disabling most Legacy options and removing them.
 	SystemData.Settings.Interface.LegacyChat = false
-	SystemData.Settings.Interface.LegacyContainers = false
 	SystemData.Settings.Interface.LegacyPaperdolls = false
 	SystemData.Settings.GameOptions.legacyTargeting = false
 end
