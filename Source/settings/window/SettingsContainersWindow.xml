@@ -44,7 +44,7 @@
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
                                                 relativeTo="$parentSystemSubSection">
-                                            <AbsPoint x="0" y="52"/>
+                                            <AbsPoint x="26" y="52"/>
                                         </Anchor>
                                     </Anchors>
                                     <Color r="255" g="255" b="255" a="255"/>
