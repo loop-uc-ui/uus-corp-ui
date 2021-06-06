@@ -134,6 +134,7 @@ function ViewAdapter:destroy(id)
     end
 end
 
-function ViewAdapter:setColor(id, r, g, b)
-    WindowSetTintColor(id, r, g, b)
+function ViewAdapter:setColor(id, color)
+    WindowSetTintColor(id,color.r, color.g, color.b)
+    return self
 end

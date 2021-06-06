@@ -66,13 +66,13 @@ end
 
 function SettingsContainersWindow.UpdateSettings()
     adapter.views[ComboBoxes.ContainerView]:findItem(
-        function (item)
+        function (_, item)
             return item == StringFormatter.toWString(UserContainerSettings.containerView())
         end
     )
 
     adapter.views[ComboBoxes.CorpseView]:findItem(
-            function (item)
+            function (_, item)
                 return item == StringFormatter.toWString(UserContainerSettings.corpseView())
             end
     )
@@ -88,20 +88,14 @@ function SettingsContainersWindow.UpdateSettings()
     adapter.views[CheckBoxes.ToggleExtraBright]:setChecked(isExtraBrightContainer)
     adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(isToggleContentsInfo)
 
-    local gridColor = UserContainerSettings.gridColor()
     adapter:setColor(
             "ContainerGridColorButton",
-            gridColor.r,
-            gridColor.g,
-            gridColor.b
+            UserContainerSettings.gridColor()
     )
 
-    local alternateGridColor = UserContainerSettings.alternateColor()
     adapter:setColor(
             "ContainerGridAlternateColorButton",
-            alternateGridColor.r,
-            alternateGridColor.g,
-            alternateGridColor.b
+            UserContainerSettings.alternateColor()
     )
 
     adapter.views[CheckBoxes.UseLegacyContainers]:setChecked(isUseLegacyContainers)

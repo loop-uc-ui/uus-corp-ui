@@ -130,49 +130,49 @@ function SettingsHealthBarsWindow.UpdateSettings()
     adapter.views[CHECK_BOXES.ShowCloseExtract]:setChecked(UserHealthBarsSettings.showClose())
 
     adapter.views[COMBO_BOXES.Red]:findItem(
-            function (item)
+            function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.redButtonSpell1()
             end
     )
     adapter.views[COMBO_BOXES.Red2]:findItem(
-            function (item)
+            function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.redButtonSpell2()
             end
     )
     adapter.views[COMBO_BOXES.Red3]:findItem(
-            function (item)
+            function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.redButtonSpell3()
             end
     )
 
     adapter.views[COMBO_BOXES.Blue]:findItem(
-            function (item)
+            function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.blueButtonSpell1()
             end
     )
     adapter.views[COMBO_BOXES.Blue2]:findItem(
-            function (item)
+            function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.blueButtonSpell2()
             end
     )
     adapter.views[COMBO_BOXES.Blue3]:findItem(
-            function (item)
+            function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.blueButtonSpell3()
             end
     )
 
     adapter.views[COMBO_BOXES.Green]:findItem(
-            function (item)
+            function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.greenButtonSpell1()
             end
     )
     adapter.views[COMBO_BOXES.Green2]:findItem(
-            function (item)
+            function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.greenButtonSpell2()
             end
     )
     adapter.views[COMBO_BOXES.Green3]:findItem(
-            function (item)
+            function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.greenButtonSpell3()
             end
     )

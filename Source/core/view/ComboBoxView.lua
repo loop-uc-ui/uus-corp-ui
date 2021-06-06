@@ -32,7 +32,7 @@ end
 
 function ComboBoxView:findItem(find)
     for i = 1, #self.items do
-        if find(self.items[i]) then
+        if find(self, self.items[i]) then
             self:setSelectedItem(i)
             break;
         end

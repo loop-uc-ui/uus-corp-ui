@@ -1,166 +1,294 @@
 SettingsOverheadTextWindow = {}
 
-local ShowNames = {}
-ShowNames[1] = {tid = 1011051, id = SystemData.Settings.GameOptions.SHOWNAMES_NONE}
-ShowNames[2] = {tid = 1078090, id = SystemData.Settings.GameOptions.SHOWNAMES_APPROACHING}
-ShowNames[3] = {tid = 1078091, id = SystemData.Settings.GameOptions.SHOWNAMES_ALL}
-local NUM_SHOWNAMES = 3
+local ShowNames = {
+    1011051,
+    1078090,
+    1078091
+}
 
-local DelayValues = {}
-DelayValues[1] = 1078334
-DelayValues[2] = 1078336
-DelayValues[3] = 1078337
-DelayValues[4] = 1078338
-DelayValues[5] = 1078339
-DelayValues[6] = 1078340
-local NUM_DELAY_VALUES = 6
+local DelayValues = {
+    1078334,
+    1078336,
+    1078337,
+    1078338,
+    1078339,
+    1078340
+}
+
+local adapter = ViewAdapter:new("OverheadTextOptions", "OverheadTextOptions")
+
+local CHECK_BOXES = {
+    ClickableNames = "clickableNamesButton",
+    ShowCorpseNames = "ShowCorpseNamesButton",
+    DisableSpells = "DisableSpellsButton",
+    ShowSpellNames = "ShowSpellNameButton",
+    NoPoisonOthers = "noPoisonOthersButton",
+    OverheadChat = "OverheadChatButton"
+}
+
+local COLOR_BUTTONS = {
+    Heal = "OverheadTextOptionscolorHealButton",
+    Curse = "OverheadTextOptionscolorCurseButton",
+    Paralyze = "OverheadTextOptionscolorParaButton",
+    Neutral = "OverheadTextOptionscolorNeutralButton",
+    Negative = "OverheadTextOptionscolorNegButton",
+    Positive = "OverheadTextOptionscolorPosButton",
+    PlayerDamage = "OverheadTextOptionscolorYouButton",
+    PetDamage = "OverheadTextOptionscolorPetButton",
+    EnemyDamage = "OverheadTextOptionscolorEnemyButton",
+    Physical = "OverheadTextOptionscolorPhysButton",
+    Fire = "OverheadTextOptionscolorFireButton",
+    Cold = "OverheadTextOptionscolorColdButton",
+    Poison = "OverheadTextOptionscolorPoisButton",
+    Energy = "OverheadTextOptionscolorEnerButton",
+    Chaos = "OverheadTextOptionscolorChaosButton"
+}
+
+local COMBO_BOXES = {
+    Delay = "OverheadChatFadeDelayCombo",
+    ShowNames = "SettingsOptionsShowNamesCombo"
+}
 
 function SettingsOverheadTextWindow.Initialize()
-    LabelSetText( "OverheadTextOptionsOTSubSectionLabel", GetStringFromTid(  1155333 ) )
-    LabelSetText( "OverheadTextOptionsColorsSubSectionLabel", GetStringFromTid( 1155351 ) )
-
-    LabelSetText( "clickableNames" .. "Label", GetStringFromTid( 1155340 ) )
-    ButtonSetCheckButtonFlag( "clickableNames" .. "Button", true )
-
-    -- Show Corpse Names
-    LabelSetText( "ShowCorpseNamesLabel", GetStringFromTid( 1115927 ) )
-    WindowSetId( "ShowCorpseNamesLabel", 1115928 )
-    ButtonSetCheckButtonFlag( "ShowCorpseNamesButton", true )
-
-    LabelSetText( "DisableSpells" .. "Label", GetStringFromTid( 1155334 ) )
-    WindowSetId( "DisableSpells" .. "Label", 1155335 )
-    ButtonSetCheckButtonFlag( "DisableSpells" .. "Button", true )
-
-    LabelSetText( "ShowSpellName" .. "Label", GetStringFromTid( 1155336 ) )
-    WindowSetId( "ShowSpellName" .. "Label", 1155337 )
-    ButtonSetCheckButtonFlag( "ShowSpellName" .. "Button", true )
-
-    LabelSetText( "noPoisonOthers" .. "Label", GetStringFromTid( 1155338 ) )
-    WindowSetId( "noPoisonOthers" .. "Label", 1155339 )
-    ButtonSetCheckButtonFlag( "noPoisonOthers" .. "Button", true )
-
-    -- Show Names
-    LabelSetText( "SettingsOptionsShowNamesLabel", GetStringFromTid( 1078093 )..L":" )
-    WindowSetId( "SettingsOptionsShowNamesLabel", 1115309 )
-    for sn = 1, NUM_SHOWNAMES do
-        local text = GetStringFromTid( ShowNames[sn].tid )
-        ComboBoxAddMenuItem( "SettingsOptionsShowNamesCombo", L""..text )
-    end
-
-    -- Overhead Chat
-    LabelSetText( "OverheadChatLabel", GetStringFromTid( 1078083 ) )
-    WindowSetId( "OverheadChatLabel", 1115310 )
-    ButtonSetCheckButtonFlag( "OverheadChatButton", true )
-
-    -- Overhead Chat Fade Delay
-    LabelSetText( "OverheadChatFadeDelayLabel", GetStringFromTid( 1078084 )..L":" )
-    WindowSetId( "OverheadChatFadeDelayLabel", 1115311 )
-    for delay = 1,NUM_DELAY_VALUES do
-        local text = GetStringFromTid( DelayValues[delay] )
-        ComboBoxAddMenuItem( "OverheadChatFadeDelayCombo", L""..text )
-    end
-
-    ButtonSetText( "OverheadTextSizePlus",  GetStringFromTid( 1155341 ) )
-    ButtonSetText( "OverheadTextSizeMinus", GetStringFromTid( 1155342 ) )
-    ButtonSetText( "OverheadChatFont",   GetStringFromTid( 1155343 ) )
-    ButtonSetText( "OverheadNamesFont", GetStringFromTid( 1155344 ) )
-    ButtonSetText( "OverheadSpellFont", GetStringFromTid( 1155345 ) )
-    ButtonSetText( "OverheadDamageFont", GetStringFromTid( 1155346 ) )
-
-    LabelSetText( "OverheadTextOptionscolorHealLabel", GetStringFromTid( 1155352 ) )
-    LabelSetText( "OverheadTextOptionscolorCurseLabel",  GetStringFromTid( 1155353 ) )
-    LabelSetText( "OverheadTextOptionscolorParaLabel", GetStringFromTid( 1155354 ) )
-    LabelSetText( "OverheadTextOptionscolorNeutralLabel", GetStringFromTid( 1155355 ) )
-    LabelSetText( "OverheadTextOptionscolorNegLabel", GetStringFromTid( 1155356 ) )
-    LabelSetText( "OverheadTextOptionscolorPosLabel", GetStringFromTid( 1155357 ) )
-    LabelSetText( "OverheadTextOptionscolorYouLabel", GetStringFromTid( 1155358 ) )
-    LabelSetText( "OverheadTextOptionscolorPetLabel", GetStringFromTid( 1155359 ) )
-    LabelSetText( "OverheadTextOptionscolorEnemyLabel", GetStringFromTid( 1155360 ) )
-    LabelSetText( "OverheadTextOptionscolorPhysLabel", GetStringFromTid( 1155361 ) )
-    LabelSetText( "OverheadTextOptionscolorFireLabel", GetStringFromTid( 1155362) )
-    LabelSetText( "OverheadTextOptionscolorColdLabel", GetStringFromTid( 1155363 ) )
-    LabelSetText( "OverheadTextOptionscolorPoisLabel", GetStringFromTid( 1155364 ) )
-    LabelSetText( "OverheadTextOptionscolorEnerLabel", GetStringFromTid( 1155365 ) )
-    LabelSetText( "OverheadTextOptionscolorChaosLabel",GetStringFromTid( 1155366 ) )
+    adapter:addLabel(
+            "OverheadTextOptionsOTSubSectionLabel",
+            1155333
+    ):addLabel(
+            "OverheadTextOptionsColorsSubSectionLabel",
+            1155351
+    ):addLabel(
+            "clickableNamesLabel",
+            1155340
+    ):addCheckBox(
+            CHECK_BOXES.ClickableNames
+    ):addLabel(
+            "ShowCorpseNamesLabel",
+            1115927
+    ):addCheckBox(
+            CHECK_BOXES.ShowCorpseNames
+    ):addLabel(
+            "DisableSpellsLabel",
+            1155334
+    ):addCheckBox(
+            CHECK_BOXES.DisableSpells
+    ):addLabel(
+            "ShowSpellNameLabel",
+            1155336
+    ):addCheckBox(
+            CHECK_BOXES.ShowSpellNames
+    ):addLabel(
+            "noPoisonOthersLabel",
+            1155338
+    ):addCheckBox(
+            CHECK_BOXES.NoPoisonOthers
+    ):addLabel(
+            "OverheadChatLabel",
+            1078083
+    ):addCheckBox(
+            CHECK_BOXES.OverheadChat
+    ):addButton(
+            "OverheadTextSizePlus",
+            1155341
+    ):addButton(
+            "OverheadTextSizeMinus",
+            1155342
+    ):addButton(
+            "OverheadChatFont",
+            1155343
+    ):addButton(
+            "OverheadNamesFont",
+            1155344
+    ):addButton(
+            "OverheadSpellFont",
+            1155345
+    ):addButton(
+            "OverheadDamageFont",
+            1155346
+    ):addLabel(
+            "OverheadTextOptionscolorHealLabel",
+            1155352
+    ):addLabel(
+            "OverheadTextOptionscolorCurseLabel",
+            1155353
+    ):addLabel(
+            "OverheadTextOptionscolorParaLabel",
+            1155354
+    ):addLabel(
+            "OverheadTextOptionscolorNeutralLabel",
+            1155355
+    ):addLabel(
+            "OverheadTextOptionscolorNegLabel",
+            1155356
+    ):addLabel(
+            "OverheadTextOptionscolorPosLabel",
+            1155357
+    ):addLabel(
+            "OverheadTextOptionscolorYouLabel",
+            1155358
+    ):addLabel(
+            "OverheadTextOptionscolorPetLabel",
+            1155359
+    ):addLabel(
+            "OverheadTextOptionscolorEnemyLabel",
+            1155360
+    ):addLabel(
+            "OverheadTextOptionscolorPhysLabel",
+            1155361
+    ):addLabel(
+            "OverheadTextOptionscolorFireLabel",
+            1155362
+    ):addLabel(
+            "OverheadTextOptionscolorColdLabel",
+            1155363
+    ):addLabel(
+            "OverheadTextOptionscolorPoisLabel",
+            1155364
+    ):addLabel(
+            "OverheadTextOptionscolorEnerLabel",
+            1155365
+    ):addLabel(
+            "OverheadTextOptionscolorChaosLabel",
+            1155366
+    ):addLabel(
+            "OverheadChatFadeDelayLabel",
+            1078084
+    ):addComboBox(
+            COMBO_BOXES.Delay,
+            DelayValues
+    ):addLabel(
+            "SettingsOptionsShowNamesLabel",
+            1078093
+    ):addComboBox(
+            COMBO_BOXES.ShowNames,
+            ShowNames
+    )
 end
 
 function SettingsOverheadTextWindow.UpdateSettings()
-    ButtonSetPressedFlag( "OverheadChatButton", SystemData.Settings.Interface.OverheadChat )
-    ButtonSetPressedFlag( "clickableNames" .. "Button", OverheadText.clickableNames )
-    ButtonSetPressedFlag( "DisableSpells" .. "Button", Interface.DisableSpells )
-    ButtonSetPressedFlag( "ShowSpellName" .. "Button", Interface.ShowSpellName )
-    ButtonSetPressedFlag( "noPoisonOthers" .. "Button", Interface.noPoisonOthers )
-    ButtonSetPressedFlag( "ShowCorpseNamesButton", SystemData.Settings.GameOptions.showCorpseNames )
+    adapter.views[CHECK_BOXES.OverheadChat]:setChecked(
+            UserOverheadTextSettings.showChat()
+    )
+    adapter.views[CHECK_BOXES.ClickableNames]:setChecked(
+            UserOverheadTextSettings.clickableNames()
+    )
+    adapter.views[CHECK_BOXES.DisableSpells]:setChecked(
+            UserOverheadTextSettings.disableSpells()
+    )
+    adapter.views[CHECK_BOXES.ShowSpellNames]:setChecked(
+            UserOverheadTextSettings.showSpellNames()
+    )
+    adapter.views[CHECK_BOXES.NoPoisonOthers]:setChecked(
+            UserOverheadTextSettings.disablePoison()
+    )
+    adapter.views[CHECK_BOXES.ShowCorpseNames]:setChecked(
+            UserOverheadTextSettings.showCorpseNames()
+    )
 
-    for sn = 1, NUM_SHOWNAMES do
-        if( SystemData.Settings.GameOptions.showNames == ShowNames[sn].id )then
-            ComboBoxSetSelectedMenuItem( "SettingsOptionsShowNamesCombo", sn )
-        end
-    end
+    adapter:setColor(
+            COLOR_BUTTONS.Heal,
+            UserOverheadTextSettings.healColor()
+    ):setColor(
+            COLOR_BUTTONS.Curse,
+            UserOverheadTextSettings.curseColor()
+    ):setColor(
+            COLOR_BUTTONS.Paralyze,
+            UserOverheadTextSettings.paralyzeColor()
+    ):setColor(
+            COLOR_BUTTONS.Neutral,
+            UserOverheadTextSettings.neutralColor()
+    ):setColor(
+            COLOR_BUTTONS.Negative,
+            UserOverheadTextSettings.errorColor()
+    ):setColor(
+            COLOR_BUTTONS.Positive,
+            UserOverheadTextSettings.specialColor()
+    ):setColor(
+            COLOR_BUTTONS.PlayerDamage,
+            UserOverheadTextSettings.damagePlayerColor()
+    ):setColor(
+            COLOR_BUTTONS.PetDamage,
+            UserOverheadTextSettings.damagePetColor()
+    ):setColor(
+            COLOR_BUTTONS.EnemyDamage,
+            UserOverheadTextSettings.damageOtherColor()
+    ):setColor(
+            COLOR_BUTTONS.Physical,
+            UserOverheadTextSettings.physicalColor()
+    ):setColor(
+            COLOR_BUTTONS.Fire,
+            UserOverheadTextSettings.fireColor()
+    ):setColor(
+            COLOR_BUTTONS.Cold,
+            UserOverheadTextSettings.coldColor()
+    ):setColor(
+            COLOR_BUTTONS.Poison,
+            UserOverheadTextSettings.poisonColor()
+    ):setColor(
+            COLOR_BUTTONS.Energy,
+            UserOverheadTextSettings.energyColor()
+    ):setColor(
+            COLOR_BUTTONS.Chaos,
+            UserOverheadTextSettings.chaosColor()
+    )
 
-    if( SystemData.Settings.Interface.OverheadChatFadeDelay ~= nil )then
-        ComboBoxSetSelectedMenuItem( "OverheadChatFadeDelayCombo", SystemData.Settings.Interface.OverheadChatFadeDelay )
-    end
+    adapter.views[COMBO_BOXES.Delay]:setSelectedItem(
+            UserOverheadTextSettings.delay()
+    )
 
-    WindowSetTintColor("OverheadTextOptions" .. "colorHeal" .. "Button", TextParsing.Heal.r,TextParsing.Heal.g,TextParsing.Heal.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorCurse" .. "Button", TextParsing.Curse.r,TextParsing.Curse.g,TextParsing.Curse.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorPara" .. "Button", TextParsing.Paralyze.r,TextParsing.Paralyze.g,TextParsing.Paralyze.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorNeutral" .. "Button", TextParsing.Neutral.r,TextParsing.Neutral.g,TextParsing.Neutral.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorNeg" .. "Button", TextParsing.OverHeadError.r,TextParsing.OverHeadError.g,TextParsing.OverHeadError.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorPos" .. "Button", TextParsing.SpecialColor.r,TextParsing.SpecialColor.g,TextParsing.SpecialColor.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorYou" .. "Button", DamageWindow.YOUGETAMAGE_COLOR.r,DamageWindow.YOUGETAMAGE_COLOR.g,DamageWindow.YOUGETAMAGE_COLOR.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorPet" .. "Button", DamageWindow.PETGETDAMAGE_COLOR.r,DamageWindow.PETGETDAMAGE_COLOR.g,DamageWindow.PETGETDAMAGE_COLOR.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorEnemy" .. "Button", DamageWindow.OTHERGETDAMAGE_COLOR.r,DamageWindow.OTHERGETDAMAGE_COLOR.g,DamageWindow.OTHERGETDAMAGE_COLOR.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorPhys" .. "Button", SpellsInfo.PHYSICAL.r,SpellsInfo.PHYSICAL.g,SpellsInfo.PHYSICAL.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorFire" .. "Button", SpellsInfo.FIRE.r,SpellsInfo.FIRE.g,SpellsInfo.FIRE.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorCold" .. "Button", SpellsInfo.COLD.r,SpellsInfo.COLD.g,SpellsInfo.COLD.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorPois" .. "Button", SpellsInfo.POISON.r,SpellsInfo.POISON.g,SpellsInfo.POISON.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorEner" .. "Button", SpellsInfo.ENERGY.r,SpellsInfo.ENERGY.g,SpellsInfo.ENERGY.b)
-    WindowSetTintColor("OverheadTextOptions" .. "colorChaos" .. "Button", SpellsInfo.Chaos.r,SpellsInfo.Chaos.g,SpellsInfo.Chaos.b)
+    adapter.views[COMBO_BOXES.ShowNames]:findItem(
+            function(self, item)
+                return TableFormatter.indexOf(self.items, item) == TableFormatter.indexOf(
+                        UserOverheadTextSettings.ShowNamesOptions,
+                        UserOverheadTextSettings.showNames()
+                )
+            end
+    )
 end
 
 function SettingsOverheadTextWindow.OnApplyButton()
-    SystemData.Settings.GameOptions.showCorpseNames = ButtonGetPressedFlag( "ShowCorpseNamesButton" )
+    UserOverheadTextSettings.showCorpseNames(
+            adapter.views[CHECK_BOXES.ShowCorpseNames]:isChecked()
+    )
+    UserOverheadTextSettings.clickableNames(
+            adapter.views[CHECK_BOXES.ClickableNames]:isChecked()
+    )
+    UserOverheadTextSettings.disableSpells(
+            adapter.views[CHECK_BOXES.DisableSpells]:isChecked()
+    )
+    UserOverheadTextSettings.showSpellNames(
+            adapter.views[CHECK_BOXES.ShowSpellNames]:isChecked()
+    )
+    UserOverheadTextSettings.disablePoison(
+            adapter.views[CHECK_BOXES.NoPoisonOthers]:isChecked()
+    )
+    UserOverheadTextSettings.showChat(
+            adapter.views[CHECK_BOXES.OverheadChat]:isChecked()
+    )
+    UserOverheadTextSettings.delay(
+            adapter.views[COMBO_BOXES.Delay]:getSelectedItem()
+    )
+    UserOverheadTextSettings.showNames(
+            UserOverheadTextSettings.ShowNamesOptions[adapter.views[COMBO_BOXES.ShowNames]:getSelectedItem()]
+    )
 
-    OverheadText.clickableNames =	ButtonGetPressedFlag( "clickableNames" .. "Button" )
-    Interface.SaveBoolean( "clickableNames", OverheadText.clickableNames )
-
-    Interface.DisableSpells =	ButtonGetPressedFlag( "DisableSpells" .. "Button" )
-    Interface.SaveBoolean( "DisableSpells", Interface.DisableSpells )
-
-    Interface.ShowSpellName =	ButtonGetPressedFlag( "ShowSpellName" .. "Button" )
-    Interface.SaveBoolean( "ShowSpellName", Interface.ShowSpellName )
-
-    Interface.noPoisonOthers =	ButtonGetPressedFlag( "noPoisonOthers" .. "Button" )
-    Interface.SaveBoolean( "noPoisonOthers", Interface.noPoisonOthers )
-
-    -- Show Names
-    local showNamesIndex = ComboBoxGetSelectedMenuItem( "SettingsOptionsShowNamesCombo" )
-    SystemData.Settings.GameOptions.showNames = ShowNames[showNamesIndex].id
-
-    SystemData.Settings.Interface.OverheadChat = ButtonGetPressedFlag( "OverheadChatButton" )
-    SystemData.Settings.Interface.OverheadChatFadeDelay = ComboBoxGetSelectedMenuItem( "OverheadChatFadeDelayCombo" )
-
+    --TODO refactor this
     OverheadText.UpdateSettings()
 end
 
 function SettingsOverheadTextWindow.IncreaseTextSize()
-    OverheadText.OverhedTextSize =OverheadText.OverhedTextSize + 0.1
-
+    OverheadText.OverhedTextSize = OverheadText.OverhedTextSize + 0.1
     if (OverheadText.OverhedTextSize > 1.5) then
         OverheadText.OverhedTextSize = 1.5
     end
-    Interface.SaveNumber("OverhedTextSize", OverheadText.OverhedTextSize)
-    WindowUtils.SendOverheadText(GetStringFromTid(1155472), 23  , false, false)
+    UserOverheadTextSettings.textSize(OverheadText.OverhedTextSize)
 end
 
 function SettingsOverheadTextWindow.DecreaseTextSize()
-    OverheadText.OverhedTextSize =OverheadText.OverhedTextSize - 0.1
+    OverheadText.OverhedTextSize = OverheadText.OverhedTextSize - 0.1
     if (OverheadText.OverhedTextSize < 0.5) then
         OverheadText.OverhedTextSize = 0.5
     end
-    Interface.SaveNumber("OverhedTextSize", OverheadText.OverhedTextSize)
-    WindowUtils.SendOverheadText(GetStringFromTid(1155472), 23 , false, false)
+    UserOverheadTextSettings.textSize(OverheadText.OverhedTextSize)
 end
 
 function SettingsOverheadTextWindow.ChatFont()

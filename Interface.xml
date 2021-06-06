@@ -120,6 +120,7 @@
 		<Script file="Source/core/data/WindowDataStore.lua"/>
 		<Script file="Source/core/data/UserInterfaceVariables.lua"/>
 		<Script file="Source/core/data/UserHealthBarsSettings.lua"/>
+		<Script file="Source/core/data/UserOverheadTextSettings.lua"/>
 		<Script file="Source/core/data/UserContainerSettings.lua"/>
 		<Script file="Source/core/data/UserOptionsSettings.lua"/>
 		<Script file="Source/core/data/UserSoundSettings.lua"/>
