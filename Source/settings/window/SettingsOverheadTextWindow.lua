@@ -268,7 +268,9 @@ function SettingsOverheadTextWindow.OnApplyButton()
             adapter.views[COMBO_BOXES.Delay]:getSelectedItem()
     )
     UserOverheadTextSettings.showNames(
-            UserOverheadTextSettings.ShowNamesOptions[adapter.views[COMBO_BOXES.ShowNames]:getSelectedItem()]
+            TableFormatter.getValues(
+                    UserOverheadTextSettings.ShowNamesOptions
+            )[adapter.views[COMBO_BOXES.ShowNames]:getSelectedItem()]
     )
 
     --TODO refactor this

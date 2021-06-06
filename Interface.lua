@@ -517,36 +517,6 @@ function Interface.LoadVariables()
 	MobileHealthBar.PetLegacyCloseStyle =				Interface.LoadBoolean( "PetLegacyCloseStyle", MobileHealthBar.PetLegacyCloseStyle ) 
 	Interface.ShowCloseExtract =						Interface.LoadBoolean( "ShowCloseExtract", Interface.ShowCloseExtract ) 
 
-	Interface.ShowSpellName =							Interface.LoadBoolean( "ShowSpellName", Interface.ShowSpellName )
-	Interface.DisableSpells =							Interface.LoadBoolean( "DisableSpells", Interface.DisableSpells )
-	Interface.noPoisonOthers =							Interface.LoadBoolean( "noPoisonOthers", Interface.noPoisonOthers )
-
-	OverheadText.clickableNames =						Interface.LoadBoolean( "clickableNames", OverheadText.clickableNames )
-	OverheadText.OverhedTextSize =						Interface.LoadNumber( "OverhedTextSize", OverheadText.OverhedTextSize )
-	OverheadText.FontIndex =							Interface.LoadNumber("OverheadTextFontIndex", OverheadText.FontIndex)
-	OverheadText.NameFontIndex =						Interface.LoadNumber("OverheadTextNameFontIndex", OverheadText.NameFontIndex)
-	OverheadText.SpellsFontIndex =						Interface.LoadNumber("OverheadTextSpellsFontIndex", OverheadText.SpellsFontIndex)
-	OverheadText.DamageFontIndex =						Interface.LoadNumber("OverheadTextDamageFontIndex", OverheadText.DamageFontIndex)
-	
-	TextParsing.Heal  =									Interface.LoadColor("TextParsingHeal", TextParsing.Heal)
-	TextParsing.Curse  =								Interface.LoadColor("TextParsingCurse", TextParsing.Curse)
-	TextParsing.Paralyze = 								Interface.LoadColor("TextParsingParalyze", TextParsing.Paralyze)
-	TextParsing.Neutral =								Interface.LoadColor("TextParsingNeutral", TextParsing.Neutral)
-	
-	TextParsing.OverHeadError = 						Interface.LoadColor("TextParsingOverHeadError", TextParsing.OverHeadError)
-	TextParsing.SpecialColor =  						Interface.LoadColor("TextParsingSpecialColor", TextParsing.SpecialColor)
-	
-	DamageWindow.OTHERGETDAMAGE_COLOR = 				Interface.LoadColor("DamageWindowOTHERGETDAMAGE_COLOR", DamageWindow.OTHERGETDAMAGE_COLOR)
-	DamageWindow.YOUGETAMAGE_COLOR =					Interface.LoadColor("DamageWindowYOUGETAMAGE_COLOR", DamageWindow.YOUGETAMAGE_COLOR)
-	DamageWindow.PETGETDAMAGE_COLOR =					Interface.LoadColor("DamageWindowPETGETDAMAGE_COLOR", DamageWindow.PETGETDAMAGE_COLOR)
-	
-	SpellsInfo.PHYSICAL =								Interface.LoadColor("SpellsInfoPHYSICAL",SpellsInfo.PHYSICAL)
-	SpellsInfo.FIRE =									Interface.LoadColor("SpellsInfoFIRE",SpellsInfo.FIRE)
-	SpellsInfo.COLD  =									Interface.LoadColor("SpellsInfoCOLD",SpellsInfo.COLD)
-	SpellsInfo.POISON  =								Interface.LoadColor("SpellsInfoPOISON",SpellsInfo.POISON)
-	SpellsInfo.ENERGY  =								Interface.LoadColor("SpellsInfoENERGY",SpellsInfo.ENERGY)
-	SpellsInfo.Chaos  =									Interface.LoadColor("SpellsInfoChaos",SpellsInfo.Chaos)
-	
 	ContainerWindow.EnableAutoIgnoreCorpses =			Interface.LoadBoolean( "AutoIgnoreCorpses", ContainerWindow.EnableAutoIgnoreCorpses)
 	
 	Interface.ForceEnchant =							Interface.LoadNumber("ForceEnchant", Interface.ForceEnchant)

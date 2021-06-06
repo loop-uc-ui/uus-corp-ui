@@ -5,70 +5,49 @@ local HuePickerWindow
 
 function SettingsColorButton.ColorPicked()
     local huePicked = ColorPickerWindow.colorSelected["ColorPicker"]
-
+    local color = {}
+    color.r, color.g, color.b = HueRGBAValue(huePicked)
+    
     if (HuePickerWindowRequest == "ContainerGridColorButton") then
-        local gridColor = UserContainerSettings.gridColor()
-        gridColor.r, gridColor.g, gridColor.b, gridColor.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("BaseGridColor", gridColor)
+        UserContainerSettings.gridColor(color)
         SettingsContainersWindow.DestroyContainers()
-
-    elseif (HuePickerWindowRequest== "ContainerGridAlternateColorButton") then
-        local altColor = UserContainerSettings.alternateColor()
-        altColor.r, altColor.g, altColor.b, altColor.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("AlternateBackpack", altColor)
+    elseif (HuePickerWindowRequest == "ContainerGridAlternateColorButton") then
+        UserContainerSettings.alternateColor(color)
         SettingsContainersWindow.DestroyContainers()
-
-    elseif (HuePickerWindowRequest== "colorHeal") then
-        TextParsing.Heal.r,TextParsing.Heal.g,TextParsing.Heal.b,TextParsing.Heal.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("TextParsingHeal", TextParsing.Heal)
-    elseif (HuePickerWindowRequest== "colorCurse") then
-        TextParsing.Curse.r,TextParsing.Curse.g,TextParsing.Curse.b,TextParsing.Curse.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("TextParsingCurse", TextParsing.Curse)
-    elseif (HuePickerWindowRequest== "colorPara") then
-        TextParsing.Paralyze.r,TextParsing.Paralyze.g,TextParsing.Paralyze.b,TextParsing.Paralyze.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("TextParsingParalyze", TextParsing.Paralyze)
-    elseif (HuePickerWindowRequest== "colorNeutral") then
-        TextParsing.Neutral.r,TextParsing.Neutral.g,TextParsing.Neutral.b,TextParsing.Neutral.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("TextParsingNeutral", TextParsing.Neutral)
-    elseif (HuePickerWindowRequest== "colorNeg") then
-        TextParsing.OverHeadError.r,TextParsing.OverHeadError.g,TextParsing.OverHeadError.b,TextParsing.OverHeadError.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("TextParsingOverHeadError", TextParsing.OverHeadError)
-    elseif (HuePickerWindowRequest== "colorPos") then
-        TextParsing.SpecialColor.r,TextParsing.SpecialColor.g,TextParsing.SpecialColor.b,TextParsing.SpecialColor.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("TextParsingSpecialColor", TextParsing.SpecialColor)
-
-    elseif (HuePickerWindowRequest== "colorYou") then
-        DamageWindow.YOUGETAMAGE_COLOR.r,DamageWindow.YOUGETAMAGE_COLOR.g,DamageWindow.YOUGETAMAGE_COLOR.b,DamageWindow.YOUGETAMAGE_COLOR.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("DamageWindowYOUGETAMAGE_COLOR", DamageWindow.YOUGETAMAGE_COLOR)
-    elseif (HuePickerWindowRequest== "colorPet") then
-        DamageWindow.PETGETDAMAGE_COLOR.r,DamageWindow.PETGETDAMAGE_COLOR.g,DamageWindow.PETGETDAMAGE_COLOR.b,DamageWindow.PETGETDAMAGE_COLOR.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("DamageWindowPETGETDAMAGE_COLOR", DamageWindow.PETGETDAMAGE_COLOR)
-    elseif (HuePickerWindowRequest== "colorEnemy") then
-        DamageWindow.OTHERGETDAMAGE_COLOR.r,DamageWindow.OTHERGETDAMAGE_COLOR.g,DamageWindow.OTHERGETDAMAGE_COLOR.b,DamageWindow.OTHERGETDAMAGE_COLOR.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("DamageWindowOTHERGETDAMAGE_COLOR", DamageWindow.OTHERGETDAMAGE_COLOR)
-
-    elseif (HuePickerWindowRequest== "colorPhys") then
-        SpellsInfo.PHYSICAL.r,SpellsInfo.PHYSICAL.g,SpellsInfo.PHYSICAL.b,SpellsInfo.PHYSICAL.a  = HueRGBAValue(huePicked)
-        Interface.SaveColor("SpellsInfoPHYSICAL", SpellsInfo.PHYSICAL)
-    elseif (HuePickerWindowRequest== "colorFire") then
-        SpellsInfo.FIRE.r,SpellsInfo.FIRE.g,SpellsInfo.FIRE.b,SpellsInfo.FIRE.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("SpellsInfoFIRE", SpellsInfo.FIRE)
-    elseif (HuePickerWindowRequest== "colorCold") then
-        SpellsInfo.COLD.r,SpellsInfo.COLD.g,SpellsInfo.COLD.b,SpellsInfo.COLD.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("SpellsInfoCOLD", SpellsInfo.COLD)
-    elseif (HuePickerWindowRequest== "colorPois") then
-        SpellsInfo.POISON.r,SpellsInfo.POISON.g,SpellsInfo.POISON.b,SpellsInfo.POISON.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("SpellsInfoPOISON", SpellsInfo.POISON)
-    elseif (HuePickerWindowRequest== "colorEner") then
-        SpellsInfo.ENERGY.r,SpellsInfo.ENERGY.g,SpellsInfo.ENERGY.b,SpellsInfo.ENERGY.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("SpellsInfoENERGY", SpellsInfo.ENERGY)
-    elseif (HuePickerWindowRequest== "colorChaos") then
-        SpellsInfo.Chaos.r,SpellsInfo.Chaos.g,SpellsInfo.Chaos.b,SpellsInfo.Chaos.a = HueRGBAValue(huePicked)
-        Interface.SaveColor("SpellsInfoChaos", SpellsInfo.Chaos)
+    elseif (HuePickerWindowRequest == "colorHealButton") then
+        Debug.Print(color)
+        TextParsing.Heal = UserOverheadTextSettings.healColor(color)
+    elseif (HuePickerWindowRequest== "colorCurseButton") then
+        TextParsing.Curse = UserOverheadTextSettings.curseColor(color)
+    elseif (HuePickerWindowRequest== "colorParaButton") then
+        TextParsing.Paralyze = UserOverheadTextSettings.paralyzeColor(color)
+    elseif (HuePickerWindowRequest== "colorNeutralButton") then
+        TextParsing.Neutral = UserOverheadTextSettings.neutralColor(color)
+    elseif (HuePickerWindowRequest== "colorNegButton") then
+        TextParsing.OverHeadError = UserOverheadTextSettings.errorColor(color)
+    elseif (HuePickerWindowRequest== "colorPosButton") then
+        TextParsing.SpecialColor = UserOverheadTextSettings.specialColor(color)
+    elseif (HuePickerWindowRequest== "colorYouButton") then
+        DamageWindow.YOUGETAMAGE_COLOR = UserOverheadTextSettings.damagePlayerColor(color)
+    elseif (HuePickerWindowRequest== "colorPetButton") then
+        DamageWindow.PETGETDAMAGE_COLOR = UserOverheadTextSettings.damagePetColor(color)
+    elseif (HuePickerWindowRequest== "colorEnemyButton") then
+        DamageWindow.OTHERGETDAMAGE_COLOR = UserOverheadTextSettings.damageOtherColor(color)
+    elseif (HuePickerWindowRequest== "colorPhysButton") then
+        SpellsInfo.PHYSICAL = UserOverheadTextSettings.physicalColor(color)
+    elseif (HuePickerWindowRequest== "colorFireButton") then
+        SpellsInfo.FIRE = UserOverheadTextSettings.fireColor(color)
+    elseif (HuePickerWindowRequest== "colorColdButton") then
+        SpellsInfo.COLD = UserOverheadTextSettings.coldColor(color)
+    elseif (HuePickerWindowRequest== "colorPoisButton") then
+        SpellsInfo.POISON = UserOverheadTextSettings.poisonColor(color)
+    elseif (HuePickerWindowRequest== "colorEnerButton") then
+        SpellsInfo.ENERGY = serOverheadTextSettings.energyColor(color)
+    elseif (HuePickerWindowRequest== "colorChaosButton") then
+        SpellsInfo.Chaos = UserOverheadTextSettings.chaosColor(color)
     end
 
-    local r,g,b = HueRGBAValue(huePicked)
-    WindowSetTintColor(HuePickerWindow .. "Button", r,g,b)
+    WindowSetTintColor(HuePickerWindow .. "Button", color.r,color.g,color.b)
     DestroyWindow("ColorPicker")
 end
 

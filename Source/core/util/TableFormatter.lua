@@ -34,9 +34,11 @@ function TableFormatter:sortTable(thisTable)
 end
 
 function TableFormatter.indexOf(table, item)
-    for key, value in pairs(table) do
+    local count = 0
+    for _, value in pairs(table) do
+        count = count + 1
         if value == item then
-            return key
+            return count
         end
     end
     return -1
