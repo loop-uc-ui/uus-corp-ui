@@ -7,7 +7,6 @@ local ComboBoxes = {
 }
 
 local CheckBoxes = {
-    ToggleContentsInfo = "ToggleContentsInfoButton",
     ToggleGrid = "ToggleGridButton",
     ToggleAlternateGrid = "ToggleAlternateGridButton",
     ToggleExtraBright = "ToggleExtraBrightButton",
@@ -17,7 +16,6 @@ local CheckBoxes = {
 local adapter = ViewAdapter:new("SettingsContainersWindow")
 
 local isGridContainer = true
-local isToggleContentsInfo = false
 local isExtraBrightContainer = false
 local isAlternateGrid = false
 local isUseLegacyContainers = false
@@ -47,8 +45,6 @@ function SettingsContainersWindow.Initialize()
             :addLabel("CorpseViewLabel", 1079828)
             :addComboBox(ComboBoxes.ContainerView, containerViewOptions, 1)
             :addComboBox(ComboBoxes.CorpseView, containerViewOptions, 1)
-            :addLabel( "ToggleContentsInfoLabel", 1155284)
-            :addCheckBox(CheckBoxes.ToggleContentsInfo)
             :addLabel("ToggleGridLabel", 1155282)
             :addCheckBox(CheckBoxes.ToggleGrid)
             :addLabel("ToggleAlternateGridLabel", 1155286)
@@ -80,13 +76,11 @@ function SettingsContainersWindow.UpdateSettings()
     isAlternateGrid = UserContainerSettings.alternateGrid()
     isExtraBrightContainer = UserContainerSettings.brightContainers()
     isGridContainer = UserContainerSettings.gridContainer()
-    isToggleContentsInfo = UserContainerSettings.toggleContentsInfo()
     isUseLegacyContainers = UserContainerSettings.legacyContainers()
 
     adapter.views[CheckBoxes.ToggleGrid]:setChecked(isGridContainer)
-    adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(isAlternateGrid)
+    adapter.views[CheckBoxes.ToggleAlternateGrid]:setChecked(isAlternateGrid)
     adapter.views[CheckBoxes.ToggleExtraBright]:setChecked(isExtraBrightContainer)
-    adapter.views[CheckBoxes.ToggleContentsInfo]:setChecked(isToggleContentsInfo)
 
     adapter:setColor(
             "ContainerGridColorButton",
@@ -119,12 +113,8 @@ function SettingsContainersWindow.OnApplyButton()
             containerView.items[corpseView:getSelectedItem()]
     ))
 
-    local isChecked = adapter.views[CheckBoxes.ToggleContentsInfo]:isChecked()
-    local doReload = isToggleContentsInfo ~= isChecked
-    UserContainerSettings.toggleContentsInfo(isChecked)
-
-    isChecked = adapter.views[CheckBoxes.ToggleGrid]:isChecked()
-    doReload = doReload or isGridContainer ~= isChecked
+    local isChecked = adapter.views[CheckBoxes.ToggleGrid]:isChecked()
+    local doReload = isGridContainer ~= isChecked
     UserContainerSettings.gridContainer(isChecked)
 
     isChecked = adapter.views[CheckBoxes.ToggleAlternateGrid]:isChecked()

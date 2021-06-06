@@ -7,7 +7,7 @@ function SettingsColorButton.ColorPicked()
     local huePicked = ColorPickerWindow.colorSelected["ColorPicker"]
     local color = {}
     color.r, color.g, color.b = HueRGBAValue(huePicked)
-    
+
     if (HuePickerWindowRequest == "ContainerGridColorButton") then
         UserContainerSettings.gridColor(color)
         SettingsContainersWindow.DestroyContainers()

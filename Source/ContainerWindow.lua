@@ -142,18 +142,6 @@ function ContainerWindow.SetLegacyContainer( gumpID, windowID )
 	WindowSetDimensions(this.."FreeformView", textureSize * scale, textureSize * scale)
 	DynamicImageSetTexture(this.."FreeformView", "freeformcontainer_texture"..windowID, 0, 0)
 	DynamicImageSetTextureScale(this.."FreeformView", InterfaceCore.scale * scale)
-	-- Content Text
-	WindowSetScale(this.."Content", InterfaceCore.scale/scale)
-	WindowClearAnchors(this.."Content")
-
-	local xLoc = 0
-	local yLoc = 0
-	if(ContainersInfo.LegacyContentLabelLocation[gumpID])then
-		xLoc = ContainersInfo.LegacyContentLabelLocation[gumpID].x
-		yLoc = ContainersInfo.LegacyContentLabelLocation[gumpID].y
-	end
-	WindowAddAnchor( this.."Content", "bottom", this.."FreeformView", "top", xLoc, yLoc)
-	
 	requestedContainerArt = requestedContainerArt or {}
 	requestedContainerArt = texture
 end
@@ -557,8 +545,6 @@ function ContainerWindow.LegacyGridDock(this)
 		WindowAddAnchor( this.."Search", "topleft", this, "topleft", 5, -5)
 		WindowClearAnchors(this.."LootAll")
 		WindowAddAnchor( this.."LootAll", "topright", this.."Search", "topleft", 5, 0)
-		WindowClearAnchors(this.."Content")
-		WindowAddAnchor( this.."Content", "bottom", this, "top", 5, 5)
 	elseif (gumpID ~= 1422) then
 		WindowSetShowing(this.."LootAll", false)
 		WindowSetShowing(this.."Search", true)
@@ -566,8 +552,6 @@ function ContainerWindow.LegacyGridDock(this)
 		WindowAddAnchor( this.."Search", "topright", this.."Restock", "topleft", 7, 0)
 		WindowClearAnchors(this.."LootAll")
 		WindowAddAnchor( this.."LootAll", "topleft", this.."Restock", "topright", 0, 0)
-		WindowClearAnchors(this.."Content")
-		WindowAddAnchor( this.."Content", "bottom", this, "top", 5, 5)
 	end
 end
 
@@ -1092,21 +1076,6 @@ function ContainerWindow.UpdateContents(id,forceUpdate)
 			ScrollWindowSetOffset(grid_view_this, gridOffset)						
 		end	
 	end
-		
-	local oldContent = LabelGetText(this.."Content")
-	LabelSetText(this.."Content", L"")	
-
-	local content = ContainerWindow.GetContent(id)
-	if (UserContainerSettings.toggleContentsInfo()) then
-			if content then
-				LabelSetText(this.."Content", content)
-			else
-				
-				LabelSetText(this.."Content", oldContent)
-			end
-	end
-
-	
 	
 	for w, dat in pairs (TradeWindow.TradeInfo) do
 		TradeWindow.UpdateContents(dat.containerId, w, true)

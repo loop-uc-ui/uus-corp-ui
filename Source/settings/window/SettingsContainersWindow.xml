@@ -37,25 +37,14 @@
                                         </Anchor>
                                     </Anchors>
                                 </Window>
-                                <Window name="ToggleContentsInfo" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="280" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="$parentSystemSubSection">
-                                            <AbsPoint x="0" y="52"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
                                 <Label name="ContainerViewLabel" inherits="Settings_ItemTitle">
                                     <Size>
                                         <AbsPoint x="200" y="20"/>
                                     </Size>
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="ToggleContentsInfo">
-                                            <AbsPoint x="28" y="26"/>
+                                                relativeTo="$parentSystemSubSection">
+                                            <AbsPoint x="0" y="52"/>
                                         </Anchor>
                                     </Anchors>
                                     <Color r="255" g="255" b="255" a="255"/>

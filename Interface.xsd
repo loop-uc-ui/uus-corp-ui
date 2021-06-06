@@ -148,6 +148,8 @@
             <xs:enumeration value="OnSlide"/>
             <xs:enumeration value="OnLButtonDblClk"/>
             <xs:enumeration value="OnRButtonDown"/>
+            <xs:enumeration value="OnScrollPosChanged"/>
+            <xs:enumeration value="OnSetMoving"/>
         </xs:restriction>
     </xs:simpleType>
 

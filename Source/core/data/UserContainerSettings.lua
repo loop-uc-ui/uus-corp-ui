@@ -25,15 +25,6 @@ function UserContainerSettings.gridContainer(newValue)
     end
 end
 
-function UserContainerSettings.toggleContentsInfo(newValue)
-    if newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("ToggleContentsInfo", newValue)
-        return newValue
-    else
-        return UserInterfaceVariables.LoadBoolean("ToggleContentsInfo", false)
-    end
-end
-
 function UserContainerSettings.corpseView(newValue)
     if newValue ~= nil then
         SystemData.Settings.Interface.defaultCorpseMode = newValue
