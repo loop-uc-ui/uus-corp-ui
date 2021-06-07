@@ -7,7 +7,6 @@ OverheadText = {}
 ----------------------------------------------------------------
 -- *** Local Variables
 ----------------------------------------------------------------
-OverheadText.QuestMarkers = {}
 OverheadText.ActiveIdList = {}
 OverheadText.FadeTimeId = {}
 OverheadText.TimePassed = {}
@@ -171,16 +170,7 @@ function OverheadText.UpdateName(mobileId)
 	if( DoesWindowNameExist( windowName) == false ) then
 		return
 	end
-	if not DoesWindowNameExist("QuestMarker_"..mobileId) and OverheadText.QuestMarkers[mobileId] == nil then
-		local props = ItemProperties.GetObjectPropertiesTid( mobileId, 2, "Overhead Text - Create Quest Marker" )
-		if ItemPropertiesInfo.QuestGiverTid[props] or IsOldQuestGiver(mobileId) then
-			CreateWindowFromTemplate("QuestMarker_"..mobileId, "QuestMarker", "Root")
-			AttachWindowToWorldObject(mobileId, "QuestMarker_"..mobileId)
-			OverheadText.QuestMarkers[mobileId] = "QuestMarker_"..mobileId
-		else
-			OverheadText.QuestMarkers[mobileId] = -1
-		end
-	end
+
 	if(data and data.MobName ~= nil) then
 		OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 		if (mobileId ~= WindowData.PlayerStatus.PlayerId and true and not OverheadText.LastSeeName[mobileId]) then -- TODO: "you see" enabled?
@@ -270,10 +260,6 @@ function OverheadText.UpdateName(mobileId)
 		--Destroy the entire overhead text window if the mobile status is not there anymore.
 		--Player probably teleported and we didn't delete the mobiles name.
   		DestroyWindow(windowName)
-  		if DoesWindowNameExist("QuestMarker_"..mobileId) then
-  			DetachWindowFromWorldObject(mobileId, "QuestMarker_"..mobileId)
-  			DestroyWindow("QuestMarker_"..mobileId)
-  		end
 	end
 end
 
@@ -371,43 +357,8 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 	
 end
 
-OverheadText.QuestMarkerDelta = 0
 function OverheadText.Update( timePassed )
-
-	for key, value in pairs(OverheadText.QuestMarkers) do
-		
-		if (GetDistanceFromPlayer(key) > 20 or GetDistanceFromPlayer(key) < 0) then
-			if DoesWindowNameExist("QuestMarker_"..key) then
-				DetachWindowFromWorldObject( key, "QuestMarker_"..key )
-				DestroyWindow("QuestMarker_"..key)
-			end
-			OverheadText.QuestMarkers[key] = nil
-		end
-		
-	end
-	if OverheadText.QuestMarkerDelta > 2 then
-		
-		for mobileId, id in pairs(OverheadText.ActiveIdList) do
-			if not DoesWindowNameExist("QuestMarker_"..mobileId) and GetDistanceFromPlayer(mobileId) <= 20 and OverheadText.QuestMarkers[mobileId] == nil then
-				
-				local props = ItemProperties.GetObjectPropertiesTid( mobileId, 2, "Overhead Text - Update Quest Marker" )
-				if ItemPropertiesInfo.QuestGiverTid[props] or IsOldQuestGiver(mobileId) then
-					CreateWindowFromTemplate("QuestMarker_"..mobileId, "QuestMarker", "Root")
-					AttachWindowToWorldObject(mobileId, "QuestMarker_"..mobileId)
-					OverheadText.QuestMarkers[mobileId] = "QuestMarker_"..mobileId
-				else
-					OverheadText.QuestMarkers[mobileId] = -1
-				end
-			else 
-				OverheadText.QuestMarkers[mobileId] = -1
-			end
-		end
-		OverheadText.QuestMarkerDelta = 0
-	end
-	OverheadText.QuestMarkerDelta = OverheadText.QuestMarkerDelta + timePassed
-	
 	--timer for overhead msg
-	
 	if OverheadText.OverheadAlive ~= 0 then
 		for id, data in pairs(OverheadText.ChatData) do
 			for index, totalTimePassed in pairs(data.timePassed) do
