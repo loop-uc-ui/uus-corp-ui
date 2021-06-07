@@ -561,18 +561,6 @@ function Interface.CreateWindows()
 	CreateWindow( "MapFindWindow", false)
 	CreateWindow( "WarShield", UserOptionsSettings.showWarShield())
 	CreateWindow( "CrystalPortal", false)
-	Interface.CreateTCTools()
-end
-
-function Interface.CreateTCTools()
-	if (UserData.Settings.Login.lastShardSelected == 54 and not DoesWindowNameExist("TCTOOLSWindow")) then
-		CreateWindowFromTemplate("TCTOOLSWindow", "TCTOOLS", "Root")
-		WindowClearAnchors("TCTOOLSWindow")
-		WindowAddAnchor("TCTOOLSWindow", "bottomright", "ResizeWindow", "bottomright", -10, -20)
-		WindowSetShowing("TCTOOLSWindowIMG", false)
-		SnapUtils.SnappableWindows["TCTOOLSWindow"] = true
-		WindowUtils.RestoreWindowPosition("TCTOOLSWindow", false)
-	end
 end
 
 function Interface.InitializeWindows()
@@ -726,12 +714,6 @@ function Interface.InterfaceInitialize()
 		local x, y= WindowGetOffsetFromParent("MapWindow")
 		WindowClearAnchors("MapWindow")
 		WindowSetOffsetFromParent("MapWindow", x,y)
-		
-		WindowClearAnchors("TCTOOLSWindow")
-		WindowAddAnchor("TCTOOLSWindow", "bottomright", "ResizeWindow", "bottomright", 0, -20)
-		local x, y= WindowGetOffsetFromParent("TCTOOLSWindow")
-		WindowClearAnchors("TCTOOLSWindow")
-		WindowSetOffsetFromParent("TCTOOLSWindow", x,y)
 		
 		WindowClearAnchors("TargetWindow")
 		WindowAddAnchor("TargetWindow", "top", "ResizeWindow", "top", 0, 20)

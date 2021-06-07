@@ -1,55 +1,6 @@
-<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../Interface.xsd">
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
 
-        <!-- TC TOOLS button -->
-        <Window name="TCTOOLS" sticky="true" layer="default" handleinput="true" movable="true">
-            <Size>
-                <AbsPoint x="71" y="120"/>
-            </Size>
-            <EventHandlers>
-                <EventHandler event="OnMouseOver" function="StatusWindow.TCToolsOver"/>
-                <EventHandler event="OnMouseOverEnd" function="StatusWindow.TCToolsOverend"/>
-                <EventHandler event="OnLButtonDown" function="StatusWindow.TCToolsOnLButtonDown"/>
-            </EventHandlers>
-            <Windows>
-                <HorizontalResizeImage name="$parentIMG" inherits="UO_Default_Medium_Tab_Enabled">
-                    <Size>
-                        <AbsPoint x="71" y="30"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
-                            <AbsPoint x="0" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnMouseOver" function="StatusWindow.TCToolsOver"/>
-                        <EventHandler event="OnMouseOverEnd" function="StatusWindow.TCToolsOverend"/>
-                    </EventHandlers>
-
-                </HorizontalResizeImage>
-                <Button name="$parentBTN" movable="false" backgroundtexture="tcTools" highlighttexture="tcTools"
-                        texturescale="1">
-                    <Size>
-                        <AbsPoint x="71" y="84"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentIMG">
-                            <AbsPoint x="0" y="6"/>
-                        </Anchor>
-                    </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="StatusWindow.TCTools"/>
-                        <EventHandler event="OnMouseOver" function="StatusWindow.TCToolsTooltip"/>
-                    </EventHandlers>
-                    <TexCoords>
-                        <Normal x="-2" y="4"/>
-                        <NormalHighlit x="80" y="1"/>
-                        <Pressed x="80" y="1"/>
-                        <PressedHighlit x="80" y="1"/>
-                    </TexCoords>
-                </Button>
-            </Windows>
-        </Window>
         <HorizontalResizeImage name="StaminaFill" texture="StamFill" layer="default">
             <Size>
                 <AbsPoint x="427" y="40"/>
@@ -95,7 +46,7 @@
             </TexCoords>
         </HorizontalResizeImage>
 
-        <Window name="StatusWindow" movable="false" layer="background" sticky="true">
+        <Window name="StatusWindow" movable="false" layer="background" sticky="true" popable="true">
             <Size>
                 <AbsPoint x="180" y="70"/>
             </Size>
@@ -115,7 +66,7 @@
 				<EventHandler event="OnMouseOverEnd" function="StatusWindow.OnMouseOverEnd"/>
             </EventHandlers>
             <Windows>
-                <Window name="BuffDebuff" layer="default" popable="false">
+                <Window name="BuffDebuff" layer="default">
                     <Size>
                         <AbsPoint x="0" y="0"/>
                     </Size>

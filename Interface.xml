@@ -35,7 +35,7 @@
 	<Include file="Source/settings/window/SettingsMobilesWindow.xml"/>
 	<Include file="Source/settings/window/SettingsWindow.xml" />
 	<Include file="Source/Spellbook.xml" />
-	<Include file="Source/StatusWindow.xml" />
+	<Include file="Source/player_status/StatusWindow.xml" />
 	<Include file="Source/target/TargetWindow.xml" />
 	<Include file="Source/ContainerWindow.xml" />
 	<Include file="Source/ContextMenu.xml" />
@@ -133,7 +133,7 @@
 		<Script file="Source/TextParsing.lua"/>		
 		<Script file="Source/GGManager.lua" />
 		<Script file="Source/Generic/UO_GenericGump.lua" />
-		<Script file="Source/StatusWindow.lua" />
+		<Script file="Source/player_status/StatusWindow.lua" />
 		<Script file="Source/MobileHealthBar.lua" />
 		<Script file="Source/MobilesOnScreenWindow.lua"/>
 		<Script file="Source/target/TargetWindow.lua" />
