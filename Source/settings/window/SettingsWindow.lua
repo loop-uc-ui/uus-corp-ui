@@ -1,5 +1,39 @@
 SettingsWindow = {}
 
+local adapter = ViewAdapter:new("SettingsWindow", "SettingsWindow")
+
+local TAB_BUTTONS = {
+	Graphics = "SettingsWindowGraphicsTabButton",
+	KeyBindings = "SettingsWindowKeyBindingsTabButton",
+	Options = "SettingsWindowOptionsTabButton",
+	Sound = "SettingsWindowSoundTabButton",
+	Filters = "SettingsWindowProfanityTabButton",
+	Mobiles = "SettingsWindowMobilesOnScreenTabButton",
+	HealthBars = "SettingsWindowHealthbarsTabButton",
+	Containers = "SettingsWindowContainersTabButton",
+	OverheadText = "SettingsWindowOverheadTextTabButton"
+}
+
+local BUTTONS = {
+	Okay = "SettingsWindowOkayButton",
+	Apply = "SettingsWindowApplyButton",
+	Reset = "SettingsWindowResetButton",
+	Cancel = "SettingsWindowCancelButton"
+}
+
+SettingsWindow.WINDOWS = {
+	Graphics = "SettingsGraphicsWindow",
+	KeyBindings = "SettingsKeyBindingsWindow",
+	Sound = "SettingsSoundWindow",
+	Options = "SettingsOptionsWindow",
+	Filters = "SettingsProfanityWindow",
+	KeyDefault = "SettingsKeyDefaultWindow",
+	OverheadText = "OverheadTextSettingsWindow",
+	Containers = "ContainersSettingsWindow",
+	HealthBars = "HealthbarsSettingsWindow",
+	Mobiles = "SettingsMobilesOnScreen",
+}
+
 local function overrideLegacySettings()
 	--We are disabling most Legacy options and removing them.
 	SystemData.Settings.Interface.LegacyChat = false
@@ -7,31 +41,52 @@ local function overrideLegacySettings()
 	SystemData.Settings.GameOptions.legacyTargeting = false
 end
 
--- OnInitialize Handler()
 function SettingsWindow.Initialize()
-	Interface.OnCloseCallBack["SettingsWindow"] = SettingsWindow.OnCancelButton
-	WindowUtils.SetWindowTitle( "SettingsWindow", GetStringFromTid( 1077814 ) )
+	Interface.OnCloseCallBack[adapter.name] = SettingsWindow.OnCancelButton
+	WindowUtils.SetWindowTitle(adapter.name, StringFormatter.fromTid(1077814))
+	adapter:addButton(
+			TAB_BUTTONS.Graphics,
+			1077815
+	):addButton(
+			TAB_BUTTONS.KeyBindings,
+			1094693
+	):addButton(
+			TAB_BUTTONS.Options,
+			1015326
+	):addButton(
+			TAB_BUTTONS.Sound,
+			3000390
+	):addButton(
+			TAB_BUTTONS.Filters,
+			3000173
+	):addButton(
+			TAB_BUTTONS.Mobiles,
+			1154852
+	):addButton(
+			TAB_BUTTONS.HealthBars,
+			1155276
+	):addButton(
+			TAB_BUTTONS.Containers,
+			1155277
+	):addButton(
+			TAB_BUTTONS.OverheadText,
+			1155278
+	):addButton(
+			BUTTONS.Okay,
+			3000093
+	):addButton(
+			BUTTONS.Apply,
+			3000090
+	):addButton(
+			BUTTONS.Reset,
+			1077825
+	):addButton(
+			BUTTONS.Cancel,
+			1006045
+	)
 
-	-- Tab Buttons
-	ButtonSetText( "SettingsWindowGraphicsTabButton", GetStringFromTid( 1077815 ) )
-	ButtonSetText( "SettingsWindowKeyBindingsTabButton", GetStringFromTid( 1094693 ) )
-	ButtonSetText( "SettingsWindowOptionsTabButton", GetStringFromTid( 1015326 ) )
-	ButtonSetText( "SettingsWindowSoundTabButton", GetStringFromTid( 3000390 ) )
-	ButtonSetText( "SettingsWindowProfanityTabButton", GetStringFromTid( 3000173 ) )
-	ButtonSetText( "SettingsWindowMobilesOnScreenTabButton", GetStringFromTid(1154852) )	
-	ButtonSetText( "SettingsWindowHealthbarsTabButton", GetStringFromTid(1155276) )
-	ButtonSetText( "SettingsWindowContainersTabButton", GetStringFromTid(1155277) )
-	ButtonSetText( "SettingsWindowOverheadTextTabButton", GetStringFromTid(1155278) )
-
-	-- Buttons
-	ButtonSetText( "SettingsWindowOkayButton", GetStringFromTid( 3000093 ) )
-	ButtonSetText( "SettingsWindowApplyButton", GetStringFromTid( 3000090 ) )
-	ButtonSetText( "SettingsWindowResetButton", GetStringFromTid( 1077825 ) )
-	ButtonSetText( "SettingsWindowCancelButton", GetStringFromTid( 1006045 ) )
-	
-	-- Start with graphics window open
-	SettingsWindow.OpenGraphicsTab()
 	overrideLegacySettings()
+	SettingsWindow.OpenGraphicsTab()
 	SettingsGraphicsWindow.Initialize()
 	SettingsKeyBindingsWindow.Initialize()
 	SettingsSoundWindow.Initialize()
@@ -43,12 +98,12 @@ function SettingsWindow.Initialize()
 	SettingsWindow.UpdateSettings()
 	
 	-- Call backs
-	WindowRegisterEventHandler( "SettingsWindow", SystemData.Events.USER_SETTINGS_UPDATED, "SettingsWindow.UpdateSettings" )
-	WindowRegisterEventHandler( "SettingsWindow", SystemData.Events.TOGGLE_USER_PREFERENCE, "SettingsWindow.ToggleSettingsWindow" )
+	WindowRegisterEventHandler(adapter.name, Broadcast.Events.USER_SETTINGS_UPDATED, "SettingsWindow.UpdateSettings" )
+	WindowRegisterEventHandler(adapter.name, Broadcast.Events.TOGGLE_USER_PREFERENCE, "SettingsWindow.ToggleSettingsWindow" )
 end
 
 function SettingsWindow.ToggleSettingsWindow()	
-	ToggleWindowByName( "SettingsWindow", "", MainMenuWindow.ToggleSettingsWindow )	
+	ToggleWindowByName(adapter.name, "", nil)
 end
 
 function SettingsWindow.UpdateSettings()
@@ -66,7 +121,7 @@ end
 function SettingsWindow.OnOkayButton()
 	SettingsWindow.OnApplyButton()
 	-- Close the window		
-	ToggleWindowByName( "SettingsWindow", "", nil )
+	ToggleWindowByName(adapter.name, "", nil )
 end
 
 function SettingsWindow.OnApplyButton()
@@ -92,14 +147,14 @@ function SettingsWindow.OnResetButton()
 		textTid = UO_StandardDialog.TID_OKAY,
 		callback = function()
 			SettingsKeyBindingsWindow.ClearTempKeybindings();
-			BroadcastEvent( SystemData.Events.RESET_SETTINGS_TO_DEFAULT );
+			Broadcast.Event(Broadcast.Events.RESET_SETTINGS_TO_DEFAULT)
 		end
 	}
 	local cancelButton = {
 		textTid = UO_StandardDialog.TID_CANCEL
 	}
 	local ResetConfirmWindow = {
-		windowName = "SettingsWindow", 
+		windowName = adapter.name,
 		titleTid = 1078994, 
 		bodyTid = 1078995, 
 		buttons = { okayButton, cancelButton }
@@ -113,133 +168,89 @@ function SettingsWindow.OnCancelButton()
 	SettingsKeyBindingsWindow.ClearTempKeybindings()
 	SettingsWindow.UpdateSettings()
 	-- Close the window		
-	ToggleWindowByName( "SettingsWindow", "", nil )
+	ToggleWindowByName(adapter.name, "", nil)
 end
 
 function SettingsWindow.ClearTabStates()
-	-- The pressed flag isn't being used for these tabs to decide color anymore
-	ButtonSetPressedFlag( "SettingsWindowGraphicsTabButton", false )
-	ButtonSetPressedFlag( "SettingsWindowKeyBindingsTabButton", false )
-	ButtonSetPressedFlag( "SettingsWindowSoundTabButton", false )
-	ButtonSetPressedFlag( "SettingsWindowOptionsTabButton", false )
-	ButtonSetPressedFlag( "SettingsWindowProfanityTabButton", false )
-	ButtonSetPressedFlag( "SettingsWindowMobilesOnScreenTabButton", false )	
-	ButtonSetPressedFlag( "SettingsWindowHealthbarsTabButton", false )
-	ButtonSetPressedFlag( "SettingsWindowContainersTabButton", false )
-	ButtonSetPressedFlag( "SettingsWindowOverheadTextTabButton", false )
-	
-	ButtonSetDisabledFlag( "SettingsWindowGraphicsTabButton", false )
-	ButtonSetDisabledFlag( "SettingsWindowKeyBindingsTabButton", false )
-	ButtonSetDisabledFlag( "SettingsWindowSoundTabButton", false )
-	ButtonSetDisabledFlag( "SettingsWindowOptionsTabButton", false )
-	ButtonSetDisabledFlag( "SettingsWindowProfanityTabButton", false )
-	ButtonSetDisabledFlag( "SettingsWindowMobilesOnScreenTabButton", false )	
-	ButtonSetDisabledFlag( "SettingsWindowHealthbarsTabButton", false )
-	ButtonSetDisabledFlag( "SettingsWindowContainersTabButton", false )
-	ButtonSetDisabledFlag( "SettingsWindowOverheadTextTabButton", false )
-	
-	WindowSetShowing( "SettingsWindowGraphicsTabButtonTab", true )
-	WindowSetShowing( "SettingsWindowKeyBindingsTabButtonTab", true )
-	WindowSetShowing( "SettingsWindowSoundTabButtonTab", true )
-	WindowSetShowing( "SettingsWindowOptionsTabButtonTab", true )
-	WindowSetShowing( "SettingsWindowProfanityTabButtonTab", true )
-	WindowSetShowing( "SettingsWindowMobilesOnScreenTabButtonTab", true )	
-	WindowSetShowing( "SettingsWindowHealthbarsTabButtonTab", true )
-	WindowSetShowing( "SettingsWindowContainersTabButtonTab", true )
-	WindowSetShowing( "SettingsWindowOverheadTextTabButtonTab", true )
+	for _, value in pairs(TAB_BUTTONS) do
+		adapter.views[value]:setDisabledFlag(false)
+		adapter:setShowing(true, value.."Tab")
+	end
 
-	local windows = {
-		"SettingsGraphicsWindow",
-		"SettingsKeyBindingsWindow",
-		"SettingsSoundWindow",
-		"SettingsOptionsWindow",
-		"SettingsProfanityWindow",
-		"SettingsKeyDefaultWindow",
-		"OverheadTextSettingsWindow",
-		"ContainersSettingsWindow",
-		"HealthbarsSettingsWindow",
-		"SettingsMobilesOnScreen",
-	}
+	for _, value in pairs(SettingsWindow.WINDOWS) do
+		adapter:setShowing(false, value)
+	end
+end
 
-	for index = 1, #windows do
-		WindowSetShowing( windows[index], false )
-	end	
+function SettingsWindow.openTab(view)
+	if view == nil then
+		view = adapter.views[TAB_BUTTONS.Graphics]
+	end
+	SettingsWindow.ClearTabStates()
 end
 
 function SettingsWindow.OpenGraphicsTab()
 	SettingsWindow.ClearTabStates()
-	ButtonSetDisabledFlag( "SettingsWindowGraphicsTabButton", true )
-	WindowSetShowing( "SettingsWindowGraphicsTabButtonTab", false )
-	WindowSetShowing( "SettingsGraphicsWindow", true )
+	adapter.views[TAB_BUTTONS.Graphics]:setDisabledFlag(true)
+	adapter:setShowing(false, TAB_BUTTONS.Graphics.."Tab")
+	adapter:setShowing(true, SettingsWindow.WINDOWS.Graphics)
 end
 
 function SettingsWindow.OpenKeyBindingsTab()
 	SettingsWindow.ClearTabStates()
-	ButtonSetDisabledFlag( "SettingsWindowKeyBindingsTabButton", true )
-	WindowSetShowing( "SettingsWindowKeyBindingsTabButtonTab", false )
-	WindowSetShowing( "SettingsKeyBindingsWindow", true )
-	WindowSetShowing( "SettingsKeyDefaultWindow", true )
+	adapter.views[TAB_BUTTONS.KeyBindings]:setDisabledFlag(true)
+	adapter:setShowing(false, TAB_BUTTONS.KeyBindings.."Tab")
+	adapter:setShowing(true, SettingsWindow.WINDOWS.KeyBindings)
+	adapter:setShowing(true, SettingsWindow.WINDOWS.KeyDefault)
 end
 
 function SettingsWindow.OpenSoundTab()
 	SettingsWindow.ClearTabStates()
-	ButtonSetDisabledFlag( "SettingsWindowSoundTabButton", true )
-	WindowSetShowing( "SettingsWindowSoundTabButtonTab", false )
-	WindowSetShowing( "SettingsSoundWindow", true )
+	adapter.views[TAB_BUTTONS.Sound]:setDisabledFlag(true)
+	adapter:setShowing(false, TAB_BUTTONS.Sound.."Tab")
+	adapter:setShowing(true, SettingsWindow.WINDOWS.Sound)
 end
 
 function SettingsWindow.OpenOptionsTab()
 	SettingsWindow.ClearTabStates()
-	ButtonSetDisabledFlag( "SettingsWindowOptionsTabButton", true )
-	WindowSetShowing( "SettingsWindowOptionsTabButtonTab", false )
-	WindowSetShowing( "SettingsOptionsWindow", true )
+	adapter.views[TAB_BUTTONS.Options]:setDisabledFlag(true)
+	adapter:setShowing(false, TAB_BUTTONS.Options.."Tab")
+	adapter:setShowing(true, SettingsWindow.WINDOWS.Options)
 end
 
 function SettingsWindow.OpenProfanityTab()
 	SettingsWindow.ClearTabStates()
-	ButtonSetDisabledFlag( "SettingsWindowProfanityTabButton", true )
-	WindowSetShowing( "SettingsWindowProfanityTabButtonTab", false )
-	WindowSetShowing( "SettingsProfanityWindow", true )
+	adapter.views[TAB_BUTTONS.Filters]:setDisabledFlag(true)
+	adapter:setShowing(false, TAB_BUTTONS.Filters.."Tab")
+	adapter:setShowing(true, SettingsWindow.WINDOWS.Filters)
 end
 
 function SettingsWindow.OpenMobilesTab()
 	SettingsWindow.ClearTabStates()
-	ButtonSetDisabledFlag( "SettingsWindowMobilesOnScreenTabButton", true )
-	WindowSetShowing( "SettingsWindowMobilesOnScreenTabButtonTab", false )
-	WindowSetShowing( "SettingsMobilesOnScreen", true )
+	adapter.views[TAB_BUTTONS.Mobiles]:setDisabledFlag(true)
+	adapter:setShowing(false, TAB_BUTTONS.Mobiles.."Tab")
+	adapter:setShowing(true, SettingsWindow.WINDOWS.Mobiles)
 end
 
 function SettingsWindow.OpenHealthbarsTab()
 	SettingsWindow.ClearTabStates()
-	ButtonSetDisabledFlag( "SettingsWindowHealthbarsTabButton", true )
-	WindowSetShowing( "SettingsWindowHealthbarsTabButtonTab", false )
-	WindowSetShowing( "HealthbarsSettingsWindow", true )
+	adapter.views[TAB_BUTTONS.HealthBars]:setDisabledFlag(true)
+	adapter:setShowing(false, TAB_BUTTONS.HealthBars.."Tab")
+	adapter:setShowing(true, SettingsWindow.WINDOWS.HealthBars)
 end
 
 function SettingsWindow.OpenContainersTab()
 	SettingsWindow.ClearTabStates()
-	ButtonSetDisabledFlag( "SettingsWindowContainersTabButton", true )
-	WindowSetShowing( "SettingsWindowContainersTabButtonTab", false )
-	WindowSetShowing( "ContainersSettingsWindow", true )
+	adapter.views[TAB_BUTTONS.Containers]:setDisabledFlag(true)
+	adapter:setShowing(false, TAB_BUTTONS.Containers.."Tab")
+	adapter:setShowing(true, SettingsWindow.WINDOWS.Containers)
 end
 
 function SettingsWindow.OpenOverheadTextTab()
 	SettingsWindow.ClearTabStates()
-	ButtonSetDisabledFlag( "SettingsWindowOverheadTextTabButton", true )
-	WindowSetShowing( "SettingsWindowOverheadTextTabButtonTab", false )
-	WindowSetShowing( "OverheadTextSettingsWindow", true )
-end
-
-function SettingsWindow.LabelOnMouseOver()
-	local windowName = SystemData.ActiveWindow.name
-	local detailTID = WindowGetId(windowName)
-	
-	if ( (detailTID ~= nil) and (detailTID ~= 0) ) then
-		local text = GetStringFromTid(detailTID)
-		Tooltips.CreateTextOnlyTooltip(windowName, text)
-		Tooltips.Finalize()
-		Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-	end 
+	adapter.views[TAB_BUTTONS.OverheadText]:setDisabledFlag(true)
+	adapter:setShowing(false, TAB_BUTTONS.OverheadText.."Tab")
+	adapter:setShowing(true, SettingsWindow.WINDOWS.OverheadText)
 end
 
 function SettingsWindow.Check()

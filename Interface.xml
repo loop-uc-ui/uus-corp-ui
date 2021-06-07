@@ -217,6 +217,7 @@
 		<Script file="Source/LegacyRunebook.lua"/>
 		<Script file="Source/LegacyRunebookLoader.lua"/>
 		<!--<Load Settings Last/>-->
+		<Script file="Source/settings/window/SettingsWindow.lua"/>
 		<Script file="Source/settings/window/SettingsGraphicsWindow.lua"/>
 		<Script file="Source/settings/window/SettingsKeyBindingsWindow.lua"/>
 		<Script file="Source/settings/window/SettingsSoundWindow.lua"/>
@@ -226,7 +227,6 @@
 		<Script file="Source/settings/window/SettingsContainersWindow.lua"/>
 		<Script file="Source/settings/window/SettingsHealthBarsWindow.lua"/>
 		<Script file="Source/settings/window/SettingsOptionsWindow.lua"/>
-		<Script file="Source/settings/window/SettingsWindow.lua" />
 	</Scripts>
 
 </Interface>

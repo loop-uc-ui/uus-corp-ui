@@ -47,7 +47,7 @@ function MainMenuWindow.OnOpenUOStore()
 end
 
 function MainMenuWindow.OnDebug()
-    ToggleWindowByName("DebugWindow", "", MainMenuWindow.OnOpenActions)
+    ToggleWindowByName("DebugWindow", "", MainMenuWindow.OnDebug)
     adapter:setShowing(false)
 end
 

@@ -166,8 +166,6 @@
                                     <EventHandlers>
                                         <EventHandler event="OnLButtonUp"
                                                       function="SettingsOverheadTextWindow.IncreaseTextSize"/>
-                                        <EventHandler event="OnMouseOver"
-                                                      function="SettingsWindow.LabelOnMouseOver"/>
                                     </EventHandlers>
                                 </Button>
 
@@ -181,8 +179,6 @@
                                     <EventHandlers>
                                         <EventHandler event="OnLButtonUp"
                                                       function="SettingsOverheadTextWindow.DecreaseTextSize"/>
-                                        <EventHandler event="OnMouseOver"
-                                                      function="SettingsWindow.LabelOnMouseOver"/>
                                     </EventHandlers>
                                 </Button>
 
@@ -195,8 +191,6 @@
                                     </Anchors>
                                     <EventHandlers>
                                         <EventHandler event="OnLButtonUp" function="SettingsOverheadTextWindow.ChatFont"/>
-                                        <EventHandler event="OnMouseOver"
-                                                      function="SettingsWindow.LabelOnMouseOver"/>
                                     </EventHandlers>
                                 </Button>
 
@@ -209,8 +203,6 @@
                                     </Anchors>
                                     <EventHandlers>
                                         <EventHandler event="OnLButtonUp" function="SettingsOverheadTextWindow.NamesFont"/>
-                                        <EventHandler event="OnMouseOver"
-                                                      function="SettingsWindow.LabelOnMouseOver"/>
                                     </EventHandlers>
                                 </Button>
 
@@ -223,8 +215,6 @@
                                     </Anchors>
                                     <EventHandlers>
                                         <EventHandler event="OnLButtonUp" function="SettingsOverheadTextWindow.SpellFont"/>
-                                        <EventHandler event="OnMouseOver"
-                                                      function="SettingsWindow.LabelOnMouseOver"/>
                                     </EventHandlers>
                                 </Button>
 
@@ -237,8 +227,6 @@
                                     </Anchors>
                                     <EventHandlers>
                                         <EventHandler event="OnLButtonUp" function="SettingsOverheadTextWindow.DamageFont"/>
-                                        <EventHandler event="OnMouseOver"
-                                                      function="SettingsWindow.LabelOnMouseOver"/>
                                     </EventHandlers>
                                 </Button>
 

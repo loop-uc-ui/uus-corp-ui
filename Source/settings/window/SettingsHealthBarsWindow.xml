@@ -117,10 +117,6 @@
                                         </Anchor>
                                     </Anchors>
                                     <TexCoords x="0" y="0"/>
-                                    <EventHandlers>
-                                        <EventHandler event="OnMouseOver"
-                                                      function="SettingsWindow.LabelOnMouseOver"/>
-                                    </EventHandlers>
                                 </DynamicImage>
 
                                 <ComboBox name="Red" inherits="UO_Default_ComboBox">
@@ -160,10 +156,6 @@
                                         </Anchor>
                                     </Anchors>
                                     <TexCoords x="0" y="0"/>
-                                    <EventHandlers>
-                                        <EventHandler event="OnMouseOver"
-                                                      function="SettingsWindow.LabelOnMouseOver"/>
-                                    </EventHandlers>
                                 </DynamicImage>
 
                                 <ComboBox name="Green" inherits="UO_Default_ComboBox">
@@ -204,10 +196,6 @@
                                         </Anchor>
                                     </Anchors>
                                     <TexCoords x="0" y="0"/>
-                                    <EventHandlers>
-                                        <EventHandler event="OnMouseOver"
-                                                      function="SettingsWindow.LabelOnMouseOver"/>
-                                    </EventHandlers>
                                 </DynamicImage>
 
                                 <ComboBox name="Blue" inherits="UO_Default_ComboBox">

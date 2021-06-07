@@ -1,6 +1,9 @@
 SettingsOptionsWindow = {}
 
-local adapter = ViewAdapter:new("SettingsOptionsWindow", "SettingsOptionsWindow")
+local adapter = ViewAdapter:new(
+        SettingsWindow.WINDOWS.Options,
+        SettingsWindow.WINDOWS.Options
+)
 
 local COMBO_BOXES = {
     Languages = "SettingsOptionsLanguageCombo",

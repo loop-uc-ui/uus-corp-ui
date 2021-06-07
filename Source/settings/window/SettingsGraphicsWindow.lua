@@ -1,6 +1,9 @@
 SettingsGraphicsWindow = {}
 
-local adapter = ViewAdapter:new("SettingsGraphicsWindow", "SettingsGraphicsWindow")
+local adapter = ViewAdapter:new(
+        SettingsWindow.WINDOWS.Graphics,
+        SettingsWindow.WINDOWS.Graphics
+)
 
 local checkBoxes = {
     UseFullScreen = "SettingsGraphicsUseFullscreenButton",

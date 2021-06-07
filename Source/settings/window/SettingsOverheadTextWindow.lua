@@ -15,7 +15,10 @@ local DelayValues = {
     1078340
 }
 
-local adapter = ViewAdapter:new("OverheadTextOptions", "OverheadTextOptions")
+local adapter = ViewAdapter:new(
+        SettingsWindow.WINDOWS.OverheadText,
+        SettingsWindow.WINDOWS.OverheadText
+)
 
 local CHECK_BOXES = {
     ClickableNames = "clickableNamesButton",

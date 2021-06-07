@@ -27,9 +27,6 @@
                             <AbsPoint x="26" y="9"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnMouseOver" function="SettingsWindow.LabelOnMouseOver"/>
-                    </EventHandlers>
                     <Color r="255" g="255" b="255" a="255"/>
                 </Label>
                 <SliderBar name="$parentSliderBar" inherits="UO_Default_Horizontal_SliderBar">

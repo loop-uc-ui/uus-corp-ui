@@ -6,7 +6,10 @@ local PreviousIgnoreListCount = 0
 local CurIgnoreListIdx = -1
 local IGNORE_LIST_ALL = 0
 local checkBox = "IgnoreListOptionButton"
-local mainAdapter = ViewAdapter:new("SettingsProfanityWindow", "SettingsProfanityWindow")
+local mainAdapter = ViewAdapter:new(
+        SettingsWindow.WINDOWS.Filters,
+        SettingsWindow.WINDOWS.Filters
+)
 local listAdapters = { }
 
 local function overrideSettings()

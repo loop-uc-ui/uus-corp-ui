@@ -1,6 +1,9 @@
 SettingsHealthBarsWindow = {}
 
-local adapter = ViewAdapter:new("SettingsHealthBarWindow", "SettingsHealthBarWindow")
+local adapter = ViewAdapter:new(
+        SettingsWindow.WINDOWS.HealthBars,
+        SettingsWindow.WINDOWS.HealthBars
+)
 
 local CHECK_BOXES = {
     ToggleMobileArrow = "ToggleMobileArrowButton",

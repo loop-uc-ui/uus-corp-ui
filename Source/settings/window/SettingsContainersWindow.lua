@@ -13,7 +13,10 @@ local CheckBoxes = {
     UseLegacyContainers = "SettingsLegacyUseLegacyContainersButton"
 }
 
-local adapter = ViewAdapter:new("SettingsContainersWindow", "SettingsContainersWindow")
+local adapter = ViewAdapter:new(
+        SettingsWindow.WINDOWS.Containers,
+        SettingsWindow.WINDOWS.Containers
+)
 
 local isGridContainer = true
 local isExtraBrightContainer = false

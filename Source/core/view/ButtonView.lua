@@ -16,3 +16,7 @@ function ButtonView:setText(text)
     end
     ButtonSetText(self.id,text)
 end
+
+function ButtonView:setDisabledFlag(flag)
+    ButtonSetDisabledFlag(self.id, flag)
+end

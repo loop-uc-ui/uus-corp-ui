@@ -19,9 +19,6 @@
                 <Label name="$parentLabel" font="UO_DefaultText" linespacing="20" autoresize="true" wordwrap="true"
                        maxchars="64" textalign="left">
                     <Color r="255" g="255" b="255" a="255"/>
-                    <EventHandlers>
-                        <EventHandler event="OnMouseOver" function="SettingsWindow.LabelOnMouseOver"/>
-                    </EventHandlers>
                     <Size>
                         <AbsPoint x="700" y="16"/>
                     </Size>

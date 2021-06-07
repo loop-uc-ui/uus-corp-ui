@@ -12,9 +12,6 @@
         <Label name="Settings_ItemTitle" font="UO_DefaultText" linespacing="20" autoresize="true" wordwrap="true"
                maxchars="64" textalign="left">
             <Color r="255" g="255" b="255" a="255"/>
-            <EventHandlers>
-                <EventHandler event="OnMouseOver" function="SettingsWindow.LabelOnMouseOver"/>
-            </EventHandlers>
         </Label>
 
         <Window name="LabelCheckButton">
@@ -70,7 +67,6 @@
                     <Color r="255" g="255" b="255" a="255"/>
                     <EventHandlers>
                         <EventHandler event="OnLButtonDown" function="SettingsWindow.Check"/>
-                        <EventHandler event="OnMouseOver" function="SettingsWindow.LabelOnMouseOver"/>
                     </EventHandlers>
                 </Label>
             </Windows>

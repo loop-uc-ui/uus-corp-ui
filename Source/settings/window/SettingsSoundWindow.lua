@@ -1,6 +1,9 @@
 SettingsSoundWindow = {}
 
-local adapter = ViewAdapter:new("SettingsSoundWindow", "SettingsSoundWindow")
+local adapter = ViewAdapter:new(
+        SettingsWindow.WINDOWS.Sound,
+        SettingsWindow.WINDOWS.Sound
+)
 
 local SliderBars = {
     MasterVolume = "MasterVolumeSliderBar",
