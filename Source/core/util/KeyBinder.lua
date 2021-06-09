@@ -1,9 +1,8 @@
-KeyBinder = {}
-KeyBinder.__index = KeyBinder
+KeyBinder = BaseWindow:new("AssignHotkeyInfo")
 
 KeyBinder.BindTypes = SystemData.BindType
 
-function KeyBinder:register(
+function KeyBinder:new(
         callingWindow,
         recordCallback,
         cancelCallback
@@ -19,8 +18,8 @@ function KeyBinder:register(
             cancelCallback
     )
     local this = {}
-    setmetatable(this, self)
-    return this
+    self.__index = self
+    return setmetatable(this, self)
 end
 
 local function isRecording(newValue)
@@ -41,10 +40,7 @@ function KeyBinder:onKeyPicked(
         topPos,
         bottomPos
 )
-    self.adapter = ViewAdapter:new("AssignHotkeyInfo", "AssignHotkeyInfo")
-               :clearAnchors()
-               :setShowing(true)
-               :addAnchor(anchorTop, anchorWindow, anchorBottom, topPos, bottomPos)
+    self:clearAnchors():setShowing(true):addAnchor(anchorTop, anchorWindow, anchorBottom, topPos, bottomPos)
     isRecording(true)
     Broadcast.Event(Broadcast.Events.INTERFACE_RECORD_KEY)
 end
@@ -59,7 +55,7 @@ function KeyBinder:onKeyRecorded(
 )
     isRecording(false)
     if self.recordedKey() ~= L"" then
-        self.adapter:setShowing(false)
+        self:setShowing(false)
 
         local conflictIndex = -1
         local conflictType = KeyBinder.BindTypes.BINDTYPE_NONE
@@ -121,7 +117,7 @@ function KeyBinder:onKeyBind(
 end
 
 function KeyBinder:onKeyCanceled()
-    self.adapter:setShowing(false)
+    self:setShowing(false)
     isRecording(false)
 end
 

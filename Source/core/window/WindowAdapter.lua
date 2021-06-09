@@ -1,0 +1,90 @@
+WindowAdapter = {}
+
+function WindowAdapter:new(id)
+    local this = {
+        views = {},
+        id = id
+    }
+    self.__index = self
+    return setmetatable(this, self)
+end
+
+function WindowAdapter:addWindow(id)
+    local window = BaseWindow:new(id)
+    window:setShowing(true)
+    self.views[id] = window
+    return self
+end
+
+function WindowAdapter:addLabel(
+        id,
+        text,
+        r,
+        g,
+        b
+)
+    local label = LabelWindow:new(id)
+    label:setText(text)
+    if r ~= nil and g ~= nil and b ~= nil then
+        label:setTextColor(r, g, b)
+    end
+    self.views[label.id] = label
+    return self
+end
+
+function WindowAdapter:addComboBox(
+        id,
+        items,
+        selectedItem
+)
+    local comboBox = ComboBoxWindow:new(id)
+    comboBox:setItems(items)
+    if selectedItem == nil then
+        comboBox:setSelectedItem(1)
+    end
+    self.views[comboBox.id] = comboBox
+    return self
+end
+
+function WindowAdapter:addCheckBox(id, isEnabled)
+    local button = CheckBoxWindow:new(id)
+    button:setEnabled(isEnabled == nil or isEnabled)
+    self.views[button.id] = button
+    return self
+end
+
+function WindowAdapter:addSlider(id, position)
+    local slider = SliderWindow:new(id)
+    if position == nil then
+        slider:setPosition(0)
+    end
+    self.views[slider.id] = slider
+    return self
+end
+
+function WindowAdapter:addButton(id, text)
+    local button = ButtonWindow:new(id)
+    button:setText(text)
+    self.views[button.id] = button
+    return self
+end
+
+function WindowAdapter:addTemplate(
+        newId,
+        template,
+        type,
+        text
+)
+    CreateWindowFromTemplate(newId, template, self.id)
+    if type == "Label" then
+        return self:addLabel(newId, text)
+    elseif type == "Button" then
+        return self:addButton(newId, text)
+    elseif type == "CheckBox" then
+        return self:addCheckBox(newId)
+    elseif type == "Slider" then
+        return self:addSlider(newId)
+    else
+        return nil
+    end
+end

@@ -1,9 +1,4 @@
-SettingsGraphicsWindow = {}
-
-local adapter = ViewAdapter:new(
-        SettingsWindow.WINDOWS.Graphics,
-        SettingsWindow.WINDOWS.Graphics
-)
+SettingsGraphicsWindow = ListWindow:new(SettingsWindow.WINDOWS.Graphics)
 
 local checkBoxes = {
     UseFullScreen = "SettingsGraphicsUseFullscreenButton",
@@ -32,7 +27,7 @@ local slider = {
 }
 
 function SettingsGraphicsWindow.Initialize()
-    adapter:addLabel("SettingsGraphicsDisplaySubSectionLabel", 3000396)
+    SettingsGraphicsWindow.adapter:addLabel("SettingsGraphicsDisplaySubSectionLabel", 3000396)
             :addLabel("SettingsGraphicsDisplaySubSectionLabel", 3000396)
             :addLabel("SettingsGraphicsEnvironmentSubSectionLabel", 1077415)
             :addLabel("SettingsGraphicsUseFullscreenLabel", 1077821)
@@ -64,14 +59,14 @@ function SettingsGraphicsWindow.Initialize()
             :addCheckBox(checkBoxes.DisplayHousingContents)
             :addSlider(slider.id, 0.50)
             :addLabel(slider.value, "0.50")
-            :setOffset(0)
-            :updateScrollRect()
+
+    SettingsGraphicsWindow:setOffset(0):updateScrollRect()
 
     local resolutions = {}
     for res = 1, #UserGraphicsSettings.Resolutions.widths do
         resolutions[res] = L"".. UserGraphicsSettings.Resolutions.widths[res]..L" x ".. UserGraphicsSettings.Resolutions.heights[res]
     end
-    adapter:addComboBox(comboBoxes.Resolution, resolutions)
+    SettingsGraphicsWindow.adapter:addComboBox(comboBoxes.Resolution, resolutions)
     
     local frameRates = {
         1112341,
@@ -80,14 +75,14 @@ function SettingsGraphicsWindow.Initialize()
         1112344,
         1112345
     }
-    adapter:addComboBox(comboBoxes.FrameRate, frameRates)
+    SettingsGraphicsWindow.adapter:addComboBox(comboBoxes.FrameRate, frameRates)
     
     local particleDetails = {
         1079210,
         1079211,
         1079212
     } 
-    adapter:addComboBox(comboBoxes.ParticleDetail, particleDetails)
+    SettingsGraphicsWindow.adapter:addComboBox(comboBoxes.ParticleDetail, particleDetails)
     
     local particleFilters = {
         1112331,
@@ -96,64 +91,64 @@ function SettingsGraphicsWindow.Initialize()
         1112334,
         1158020
     } 
-    adapter:addComboBox(comboBoxes.ParticleFilter, particleFilters)
+    SettingsGraphicsWindow.adapter:addComboBox(comboBoxes.ParticleFilter, particleFilters)
     
     local animations = { 1079210, 1079211, 1079212 }
-    adapter:addComboBox(comboBoxes.AnimationDetail, animations)
+    SettingsGraphicsWindow.adapter:addComboBox(comboBoxes.AnimationDetail, animations)
 end
 
 function SettingsGraphicsWindow.UpdateSettings()
     for res = 1, #UserGraphicsSettings.Resolutions.widths do
         if (UserGraphicsSettings.resolution().width == UserGraphicsSettings.Resolutions.widths[res] and
                 UserGraphicsSettings.resolution().height == UserGraphicsSettings.Resolutions.heights[res] )then
-            adapter.views[comboBoxes.Resolution]:setSelectedItem(res)
+            SettingsGraphicsWindow.adapter.views[comboBoxes.Resolution]:setSelectedItem(res)
         end
     end
 
-    adapter.views[comboBoxes.FrameRate]:setSelectedItem(UserGraphicsSettings.frameRate() / 10 - 1)
-    adapter.views[comboBoxes.ParticleDetail]:setSelectedItem(UserGraphicsSettings.particleDetail())
-    adapter.views[comboBoxes.ParticleFilter]:setSelectedItem(UserGraphicsSettings.particleFilter() + 1)
-    adapter.views[comboBoxes.AnimationDetail]:setSelectedItem(UserGraphicsSettings.animationDetail() + 1)
+    SettingsGraphicsWindow.adapter.views[comboBoxes.FrameRate]:setSelectedItem(UserGraphicsSettings.frameRate() / 10 - 1)
+    SettingsGraphicsWindow.adapter.views[comboBoxes.ParticleDetail]:setSelectedItem(UserGraphicsSettings.particleDetail())
+    SettingsGraphicsWindow.adapter.views[comboBoxes.ParticleFilter]:setSelectedItem(UserGraphicsSettings.particleFilter() + 1)
+    SettingsGraphicsWindow.adapter.views[comboBoxes.AnimationDetail]:setSelectedItem(UserGraphicsSettings.animationDetail() + 1)
     
-    adapter.views[checkBoxes.ShowFrame]:setChecked(UserGraphicsSettings.showFrame())
-    adapter.views[checkBoxes.ShowShadows]:setChecked(UserGraphicsSettings.showShadows())
-    adapter.views[checkBoxes.EnableVSync]:setChecked(UserGraphicsSettings.enableVSync())
-    adapter.views[checkBoxes.CircleOfTransparency]:setChecked(UserGraphicsSettings.circleOfTransparency())
-    adapter.views[checkBoxes.HardwareDeathEffect]:setChecked(UserGraphicsSettings.hardwareDeathEffect())
-    adapter.views[checkBoxes.UseFullScreen]:setChecked(UserGraphicsSettings.fullScreen())
-    adapter.views[checkBoxes.IdleAnimation]:setChecked(UserGraphicsSettings.idleAnimation())
-    adapter.views[checkBoxes.FlyingAnimation]:setChecked(UserGraphicsSettings.flyingAnimation())
-    adapter.views[checkBoxes.DisplayHousingContents]:setChecked(UserGraphicsSettings.displayHousingContents())
-    adapter.views[checkBoxes.ShowFoliage]:setChecked(UserGraphicsSettings.foliage())
-    adapter.views[slider.id]:setPosition(UserGraphicsSettings.gamma())
-    adapter.views[slider.value]:setText(StringFormatter.toTwoDecimalPlaces(UserGraphicsSettings.gamma()))
+    SettingsGraphicsWindow.adapter.views[checkBoxes.ShowFrame]:setChecked(UserGraphicsSettings.showFrame())
+    SettingsGraphicsWindow.adapter.views[checkBoxes.ShowShadows]:setChecked(UserGraphicsSettings.showShadows())
+    SettingsGraphicsWindow.adapter.views[checkBoxes.EnableVSync]:setChecked(UserGraphicsSettings.enableVSync())
+    SettingsGraphicsWindow.adapter.views[checkBoxes.CircleOfTransparency]:setChecked(UserGraphicsSettings.circleOfTransparency())
+    SettingsGraphicsWindow.adapter.views[checkBoxes.HardwareDeathEffect]:setChecked(UserGraphicsSettings.hardwareDeathEffect())
+    SettingsGraphicsWindow.adapter.views[checkBoxes.UseFullScreen]:setChecked(UserGraphicsSettings.fullScreen())
+    SettingsGraphicsWindow.adapter.views[checkBoxes.IdleAnimation]:setChecked(UserGraphicsSettings.idleAnimation())
+    SettingsGraphicsWindow.adapter.views[checkBoxes.FlyingAnimation]:setChecked(UserGraphicsSettings.flyingAnimation())
+    SettingsGraphicsWindow.adapter.views[checkBoxes.DisplayHousingContents]:setChecked(UserGraphicsSettings.displayHousingContents())
+    SettingsGraphicsWindow.adapter.views[checkBoxes.ShowFoliage]:setChecked(UserGraphicsSettings.foliage())
+    SettingsGraphicsWindow.adapter.views[slider.id]:setPosition(UserGraphicsSettings.gamma())
+    SettingsGraphicsWindow.adapter.views[slider.value]:setText(StringFormatter.toTwoDecimalPlaces(UserGraphicsSettings.gamma()))
 end
 
 function SettingsGraphicsWindow.OnApplyButton()
-    local fullScreenRes = adapter.views[comboBoxes.Resolution]:getSelectedItem()
+    local fullScreenRes = SettingsGraphicsWindow.adapter.views[comboBoxes.Resolution]:getSelectedItem()
     UserGraphicsSettings.resolution({
         width = UserGraphicsSettings.Resolutions.widths[fullScreenRes],
         height = UserGraphicsSettings.Resolutions.heights[fullScreenRes]
     })
 
-    UserGraphicsSettings.frameRate((adapter.views[comboBoxes.FrameRate]:getSelectedItem() + 1) * 10)
-    UserGraphicsSettings.showFrame(adapter.views[checkBoxes.ShowFrame]:isChecked())
-    UserGraphicsSettings.showShadows(adapter.views[checkBoxes.ShowShadows]:isChecked())
-    UserGraphicsSettings.enableVSync(adapter.views[checkBoxes.EnableVSync]:isChecked())
-    UserGraphicsSettings.circleOfTransparency(adapter.views[checkBoxes.CircleOfTransparency]:isChecked())
-    UserGraphicsSettings.hardwareDeathEffect(adapter.views[checkBoxes.HardwareDeathEffect]:isChecked())
-    UserGraphicsSettings.fullScreen(adapter.views[checkBoxes.UseFullScreen]:isChecked())
-    UserGraphicsSettings.idleAnimation(adapter.views[checkBoxes.IdleAnimation]:isChecked())
-    UserGraphicsSettings.flyingAnimation(adapter.views[checkBoxes.FlyingAnimation]:isChecked())
-    UserGraphicsSettings.displayHousingContents(adapter.views[checkBoxes.DisplayHousingContents]:isChecked())
-    UserGraphicsSettings.foliage(adapter.views[checkBoxes.ShowFoliage]:isChecked())
-    UserGraphicsSettings.gamma(adapter.views[slider.id]:getPosition())
-    UserGraphicsSettings.particleDetail(adapter.views[comboBoxes.ParticleDetail]:getSelectedItem())
-    UserGraphicsSettings.particleFilter(adapter.views[comboBoxes.ParticleFilter]:getSelectedItem() - 1)
-    UserGraphicsSettings.animationDetail(adapter.views[comboBoxes.AnimationDetail]:getSelectedItem() - 1)
+    UserGraphicsSettings.frameRate((SettingsGraphicsWindow.adapter.views[comboBoxes.FrameRate]:getSelectedItem() + 1) * 10)
+    UserGraphicsSettings.showFrame(SettingsGraphicsWindow.adapter.views[checkBoxes.ShowFrame]:isChecked())
+    UserGraphicsSettings.showShadows(SettingsGraphicsWindow.adapter.views[checkBoxes.ShowShadows]:isChecked())
+    UserGraphicsSettings.enableVSync(SettingsGraphicsWindow.adapter.views[checkBoxes.EnableVSync]:isChecked())
+    UserGraphicsSettings.circleOfTransparency(SettingsGraphicsWindow.adapter.views[checkBoxes.CircleOfTransparency]:isChecked())
+    UserGraphicsSettings.hardwareDeathEffect(SettingsGraphicsWindow.adapter.views[checkBoxes.HardwareDeathEffect]:isChecked())
+    UserGraphicsSettings.fullScreen(SettingsGraphicsWindow.adapter.views[checkBoxes.UseFullScreen]:isChecked())
+    UserGraphicsSettings.idleAnimation(SettingsGraphicsWindow.adapter.views[checkBoxes.IdleAnimation]:isChecked())
+    UserGraphicsSettings.flyingAnimation(SettingsGraphicsWindow.adapter.views[checkBoxes.FlyingAnimation]:isChecked())
+    UserGraphicsSettings.displayHousingContents(SettingsGraphicsWindow.adapter.views[checkBoxes.DisplayHousingContents]:isChecked())
+    UserGraphicsSettings.foliage(SettingsGraphicsWindow.adapter.views[checkBoxes.ShowFoliage]:isChecked())
+    UserGraphicsSettings.gamma(SettingsGraphicsWindow.adapter.views[slider.id]:getPosition())
+    UserGraphicsSettings.particleDetail(SettingsGraphicsWindow.adapter.views[comboBoxes.ParticleDetail]:getSelectedItem())
+    UserGraphicsSettings.particleFilter(SettingsGraphicsWindow.adapter.views[comboBoxes.ParticleFilter]:getSelectedItem() - 1)
+    UserGraphicsSettings.animationDetail(SettingsGraphicsWindow.adapter.views[comboBoxes.AnimationDetail]:getSelectedItem() - 1)
 end
 
 function SettingsGraphicsWindow.UpdateGammaVal()
-    local gamma = adapter.views[slider.id]:getPosition()
-    adapter:addLabel(slider.value, StringFormatter.toTwoDecimalPlaces(gamma))
+    local gamma = SettingsGraphicsWindow.adapter.views[slider.id]:getPosition()
+    SettingsGraphicsWindow.adapter:addLabel(slider.value, StringFormatter.toTwoDecimalPlaces(gamma))
 end

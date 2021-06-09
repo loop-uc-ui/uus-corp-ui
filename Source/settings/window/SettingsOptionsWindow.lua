@@ -1,9 +1,4 @@
-SettingsOptionsWindow = {}
-
-local adapter = ViewAdapter:new(
-        SettingsWindow.WINDOWS.Options,
-        SettingsWindow.WINDOWS.Options
-)
+SettingsOptionsWindow = ListWindow:new(SettingsWindow.WINDOWS.Options)
 
 local COMBO_BOXES = {
     Languages = "SettingsOptionsLanguageCombo",
@@ -60,7 +55,7 @@ function SettingsOptionsWindow.Initialize()
         end
     end
 
-    adapter:addLabel("SettingsOptionsGameOptionsSubSectionLabel", 1094695)
+    SettingsOptionsWindow.adapter:addLabel("SettingsOptionsGameOptionsSubSectionLabel", 1094695)
             :addLabel("SettingsOptionsInterfaceSubSectionLabel", 3000395)
             :addLabel("SettingsOptionsSystemSubSectionLabel", 1078905)
             :addLabel("SettingsOptionsLanguageLabel", 1077824)
@@ -130,8 +125,8 @@ function SettingsOptionsWindow.Initialize()
             :addSlider(SLIDERS.CacheSize.Bar)
             :addSlider(SLIDERS.UiScale.Bar)
             :addSlider(SLIDERS.GenericGumpScale.Bar)
-            :setOffset(0)
-            :updateScrollRect()
+
+    SettingsOptionsWindow:setOffset(0):updateScrollRect()
 
     --TODO add support for this
     -- Toggle Cartographer
@@ -147,89 +142,89 @@ function SettingsOptionsWindow.UpdateSettings()
     for i = 1, #UserOptionsSettings.Languages do
         local language = UserOptionsSettings.Languages[i]
         if UserOptionsSettings.language() == language then
-            adapter.views[COMBO_BOXES.Languages]:setSelectedItem(i)
+            SettingsOptionsWindow.adapter.views[COMBO_BOXES.Languages]:setSelectedItem(i)
             break
         end
     end
 
-    adapter.views[CHECK_BOXES.EnglishNames]:setChecked(UserOptionsSettings.useEnglishNames())
-    adapter:addLabel(SLIDERS.CacheSize.Label,  L""..math.floor(UserOptionsSettings.cacheSize()))
-    adapter.views[SLIDERS.CacheSize.Bar]:setPosition(UserOptionsSettings.cacheSize() / 1024)
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.EnglishNames]:setChecked(UserOptionsSettings.useEnglishNames())
+    SettingsOptionsWindow.adapter:addLabel(SLIDERS.CacheSize.Label,  L""..math.floor(UserOptionsSettings.cacheSize()))
+    SettingsOptionsWindow.adapter.views[SLIDERS.CacheSize.Bar]:setPosition(UserOptionsSettings.cacheSize() / 1024)
 
     for i = 1, #UserOptionsSettings.ObjectHandleFilters do
         local filter = UserOptionsSettings.ObjectHandleFilters[i].id
         if UserOptionsSettings.objectHandleFilter() == filter then
-            adapter.views[COMBO_BOXES.HandleFilters]:setSelectedItem(i)
+            SettingsOptionsWindow.adapter.views[COMBO_BOXES.HandleFilters]:setSelectedItem(i)
             break
         end
     end
 
     for i = 1, #UserOptionsSettings.CustomUI do
         if UserOptionsSettings.customUI() == UserOptionsSettings.CustomUI[i] then
-            adapter.views[COMBO_BOXES.CustomSkins]:setSelectedItem(i)
+            SettingsOptionsWindow.adapter.views[COMBO_BOXES.CustomSkins]:setSelectedItem(i)
             break
         end
     end
 
-    adapter.views[SLIDERS.UiScale.Bar]:setPosition((UserOptionsSettings.uiScale() - 0.5) * 2)
-    adapter:addLabel(SLIDERS.UiScale.Label, wstring.format( L"%2.2f", UserOptionsSettings.uiScale()))
-    adapter.views[SLIDERS.GenericGumpScale.Bar]:setPosition(((UserOptionsSettings.genericGumpScale() / 1.2) - 0.885) / 0.115)
-    adapter:addLabel(SLIDERS.GenericGumpScale.Label, wstring.format( L"%2.2f", UserOptionsSettings.genericGumpScale()))
+    SettingsOptionsWindow.adapter.views[SLIDERS.UiScale.Bar]:setPosition((UserOptionsSettings.uiScale() - 0.5) * 2)
+    SettingsOptionsWindow.adapter:addLabel(SLIDERS.UiScale.Label, wstring.format( L"%2.2f", UserOptionsSettings.uiScale()))
+    SettingsOptionsWindow.adapter.views[SLIDERS.GenericGumpScale.Bar]:setPosition(((UserOptionsSettings.genericGumpScale() / 1.2) - 0.885) / 0.115)
+    SettingsOptionsWindow.adapter:addLabel(SLIDERS.GenericGumpScale.Label, wstring.format( L"%2.2f", UserOptionsSettings.genericGumpScale()))
 
-    adapter.views[CHECK_BOXES.AlwaysAttack]:setChecked(UserOptionsSettings.alwaysAttack())
-    adapter.views[CHECK_BOXES.AutoRun]:setChecked(UserOptionsSettings.autoRun())
-    adapter.views[CHECK_BOXES.PathFinding]:setChecked(UserOptionsSettings.pathfinding())
-    adapter.views[CHECK_BOXES.QueryBeforeCriminalAction]:setChecked(UserOptionsSettings.queryBeforeCriminalAction())
-    adapter.views[CHECK_BOXES.IgnoreMouseActionSelf]:setChecked(UserOptionsSettings.ignoreMouseActionsOnSelf())
-    adapter.views[CHECK_BOXES.ShiftToUnstack]:setChecked(UserOptionsSettings.holdShiftToUnstack())
-    adapter.views[CHECK_BOXES.ShiftRightClickContextMenu]:setChecked(UserOptionsSettings.shiftRightClickContextMenus())
-    adapter.views[CHECK_BOXES.TargetQueueing]:setChecked(UserOptionsSettings.targetQueueing())
-    adapter.views[CHECK_BOXES.AlwaysRun]:setChecked(UserOptionsSettings.alwaysRun())
-    adapter.views[CHECK_BOXES.ToolTips]:setChecked(UserOptionsSettings.showTooltips())
-    adapter.views[CHECK_BOXES.PartyInvitePopUp]:setChecked(UserOptionsSettings.partyInvitePopUp())
-    adapter.views[CHECK_BOXES.EnableChatLog]:setChecked(UserOptionsSettings.enableChatLog())
-    adapter.views[CHECK_BOXES.ToggleWindowSnap]:setChecked(UserOptionsSettings.enableSnapping())
-    adapter.views[CHECK_BOXES.BlockOthersPaperdolls]:setChecked(UserOptionsSettings.blockOthersPaperdoll())
-    adapter.views[CHECK_BOXES.BlockWarOnPets]:setChecked(UserOptionsSettings.blockWarOnPets())
-    adapter.views[CHECK_BOXES.BlockWarOnParty]:setChecked(UserOptionsSettings.blockWarOnParty())
-    adapter.views[CHECK_BOXES.BlockWarOnGuild]:setChecked(UserOptionsSettings.blockWarOnFriendly())
-    adapter.views[CHECK_BOXES.ToggleWarShield]:setChecked(UserOptionsSettings.showWarShield())
-    adapter.views[CHECK_BOXES.AutoIgnoreCorpses]:setChecked(UserOptionsSettings.autoIgnoreCorpses())
-    adapter.views[CHECK_BOXES.ToggleWindowSnap]:setChecked(UserOptionsSettings.enableSnapping())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.AlwaysAttack]:setChecked(UserOptionsSettings.alwaysAttack())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.AutoRun]:setChecked(UserOptionsSettings.autoRun())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.PathFinding]:setChecked(UserOptionsSettings.pathfinding())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.QueryBeforeCriminalAction]:setChecked(UserOptionsSettings.queryBeforeCriminalAction())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.IgnoreMouseActionSelf]:setChecked(UserOptionsSettings.ignoreMouseActionsOnSelf())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.ShiftToUnstack]:setChecked(UserOptionsSettings.holdShiftToUnstack())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.ShiftRightClickContextMenu]:setChecked(UserOptionsSettings.shiftRightClickContextMenus())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.TargetQueueing]:setChecked(UserOptionsSettings.targetQueueing())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.AlwaysRun]:setChecked(UserOptionsSettings.alwaysRun())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.ToolTips]:setChecked(UserOptionsSettings.showTooltips())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.PartyInvitePopUp]:setChecked(UserOptionsSettings.partyInvitePopUp())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.EnableChatLog]:setChecked(UserOptionsSettings.enableChatLog())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.ToggleWindowSnap]:setChecked(UserOptionsSettings.enableSnapping())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockOthersPaperdolls]:setChecked(UserOptionsSettings.blockOthersPaperdoll())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnPets]:setChecked(UserOptionsSettings.blockWarOnPets())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnParty]:setChecked(UserOptionsSettings.blockWarOnParty())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnGuild]:setChecked(UserOptionsSettings.blockWarOnFriendly())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.ToggleWarShield]:setChecked(UserOptionsSettings.showWarShield())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.AutoIgnoreCorpses]:setChecked(UserOptionsSettings.autoIgnoreCorpses())
+    SettingsOptionsWindow.adapter.views[CHECK_BOXES.ToggleWindowSnap]:setChecked(UserOptionsSettings.enableSnapping())
 end
 
 function SettingsOptionsWindow.OnApplyButton()
-    local index = adapter.views[COMBO_BOXES.Languages]:getSelectedItem()
+    local index = SettingsOptionsWindow.adapter.views[COMBO_BOXES.Languages]:getSelectedItem()
     UserOptionsSettings.language(UserOptionsSettings.Languages[index])
-    index = adapter.views[COMBO_BOXES.HandleFilters]:getSelectedItem()
+    index = SettingsOptionsWindow.adapter.views[COMBO_BOXES.HandleFilters]:getSelectedItem()
     UserOptionsSettings.objectHandleFilter(UserOptionsSettings.ObjectHandleFilters[index].id)
-    index = adapter.views[COMBO_BOXES.CustomSkins]:getSelectedItem()
+    index = SettingsOptionsWindow.adapter.views[COMBO_BOXES.CustomSkins]:getSelectedItem()
     UserOptionsSettings.customUI(UserOptionsSettings.CustomUI[index])
 
-    UserOptionsSettings.useEnglishNames(adapter.views[CHECK_BOXES.EnglishNames]:isChecked())
-    UserOptionsSettings.alwaysRun(adapter.views[CHECK_BOXES.AlwaysRun]:isChecked())
-    UserOptionsSettings.autoRun(adapter.views[CHECK_BOXES.AutoRun]:isChecked())
-    UserOptionsSettings.pathfinding(adapter.views[CHECK_BOXES.PathFinding]:isChecked())
-    UserOptionsSettings.queryBeforeCriminalAction(adapter.views[CHECK_BOXES.QueryBeforeCriminalAction]:isChecked())
-    UserOptionsSettings.ignoreMouseActionsOnSelf(adapter.views[CHECK_BOXES.IgnoreMouseActionSelf]:isChecked())
-    UserOptionsSettings.holdShiftToUnstack(adapter.views[CHECK_BOXES.ShiftToUnstack]:isChecked())
-    UserOptionsSettings.shiftRightClickContextMenus(adapter.views[CHECK_BOXES.ShiftRightClickContextMenu]:isChecked())
-    UserOptionsSettings.targetQueueing(adapter.views[CHECK_BOXES.TargetQueueing]:isChecked())
-    UserOptionsSettings.alwaysAttack(adapter.views[CHECK_BOXES.AlwaysAttack]:isChecked())
-    UserOptionsSettings.showTooltips(adapter.views[CHECK_BOXES.ToolTips]:isChecked())
-    UserOptionsSettings.partyInvitePopUp(adapter.views[CHECK_BOXES.PartyInvitePopUp]:isChecked())
-    UserOptionsSettings.enableChatLog(adapter.views[CHECK_BOXES.EnableChatLog]:isChecked())
-    UserOptionsSettings.blockOthersPaperdoll(adapter.views[CHECK_BOXES.BlockOthersPaperdolls]:isChecked())
-    UserOptionsSettings.blockWarOnPets(adapter.views[CHECK_BOXES.BlockWarOnPets]:isChecked())
-    UserOptionsSettings.blockWarOnParty(adapter.views[CHECK_BOXES.BlockWarOnParty]:isChecked())
-    UserOptionsSettings.blockWarOnFriendly(adapter.views[CHECK_BOXES.BlockWarOnGuild]:isChecked())
-    UserOptionsSettings.showWarShield(adapter.views[CHECK_BOXES.ToggleWarShield]:isChecked())
-    UserOptionsSettings.autoIgnoreCorpses(adapter.views[CHECK_BOXES.AutoIgnoreCorpses]:isChecked())
-    UserOptionsSettings.enableSnapping(adapter.views[CHECK_BOXES.ToggleWindowSnap]:isChecked())
+    UserOptionsSettings.useEnglishNames(SettingsOptionsWindow.adapter.views[CHECK_BOXES.EnglishNames]:isChecked())
+    UserOptionsSettings.alwaysRun(SettingsOptionsWindow.adapter.views[CHECK_BOXES.AlwaysRun]:isChecked())
+    UserOptionsSettings.autoRun(SettingsOptionsWindow.adapter.views[CHECK_BOXES.AutoRun]:isChecked())
+    UserOptionsSettings.pathfinding(SettingsOptionsWindow.adapter.views[CHECK_BOXES.PathFinding]:isChecked())
+    UserOptionsSettings.queryBeforeCriminalAction(SettingsOptionsWindow.adapter.views[CHECK_BOXES.QueryBeforeCriminalAction]:isChecked())
+    UserOptionsSettings.ignoreMouseActionsOnSelf(SettingsOptionsWindow.adapter.views[CHECK_BOXES.IgnoreMouseActionSelf]:isChecked())
+    UserOptionsSettings.holdShiftToUnstack(SettingsOptionsWindow.adapter.views[CHECK_BOXES.ShiftToUnstack]:isChecked())
+    UserOptionsSettings.shiftRightClickContextMenus(SettingsOptionsWindow.adapter.views[CHECK_BOXES.ShiftRightClickContextMenu]:isChecked())
+    UserOptionsSettings.targetQueueing(SettingsOptionsWindow.adapter.views[CHECK_BOXES.TargetQueueing]:isChecked())
+    UserOptionsSettings.alwaysAttack(SettingsOptionsWindow.adapter.views[CHECK_BOXES.AlwaysAttack]:isChecked())
+    UserOptionsSettings.showTooltips(SettingsOptionsWindow.adapter.views[CHECK_BOXES.ToolTips]:isChecked())
+    UserOptionsSettings.partyInvitePopUp(SettingsOptionsWindow.adapter.views[CHECK_BOXES.PartyInvitePopUp]:isChecked())
+    UserOptionsSettings.enableChatLog(SettingsOptionsWindow.adapter.views[CHECK_BOXES.EnableChatLog]:isChecked())
+    UserOptionsSettings.blockOthersPaperdoll(SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockOthersPaperdolls]:isChecked())
+    UserOptionsSettings.blockWarOnPets(SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnPets]:isChecked())
+    UserOptionsSettings.blockWarOnParty(SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnParty]:isChecked())
+    UserOptionsSettings.blockWarOnFriendly(SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnGuild]:isChecked())
+    UserOptionsSettings.showWarShield(SettingsOptionsWindow.adapter.views[CHECK_BOXES.ToggleWarShield]:isChecked())
+    UserOptionsSettings.autoIgnoreCorpses(SettingsOptionsWindow.adapter.views[CHECK_BOXES.AutoIgnoreCorpses]:isChecked())
+    UserOptionsSettings.enableSnapping(SettingsOptionsWindow.adapter.views[CHECK_BOXES.ToggleWindowSnap]:isChecked())
 
-    UserOptionsSettings.uiScale(adapter.views[SLIDERS.UiScale.Bar]:getPosition() / 2 + 0.5)
-    UserOptionsSettings.genericGumpScale(((adapter.views[SLIDERS.GenericGumpScale.Bar]:getPosition() * 0.115) + 0.885) * 1.2)
-    UserOptionsSettings.cacheSize(adapter.views[SLIDERS.CacheSize.Bar]:getPosition() * 1024)
+    UserOptionsSettings.uiScale(SettingsOptionsWindow.adapter.views[SLIDERS.UiScale.Bar]:getPosition() / 2 + 0.5)
+    UserOptionsSettings.genericGumpScale(((SettingsOptionsWindow.adapter.views[SLIDERS.GenericGumpScale.Bar]:getPosition() * 0.115) + 0.885) * 1.2)
+    UserOptionsSettings.cacheSize(SettingsOptionsWindow.adapter.views[SLIDERS.CacheSize.Bar]:getPosition() * 1024)
 
     WindowSetShowing("WarShield",UserOptionsSettings.showWarShield())
 end

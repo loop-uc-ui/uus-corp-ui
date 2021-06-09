@@ -1,36 +1,37 @@
-ComboBoxView = {}
+ComboBoxWindow = BaseWindow:new()
 
-function ComboBoxView:new(id)
-    local this = {}
-    setmetatable(this, self)
+function ComboBoxWindow:new(id)
+    local this = {
+        id = id,
+        items = {}
+    }
     self.__index = self
-    this.id = id
-    this.items = {}
-    return this
+    return setmetatable(this, self)
 end
 
-function ComboBoxView:setItems(items)
-    for i = 1, #items do
-        local option = items[i]
+function ComboBoxWindow:setItems(items)
+    for _, value in pairs(items) do
+        local option = value
         if type(option) == "number" then
             option = StringFormatter.fromTid(option)
         elseif type(option) == "string" then
             option = StringFormatter.toWString(option)
         end
-        self.items[i] = option
+        table.insert(self.items, option)
         ComboBoxAddMenuItem(self.id, option)
     end
 end
 
-function ComboBoxView:clearItems()
+function ComboBoxWindow:clearItems()
+    self.items = {}
     ComboBoxClearMenuItems(self.id)
 end
 
-function ComboBoxView:setSelectedItem(item)
+function ComboBoxWindow:setSelectedItem(item)
     ComboBoxSetSelectedMenuItem(self.id, item)
 end
 
-function ComboBoxView:findItem(find)
+function ComboBoxWindow:findItem(find)
     for i = 1, #self.items do
         if find(self, self.items[i]) then
             self:setSelectedItem(i)
@@ -39,6 +40,6 @@ function ComboBoxView:findItem(find)
     end
 end
 
-function ComboBoxView:getSelectedItem()
+function ComboBoxWindow:getSelectedItem()
     return ComboBoxGetSelectedMenuItem(self.id)
 end

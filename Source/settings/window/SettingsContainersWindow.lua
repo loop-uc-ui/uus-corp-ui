@@ -1,4 +1,4 @@
-SettingsContainersWindow = {}
+SettingsContainersWindow = ListWindow:new(SettingsWindow.WINDOWS.Containers)
 
 local ComboBoxes = {
     ContainerView = "ContainerViewCombo",
@@ -13,10 +13,10 @@ local CheckBoxes = {
     UseLegacyContainers = "SettingsLegacyUseLegacyContainersButton"
 }
 
-local adapter = ViewAdapter:new(
-        SettingsWindow.WINDOWS.Containers,
-        SettingsWindow.WINDOWS.Containers
-)
+local ColorButtons = {
+    GridColor = "ContainerGridColorButton",
+    AlternateColor = "ContainerGridAlternateColorButton"
+}
 
 local isGridContainer = true
 local isExtraBrightContainer = false
@@ -43,7 +43,7 @@ function SettingsContainersWindow.Initialize()
         1157263 --Ghoul Skin
     }
 
-    adapter:addLabel("ContainersOptionsSystemSubSectionLabel", 1155277)
+    SettingsContainersWindow.adapter:addLabel("ContainersOptionsSystemSubSectionLabel", 1155277)
             :addLabel("ContainerViewLabel", 1079827)
             :addLabel("CorpseViewLabel", 1079828)
             :addComboBox(ComboBoxes.ContainerView, containerViewOptions, 1)
@@ -61,16 +61,18 @@ function SettingsContainersWindow.Initialize()
             :addCheckBox(CheckBoxes.UseLegacyContainers)
             :addLabel("SettingsLegacyBackpackStyleLabel", 1157257)
             :addComboBox(ComboBoxes.BackpackStyle, backpackStyles, 1)
+            :addWindow(ColorButtons.GridColor)
+            :addWindow(ColorButtons.AlternateColor)
 end
 
 function SettingsContainersWindow.UpdateSettings()
-    adapter.views[ComboBoxes.ContainerView]:findItem(
+    SettingsContainersWindow.adapter.views[ComboBoxes.ContainerView]:findItem(
         function (_, item)
             return item == StringFormatter.toWString(UserContainerSettings.containerView())
         end
     )
 
-    adapter.views[ComboBoxes.CorpseView]:findItem(
+    SettingsContainersWindow.adapter.views[ComboBoxes.CorpseView]:findItem(
             function (_, item)
                 return item == StringFormatter.toWString(UserContainerSettings.corpseView())
             end
@@ -81,58 +83,54 @@ function SettingsContainersWindow.UpdateSettings()
     isGridContainer = UserContainerSettings.gridContainer()
     isUseLegacyContainers = UserContainerSettings.legacyContainers()
 
-    adapter.views[CheckBoxes.ToggleGrid]:setChecked(isGridContainer)
-    adapter.views[CheckBoxes.ToggleAlternateGrid]:setChecked(isAlternateGrid)
-    adapter.views[CheckBoxes.ToggleExtraBright]:setChecked(isExtraBrightContainer)
-
-    adapter:setColor(
-            "ContainerGridColorButton",
+    SettingsContainersWindow.adapter.views[CheckBoxes.ToggleGrid]:setChecked(isGridContainer)
+    SettingsContainersWindow.adapter.views[CheckBoxes.ToggleAlternateGrid]:setChecked(isAlternateGrid)
+    SettingsContainersWindow.adapter.views[CheckBoxes.ToggleExtraBright]:setChecked(isExtraBrightContainer)
+    SettingsContainersWindow.adapter.views[ColorButtons.GridColor]:setColor(
             UserContainerSettings.gridColor()
     )
-
-    adapter:setColor(
-            "ContainerGridAlternateColorButton",
+    SettingsContainersWindow.adapter.views[ColorButtons.AlternateColor]:setColor(
             UserContainerSettings.alternateColor()
     )
 
-    adapter.views[CheckBoxes.UseLegacyContainers]:setChecked(isUseLegacyContainers)
+    SettingsContainersWindow.adapter.views[CheckBoxes.UseLegacyContainers]:setChecked(isUseLegacyContainers)
 
     currentBackPackStyle = UserContainerSettings.legacyBackPackStyle()
     for i = 1, #UserContainerSettings.LegacyBackpackStyles do
         if UserContainerSettings.LegacyBackpackStyles[i] == currentBackPackStyle then
-            adapter.views[ComboBoxes.BackpackStyle]:setSelectedItem(i)
+            SettingsContainersWindow.adapter.views[ComboBoxes.BackpackStyle]:setSelectedItem(i)
             break
         end
     end
 end
 
 function SettingsContainersWindow.OnApplyButton()
-    local containerView = adapter.views[ComboBoxes.ContainerView]
+    local containerView = SettingsContainersWindow.adapter.views[ComboBoxes.ContainerView]
     UserContainerSettings.containerView(StringFormatter.fromWString(
             containerView.items[containerView:getSelectedItem()]
     ))
-    local corpseView = adapter.views[ComboBoxes.CorpseView]
+    local corpseView = SettingsContainersWindow.adapter.views[ComboBoxes.CorpseView]
     UserContainerSettings.corpseView(StringFormatter.fromWString(
             containerView.items[corpseView:getSelectedItem()]
     ))
 
-    local isChecked = adapter.views[CheckBoxes.ToggleGrid]:isChecked()
+    local isChecked = SettingsContainersWindow.adapter.views[CheckBoxes.ToggleGrid]:isChecked()
     local doReload = isGridContainer ~= isChecked
     UserContainerSettings.gridContainer(isChecked)
 
-    isChecked = adapter.views[CheckBoxes.ToggleAlternateGrid]:isChecked()
+    isChecked = SettingsContainersWindow.adapter.views[CheckBoxes.ToggleAlternateGrid]:isChecked()
     doReload = doReload or isAlternateGrid ~= isChecked
     UserContainerSettings.alternateGrid(isChecked)
 
-    isChecked = adapter.views[CheckBoxes.ToggleExtraBright]:isChecked()
+    isChecked = SettingsContainersWindow.adapter.views[CheckBoxes.ToggleExtraBright]:isChecked()
     doReload = doReload or isExtraBrightContainer ~= isChecked
     UserContainerSettings.brightContainers(isChecked)
 
-    isChecked = adapter.views[CheckBoxes.UseLegacyContainers]:isChecked()
+    isChecked = SettingsContainersWindow.adapter.views[CheckBoxes.UseLegacyContainers]:isChecked()
     doReload = doReload or isUseLegacyContainers ~= isChecked
     UserContainerSettings.legacyContainers(isChecked)
 
-    local legacyStyle = adapter.views[ComboBoxes.BackpackStyle]:getSelectedItem()
+    local legacyStyle = SettingsContainersWindow.adapter.views[ComboBoxes.BackpackStyle]:getSelectedItem()
     doReload = doReload or (currentBackPackStyle ~= UserContainerSettings.LegacyBackpackStyles[legacyStyle] and UserContainerSettings.legacyContainers())
     UserContainerSettings.legacyBackPackStyle(UserContainerSettings.LegacyBackpackStyles[legacyStyle])
 
@@ -144,7 +142,7 @@ end
 
 function SettingsContainersWindow.DestroyContainers()
     for id, _ in pairs(ContainerWindow.OpenContainers) do
-        adapter:destroy("ContainerWindow_"..id)
+        SettingsContainersWindow.adapter:destroy("ContainerWindow_"..id)
     end
 
     for cId, _ in pairs(WindowData.ContainerWindow) do

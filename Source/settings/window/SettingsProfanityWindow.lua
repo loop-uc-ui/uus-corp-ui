@@ -1,16 +1,16 @@
-SettingsProfanityWindow = {}
+SettingsProfanityWindow = ListWindow:new(SettingsWindow.WINDOWS.Filters)
 
-SettingsProfanityWindow.ignoreListType = IGNORE_LIST_ALL
+local badWordFilter = ListWindow:new("SettingsBadWordFilter")
 
 local PreviousIgnoreListCount = 0
+
 local CurIgnoreListIdx = -1
+
 local IGNORE_LIST_ALL = 0
+
 local checkBox = "IgnoreListOptionButton"
-local mainAdapter = ViewAdapter:new(
-        SettingsWindow.WINDOWS.Filters,
-        SettingsWindow.WINDOWS.Filters
-)
-local listAdapters = { }
+
+SettingsProfanityWindow.ignoreListType = IGNORE_LIST_ALL
 
 local function overrideSettings()
     SystemData.Settings.Profanity.BadWordFilter = false
@@ -21,36 +21,36 @@ end
 local function PopulateProfanityList()
     -- clear ignore list
     for i = 1, PreviousIgnoreListCount do
-        if next(listAdapters) ~= nil then
-            listAdapters[i]:destroy()
+        if next(badWordFilter.adapter.views) ~= nil then
+            badWordFilter.adapter.views["IgnoreListItem"..i]:destroy()
         end
     end
 
-    listAdapters = {}
+    badWordFilter.adapter.views = {}
 
     for i = 1, WindowData.IgnoreListCount do
-        listAdapters[i] = ViewAdapter:new("IgnoreListItem"..i)
-        listAdapters[i]:addTemplate(
-                "SettingsBadWordFilter",
+        badWordFilter.adapter:addTemplate(
+                "IgnoreListItem"..i,
                 "IgnoreListItem",
                 "Label",
                 L"- "..WindowData.IgnoreNameList[i]
         )
+        WindowSetShowing("IgnoreListItem"..i, true)
 
         if (i == 1) then
-            listAdapters[i]:addAnchor("bottomleft", "IgnoreListDeleteButton", "topleft", 0, 10)
+            badWordFilter.adapter.views["IgnoreListItem"..i]:addAnchor("bottomleft", "IgnoreListDeleteButton", "topleft", 0, 10)
         else
-            listAdapters[i]:addAnchor("bottomleft", "IgnoreListItem"..(i - 1), "topleft", 0, 0)
+            badWordFilter.adapter.views["IgnoreListItem"..i]:addAnchor("bottomleft", "IgnoreListItem"..(i - 1), "topleft", 0, 0)
         end
     end
     PreviousIgnoreListCount = WindowData.IgnoreListCount
-    mainAdapter:updateScrollRect(mainAdapter.title)
+    SettingsProfanityWindow:updateScrollRect()
 end
 
 function SettingsProfanityWindow.Initialize()
     WindowRegisterEventHandler( "Root", SystemData.Events.PROFANITYLIST_UPDATED, "SettingsProfanityWindow.ProfanityListUpdated" )
     overrideSettings()
-    mainAdapter:addLabel("SettingsBadWordFilterFilterSubSectionLabel", 3000173)
+    SettingsProfanityWindow.adapter:addLabel("SettingsBadWordFilterFilterSubSectionLabel", 3000173)
                :addLabel("IgnoreListOptionLabel", 3000462)
                :addCheckBox(checkBox, true)
                :addButton("IgnoreListAddButton", 1155473)
@@ -60,15 +60,15 @@ function SettingsProfanityWindow.Initialize()
 end
 
 function SettingsProfanityWindow.UpdateSettings()
-    mainAdapter.views[checkBox]:setChecked(SystemData.Settings.Profanity.IgnoreListFilter)
+    SettingsProfanityWindow.adapter.views[checkBox]:setChecked(SystemData.Settings.Profanity.IgnoreListFilter)
 end
 
 function SettingsProfanityWindow.OnApplyButton()
-    mainAdapter.views[checkBox]:isChecked(SystemData.Settings.Profanity.IgnoreListFilter)
+    SettingsProfanityWindow.adapter.views[checkBox]:isChecked(SystemData.Settings.Profanity.IgnoreListFilter)
 end
 
 function SettingsProfanityWindow.ProfanityListUpdated()
-    mainAdapter:setShowing(true)
+    SettingsWindow:setShowing(true)
     PopulateProfanityList()
 end
 
@@ -99,11 +99,11 @@ end
 
 function SettingsProfanityWindow.OnIgnoreListItemClicked()
     for i = 1, WindowData.IgnoreListCount do
-        listAdapters[i].views["IgnoreListItem"..i]:setTextColor(255, 255, 255)
+        badWordFilter.adapter.views["IgnoreListItem"..i]:setTextColor(255, 255, 255)
         if (SystemData.ActiveWindow.name == "IgnoreListItem"..i) then
             CurIgnoreListIdx = i
             break
         end
     end
-    listAdapters[CurIgnoreListIdx].views["IgnoreListItem"..CurIgnoreListIdx]:setTextColor(250, 250, 0)
+    badWordFilter.adapter.views["IgnoreListItem"..CurIgnoreListIdx]:setTextColor(250, 250, 0)
 end

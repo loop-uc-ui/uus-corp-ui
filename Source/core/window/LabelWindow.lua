@@ -1,14 +1,14 @@
-LabelView = {}
+LabelWindow = BaseWindow:new()
 
-function LabelView:new(id)
-    local this = {}
-    setmetatable(this, self)
+function LabelWindow:new(id)
+    local this = {
+        id = id
+    }
     self.__index = self
-    this.id = id
-    return this
+    return setmetatable(this, self)
 end
 
-function LabelView:setText(text)
+function LabelWindow:setText(text)
     if type(text) == "number" then
         text = StringFormatter.fromTid(text)
     elseif type(text) == "string" then
@@ -17,6 +17,6 @@ function LabelView:setText(text)
     LabelSetText(self.id, text)
 end
 
-function LabelView:setTextColor(r, g, b)
+function LabelWindow:setTextColor(r, g, b)
     LabelSetTextColor(self.id, r, g, b)
 end

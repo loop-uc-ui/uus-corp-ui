@@ -1,10 +1,7 @@
-MainMenuWindow = {}
-
-local adapter = ViewAdapter:new("MainMenuWindow", L"Menu")
+MainMenuWindow = ListWindow:new("MainMenuWindow", false)
 
 function MainMenuWindow.Initialize()
-    adapter:setAlpha(1.00)
-            :addLabel("MainMenuWindowLogOutItemText", 3000128)
+    MainMenuWindow.adapter:addLabel("MainMenuWindowLogOutItemText", 3000128)
             :addLabel("MainMenuWindowExitGameItemText", 1077859)
             :addLabel("MainMenuWindowUserSettingsItemText", L"Settings")
             :addLabel("MainMenuWindowAgentsSettingsItemText", L"Agents")
@@ -13,8 +10,10 @@ function MainMenuWindow.Initialize()
             :addLabel("MainMenuWindowHelpItemText", 1061037)
             :addLabel("MainMenuWindowUOStoreText", L"Store")
             :addLabel("MainMenuWindowDebugItemText", L"Debug")
-            :clearAnchors()
+
+    MainMenuWindow:clearAnchors()
             :addAnchor("center", "ResizeWindow", "center", 100, 0)
+            :setAlpha(1.00)
 end
 
 function MainMenuWindow.OnLogOut()
@@ -23,32 +22,32 @@ end
 
 function MainMenuWindow.OnOpenUserSettings()
     ToggleWindowByName("SettingsWindow", "", MainMenuWindow.ToggleSettingsWindow)
-    adapter:setShowing(false)
+    MainMenuWindow:setShowing(false)
 end
 
 function MainMenuWindow.OnOpenMacros()
     ToggleWindowByName("MacroWindow", "", MainMenuWindow.OnOpenMacros)
-    adapter:setShowing(false)
+    MainMenuWindow:setShowing(false)
 end
 
 function MainMenuWindow.OnOpenActions()
     ToggleWindowByName("ActionsWindow", "", MainMenuWindow.OnOpenActions)
-    adapter:setShowing(false)
+    MainMenuWindow:setShowing(false)
 end
 
 function MainMenuWindow.OnOpenHelp()
     Broadcast.Event(SystemData.Events.REQUEST_OPEN_HELP_MENU)
-    adapter:setShowing(false)
+    MainMenuWindow:setShowing(false)
 end
 
 function MainMenuWindow.OnOpenUOStore()
     Broadcast.Event(SystemData.Events.UO_STORE_REQUEST)
-    adapter:setShowing(false)
+    MainMenuWindow:setShowing(false)
 end
 
 function MainMenuWindow.OnDebug()
     ToggleWindowByName("DebugWindow", "", MainMenuWindow.OnDebug)
-    adapter:setShowing(false)
+    MainMenuWindow:setShowing(false)
 end
 
 function MainMenuWindow.ToggleSettingsWindow()
@@ -57,9 +56,9 @@ end
 
 function MainMenuWindow.OnToggleAgentsSettings()
     ToggleWindowByName("OrganizerWindow", "", MainMenuWindow.OnToggleAgentsSettings)
-    adapter:setShowing(false)
+    MainMenuWindow:setShowing(false)
 end
 
 function MainMenuWindow.Destroy()
-    adapter:setShowing(false)
+    MainMenuWindow:setShowing(false)
 end

@@ -22,7 +22,7 @@
 	<Include file="Source/Organizer.xml" />
 	<Include file="Source/ResizeWindow.xml"/>
 	<Include file="Source/Hotbar.xml" />
-	<Include file="Source/MainMenuWindow.xml" />
+	<Include file="Source/main_menu/MainMenuWindow.xml" />
 	<Include file="Source/settings/window/SettingsGraphicsWindow.xml"/>
 	<Include file="Source/settings/window/SettingsKeyBindingsWindow.xml"/>
 	<Include file="Source/settings/window/SettingsSoundWindow.xml"/>
@@ -108,15 +108,17 @@
 	<!-- Script Files -->
 	<Scripts>
 		<Script file="Source/core/data/TextIds.lua"/>
-		<Script file="Source/core/view/ViewAdapter.lua"/>
+		<Script file="Source/core/window/BaseWindow.lua"/>
+		<Script file="Source/core/window/ListWindow.lua"/>
+		<Script file="Source/core/window/LabelWindow.lua"/>
+		<Script file="Source/core/window/SliderWindow.lua"/>
+		<Script file="Source/core/window/CheckBoxWindow.lua"/>
+		<Script file="Source/core/window/ButtonWindow.lua"/>
+		<Script file="Source/core/window/ComboBoxWindow.lua"/>
+		<Script file="Source/core/window/WindowAdapter.lua"/>
 		<Script file="Source/core/util/KeyBinder.lua"/>
-		<Script file="Source/core/window/AssignHotKeyInfoWindow.lua"/>
 		<Script file="Source/core/util/TableFormatter.lua"/>
 		<Script file="Source/core/util/StringFormatter.lua"/>
-		<Script file="Source/core/view/SliderView.lua"/>
-		<Script file="Source/core/view/CheckBoxView.lua"/>
-		<Script file="Source/core/view/ButtonView.lua"/>
-		<Script file="Source/core/view/ComboBoxView.lua"/>
 		<Script file="Source/core/data/WindowDataStore.lua"/>
 		<Script file="Source/core/data/UserInterfaceVariables.lua"/>
 		<Script file="Source/core/data/UserHealthBarsSettings.lua"/>
@@ -126,7 +128,6 @@
 		<Script file="Source/core/data/UserSoundSettings.lua"/>
 		<Script file="Source/core/data/UserControlSettings.lua"/>
 		<Script file="Source/core/data/UserGraphicsSettings.lua"/>
-		<Script file="Source/core/view/LabelView.lua"/>
 		<Script file="Source/core/util/Broadcast.lua"/>
 		<Script file="Interface.lua" />		
 		<Script file="Source/Cooldown.lua"/>
@@ -199,7 +200,7 @@
 		<Script file="Source/GenericQuantity.lua" />
 		<Script file="Source/SkillsTracker.lua" />
 		<Script file="Source/ResizeWindow.lua" />
-		<Script file="Source/MainMenuWindow.lua" />
+		<Script file="Source/main_menu/MainMenuWindow.lua" />
 		<Script file="Source/QueryWindow.lua" />
 		<Script file="Source/HighlightEffect.lua"/>
 		<Script file="Source/NewPlayerGuide.lua" />

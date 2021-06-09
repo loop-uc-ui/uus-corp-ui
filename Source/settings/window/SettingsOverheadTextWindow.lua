@@ -1,4 +1,4 @@
-SettingsOverheadTextWindow = {}
+SettingsOverheadTextWindow = ListWindow:new(SettingsWindow.WINDOWS.OverheadText)
 
 local ShowNames = {
     1011051,
@@ -14,11 +14,6 @@ local DelayValues = {
     1078339,
     1078340
 }
-
-local adapter = ViewAdapter:new(
-        SettingsWindow.WINDOWS.OverheadText,
-        SettingsWindow.WINDOWS.OverheadText
-)
 
 local CHECK_BOXES = {
     ClickableNames = "clickableNamesButton",
@@ -53,7 +48,7 @@ local COMBO_BOXES = {
 }
 
 function SettingsOverheadTextWindow.Initialize()
-    adapter:addLabel(
+    SettingsOverheadTextWindow.adapter:addLabel(
             "OverheadTextOptionsOTSubSectionLabel",
             1155333
     ):addLabel(
@@ -165,80 +160,83 @@ function SettingsOverheadTextWindow.Initialize()
             COMBO_BOXES.ShowNames,
             ShowNames
     )
+
+    for _, value in pairs(COLOR_BUTTONS) do
+        SettingsOverheadTextWindow.adapter:addWindow(
+                value
+        )
+    end
 end
 
 function SettingsOverheadTextWindow.UpdateSettings()
-    adapter.views[CHECK_BOXES.OverheadChat]:setChecked(
+    SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.OverheadChat]:setChecked(
             UserOverheadTextSettings.showChat()
     )
-    adapter.views[CHECK_BOXES.ClickableNames]:setChecked(
+    SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.ClickableNames]:setChecked(
             UserOverheadTextSettings.clickableNames()
     )
-    adapter.views[CHECK_BOXES.DisableSpells]:setChecked(
+    SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.DisableSpells]:setChecked(
             UserOverheadTextSettings.disableSpells()
     )
-    adapter.views[CHECK_BOXES.ShowSpellNames]:setChecked(
+    SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.ShowSpellNames]:setChecked(
             UserOverheadTextSettings.showSpellNames()
     )
-    adapter.views[CHECK_BOXES.NoPoisonOthers]:setChecked(
+    SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.NoPoisonOthers]:setChecked(
             UserOverheadTextSettings.disablePoison()
     )
-    adapter.views[CHECK_BOXES.ShowCorpseNames]:setChecked(
+    SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.ShowCorpseNames]:setChecked(
             UserOverheadTextSettings.showCorpseNames()
     )
-
-    adapter:setColor(
-            COLOR_BUTTONS.Heal,
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Heal]:setColor(
             UserOverheadTextSettings.healColor()
-    ):setColor(
-            COLOR_BUTTONS.Curse,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Curse]:setColor(
             UserOverheadTextSettings.curseColor()
-    ):setColor(
-            COLOR_BUTTONS.Paralyze,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Paralyze]:setColor(
             UserOverheadTextSettings.paralyzeColor()
-    ):setColor(
-            COLOR_BUTTONS.Neutral,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Neutral]:setColor(
             UserOverheadTextSettings.neutralColor()
-    ):setColor(
-            COLOR_BUTTONS.Negative,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Negative]:setColor(
             UserOverheadTextSettings.errorColor()
-    ):setColor(
-            COLOR_BUTTONS.Positive,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Positive]:setColor(
             UserOverheadTextSettings.specialColor()
-    ):setColor(
-            COLOR_BUTTONS.PlayerDamage,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.PlayerDamage]:setColor(
             UserOverheadTextSettings.damagePlayerColor()
-    ):setColor(
-            COLOR_BUTTONS.PetDamage,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.PetDamage]:setColor(
             UserOverheadTextSettings.damagePetColor()
-    ):setColor(
-            COLOR_BUTTONS.EnemyDamage,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.EnemyDamage]:setColor(
             UserOverheadTextSettings.damageOtherColor()
-    ):setColor(
-            COLOR_BUTTONS.Physical,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Physical]:setColor(
             UserOverheadTextSettings.physicalColor()
-    ):setColor(
-            COLOR_BUTTONS.Fire,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Fire]:setColor(
             UserOverheadTextSettings.fireColor()
-    ):setColor(
-            COLOR_BUTTONS.Cold,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Cold]:setColor(
             UserOverheadTextSettings.coldColor()
-    ):setColor(
-            COLOR_BUTTONS.Poison,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Poison]:setColor(
             UserOverheadTextSettings.poisonColor()
-    ):setColor(
-            COLOR_BUTTONS.Energy,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Energy]:setColor(
             UserOverheadTextSettings.energyColor()
-    ):setColor(
-            COLOR_BUTTONS.Chaos,
+    )
+    SettingsOverheadTextWindow.adapter.views[COLOR_BUTTONS.Chaos]:setColor(
             UserOverheadTextSettings.chaosColor()
     )
-
-    adapter.views[COMBO_BOXES.Delay]:setSelectedItem(
+    SettingsOverheadTextWindow.adapter.views[COMBO_BOXES.Delay]:setSelectedItem(
             UserOverheadTextSettings.delay()
     )
 
-    adapter.views[COMBO_BOXES.ShowNames]:findItem(
+    SettingsOverheadTextWindow.adapter.views[COMBO_BOXES.ShowNames]:findItem(
             function(self, item)
                 return TableFormatter.indexOf(self.items, item) == TableFormatter.indexOf(
                         UserOverheadTextSettings.ShowNamesOptions,
@@ -250,30 +248,30 @@ end
 
 function SettingsOverheadTextWindow.OnApplyButton()
     UserOverheadTextSettings.showCorpseNames(
-            adapter.views[CHECK_BOXES.ShowCorpseNames]:isChecked()
+            SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.ShowCorpseNames]:isChecked()
     )
     UserOverheadTextSettings.clickableNames(
-            adapter.views[CHECK_BOXES.ClickableNames]:isChecked()
+            SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.ClickableNames]:isChecked()
     )
     UserOverheadTextSettings.disableSpells(
-            adapter.views[CHECK_BOXES.DisableSpells]:isChecked()
+            SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.DisableSpells]:isChecked()
     )
     UserOverheadTextSettings.showSpellNames(
-            adapter.views[CHECK_BOXES.ShowSpellNames]:isChecked()
+            SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.ShowSpellNames]:isChecked()
     )
     UserOverheadTextSettings.disablePoison(
-            adapter.views[CHECK_BOXES.NoPoisonOthers]:isChecked()
+            SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.NoPoisonOthers]:isChecked()
     )
     UserOverheadTextSettings.showChat(
-            adapter.views[CHECK_BOXES.OverheadChat]:isChecked()
+            SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.OverheadChat]:isChecked()
     )
     UserOverheadTextSettings.delay(
-            adapter.views[COMBO_BOXES.Delay]:getSelectedItem()
+            SettingsOverheadTextWindow.adapter.views[COMBO_BOXES.Delay]:getSelectedItem()
     )
     UserOverheadTextSettings.showNames(
             TableFormatter.getValues(
                     UserOverheadTextSettings.ShowNamesOptions
-            )[adapter.views[COMBO_BOXES.ShowNames]:getSelectedItem()]
+            )[SettingsOverheadTextWindow.adapter.views[COMBO_BOXES.ShowNames]:getSelectedItem()]
     )
 
     --TODO refactor this

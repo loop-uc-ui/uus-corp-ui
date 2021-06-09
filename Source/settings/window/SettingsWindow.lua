@@ -1,6 +1,4 @@
-SettingsWindow = {}
-
-local adapter = ViewAdapter:new("SettingsWindow", "SettingsWindow")
+SettingsWindow = ListWindow:new("SettingsWindow")
 
 local TAB_BUTTONS = {
 	Graphics = "SettingsWindowGraphicsTabButton",
@@ -31,7 +29,7 @@ SettingsWindow.WINDOWS = {
 	OverheadText = "OverheadTextSettingsWindow",
 	Containers = "ContainersSettingsWindow",
 	HealthBars = "HealthbarsSettingsWindow",
-	Mobiles = "SettingsMobilesOnScreen",
+	Mobiles = "SettingsMobilesOnScreen"
 }
 
 local function overrideLegacySettings()
@@ -42,9 +40,9 @@ local function overrideLegacySettings()
 end
 
 function SettingsWindow.Initialize()
-	Interface.OnCloseCallBack[adapter.name] = SettingsWindow.OnCancelButton
-	WindowUtils.SetWindowTitle(adapter.name, StringFormatter.fromTid(1077814))
-	adapter:addButton(
+	Interface.OnCloseCallBack[SettingsWindow.id] = SettingsWindow.OnCancelButton
+	WindowUtils.SetWindowTitle(SettingsWindow.id, StringFormatter.fromTid(1077814))
+	SettingsWindow.adapter:addButton(
 			TAB_BUTTONS.Graphics,
 			1077815
 	):addButton(
@@ -85,6 +83,12 @@ function SettingsWindow.Initialize()
 			1006045
 	)
 
+	for _, value in pairs(TAB_BUTTONS) do
+		SettingsWindow.adapter:addWindow(
+				value.."Tab"
+		)
+	end
+
 	overrideLegacySettings()
 	SettingsWindow.OpenGraphicsTab()
 	SettingsGraphicsWindow.Initialize()
@@ -98,12 +102,12 @@ function SettingsWindow.Initialize()
 	SettingsWindow.UpdateSettings()
 	
 	-- Call backs
-	WindowRegisterEventHandler(adapter.name, Broadcast.Events.USER_SETTINGS_UPDATED, "SettingsWindow.UpdateSettings" )
-	WindowRegisterEventHandler(adapter.name, Broadcast.Events.TOGGLE_USER_PREFERENCE, "SettingsWindow.ToggleSettingsWindow" )
+	WindowRegisterEventHandler(SettingsWindow.id, Broadcast.Events.USER_SETTINGS_UPDATED, "SettingsWindow.UpdateSettings" )
+	WindowRegisterEventHandler(SettingsWindow.id, Broadcast.Events.TOGGLE_USER_PREFERENCE, "SettingsWindow.ToggleSettingsWindow" )
 end
 
 function SettingsWindow.ToggleSettingsWindow()	
-	ToggleWindowByName(adapter.name, "", nil)
+	ToggleWindowByName(SettingsWindow.id, "", nil)
 end
 
 function SettingsWindow.UpdateSettings()
@@ -121,7 +125,7 @@ end
 function SettingsWindow.OnOkayButton()
 	SettingsWindow.OnApplyButton()
 	-- Close the window		
-	ToggleWindowByName(adapter.name, "", nil )
+	ToggleWindowByName(SettingsWindow.id, "", nil )
 end
 
 function SettingsWindow.OnApplyButton()
@@ -154,7 +158,7 @@ function SettingsWindow.OnResetButton()
 		textTid = UO_StandardDialog.TID_CANCEL
 	}
 	local ResetConfirmWindow = {
-		windowName = adapter.name,
+		windowName = SettingsWindow.id,
 		titleTid = 1078994, 
 		bodyTid = 1078995, 
 		buttons = { okayButton, cancelButton }
@@ -168,89 +172,94 @@ function SettingsWindow.OnCancelButton()
 	SettingsKeyBindingsWindow.ClearTempKeybindings()
 	SettingsWindow.UpdateSettings()
 	-- Close the window		
-	ToggleWindowByName(adapter.name, "", nil)
+	ToggleWindowByName(SettingsWindow.id, "", nil)
 end
 
 function SettingsWindow.ClearTabStates()
 	for _, value in pairs(TAB_BUTTONS) do
-		adapter.views[value]:setDisabledFlag(false)
-		adapter:setShowing(true, value.."Tab")
+		SettingsWindow.adapter.views[value]:setDisabledFlag(false)
+		SettingsWindow.adapter.views[value.."Tab"]:setShowing(true)
 	end
 
-	for _, value in pairs(SettingsWindow.WINDOWS) do
-		adapter:setShowing(false, value)
-	end
+	SettingsSoundWindow:setShowing(false)
+	SettingsProfanityWindow:setShowing(false)
+	SettingsOverheadTextWindow:setShowing(false)
+	SettingsOptionsWindow:setShowing(false)
+	SettingsKeyBindingsWindow:setShowing(false)
+	SettingsHealthBarsWindow:setShowing(false)
+	SettingsGraphicsWindow:setShowing(false)
+	SettingsContainersWindow:setShowing(false)
+	WindowSetShowing("SettingsMobilesOnScreen", false)
 end
 
 function SettingsWindow.openTab(view)
 	if view == nil then
-		view = adapter.views[TAB_BUTTONS.Graphics]
+		view = SettingsWindow.adapter.views[TAB_BUTTONS.Graphics]
 	end
 	SettingsWindow.ClearTabStates()
 end
 
 function SettingsWindow.OpenGraphicsTab()
 	SettingsWindow.ClearTabStates()
-	adapter.views[TAB_BUTTONS.Graphics]:setDisabledFlag(true)
-	adapter:setShowing(false, TAB_BUTTONS.Graphics.."Tab")
-	adapter:setShowing(true, SettingsWindow.WINDOWS.Graphics)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Graphics]:setDisabledFlag(true)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Graphics.."Tab"]:setShowing(false)
+	SettingsGraphicsWindow:setShowing(true)
 end
 
 function SettingsWindow.OpenKeyBindingsTab()
 	SettingsWindow.ClearTabStates()
-	adapter.views[TAB_BUTTONS.KeyBindings]:setDisabledFlag(true)
-	adapter:setShowing(false, TAB_BUTTONS.KeyBindings.."Tab")
-	adapter:setShowing(true, SettingsWindow.WINDOWS.KeyBindings)
-	adapter:setShowing(true, SettingsWindow.WINDOWS.KeyDefault)
+	SettingsWindow.adapter.views[TAB_BUTTONS.KeyBindings]:setDisabledFlag(true)
+	SettingsWindow.adapter.views[TAB_BUTTONS.KeyBindings.."Tab"]:setShowing(false)
+	SettingsKeyBindingsWindow:setShowing(true)
 end
 
 function SettingsWindow.OpenSoundTab()
 	SettingsWindow.ClearTabStates()
-	adapter.views[TAB_BUTTONS.Sound]:setDisabledFlag(true)
-	adapter:setShowing(false, TAB_BUTTONS.Sound.."Tab")
-	adapter:setShowing(true, SettingsWindow.WINDOWS.Sound)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Sound]:setDisabledFlag(true)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Sound.."Tab"]:setShowing(false)
+	SettingsSoundWindow:setShowing(true)
 end
 
 function SettingsWindow.OpenOptionsTab()
 	SettingsWindow.ClearTabStates()
-	adapter.views[TAB_BUTTONS.Options]:setDisabledFlag(true)
-	adapter:setShowing(false, TAB_BUTTONS.Options.."Tab")
-	adapter:setShowing(true, SettingsWindow.WINDOWS.Options)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Options]:setDisabledFlag(true)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Options.."Tab"]:setShowing(false)
+	SettingsOptionsWindow:setShowing(true)
 end
 
 function SettingsWindow.OpenProfanityTab()
 	SettingsWindow.ClearTabStates()
-	adapter.views[TAB_BUTTONS.Filters]:setDisabledFlag(true)
-	adapter:setShowing(false, TAB_BUTTONS.Filters.."Tab")
-	adapter:setShowing(true, SettingsWindow.WINDOWS.Filters)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Filters]:setDisabledFlag(true)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Filters.."Tab"]:setShowing(false)
+	SettingsProfanityWindow:setShowing(true)
 end
 
 function SettingsWindow.OpenMobilesTab()
 	SettingsWindow.ClearTabStates()
-	adapter.views[TAB_BUTTONS.Mobiles]:setDisabledFlag(true)
-	adapter:setShowing(false, TAB_BUTTONS.Mobiles.."Tab")
-	adapter:setShowing(true, SettingsWindow.WINDOWS.Mobiles)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Mobiles]:setDisabledFlag(true)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Mobiles.."Tab"]:setShowing(false)
+	WindowSetShowing("SettingsMobilesOnScreen", true)
 end
 
 function SettingsWindow.OpenHealthbarsTab()
 	SettingsWindow.ClearTabStates()
-	adapter.views[TAB_BUTTONS.HealthBars]:setDisabledFlag(true)
-	adapter:setShowing(false, TAB_BUTTONS.HealthBars.."Tab")
-	adapter:setShowing(true, SettingsWindow.WINDOWS.HealthBars)
+	SettingsWindow.adapter.views[TAB_BUTTONS.HealthBars]:setDisabledFlag(true)
+	SettingsWindow.adapter.views[TAB_BUTTONS.HealthBars.."Tab"]:setShowing(false)
+	SettingsHealthBarsWindow:setShowing(true)
 end
 
 function SettingsWindow.OpenContainersTab()
 	SettingsWindow.ClearTabStates()
-	adapter.views[TAB_BUTTONS.Containers]:setDisabledFlag(true)
-	adapter:setShowing(false, TAB_BUTTONS.Containers.."Tab")
-	adapter:setShowing(true, SettingsWindow.WINDOWS.Containers)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Containers]:setDisabledFlag(true)
+	SettingsWindow.adapter.views[TAB_BUTTONS.Containers.."Tab"]:setShowing(false)
+	SettingsContainersWindow:setShowing(true)
 end
 
 function SettingsWindow.OpenOverheadTextTab()
 	SettingsWindow.ClearTabStates()
-	adapter.views[TAB_BUTTONS.OverheadText]:setDisabledFlag(true)
-	adapter:setShowing(false, TAB_BUTTONS.OverheadText.."Tab")
-	adapter:setShowing(true, SettingsWindow.WINDOWS.OverheadText)
+	SettingsWindow.adapter.views[TAB_BUTTONS.OverheadText]:setDisabledFlag(true)
+	SettingsWindow.adapter.views[TAB_BUTTONS.OverheadText.."Tab"]:setShowing(false)
+	SettingsOverheadTextWindow:setShowing(true)
 end
 
 function SettingsWindow.Check()

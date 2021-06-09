@@ -1,9 +1,4 @@
-SettingsKeyBindingsWindow = {}
-
-local adapter = ViewAdapter:new(
-        SettingsWindow.WINDOWS.KeyBindings,
-        SettingsWindow.WINDOWS.KeyBindings
-)
+SettingsKeyBindingsWindow = ListWindow:new(SettingsWindow.WINDOWS.KeyBindings)
 
 local mouseComboBoxes = {
     ScrollUp = "SettingsKeyBindingsScrollWheelUpCombo",
@@ -32,27 +27,27 @@ local function refreshKeyBindingViews()
     for i = 1, #UserControlSettings.Keybindings do
         local binding = UserControlSettings.Keybindings[i].value
         if binding ~= nil then
-            adapter:addLabel(
+            SettingsKeyBindingsWindow.adapter:addLabel(
                     keyBindingValues[i],
                     binding,
                     255,
                     255,
                     255
             )
-            adapter.views[keyBindingValues[i]].tag = UserControlSettings.Keybindings[i].key
+            SettingsKeyBindingsWindow.adapter.views[keyBindingValues[i]].tag = UserControlSettings.Keybindings[i].key
         end
     end
 end
 
 function SettingsKeyBindingsWindow.Initialize()
     keyBindingRequest = {}
-    adapter:addLabel("SettingsKeyBindingsMouseSubSectionLabel", 1094694)
+    SettingsKeyBindingsWindow.adapter:addLabel("SettingsKeyBindingsMouseSubSectionLabel", 1094694)
            :addLabel("SettingsKeyBindingsKeyboardSubSectionLabel", 1077816)
            :addLabel("SettingsKeyBindingsScrollWheelUpLabel", 1111944)
            :addLabel("SettingsKeyBindingsScrollWheelDownLabel", 1111945)
            :addLabel("SettingsKeyDefaultWindowMMOKeysName", 1111866)
-           :setOffset(0)
-           :updateScrollRect()
+
+    SettingsKeyBindingsWindow:setOffset(0):updateScrollRect()
 
     local scrollWheelBehaviors = {
         1079288,
@@ -71,7 +66,7 @@ function SettingsKeyBindingsWindow.Initialize()
         1011051
     }
 
-    adapter:addComboBox(
+    SettingsKeyBindingsWindow.adapter:addComboBox(
             mouseComboBoxes.ScrollUp,
             scrollWheelBehaviors,
             1
@@ -83,7 +78,7 @@ function SettingsKeyBindingsWindow.Initialize()
     )
 
     for i = 1, #UserControlSettings.Keybindings do
-        adapter:addLabel(
+        SettingsKeyBindingsWindow.adapter:addLabel(
                 keyBindingLabels[i],
                 StringFormatter.toLower(
                         StringFormatter:replaceChar(
@@ -95,8 +90,8 @@ function SettingsKeyBindingsWindow.Initialize()
         )
     end
 
-    keyBinder = KeyBinder:register(
-            adapter.name,
+    keyBinder = KeyBinder:new(
+            SettingsKeyBindingsWindow.id,
             "SettingsKeyBindingsWindow.KeyRecorded",
             "SettingsKeyBindingsWindow.KeyCancelRecord"
     )
@@ -105,13 +100,13 @@ end
 function SettingsKeyBindingsWindow.UpdateSettings()
     for i = 1, #UserControlSettings.ScrollWheelBehaviors do
         if (UserControlSettings.mouseScrollUpAction() == UserControlSettings.ScrollWheelBehaviors[i]) then
-            adapter.views[mouseComboBoxes.ScrollUp]:setSelectedItem(i)
+            SettingsKeyBindingsWindow.adapter.views[mouseComboBoxes.ScrollUp]:setSelectedItem(i)
         end
     end
 
     for i = 1, #UserControlSettings.ScrollWheelBehaviors do
         if (UserControlSettings.mouseScrollDownAction() == UserControlSettings.ScrollWheelBehaviors[i]) then
-            adapter.views[mouseComboBoxes.ScrollDown]:setSelectedItem(i)
+            SettingsKeyBindingsWindow.adapter.views[mouseComboBoxes.ScrollDown]:setSelectedItem(i)
         end
     end
 
@@ -127,10 +122,10 @@ function SettingsKeyBindingsWindow.OnApplyButton()
     SettingsKeyBindingsWindow.UpdateKeyBindings()
     refreshKeyBindingViews()
     UserControlSettings.mouseScrollUpAction(
-            adapter.views[mouseComboBoxes.ScrollUp]:getSelectedItem() - 1
+            SettingsKeyBindingsWindow.adapter.views[mouseComboBoxes.ScrollUp]:getSelectedItem() - 1
     )
     UserControlSettings.mouseScrollDownAction(
-            adapter.views[mouseComboBoxes.ScrollDown]:getSelectedItem() - 1
+            SettingsKeyBindingsWindow.adapter.views[mouseComboBoxes.ScrollDown]:getSelectedItem() - 1
     )
     keyBindingRequest = {}
 end
@@ -154,11 +149,11 @@ function SettingsKeyBindingsWindow.OnKeyPicked()
         return
     end
 
-    adapter.views[keyBindingLabels[keyIndex]]:setTextColor(250, 250, 0)
-    adapter.views[keyBindingValues[keyIndex]]:setTextColor(250, 250, 0)
+    SettingsKeyBindingsWindow.adapter.views[keyBindingLabels[keyIndex]]:setTextColor(250, 250, 0)
+    SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyIndex]]:setTextColor(250, 250, 0)
     keyBindingRequest = {
         index = keyIndex,
-        key = adapter.views[keyBindingValues[keyIndex]].tag
+        key = SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyIndex]].tag
     }
     keyBinder:onKeyPicked(
             "topleft",
@@ -170,12 +165,12 @@ function SettingsKeyBindingsWindow.OnKeyPicked()
 end
 
 function SettingsKeyBindingsWindow.KeyRecorded()
-    adapter.views[keyBindingLabels[keyBindingRequest.index]]:setTextColor(
+    SettingsKeyBindingsWindow.adapter.views[keyBindingLabels[keyBindingRequest.index]]:setTextColor(
             255,
             255,
             255
     )
-    adapter.views[keyBindingValues[keyBindingRequest.index]]:setTextColor(
+    SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyBindingRequest.index]]:setTextColor(
             255,
             255,
             255
@@ -184,10 +179,10 @@ function SettingsKeyBindingsWindow.KeyRecorded()
             KeyBinder.BindTypes.BINDTYPE_SETTINGS,
             keyBindings,
             keyBindingRequest,
-            adapter.name,
+            SettingsKeyBindingsWindow.id,
             L"KeyBinding Conflict",
             function ()
-                adapter.views[keyBindingValues[keyBindingRequest.index]]:setText(keyBinder.recordedKey())
+                SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyBindingRequest.index]]:setText(keyBinder.recordedKey())
                 keyBindings[keyBindingRequest.index].value = keyBinder.recordedKey()
             end
     )
@@ -195,12 +190,12 @@ end
 
 function SettingsKeyBindingsWindow.KeyCancelRecord()
     if keyBindingRequest.index ~= nil then
-        adapter.views[keyBindingLabels[keyBindingRequest.index]]:setTextColor(
+        SettingsKeyBindingsWindow.adapter.views[keyBindingLabels[keyBindingRequest.index]]:setTextColor(
                 255,
                 255,
                 255
         )
-        adapter.views[keyBindingValues[keyBindingRequest.index]]:setTextColor(
+        SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyBindingRequest.index]]:setTextColor(
                 255,
                 255,
                 255
@@ -222,7 +217,7 @@ function SettingsKeyBindingsWindow.OnDefaultKeyPressed()
         textTid = TextIds.NO
     }
     local windowData = {
-        windowName = adapter.name,
+        windowName = SettingsKeyBindingsWindow.id,
         titleTid = TextIds.INFO,
         bodyTid = 1094698,
         buttons = { yesButton, noButton }

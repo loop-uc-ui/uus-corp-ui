@@ -1,9 +1,4 @@
-SettingsHealthBarsWindow = {}
-
-local adapter = ViewAdapter:new(
-        SettingsWindow.WINDOWS.HealthBars,
-        SettingsWindow.WINDOWS.HealthBars
-)
+SettingsHealthBarsWindow = ListWindow:new(SettingsWindow.WINDOWS.HealthBars)
 
 local CHECK_BOXES = {
     ToggleMobileArrow = "ToggleMobileArrowButton",
@@ -103,7 +98,7 @@ local SPELL_TEXT = {} do
 end
 
 function SettingsHealthBarsWindow.Initialize()
-    adapter:addLabel("HealthbarsOptionsStatusWindowSubSectionLabel", 1155313)
+    SettingsHealthBarsWindow.adapter:addLabel("HealthbarsOptionsStatusWindowSubSectionLabel", 1155313)
             :addLabel("HealthbarsOptionsButtonsSubSectionLabel", 1155323)
             :addLabel("HealthbarsOptionsSpellsButtonsSubSectionLabel", 1155332)
             :addLabel("HealthbarsOptionsSpellsButtonsSubSectionLabel", 1155332)
@@ -127,54 +122,54 @@ function SettingsHealthBarsWindow.Initialize()
 end
 
 function SettingsHealthBarsWindow.UpdateSettings()
-    adapter.views[CHECK_BOXES.ToggleMobileArrow]:setChecked(UserHealthBarsSettings.enableMobileArrow())
-    adapter.views[CHECK_BOXES.LegacyCloseStyle]:setChecked(UserHealthBarsSettings.legacyCloseStyle())
-    adapter.views[CHECK_BOXES.PetLegacyCloseStyle]:setChecked(UserHealthBarsSettings.legacyPetCloseStyle())
-    adapter.views[CHECK_BOXES.ShowCloseExtract]:setChecked(UserHealthBarsSettings.showClose())
+    SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.ToggleMobileArrow]:setChecked(UserHealthBarsSettings.enableMobileArrow())
+    SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.LegacyCloseStyle]:setChecked(UserHealthBarsSettings.legacyCloseStyle())
+    SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.PetLegacyCloseStyle]:setChecked(UserHealthBarsSettings.legacyPetCloseStyle())
+    SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.ShowCloseExtract]:setChecked(UserHealthBarsSettings.showClose())
 
-    adapter.views[COMBO_BOXES.Red]:findItem(
+    SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Red]:findItem(
             function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.redButtonSpell1()
             end
     )
-    adapter.views[COMBO_BOXES.Red2]:findItem(
+    SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Red2]:findItem(
             function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.redButtonSpell2()
             end
     )
-    adapter.views[COMBO_BOXES.Red3]:findItem(
+    SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Red3]:findItem(
             function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.redButtonSpell3()
             end
     )
 
-    adapter.views[COMBO_BOXES.Blue]:findItem(
+    SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Blue]:findItem(
             function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.blueButtonSpell1()
             end
     )
-    adapter.views[COMBO_BOXES.Blue2]:findItem(
+    SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Blue2]:findItem(
             function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.blueButtonSpell2()
             end
     )
-    adapter.views[COMBO_BOXES.Blue3]:findItem(
+    SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Blue3]:findItem(
             function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.blueButtonSpell3()
             end
     )
 
-    adapter.views[COMBO_BOXES.Green]:findItem(
+    SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Green]:findItem(
             function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.greenButtonSpell1()
             end
     )
-    adapter.views[COMBO_BOXES.Green2]:findItem(
+    SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Green2]:findItem(
             function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.greenButtonSpell2()
             end
     )
-    adapter.views[COMBO_BOXES.Green3]:findItem(
+    SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Green3]:findItem(
             function (_, item)
                 return SPELLS[TableFormatter.indexOf(SPELL_TEXT, item)].SpellId == UserHealthBarsSettings.greenButtonSpell3()
             end
@@ -182,48 +177,48 @@ function SettingsHealthBarsWindow.UpdateSettings()
 end
 
 function SettingsHealthBarsWindow.OnApplyButton()
-    UserHealthBarsSettings.enableMobileArrow(adapter.views[CHECK_BOXES.ToggleMobileArrow]:isChecked())
+    UserHealthBarsSettings.enableMobileArrow(SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.ToggleMobileArrow]:isChecked())
 
     if (DoesWindowNameExist("MobileArrow") and not Interface.EnableMobileArrow) then
         DetachWindowFromWorldObject( Interface.MobileArrowOver, "MobileArrow" )
         DestroyWindow("MobileArrow")
     end
 
-    UserHealthBarsSettings.legacyCloseStyle(adapter.views[CHECK_BOXES.LegacyCloseStyle]:isChecked())
-    UserHealthBarsSettings.legacyPetCloseStyle(adapter.views[CHECK_BOXES.PetLegacyCloseStyle]:isChecked())
+    UserHealthBarsSettings.legacyCloseStyle(SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.LegacyCloseStyle]:isChecked())
+    UserHealthBarsSettings.legacyPetCloseStyle(SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.PetLegacyCloseStyle]:isChecked())
 
-    local isChecked = adapter.views[CHECK_BOXES.ShowCloseExtract]:isChecked()
-    local updateHotbars = UserHealthBarsSettings.showClose() ~=	isChecked
+    local isChecked = SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.ShowCloseExtract]:isChecked()
+    local updateHealthbars = UserHealthBarsSettings.showClose() ~=	isChecked
     UserHealthBarsSettings.showClose(isChecked)
 
     UserHealthBarsSettings.redButtonSpell1(
-            SPELLS[adapter.views[COMBO_BOXES.Red]:getSelectedItem()].SpellId
+            SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Red]:getSelectedItem()].SpellId
     )
     UserHealthBarsSettings.redButtonSpell2(
-            SPELLS[adapter.views[COMBO_BOXES.Red2]:getSelectedItem()].SpellId
+            SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Red2]:getSelectedItem()].SpellId
     )
     UserHealthBarsSettings.redButtonSpell3(
-            SPELLS[adapter.views[COMBO_BOXES.Red3]:getSelectedItem()].SpellId
+            SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Red3]:getSelectedItem()].SpellId
     )
 
     UserHealthBarsSettings.greenButtonSpell1(
-            SPELLS[adapter.views[COMBO_BOXES.Green]:getSelectedItem()].SpellId
+            SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Green]:getSelectedItem()].SpellId
     )
     UserHealthBarsSettings.greenButtonSpell2(
-            SPELLS[adapter.views[COMBO_BOXES.Green2]:getSelectedItem()].SpellId
+            SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Green2]:getSelectedItem()].SpellId
     )
     UserHealthBarsSettings.greenButtonSpell3(
-            SPELLS[adapter.views[COMBO_BOXES.Green3]:getSelectedItem()].SpellId
+            SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Green3]:getSelectedItem()].SpellId
     )
 
     UserHealthBarsSettings.blueButtonSpell1(
-            SPELLS[adapter.views[COMBO_BOXES.Blue]:getSelectedItem()].SpellId
+            SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Blue]:getSelectedItem()].SpellId
     )
     UserHealthBarsSettings.blueButtonSpell2(
-            SPELLS[adapter.views[COMBO_BOXES.Blue2]:getSelectedItem()].SpellId
+            SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Blue2]:getSelectedItem()].SpellId
     )
     UserHealthBarsSettings.blueButtonSpell3(
-            SPELLS[adapter.views[COMBO_BOXES.Blue3]:getSelectedItem()].SpellId
+            SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Blue3]:getSelectedItem()].SpellId
     )
 
     if (updateHealthbars) then

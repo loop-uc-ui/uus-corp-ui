@@ -1,14 +1,14 @@
-ButtonView = {}
+ButtonWindow = BaseWindow:new()
 
-function ButtonView:new(id)
-    local this = {}
-    setmetatable(this, self)
+function ButtonWindow:new(id)
+    local this = {
+        id = id
+    }
     self.__index = self
-    this.id = id
-    return this
+    return setmetatable(this, self)
 end
 
-function ButtonView:setText(text)
+function ButtonWindow:setText(text)
     if type(text) == "number" then
         text = StringFormatter.fromTid(text)
     elseif type(text) == "string" then
@@ -17,6 +17,6 @@ function ButtonView:setText(text)
     ButtonSetText(self.id,text)
 end
 
-function ButtonView:setDisabledFlag(flag)
+function ButtonWindow:setDisabledFlag(flag)
     ButtonSetDisabledFlag(self.id, flag)
 end
