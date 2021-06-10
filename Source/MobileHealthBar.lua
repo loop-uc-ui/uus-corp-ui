@@ -69,13 +69,6 @@ function MobileHealthBar.CreateHealthBar(mobileId)
 	MobileHealthBar.UpdateHealthBarState(mobileId)
 	WindowUtils.LoadScale( "MobileHealthBarSCALE" )
 	
-	
-	if ( mobileId == WindowData.PlayerStatus.PlayerId ) then
-		WindowSetShowing(windowName,false)
-		MobileHealthBar.Handled[mobileId] = true
-	end
-	
-	
 	if (MobilesOnScreen.IsPet(mobileId) and not DoesWindowNameExist(windowName.."Inventory")) then
 		CreateWindowFromTemplate( windowName.."Inventory", "PetInventoryIconTemplate", windowName)
 		WindowClearAnchors(windowName.."Inventory")

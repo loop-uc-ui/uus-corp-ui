@@ -9,12 +9,12 @@ function KeyBinder:new(
 )
     WindowRegisterEventHandler(
             callingWindow,
-            Broadcast.Events.INTERFACE_KEY_RECORDED,
+            SystemData.Events.INTERFACE_KEY_RECORDED,
             recordCallback
     )
     WindowRegisterEventHandler(
             callingWindow,
-            Broadcast.Events.INTERFACE_KEY_CANCEL_RECORD,
+            SystemData.Events.INTERFACE_KEY_CANCEL_RECORD,
             cancelCallback
     )
     local this = {}
@@ -42,7 +42,7 @@ function KeyBinder:onKeyPicked(
 )
     self:clearAnchors():setShowing(true):addAnchor(anchorTop, anchorWindow, anchorBottom, topPos, bottomPos)
     isRecording(true)
-    Broadcast.Event(Broadcast.Events.INTERFACE_RECORD_KEY)
+    EventApi.broadcast(SystemData.Events.INTERFACE_RECORD_KEY)
 end
 
 function KeyBinder:onKeyRecorded(
@@ -93,7 +93,7 @@ function KeyBinder:onKeyBind(
 )
     --TODO add this callback to the Yes button
     local thisCallback = function()
-        Broadcast.Event(Broadcast.Events.KEYBINDINGS_UPDATED)
+        EventApi.broadcast(SystemData.Events.KEYBINDINGS_UPDATED)
         bindCallback()
     end
 

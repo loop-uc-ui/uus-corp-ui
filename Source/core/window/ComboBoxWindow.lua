@@ -18,17 +18,17 @@ function ComboBoxWindow:setItems(items)
             option = StringFormatter.toWString(option)
         end
         table.insert(self.items, option)
-        ComboBoxAddMenuItem(self.id, option)
+        ComboBoxApi.addItem(self.id, option)
     end
 end
 
 function ComboBoxWindow:clearItems()
     self.items = {}
-    ComboBoxClearMenuItems(self.id)
+    ComboBoxApi.clearItems(self.id)
 end
 
 function ComboBoxWindow:setSelectedItem(item)
-    ComboBoxSetSelectedMenuItem(self.id, item)
+    ComboBoxApi.setSelectedItem(self.id, item)
 end
 
 function ComboBoxWindow:findItem(find)
@@ -41,5 +41,5 @@ function ComboBoxWindow:findItem(find)
 end
 
 function ComboBoxWindow:getSelectedItem()
-    return ComboBoxGetSelectedMenuItem(self.id)
+    return ComboBoxApi.getSelectedItem(self.id)
 end

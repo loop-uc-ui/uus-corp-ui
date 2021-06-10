@@ -14,9 +14,9 @@ function ButtonWindow:setText(text)
     elseif type(text) == "string" then
         text = StringFormatter.toWString(text)
     end
-    ButtonSetText(self.id,text)
+    ButtonApi.setText(self.id, text)
 end
 
 function ButtonWindow:setDisabledFlag(flag)
-    ButtonSetDisabledFlag(self.id, flag)
+    ButtonApi.setDisabled(self.id, flag)
 end

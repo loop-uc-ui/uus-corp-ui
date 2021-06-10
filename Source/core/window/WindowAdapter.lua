@@ -19,14 +19,12 @@ end
 function WindowAdapter:addLabel(
         id,
         text,
-        r,
-        g,
-        b
+        color
 )
     local label = LabelWindow:new(id)
     label:setText(text)
-    if r ~= nil and g ~= nil and b ~= nil then
-        label:setTextColor(r, g, b)
+    if color ~= nil then
+        label:setTextColor(color)
     end
     self.views[label.id] = label
     return self
@@ -75,7 +73,7 @@ function WindowAdapter:addTemplate(
         type,
         text
 )
-    CreateWindowFromTemplate(newId, template, self.id)
+    WindowApi.createFromTemplate(newId, template, self.id)
     if type == "Label" then
         return self:addLabel(newId, text)
     elseif type == "Button" then

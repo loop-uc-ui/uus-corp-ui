@@ -107,6 +107,15 @@
 
 	<!-- Script Files -->
 	<Scripts>
+		<Script file="Source/core/api/ButtonApi.lua"/>
+		<Script file="Source/core/api/ComboBoxApi.lua"/>
+		<Script file="Source/core/api/EventApi.lua"/>
+		<Script file="Source/core/api/WindowApi.lua"/>
+		<Script file="Source/core/api/WindowDataApi.lua"/>
+		<Script file="Source/core/api/LabelApi.lua"/>
+		<Script file="Source/core/api/SliderApi.lua"/>
+		<Script file="Source/core/api/StringApi.lua"/>
+		<Script file="Source/core/api/ScrollWindowApi.lua"/>
 		<Script file="Source/core/data/TextIds.lua"/>
 		<Script file="Source/core/window/BaseWindow.lua"/>
 		<Script file="Source/core/window/ListWindow.lua"/>
@@ -119,7 +128,6 @@
 		<Script file="Source/core/util/KeyBinder.lua"/>
 		<Script file="Source/core/util/TableFormatter.lua"/>
 		<Script file="Source/core/util/StringFormatter.lua"/>
-		<Script file="Source/core/data/WindowDataStore.lua"/>
 		<Script file="Source/core/data/UserInterfaceVariables.lua"/>
 		<Script file="Source/core/data/UserHealthBarsSettings.lua"/>
 		<Script file="Source/core/data/UserOverheadTextSettings.lua"/>
@@ -128,7 +136,6 @@
 		<Script file="Source/core/data/UserSoundSettings.lua"/>
 		<Script file="Source/core/data/UserControlSettings.lua"/>
 		<Script file="Source/core/data/UserGraphicsSettings.lua"/>
-		<Script file="Source/core/util/Broadcast.lua"/>
 		<Script file="Interface.lua" />		
 		<Script file="Source/Cooldown.lua"/>
 		<Script file="Source/TextParsing.lua"/>		

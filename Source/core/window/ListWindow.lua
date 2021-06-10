@@ -12,14 +12,14 @@ end
 
 function ListWindow:setOffset(offset)
     if self.isScrollable then
-        ScrollWindowSetOffset(self.id, offset)
+        ScrollWindowApi.setOffset(self.id, offset)
     end
     return self
 end
 
 function ListWindow:updateScrollRect()
     if self.isScrollable then
-        ScrollWindowUpdateScrollRect(self.id)
+        ScrollWindowApi.updateScrollRect(self.id)
     end
     return self
 end

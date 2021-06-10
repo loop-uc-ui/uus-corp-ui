@@ -17,7 +17,7 @@ function MainMenuWindow.Initialize()
 end
 
 function MainMenuWindow.OnLogOut()
-    Broadcast.Event(SystemData.Events.LOG_OUT)
+    EventApi.broadcast(SystemData.Events.LOG_OUT)
 end
 
 function MainMenuWindow.OnOpenUserSettings()
@@ -36,12 +36,12 @@ function MainMenuWindow.OnOpenActions()
 end
 
 function MainMenuWindow.OnOpenHelp()
-    Broadcast.Event(SystemData.Events.REQUEST_OPEN_HELP_MENU)
+    EventApi.broadcast(SystemData.Events.REQUEST_OPEN_HELP_MENU)
     MainMenuWindow:setShowing(false)
 end
 
 function MainMenuWindow.OnOpenUOStore()
-    Broadcast.Event(SystemData.Events.UO_STORE_REQUEST)
+    EventApi.broadcast(SystemData.Events.UO_STORE_REQUEST)
     MainMenuWindow:setShowing(false)
 end
 

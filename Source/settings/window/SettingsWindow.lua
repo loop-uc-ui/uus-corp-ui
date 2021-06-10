@@ -102,8 +102,8 @@ function SettingsWindow.Initialize()
 	SettingsWindow.UpdateSettings()
 	
 	-- Call backs
-	WindowRegisterEventHandler(SettingsWindow.id, Broadcast.Events.USER_SETTINGS_UPDATED, "SettingsWindow.UpdateSettings" )
-	WindowRegisterEventHandler(SettingsWindow.id, Broadcast.Events.TOGGLE_USER_PREFERENCE, "SettingsWindow.ToggleSettingsWindow" )
+	WindowRegisterEventHandler(SettingsWindow.id, SystemData.Events.USER_SETTINGS_UPDATED, "SettingsWindow.UpdateSettings" )
+	WindowRegisterEventHandler(SettingsWindow.id, SystemData.Events.TOGGLE_USER_PREFERENCE, "SettingsWindow.ToggleSettingsWindow" )
 end
 
 function SettingsWindow.ToggleSettingsWindow()	
@@ -151,7 +151,7 @@ function SettingsWindow.OnResetButton()
 		textTid = UO_StandardDialog.TID_OKAY,
 		callback = function()
 			SettingsKeyBindingsWindow.ClearTempKeybindings();
-			Broadcast.Event(Broadcast.Events.RESET_SETTINGS_TO_DEFAULT)
+			EventApi.broadcast(SystemData.Events.RESET_SETTINGS_TO_DEFAULT)
 		end
 	}
 	local cancelButton = {

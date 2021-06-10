@@ -14,9 +14,9 @@ function LabelWindow:setText(text)
     elseif type(text) == "string" then
         text = StringFormatter.toWString(text)
     end
-    LabelSetText(self.id, text)
+    LabelApi.setText(self.id, text)
 end
 
-function LabelWindow:setTextColor(r, g, b)
-    LabelSetTextColor(self.id, r, g, b)
+function LabelWindow:setTextColor(color)
+    LabelApi.setTextColor(self.id, color)
 end

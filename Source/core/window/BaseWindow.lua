@@ -9,7 +9,7 @@ function BaseWindow:new(id)
 end
 
 function BaseWindow:setAlpha(alpha)
-    WindowSetAlpha(self.id, alpha)
+    WindowApi.setAlpha(self.id, alpha)
     return self
 end
 
@@ -20,30 +20,30 @@ function BaseWindow:addAnchor(
         pointX,
         pointY
 )
-    WindowAddAnchor(self.id, anchorPoint, relativeTo, relativePoint, pointX, pointY)
+    WindowApi.addAnchor(self.id, anchorPoint, relativeTo, relativePoint, pointX, pointY)
     return self
 end
 
 function BaseWindow:clearAnchors()
-    WindowClearAnchors(self.id)
+    WindowApi.clearAnchors(self.id)
     return self
 end
 
 function BaseWindow:isShowing()
-    return WindowGetShowing(self.id)
+    return WindowApi.isShowing(self.id)
 end
 
 function BaseWindow:setShowing(doShow)
-    WindowSetShowing(self.id, doShow)
+    WindowApi.setShowing(self.id, doShow)
     return self
 end
 
 function BaseWindow:destroy()
-    DestroyWindow(self.id)
+    WindowApi.destroyWindow(self.id)
     self = nil
 end
 
 function BaseWindow:setColor(color)
-    WindowSetTintColor(self.id, color.r, color.g, color.b)
+    WindowApi.setColor(self.id, color)
     return self
 end

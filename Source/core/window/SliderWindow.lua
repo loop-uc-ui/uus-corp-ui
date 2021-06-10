@@ -9,9 +9,9 @@ function SliderWindow:new(id)
 end
 
 function SliderWindow:setPosition(position)
-    SliderBarSetCurrentPosition(self.id, position)
+    SliderApi.setPosition(self.id, position)
 end
 
 function SliderWindow:getPosition()
-    return SliderBarGetCurrentPosition(self.id)
+    return SliderApi.getPosition(self.id)
 end

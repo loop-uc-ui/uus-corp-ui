@@ -9,13 +9,13 @@ function CheckBoxWindow:new(id)
 end
 
 function CheckBoxWindow:setEnabled(isEnabled)
-    ButtonSetCheckButtonFlag(self.id, isEnabled)
+    ButtonApi.setEnabled(self.id, isEnabled)
 end
 
 function CheckBoxWindow:setChecked(isChecked)
-    ButtonSetPressedFlag(self.id, isChecked)
+    ButtonApi.setChecked(self.id, isChecked)
 end
 
 function CheckBoxWindow:isChecked()
-    return ButtonGetPressedFlag(self.id)
+    return ButtonApi.isChecked(self.id)
 end

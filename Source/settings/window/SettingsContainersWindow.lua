@@ -146,6 +146,6 @@ function SettingsContainersWindow.DestroyContainers()
     end
 
     for cId, _ in pairs(WindowData.ContainerWindow) do
-        WindowDataStore.unregister(WindowData.ContainerWindow.Type, cId)
+        WindowDataApi.unregisterData(WindowData.ContainerWindow.Type, cId)
     end
 end

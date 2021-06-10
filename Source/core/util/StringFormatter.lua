@@ -4,11 +4,11 @@ function StringFormatter.toTwoDecimalPlaces(string)
     if type(string) == "string" then
         string = StringFormatter.toWString(string)
     end
-    return wstring.format(L"%2.2f", string)
+    return StringApi.format(L"%2.2f", string)
 end
 
 function StringFormatter.fromTid(tid)
-    return GetStringFromTid(tid) --returns wstring
+    return StringApi.fromTid(tid) --returns wstring
 end
 
 function StringFormatter:replaceChar(text, pattern, replace)
@@ -37,7 +37,7 @@ function StringFormatter.toUpper(text)
     if type(text) == "string" then
         return string.upper(text)
     elseif type(text) == "wstring" then
-        return wstring.upper(text)
+        return StringApi.upper(text)
     end
 end
 
@@ -45,7 +45,7 @@ function StringFormatter.toLower(text)
     if type(text) == "string" then
         return string.lower(text)
     elseif type(text) == "wstring" then
-        return wstring.lower(text)
+        return StringApi.lower(text)
     end
 end
 
@@ -53,7 +53,7 @@ function StringFormatter.toWString(text)
     if type(text) == "wstring" then
         return text
     else
-        return StringToWString(text)
+        return StringApi.toWString(text)
     end
 end
 
@@ -61,6 +61,6 @@ function StringFormatter.fromWString(text)
     if type(text) == "string" then
         return text
     else
-        return WStringToString(text)
+        return StringApi.fromWString(text)
     end
 end

@@ -39,7 +39,7 @@ function UserInterfaceVariables.SaveBoolean( settingName, settingValue )
             table.insert(SystemData.Settings.Interface.UIVariables.BoolValues, settingValue)
         end
     end
-    Broadcast.Event(SystemData.Events.USER_SETTINGS_UPDATED)
+    EventApi.broadcast(SystemData.Events.USER_SETTINGS_UPDATED)
 end
 
 
