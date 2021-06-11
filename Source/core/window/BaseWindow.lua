@@ -47,3 +47,16 @@ function BaseWindow:setColor(color)
     WindowApi.setColor(self.id, color)
     return self
 end
+
+function BaseWindow:registerData(data, id)
+    WindowDataApi.registerData(data, id)
+    return self
+end
+
+function BaseWindow:setId(id)
+    WindowApi.setId(self.id, id)
+end
+
+function BaseWindow:setMoving(isMoving)
+    WindowApi.setMoving(self.id, isMoving)
+end

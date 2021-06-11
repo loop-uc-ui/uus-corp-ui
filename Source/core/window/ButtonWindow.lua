@@ -20,3 +20,7 @@ end
 function ButtonWindow:setDisabledFlag(flag)
     ButtonApi.setDisabled(self.id, flag)
 end
+
+function ButtonWindow:setTexture(state, texture, x, y)
+    ButtonApi.setTexture(self.id, state, texture, x, y)
+end

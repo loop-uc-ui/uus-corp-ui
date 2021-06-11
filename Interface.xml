@@ -16,6 +16,7 @@
 	<Include file="Source/Cooldown.xml"/>
 
 	<!-- Windows -->
+	<Include file="Source/core/window/LockWindow.xml"/>
 	<Include file="Source/MapCommon.xml" />
 	<Include file="Source/MobileHealthBar.xml" />
 	<Include file="Source/MobilesOnScreenWindow.xml"/>
@@ -124,6 +125,7 @@
 		<Script file="Source/core/window/CheckBoxWindow.lua"/>
 		<Script file="Source/core/window/ButtonWindow.lua"/>
 		<Script file="Source/core/window/ComboBoxWindow.lua"/>
+		<Script file="Source/core/window/LockWindow.lua"/>
 		<Script file="Source/core/window/WindowAdapter.lua"/>
 		<Script file="Source/core/util/KeyBinder.lua"/>
 		<Script file="Source/core/util/TableFormatter.lua"/>

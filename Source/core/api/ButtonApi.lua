@@ -20,3 +20,7 @@ function ButtonApi.isChecked(id)
     return ButtonGetPressedFlag(id)
 end
 
+function ButtonApi.setTexture(id, state, texture, x, y)
+    ButtonSetTexture(id, state, texture, x, y)
+end
+

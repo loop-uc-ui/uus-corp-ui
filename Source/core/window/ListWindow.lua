@@ -23,3 +23,14 @@ function ListWindow:updateScrollRect()
     end
     return self
 end
+
+function ListWindow:addLock(onLock, onUnlock)
+    local lock = LockWindow:new(self.id, onLock, onUnlock)
+    self.adapter.views[lock.id] = lock
+    return self
+end
+
+function ListWindow:isLocked()
+    local lock = self.adapter.views[self.id.."Lock"]
+    return lock ~= nil and lock.isLocked
+end

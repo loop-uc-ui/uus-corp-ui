@@ -77,35 +77,8 @@
                         </Anchor>
                     </Anchors>
                 </Window>
-                <Button name="StatusWindowMenu" layer="popup">
-                    <Size>
-                        <AbsPoint x="20" y="20"/>
-                    </Size>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="StatusWindow.Menu"/>
-                        <EventHandler event="OnMouseOver" function="StatusWindow.MenuTooltip"/>
-                    </EventHandlers>
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topright" relativeTo="StatusWindowLock">
-                            <AbsPoint x="0" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </Button>
 
-                <Button name="StatusWindowLock" layer="popup" textureScale="1">
-                    <Size>
-                        <AbsPoint x="20" y="20"/>
-                    </Size>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="StatusWindow.Lock"/>
-                        <EventHandler event="OnMouseOver" function="StatusWindow.LockTooltip"/>
-                    </EventHandlers>
-                    <Anchors>
-                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
-                            <AbsPoint x="0" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </Button>
+                <Button name="StatusWindowLock" inherits="LockButton"/>
 
                 <Button name="$parentRedButton" backgroundtexture="healB" highlighttexture="healB" texturescale="1">
                     <Size>

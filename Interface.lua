@@ -344,7 +344,6 @@ Interface.ExtraBrightContainers = false
 -- 1: advanced
 ----------------------------------------------------------------
 
-Interface.StatusWindowStyle = 0
 Interface.EnableMobileArrow = true
 
 -- MobileHealthBar.LegacyCloseStyle

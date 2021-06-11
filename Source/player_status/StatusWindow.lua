@@ -1,80 +1,22 @@
-----------------------------------------------------------------
--- Global Variables
-----------------------------------------------------------------
-
-StatusWindow = {}
-
-----------------------------------------------------------------
--- Local Variables
-----------------------------------------------------------------
+StatusWindow = ListWindow:new("StatusWindow")
 
 StatusWindow.CurPlayerId = 0
 
 StatusWindow.Locked = false
-StatusWindow.HPLocked = false
-StatusWindow.MANALocked = false
-StatusWindow.STAMLocked = false
 
 StatusWindow.DisableDelta = 0
 
-----------------------------------------------------------------
--- Functions
-----------------------------------------------------------------
-
 function StatusWindow.Initialize(reinit)
-	RegisterWindowData(WindowData.PlayerStatus.Type,0)
-	RegisterWindowData(WindowData.MobileName.Type, WindowData.PlayerStatus.PlayerId)
-	RegisterWindowData(WindowData.Paperdoll.Type, WindowData.PlayerStatus.PlayerId)
+	StatusWindow:registerData(WindowData.PlayerStatus.Type, 0)
+			:registerData(WindowData.MobileName.Type, WindowData.PlayerStatus.PlayerId)
+			:registerData(WindowData.Paperdoll.Type, WindowData.PlayerStatus.PlayerId)
 	
 	if not reinit then
 		WindowRegisterEventHandler( "StatusWindow", WindowData.PlayerStatus.Event, "StatusWindow.UpdateStatus")
 	end
 	
 	StatusWindow.UpdateStatus()
-	-- TODO: Once someone fixes the baseline alignment of the various fonts (so that English isn't 3 pixels above every other language), remove this hack.
-	-- START HACK
-	if GetStringFromTid( 1011036 ) ~= L"OKAY" then -- assume not English
-		local healthLabelName = "StatusWindowHealthTooltip"
-		local manaLabelName = "StatusWindowManaTooltip"
-		local staminaLabelName = "StatusWindowStaminaTooltip"
-		local healthBarName = "StatusWindowHealthBar"
-		local manaBarName = "StatusWindowManaBar"
-		local staminaBarName = "StatusWindowStaminaBar"
-		WindowClearAnchors( healthLabelName )
-		WindowClearAnchors( manaLabelName )
-		WindowClearAnchors( staminaLabelName )
-		WindowAddAnchor( healthLabelName, "top", healthBarName, "top", 0, -6 )
-		WindowAddAnchor( manaLabelName, "top", manaBarName, "top", 0, -6 )
-		WindowAddAnchor( staminaLabelName, "top", staminaBarName, "top", 0, -6 )
-	end	
-	-- END HACK
-	WindowUtils.RestoreWindowPosition("StatusWindow")
-	WindowUtils.LoadScale("StatusWindow")
-	
-	Interface.StatusWindowStyle = Interface.LoadNumber( "StatusWindowStyle", Interface.StatusWindowStyle )
-	StatusWindow.Locked = Interface.LoadBoolean( "StatusWindowLocked", StatusWindow.Locked )
-	local this = "StatusWindow"
-	local texture = "UO_Core"
-	if ( StatusWindow.Locked  ) then		
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 69,341)
-		ButtonSetTexture(this.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 92,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 92,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 92,341)
-	else
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 117,341)
-		ButtonSetTexture(this.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 142,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 142,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 142,341)		
-	end
-	
-	ButtonSetTexture("StatusWindowMenu", InterfaceCore.ButtonStates.STATE_NORMAL, "arrowdown", 0, 0)
-	ButtonSetTexture("StatusWindowMenu",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, "arrowdown", 22, 0)
-	ButtonSetTexture("StatusWindowMenu", InterfaceCore.ButtonStates.STATE_PRESSED, "arrowdown", 22, 0) 
-	ButtonSetTexture("StatusWindowMenu", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, "arrowdown", 22, 0)
-
-	StatusWindow.HPLocked = Interface.LoadBoolean( "StatusWindowHPLocked", StatusWindow.HPLocked )
-	StatusWindow.MANALocked = Interface.LoadBoolean( "StatusWindowMANALocked", StatusWindow.MANALocked )
-	StatusWindow.STAMLocked = Interface.LoadBoolean( "StatusWindowSTAMLocked", StatusWindow.STAMLocked )
+	StatusWindow:addLock()
 end
 
 function StatusWindow.Shutdown()
@@ -82,90 +24,9 @@ function StatusWindow.Shutdown()
 	WindowUtils.SaveWindowPosition("StatusWindow")
 end
 
-function StatusWindow.LockTooltip()
-	if ( StatusWindow.Locked ) then
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1155250))
-	else
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1155251))
-	end
-	
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-end
-
 function StatusWindow.Lock()
 	StatusWindow.Locked = not StatusWindow.Locked 
 	Interface.SaveBoolean( "StatusWindowLocked", StatusWindow.Locked  )
-	
-	local this = "StatusWindow"	
-	local texture = "UO_Core"
-	if ( StatusWindow.Locked  ) then		
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 69,341)
-		ButtonSetTexture(this.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 92,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 92,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 92,341)
-	else
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 117,341)
-		ButtonSetTexture(this.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 142,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 142,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 142,341)		
-	end
-end
-
-function StatusWindow.LockTooltipHP()
-	if ( StatusWindow.HPLocked ) then
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1155255))
-	else
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1155256))
-	end
-	
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-end
-
-function StatusWindow.LockHP()
-	StatusWindow.HPLocked = not StatusWindow.HPLocked 
-	Interface.SaveBoolean( "StatusWindowHPLocked", StatusWindow.HPLocked  )
-end
-
-function StatusWindow.LockTooltipMANA()
-	if ( StatusWindow.MANALocked ) then
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1155257))
-	else
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1155258))
-	end
-	
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-end
-
-function StatusWindow.LockMANA()
-	StatusWindow.MANALocked = not StatusWindow.MANALocked 
-	Interface.SaveBoolean( "StatusWindowMANALocked", StatusWindow.MANALocked  )
-end
-
-function StatusWindow.LockTooltipSTAM()
-	if ( StatusWindow.STAMLocked ) then
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1155259))
-	else
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1155260))
-	end
-	
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-end
-
-function StatusWindow.LockSTAM()
-	StatusWindow.STAMLocked = not StatusWindow.STAMLocked 
-	Interface.SaveBoolean( "StatusWindowSTAMLocked", StatusWindow.STAMLocked  )
-end
-
-function StatusWindow.MenuTooltip()
-	
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1155252))
-	
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
 end
 
 function StatusWindow.Menu()
@@ -218,14 +79,12 @@ function StatusWindow.OnLButtonUp()
 end
 
 function StatusWindow.OnLButtonDown()
-
-	if (not StatusWindow.Locked ) then
+	if not StatusWindow:isLocked() then
 		SnapUtils.StartWindowSnap("StatusWindow")
 		WindowSetMoving("StatusWindow",true)
 	else
 		WindowSetMoving("StatusWindow",false)
 	end
-
 end
 
 function StatusWindow.OnHPLButtonUp()

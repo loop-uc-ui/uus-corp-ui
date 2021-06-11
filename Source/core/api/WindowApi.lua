@@ -46,3 +46,7 @@ end
 function WindowApi.setId(id, newId)
     WindowSetId(id, newId)
 end
+
+function WindowApi.setMoving(id, isMoving)
+    WindowSetMoving(id, isMoving)
+end
