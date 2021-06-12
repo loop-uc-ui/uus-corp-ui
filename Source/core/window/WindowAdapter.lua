@@ -67,6 +67,21 @@ function WindowAdapter:addButton(id, text)
     return self
 end
 
+function WindowAdapter:addStatusBar(id, maxValue, currentValue, statusState)
+    local statusBar = StatusBarWindow:new(id)
+    statusBar:setMaximumValue(maxValue)
+    statusBar:setCurrentValue(currentValue)
+    if statusState == 0 then
+        statusBar:setColor(Colors.Red) --Normal
+    elseif statusState == 1 then
+        statusBar:setColor(Colors.Green) --Poisoned
+    elseif statusState == 2 then
+        statusBar:setColor(Colors.Yellow) --Cursed
+    end
+    self.views[statusBar.id] = statusBar
+    return self
+end
+
 function WindowAdapter:addTemplate(
         newId,
         template,

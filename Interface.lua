@@ -743,9 +743,6 @@ end
 -------------------------------------------------------------------------------
 
 function Interface.Update( timePassed )
-	ok, err = pcall(StatusWindow.EnableInput, timePassed)	
-	Interface.ErrorTracker(ok, err)
-	
 	ok, err = pcall(Interface.ChatFixer, timePassed)	
 	Interface.ErrorTracker(ok, err)
 	
@@ -850,8 +847,6 @@ function Interface.Update( timePassed )
 
 
 	if (Interface.DeltaTime >= 1) then
-		StatusWindow.UpdateStatus()
-				
 		if DoesWindowNameExist("PaperdollWindow"..WindowData.PlayerStatus.PlayerId) then
 			ok, err = pcall(PaperdollWindow.UpdateDurabilities, timePassed)	
 			Interface.ErrorTracker(ok, err)

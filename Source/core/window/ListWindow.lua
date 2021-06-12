@@ -4,6 +4,7 @@ function ListWindow:new(id, isScrollable)
     local this = {
         id = id,
         adapter = WindowAdapter:new(id),
+        eventRegister = WindowEventRegister:new(id),
         isScrollable = isScrollable == nil or isScrollable
     }
     self.__index = self

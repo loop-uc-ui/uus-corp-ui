@@ -50,3 +50,11 @@ end
 function WindowApi.setMoving(id, isMoving)
     WindowSetMoving(id, isMoving)
 end
+
+function WindowApi.registerEventHandler(id, event, callback)
+    WindowRegisterEventHandler(id, event, callback)
+end
+
+function WindowApi.unregisterEventHandler(id, event)
+    WindowUnregisterEventHandler(id, event)
+end

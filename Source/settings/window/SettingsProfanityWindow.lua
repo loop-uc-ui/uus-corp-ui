@@ -99,19 +99,11 @@ end
 
 function SettingsProfanityWindow.OnIgnoreListItemClicked()
     for i = 1, WindowData.IgnoreListCount do
-        badWordFilter.adapter.views["IgnoreListItem"..i]:setTextColor({
-            r = 255,
-            g = 255,
-            b = 255
-        })
+        badWordFilter.adapter.views["IgnoreListItem"..i]:setTextColor(Colors.White)
         if (SystemData.ActiveWindow.name == "IgnoreListItem"..i) then
             CurIgnoreListIdx = i
             break
         end
     end
-    badWordFilter.adapter.views["IgnoreListItem"..CurIgnoreListIdx]:setTextColor({
-        r = 250,
-        g = 250,
-        b = 0
-    })
+    badWordFilter.adapter.views["IgnoreListItem"..CurIgnoreListIdx]:setTextColor(Colors.YellowMedium)
 end

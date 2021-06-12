@@ -30,11 +30,7 @@ local function refreshKeyBindingViews()
             SettingsKeyBindingsWindow.adapter:addLabel(
                     keyBindingValues[i],
                     binding,
-                    {
-                        r = 255,
-                        g = 255,
-                        b = 255
-                    }
+                    Colors.White
             )
             SettingsKeyBindingsWindow.adapter.views[keyBindingValues[i]].tag = UserControlSettings.Keybindings[i].key
         end
@@ -151,16 +147,8 @@ function SettingsKeyBindingsWindow.OnKeyPicked()
         return
     end
 
-    SettingsKeyBindingsWindow.adapter.views[keyBindingLabels[keyIndex]]:setTextColor({
-        r = 250,
-        g = 250,
-        b = 0
-    })
-    SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyIndex]]:setTextColor({
-        r = 250,
-        g = 250,
-        b = 0
-    })
+    SettingsKeyBindingsWindow.adapter.views[keyBindingLabels[keyIndex]]:setTextColor(Colors.YellowMedium)
+    SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyIndex]]:setTextColor(Colors.YellowMedium)
     keyBindingRequest = {
         index = keyIndex,
         key = SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyIndex]].tag
@@ -175,16 +163,8 @@ function SettingsKeyBindingsWindow.OnKeyPicked()
 end
 
 function SettingsKeyBindingsWindow.KeyRecorded()
-    SettingsKeyBindingsWindow.adapter.views[keyBindingLabels[keyBindingRequest.index]]:setTextColor({
-        r = 255,
-        g = 255,
-        b = 255
-    })
-    SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyBindingRequest.index]]:setTextColor({
-        r = 255,
-        g = 255,
-        b = 255
-    })
+    SettingsKeyBindingsWindow.adapter.views[keyBindingLabels[keyBindingRequest.index]]:setTextColor(Colors.White)
+    SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyBindingRequest.index]]:setTextColor(Colors.White)
     keyBinder:onKeyRecorded(
             KeyBinder.BindTypes.BINDTYPE_SETTINGS,
             keyBindings,
@@ -200,16 +180,8 @@ end
 
 function SettingsKeyBindingsWindow.KeyCancelRecord()
     if keyBindingRequest.index ~= nil then
-        SettingsKeyBindingsWindow.adapter.views[keyBindingLabels[keyBindingRequest.index]]:setTextColor({
-            r = 255,
-            g = 255,
-            b = 255
-        })
-        SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyBindingRequest.index]]:setTextColor({
-            r = 255,
-            g = 255,
-            b = 255
-        })
+        SettingsKeyBindingsWindow.adapter.views[keyBindingLabels[keyBindingRequest.index]]:setTextColor(Colors.White)
+        SettingsKeyBindingsWindow.adapter.views[keyBindingValues[keyBindingRequest.index]]:setTextColor(Colors.White)
     end
     keyBinder:onKeyCanceled()
 end

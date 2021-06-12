@@ -62,8 +62,6 @@
 				<EventHandler event="OnLButtonDown" function="StatusWindow.OnLButtonDown"/>
 				<EventHandler event="OnRButtonUp" function="StatusWindow.OnRButtonUp"/>
 				<EventHandler event="OnLButtonDblClk" function="StatusWindow.OnMouseDlbClk"/>
-				<EventHandler event="OnMouseOver" function="StatusWindow.OnMouseOver"/>
-				<EventHandler event="OnMouseOverEnd" function="StatusWindow.OnMouseOverEnd"/>
             </EventHandlers>
             <Windows>
                 <Window name="BuffDebuff" layer="default">

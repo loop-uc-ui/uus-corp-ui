@@ -2,7 +2,8 @@ BaseWindow = {}
 
 function BaseWindow:new(id)
     local this = {
-        id = id
+        id = id,
+        eventRegister = WindowEventRegister:new(id)
     }
     self.__index = self
     return setmetatable(this, self)
@@ -39,6 +40,9 @@ function BaseWindow:setShowing(doShow)
 end
 
 function BaseWindow:destroy()
+    if self.eventRegister ~= nil then
+        self.eventRegister:unregisterAllEvents()
+    end
     WindowApi.destroyWindow(self.id)
     self = nil
 end
@@ -53,10 +57,24 @@ function BaseWindow:registerData(data, id)
     return self
 end
 
+function BaseWindow:unregisterData(data, id)
+    WindowDataApi.unregisterData(data, id)
+    return self
+end
+
 function BaseWindow:setId(id)
     WindowApi.setId(self.id, id)
 end
 
 function BaseWindow:setMoving(isMoving)
     WindowApi.setMoving(self.id, isMoving)
+end
+
+function BaseWindow:registerEventHandler(event, callback)
+    local eventHandlers = self.eventHandlers
+    if eventHandlers == nil then
+        eventHandlers = {}
+    end
+    WindowApi.registerEventHandler(self.id, event, callback)
+    eventHandlers[callback] = event
 end
