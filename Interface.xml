@@ -109,6 +109,7 @@
 	<!-- Script Files -->
 	<Scripts>
 		<Script file="Source/core/data/Colors.lua"/>
+		<Script file="Source/core/api/TargetApi.lua"/>
 		<Script file="Source/core/api/UserActionApi.lua"/>
 		<Script file="Source/core/api/ButtonApi.lua"/>
 		<Script file="Source/core/api/ComboBoxApi.lua"/>

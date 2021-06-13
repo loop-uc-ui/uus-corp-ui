@@ -54,7 +54,11 @@ function StatusWindow.OnLButtonUp()
 end
 
 function StatusWindow.OnLButtonDown()
-	StatusWindow:onLeftClickDown()
+	if WindowData.Cursor ~= nil and WindowData.Cursor.target then
+		TargetApi.clickTarget(WindowData.PlayerStatus.PlayerId)
+	else
+		StatusWindow:onLeftClickDown()
+	end
 end
 
 function StatusWindow.OnMouseDoubleClick()
