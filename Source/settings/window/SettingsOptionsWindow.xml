@@ -205,25 +205,13 @@
                                     </Anchors>
                                 </Window>
 
-                                <Window name="IgnoreMouseActionsOnSelf" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="270" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="QueryBeforeCriminalActions">
-                                            <AbsPoint x="0" y="9"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
                                 <Window name="HoldShiftToUnstack" inherits="Settings_LabelCheckButton">
                                     <Size>
                                         <AbsPoint x="250" y="32"/>
                                     </Size>
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="IgnoreMouseActionsOnSelf">
+                                                relativeTo="QueryBeforeCriminalActions">
                                             <AbsPoint x="0" y="9"/>
                                         </Anchor>
                                     </Anchors>

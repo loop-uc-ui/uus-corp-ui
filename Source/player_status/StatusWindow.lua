@@ -44,7 +44,7 @@ function StatusWindow.UpdateStatus()
 end
 
 function StatusWindow.Menu(flags)
-	if flags == SystemData.ButtonFlags.CONTROL then
+	if flags == SystemData.ButtonFlags.SHIFT then
 		ContextMenuApi.requestMenu(WindowData.PlayerStatus.PlayerId, true)
 	end
 end

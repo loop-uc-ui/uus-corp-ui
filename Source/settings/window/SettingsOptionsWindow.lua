@@ -13,7 +13,6 @@ local CHECK_BOXES = {
     PathFinding = "EnablePathfindingButton",
     AlwaysAttack = "AlwaysAttackButton",
     QueryBeforeCriminalAction = "QueryBeforeCriminalActionsButton",
-    IgnoreMouseActionSelf = "IgnoreMouseActionsOnSelfButton",
     ShiftToUnstack = "HoldShiftToUnstackButton",
     ShiftRightClickContextMenu = "ShiftRightClickContextMenusButton",
     TargetQueueing = "TargetQueueingButton",
@@ -44,6 +43,10 @@ local SLIDERS = {
     }
 }
 
+local function overrideDefaults()
+    UserOptionsSettings.ignoreMouseActionsOnSelf(false)
+end
+
 function SettingsOptionsWindow.Initialize()
     local uiMods = {} do
         for i = 1, #UserOptionsSettings.CustomUI do
@@ -54,7 +57,7 @@ function SettingsOptionsWindow.Initialize()
             uiMods[i] = text
         end
     end
-
+    overrideDefaults()
     SettingsOptionsWindow.adapter:addLabel("SettingsOptionsGameOptionsSubSectionLabel", 1094695)
             :addLabel("SettingsOptionsInterfaceSubSectionLabel", 3000395)
             :addLabel("SettingsOptionsSystemSubSectionLabel", 1078905)
@@ -78,8 +81,6 @@ function SettingsOptionsWindow.Initialize()
             :addCheckBox(CHECK_BOXES.AlwaysAttack)
             :addLabel("QueryBeforeCriminalActionsLabel", 1078080)
             :addCheckBox(CHECK_BOXES.QueryBeforeCriminalAction)
-            :addLabel("IgnoreMouseActionsOnSelfLabel", 1115918)
-            :addCheckBox(CHECK_BOXES.IgnoreMouseActionSelf)
             :addLabel("HoldShiftToUnstackLabel", 1112076)
             :addCheckBox(CHECK_BOXES.ShiftToUnstack)
             :addLabel("ShiftRightClickContextMenusLabel", 1115355)
@@ -175,7 +176,6 @@ function SettingsOptionsWindow.UpdateSettings()
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.AutoRun]:setChecked(UserOptionsSettings.autoRun())
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.PathFinding]:setChecked(UserOptionsSettings.pathfinding())
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.QueryBeforeCriminalAction]:setChecked(UserOptionsSettings.queryBeforeCriminalAction())
-    SettingsOptionsWindow.adapter.views[CHECK_BOXES.IgnoreMouseActionSelf]:setChecked(UserOptionsSettings.ignoreMouseActionsOnSelf())
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.ShiftToUnstack]:setChecked(UserOptionsSettings.holdShiftToUnstack())
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.ShiftRightClickContextMenu]:setChecked(UserOptionsSettings.shiftRightClickContextMenus())
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.TargetQueueing]:setChecked(UserOptionsSettings.targetQueueing())
@@ -206,7 +206,6 @@ function SettingsOptionsWindow.OnApplyButton()
     UserOptionsSettings.autoRun(SettingsOptionsWindow.adapter.views[CHECK_BOXES.AutoRun]:isChecked())
     UserOptionsSettings.pathfinding(SettingsOptionsWindow.adapter.views[CHECK_BOXES.PathFinding]:isChecked())
     UserOptionsSettings.queryBeforeCriminalAction(SettingsOptionsWindow.adapter.views[CHECK_BOXES.QueryBeforeCriminalAction]:isChecked())
-    UserOptionsSettings.ignoreMouseActionsOnSelf(SettingsOptionsWindow.adapter.views[CHECK_BOXES.IgnoreMouseActionSelf]:isChecked())
     UserOptionsSettings.holdShiftToUnstack(SettingsOptionsWindow.adapter.views[CHECK_BOXES.ShiftToUnstack]:isChecked())
     UserOptionsSettings.shiftRightClickContextMenus(SettingsOptionsWindow.adapter.views[CHECK_BOXES.ShiftRightClickContextMenu]:isChecked())
     UserOptionsSettings.targetQueueing(SettingsOptionsWindow.adapter.views[CHECK_BOXES.TargetQueueing]:isChecked())

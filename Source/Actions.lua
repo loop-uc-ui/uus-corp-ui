@@ -796,16 +796,6 @@ function Actions.ToggleLegacyContainers()
 	ButtonSetPressedFlag( "SettingsLegacyUseLegacyContainersButton", SystemData.Settings.Interface.LegacyContainers )
 end
 
-function Actions.IgnoreActionSelf()
-	SystemData.Settings.GameOptions.ignoreMouseActionsOnSelf = not SystemData.Settings.GameOptions.ignoreMouseActionsOnSelf
-	if ( SystemData.Settings.GameOptions.ignoreMouseActionsOnSelf ) then
-		WindowUtils.ChatPrint(GetStringFromTid(1155102), SystemData.ChatLogFilters.SYSTEM)
-    else
-		WindowUtils.ChatPrint(GetStringFromTid(1155435), SystemData.ChatLogFilters.SYSTEM)
-    end
-    UserSettingsChanged()
-end
-
 function Actions.EnablePVPWarning()
 	ContextMenu.RequestContextAction(WindowData.PlayerStatus.PlayerId, ContextMenu.DefaultValues.EnablePVPWarning)
 end
