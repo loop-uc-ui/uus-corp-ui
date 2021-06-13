@@ -35,3 +35,17 @@ function ListWindow:isLocked()
     local lock = self.adapter.views[self.id.."Lock"]
     return lock ~= nil and lock.isLocked
 end
+
+function ListWindow:onLeftClickDown()
+    WindowApi.setShowing("ContextMenu", false)
+    if not self:isLocked() then
+        SnapUtils.StartWindowSnap(self.id)
+        self:setMoving(true)
+    else
+        self:setMoving(false)
+    end
+end
+
+function ListWindow:onLeftClickUp()
+    self:setMoving(false)
+end

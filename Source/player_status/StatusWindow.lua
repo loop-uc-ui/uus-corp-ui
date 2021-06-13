@@ -1,21 +1,16 @@
 StatusWindow = ListWindow:new("StatusWindow")
 
-StatusWindow.CurPlayerId = 0
-
 function StatusWindow.Initialize()
 	StatusWindow.eventRegister:registerEventHandler(
 			WindowData.PlayerStatus.Event,
 			"StatusWindow.UpdateStatus"
 	)
 	StatusWindow:addLock()
+	StatusWindow.UpdateStatus()
 end
 
 function StatusWindow.Shutdown()
 	WindowUtils.SaveWindowPosition(StatusWindow.id)
-end
-
-function StatusWindow.Menu()
-	ContextMenuApi.requestMenu(WindowData.PlayerStatus.PlayerId, true)
 end
 
 function StatusWindow.UpdateStatus()
@@ -48,52 +43,20 @@ function StatusWindow.UpdateStatus()
 	)
 end
 
-function StatusWindow.OnLButtonUp()
-	if( SystemData.DragItem.DragType == SystemData.DragItem.TYPE_ITEM ) then
-	    DragSlotDropObjectToObject(StatusWindow.CurPlayerId)
-	else
-		WindowSetMoving("StatusWindow",false)
-		HandleSingleLeftClkTarget(WindowData.PlayerStatus.PlayerId)
+function StatusWindow.Menu(flags)
+	if flags == SystemData.ButtonFlags.CONTROL then
+		ContextMenuApi.requestMenu(WindowData.PlayerStatus.PlayerId, true)
 	end
+end
+
+function StatusWindow.OnLButtonUp()
+	StatusWindow:onLeftClickUp()
 end
 
 function StatusWindow.OnLButtonDown()
-	if not StatusWindow:isLocked() then
-		SnapUtils.StartWindowSnap("StatusWindow")
-		WindowSetMoving("StatusWindow",true)
-	else
-		WindowSetMoving("StatusWindow",false)
-	end
+	StatusWindow:onLeftClickDown()
 end
 
-function StatusWindow.OnHPLButtonUp()
-	HandleSingleLeftClkTarget(WindowData.PlayerStatus.PlayerId)
-end
-
-function StatusWindow.OnHPLButtonDown()
-
-end
-
-function StatusWindow.OnMLANAButtonUp()
-	HandleSingleLeftClkTarget(WindowData.PlayerStatus.PlayerId)
-end
-
-function StatusWindow.OnMANALButtonDown()
-
-end
-
-function StatusWindow.OnSTAMLButtonUp()
-	HandleSingleLeftClkTarget(WindowData.PlayerStatus.PlayerId)
-end
-
-function StatusWindow.OnSTAMLButtonDown()
-
-end
-
-function StatusWindow.OnRButtonUp()
-	RequestContextMenu(WindowData.PlayerStatus.PlayerId)
-end
-
-function StatusWindow.OnMouseDlbClk()
-    UserActionUseItem(StatusWindow.CurPlayerId,false)
+function StatusWindow.OnMouseDoubleClick()
+	UserActionApi.useItem(WindowData.PlayerStatus.PlayerId, true)
 end
