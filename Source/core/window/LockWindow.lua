@@ -4,20 +4,6 @@ local TEXTURE = "UO_Core"
 
 local STATES = {}
 
-local function toggleTexture(lockWindow)
-    if STATES[lockWindow.id].isLocked then
-        lockWindow:setTexture(InterfaceCore.ButtonStates.STATE_NORMAL, TEXTURE, 69, 341)
-        lockWindow:setTexture(InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, TEXTURE, 92,341)
-        lockWindow:setTexture(InterfaceCore.ButtonStates.STATE_PRESSED, TEXTURE, 92,341)
-        lockWindow:setTexture(InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, TEXTURE, 92,341)
-    else
-        lockWindow:setTexture(InterfaceCore.ButtonStates.STATE_NORMAL, TEXTURE, 117,341)
-        lockWindow:setTexture(InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, TEXTURE, 142,341)
-        lockWindow:setTexture(InterfaceCore.ButtonStates.STATE_PRESSED, TEXTURE, 142,341)
-        lockWindow:setTexture(InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, TEXTURE, 142,341)
-    end
-end
-
 function LockWindow:new(id, onLock, onUnlock)
     local this = {
         id = id.."Lock",
@@ -28,20 +14,34 @@ function LockWindow:new(id, onLock, onUnlock)
     self.__index = self
     this = setmetatable(this, self)
     STATES[this.id] = this
-    toggleTexture(this)
+    this:toggleTexture()
     return this
 end
 
-local function toggleSetting(window)
-    UserInterfaceVariables.SaveBoolean(window.id, not window.isLocked)
-    window.isLocked = not window.isLocked
-    STATES[window.id] = window
+function LockWindow:toggleSetting()
+    UserInterfaceVariables.SaveBoolean(self.id, not self.isLocked)
+    self.isLocked = not self.isLocked
+    STATES[self.id] = self
+end
+
+function LockWindow:toggleTexture()
+    if STATES[self.id].isLocked then
+        self:setTexture(InterfaceCore.ButtonStates.STATE_NORMAL, TEXTURE, 69, 341)
+        self:setTexture(InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, TEXTURE, 92,341)
+        self:setTexture(InterfaceCore.ButtonStates.STATE_PRESSED, TEXTURE, 92,341)
+        self:setTexture(InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, TEXTURE, 92,341)
+    else
+        self:setTexture(InterfaceCore.ButtonStates.STATE_NORMAL, TEXTURE, 117,341)
+        self:setTexture(InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, TEXTURE, 142,341)
+        self:setTexture(InterfaceCore.ButtonStates.STATE_PRESSED, TEXTURE, 142,341)
+        self:setTexture(InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, TEXTURE, 142,341)
+    end
 end
 
 function LockWindow.toggleLock()
     local window = STATES[SystemData.ActiveWindow.name]
-    toggleSetting(window)
-    toggleTexture(window)
+    window:toggleSetting()
+    window:toggleTexture()
     if window.isLocked and window.onLock ~= nil then
         window.onLock()
     elseif not window.isLocked and window.onUnlock ~= nil then

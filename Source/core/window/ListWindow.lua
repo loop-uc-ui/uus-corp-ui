@@ -36,6 +36,14 @@ function ListWindow:isLocked()
     return lock ~= nil and lock.isLocked
 end
 
+function ListWindow:setLocked(isLocked)
+    local lock = self.adapter.views[self.id.."Lock"]
+    if lock ~= nil and lock.isLocked ~= isLocked then
+        lock:toggleSetting()
+        lock:toggleTexture()
+    end
+end
+
 function ListWindow:onLeftClickDown()
     WindowApi.setShowing("ContextMenu", false)
     if not self:isLocked() then

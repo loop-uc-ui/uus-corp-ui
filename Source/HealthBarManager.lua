@@ -48,7 +48,9 @@ function HealthBarManager.OnBeginDragHealthBar(id)
 		mobileId = id
 	end
 
-	if(HealthBarManager.IsPartyMember(mobileId)) then
+	if mobileId == WindowData.PlayerStatus.PlayerId then
+		WindowUtils.BeginDrag(StatusWindow.create, mobileId)
+	elseif(HealthBarManager.IsPartyMember(mobileId)) then
 		MobilesOnScreen.RemoveHealthBar(mobileId)
 		WindowUtils.BeginDrag(PartyHealthBar.CreateHealthBar, mobileId)
 	else
@@ -57,6 +59,10 @@ function HealthBarManager.OnBeginDragHealthBar(id)
 end
 
 function HealthBarManager.OnEndDragHealthBar()
+	local mobileId = SystemData.ActiveMobile.Id
+	if mobileId == WindowData.PlayerStatus.PlayerId then
+		WindowApi.setMoving("StatusWindow", false)
+	end
 	WindowUtils.EndDrag()
 end
 

@@ -136,11 +136,13 @@ end
 --Sets the Window close to where the player dragged their mouse
 function MobileHealthBar.HandleAnchorWindow(healthWindow)
 	local mobileId = WindowGetId(healthWindow)
-	WindowSetScale(healthWindow, SystemData.Settings.Interface.customUiScale * 0.80)
-	
-	WindowUtils.LoadScale( "MobileHealthBarSCALE" )
 
-	if ( MobileHealthBar.Forced == false and not MobileHealthBar.Handled[mobileId]) then
+	if healthWindow ~= "StatusWindow" then
+		WindowSetScale(healthWindow, SystemData.Settings.Interface.customUiScale * 0.80)
+		WindowUtils.LoadScale( "MobileHealthBarSCALE" )
+	end
+
+	if ( healthWindow == "StatusWindow" or (MobileHealthBar.Forced == false and not MobileHealthBar.Handled[mobileId])) then
 		
 		local propWindowX = 0
 		local propWindowY = 0
