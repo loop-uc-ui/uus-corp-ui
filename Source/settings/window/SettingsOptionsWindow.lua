@@ -16,7 +16,6 @@ local CHECK_BOXES = {
     ShiftToUnstack = "HoldShiftToUnstackButton",
     ShiftRightClickContextMenu = "ShiftRightClickContextMenusButton",
     TargetQueueing = "TargetQueueingButton",
-    BlockOthersPaperdolls = "BlockOthersPaperdollButton",
     BlockWarOnPets = "BlockWarOnPetsButton",
     BlockWarOnParty = "BlockWarOnPartyButton",
     BlockWarOnGuild = "BlockWarOnGuildButton",
@@ -87,8 +86,6 @@ function SettingsOptionsWindow.Initialize()
             :addCheckBox(CHECK_BOXES.ShiftRightClickContextMenu)
             :addLabel("TargetQueueingLabel", 1115337)
             :addCheckBox(CHECK_BOXES.TargetQueueing)
-            :addLabel("BlockOthersPaperdollLabel", 1155298)
-            :addCheckBox(CHECK_BOXES.BlockOthersPaperdolls)
             :addLabel("BlockWarOnPetsLabel", 1155300)
             :addCheckBox(CHECK_BOXES.BlockWarOnPets)
             :addLabel("BlockWarOnPartyLabel", 1155302)
@@ -184,7 +181,6 @@ function SettingsOptionsWindow.UpdateSettings()
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.PartyInvitePopUp]:setChecked(UserOptionsSettings.partyInvitePopUp())
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.EnableChatLog]:setChecked(UserOptionsSettings.enableChatLog())
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.ToggleWindowSnap]:setChecked(UserOptionsSettings.enableSnapping())
-    SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockOthersPaperdolls]:setChecked(UserOptionsSettings.blockOthersPaperdoll())
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnPets]:setChecked(UserOptionsSettings.blockWarOnPets())
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnParty]:setChecked(UserOptionsSettings.blockWarOnParty())
     SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnGuild]:setChecked(UserOptionsSettings.blockWarOnFriendly())
@@ -213,7 +209,6 @@ function SettingsOptionsWindow.OnApplyButton()
     UserOptionsSettings.showTooltips(SettingsOptionsWindow.adapter.views[CHECK_BOXES.ToolTips]:isChecked())
     UserOptionsSettings.partyInvitePopUp(SettingsOptionsWindow.adapter.views[CHECK_BOXES.PartyInvitePopUp]:isChecked())
     UserOptionsSettings.enableChatLog(SettingsOptionsWindow.adapter.views[CHECK_BOXES.EnableChatLog]:isChecked())
-    UserOptionsSettings.blockOthersPaperdoll(SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockOthersPaperdolls]:isChecked())
     UserOptionsSettings.blockWarOnPets(SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnPets]:isChecked())
     UserOptionsSettings.blockWarOnParty(SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnParty]:isChecked())
     UserOptionsSettings.blockWarOnFriendly(SettingsOptionsWindow.adapter.views[CHECK_BOXES.BlockWarOnGuild]:isChecked())

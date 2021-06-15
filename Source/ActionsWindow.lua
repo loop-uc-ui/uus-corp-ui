@@ -364,8 +364,7 @@ function ActionsWindow.InitActionData()
 	ActionsWindow.ActionData[5746] = { type=SystemData.UserAction.TYPE_SPEECH_USER_COMMAND,			inActionWindow=true, iconId=875120, detailString=GetStringFromTid(1155180), nameString=GetStringFromTid(1155179),  callback=L"script Actions.GetHueID()" }
 	ActionsWindow.ActionData[5747] = { type=SystemData.UserAction.TYPE_SPEECH_USER_COMMAND,			inActionWindow=true, iconId=875121, detailString=GetStringFromTid(1155218), nameString=GetStringFromTid(1155219),  callback=L"script Actions.IgnoreTargettedItem()" }
 	ActionsWindow.ActionData[5748] = { type=SystemData.UserAction.TYPE_SPEECH_USER_COMMAND,			inActionWindow=true, iconId=875122, detailString=GetStringFromTid(1155222), nameString=GetStringFromTid(1155223),  callback=L"script Actions.ClearIgnoreList()" }
-	ActionsWindow.ActionData[5749] = { type=SystemData.UserAction.TYPE_SPEECH_USER_COMMAND,			inActionWindow=true, iconId=875123, detailString=GetStringFromTid(1155228), nameString=GetStringFromTid(1155225),  callback=L"script Actions.ToggleBlockPaperdolls()" }
-	
+
 	-- 5800 -> 5850 : BARD'S SUPER SLAYER
 	ActionsWindow.ActionData[5800] = { type=SystemData.UserAction.TYPE_SPEECH_USER_COMMAND,			inActionWindow=true, iconId=875350, detailString=GetStringFromTid(1155461), nameTid=1079747 }
 	ActionsWindow.ActionData[5801] = { type=SystemData.UserAction.TYPE_SPEECH_USER_COMMAND,			inActionWindow=true, iconId=875351, detailString=GetStringFromTid(1155461), nameTid=1079748 }

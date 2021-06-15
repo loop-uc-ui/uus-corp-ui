@@ -241,25 +241,13 @@
                                     </Anchors>
                                 </Window>
 
-                                <Window name="BlockOthersPaperdoll" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="220" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="TargetQueueing">
-                                            <AbsPoint x="0" y="9"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
                                 <Window name="BlockWarOnPets" inherits="Settings_LabelCheckButton">
                                     <Size>
                                         <AbsPoint x="220" y="32"/>
                                     </Size>
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="BlockOthersPaperdoll">
+                                                relativeTo="TargetQueueing">
                                             <AbsPoint x="0" y="9"/>
                                         </Anchor>
                                     </Anchors>

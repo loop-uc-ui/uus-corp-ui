@@ -201,20 +201,16 @@ function PaperdollWindow.Initialize()
 		ButtonSetPressedFlag( windowName.."ToggleCharacterSheet", showing )
 		WindowSetShowing(windowName, true)
     else
-		if Interface.BlockThisPaperdoll[id] or UserOptionsSettings.blockOthersPaperdoll() then
-			WindowSetOffsetFromParent(windowName, -1000, -1000)
-		else
-			WindowUtils.RestoreWindowPosition(windowName, false,"PaperdollOthers", false )
-			local x, y = WindowGetOffsetFromParent(windowName)
-			if x < 0 and y < 0 then
-				WindowClearAnchors(windowName)
-				WindowAddAnchor(windowName,  "right", "ResizeWindow", "right", 0, 0)
-				x, y = WindowGetOffsetFromParent(windowName)
-				WindowClearAnchors(windowName)
-				WindowSetOffsetFromParent(windowName, x, y)
-			end	
-			WindowSetShowing(windowName, true)		
+		WindowUtils.RestoreWindowPosition(windowName, false,"PaperdollOthers", false )
+		local x, y = WindowGetOffsetFromParent(windowName)
+		if x < 0 and y < 0 then
+			WindowClearAnchors(windowName)
+			WindowAddAnchor(windowName,  "right", "ResizeWindow", "right", 0, 0)
+			x, y = WindowGetOffsetFromParent(windowName)
+			WindowClearAnchors(windowName)
+			WindowSetOffsetFromParent(windowName, x, y)
 		end
+		WindowSetShowing(windowName, true)
 	end
 
 	
@@ -227,15 +223,8 @@ function PaperdollWindow.Initialize()
 		WindowSetShowing(windowName .. "ToggleLock", true)
 		PaperdollWindow.GotDamage = true
 	end
-	
-	if (UserOptionsSettings.blockOthersPaperdoll() and id ~= WindowData.PlayerStatus.PlayerId) then
-		DestroyWindow(windowName)
-		SnapUtils.SnappableWindows[windowName] = nil
-	end
-	
-	
+
 	ButtonSetPressedFlag(windowName .. "ToggleLock",PaperdollWindow.Locked)
-	
 end
 
 function PaperdollWindow.LockTooltip()
@@ -289,12 +278,8 @@ function PaperdollWindow.Shutdown()
 		end
 		
 	else
-		if not (Interface.BlockThisPaperdoll[paperdollId] or UserOptionsSettings.blockOthersPaperdoll()) then
-			WindowUtils.SaveWindowPosition(windowName, false, "PaperdollOthers")
-		end
+		WindowUtils.SaveWindowPosition(windowName, false, "PaperdollOthers")
 	end
-	Interface.BlockThisPaperdoll[paperdollId] = nil
-	
 	if paperdollId ~= WindowData.CurrentTarget.TargetId and WindowData.PlayerStatus.PlayerId ~= paperdollId then
 		if WindowData.Paperdoll[paperdollId] then
 			UnregisterWindowData(WindowData.Paperdoll.Type,paperdollId)	
@@ -654,7 +639,6 @@ end
 function PaperdollWindow.OnPaperdollTextureMouseEnd()
 	PaperdollWindow.ActivePaperdollImage = 0
 	PaperdollWindow.ActivePaperdollObject = 0
-
 	ItemProperties.ClearMouseOverItem()
 end
 
@@ -789,32 +773,6 @@ function PaperdollWindow.ItemMouseOver()
 
 	end
 	ItemProperties.SetActiveItem(itemData)
-end
-
-function PaperdollWindow.BlockPaperdolls(timePassed)
-	for id, wc in pairs(PaperdollWindow.OpenPaperdolls) do
-		if (UserOptionsSettings.blockOthersPaperdoll() and id ~= WindowData.PlayerStatus.PlayerId) then
-			DestroyWindow("PaperdollWindow"..id)
-			PaperdollWindow.OpenPaperdolls[id] = nil
-			if id ~= WindowData.CurrentTarget.TargetId then
-				if WindowData.Paperdoll[id] then
-					UnregisterWindowData(WindowData.Paperdoll.Type,id)	
-				end
-			end
-		elseif Interface.BlockThisPaperdoll[id] then
-			DestroyWindow("PaperdollWindow"..id)
-			PaperdollWindow.OpenPaperdolls[id] = nil
-			if id ~= WindowData.CurrentTarget.TargetId then
-				if WindowData.Paperdoll[id] then
-					UnregisterWindowData(WindowData.Paperdoll.Type,id)	
-				end
-			end
-			if Interface.BlockThisPaperdollMenuCall then
-				local td = {func = function() ContextMenu.RequestContextAction(id, Interface.BlockThisPaperdollMenuCall) Interface.BlockThisPaperdollMenuCall = 0  end, time = Interface.TimeSinceLogin + 2}
-				table.insert(ContainerWindow.TODO, td)
-			end
-		end
-	end
 end
 
 function PaperdollWindow.OnUpdate(timePassed)

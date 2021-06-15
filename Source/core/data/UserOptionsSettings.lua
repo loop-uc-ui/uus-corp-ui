@@ -152,15 +152,6 @@ function UserOptionsSettings.enableChatLog(newValue)
     return SystemData.Settings.GameOptions.enableChatLog
 end
 
-function UserOptionsSettings.blockOthersPaperdoll(newValue)
-    if  newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("BlockOthersPaperdoll", newValue)
-        return newValue
-    else
-        return UserInterfaceVariables.LoadBoolean("BlockOthersPaperdoll", false)
-    end
-end
-
 function UserOptionsSettings.blockWarOnPets(newValue)
     if newValue ~= nil then
         SystemData.Settings.GameOptions.noWarOnPets = newValue

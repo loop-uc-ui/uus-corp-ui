@@ -812,9 +812,6 @@ function Interface.Update( timePassed )
 	ok, err = pcall(MapCommon.UpdateAreaInfo, timePassed)	
 	Interface.ErrorTracker(ok, err)
 	
-	ok, err = pcall(PaperdollWindow.BlockPaperdolls, timePassed)	
-	Interface.ErrorTracker(ok, err)
-	
 	ok, err = pcall(Interface.SpecialMovesManaCooldown, timePassed)	
 	Interface.ErrorTracker(ok, err)
 		
