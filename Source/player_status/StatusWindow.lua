@@ -1,11 +1,11 @@
-StatusWindow = ListWindow:new("StatusWindow")
+StatusWindow = ListWindow:new("StatusWindow", false)
 
 function StatusWindow.Initialize()
 	StatusWindow.eventRegister:registerEventHandler(
 			WindowData.PlayerStatus.Event,
 			"StatusWindow.UpdateStatus"
 	)
-	StatusWindow:addLock()
+	StatusWindow.adapter:addLock()
 	StatusWindow.UpdateStatus()
 	WindowUtils.RestoreWindowPosition(StatusWindow.id, true)
 end

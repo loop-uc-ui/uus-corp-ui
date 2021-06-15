@@ -4,9 +4,6 @@
       <Size>
         <AbsPoint x="56" y="56" />
       </Size>
-      <EventHandlers>
-        <EventHandler event="OnLButtonDown" function="TargetWindow.ButtonsUse" />
-      </EventHandlers>
       <TexCoords>
         <Normal texture="default_grid_backpack" x="0" y="0" />
         <NormalHighlit texture="default_grid_backpack" x="50" y="0" />
@@ -68,27 +65,11 @@
         <EventHandler event="OnLButtonDblClk" function="TargetWindow.OnItemDblClicked" />
         <EventHandler event="OnLButtonUp" function="TargetWindow.OnLClick" />
         <EventHandler event="OnRButtonUp" function="TargetWindow.OnRClick" />
-        <EventHandler event="OnMouseOver" function="TargetWindow.OnMouseOver" />
-        <EventHandler event="OnMouseOverEnd" function="TargetWindow.OnMouseOverEnd" />
-        <EventHandler event="OnUpdate" function="TargetWindow.ForceUpdate" />
         <EventHandler event="OnLButtonDown" function="TargetWindow.OnMoveStart" />
         <EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
       </EventHandlers>
       <Windows>
-        <Button name="$parentLock" textureScale="1">
-          <Size>
-            <AbsPoint x="20" y="20" />
-          </Size>
-          <EventHandlers>
-            <EventHandler event="OnLButtonUp" function="TargetWindow.Lock" />
-            <EventHandler event="OnMouseOver" function="TargetWindow.LockTooltip" />
-          </EventHandlers>
-          <Anchors>
-            <Anchor point="topright" relativePoint="topright">
-              <AbsPoint x="-7" y="11" />
-            </Anchor>
-          </Anchors>
-        </Button>
+        <Button name="$parentLock" inherits="LockButton"/>
 
         <Label name="$parentDistance" font="Arial_Black_Shadow_15" maxchars="100" textalign="center" autoresize="true" wordwrap="false" layer="overlay" handleinput="false">
           <Size>

@@ -15,6 +15,7 @@ function WindowEventRegister:registerEventHandler(event, callback)
         event = event,
         callback = callback
     })
+    return self
 end
 
 function WindowEventRegister:unregisterEventHandler(event)

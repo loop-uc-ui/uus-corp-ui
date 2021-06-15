@@ -128,9 +128,7 @@ function MobileHealthBar.CreateHealthBar(mobileId)
 		MobileHealthBar.HandleAnchorWindow(windowName)		
 	else		
 		MobileHealthBar.ExtractWindow(windowName)
-	end	
-	
-	MobileHealthBar.HandleBackGround()
+	end
 end
 
 --Sets the Window close to where the player dragged their mouse
@@ -172,85 +170,6 @@ function MobileHealthBar.HandleAnchorWindow(healthWindow)
 		if parent ~= nil and parent ~= "" then			
 			WindowSetOffsetFromParent(healthWindow, propWindowX * scaleFactor, propWindowY * scaleFactor)		
 		end		
-	end
-end
-
-function MobileHealthBar.HandleBackGround()
-	for mobileId, value in pairs(MobileHealthBar.hasWindow) do
-		local windowName = "MobileHealthBar_"..mobileId .. "Frame"
-		local bar = "MobileHealthBar_"..mobileId 
-		
-		if( DoesWindowNameExist(windowName) ) then
-			MobileHealthBar.UpdateStatus(mobileId)
-			if( TargetWindow.HasTarget) then
-				if (TargetWindow.TargetId == mobileId) then
-					if ( not DoesWindowNameExist(bar .. "GlowingEffect")) then
-						CreateWindowFromTemplate(bar .. "GlowingEffect", "MobHBHighlightEffect", bar)
-						WindowClearAnchors(bar .. "GlowingEffect")
-						WindowSetParent(bar .. "GlowingEffect", bar)
-						WindowAddAnchor(bar .. "GlowingEffect", "center", bar, "center", 0, 0)
-						WindowSetLayer(bar .. "GlowingEffect",Window.Layers.BACKGROUND)
-						WindowSetAlpha(bar .. "GlowingEffect", 0.6)
-						local sc = WindowGetScale(bar)
-						WindowSetScale(bar .. "GlowingEffect", sc)
-						if (not IsMobile(mobileId)) then
-							WindowClearAnchors(bar .. "GlowingEffect")
-							WindowAddAnchor(bar .. "GlowingEffect", "topright", bar, "topright", 0, 0)
-							WindowAddAnchor(bar .. "GlowingEffect", "bottomleft", bar, "bottomleft", 0, 0)
-						end
-						local data = WindowData.MobileName[mobileId]
-						if (data) then
-							local noto = NameColor.TextColors[data.Notoriety+1]
-							if (mobileId == Interface.CurrentHonor) then
-								noto = {r=163, g=73, b=164}
-							end
-							WindowSetTintColor(bar .. "GlowingEffect", noto.r,noto.g,noto.b)
-						end
-						AnimatedImageStartAnimation( bar .. "GlowingEffect", 1, true, false, 0.0 ) 
-						WindowSetShowing(bar .. "Background", false)
-					end
-					local data = WindowData.MobileName[mobileId]
-					if (data) then
-						local noto = NameColor.TextColors[data.Notoriety+1]
-						if (mobileId == Interface.CurrentHonor) then
-							noto = {r=163, g=73, b=164}
-						end
-						WindowSetTintColor(windowName, noto.r,noto.g,noto.b)
-					end
-				else
-					if DoesWindowNameExist(bar .. "Background")then
-						WindowSetShowing(bar .. "Background", true)
-					end
-					if ( DoesWindowNameExist(bar .. "GlowingEffect")) then
-						AnimatedImageStopAnimation( bar .. "GlowingEffect")  
-						DestroyWindow( bar .. "GlowingEffect" )
-					end
-					local data = WindowData.MobileName[mobileId]
-					if (data) then
-						local noto = NameColor.TextColors[data.Notoriety+1]
-						if (mobileId == Interface.CurrentHonor) then
-							noto = {r=163, g=73, b=164}
-						end
-						if DoesWindowNameExist(windowName) then
-							WindowSetTintColor(windowName, noto.r,noto.g,noto.b)
-						end
-					end
-				end
-			else
-				local data = WindowData.MobileName[mobileId]
-				if ( DoesWindowNameExist(bar .. "GlowingEffect")) then
-					AnimatedImageStopAnimation( bar .. "GlowingEffect")  
-					DestroyWindow( bar .. "GlowingEffect" )
-				end
-				if (data) then
-					local noto = NameColor.TextColors[data.Notoriety+1]
-					if (mobileId == Interface.CurrentHonor) then
-						noto = {r=163, g=73, b=164}
-					end
-					WindowSetTintColor(windowName, noto.r,noto.g,noto.b)
-				end
-			end
-		end	
 	end
 end
 

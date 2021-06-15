@@ -890,10 +890,6 @@ function SkillsWindow.CheckSkillForUpdate(skill)
 				SkillsTracker.Update()
 			end
 			
-			if skill == 35 then
-				TargetWindow.UpdateButtons()
-			end
-			
 			return 1
 		end
 	else

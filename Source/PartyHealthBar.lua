@@ -115,11 +115,6 @@ function PartyHealthBar.CreateHealthBar(mobileId, useDefaultPos)
 	PartyHealthBar.HandleAnchorWindow(windowName, useDefaultPos)
 	WindowAssignFocus(windowName, true)
 	WindowUtils.LoadScale( "PrtyHealthBarSCALE" )
-	
-	if mobileID == WindowData.CurrentTarget.TargetId then
-		TargetWindow.UpdateButtons()
-	end
-	
 end
 
 
@@ -450,9 +445,6 @@ function PartyHealthBar.CloseWindow()
 	local mobileId = WindowGetId(SystemData.ActiveWindow.name)
 	local memberIndex = HealthBarManager.GetMemberIndex(mobileId)
 	local windowName = "PartyHealthBar_"..memberIndex
-	if mobileID == WindowData.CurrentTarget.TargetId then
-		TargetWindow.UpdateButtons()
-	end
 	DestroyWindow(windowName)
 end
 

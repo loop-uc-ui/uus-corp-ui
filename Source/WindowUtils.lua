@@ -1122,11 +1122,6 @@ function WindowUtils.Scale(x, y, delta)
 				end
 			elseif (windowname == "TargetWindow") then
 				WindowSetScale(originalWindow, endscale)
-				for i = 1, #TargetWindow.Buttons do
-					if DoesWindowNameExist(TargetWindow.Buttons[i]) then
-						WindowSetScale(TargetWindow.Buttons[i],endscale - (endscale / 4))
-					end
-				end
 			elseif (windowname == "MobileHealthBarSCALE") then
 				for key, value in pairs(MobileHealthBar.hasWindow) do
 					local windowName = "MobileHealthBar_"..key

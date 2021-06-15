@@ -101,3 +101,9 @@ function WindowAdapter:addTemplate(
         return nil
     end
 end
+
+function WindowAdapter:addLock(onLock, onUnlock)
+    local lock = LockWindow:new(self.id, onLock, onUnlock)
+    self.views[lock.id] = lock
+    return self
+end
