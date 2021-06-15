@@ -35,9 +35,9 @@ function TargetWindow.Initialize()
 			0,
 			0
 	)
-	WindowDataApi.registerData(TargetModel.dataRegister(), 0)
+	WindowDataApi.registerData(CurrentTarget.dataType(), 0)
 	TargetWindow.eventRegister:registerEventHandler(
-			TargetModel.event(),
+			CurrentTarget.event(),
 			"TargetWindow.UpdateTarget"
 	):registerEventHandler(
 			WindowData.MobileStatus.Event,
@@ -53,14 +53,14 @@ function TargetWindow.Initialize()
 			"TargetWindow.HandleTintHealthBarEvent"
 	)
 	WindowUtils.RestoreWindowPosition(TargetWindow.id)
-	if TargetModel.id() ~= 0 then
-		EventApi.broadcast(TargetModel.event())
+	if CurrentTarget.id() ~= 0 then
+		EventApi.broadcast(CurrentTarget.event())
 	end
 end
 
 function TargetWindow.Shutdown()
 	TargetWindow.ClearPreviousTarget()
-	WindowDataApi.unregisterData(TargetModel.dataRegister(), 0)
+	WindowDataApi.unregisterData(CurrentTarget.dataType(), 0)
 	WindowUtils.SaveWindowPosition(TargetWindow.id)
 end
 

@@ -2,7 +2,7 @@ StatusWindow = ListWindow:new("StatusWindow", false)
 
 function StatusWindow.Initialize()
 	StatusWindow.eventRegister:registerEventHandler(
-			WindowData.PlayerStatus.Event,
+			PlayerStatus.event(),
 			"StatusWindow.UpdateStatus"
 	)
 	StatusWindow.adapter:addLock()
@@ -16,38 +16,38 @@ function StatusWindow.Shutdown()
 end
 
 function StatusWindow.UpdateStatus()
-	if WindowData.PlayerStatus.PlayerId == 0 then
+	if PlayerStatus.id() == 0 then
 		return
 	end
 
 	StatusWindow.adapter:addStatusBar(
 			"StatusWindowHealthBar",
-			WindowData.PlayerStatus.MaxHealth,
-			WindowData.PlayerStatus.CurrentHealth,
-			WindowData.PlayerStatus.VisualStateId
+			PlayerStatus.maxHealth(),
+			PlayerStatus.currentHealth(),
+			PlayerStatus.visualState()
 	):addStatusBar(
 			"StatusWindowManaBar",
-			WindowData.PlayerStatus.MaxMana,
-			WindowData.PlayerStatus.CurrentMana
+			PlayerStatus.maxMana(),
+			PlayerStatus.currentMana()
 	):addStatusBar(
 			"StatusWindowStaminaBar",
-			WindowData.PlayerStatus.MaxStamina,
-			WindowData.PlayerStatus.CurrentStamina
+			PlayerStatus.maxStamina(),
+			PlayerStatus.currentMana()
 	):addLabel(
 			"StatusWindowHealthTooltip",
-			L""..WindowData.PlayerStatus.CurrentHealth..L"/"..WindowData.PlayerStatus.MaxHealth
+			L""..PlayerStatus.currentHealth()..L"/"..PlayerStatus.maxHealth()
 	):addLabel(
 			"StatusWindowManaTooltip",
-			WindowData.PlayerStatus.CurrentMana..L"/"..WindowData.PlayerStatus.MaxMana
+			PlayerStatus.currentMana()..L"/"..PlayerStatus.maxMana()
 	):addLabel(
 			"StatusWindowStaminaTooltip",
-			WindowData.PlayerStatus.CurrentStamina..L"/"..WindowData.PlayerStatus.MaxStamina
+			PlayerStatus.currentStamina()..L"/"..PlayerStatus.maxStamina()
 	)
 end
 
 function StatusWindow.OnRButtonUp(flags)
 	if flags == SystemData.ButtonFlags.SHIFT then
-		ContextMenuApi.requestMenu(WindowData.PlayerStatus.PlayerId, true)
+		ContextMenuApi.requestMenu(PlayerStatus.id(), true)
 	elseif not StatusWindow:isLocked() then
 		StatusWindow:setShowing(false)
 	end
@@ -58,15 +58,15 @@ function StatusWindow.OnLButtonUp()
 end
 
 function StatusWindow.OnLButtonDown()
-	if WindowData.Cursor ~= nil and WindowData.Cursor.target then
-		TargetApi.clickTarget(WindowData.PlayerStatus.PlayerId)
+	if Cursor.exists() and Cursor.target() then
+		TargetApi.clickTarget(PlayerStatus.id())
 	else
 		StatusWindow:onLeftClickDown()
 	end
 end
 
 function StatusWindow.OnMouseDoubleClick()
-	UserActionApi.useItem(WindowData.PlayerStatus.PlayerId, true)
+	UserActionApi.useItem(PlayerStatus.id(), true)
 end
 
 function StatusWindow.create()

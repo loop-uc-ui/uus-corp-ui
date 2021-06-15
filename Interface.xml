@@ -109,7 +109,9 @@
 	<!-- Script Files -->
 	<Scripts>
 		<Script file="Source/core/data/Colors.lua"/>
-		<Script file="Source/core/data/TargetModel.lua"/>
+		<Script file="Source/core/data/CurrentTarget.lua"/>
+		<Script file="Source/core/data/Cursor.lua"/>
+		<Script file="Source/core/data/PlayerStatus.lua"/>
 		<Script file="Source/core/api/TargetApi.lua"/>
 		<Script file="Source/core/api/UserActionApi.lua"/>
 		<Script file="Source/core/api/ButtonApi.lua"/>
