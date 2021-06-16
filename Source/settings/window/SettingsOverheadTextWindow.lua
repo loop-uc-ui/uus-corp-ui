@@ -16,7 +16,6 @@ local DelayValues = {
 }
 
 local CHECK_BOXES = {
-    ClickableNames = "clickableNamesButton",
     ShowCorpseNames = "ShowCorpseNamesButton",
     DisableSpells = "DisableSpellsButton",
     ShowSpellNames = "ShowSpellNameButton",
@@ -54,11 +53,6 @@ function SettingsOverheadTextWindow.Initialize()
     ):addLabel(
             "OverheadTextOptionsColorsSubSectionLabel",
             1155351
-    ):addLabel(
-            "clickableNamesLabel",
-            1155340
-    ):addCheckBox(
-            CHECK_BOXES.ClickableNames
     ):addLabel(
             "ShowCorpseNamesLabel",
             1115927
@@ -172,9 +166,6 @@ function SettingsOverheadTextWindow.UpdateSettings()
     SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.OverheadChat]:setChecked(
             UserOverheadTextSettings.showChat()
     )
-    SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.ClickableNames]:setChecked(
-            UserOverheadTextSettings.clickableNames()
-    )
     SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.DisableSpells]:setChecked(
             UserOverheadTextSettings.disableSpells()
     )
@@ -249,9 +240,6 @@ end
 function SettingsOverheadTextWindow.OnApplyButton()
     UserOverheadTextSettings.showCorpseNames(
             SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.ShowCorpseNames]:isChecked()
-    )
-    UserOverheadTextSettings.clickableNames(
-            SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.ClickableNames]:isChecked()
     )
     UserOverheadTextSettings.disableSpells(
             SettingsOverheadTextWindow.adapter.views[CHECK_BOXES.DisableSpells]:isChecked()

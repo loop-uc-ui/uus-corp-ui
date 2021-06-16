@@ -20,9 +20,6 @@ OverheadText.SpellsFontIndex = 1
 OverheadText.DamageFontIndex = 1
 
 OverheadText.OverhedTextSize = InterfaceCore.scale
-
-OverheadText.clickableNames = true
-
 OverheadText.ChatData = {}
 --how long the overhead chats will stay on screen (in sec's)
 OverheadText.OverheadAlive = 10
@@ -437,7 +434,7 @@ function OverheadText.UpdateOverheadAnchors(mobileId)
 	local overheadChat1Window = windowName.."Chat1"
 	local overheadChat2Window = windowName.."Chat2"
 	local overheadChat3Window = windowName.."Chat3"
-	WindowSetHandleInput(overheadNameWindow, OverheadText.clickableNames)
+	WindowSetHandleInput(overheadNameWindow, true)
 	WindowSetScale(windowName, OverheadText.OverhedTextSize)
 	
 	if(DoesWindowNameExist(windowName) == true) then

@@ -366,22 +366,10 @@ Interface.LockChatLine = false
 -- OVERHEAD TEXT: (overhead text tab)
 ----------------------------------------------------------------
 
--- show names:
--- show corpse names
--- OverheadText.clickableNames
--- overhead chat
--- overhead chat fade
 Interface.DisableSpells = false
 Interface.ShowSpellName = false
 Interface.noPoisonOthers = true
 Interface.OverhedTextSize = InterfaceCore.scale
--- chat font
--- name font
--- spell font
--- damage font
--- spells colors
--- damage colors
--- positive/negative messages colors
 
 ----------------------------------------------------------------
 --

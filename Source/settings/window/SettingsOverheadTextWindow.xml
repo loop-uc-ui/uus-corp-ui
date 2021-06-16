@@ -73,25 +73,13 @@
                                     </Anchors>
                                 </Window>
 
-                                <Window name="clickableNames" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="300" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="ShowCorpseNames">
-                                            <AbsPoint x="0" y="26"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
                                 <Window name="OverheadChat" inherits="Settings_LabelCheckButton">
                                     <Size>
                                         <AbsPoint x="150" y="32"/>
                                     </Size>
                                     <Anchors>
                                         <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="clickableNames">
+                                                relativeTo="ShowCorpseNames">
                                             <AbsPoint x="0" y="26"/>
                                         </Anchor>
                                     </Anchors>

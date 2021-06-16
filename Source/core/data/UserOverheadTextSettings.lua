@@ -24,15 +24,6 @@ function UserOverheadTextSettings.showCorpseNames(newValue)
     end
 end
 
-function UserOverheadTextSettings.clickableNames(newValue)
-    if newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("clickableNames", newValue)
-        return newValue
-    else
-        return UserInterfaceVariables.LoadBoolean("clickableNames", true)
-    end
-end
-
 function UserOverheadTextSettings.showChat(newValue)
     if newValue ~= nil then
         SystemData.Settings.Interface.OverheadChat = newValue
