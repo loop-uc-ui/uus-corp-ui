@@ -67,6 +67,12 @@ function StatusWindow.OnLButtonUp()
 	StatusWindow:onLeftClickUp()
 end
 
+function StatusWindow.onMouseOver()
+	if Drag.isItem() then
+		DragApi.dragToObject(PlayerStatus.id())
+	end
+end
+
 function StatusWindow.OnLButtonDown()
 	if Cursor.exists() and Cursor.target() then
 		TargetApi.clickTarget(PlayerStatus.id())
