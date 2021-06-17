@@ -21,13 +21,13 @@ function CurrentTarget.event()
 end
 
 function CurrentTarget.isMobile()
-    return CurrentTarget.type() == 2
+    return CurrentTarget.targetType() == 2
 end
 
 function CurrentTarget.isObject()
-    return CurrentTarget.type() == 3
+    return CurrentTarget.targetType() == 3
 end
 
 function CurrentTarget.isCorpse()
-    return CurrentTarget.type() == 4
+    return CurrentTarget.targetType() == 4
 end

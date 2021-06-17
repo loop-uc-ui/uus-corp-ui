@@ -20,28 +20,38 @@ function StatusWindow.UpdateStatus()
 		return
 	end
 
+	local health = Colors.Red
+
+	if PlayerStatus.isPoisoned() then
+		health = Colors.Green
+	elseif PlayerStatus.isCursed() then
+		health = Colors.Yellow
+	end
+
 	StatusWindow.adapter:addStatusBar(
 			"StatusWindowHealthBar",
 			PlayerStatus.maxHealth(),
 			PlayerStatus.currentHealth(),
-			PlayerStatus.visualState()
+			health
 	):addStatusBar(
 			"StatusWindowManaBar",
 			PlayerStatus.maxMana(),
-			PlayerStatus.currentMana()
+			PlayerStatus.currentMana(),
+			Colors.Blue
 	):addStatusBar(
 			"StatusWindowStaminaBar",
 			PlayerStatus.maxStamina(),
-			PlayerStatus.currentMana()
+			PlayerStatus.currentStamina(),
+			Colors.Green
 	):addLabel(
 			"StatusWindowHealthTooltip",
-			L""..PlayerStatus.currentHealth()..L"/"..PlayerStatus.maxHealth()
+			L""..PlayerStatus.currentHealth()..L" / "..PlayerStatus.maxHealth()
 	):addLabel(
 			"StatusWindowManaTooltip",
-			PlayerStatus.currentMana()..L"/"..PlayerStatus.maxMana()
+			PlayerStatus.currentMana()..L" / "..PlayerStatus.maxMana()
 	):addLabel(
 			"StatusWindowStaminaTooltip",
-			PlayerStatus.currentStamina()..L"/"..PlayerStatus.maxStamina()
+			PlayerStatus.currentStamina()..L" / "..PlayerStatus.maxStamina()
 	)
 end
 

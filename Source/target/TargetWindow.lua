@@ -33,7 +33,7 @@ function TargetWindow.Initialize()
 			"TargetWindowHealthBar",
 			100,
 			0,
-			0
+			Colors.Red
 	)
 	WindowDataApi.registerData(CurrentTarget.dataType(), 0)
 	TargetWindow.eventRegister:registerEventHandler(
@@ -179,24 +179,16 @@ function TargetWindow.UpdateCorpse()
 end
 
 function TargetWindow.UpdateTarget()
-	--Check to see if the target is a mobile or object first, if it is a mobile then show the portrait of the mobile
-	--otherwise show the object texture
-	if(WindowData.CurrentTarget.TargetType == TargetWindow.MobileType) then
+	if CurrentTarget.isMobile() then
 		TargetWindow.UpdateMobile()
+	elseif CurrentTarget.isObject() then
+		TargetWindow.UpdateObject()
+	elseif CurrentTarget.isCorpse() then
+		TargetWindow.UpdateCorpse()
 	else
-		if(WindowData.CurrentTarget.TargetType == TargetWindow.ObjectType) then
-			TargetWindow.UpdateObject()
-		else
-			if(WindowData.CurrentTarget.TargetType == TargetWindow.CorpseType) then
-				TargetWindow.UpdateCorpse()
-			else
-				TargetWindow.ClearPreviousTarget()
-			end
-		end
-	end 
-	-- End of registering for the mobileType
-
-	TargetWindow.HasTarget = WindowData.CurrentTarget.HasTarget
+		TargetWindow.ClearPreviousTarget()
+	end
+	TargetWindow.HasTarget = CurrentTarget.exists()
 end
 
 function TargetWindow.MobileStatusUpdate()

@@ -32,6 +32,14 @@ function PlayerStatus.visualState()
     return WindowData.PlayerStatus.VisualStateId
 end
 
+function PlayerStatus.isPoisoned()
+    return PlayerStatus.visualState() == 1
+end
+
+function PlayerStatus.isCursed()
+    return PlayerStatus.visualState() == 2
+end
+
 function PlayerStatus.event()
     return WindowData.PlayerStatus.Event
 end
