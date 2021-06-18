@@ -13,9 +13,9 @@
             </TexCoords>
         </HorizontalResizeImage>
 
-        <Window name="StatusWindow" movable="true" layer="popup" sticky="true" draganddrop="true" popable="true">
+        <Window name="StatusWindow" movable="true" layer="default" sticky="true" draganddrop="true" popable="true">
             <Size>
-                <AbsPoint x="250" y="200" />
+                <AbsPoint x="0" y="0" />
             </Size>
 
             <EventHandlers>
@@ -30,19 +30,21 @@
 
                 <FullResizeImage name="$parentWindowBackground" layer="background" texture="TMapBG" handleinput="false" >
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="4" y="4"/>
-                        </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright"/>
-                    </Anchors>
+							<Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame">
+								<AbsPoint x="5" y="5" />
+							</Anchor>
+							<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame">
+								<AbsPoint x="0" y="0" />
+							</Anchor>
+					</Anchors>
                     <Sizes>
-                        <TopLeft x="92" y="57" />
-                        <BottomRight x="92" y="57" />
-                        <Middle x="92" y="57" />
+                        <TopLeft x="85" y="52" />
+                        <BottomRight x="85" y="52" />
+                        <Middle x="85" y="52" />
                     </Sizes>
                     <TexCoords>
                         <TopLeft x="5" y="20" />
-                        <TopCenter x="48" y="20" />
+                        <TopCenter x="81" y="20" />
                         <TopRight x="96" y="20" />
                         <MiddleLeft x="5" y="10" />
                         <MiddleCenter x="48" y="10" />
@@ -72,8 +74,8 @@
 
                 <Button name="StatusWindowLock" inherits="LockButton">
                     <Anchors>
-                        <Anchor point="topright" relativePoint="topright" relativeTo="$parentWindowBackground">
-                            <AbsPoint x="0" y="2"/>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parentFrame">
+                            <AbsPoint x="-4" y="4"/>
                         </Anchor>
                     </Anchors>
                 </Button>
