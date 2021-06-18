@@ -22,10 +22,8 @@ function StatusWindow.UpdateStatus()
 
 	local health = Colors.Red
 
-	if PlayerStatus.isPoisoned() then
-		health = Colors.Green
-	elseif PlayerStatus.isCursed() then
-		health = Colors.Yellow
+	if PlayerStatus.isPoisoned() or PlayerStatus.isCursed() then
+		health = Colors.YellowDark
 	end
 
 	StatusWindow.adapter:addStatusBar(
@@ -64,12 +62,10 @@ function StatusWindow.OnRButtonUp(flags)
 end
 
 function StatusWindow.OnLButtonUp()
-	StatusWindow:onLeftClickUp()
-end
-
-function StatusWindow.onMouseOver()
 	if Drag.isItem() then
 		DragApi.dragToObject(PlayerStatus.id())
+	else
+		StatusWindow:onLeftClickUp()
 	end
 end
 

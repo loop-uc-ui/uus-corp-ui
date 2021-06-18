@@ -3,6 +3,7 @@
 
 	<!-- Assets -->
 	<Include file="Textures/Textures.xml" />
+	<Include file="Textures/uus_corp_ui/UusCorpTextures.xml"/>
 	<Include file="Fonts/Fonts.xml" />
 	<Include file="Icons/Icons.xml" />
 
@@ -109,7 +110,7 @@
 	<!-- Script Files -->
 	<Scripts>
 		<Script file="Source/core/data/Drag.lua"/>
-		<Script file="Source/core/data/Colors.lua"/>
+		<Script file="Source/core/resources/Colors.lua"/>
 		<Script file="Source/core/data/CurrentTarget.lua"/>
 		<Script file="Source/core/data/Cursor.lua"/>
 		<Script file="Source/core/data/PlayerStatus.lua"/>
@@ -127,7 +128,7 @@
 		<Script file="Source/core/api/ScrollWindowApi.lua"/>
 		<Script file="Source/core/api/ContextMenuApi.lua"/>
 		<Script file="Source/core/api/StatusBarApi.lua"/>
-		<Script file="Source/core/data/TextIds.lua"/>
+		<Script file="Source/core/resources/TextIds.lua"/>
 		<Script file="Source/core/window/WindowEventRegister.lua"/>
 		<Script file="Source/core/window/BaseWindow.lua"/>
 		<Script file="Source/core/window/ListWindow.lua"/>

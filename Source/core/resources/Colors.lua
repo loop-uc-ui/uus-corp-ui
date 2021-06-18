@@ -18,6 +18,12 @@ Colors.Green = {
     b = 32
 }
 
+Colors.YellowDark = {
+    r = 164,
+    g = 164,
+    b = 32
+}
+
 Colors.Yellow = {
     r = 255,
     g = 255,

@@ -10,6 +10,7 @@
 		<Font name="diablo_heavy" face="Diablo Heavy" file="fonts/diablo_h.ttf" height="16" texsize="512" antialias="true" hinting="false" autohinting="true" outline="false" shadow="false"/>
 
 		<Font name="uo_classic_16" face="UO Classic" file="fonts/UOClassic.ttf" height="16" texsize="512" antialias="true" hinting="false" autohinting="true" outline="false" shadow="false"/>
+		<Font name="caption" face="UO Classic" file="fonts/UOClassic.ttf" height="16" texsize="512" antialias="true" hinting="false" autohinting="true" outline="true" shadow="false"/>
 		<Font name="uo_classic_18" face="UO Classic" file="fonts/UOClassic.ttf" height="18" texsize="512" antialias="true" hinting="false" autohinting="true" outline="false" shadow="false"/>
 		<Font name="uo_classic_20" face="UO Classic" file="fonts/UOClassic.ttf" height="20" texsize="512" antialias="true" hinting="false" autohinting="true" outline="false" shadow="false"/>
 		<Font name="uo_classic_24" face="UO Classic" file="fonts/UOClassic.ttf" height="24" texsize="512" antialias="true" hinting="false" autohinting="true" outline="false" shadow="false"/>

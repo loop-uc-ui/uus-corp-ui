@@ -1,83 +1,82 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
 
-        <HorizontalResizeImage name="StaminaFill" texture="StamFill" layer="default">
+        <HorizontalResizeImage name="StatusBar" texture="StatusBar" texturescale="1">
             <Size>
-                <AbsPoint x="427" y="40"/>
+                <AbsPoint x="158" y="20"/>
             </Size>
-            <Sizes left="540" middle="0" right="0"/>
+            <Sizes left="0" middle="79" right="159"/>
             <TexCoords>
-                <Left x="112" y="0"/>
-                <Middle x="213" y="0"/>
-                <Right x="540" y="0"/>
-            </TexCoords>
-        </HorizontalResizeImage>
-        <HorizontalResizeImage name="RedBar" texture="bars">
-            <Size>
-                <AbsPoint x="154" y="6"/>
-            </Size>
-            <Sizes left="162" middle="0" right="0"/>
-            <TexCoords>
-                <Left x="0" y="0"/>
-                <Middle x="81" y="0"/>
-                <Right x="162" y="0"/>
-            </TexCoords>
-        </HorizontalResizeImage>
-        <HorizontalResizeImage name="BlueBar" texture="bars">
-            <Size>
-                <AbsPoint x="154" y="6"/>
-            </Size>
-            <Sizes left="162" middle="0" right="0"/>
-            <TexCoords>
-                <Left x="0" y="11"/>
-                <Middle x="81" y="11"/>
-                <Right x="162" y="11"/>
-            </TexCoords>
-        </HorizontalResizeImage>
-        <HorizontalResizeImage name="YellowBar" texture="bars">
-            <Size>
-                <AbsPoint x="154" y="6"/>
-            </Size>
-            <Sizes left="162" middle="0" right="0"/>
-            <TexCoords>
-                <Left x="0" y="23"/>
-                <Middle x="81" y="23"/>
-                <Right x="162" y="23"/>
+                <Left x="2" y="20"/>
+                <Middle x="79" y="20"/>
+                <Right x="158" y="20"/>
             </TexCoords>
         </HorizontalResizeImage>
 
-        <Window name="StatusWindow" movable="false" layer="background" sticky="true" popable="true">
+        <Window name="StatusWindow" movable="true" layer="popup" sticky="true" draganddrop="true" popable="true">
             <Size>
-                <AbsPoint x="180" y="70"/>
+                <AbsPoint x="250" y="200" />
             </Size>
-            <Anchors>
-                <Anchor point="topleft" relativePoint="topleft" relativeTo="">
-                    <AbsPoint x="0" y="0"/>
-                </Anchor>
-            </Anchors>
+
             <EventHandlers>
                 <EventHandler event="OnShutdown" function="StatusWindow.Shutdown"/>
                 <EventHandler event="OnMouseWheel" function="WindowUtils.Scale"/>
-				<EventHandler event="OnLButtonUp" function="StatusWindow.OnLButtonUp"/>
-                <EventHandler event="OnMouseOver" function="StatusWindow.onMouseOver"/>
-				<EventHandler event="OnLButtonDown" function="StatusWindow.OnLButtonDown"/>
-				<EventHandler event="OnRButtonUp" function="StatusWindow.OnRButtonUp"/>
-				<EventHandler event="OnLButtonDblClk" function="StatusWindow.OnMouseDoubleClick"/>
+                <EventHandler event="OnLButtonUp" function="StatusWindow.OnLButtonUp"/>
+                <EventHandler event="OnLButtonDown" function="StatusWindow.OnLButtonDown"/>
+                <EventHandler event="OnRButtonUp" function="StatusWindow.OnRButtonUp"/>
+                <EventHandler event="OnLButtonDblClk" function="StatusWindow.OnMouseDoubleClick"/>
             </EventHandlers>
             <Windows>
+
+                <FullResizeImage name="$parentWindowBackground" layer="background" texture="TMapBG" handleinput="false" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="4" y="4"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                    <Sizes>
+                        <TopLeft x="92" y="57" />
+                        <BottomRight x="92" y="57" />
+                        <Middle x="92" y="57" />
+                    </Sizes>
+                    <TexCoords>
+                        <TopLeft x="5" y="20" />
+                        <TopCenter x="48" y="20" />
+                        <TopRight x="96" y="20" />
+                        <MiddleLeft x="5" y="10" />
+                        <MiddleCenter x="48" y="10" />
+                        <MiddleRight x="96" y="10" />
+                        <BottomLeft x="5" y="5" />
+                        <BottomCenter x="48" y="5" />
+                        <BottomRight x="95" y="5" />
+                    </TexCoords>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background">
+                    <Size>
+                        <AbsPoint x="192" y="122" />
+                    </Size>
+                </FullResizeImage>
+
                 <Window name="BuffDebuff" layer="default">
                     <Size>
                         <AbsPoint x="0" y="0"/>
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="StatusWindow">
-                            <!--<AbsPoint x="135" y="55" />-->
                             <AbsPoint x="91" y="57"/>
                         </Anchor>
                     </Anchors>
                 </Window>
 
-                <Button name="StatusWindowLock" inherits="LockButton"/>
+                <Button name="StatusWindowLock" inherits="LockButton">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parentWindowBackground">
+                            <AbsPoint x="0" y="2"/>
+                        </Anchor>
+                    </Anchors>
+                </Button>
 
                 <Button name="$parentRedButton" backgroundtexture="healB" highlighttexture="healB" texturescale="1">
                     <Size>
@@ -85,7 +84,7 @@
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
-                            <AbsPoint x="20" y="1"/>
+                            <AbsPoint x="16" y="8"/>
                         </Anchor>
                     </Anchors>
                     <TexCoords>
@@ -107,7 +106,7 @@
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentRedButton">
-                            <AbsPoint x="20" y="-1"/>
+                            <AbsPoint x="20" y="0"/>
                         </Anchor>
                     </Anchors>
                     <TexCoords>
@@ -130,7 +129,7 @@
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentGreenButton">
-                            <AbsPoint x="20" y="-1"/>
+                            <AbsPoint x="20" y="0"/>
                         </Anchor>
                     </Anchors>
                     <TexCoords>
@@ -149,52 +148,41 @@
                     </EventHandlers>
                 </Button>
 
-                <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft"/>
-                        <Anchor point="bottomright" relativePoint="bottomright"/>
-                    </Anchors>
-                </FullResizeImage>
-
-                <StatusBar name="$parentHealthBar" foreground="RedBar" handleinput="false">
+                <StatusBar name="$parentHealthBar" foreground="StatusBar" handleinput="false">
                     <Size>
-                        <AbsPoint x="154" y="7"/>
+                        <AbsPoint x="159" y="7"/>
                     </Size>
                     <Anchors>
                         <Anchor point="leftcenter" relativePoint="leftcenter" relativeTo="$parent">
-                            <AbsPoint x="12" y="27"/>
+                            <AbsPoint x="16" y="36"/>
                         </Anchor>
                     </Anchors>
                 </StatusBar>
 
-                <StatusBar name="$parentManaBar" foreground="BlueBar" handleinput="false">
+                <StatusBar name="$parentManaBar" foreground="StatusBar" handleinput="false">
                     <Size>
-                        <AbsPoint x="154" y="7"/>
+                        <AbsPoint x="159" y="7"/>
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentHealthBar"
                                 handleinput="false">
-                            <AbsPoint x="0" y="13"/>
+                            <AbsPoint x="0" y="24"/>
                         </Anchor>
                     </Anchors>
                 </StatusBar>
 
-                <StatusBar name="$parentStaminaBar" foreground="YellowBar" handleinput="false">
+                <StatusBar name="$parentStaminaBar" foreground="StatusBar" handleinput="false">
                     <Size>
-                        <AbsPoint x="154" y="7"/>
+                        <AbsPoint x="159" y="7"/>
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentManaBar">
-                            <AbsPoint x="0" y="13"/>
+                            <AbsPoint x="0" y="24"/>
                         </Anchor>
                     </Anchors>
                 </StatusBar>
 
-                <Label name="StatusWindowWhite" handleinput="false">
-                    <Color r="255" g="255" b="255"/>
-                </Label>
-
-                <Label name="$parentHealthTooltip" inherits="StatusWindowWhite" font="Arial_Black_Shadow_12"
+                <Label name="$parentHealthTooltip" font="caption"
                        maxchars="100" textalign="center" autoresize="true" wordwrap="true" layer="secondary"
                        handleinput="false">
                     <Size>
@@ -202,12 +190,12 @@
                     </Size>
                     <Anchors>
                         <Anchor point="topright" relativePoint="topright" relativeTo="$parentHealthBar">
-                            <AbsPoint x="-20" y="-6"/>
+                            <AbsPoint x="-24" y="2"/>
                         </Anchor>
                     </Anchors>
                 </Label>
 
-                <Label name="$parentManaTooltip" inherits="StatusWindowWhite" font="Arial_Black_Shadow_12"
+                <Label name="$parentManaTooltip" font="caption"
                        maxchars="100" textalign="center" autoresize="true" wordwrap="true" layer="secondary"
                        handleinput="false">
                     <Size>
@@ -215,12 +203,12 @@
                     </Size>
                     <Anchors>
                         <Anchor point="topright" relativePoint="topright" relativeTo="$parentManaBar">
-                            <AbsPoint x="-20" y="-5"/>
+                            <AbsPoint x="-24" y="2"/>
                         </Anchor>
                     </Anchors>
                 </Label>
 
-                <Label name="$parentStaminaTooltip" inherits="StatusWindowWhite" font="Arial_Black_Shadow_12"
+                <Label name="$parentStaminaTooltip" font="caption"
                        maxchars="100" textalign="center" autoresize="true" wordwrap="true" layer="secondary"
                        handleinput="false">
                     <Size>
@@ -228,7 +216,7 @@
                     </Size>
                     <Anchors>
                         <Anchor point="topright" relativePoint="topright" relativeTo="$parentStaminaBar">
-                            <AbsPoint x="-20" y="-5"/>
+                            <AbsPoint x="-24" y="2"/>
                         </Anchor>
                     </Anchors>
                 </Label>
