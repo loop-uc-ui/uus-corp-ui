@@ -54,9 +54,11 @@ function StatusWindow.UpdateStatus()
 end
 
 function StatusWindow.OnRButtonUp(flags)
-	if flags == SystemData.ButtonFlags.SHIFT then
+	if StatusWindow:isLocked() then
 		ContextMenuApi.requestMenu(PlayerStatus.id(), true)
-	elseif not StatusWindow:isLocked() then
+	elseif flags == SystemData.ButtonFlags.SHIFT then
+		ContextMenuApi.requestMenu(PlayerStatus.id(), true)
+	else
 		StatusWindow:setShowing(false)
 	end
 end
