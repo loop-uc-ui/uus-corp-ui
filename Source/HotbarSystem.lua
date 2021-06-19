@@ -430,10 +430,6 @@ function HotbarSystem.UpdateActionButton(element, type, id, iconId, disabled )
 	end
 	
 	if id == 5117 then
-		local butt = "TargetWindow10000403Button"
-		if not DoesWindowNameExist(butt) then
-			bDisabled = true
-		end
 		if( HotbarSystem.SpecialActions[id] == nil ) then
 				HotbarSystem.SpecialActions[id] = {}
 		end
@@ -441,10 +437,6 @@ function HotbarSystem.UpdateActionButton(element, type, id, iconId, disabled )
 	end
 	
 	if id == 5118 then
-		local butt = "TargetWindow10000419Button"
-		if not DoesWindowNameExist(butt) then
-			bDisabled = true
-		end
 		if( HotbarSystem.SpecialActions[id] == nil ) then
 				HotbarSystem.SpecialActions[id] = {}
 		end
@@ -951,18 +943,6 @@ function HotbarSystem.Update(timePassed)
 					HotbarSystem.SpecialActions[id] = {}
 				end
 				local bDisabled = false
-				if id == 5117 then -- BodRequest 
-					local butt = "TargetWindow10000403Button"
-					if not DoesWindowNameExist(butt) then
-						bDisabled = true
-					end
-				end
-				if id == 5118 then -- Bribe
-					local butt = "TargetWindow10000419Button"
-					if not DoesWindowNameExist(butt) then
-						bDisabled = true
-					end
-				end
 				if id == 3 then --TYPE_TOGGLE_WAR_MODE
 					WindowSetShowing(curElement.."Alert",WindowData.PlayerStatus.InWarMode)
 				end

@@ -237,46 +237,23 @@ function Actions.ToggleMacros()
 end
 
 function Actions.PrevTarget()
-	local max = table.getn(TargetWindow.PreviousTargets)
-	if (TargetWindow.TargetId) then
-		table.remove(TargetWindow.PreviousTargets, max)
-	end
-	local previous = Actions.SearchValidPrevTarget()
-	if (previous and previous.id ~= TargetWindow.TargetId) then
-		HandleSingleLeftClkTarget(previous.id)
-	end
-
-end
-
-function Actions.SearchValidPrevTarget()
-	local max = table.getn(TargetWindow.PreviousTargets)
-	for i = max, 1, -1 do
-		if (TargetWindow.PreviousTargets[i] ~= TargetWindow.TargetId and IsMobile(TargetWindow.PreviousTargets[i])) then
-			return {id=TargetWindow.PreviousTargets[i], idx=i}
+	for i = 1, table.getn(MobilesOnScreen.MobilesSort) do
+		if (Actions.TargetAllowed(MobilesOnScreen.MobilesSort[i]) and MobilesOnScreen.MobilesSort[i] == CurrentTarget.id() and i ~= 1) then
+			HandleSingleLeftClkTarget(MobilesOnScreen.MobilesSort[i - 1])
+			return
 		end
 	end
-	
 end
 
 Actions.nxt = 1
 function Actions.NextTarget()
 	local final = 0
 	for i = Actions.nxt, table.getn(MobilesOnScreen.MobilesSort) do
-		if (Actions.TargetAllowed(MobilesOnScreen.MobilesSort[i]) and MobilesOnScreen.MobilesSort[i] ~= TargetWindow.TargetId ) then
-			
+		if (Actions.TargetAllowed(MobilesOnScreen.MobilesSort[i]) and MobilesOnScreen.MobilesSort[i] ~= CurrentTarget.id() ) then
 			HandleSingleLeftClkTarget(MobilesOnScreen.MobilesSort[i])
-			if (WindowGetShowing("TargetWindow") and TargetWindow.TargetId == MobilesOnScreen.MobilesSort[i]) then
-				final = MobilesOnScreen.MobilesSort[i]
-				Actions.nxt = i+1
-				if (Actions.nxt > table.getn(MobilesOnScreen.MobilesSort)) then
-					Actions.nxt = 1	
-				end
-				return
-			end
 		end
 	end
 	if final ~= 0 then
-		TargetWindow.ClearPreviousTarget()
 		HandleSingleLeftClkTarget(final)
 	end
 	Actions.nxt = 1	
@@ -335,9 +312,7 @@ function Actions.IsMobileVisible(mobileId)
 end
 
 function Actions.NearTarget()
-
 	if (MobilesOnScreen.DistanceSort) then
-		TargetWindow.ClearPreviousTarget()
 		HandleSingleLeftClkTarget(MobilesOnScreen.DistanceSort[1])	
 	else
 		local minDist = -1000
@@ -353,14 +328,11 @@ function Actions.NearTarget()
 			end
 		end
 		for i, value in pairsByKeys(id) do
-			if (TargetWindow.TargetId == id[i]) then
+			if (CurrentTarget.id() == id[i]) then
 				return
 			end
 			if (Actions.TargetAllowed(id[i])) then
 				HandleSingleLeftClkTarget(id[i])
-				if (WindowGetShowing("TargetWindow") and TargetWindow.TargetId == id[i]) then
-					return
-				end
 			end
 		end
 	end
@@ -442,13 +414,13 @@ function Actions.InjuredMobile()
 end
 
 function Actions.TargetFirstContainerObject()
-	if not TargetWindow.TargetId then
+	if not CurrentTarget.id() then
 		WindowUtils.SendOverheadText(GetStringFromTid(1154961), 33, true, false)
 		return
 	end
 	local found = false
 	for id, value in pairs(ContainerWindow.OpenContainers) do
-		if id == TargetWindow.TargetId then
+		if id == CurrentTarget.id() then
 			found = true
 		end
 	end
@@ -457,8 +429,8 @@ function Actions.TargetFirstContainerObject()
 		return
 	end
 	
-	if WindowData.ContainerWindow[TargetWindow.TargetId] and WindowData.ContainerWindow[TargetWindow.TargetId].numItems > 0 then
-		HandleSingleLeftClkTarget(WindowData.ContainerWindow[TargetWindow.TargetId].ContainedItems[1].objectId)
+	if WindowData.ContainerWindow[CurrentTarget.id()] and WindowData.ContainerWindow[CurrentTarget.id()].numItems > 0 then
+		HandleSingleLeftClkTarget(WindowData.ContainerWindow[CurrentTarget.id()].ContainedItems[1].objectId)
 	end
 end
 
@@ -1323,10 +1295,10 @@ function Actions.GetHealthbar()
 		WindowUtils.ChatPrint(GetStringFromTid(1155175), SystemData.ChatLogFilters.SYSTEM )
 		return
 	end
-	if CurrentTarget.targetType() == TargetWindow.MobileType then
-		MobileHealthBar.CreateHealthBar(TargetWindow.TargetId)
+	if CurrentTarget.isMobile() then
+		MobileHealthBar.CreateHealthBar(CurrentTarget.id())
 	else
-		local item = WindowData.ObjectInfo[TargetWindow.TargetId]
+		local item = WindowData.ObjectInfo[CurrentTarget.id()]
 		if (item == nil) then
 			WindowUtils.ChatPrint(GetStringFromTid(1155176), SystemData.ChatLogFilters.SYSTEM )
 			return

@@ -38,7 +38,6 @@
 	<Include file="Source/settings/window/SettingsWindow.xml" />
 	<Include file="Source/Spellbook.xml" />
 	<Include file="Source/player_status/StatusWindow.xml" />
-	<Include file="Source/target/TargetWindow.xml" />
 	<Include file="Source/ContainerWindow.xml" />
 	<Include file="Source/ContextMenu.xml" />
 	<Include file="Source/CourseMapWindow.xml" />
@@ -158,7 +157,6 @@
 		<Script file="Source/player_status/StatusWindow.lua" />
 		<Script file="Source/MobileHealthBar.lua" />
 		<Script file="Source/MobilesOnScreenWindow.lua"/>
-		<Script file="Source/target/TargetWindow.lua" />
 		<Script file="Source/PetWindow.lua" />
 		<Script file="Source/PartyHealthBar.lua" />
 		<Script file="Source/ContainerWindow.lua"/>

@@ -202,7 +202,7 @@ function MobileHealthBar.UnregisterHealthBar(windowName)
 	WindowUnregisterEventHandler(windowName, SystemData.Events.ENABLE_HEALTHBAR_WINDOW)
 	WindowUnregisterEventHandler(windowName, SystemData.Events.DISABLE_HEALTHBAR_WINDOW)
 
-	if WindowData.PlayerStatus.PlayerId ~= mobileId and TargetWindow.TargetId ~= mobileId then
+	if WindowData.PlayerStatus.PlayerId ~= mobileId and CurrentTarget.id() ~= mobileId then
 		UnregisterWindowData(WindowData.MobileStatus.Type, mobileId)
 		UnregisterWindowData(WindowData.MobileName.Type, mobileId)
 		UnregisterWindowData(WindowData.HealthBarColor.Type, mobileId)

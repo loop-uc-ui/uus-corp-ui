@@ -286,7 +286,7 @@ function PaperdollWindow.Shutdown()
 		end
 	end
 
-	if WindowData.PlayerStatus.PlayerId ~= paperdollId and not MobileHealthBar.HasWindow(paperdollId) and TargetWindow.TargetId ~= paperdollId then
+	if WindowData.PlayerStatus.PlayerId ~= paperdollId and not MobileHealthBar.HasWindow(paperdollId) and CurrentTarget.id() ~= paperdollId then
 		UnregisterWindowData(WindowData.MobileStatus.Type,paperdollId)
 	end	
 	PaperdollWindow.OpenPaperdolls[paperdollId] = nil

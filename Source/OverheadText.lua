@@ -268,26 +268,21 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 	local labelName = windowName.."Name"
 	local name = LabelGetText(labelName) or L""
 
-	if (windowName ~= "TargetWindow") then
-		if (sfind(name , L"Changeling")) then
-			MobileHealthBar.Changelings[mobileId] = true
-		elseif (sfind(name , L"Irk")) then
-			MobileHealthBar.Irks[mobileId] = true
-		elseif (sfind(name , L"Guile")) then
-			MobileHealthBar.Guiles[mobileId] = true
-		elseif (sfind(name , L"Spite")) then
-			MobileHealthBar.Spites[mobileId] = true
-		elseif ( sfind(name , L"Travesty")) then
-			MobileHealthBar.Travestys[mobileId] = true
-		end
+	if (sfind(name , L"Changeling")) then
+		MobileHealthBar.Changelings[mobileId] = true
+	elseif (sfind(name , L"Irk")) then
+		MobileHealthBar.Irks[mobileId] = true
+	elseif (sfind(name , L"Guile")) then
+		MobileHealthBar.Guiles[mobileId] = true
+	elseif (sfind(name , L"Spite")) then
+		MobileHealthBar.Spites[mobileId] = true
+	elseif ( sfind(name , L"Travesty")) then
+		MobileHealthBar.Travestys[mobileId] = true
 	end
 
 	if (MobileHealthBar.Changelings[mobileId]) then
 		if (not sfind(data.MobName , L"Changeling")) then
 			data.MobName = data.MobName .. L" (Changeling)"
-			if (mobileId == WindowData.CurrentTarget.TargetId) then
-				TargetWindow.UpdateName(mobileId)
-			end
 		end
 		local name = data.MobName
 		if (sfind(wstring.sub(data.MobName,3), L" The ")) then
@@ -297,9 +292,6 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 	elseif (MobileHealthBar.Irks[mobileId]) then
 		if (not sfind(data.MobName , L"Irk")) then
 			data.MobName = data.MobName .. L" (Irk)"
-			if (mobileId == WindowData.CurrentTarget.TargetId) then
-				TargetWindow.UpdateName(mobileId)
-			end
 		end
 		local name = data.MobName
 		if (sfind(wstring.sub(data.MobName,3), L" The ")) then
@@ -309,9 +301,6 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 	elseif (MobileHealthBar.Guiles[mobileId]) then	
 		if (not sfind(data.MobName , L"Guile")) then
 			data.MobName = data.MobName .. L" (Guile)"
-			if (mobileId == WindowData.CurrentTarget.TargetId) then
-				TargetWindow.UpdateName(mobileId)
-			end
 		end
 		local name = data.MobName
 		if (sfind(wstring.sub(data.MobName,3), L" The ")) then
@@ -321,9 +310,6 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 	elseif (MobileHealthBar.Spites[mobileId]) then	
 		if (not sfind(data.MobName , L"Spite")) then
 			data.MobName = data.MobName .. L" (Spite)"
-			if (mobileId == WindowData.CurrentTarget.TargetId) then
-				TargetWindow.UpdateName(mobileId)
-			end
 		end
 		local name = data.MobName
 		if (sfind(wstring.sub(data.MobName,3), L" The ")) then
@@ -333,9 +319,6 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 	elseif (MobileHealthBar.Travestys[mobileId]) then	
 		if (not  sfind(data.MobName , L"Travesty")) then
 			data.MobName = data.MobName .. L" (Travesty)"
-			if (mobileId == WindowData.CurrentTarget.TargetId) then
-				TargetWindow.UpdateName(mobileId)
-			end
 		end
 		
 		local name = data.MobName

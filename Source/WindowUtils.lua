@@ -1120,8 +1120,6 @@ function WindowUtils.Scale(x, y, delta)
 						WindowSetScale("PartyHealthBar_" .. i, endscale)
 					end
 				end
-			elseif (windowname == "TargetWindow") then
-				WindowSetScale(originalWindow, endscale)
 			elseif (windowname == "MobileHealthBarSCALE") then
 				for key, value in pairs(MobileHealthBar.hasWindow) do
 					local windowName = "MobileHealthBar_"..key
@@ -1344,13 +1342,6 @@ function WindowUtils.LoadScale( windowname, default )
 				for i=1, HealthBarManager.MAX_PARTY_MEMBERS do
 					if (PartyHealthBar.HasWindowByIndex(i)) then
 						WindowSetScale("PartyHealthBar_" .. i, scale)
-					end
-				end
-			elseif (windowname == "TargetWindow") then
-				WindowSetScale(originalWindow, scale)
-				for i = 1, #TargetWindow.Buttons do
-					if DoesWindowNameExist(TargetWindow.Buttons[i]) then
-						WindowSetScale(TargetWindow.Buttons[i], scale - (scale / 4))
 					end
 				end
 			elseif (windowname == "MobileHealthBarSCALE") then
@@ -1657,11 +1648,9 @@ end
 function IsPlayer( mobileId )	
 	if MobilesOnScreen.IsPet(mobileId) then		
 		return false
-	elseif TargetWindow.KnownPlayers[mobileId] ~= nil then		
-		return TargetWindow.KnownPlayers[mobileId]
 	end
-	if not IsMobile(mobileId) or mobileId == WindowData.PlayerStatus.PlayerId then		
-		TargetWindow.KnownPlayers[mobileId] = false
+
+	if not IsMobile(mobileId) or mobileId == WindowData.PlayerStatus.PlayerId then
 		return false
 	end
 	if not WindowData.MobileName[mobileId] then
@@ -1676,26 +1665,21 @@ function IsPlayer( mobileId )
 	if (name and noto == NameColor.Notoriety.INVULNERABLE) then
 		return false
 	elseif IsVendor( mobileId ) then
-		TargetWindow.KnownPlayers[mobileId] = false
 		return false
 	elseif ItemPropertiesInfo.QuestGiverTid[props] then
-		TargetWindow.KnownPlayers[mobileId] = false
 		return false
 	elseif string.find(name, "The Noble") or string.find(name, "The Miner") or string.find(name, "The Wandering Healer") or string.find(name, "Myrmidex") or string.find(name, "Zipactriotl") or string.find(name, "The Britannian")
 		   or string.find(name, "Jukari") or string.find(name, "Kurak") or string.find(name, "Barrab") or string.find(name, "Barako") or string.find(name, "Urali") or string.find(name, "Sakkhra")
-		   or string.find(name, "Kotl Automaton") or string.find(name, "Spectral Kotl") then		 
-		TargetWindow.KnownPlayers[mobileId] = false
+		   or string.find(name, "Kotl Automaton") or string.find(name, "Spectral Kotl") then
 		return false
 	else
 		local name = CreaturesDB.GetName(WindowData.CurrentTarget.TargetId)
-		if CreaturesDB[name] then			
-			TargetWindow.KnownPlayers[mobileId] = false
+		if CreaturesDB[name] then
 			return false
 		else
 			Interface.RequestContextMenu(mobileId, false)
 			local menuItems = ContextMenu.GetMenuItemData()
-			if not WindowData.ContextMenu then				
-				TargetWindow.KnownPlayers[mobileId] = false
+			if not WindowData.ContextMenu then
 				return false
 			end
 			if not menuItems or WindowData.ContextMenu.objectId ~= WindowData.CurrentTarget.TargetId then 				
@@ -1703,11 +1687,9 @@ function IsPlayer( mobileId )
 			end
 			for i = 1, #menuItems do
 				if menuItems[i].returnCode == 810 then					
-					TargetWindow.KnownPlayers[mobileId] = true
 					return true
 				end
 				if menuItems[i].returnCode == 819 then					
-					TargetWindow.KnownPlayers[mobileId] = true
 					return true
 				end
 			end
@@ -1720,11 +1702,8 @@ end
 function IsTamable( mobileId )
 	if MobilesOnScreen.IsPet(mobileId) then
 		return false
-	elseif TargetWindow.KnownTamable[mobileId] ~= nil then
-		return TargetWindow.KnownTamable[mobileId]
 	end
 	if not IsMobile(mobileId) or MobilesOnScreen.IsPet(mobileId) then
-		TargetWindow.KnownTamable[mobileId] = false
 		return false
 	end
 	local name = CreaturesDB.GetName(WindowData.CurrentTarget.TargetId)
@@ -1734,33 +1713,27 @@ function IsTamable( mobileId )
 	end
 	for i = 1, #props do
 		if ItemPropertiesInfo.TamedTid[props[i]] then
-			TargetWindow.KnownTamable[mobileId] = false
 			return false
 		end
 	end
 	if CreaturesDB[name] then
-		TargetWindow.KnownTamable[mobileId] = CreaturesDB[name].tamable
 		return CreaturesDB[name].tamable
 	else
 		
 		RequestContextMenu(mobileId, false)
 		local menuItems = ContextMenu.GetMenuItemData()
 		if not WindowData.ContextMenu then
-			TargetWindow.KnownTamable[mobileId] = false
 			return false
 		end
-		if not menuItems or WindowData.ContextMenu.objectId ~= WindowData.CurrentTarget.TargetId then 
-			TargetWindow.KnownTamable[mobileId] = false
+		if not menuItems or WindowData.ContextMenu.objectId ~= WindowData.CurrentTarget.TargetId then
 			return false
 		end
 		for i = 1, #menuItems do
 			if menuItems[i].returnCode == 301 then
-				TargetWindow.KnownTamable[mobileId] = true
 				return true
 			end
 		end
 	end
-	TargetWindow.KnownTamable[mobileId] = false
 	return false
 end
 

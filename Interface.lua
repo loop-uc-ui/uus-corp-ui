@@ -526,7 +526,6 @@ function Interface.CreateWindows()
 	CreateWindow( "MacroWindow", false )
 	CreateWindow( "StatusWindow", UserInterfaceVariables.LoadBoolean("StatusWindowClosed", false))
 	Organizer.Initialize()
-	CreateWindow( "TargetWindow", false )
 	CreateWindow( "ContextMenu", false )
 	CreateWindow( "ActionsWindow", false )
 	CreateWindow( "ActionEditText", false )
@@ -694,12 +693,6 @@ function Interface.InterfaceInitialize()
 		local x, y= WindowGetOffsetFromParent("MapWindow")
 		WindowClearAnchors("MapWindow")
 		WindowSetOffsetFromParent("MapWindow", x,y)
-		
-		WindowClearAnchors("TargetWindow")
-		WindowAddAnchor("TargetWindow", "top", "ResizeWindow", "top", 0, 20)
-		local x, y= WindowGetOffsetFromParent("TargetWindow")
-		WindowClearAnchors("TargetWindow")
-		WindowSetOffsetFromParent("TargetWindow", x,y)
 				
 		Interface.BackpackFirstPositioning = true
 		Interface.NewChatFirstPositioning = true
@@ -1653,7 +1646,7 @@ function Interface.GetMobileData(mobileId, forceRegister)
 			local noto = mobileData.Notoriety+1
 		end
 
-		if WindowData.PlayerStatus.PlayerId ~= mobileId and ((not MobileHealthBar.HasWindow(mobileId) and TargetWindow.TargetId ~= mobileId) or (noto == NameColor.Notoriety.INVULNERABLE)) then			
+		if WindowData.PlayerStatus.PlayerId ~= mobileId and ((not MobileHealthBar.HasWindow(mobileId) and CurrentTarget.id() ~= mobileId) or (noto == NameColor.Notoriety.INVULNERABLE)) then
 			--Debug.Print("Unregister MobileData: "..mobileId)
 			UnregisterWindowData(WindowData.MobileStatus.Type, mobileId)
 		end
@@ -1839,7 +1832,6 @@ function Interface.HonorMobileConfirm(mobileId)
 	Interface.SaveNumber( "CurrentHonor", Interface.CurrentHonor )
 	Interface.WaitHonor = false
 	MobileHealthBar.UpdateName(mobileId)
-	TargetWindow.UpdateName(mobileId)	
 	OverheadText.UpdateName(mobileId)
 	MobilesOnScreen.isDirty = true
 end
@@ -1903,7 +1895,6 @@ function Interface.VirtueUseRequest()
 		if(lastHonorTarget ~= nil and lastHonorTarget ~= 0)then			
 			MobileHealthBar.UpdateName(lastHonorTarget)
 			OverheadText.UpdateName(lastHonorTarget)
-			TargetWindow.UpdateName(lastHonorTarget)
 			MobilesOnScreen.isDirty = true
 		end						
 	end	
