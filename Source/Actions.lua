@@ -1319,14 +1319,11 @@ function Actions.ObjectHandleSetFilter(j, newval)
 end
 
 function Actions.GetHealthbar()
-	if( SystemData.Settings.GameOptions.legacyTargeting) then
-		return
-	end
-	if (WindowData.CurrentTarget.TargetId == WindowData.PlayerStatus.PlayerId) then
+	if CurrentTarget.id() == PlayerStatus.id() then
 		WindowUtils.ChatPrint(GetStringFromTid(1155175), SystemData.ChatLogFilters.SYSTEM )
 		return
 	end
-	if(WindowData.CurrentTarget.TargetType == TargetWindow.MobileType) then
+	if CurrentTarget.targetType() == TargetWindow.MobileType then
 		MobileHealthBar.CreateHealthBar(TargetWindow.TargetId)
 	else
 		local item = WindowData.ObjectInfo[TargetWindow.TargetId]

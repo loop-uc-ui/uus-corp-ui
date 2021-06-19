@@ -12,7 +12,7 @@ function CurrentTarget.id()
     return WindowData.CurrentTarget.TargetId
 end
 
-function CurrentTarget.exists()
+function CurrentTarget.hasTarget()
     return WindowData.CurrentTarget.HasTarget
 end
 

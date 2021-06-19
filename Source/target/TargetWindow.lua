@@ -2,10 +2,6 @@ TargetWindow = ListWindow:new("TargetWindow", false)
 
 local adapter = TargetWindow.adapter
 
-----------------------------------------------------------------
--- Local Variables
-----------------------------------------------------------------
-
 TargetWindow.TargetId = 0
 TargetWindow.HasTarget = false
 TargetWindow.TargetType = 0
@@ -23,10 +19,6 @@ TargetWindow.PreviousTargets = {}
 
 TargetWindow.KnownPlayers = {} 
 TargetWindow.KnownTamable = {}
-
-----------------------------------------------------------------
--- Functions
-----------------------------------------------------------------
 
 function TargetWindow.Initialize()
 	adapter:addStatusBar(
@@ -61,12 +53,17 @@ function TargetWindow.Shutdown()
 	WindowUtils.SaveWindowPosition(TargetWindow.id)
 end
 
+local function unregister()
+	WindowDataApi.unregisterData(WindowData.MobileName.Type, CurrentTarget.id())
+	WindowDataApi.unregisterData(WindowData.MobileStatus.Type, CurrentTarget.id())
+	WindowDataApi.unregisterData(WindowData.HealthBarColor.Type,TargetWindow.TargetId)
+end
+
 function TargetWindow.ClearPreviousTarget()
 	if( TargetWindow.HasTarget == true ) then
 		WindowSetShowing("TargetWindow",false)
 		if(TargetWindow.TargetType == TargetWindow.MobileType) then
 			if WindowData.PlayerStatus.PlayerId ~= TargetWindow.TargetId and not MobileHealthBar.HasWindow(TargetWindow.TargetId) then
---				Debug.Print("TargetWindow.ClearPreviousTarget")
 				UnregisterWindowData(WindowData.MobileName.Type,TargetWindow.TargetId)
 				UnregisterWindowData(WindowData.MobileStatus.Type,TargetWindow.TargetId)
 				UnregisterWindowData(WindowData.HealthBarColor.Type,TargetWindow.TargetId)
@@ -76,9 +73,6 @@ function TargetWindow.ClearPreviousTarget()
 			if (TargetWindow.PreviousTargets[max] ~= TargetWindow.TargetId) then
 				table.insert(TargetWindow.PreviousTargets,TargetWindow.TargetId) 
 			end
-		elseif(TargetWindow.TargetType == TargetWindow.ObjectType or
-		       TargetWindow.TargetType == TargetWindow.CorpseType) then
-			UnregisterWindowData(WindowData.ObjectInfo.Type,TargetWindow.TargetId)				
 		end
 		LabelSetText("TargetWindowName", L"")
 		StatusBarSetCurrentValue( "TargetWindowHealthBar", 0 )
@@ -97,9 +91,6 @@ function TargetWindow.UnregisterPreviousTargetData()
 				UnregisterWindowData(WindowData.HealthBarColor.Type,TargetWindow.TargetId)
 			end
 			TargetWindow.RegisterTime[TargetWindow.TargetId] = nil
-		elseif(TargetWindow.TargetType == TargetWindow.ObjectType or
-			   TargetWindow.TargetType == TargetWindow.CorpseType) then
-			UnregisterWindowData(WindowData.ObjectInfo.Type,TargetWindow.TargetId)	
 		end
 	end
 end
@@ -138,7 +129,7 @@ function TargetWindow.UpdateTarget()
 	else
 		TargetWindow.ClearPreviousTarget()
 	end
-	TargetWindow.HasTarget = CurrentTarget.exists() and not CurrentTarget.isCorpse() and not CurrentTarget.isObject()
+	TargetWindow.HasTarget = CurrentTarget.hasTarget() and not CurrentTarget.isCorpse() and not CurrentTarget.isObject()
 end
 
 function TargetWindow.MobileStatusUpdate()
