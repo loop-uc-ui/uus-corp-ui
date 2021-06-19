@@ -2,6 +2,10 @@ TargetWindow = ListWindow:new("TargetWindow", false)
 
 local adapter = TargetWindow.adapter
 
+local targetHealthBar = "TargetWindowHealthBar"
+
+local targetName = "TargetWindowName"
+
 TargetWindow.TargetId = 0
 TargetWindow.HasTarget = false
 TargetWindow.TargetType = 0
@@ -41,6 +45,14 @@ function TargetWindow.Initialize()
 			WindowData.HealthBarColor.Event,
 			"TargetWindow.HandleTintHealthBarEvent"
 	)
+	adapter:addLabel(
+			targetName,
+			L""
+	):addStatusBar(
+			targetHealthBar,
+			0,
+			0
+	)
 	WindowUtils.RestoreWindowPosition(TargetWindow.id)
 	if CurrentTarget.id() ~= 0 then
 		EventApi.broadcast(CurrentTarget.event())
@@ -60,22 +72,18 @@ local function unregister()
 end
 
 function TargetWindow.ClearPreviousTarget()
-	if( TargetWindow.HasTarget == true ) then
-		WindowSetShowing("TargetWindow",false)
-		if(TargetWindow.TargetType == TargetWindow.MobileType) then
-			if WindowData.PlayerStatus.PlayerId ~= TargetWindow.TargetId and not MobileHealthBar.HasWindow(TargetWindow.TargetId) then
-				UnregisterWindowData(WindowData.MobileName.Type,TargetWindow.TargetId)
-				UnregisterWindowData(WindowData.MobileStatus.Type,TargetWindow.TargetId)
-				UnregisterWindowData(WindowData.HealthBarColor.Type,TargetWindow.TargetId)
-			end
-			TargetWindow.RegisterTime[TargetWindow.TargetId] = nil
-			local max = table.getn(TargetWindow.PreviousTargets)
-			if (TargetWindow.PreviousTargets[max] ~= TargetWindow.TargetId) then
-				table.insert(TargetWindow.PreviousTargets,TargetWindow.TargetId) 
-			end
+	if TargetWindow.HasTarget then
+		TargetWindow:setShowing(false)
+		if CurrentTarget.id() ~= PlayerStatus.id() and not MobileHealthBar.HasWindow(TargetWindow.TargetId) then
+			unregister()
 		end
-		LabelSetText("TargetWindowName", L"")
-		StatusBarSetCurrentValue( "TargetWindowHealthBar", 0 )
+		TargetWindow.RegisterTime[TargetWindow.TargetId] = nil
+		local max = table.getn(TargetWindow.PreviousTargets)
+		if (TargetWindow.PreviousTargets[max] ~= TargetWindow.TargetId) then
+			table.insert(TargetWindow.PreviousTargets,TargetWindow.TargetId)
+		end
+		adapter.views[targetName]:setText(L"")
+		adapter.views[targetHealthBar]:setCurrentValue(0)
 		TargetWindow.TargetType = 0
 	end
 end	
