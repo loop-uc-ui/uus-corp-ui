@@ -73,7 +73,6 @@
 	<Include file="Source/DragWindow.xml" />
 	<Include file="Source/OverheadText.xml" />
 	<Include file="Source/SkillsTracker.xml" />
-	<Include file="Source/QueryWindow.xml" />
 	<Include file="Source/ChannelWindow.xml" />
 	<Include file="Source/GChatRoster.xml" />
 	<Include file="Source/settings/window/IgnoreWindow.xml" />
@@ -223,7 +222,6 @@
 		<Script file="Source/SkillsTracker.lua" />
 		<Script file="Source/ResizeWindow.lua" />
 		<Script file="Source/main_menu/MainMenuWindow.lua" />
-		<Script file="Source/QueryWindow.lua" />
 		<Script file="Source/HighlightEffect.lua"/>
 		<Script file="Source/NewPlayerGuide.lua" />
 		<Script file="Source/ObjectHandle.lua" />
