@@ -46,9 +46,6 @@ function TargetWindow.Initialize()
 			WindowData.MobileName.Event,
 			"TargetWindow.HandleUpdateNameEvent"
 	):registerEventHandler(
-			WindowData.ObjectInfo.Event,
-			"TargetWindow.UpdateObjectInfo"
-	):registerEventHandler(
 			WindowData.HealthBarColor.Event,
 			"TargetWindow.HandleTintHealthBarEvent"
 	)
@@ -135,60 +132,13 @@ function TargetWindow.UpdateMobile()
 	end
 end
 
-function TargetWindow.UpdateObject()
-	if( (TargetWindow.HasTarget == false) or
-		(TargetWindow.HasTarget == true and WindowData.CurrentTarget.TargetId ~= TargetWindow.TargetId) ) then
-		TargetWindow.UnregisterPreviousTargetData()
-
-		--Update the local targetType to Object type
-		TargetWindow.TargetType = TargetWindow.ObjectType
-		WindowSetShowing("TargetWindow",true)
-		TargetWindow.TargetId = WindowData.CurrentTarget.TargetId
-
-		RegisterWindowData(WindowData.ObjectInfo.Type,WindowData.CurrentTarget.TargetId)
-
-		StatusBarSetCurrentValue( "TargetWindowHealthBar", 0 )
-		itemData = WindowData.ObjectInfo[WindowData.CurrentTarget.TargetId]
-		if itemData then
-			LabelSetText("TargetWindowName", itemData.name)
-
-			NameColor.UpdateLabelNameColor("TargetWindowName", NameColor.Notoriety.NONE)
-		end
-	end
-end
-
---Corpse will show the portrait of the mobile, but use the item properites for the name
-function TargetWindow.UpdateCorpse()
-	if( (TargetWindow.HasTarget == false) or
-		(TargetWindow.HasTarget == true and WindowData.CurrentTarget.TargetId ~= TargetWindow.TargetId) ) then
-		TargetWindow.UnregisterPreviousTargetData()
-
-		--Update the local targetType to Object type
-		TargetWindow.TargetType = TargetWindow.CorpseType
-		WindowSetShowing("TargetWindow",true)
-		TargetWindow.TargetId = WindowData.CurrentTarget.TargetId
-
-		RegisterWindowData(WindowData.ObjectInfo.Type,WindowData.CurrentTarget.TargetId)
-		itemData = WindowData.ObjectInfo[WindowData.CurrentTarget.TargetId]
-
-		StatusBarSetCurrentValue( "TargetWindowHealthBar", 0 )
-		LabelSetText("TargetWindowName", itemData.name)
-
-		NameColor.UpdateLabelNameColor("TargetWindowName", NameColor.Notoriety.NONE)
-	end
-end
-
 function TargetWindow.UpdateTarget()
 	if CurrentTarget.isMobile() then
 		TargetWindow.UpdateMobile()
-	elseif CurrentTarget.isObject() then
-		TargetWindow.UpdateObject()
-	elseif CurrentTarget.isCorpse() then
-		TargetWindow.UpdateCorpse()
 	else
 		TargetWindow.ClearPreviousTarget()
 	end
-	TargetWindow.HasTarget = CurrentTarget.exists()
+	TargetWindow.HasTarget = CurrentTarget.exists() and not CurrentTarget.isCorpse() and not CurrentTarget.isObject()
 end
 
 function TargetWindow.MobileStatusUpdate()
@@ -271,13 +221,6 @@ function TargetWindow.TintHealthBar(mobileId)
 		--Colors the health bar to the correct color
 		HealthBarColor.UpdateHealthBarColor(windowTintName, WindowData.HealthBarColor[mobileId].VisualStateId)
 	end
-end
-
-function TargetWindow.UpdateObjectInfo()
-	if( WindowData.UpdateInstanceId == WindowData.CurrentTarget.TargetId ) then
-		itemData = WindowData.ObjectInfo[WindowData.CurrentTarget.TargetId]
-		LabelSetText("TargetWindowName", itemData.name)
-	end	
 end
 
 --When players double clice on the target window, send a request object use packet
