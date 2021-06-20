@@ -41,7 +41,6 @@
                     </Size>
                     <EventHandlers>
                         <EventHandler event="OnLButtonUp" function="AdvancedBuff.LockMe"/>
-                        <EventHandler event="OnMouseOver" function="AdvancedBuff.LockTooltip"/>
                     </EventHandlers>
                     <TexCoords>
                         <Normal x="0" y="0"/>

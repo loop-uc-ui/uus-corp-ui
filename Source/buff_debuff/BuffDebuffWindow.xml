@@ -5,6 +5,7 @@
                 <AbsPoint x="38" y="38"/>
             </Size>
             <EventHandlers>
+                <EventHandler event="OnUpdate" function="BuffDebuff.Update"/>
                 <EventHandler event="OnMouseOver" function="BuffDebuff.MouseOver"/>
                 <EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
             </EventHandlers>

@@ -299,26 +299,6 @@ function AdvancedBuff.Rotate()
 	end
 end
 
-function AdvancedBuff.LockTooltip()
-	local windowname = WindowUtils.GetActiveDialog()
-	if string.find(windowname, "Good") then
-		if ( AdvancedBuff.GoodLocked  ) then
-			Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1111696))
-		else
-			Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1111697))
-		end
-	else
-		
-		if ( AdvancedBuff.EvilLocked  ) then
-			Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1111696))
-		else
-			Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1111697))
-		end
-	end	
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-end
-
 function AdvancedBuff.LockMe()
 	local windowname = WindowUtils.GetActiveDialog()
 	if string.find(windowname, "Good") then

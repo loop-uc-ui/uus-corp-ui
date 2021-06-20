@@ -314,7 +314,7 @@ function BuffDebuff.UpdateTimer(timePassed)
 		local parent = "BuffDebuff"
 		local iconName = parent.."Icon"..buffId
 		local timer = L" "
-		
+
 		if ( BuffDebuff.Timers[buffId] ~= nil and BuffDebuff.Timers[buffId] > 0   ) then
 			local min = math.floor(BuffDebuff.Timers[buffId]/60)
 			if min > 60 then
@@ -335,17 +335,17 @@ function BuffDebuff.UpdateTimer(timePassed)
 			end
 		end
 		LabelSetText(iconName.."TimerLabel",timer)
-		local scale = 1		
-		scale = WindowGetScale( AdvancedBuff.WindowNameGood )	
+		local scale = 1
+		scale = WindowGetScale( AdvancedBuff.WindowNameGood )
 		WindowSetScale(iconName, scale)
-	end	
+	end
 	endNumber = table.getn(AdvancedBuff.TableOrderEvil)
 	for i=1, endNumber do
 		local buffId = AdvancedBuff.TableOrderEvil[i]
 		local parent = "BuffDebuff"
 		local iconName = parent.."Icon"..buffId
 		local timer = L" "
-		
+
 		if ( BuffDebuff.Timers[buffId] ~= nil and BuffDebuff.Timers[buffId] > 0   ) then
 			local min = math.floor(BuffDebuff.Timers[buffId]/60)
 			if min > 0 then
@@ -355,18 +355,18 @@ function BuffDebuff.UpdateTimer(timePassed)
 			end
 		end
 		if (buffId == 1070 or buffId == 1071 or buffId == 1072 or buffId == 1073) then
-			
+
 			timer = BuffDebuff.BuffData[buffId].ToolTipWStringVector[1]
 			if (wstring.find(timer, L":", -7)) then
 				timer = wstring.sub(timer, wstring.find(timer, L":", -7)+2)
 			end
-			
+
 		end
 		LabelSetText(iconName.."TimerLabel",timer)
-		local scale = 1	
-		scale = WindowGetScale( AdvancedBuff.WindowNameEvil )		
-		WindowSetScale(iconName, scale)		
-	end	
+		local scale = 1
+		scale = WindowGetScale( AdvancedBuff.WindowNameEvil )
+		WindowSetScale(iconName, scale)
+	end
 end
 
 function BuffDebuff.CreateNewBuff()

@@ -724,9 +724,6 @@ function Interface.Update( timePassed )
 	if ObjectHandleWindow.Active then
 		ObjectHandleWindow.RefreshTimer = ObjectHandleWindow.RefreshTimer + timePassed
 	end
-	
-	ok, err = pcall(BuffDebuff.Update, timePassed)	
-	Interface.ErrorTracker(ok, err)
 
 	ok, err = pcall(DamageWindow.UpdateTime, timePassed)	
 	Interface.ErrorTracker(ok, err)
