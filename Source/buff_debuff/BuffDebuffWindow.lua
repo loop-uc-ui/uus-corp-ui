@@ -228,26 +228,6 @@ end
 function BuffDebuff.ShouldCreateNewBuff()
 	local buffId = WindowData.BuffDebuffSystem.CurrentBuffId
 	
-	if (WindowData.BuffDebuff.IsBeingRemoved == false and buffId == 1002) then
-		CenterScreenText.SendCenterScreenTexture("disarmed")
-		
-	end
-	if (WindowData.BuffDebuff.IsBeingRemoved == false and buffId == 1107) then
-		CenterScreenText.SendCenterScreenTexture("webbed")
-	end
-	
-	if (WindowData.BuffDebuff.IsBeingRemoved == false and buffId == 1108) then
-		CenterScreenText.SendCenterScreenTexture("stoned")
-	end
-	
-	if (WindowData.BuffDebuff.IsBeingRemoved == false and (buffId == 1110 or buffId == 1111 or buffId == 1122)) then
-		CenterScreenText.SendCenterScreenTexture("slowed")
-	end	
-	
-	if (WindowData.BuffDebuff.IsBeingRemoved == false and buffId == 1109) then
-		CenterScreenText.SendCenterScreenTexture("panic")
-	end
-	
 	--If we have a buff debuff icon up, check to see if that is being removed
 	--Debug.Print("BuffDebuf event triggered")
 	--Debug.Print(buffId)
@@ -463,15 +443,6 @@ function BuffDebuff.CreateNewBuff()
 		BuffDebuff.UpdateStatus(buffId)
 	else
 		BuffDebuff.UpdateStatus(buffId)
-	end
-	
-	if (buffId == 1015) then
-		CenterScreenText.SendCenterScreenTexture("bloodoath")
-	end
-	if (buffId == 1017) then
-		if (not BuffDebuff.BuffData[1017].HasTimer and Interface.TimeSinceLogin > 5 ) then
-			CenterScreenText.SendCenterScreenTexture("panic")
-		end
 	end
 	
 	if(buffData.HasTimer == true) then
