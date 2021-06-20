@@ -13,9 +13,9 @@
             </TexCoords>
         </HorizontalResizeImage>
 
-        <Window name="StatusWindow" movable="true" layer="default" sticky="true" draganddrop="true" popable="true">
+        <Window name="StatusWindow" movable="true" layer="popup" sticky="true" draganddrop="true" popable="true">
             <Size>
-                <AbsPoint x="0" y="0" />
+                <AbsPoint x="192" y="122" />
             </Size>
 
             <EventHandlers>
