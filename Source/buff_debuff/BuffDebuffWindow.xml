@@ -1,0 +1,31 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="BuffDebuffTemplate" movable="false" layer="secondary">
+            <Size>
+                <AbsPoint x="38" y="38"/>
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="BuffDebuff.MouseOver"/>
+                <EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
+            </EventHandlers>
+            <Windows>
+                <DynamicImage name="$parentTextureIcon" texturescale="1.2" handleinput="false">
+                    <Size>
+                        <AbsPoint x="38" y="38"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+                <Label name="$parentTimerLabel" inherits="UO_Default_Label_Color" font="UO_Default_Outline_Text"
+                       maxchars="6" handleinput="false" autoresize="true" textalign="top">
+                    <Size>
+                        <AbsPoint x="44" y="10"/>
+                    </Size>
+                </Label>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

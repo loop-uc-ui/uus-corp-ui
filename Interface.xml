@@ -48,7 +48,7 @@
 	<Include file="Source/CharacterAbilities.xml" />
 	<Include file="Source/ItemProperties.xml" />
 	<Include file="Source/PetWindow.xml" />
-	<Include file="Source/BuffDebuffWindow.xml" />
+	<Include file="Source/buff_debuff/BuffDebuffWindow.xml" />
 	<Include file="Source/GenericQuantity.xml" />
 	<Include file="Source/Shopkeeper.xml" />
 	<Include file="Source/NewPlayerGuide.xml" />
@@ -77,7 +77,7 @@
 	<Include file="Source/settings/window/IgnoreWindow.xml" />
 	<Include file="Source/PartyInviteWindow.xml" />
 	<Include file="Source/ContainerSearch.xml" />
-	<Include file="Source/AdvancedBuff.xml" />
+	<Include file="Source/buff_debuff/AdvancedBuff.xml" />
 	<Script file="Source/CreaturesDB.lua"/>
 	<Script file="Source/SpellsInfo.lua"/>
 	<Script file="Source/AbilitiesInfo.lua"/>
@@ -165,8 +165,8 @@
 		<Script file="Source/MacroEditWindow.lua" />
 		<Script file="Source/MacroPickerWindow.lua" />
 		<Script file="Source/MacroWindow.lua" />
-		<Script file="Source/BuffDebuffWindow.lua" />
-		<Script file="Source/AdvancedBuff.lua" />
+		<Script file="Source/buff_debuff/BuffDebuffWindow.lua" />
+		<Script file="Source/buff_debuff/AdvancedBuff.lua" />
 		<Script file="Source/DamageWindow.lua" />
 		<Script file="Source/HotbarSystem.lua" />
 		<Script file="Source/Hotbar.lua" />
@@ -181,7 +181,6 @@
 		<Script file="Source/Organizer.lua"/>
 		<Script file="Source/ContainerSearch.lua"/>
 		<Script file="Source/TextParsing.lua"/>
-		<Script file="Source/AdvancedBuff.lua"/>
 		<Script file="Source/CreaturesDB.lua"/>
 		<Script file="Source/SpellsInfo.lua"/>
 		<Script file="Source/AbilitiesInfo.lua"/>
