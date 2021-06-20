@@ -51,3 +51,14 @@ end
 function ListWindow:onLeftClickUp()
     self:setMoving(false)
 end
+
+function ListWindow:destroy()
+    if self.eventRegister ~= nil then
+        self.eventRegister:unregisterAllEvents()
+    end
+    for i = 1, #self.adapter.views do
+        self.adapter.views[i]:destroy()
+    end
+    WindowApi.destroyWindow(self.id)
+    self = nil
+end

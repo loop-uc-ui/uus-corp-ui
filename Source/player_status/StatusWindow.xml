@@ -13,18 +13,32 @@
             </TexCoords>
         </HorizontalResizeImage>
 
-        <Window name="StatusWindow" movable="true" layer="popup" sticky="true" draganddrop="true" popable="true">
+        <Window name="BuffDebuff" layer="default">
+            <Size>
+                <AbsPoint x="0" y="0"/>
+            </Size>
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" relativeTo="StatusWindow">
+                    <AbsPoint x="91" y="57"/>
+                </Anchor>
+            </Anchors>
+        </Window>
+
+        <Window name="StatusWindow" movable="true" layer="default" sticky="true" draganddrop="true" popable="true">
             <Size>
                 <AbsPoint x="192" y="122" />
             </Size>
 
             <EventHandlers>
+                <EventHandler event="OnInitialize" function="StatusWindow.Initialize"/>
                 <EventHandler event="OnShutdown" function="StatusWindow.Shutdown"/>
                 <EventHandler event="OnMouseWheel" function="WindowUtils.Scale"/>
                 <EventHandler event="OnLButtonUp" function="StatusWindow.OnLButtonUp"/>
                 <EventHandler event="OnLButtonDown" function="StatusWindow.OnLButtonDown"/>
                 <EventHandler event="OnRButtonUp" function="StatusWindow.OnRButtonUp"/>
                 <EventHandler event="OnLButtonDblClk" function="StatusWindow.OnMouseDoubleClick"/>
+                <EventHandler event="OnUpdate" function="StatusWindow.UpdateStatus"/>
+                <EventHandler event="OnShown" function="StatusWindow.OnShown"/>
             </EventHandlers>
             <Windows>
 
@@ -60,17 +74,6 @@
                         <AbsPoint x="192" y="122" />
                     </Size>
                 </FullResizeImage>
-
-                <Window name="BuffDebuff" layer="default">
-                    <Size>
-                        <AbsPoint x="0" y="0"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="StatusWindow">
-                            <AbsPoint x="91" y="57"/>
-                        </Anchor>
-                    </Anchors>
-                </Window>
 
                 <Button name="StatusWindowLock" inherits="LockButton">
                     <Anchors>

@@ -1,17 +1,11 @@
 StatusWindow = ListWindow:new("StatusWindow", false)
 
 function StatusWindow.Initialize()
-	StatusWindow.eventRegister:registerEventHandler(
-			PlayerStatus.event(),
-			"StatusWindow.UpdateStatus"
-	)
 	StatusWindow.adapter:addLock()
-	StatusWindow.UpdateStatus()
 	WindowUtils.RestoreWindowPosition(StatusWindow.id, true)
 end
 
 function StatusWindow.Shutdown()
-	UserInterfaceVariables.SaveBoolean(StatusWindow.id.."Closed", StatusWindow:isShowing())
 	WindowUtils.SaveWindowPosition(StatusWindow.id)
 end
 
@@ -59,7 +53,8 @@ function StatusWindow.OnRButtonUp(flags)
 	elseif flags == SystemData.ButtonFlags.SHIFT then
 		ContextMenuApi.requestMenu(PlayerStatus.id(), true)
 	else
-		StatusWindow:setShowing(false)
+		UserInterfaceVariables.SaveBoolean(StatusWindow.id.."Closed", true)
+		StatusWindow:destroy()
 	end
 end
 
@@ -83,9 +78,8 @@ function StatusWindow.OnMouseDoubleClick()
 	UserActionApi.useItem(PlayerStatus.id(), true)
 end
 
-function StatusWindow.create()
-	--TODO refactor this so we're not calling MobileHealthBar
-	StatusWindow:setShowing(true)
+function StatusWindow.OnShown()
+	UserInterfaceVariables.SaveBoolean(StatusWindow.id.."Closed", false)
 	StatusWindow:setLocked(false)
 	MobileHealthBar.HandleAnchorWindow(StatusWindow.id)
 end
