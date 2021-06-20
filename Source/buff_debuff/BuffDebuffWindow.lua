@@ -189,12 +189,10 @@ end
 
 function BuffDebuff.retrieveBuffData( buffData )
 	if not buffData then
-		Debug.PrintToDebugConsole( L"ERROR: buffData does not exist." )
 		return false
 	end      
 
 	if(WindowData.BuffDebuffSystem.CurrentBuffId == 0) then
-		Debug.PrintToDebugConsole( L"WindowData.BuffDebuffSystem.CurrentBuffId == 0" )
 		return false
 	end
 	
@@ -371,37 +369,7 @@ end
 
 function BuffDebuff.CreateNewBuff()
 	local buffId = WindowData.BuffDebuffSystem.CurrentBuffId
-	--Debug.Print("In Create New buff() id = "..buffId)
 	local buffData = BuffDebuff.BuffData[buffId]
-	
-	if not DoesWindowNameExist("CircleEffect_a") then
-
-		CreateWindowFromTemplate("CircleEffect_a", "CursorWarningEffect", "Root")
-		
-		WindowSetShowing("CircleEffect_a", false)
-		WindowClearAnchors("CircleEffect_a")
-		
-	end
-
-	if (not WindowGetShowing("CircleEffect_a") and not BuffDebuff.ActiveBuffs[buffId]) then
-		WindowSetShowing("CircleEffect_a", true)
-		WindowClearAnchors("CircleEffect_a")
-		
-		if BuffDebuff.Good[buffId] then
-			WindowSetTintColor("CircleEffect_a", 0, 255, 0)
-			WindowSetScale("CircleEffect_a", WindowGetScale(AdvancedBuff.WindowNameGood))
-			WindowAddAnchor("CircleEffect_a", "center", AdvancedBuff.WindowNameGood .. "Context", "center", 0, 0)
-		elseif BuffDebuff.Neutral[buffId] then
-			WindowSetTintColor("CircleEffect_a", 0, 204, 255)
-			WindowSetScale("CircleEffect_a", WindowGetScale(AdvancedBuff.WindowNameGood))
-			WindowAddAnchor("CircleEffect_a", "center", AdvancedBuff.WindowNameGood .. "Context", "center", 0, 0)
-		else
-			WindowSetTintColor("CircleEffect_a", 255, 0, 0)
-			WindowSetScale("CircleEffect_a", WindowGetScale(AdvancedBuff.WindowNameEvil))
-			WindowAddAnchor("CircleEffect_a", "center", AdvancedBuff.WindowNameEvil .. "Context", "center", 0, 0)
-		end
-		AnimatedImageStartAnimation( "CircleEffect_a", 1, false, true, 0.0 )
-	end
 	
 	if( BuffDebuff.BuffWindowId[buffId] ~= true)then
 		-- Need to know the ordering so we can anchor the buffs correctly 

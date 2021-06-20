@@ -107,6 +107,7 @@
 
 	<!-- Script Files -->
 	<Scripts>
+		<Script file="Source/core/data/Buffs.lua"/>
 		<Script file="Source/core/data/Drag.lua"/>
 		<Script file="Source/core/resources/Colors.lua"/>
 		<Script file="Source/core/data/CurrentTarget.lua"/>
