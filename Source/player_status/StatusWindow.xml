@@ -13,17 +13,6 @@
             </TexCoords>
         </HorizontalResizeImage>
 
-        <Window name="BuffDebuff" layer="default">
-            <Size>
-                <AbsPoint x="0" y="0"/>
-            </Size>
-            <Anchors>
-                <Anchor point="topleft" relativePoint="topleft" relativeTo="StatusWindow">
-                    <AbsPoint x="91" y="57"/>
-                </Anchor>
-            </Anchors>
-        </Window>
-
         <Window name="StatusWindow" movable="true" layer="default" sticky="true" draganddrop="true" popable="true">
             <Size>
                 <AbsPoint x="192" y="122" />
@@ -83,6 +72,18 @@
                     </Anchors>
                 </Button>
 
+
+                <Window name="BuffDebuff" layer="default">
+                    <Size>
+                        <AbsPoint x="0" y="0"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="StatusWindow">
+                            <AbsPoint x="91" y="57"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+                
                 <Button name="$parentRedButton" backgroundtexture="healB" highlighttexture="healB" texturescale="1">
                     <Size>
                         <AbsPoint x="17" y="17"/>
