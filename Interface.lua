@@ -658,11 +658,6 @@ function Interface.InterfaceInitialize()
 		WindowClearAnchors("WarShield")
 		WindowSetOffsetFromParent("WarShield", x,y)
 		
-		WindowClearAnchors("AdvancedBuffEvil")
-		local x, y= WindowGetOffsetFromParent("AdvancedBuffEvil")
-		WindowClearAnchors("AdvancedBuffEvil")
-		WindowSetOffsetFromParent("AdvancedBuffEvil", x,y)
-		
 		WindowClearAnchors("AdvancedBuffGood")
 		local x, y= WindowGetOffsetFromParent("AdvancedBuffGood")
 		WindowClearAnchors("AdvancedBuffGood")

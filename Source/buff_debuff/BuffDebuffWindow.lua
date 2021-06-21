@@ -21,128 +21,6 @@ BuffDebuff.ActiveBuffs = {}
 BuffDebuff.Fade = {}
 BuffDebuff.FadeRaising = {}
 
-BuffDebuff.Good = {
-[1005] = true; -- AB_NIGHT_SIGHT
-[1010] = true; -- AB_DIVINE_FURY
-[1011] = true; -- AB_ENEMY_OF_ONE
-[1014] = true; -- AB_BLOOD_OATH_CASTER
-[1020] = true; -- AB_RENEWAL
-[1021] = true; -- AB_ATTUNE_WEAPON
-[1024] = true; -- AB_ETHEREAL_VOYAGE
-[1025] = true; -- AB_GIFT_OF_LIFE
-[1026] = true; -- AB_ARCANE_EMPOWERMENT
-[1028] = true; -- AB_REACTIVE_ARMOR
-[1029] = true; -- AB_PROTECTION
-[1030] = true; -- AB_ARCH_PROTECTION
-[1031] = true; -- AB_MAGIC_REFLECTION
-[1034] = true; -- AB_ANIMAL_FORM
-[1035] = true; -- AB_POLYMORPH
-[1036] = true; -- AB_INVISIBILITY
-[1045] = true; -- AB_AGILITY
-[1046] = true; -- AB_CUNNING
-[1047] = true; -- AB_STRENGTH_SPELL
-[1048] = true; -- AB_BLESS
-[1050] = true; -- AB_STONE_FORM
-[1052] = true; -- AB_GARGOYLE_BERSERK
-[1055] = true; -- AB_BARD_INSPIRE
-[1056] = true; -- AB_BARD_INVIGORATE
-[1057] = true; -- AB_BARD_RESILIENCE
-[1058] = true; -- AB_BARD_PERSEVERANCE
-[1061] = true; -- AB_NEWBIE_TOKEN
-[1062] = true; -- AB_FISH_BUFF
-[1065] = true; -- AB_HIT_DUAL_WIELD
-[1066] = true; -- AB_BLOCK
-[1067] = true; -- AB_DEFENSE_MASTERY
-[1069] = true; -- AB_HEALING_SKILL
-[1070] = true; -- AB_SPELL_FOCUSING_BUFF
-[1073] = true; -- AB_RAGE_FOCUSING_BUFF
-[1074] = true; -- AB_WARDING
-[1075] = true; -- AB_BARD_TRIBULATION_BUFF
-[1078] = true; -- AB_SURGE
-[1079] = true; -- AB_FEINT
-[1082] = true; -- AB_CONSECRATE_BUFF
-[1083] = true; -- AB_GRAPES_OF_WRATH
-[1085] = true; -- AB_HORRIFIC_BEAST
-[1086] = true; -- AB_LICH_FORM
-[1087] = true; -- AB_VAMPRIC_FORM
-[1088] = true; -- AB_CURSE_WEAPON
-[1089] = true; -- AB_REAPER_FORM
-[1124] = true; -- AB_WRAITH_FORM
-[1090] = true; -- AB_IMMOLATING_WEAPON
-[1091] = true; -- AB_ENCHANT
-[1092] = true; -- AB_HONORABLE_EXEC
-[1093] = true; -- AB_CONFIDENCE
-[1094] = true; -- AB_EVASION
-[1095] = true; -- AB_COUNTER_ATTACK
-[1096] = true; -- AB_LIGHTNING_STRIKE
-[1097] = true; -- AB_MOMENTUM_STRIKE
-[1098] = true; -- AB_ORANGE_PETALS
-[1099] = true; -- AB_ROSEOFTRINSIC_PETALS
-[1100] = true; -- AB_POISON_IMMUNITY
-[1101] = true; -- AB_VETERINARY
-[1102] = true; -- AB_PERFECTION
-[1103] = true; -- AB_HONORED_BUFF
-[1104] = true; -- AB_MANA_PHASE
-[1126] = true; -- AB_CITY_BUFF
-[1128] = true; -- AB_VIRTUE_SPIRITUALITY_BUFF
-[1129] = true; -- AB_HUMILITY_BUF
-[1130] = true; -- AB_RAMPAGE
-[1132] = true; -- AB_TOUGHNESS
-[1133] = true; -- AB_THRUST
-[1135] = true; -- AB_SCAVENG
-[1136] = true; -- AB_FOCUSED_EYE
-[1138] = true; -- AB_MAGNUS_EFFECT
-[1140] = true; -- AB_CALLED_SHOT
-[1141] = true; -- AB_WRESTLING_PASSIVE
-[1142] = true; -- AB_SAVING_THROW
-[1143] = true; -- AB_CONDUIT_BUFF
-[1145] = true; -- AB_MYSTIC_WEAPON_BUFF
-[1146] = true; -- AB_SW_MANA_SHIELD_BUFF
-[1147] = true; -- AB_ANTICIPATE_HIT_BUFF
-[1148] = true; -- AB_WAR_CRY_BUF
-[1149] = true; -- AB_SHADOW_BUFF
-[1150] = true; -- AB_WHITE_TIGER_BU
-[1151] = true; -- AB_BODY_GUARD_BUFF
-[1152] = true; -- AB_HEIGHTENSENSES_BUFF
-[1153] = true; -- AB_TOLERANCE_BUFF
-[1154] = true; -- AB_DEATH_RAY
-[1156] = true; -- AB_MELEECAST_PASSIVE
-[1157] = true; -- AB_SPELLCAST_PASSIVE
-[1158] = true; -- AB_SHIELD_BASH
-[1159] = true; -- AB_WHISPERING
-[1160] = true; -- AB_COMBAT_TRAINING
-[1162] = true; -- AB_INJECTING_BUFF
-[1163] = true; -- AB_BUBBLE_IMMUNE_BUFF
-[1166] = true; -- AB_BOARDING_BUFF
-[1167] = true; -- AB_POTENCY_BUFF
-[1169] = true; -- AB_FOF_BUFF
-[1170] = true; -- AB_EODON_POTION_BARRAB_HEMOLYMPH
-[1171] = true; -- AB_EODON_POTION_JUKARI_BURN
-[1172] = true; -- AB_EODON_POTION_KURAK_AMBUSHER
-[1173] = true; -- AB_EODON_POTION_BARAKO_DRAFT
-[1174] = true; -- AB_EODON_POTION_URALI_TRANCE
-[1175] = true; -- AB_EODON_POTION_SAKKHRA_PROPHYLAXIS
-[1179] = true; -- AB_HIT_SPARKS_IMMUNE_BUFF
-[1180] = true; -- AB_HIT_SWARM_IMMUNE_BUFF
-[1181] = true; -- AB_HIT_BONECRUSHER_IMMUNE_BUFF
-[1182] = true; -- AB_STATUE_TRANSFORM
-[1183] = true; -- AB_CORA_IMMUNE
-[1184] = true; -- AB_VIRTUE_SHIELD
-[1186] = true; -- AB_TOK_METEOR_BUFF
-[1187] = true; -- AB_POTION_GLORIOUS_FORTUNE_BUFF
-[1188] = true; -- AB_TOTEM_TRANSFORM
-}
-
-BuffDebuff.Neutral = {
-[1012] = true; -- AB_HIDDEN
-[1013] = true; -- AB_MEDITATING
-[1032] = true; -- AB_INCOGNITO
-[1033] = true; -- AB_DISGUISED
-[1054] = true; -- AB_GARGOYLE_FLY
-[1068] = true; -- AB_BARD_DESPAIR_BUFF
-[1008] = true; -- AB_HONORED
-}
-
 ----------------------------------------------------------------
 -- Functions
 ----------------------------------------------------------------
@@ -196,8 +74,6 @@ function BuffDebuff.retrieveBuffData( buffData )
 		return false
 	end
 	
-	local buffId = WindowData.BuffDebuffSystem.CurrentBuffId
-	
 	buffData.abilityId = WindowData.BuffDebuffSystem.CurrentBuffId
 	buffData.TimerSeconds = WindowData.BuffDebuff.TimerSeconds
 	buffData.HasTimer = WindowData.BuffDebuff.HasTimer
@@ -206,13 +82,6 @@ function BuffDebuff.retrieveBuffData( buffData )
 	buffData.IsBeingRemoved = WindowData.BuffDebuff.IsBeingRemoved
 	buffData.NameWStringVector = WindowData.BuffDebuff.NameWStringVector
 	buffData.ToolTipWStringVector =  WindowData.BuffDebuff.ToolTipWStringVector
-	
-	if (BuffDebuff.Good[buffId] or BuffDebuff.Neutral[buffId]) then
-		buffData.good = true
-	else
-		buffData.good = false
-	end
-	
 	return true
 end
 
@@ -270,19 +139,9 @@ end
 
 function BuffDebuff.HandleBuffRemoved(buffId)
 	local iconName = "BuffDebuffIcon"..buffId
-	 
-	 
-	 if (BuffDebuff.BuffData[buffId].good) then
-		local position = AdvancedBuff.ReverseOrderGood[buffId]
-
-		table.remove(AdvancedBuff.TableOrderGood, position)
-
-		AdvancedBuff.HandleReAnchorBuffGood(1)
-	else
-		local position = AdvancedBuff.ReverseOrderEvil[buffId]
-		table.remove(AdvancedBuff.TableOrderEvil, position)
-		AdvancedBuff.HandleReAnchorBuffEvil(1)
-	end
+	local position = AdvancedBuff.ReverseOrderGood[buffId]
+	table.remove(AdvancedBuff.TableOrderGood, position)
+	AdvancedBuff.HandleReAnchorBuffGood(1)
 	
 	if (buffId == 1094) then
 		HotbarSystem.EvasionCooldown = 20
@@ -337,34 +196,6 @@ function BuffDebuff.UpdateTimer(timePassed)
 		scale = WindowGetScale( AdvancedBuff.WindowNameGood )
 		WindowSetScale(iconName, scale)
 	end
-	endNumber = table.getn(AdvancedBuff.TableOrderEvil)
-	for i=1, endNumber do
-		local buffId = AdvancedBuff.TableOrderEvil[i]
-		local parent = "BuffDebuff"
-		local iconName = parent.."Icon"..buffId
-		local timer = L" "
-
-		if ( BuffDebuff.Timers[buffId] ~= nil and BuffDebuff.Timers[buffId] > 0   ) then
-			local min = math.floor(BuffDebuff.Timers[buffId]/60)
-			if min > 0 then
-				timer = StringToWString(tostring(min)	.. "m")
-			else
-				timer = StringToWString(tostring(BuffDebuff.Timers[buffId])	.. "s")
-			end
-		end
-		if (buffId == 1070 or buffId == 1071 or buffId == 1072 or buffId == 1073) then
-
-			timer = BuffDebuff.BuffData[buffId].ToolTipWStringVector[1]
-			if (wstring.find(timer, L":", -7)) then
-				timer = wstring.sub(timer, wstring.find(timer, L":", -7)+2)
-			end
-
-		end
-		LabelSetText(iconName.."TimerLabel",timer)
-		local scale = 1
-		scale = WindowGetScale( AdvancedBuff.WindowNameEvil )
-		WindowSetScale(iconName, scale)
-	end
 end
 
 function BuffDebuff.CreateNewBuff()
@@ -375,38 +206,16 @@ function BuffDebuff.CreateNewBuff()
 		-- Need to know the ordering so we can anchor the buffs correctly 
 		local parent = "BuffDebuff"
 		local iconName = parent.."Icon"..buffId
-
-		if (BuffDebuff.BuffData[buffId].good) then
-			table.insert(AdvancedBuff.TableOrderGood, buffId)			
-			CreateWindowFromTemplate(iconName, "BuffDebuffTemplate", "Root")
-		else
-			table.insert(AdvancedBuff.TableOrderEvil, buffId)
-			CreateWindowFromTemplate(iconName, "BuffDebuffTemplate", "Root")
-			
-		end
+		table.insert(AdvancedBuff.TableOrderGood, buffId)
+		CreateWindowFromTemplate(iconName, "BuffDebuffTemplate", "Root")
 		table.insert(BuffDebuff.TableOrder, buffId) 
 	
-		local scale = 1
-		if (BuffDebuff.BuffData[buffId].good) then
-			scale = WindowGetScale( AdvancedBuff.WindowNameGood )
-		else
-			scale = WindowGetScale( AdvancedBuff.WindowNameEvil )
-		end
+		local scale = WindowGetScale( AdvancedBuff.WindowNameGood )
 		WindowSetScale(iconName, scale)
-
 		WindowSetId(iconName, buffId)
-
-
-		if (BuffDebuff.BuffData[buffId].good) then
-			numIcons = table.getn(AdvancedBuff.TableOrderGood)
-			AdvancedBuff.ReverseOrderGood[buffId] = numIcons
-			AdvancedBuff.HandleReAnchorBuffGood(numIcons)
-		else
-			numIcons = table.getn(AdvancedBuff.TableOrderEvil)
-			AdvancedBuff.ReverseOrderEvil[buffId] = numIcons
-			AdvancedBuff.HandleReAnchorBuffEvil(numIcons)
-		end
-		 
+		local numIcons = table.getn(AdvancedBuff.TableOrderGood)
+		AdvancedBuff.ReverseOrderGood[buffId] = numIcons
+		AdvancedBuff.HandleReAnchorBuffGood(numIcons)
 		BuffDebuff.BuffWindowId[buffId] = true
 		BuffDebuff.UpdateStatus(buffId)
 	else
