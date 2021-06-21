@@ -4,12 +4,85 @@ function WindowApi.destroyWindow(windowName)
     DestroyWindow(windowName)
 end
 
+---Sets if a window should be shown (and drawn) on the screen.  When a window is not showing,
+---it will not receive updates or mouse events.  Generic event handlers will still be processed.
+---If a window is popable, it will be popped to the top of it’s layer when shown.
+---If a window’s children have a specified tab order, the first item will have focus when shown.
+---@param windowName - (string) The name of the window.
+---@param show - (boolean) Should the window be drawn?
 function WindowApi.setShowing(windowName, show)
     WindowSetShowing(windowName, show)
 end
 
+---Returns if the window is currently shown (and being drawn) on the screen.
+---@param windowName - (string) The name of the window.
+---@return @(boolean) Is the window currently being drawn?
 function WindowApi.isShowing(windowName)
     return WindowGetShowing(windowName)
+end
+
+---Sets the layer that the window should be drawn on.
+---@param windowName - (string) The name of the window.
+---@param layer - (number) The layer the window is drawn on.  See Window Layers for values.
+function WindowApi.setLayer(windowName, layer)
+    WindowSetLayer(windowName, layer)
+end
+
+---Returns if the layer the window is currently drawn on.
+---@param windowName - (string) The name of the window.
+---@return @(number) The layer the window is drawn on.  See Window Layers for values.
+function WindowApi.getLayer(windowName)
+    return WindowGetLayer(windowName)
+end
+
+---Sets if the window should handle mouse input.
+---@param windowName - (string) The name of the window.
+---@param handleInput - (number) Should the window handle mouse input?
+function WindowApi.setHandleInput(windowName, handleInput)
+    WindowHandleInput(windowName, handleInput)
+end
+
+---Returns if the the is window currently handling mouse input.
+---@param windowName - (string) The name of the window.
+---@return @(boolean) Is the window currently handling mouse input?
+function WindowApi.getHandleInput(windowName)
+    return WindowGetHandleInput(windowName)
+end
+
+---Returns if the window is currently set to popable.  When popable is true, the window will ‘pop’
+---to the front of it’s layer when clicked.
+---@param windowName - (string) The name of the window.
+---@param popable - (number) Should the window be popable?
+function WindowApi.setPopable(windowName, popable)
+    WindowSetPopable(windowName, popable)
+end
+
+---Returns if the window is currently set to popable.
+---@param windowName - (string) The name of the window.
+---@return @(boolean) Is the window popable
+function WindowApi.isPopable(windowName)
+    return windowGetPopable(windowName)
+end
+
+---Sets if a window can be moved.  When true, the window can be clicked on and dragged around the screen.
+---@param windowName - (string) The name of the window.
+---@param movable - (boolean) Should the window be movable?
+function WindowApi.setMovable(windowName, movable)
+    WindowSetMovable(windowName, movable)
+end
+
+---Returns if the window can be moved with the mouse.
+---@param windowName - (string) The name of the window.
+---@return @(boolean) Is the window currently movable?
+function WindowApi.isMovable(windowName)
+    return WindowGetMovable(windowName)
+end
+
+---Determines whether or not the window is sticky or unsticky.
+---@param windowName - (string) The name of the window.
+---@return @(boolean) Is the window sticky?  True, or false.
+function WindowApi.isSticky(windowName)
+    return WindowIsSticky(windowName)
 end
 
 ---Clears all of the anchors from the window.
