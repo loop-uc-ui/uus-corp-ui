@@ -36,6 +36,6 @@ function Buffs.nameVector()
     return WindowData.BuffDebuff.NameWStringVector
 end
 
-function BuffDebuff.toolTipVector()
+function Buffs.toolTipVector()
     return WindowData.BuffDebuff.ToolTipWStringVector
 end
