@@ -261,26 +261,17 @@ function BuffDebuff.MouseOver()
 			tooltipString = tooltipString..data.ToolTipWStringVector[i]
 		end	
 
-		
 		local bodyText = WindowUtils.translateMarkup(tooltipString)
-		
-		if(data.HasTimer == true and BuffDebuff.Timers[buffId] > 0) then
-			local timeText = ReplaceTokens(GetStringFromTid(BuffDebuff.TID.timeleft), { towstring(tostring(BuffDebuff.Timers[buffId])) }) 
-			bodyText = bodyText..L"\n"..timeText
-		end
-		
-		local itemData = { windowName = "BuffDebuffIcon"..buffId,
-							itemId = buffId,
-							itemType = WindowData.ItemProperties.TYPE_WSTRINGDATA,
-							binding = L"",
-							detail = nil,
-							title =	WindowUtils.translateMarkup(nameString),
-							body = bodyText	 }
-							
-		ItemProperties.SetActiveItem(itemData)	
-			
-		--Debug.Print("BuffDebuff UpdateStatus labelName = "..WStringToString( WindowUtils.translateMarkup(nameString)))
-		--Debug.Print("BuffDebuff UpdateStatus tooltipName = "..WStringToString( WindowUtils.translateMarkup(tooltipString)) )
+		local itemData = {
+			windowName = "BuffDebuffIcon"..buffId,
+			itemId = buffId,
+			itemType = WindowData.ItemProperties.TYPE_WSTRINGDATA,
+			binding = L"",
+			detail = nil,
+			title =	WindowUtils.translateMarkup(nameString),
+			body = bodyText
+		}
+		ItemProperties.SetActiveItem(itemData)
 	end
 end
 
