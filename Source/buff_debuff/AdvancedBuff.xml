@@ -55,6 +55,16 @@
                         </Anchor>
                     </Anchors>
                 </Button>
+                <Window name="BuffDebuff" layer="default">
+                    <Size>
+                        <AbsPoint x="0" y="0"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="StatusWindow">
+                            <AbsPoint x="91" y="57"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
             </Windows>
         </Window>
     </Windows>
