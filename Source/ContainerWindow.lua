@@ -208,15 +208,14 @@ function ContainerWindow.Initialize()
 					found = true
 					break
 				end
-    		end
-    		if ( not found ) then
-    			local data =  { id = ContainerWindow.OpenedCorpse, decayTime = Interface.Clock.Timestamp + 1800}
-    			table.insert(ContainerWindow.IgnoreItems, data)
-    			ObjectHandleWindow.ForceIgnore = ContainerWindow.OpenedCorpse
+			end
+			if not found then
+				local data =  { id = ContainerWindow.OpenedCorpse, decayTime = Interface.Clock.Timestamp + 1800}
+				table.insert(ContainerWindow.IgnoreItems, data)
+				ObjectHandleWindow.ForceIgnore = ContainerWindow.OpenedCorpse
 				ContainerWindow.OpenedCorpse = 0
-    		end
+			end
 		end
-		
 	elseif IsInPlayerBackPack(id) then
 		-- iterate through the shared vector looking for our container id
 		for i, windowId in ipairs(SystemData.Settings.Interface.ContainerViewModes.Ids) do
@@ -1041,11 +1040,11 @@ function ContainerWindow.UpdateContents(id, _)
 			then 
 				data.containerName = L"Transfer Crate"
 				WindowUtils.FitTextToLabel(this.."Title", data.containerName)
-			end			
+			end
 			WindowSetScale(list_view_this.."ScrollChildItem"..i, scl)
 		end
 		local savedOffset = 0
-		if (ContainerWindow.ViewModes[id] == "List") then
+		if ContainerWindow.ViewModes[id] == "List" then
 			for i = 1, numItems do
 				if ( DoesWindowNameExist(list_view_this.."ScrollChildItem"..i) and LabelGetText(list_view_this.."ScrollChildItem"..i.."Name" ) == "") then
 					WindowSetShowing(list_view_this.."ScrollChildItem"..i, false)

@@ -309,11 +309,11 @@ end
 -----------------------------------------------------------------
 
 function MapWindow.MapOnMouseWheel(_, _, delta)
-   	MapCommon.AdjustZoom(-delta)
+	MapCommon.AdjustZoom(-delta)
 end
 
 function MapWindow.ZoomOutOnLButtonUp()
-   	MapCommon.AdjustZoom(1)
+	MapCommon.AdjustZoom(1)
 end
 
 function MapWindow.ZoomOutOnMouseOver()
@@ -333,25 +333,17 @@ function MapWindow.ZoomInOnMouseOver()
 end
 
 function MapWindow.MapMouseDrag(_, deltaX, deltaY)
-    if( MapWindow.IsDragging and (deltaX ~= 0 or deltaY ~= 0) ) then        
-    	MapCommon.SetWaypointsEnabled(MapCommon.ActiveView, false)        
-        local facet = UOGetRadarFacet()
-        local area = UOGetRadarArea()
-             
+    if( MapWindow.IsDragging and (deltaX ~= 0 or deltaY ~= 0) ) then
+		MapCommon.SetWaypointsEnabled(MapCommon.ActiveView, false)
+		local facet = UOGetRadarFacet()
+		local area = UOGetRadarArea()
 		local mapCenterX, mapCenterY = UOGetRadarCenter()
-		
-				
 		local winCenterX, winCenterY = UOGetWorldPosToRadar(mapCenterX,mapCenterY)
-		
-		
 		local offsetX = winCenterX - deltaX
 		local offsetY = winCenterY - deltaY
 		local useScale = false
-	       
 		local newCenterX, newCenterY = UOGetRadarPosToWorld(offsetX,offsetY,useScale)
-
 		if (area == 0) then
-		
 			if (newCenterX >=MapCommon.sextantMaximumX- 50) then
 				newCenterX=MapCommon.sextantMaximumX - 50
 			end
