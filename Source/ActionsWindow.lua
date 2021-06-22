@@ -607,14 +607,14 @@ function ActionsWindow.ItemMouseOver()
 	if(actionData.type == SystemData.UserAction.TYPE_INVOKE_VIRTUE) then
 		index = actionData.invokeId
 	end
-	local name = L""
+	local name
 	if (actionData.nameTid) then
 		name = FormatProperly(GetStringFromTid(actionData.nameTid))
 	else
 		name = actionData.nameString
 	end
 
-	local desc = L""
+	local desc
 	if (actionData.detailTid) then
 		desc = GetStringFromTid(actionData.detailTid)
 	else
@@ -733,7 +733,7 @@ end
 
 function ActionsWindow.Context()
 	for i=1, table.getn(ActionsWindow.Groups) do
-		local name = ""
+		local name
 		if (ActionsWindow.Groups[i].nameTid) then
 			name = GetStringFromTid(ActionsWindow.Groups[i].nameTid)
 		else
