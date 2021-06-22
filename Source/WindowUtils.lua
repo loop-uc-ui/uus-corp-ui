@@ -1350,7 +1350,7 @@ end
 
 
 
-function WindowUtils.SendOverheadText(message, hue, chat, ignoreLast)
+function WindowUtils.SendOverheadText(message, hue, chat, _)
 	SystemData.Text = message
 	SystemData.TextChannelID = 2
 	SystemData.TextSourceID = WindowData.PlayerStatus.PlayerId

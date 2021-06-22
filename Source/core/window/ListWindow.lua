@@ -61,4 +61,5 @@ function ListWindow:destroy()
     end
     WindowApi.destroyWindow(self.id)
     self = nil
+    return self
 end
