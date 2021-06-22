@@ -464,21 +464,21 @@ function SkillsWindow.SkillLButtonDown(flags)
 	    local iconId = WindowData.SkillsCSV[skillIndex].IconId
     	
 	    --Debug.PrintToDebugConsole(L"SkillsWindow.SkillLButtonDown(): iconId = "..StringToWString(tostring(iconId)))
-    	
-	    if (WindowData.SkillsCSV[skillIndex].DragIcon == 1) then
-		    if( skillId ~= nil ) then	
+
+		if (WindowData.SkillsCSV[skillIndex].DragIcon == 1) then
+			if( skillId ~= nil ) then
 				if flags == SystemData.ButtonFlags.CONTROL then -- SINGLE HOTBAR ICON
 					local blockBar = HotbarSystem.GetNextHotbarId()
 					Interface.SaveBoolean("Hotbar" .. blockBar .. "_IsBlockbar", true)
 					HotbarSystem.SpawnNewHotbar()
-					
+
 					HotbarSystem.SetActionOnHotbar(SystemData.UserAction.TYPE_SKILL, skillId,iconId, blockBar,  1)
-					
-					local scaleFactor = 1/InterfaceCore.scale	
-					
+
+					local scaleFactor = 1/InterfaceCore.scale
+
 					local propWindowWidth = Hotbar.BUTTON_SIZE
 					local propWindowHeight = Hotbar.BUTTON_SIZE
-					
+
 					-- Set the position
 					local mouseX = SystemData.MousePosition.x - 30
 					if mouseX + (propWindowWidth / scaleFactor) > SystemData.screenResolution.x then
@@ -486,25 +486,22 @@ function SkillsWindow.SkillLButtonDown(flags)
 					else
 						propWindowX = mouseX
 					end
-						
+
 					local mouseY = SystemData.MousePosition.y - 15
 					if mouseY + (propWindowHeight / scaleFactor) > SystemData.screenResolution.y then
 						propWindowY = mouseY - (propWindowHeight / scaleFactor)
 					else
 						propWindowY = mouseY
 					end
-					
+
 					WindowSetOffsetFromParent("Hotbar" .. blockBar, propWindowX * scaleFactor, propWindowY * scaleFactor)
 					WindowSetMoving("Hotbar" .. blockBar, true)
-					
-				else		
+
+				else
 					DragSlotSetActionMouseClickData(SystemData.UserAction.TYPE_SKILL,skillId,iconId)
 				end
-		    end
-	    else
-		    --Debug.PrintToDebugConsole(L"SkillsWindow.SkillLButtonDown(): Not allowed to drag index = "..StringToWString(tostring(skillIndex)))
-    	
-	    end
+			end
+		end
 	end       
 end
 
@@ -954,7 +951,6 @@ function SkillsWindow.ContextMenuCallback(returnCode,param)
 			SkillsWindow.ShowTab(data.activeTab)
 			SkillsTracker.Update()
 		elseif( returnCode == "SetAutolock" ) then
-		
 			local serverId = WindowData.SkillsCSV[param].ServerId
 			local max = WindowData.SkillDynamicData[serverId].SkillCap / 10
 			local rdata = {title=GetStringFromTid(WindowData.SkillsCSV[param].NameTid), subtitle=ReplaceTokens(GetStringFromTid(1154798), {towstring(0), towstring(max)}), callfunction=SkillsWindow.SetAutoLock, min = 0, max = max, id=param}

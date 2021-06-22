@@ -162,8 +162,8 @@ function PartyHealthBar.HandleAnchorWindow(windowName, useDefaultPos)
 		return
 	end
 
-	local propWindowX = 0
-	local propWindowY = 0
+	local propWindowX
+	local propWindowY
 	local scaleFactor = 1/InterfaceCore.scale
 	
 	local propWindowWidth = 180

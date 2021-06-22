@@ -170,15 +170,6 @@ function OverheadText.UpdateName(mobileId)
 	if(data and data.MobName ~= nil) then
 		OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 		if (mobileId ~= WindowData.PlayerStatus.PlayerId and true and not OverheadText.LastSeeName[mobileId]) then -- TODO: "you see" enabled?
-			if(NewChatWindow) then
-				local passa = NewChatWindow.SavedFilter[data.Notoriety+1]
-				if (not NewChatWindow.SavedFilter[9] and MobilesOnScreen.IsFarm(data.MobName)) or wstring.find(data.MobName, L"A Mannequin") then
-						passa = false
-				end
-				if (not NewChatWindow.SavedFilter[10] and MobilesOnScreen.IsSummon(data.MobName)) then
-						passa = false
-				end
-			end
 			if (data.MobName ~= nil and data.MobName ~= L"" and data.Notoriety+1 ~= NameColor.Notoriety.NONE and passa) then	
 				if (not OverheadText.LastSeeName[mobileId]) then
 					PrintWStringToChatWindow(GetStringFromTid(3002000) ..data.MobName,SystemData.ChatLogFilters.SYSTEM)

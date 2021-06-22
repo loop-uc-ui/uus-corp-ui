@@ -141,11 +141,9 @@ function MobileHealthBar.HandleAnchorWindow(healthWindow)
 	end
 
 	if ( healthWindow == "StatusWindow" or (MobileHealthBar.Forced == false and not MobileHealthBar.Handled[mobileId])) then
-		
-		local propWindowX = 0
-		local propWindowY = 0
-		local scaleFactor = 1/InterfaceCore.scale	
-		
+		local propWindowX
+		local propWindowY
+		local scaleFactor = 1 / InterfaceCore.scale
 		local propWindowWidth = 180
 		local propWindowHeight = 38
 		
@@ -375,8 +373,8 @@ function MobileHealthBar.ExtractWindow(windowName)
 		
 	MobileHealthBar.HandleAnchorWindow(windowName)
 	WindowClearAnchors(windowName)
-	local propWindowX = 0
-	local propWindowY = 0
+	local propWindowX
+	local propWindowY
 	local scale = WindowGetScale(windowName)
 	
 	local scaleFactor = 1/scale
