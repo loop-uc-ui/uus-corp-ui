@@ -239,9 +239,9 @@ end
 
 function MapWindow.PopulateMapLegend()
     if( WindowData.WaypointDisplay.displayTypes.ATLAS ~= nil and WindowData.WaypointDisplay.typeNames ~= nil ) then
-        local prevWindowName = nil
-    
-        for index=1, table.getn(WindowData.WaypointDisplay.typeNames) do
+        local prevWindowName
+
+		for index=1, table.getn(WindowData.WaypointDisplay.typeNames) do
             if WindowData.WaypointDisplay.displayTypes.ATLAS[index].isDisplayed then
                 local windowName = "MapLegend"..index             
                 
@@ -308,7 +308,7 @@ end
 -- Input Event Handlers
 -----------------------------------------------------------------
 
-function MapWindow.MapOnMouseWheel(x, y, delta)
+function MapWindow.MapOnMouseWheel(_, _, delta)
    	MapCommon.AdjustZoom(-delta)
 end
 
@@ -332,7 +332,7 @@ function MapWindow.ZoomInOnMouseOver()
 	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
 end
 
-function MapWindow.MapMouseDrag(flags,deltaX,deltaY)	
+function MapWindow.MapMouseDrag(_, deltaX, deltaY)
     if( MapWindow.IsDragging and (deltaX ~= 0 or deltaY ~= 0) ) then        
     	MapCommon.SetWaypointsEnabled(MapCommon.ActiveView, false)        
         local facet = UOGetRadarFacet()
@@ -445,7 +445,7 @@ function MapWindow.ToggleAreaDownOnLButtonUp()
 	MapCommon.ChangeMap(facet, area)
 end
 
-function MapWindow.MapOnRButtonUp(flags,x,y)
+function MapWindow.MapOnRButtonUp(_, x, y)
 	local useScale = false
 	local scale = WindowGetScale("MapWindow")
 	local waypointX, waypointY = UOGetRadarPosToWorld(x/scale, y/scale, useScale)
@@ -466,8 +466,8 @@ function MapWindow.MapOnRButtonUp(flags,x,y)
 	if (not MapWindow.Big) then
 		local subMenu = {}
 		local currfacet = UOGetRadarFacet()
-		for facet = 0, (MapCommon.NumFacets - 1) do
-			table.insert(subMenu, { str = GetStringFromTid(UORadarGetFacetLabel(facet)),flags=0,returnCode="callFacet"..facet,pressed=facet==currfacet })
+		for i = 0, (MapCommon.NumFacets - 1) do
+			table.insert(subMenu, { str = GetStringFromTid(UORadarGetFacetLabel(i)), flags=0, returnCode="callFacet".. i, pressed= i ==currfacet })
 
 		end
 
@@ -542,7 +542,7 @@ function MapWindow.MapOnLButtonUp()
     MapCommon.SetWaypointsEnabled(MapCommon.ActiveView, true)
 end
 
-function MapWindow.MapOnLButtonDblClk(flags,x,y)
+function MapWindow.MapOnLButtonDblClk(_, x, y)
 	local useScale = false
 	local scale = WindowGetScale("MapWindow")
 	local worldX, worldY = UOGetRadarPosToWorld(x/scale, y/scale, useScale)
@@ -581,9 +581,8 @@ end
 
 function MapWindow.SelectFacet()
     local facet = ( ComboBoxGetSelectedMenuItem( "MapWindowFacetCombo" ) - 1 )
-    local area = UOGetRadarArea()
-    
-    if( facet ~= UOGetRadarFacet() ) then
+
+	if( facet ~= UOGetRadarFacet() ) then
 		MapWindow.CenterOnPlayer = false
         ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
         UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
@@ -604,7 +603,7 @@ function MapWindow.OnShown()
 	end
 end
 
-function MapWindow.OnUpdate(timePassed)
+function MapWindow.OnUpdate(_)
 	if( DoesWindowNameExist("MapWindow") == true and WindowGetShowing("MapWindow") == true and MapWindow.IsMouseOver == true) then
 		local windowX, windowY = WindowGetScreenPosition("MapImage")
 		local mouseX = SystemData.MousePosition.x - windowX
@@ -704,7 +703,7 @@ function MapWindow.BigOnMouseOver()
 	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
 end
 
-function MapWindow.OnResizeEnd(curWindow)
+function MapWindow.OnResizeEnd(_)
 	local windowWidth, windowHeight = WindowGetDimensions("MapWindow")
 	--Debug.Print("MapWindow.OnResizeEnd("..curWindow..") width = "..windowWidth.." height = "..windowHeight)
 	
@@ -733,9 +732,9 @@ function MapWindow.OnResizeEnd(curWindow)
 	end
 	
 	WindowSetDimensions("Map", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)
-	 local topWidth, topHeight = WindowGetDimensions("MapWindow".."Top")
+	local _, topHeight = WindowGetDimensions("MapWindow".."Top")
 	WindowSetDimensions("MapWindow".."Top",windowWidth+10,topHeight)
-	local bottomWidth, bottomHeight = WindowGetDimensions("MapWindow".."Bottom")
+	local _, bottomHeight = WindowGetDimensions("MapWindow".."Bottom")
 	WindowSetDimensions("MapWindow".."Bottom",windowWidth ,bottomHeight)
 	MapCommon.ForcedUpdate = true
 	MapWindow.UpdateWaypoints()

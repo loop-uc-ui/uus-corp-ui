@@ -306,9 +306,9 @@ function SpellsInfo.GetSkillID(spellId)
 end
 
 function SpellsInfo.GetSpellDamage(spellId) 
-	local skillId = 0
-	local skillIdsec = 0
-	local skillIdthi= 0
+	local skillId
+	local skillIdsec
+	local skillIdthi
 	local itemSDI = tonumber(WindowData.PlayerStatus["SpellDamageIncrease"])
 	local int = tonumber(WindowData.PlayerStatus["Intelligence"]) 
 	local intSDI = math.ceil(tonumber(WindowData.PlayerStatus["Intelligence"]) / 10)	
@@ -412,16 +412,6 @@ function SpellsInfo.GetSpellDamage(spellId)
 			max = math.floor(max * evalSDI)
 			str = ReplaceTokens(GetStringFromTid(1154879), { min .. L" - " .. max .. GetStringFromTid(1154880)})
 		end
-		
-	elseif (spellId >= 101 and spellId <= 200) then -- Necromancy
-		skillId = 38
-		skillIdsec = 47 -- spirit speak
-	elseif (spellId >= 201 and spellId <= 300) then -- Chivalry
-		skillId = 13
-	elseif (spellId >= 401 and spellId <= 500) then -- Bushido
-		skillId = 9
-	elseif (spellId >= 501 and spellId <= 600) then	-- Ninjitsu
-		skillId = 39
 	elseif (spellId >= 601 and spellId <= 677) then -- Spellweaving
 		skillId = 46
 		serverId = WindowData.SkillsCSV[skillId].ServerId

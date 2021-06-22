@@ -329,7 +329,6 @@ function PaperdollWindow.UpdatePaperdoll(windowName,paperdollId)
 	if( paperdollId == WindowGetId(windowName) ) then
 		local elementIcon		
 		local element
-		local topButton
 		local mobileData = Interface.GetMobileData(paperdollId, true)
 		
 		if mobileData.Race == PaperdollWindow.GARGOYLE then	
@@ -378,7 +377,6 @@ function PaperdollWindow.UpdatePaperdoll(windowName,paperdollId)
 			elementRoundDMG =  windowName.."ItemSlotButton"..tostring(index).."RoundDamage"
 			elementSquareBroken =  windowName.."ItemSlotButton"..tostring(index).."SquareBroken"
 			elementRoundBroken =  windowName.."ItemSlotButton"..tostring(index).."RoundBroken"
-			topButton = windowName.."ItemSlotButton"..index
 			
 			
 			--Debug.Print("Index = "..index.." window name = "..tostring(elementIcon))
@@ -816,17 +814,11 @@ function PaperdollWindow.ToggleInventoryWindow()
 	    DragSlotDropObjectToObject(WindowData.PlayerStatus.PlayerId)
 	    ButtonSetPressedFlag( inventoryName, true )
 	else
-		local showing = false
 		local playerId = WindowData.PlayerStatus.PlayerId
 		if( id == playerId ) then
 			Actions.ToggleInventoryWindow()	
 		elseif( WindowData.Paperdoll[id].backpackId ~= nil ) then
 			UserActionUseItem(WindowData.Paperdoll[id].backpackId,false)
-		end
-		
-		local backpackName = "ContainerWindow_"..WindowData.Paperdoll[id].backpackId
-		if(DoesWindowNameExist(backpackName)) then
-			showing = WindowGetShowing(backpackName)
 		end
 	end		
 end
