@@ -401,19 +401,14 @@ function ObjectHandleWindow.OnUpdate(_)
 					local itemData = WindowData.ObjectInfo[key]
 
 					if (itemData) then
-						if false then -- TODO: SCAVENGE ALL or USE THE FILTER?
-							table.insert(okObjects, key)
-						else
-							for j=1,  Organizer.Scavengers_Items[Organizer.ActiveScavenger] do
-								itemData = WindowData.ObjectInfo[key]
+						for j=1,  Organizer.Scavengers_Items[Organizer.ActiveScavenger] do
+							itemData = WindowData.ObjectInfo[key]
 
-								if (itemData) then
-									local itemL = Organizer.Scavenger[Organizer.ActiveScavenger][j]
-									if (itemL.type > 0 and itemL.type == itemData.objectType and itemL.hue == itemData.hueId) then
-										table.insert(okObjects, key)
-									end
+							if (itemData) then
+								local itemL = Organizer.Scavenger[Organizer.ActiveScavenger][j]
+								if (itemL.type > 0 and itemL.type == itemData.objectType and itemL.hue == itemData.hueId) then
+									table.insert(okObjects, key)
 								end
-
 							end
 						end
 					end

@@ -961,7 +961,6 @@ function Hotbar.ItemMouseOver()
 						itemType = itemType,
 						actionType = actionType,
 						itemLoc = {hotbarId=hotbarId, itemIndex=itemIndex},
-						itemType = WindowData.ItemProperties.TYPE_WSTRINGDATA,
 						binding = bindingText, -- As defined above
 						title =	name,
 						body = desc
