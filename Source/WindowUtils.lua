@@ -108,7 +108,7 @@ function WindowUtils.EndDrag( )
 	WindowUtils.dragging = false
 end
 
-function WindowUtils.OnLButtonUp( flags, x, y )
+function WindowUtils.OnLButtonUp(_, _, _)
 
 	-- End the resize
 	if( WindowUtils.resizing ) then
@@ -117,10 +117,8 @@ function WindowUtils.OnLButtonUp( flags, x, y )
         end
 
         local width, height = WindowGetDimensions( "ResizingWindowFrame" )
-        local posX, posY = WindowGetScreenPosition( "ResizingWindowFrame"  )
-        local scale      = WindowGetScale( WindowUtils.resizeWindow )
-          
-        -- Detatch and Hide the Resizing Frame  
+
+		-- Detatch and Hide the Resizing Frame
         WindowSetResizing( "ResizingWindowFrame", false, "", false );
         WindowClearAnchors( "ResizingWindowFrame" )
         WindowSetShowing( "ResizingWindowFrame", false )    
@@ -201,21 +199,21 @@ end
 
 function WindowUtils.RetrieveWindowSettings()
 	-- update the positions for any window thats currently open
-	for window, type in pairs(WindowUtils.openWindows) do
+	for window, _ in pairs(WindowUtils.openWindows) do
 		WindowUtils.RestoreWindowPosition(window, false)
 	end
 end
 
 function WindowUtils.ForceResetWindowPositions()
 	-- update the positions for any window thats currently open
-	for window, type in pairs(WindowUtils.openWindows) do		
+	for window, _ in pairs(WindowUtils.openWindows) do
 		WindowUtils.ForceResetWindowPosition(window)		
 	end
 end
 
 function WindowUtils.SendWindowSettings()
 	-- save the positions for any window thats currently open
-	for window, type in pairs(WindowUtils.openWindows) do
+	for window, _ in pairs(WindowUtils.openWindows) do
 		WindowUtils.SaveWindowPosition(window, false)
 	end
 end
@@ -223,7 +221,7 @@ end
 function WindowUtils.CanRestorePosition(window)
 	local result = false
 	
-	for i, windowName in pairs(SystemData.Settings.Interface.WindowPositions.Names) do
+	for _, windowName in pairs(SystemData.Settings.Interface.WindowPositions.Names) do
 		if( window == windowName ) then
 			result = true
 			break
@@ -233,9 +231,8 @@ function WindowUtils.CanRestorePosition(window)
 	return result
 end
 
-function WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBounds)	
-	local windowPositions = SystemData.Settings.Interface.WindowPositions
-	local index = nil
+function WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBounds)
+	local index
 
 	--if no explicit alias, then use actual window name:
 	if not alias then
@@ -290,7 +287,7 @@ function WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBound
 end
 
 function WindowUtils.ForceResetWindowPosition(window)
-	local index = nil		
+	local index
 	for i, windowName in pairs(SystemData.Settings.Interface.WindowPositions.Names) do		
 		if( window == windowName ) then			
 			index = i
@@ -324,7 +321,7 @@ function WindowUtils.SaveWindowPosition(window, closing, alias)
 		local width, height = WindowGetDimensions(window)
 		local windowPositions = SystemData.Settings.Interface.WindowPositions
 		
-		local index = nil
+		local index
 		for i, windowName in pairs(windowPositions.Names) do
 			if( alias == windowName ) then
 				index = i
@@ -368,7 +365,7 @@ end
 function WindowUtils.ClearWindowPosition(window)	
 	local windowPositions = SystemData.Settings.Interface.WindowPositions
 
-	local index = nil
+	local index
 	for i, windowName in pairs(windowPositions.Names) do
 		if( window == windowName ) then
 			index = i
@@ -555,9 +552,9 @@ function WindowUtils.ScrollToElementInScrollWindow( element, scrollWindow, scrol
 		return
 	end
 	
-	local elementX,elementY = WindowGetScreenPosition(element)
-	local parentX,parentY = WindowGetScreenPosition(scrollChild)
-	local dontCare, maxOffset = WindowGetDimensions(scrollChild)
+	local _,elementY = WindowGetScreenPosition(element)
+	local _,parentY = WindowGetScreenPosition(scrollChild)
+	local _, maxOffset = WindowGetDimensions(scrollChild)
 	local scrollOffset = elementY - parentY
 	
 	-- sanity checks
@@ -581,8 +578,8 @@ function WindowUtils.ScrollToElementInHorizontalScrollWindow( element, scrollWin
 		return
 	end
 	
-	local elementX,elementY = WindowGetScreenPosition(element)
-	local parentX,parentY = WindowGetScreenPosition(scrollChild)
+	local elementX, _ = WindowGetScreenPosition(element)
+	local parentX, _ = WindowGetScreenPosition(scrollChild)
 	local maxOffset = WindowGetDimensions(scrollChild)
 	local scrollOffset = elementX - parentX
 	
@@ -618,7 +615,7 @@ if DEBUG then Debug.Print( L"Called WindowUtils.FitTextToLabel( "..StringToWStri
 	end
 
     LabelSetWordWrap(labelWindowName, false)
-	local labelX, labelY = WindowGetDimensions(labelName)
+	local labelX, _ = WindowGetDimensions(labelName)
 	if isTitle then
 		labelX = labelX - 55 -- The window has about 55 pixels of spacing on both ends total that the title shouldn't use.
 	end
@@ -786,10 +783,7 @@ function SnapUtils.GetAnchorDistance( anchorsList1, anchor1, anchorsList2, ancho
 end
 
 function SnapUtils.ComputeAnchorScreenPositions( windowName )
-
-    local uiScale = InterfaceCore.scale
-    local screenX, screenY = WindowGetScreenPosition( windowName ) 
-    
+	local screenX, screenY = WindowGetScreenPosition( windowName )
     local width, height = WindowGetDimensions( windowName ) 
     local scale = WindowGetScale( windowName ) 
         
@@ -799,8 +793,7 @@ function SnapUtils.ComputeAnchorScreenPositions( windowName )
     -- Compute the XY coordates for each anchor point
         
     local positions = {}    
-    for index, anchorPoint in ipairs( SnapUtils.ANCHOR_POINTS )
-    do    
+    for index, anchorPoint in ipairs( SnapUtils.ANCHOR_POINTS ) do
         positions[index] = { 
                              x=screenX + width*anchorPoint.widthMultipler,
                              y=screenY + height*anchorPoint.heightMultiplier
@@ -824,16 +817,11 @@ function SnapUtils.StartWindowSnap( windowName )
     WindowSetScale("SnapWindow", scale)
     WindowUtils.CopySize( windowName, "SnapWindow", 0, 0 )
     WindowSetShowing("SnapWindow",false)
-    
-	local x,y = WindowGetScreenPosition("SnapWindow")
-	local w,h = WindowGetDimensions("SnapWindow")
-
-    
 	SnapUtils.CurWindow = windowName
 	WindowSetMoving(windowName,true)
 end
 
-function SnapUtils.EndWindowSnap( windowName )
+function SnapUtils.EndWindowSnap(_)
     --Debug.Print("SnapUtils.EndWindowSnap: "..tostring(windowName))
     
     if( SnapUtils.SnapWindow and DoesWindowNameExist(SnapUtils.CurWindow) ) then
@@ -843,7 +831,7 @@ function SnapUtils.EndWindowSnap( windowName )
     DestroyWindow("SnapWindow")
 end
 
-function SnapUtils.SnapUpdate( timePassed )
+function SnapUtils.SnapUpdate(_)
     if( SnapUtils.CurWindow ) then
 		if( WindowGetMoving(SnapUtils.CurWindow) == false or DoesWindowNameExist(SnapUtils.CurWindow) == false ) then
 		    SnapUtils.EndWindowSnap( SnapUtils.CurWindow )
@@ -935,7 +923,7 @@ end
 
 
 
-function WindowUtils.Aplpha(x, y, delta)
+function WindowUtils.Aplpha(_, _, delta)
 	
 	local windowname = WindowUtils.GetActiveDialog()
 
@@ -995,7 +983,7 @@ function WindowUtils.Aplpha(x, y, delta)
 				end
 			end
 		elseif (windowname == "MobileHealthBarALPHA") then
-			for key, value in pairs(MobileHealthBar.hasWindow) do
+			for key, _ in pairs(MobileHealthBar.hasWindow) do
 				local windowName = "MobileHealthBar_"..key
 				WindowSetAlpha(windowName, endscale)
 				WindowSetFontAlpha(windowName, endscale)
@@ -1083,8 +1071,6 @@ function WindowUtils.Scale(x, y, delta)
 		
 		text = string.find(windowname , "MobileHealthBar_")
 		if ( text ~= nil ) or (windowname == "PetWindow") or (windowname == "MobilesOnScreenWindow") then
-			
-			local mobileId = WindowGetId(windowname)
 			windowname = "MobileHealthBarSCALE"
 		end
 		
@@ -1121,7 +1107,7 @@ function WindowUtils.Scale(x, y, delta)
 					end
 				end
 			elseif (windowname == "MobileHealthBarSCALE") then
-				for key, value in pairs(MobileHealthBar.hasWindow) do
+				for key, _ in pairs(MobileHealthBar.hasWindow) do
 					local windowName = "MobileHealthBar_"..key
 					WindowSetScale(windowName, endscale)
 				end
@@ -1233,16 +1219,13 @@ function WindowUtils.LoadAlpha( windowname )
 					end
 				end
 			elseif (windowname == "MobileHealthBarALPHA") then
-
-				for key, value in pairs(MobileHealthBar.hasWindow) do
+				for key, _ in pairs(MobileHealthBar.hasWindow) do
 					if (not MobileHealthBar.ObjecHasWindow[key]) then
 						local windowName = "MobileHealthBar_"..key
-						if (not DoesWindowNameExist(windowName)) then
-							continue
+						if DoesWindowNameExist(windowName) then
+							WindowSetAlpha(windowName, scale)
+							WindowSetFontAlpha(windowName, scale)
 						end
-						WindowSetAlpha(windowName, scale)
-						WindowSetFontAlpha(windowName, scale)
-						
 					end
 				end
 				WindowSetAlpha("PetWindow", scale)
@@ -1284,8 +1267,7 @@ function WindowUtils.LoadAlpha( windowname )
 	end
 end
 
-function WindowUtils.LoadScale( windowname, default )
-	
+function WindowUtils.LoadScale(windowname, _)
 	if (windowname ~= nil) then
 		WindowUtils.LoadAlpha( windowname )
 		
@@ -1345,15 +1327,12 @@ function WindowUtils.LoadScale( windowname, default )
 					end
 				end
 			elseif (windowname == "MobileHealthBarSCALE") then
-				for key, value in pairs(MobileHealthBar.hasWindow) do
-
+				for key, _ in pairs(MobileHealthBar.hasWindow) do
 					local windowName = "MobileHealthBar_"..key
-					if (not DoesWindowNameExist(windowName)) then
-						continue
+					if DoesWindowNameExist(windowName) then
+						WindowSetDimensions(windowName, 190, 50)
+						WindowSetScale(windowName, scale)
 					end
-					WindowSetDimensions(windowName, 190, 50)
-					WindowSetScale(windowName, scale)
-						
 				end
 				WindowSetScale("PetWindow", scale)
 				WindowSetScale("MobilesOnScreenWindow", scale)
@@ -1673,7 +1652,7 @@ function IsPlayer( mobileId )
 		   or string.find(name, "Kotl Automaton") or string.find(name, "Spectral Kotl") then
 		return false
 	else
-		local name = CreaturesDB.GetName(WindowData.CurrentTarget.TargetId)
+		name = CreaturesDB.GetName(WindowData.CurrentTarget.TargetId)
 		if CreaturesDB[name] then
 			return false
 		else

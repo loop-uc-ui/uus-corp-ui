@@ -673,9 +673,8 @@ function Hotbar.ItemRButtonUp()
 	local subMenu = {}
 	local custom = Interface.LoadNumber( element .. "Custom", 1 )
 	
-	for i = 1, table.getn( MiniTexturePack.Overlays )do
-		local press = false
-		press =custom == i
+	for i = 1, table.getn( MiniTexturePack.Overlays ) do
+		local press = custom == i
 		item = { str = MiniTexturePack.Overlays[i].name,flags=0,returnCode="minitxt" .. i,param=param,pressed=press,false }
 		table.insert(subMenu, item)
 	end
@@ -787,14 +786,14 @@ function Hotbar.ItemMouseOver()
 		if not actionData then
 			return
 		end
-		local name = L""
+		local name
 		if (actionData.nameTid) then
 			name = GetStringFromTid(actionData.nameTid)
 		else
 			name = actionData.nameString
 		end
 		
-		local desc = L""
+		local desc
 		if (not actionData.detailTid) then
 			desc = actionData.detailString
 		else
@@ -841,14 +840,6 @@ function Hotbar.ItemMouseOver()
 		end		
 		ItemProperties.SetActiveItem(itemData)	
 	else
-		
-		
-		local qtaLbl = "Hotbar".. hotbarId .. "Button" ..slot .."Quantity"
-		local qta
-		if (DoesWindowNameExist(qtaLbl)) then
-			qta = LabelGetText(qtaLbl)
-		end
-
 		local detailType = ItemProperties.DETAIL_SHORT
 		if(SystemData.Settings.Interface.showTooltips) then
 			detailType = ItemProperties.DETAIL_LONG
@@ -903,7 +894,6 @@ function Hotbar.ItemMouseOver()
 						end
 						desc = desc .. L"\n" .. ReplaceTokens(GetStringFromTid(1060181), { towstring(mana) } ) .. L"\n"
 					elseif actionType == SystemData.UserAction.TYPE_SPELL then
-						
 						lmcMana = math.floor(mCost - (mCost * (tonumber(WindowData.PlayerStatus["LowerManaCost"]) / 100)))
 						if BuffDebuff.BuffWindowId[1104] then -- Mana Phase
 							lmcMana = 0
