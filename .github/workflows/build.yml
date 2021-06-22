@@ -31,35 +31,12 @@ jobs:
         uses: leafo/gh-actions-lua@v8.0.0
         with:
           # The version of Lua to install, must be available on https://www.lua.org/ftp/ or http://luajit.org/download.html
-          luaVersion: # optional, default is 5.4
-          # Command line flags passed to make when building Lua
-          luaCompileFlags: # optional
+          luaVersion: 5.1 # optional, default is 5.4
       - name: luacheck
         # You may pin to the exact commit or the version.
         # uses: nebularg/actions-luacheck@86af42dcf465915896671903fcdec3e01a492e87
         uses: nebularg/actions-luacheck@v1.1.0
-        with:
-          # A list of files, rockspecs, or directories to be checked.
-          Defaults to the workspace path as set by the `path` input.
-          files: # optional, default is .
-          # The working directory for luacheck.
-          The file list should be relative to this path and output filenames be displayed relative to this path.
-          Defaults to the workspace path.
-          path: # optional, default is ${{ github.workspace }}
-          # Additional command-line arguments.
-          See https://luacheck.readthedocs.io/en/stable/cli.html
-          args: # optional
-          # URL to a custom configuration (`.luacheckrc`) file that will be used as the default configuration file.
-          config: # optional
-          # Emits annotations for source code at locations parsed from the output. Must be set to "none", "warning" or "error".
-          Requires that output of warnings not be suppressed through the -qq or -qqq arguments.
-          annotate: # optional, default is none
       - name: Generate lua docs
         # You may pin to the exact commit or the version.
         # uses: Nick-Mazuk/lua-docs-generator@ceaed5f8e65de2f17c3ecb38b31e60b4becf6fdd
         uses: Nick-Mazuk/lua-docs-generator@v1.0.6
-        with:
-          # The folder of the lua scripts
-          input: # default is .
-          # The folder where to save the documentation
-          output: # default is ./docs
