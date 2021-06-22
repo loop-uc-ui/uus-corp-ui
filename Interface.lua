@@ -1392,7 +1392,7 @@ end
 function Interface.NewChatText()
 	
 	local ign = false
-	local _, ignore
+	local ignore
 
 	ok, ignore = pcall(TextParsing.IgnoreTextManager)
 	Interface.ErrorTracker(ok, ignore)
@@ -1924,7 +1924,6 @@ function Interface.OnMouseOverItemChanged(id)
 		end
 	elseif WindowData.ItemProperties.CurrentType == WindowData.ItemProperties.TYPE_ACTION then
 		Interface.OnActionMouseOver(id)
-	elseif WindowData.ItemProperties.CurrentType == WindowData.ItemProperties.TYPE_WSTRINGDATA then
 	end
 end
 
