@@ -262,7 +262,7 @@ end
 
 ---Stops the current position animation and resets the window to its true scale.
 ---@param windowName - (string) The name of the window.
-function WindowApi.stopScaleAnimation(windowName)
+function WindowApi.stopPositionAnimation(windowName)
     WindowStopPositionAnimation(windowName)
 end
 
