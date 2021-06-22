@@ -317,10 +317,10 @@ function HotbarSystem.UpdateActionButton(element, type, id, iconId, disabled )
 	        item = WindowData.ObjectInfo[id]
 	        playerHasItem = DoesPlayerHaveItem(id)	        	        		    
 		    if playerHasItem and item ~= nil and item.quantity == 1 then
-		    	local uses = ItemProperties.GetCharges(id)		    	
-		    	if(uses ~= nil)then
-			    	itemHasCharges = Knumber(uses[2])		    			
-		    	end		    		
+				local uses = ItemProperties.GetCharges(id)
+				if uses ~= nil then
+					itemHasCharges = Knumber(uses[2])
+				end
 		    end
 		elseif( type == SystemData.UserAction.TYPE_USE_OBJECTTYPE ) then
 	        -- register for this object if its not already registered
@@ -573,14 +573,6 @@ function HotbarSystem.ClearActionIcon(element, hotbarId, itemIndex, subIndex, bU
 
 	
 	if( bUnregister == true ) then
-		-- clear out the macro reference if necesary
-		for _, elements in pairs(HotbarSystem.MacroReferenceSlots) do
-			elements[element] = nil
-			if( table.getn(elements) == 0 ) then
-				elements = nil
-			end			
-		end
-
 		-- clear the weapon ability (this does nothing if its not a weapon ability)
 		EquipmentData.UnregisterWeaponAbilitySlot(element)
 		-- clear the spell registration (this does nothing if it is not a spell
@@ -614,13 +606,11 @@ function HotbarSystem.ClearActionIcon(element, hotbarId, itemIndex, subIndex, bU
 					HotbarSystem.ObjectSlots[itemId] = nil
 				end
 				HotbarSystem.ObjectSlotsSize[itemId] = HotbarSystem.ObjectSlotsSize[itemId] - 1
-			end		
-			
-			
+			end
+
 			UnregisterWindowData(WindowData.ObjectTypeQuantity.Type,HotbarSystem.RegisteredGenericObjectType[element])
 			HotbarSystem.RegisteredGenericObjectType[element] = nil
 		end
-		
 
 		WindowSetShowing(element.."Disabled",false)
 		ButtonSetDisabledFlag(element,false)
