@@ -918,6 +918,7 @@ function HotbarSystem.HandleUpdateActionItem()
 	end
 end
 
+-- luacheck: ignore HotbarSystem.Update
 function HotbarSystem.Update(timePassed)	
 	for id, element in pairs(HotbarSystem.SpecialActions) do
 		for element, curElement in pairs(HotbarSystem.SpecialActions[id]) do			
