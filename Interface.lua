@@ -2,7 +2,7 @@
 -- Global functions
 ----------------------------------------------------------------
 
-function ToggleWindowByName( wndName, btnName, toggleFunction, onOpenFunction, onCloseFunction )
+function ToggleWindowByName(wndName, btnName, _, onOpenFunction, onCloseFunction )
 	local showing = WindowGetShowing( wndName )
 	showing = not showing	
 	WindowSetShowing( wndName, showing )
@@ -654,18 +654,18 @@ function Interface.InterfaceInitialize()
 		WindowAddAnchor("Hotbar" .. Interface.MenuBar, "bottom", "Root", "bottom", 0,0)
 		
 		WindowClearAnchors("WarShield")
-		local x, y= WindowGetOffsetFromParent("WarShield")
+		x, y= WindowGetOffsetFromParent("WarShield")
 		WindowClearAnchors("WarShield")
 		WindowSetOffsetFromParent("WarShield", x,y)
 		
 		WindowClearAnchors("AdvancedBuffGood")
-		local x, y= WindowGetOffsetFromParent("AdvancedBuffGood")
+		x, y= WindowGetOffsetFromParent("AdvancedBuffGood")
 		WindowClearAnchors("AdvancedBuffGood")
 		WindowSetOffsetFromParent("AdvancedBuffGood", x,y)
 		
 		WindowClearAnchors("ResizeWindow")
 		WindowAddAnchor("ResizeWindow", "topright", "PetWindow", "topleft", 5, 0)
-		local x, y= WindowGetOffsetFromParent("ResizeWindow")
+		x, y= WindowGetOffsetFromParent("ResizeWindow")
 		WindowClearAnchors("ResizeWindow")
 		WindowSetOffsetFromParent("ResizeWindow", x,y)
 		ResizeWindow.UpdateViewport()
@@ -673,20 +673,20 @@ function Interface.InterfaceInitialize()
 		--Hotbar.SetLocked(1, true)
 		WindowClearAnchors("Hotbar1")
 		WindowAddAnchor("Hotbar1", "bottomleft", "ResizeWindow", "topleft", 40, 0)
-		local x, y= WindowGetOffsetFromParent("Hotbar1")
+		x, y= WindowGetOffsetFromParent("Hotbar1")
 		WindowClearAnchors("Hotbar1")
 		WindowSetOffsetFromParent("Hotbar1", x,y)
 		
 		--Hotbar.SetLocked(hb, true)
 		WindowClearAnchors("Hotbar" .. hb)
 		WindowAddAnchor("Hotbar" .. hb, "topright", "Hotbar1", "topleft", 0, 0)
-		local x, y= WindowGetOffsetFromParent("Hotbar" .. hb)
+		x, y= WindowGetOffsetFromParent("Hotbar" .. hb)
 		WindowClearAnchors("Hotbar" .. hb)
 		WindowSetOffsetFromParent("Hotbar" .. hb, x,y)
 		
 		WindowClearAnchors("MapWindow")
 		WindowAddAnchor("MapWindow", "topright", "ResizeWindow", "topleft", 0, 0)
-		local x, y= WindowGetOffsetFromParent("MapWindow")
+		x, y= WindowGetOffsetFromParent("MapWindow")
 		WindowClearAnchors("MapWindow")
 		WindowSetOffsetFromParent("MapWindow", x,y)
 				
@@ -870,10 +870,10 @@ function Interface.SOSWaypointsCleaner(timePassed)
 
 end
 
-function Interface.PropsCacheClear(timePassed)
+function Interface.PropsCacheClear(_)
 	--Debug.Print("PropsCacheClear")	
 	if (not WindowGetShowing("ItemProperties")) then
-		WindowData.ItemProperties[0] = {}
+		WindowData.ItemProperties[1] = {}
 		if (WindowData.ItemProperties.CustomColorTitle) then
 			WindowData.ItemProperties.CustomColorTitle.NotorietyEnable = false
 			WindowData.ItemProperties.CustomColorTitle.NotorietyIndex = 0
@@ -883,7 +883,7 @@ function Interface.PropsCacheClear(timePassed)
 	end
 end
 
-function Interface.UpdateWarButton(timePassed)
+function Interface.UpdateWarButton(_)
 	if( WindowData.PlayerStatus.InWarMode ) then
         Actions.WarMode = 1       
         ButtonSetPressedFlag( "WarButton", true )
@@ -893,7 +893,7 @@ function Interface.UpdateWarButton(timePassed)
     end
 end
 
-function Interface.MobileArrowManager(timePassed)
+function Interface.MobileArrowManager(_)
 	--Debug.Print("MobileArrowManager")
 	if	Interface.MobileArrowOver == 0 and
 		MobileHealthBar.mouseOverId == 0 and
@@ -969,7 +969,7 @@ function Interface.SpecialMovesManaCooldown(timePassed)
 	end
 end
 
-function Interface.LoginTimeoutCheck(timePassed)
+function Interface.LoginTimeoutCheck(_)
 	if (DoesWindowNameExist("LogOutWarningDialog")) then
 		local time = Interface.CanLogout - Interface.TimeSinceLogin
 		if (time > 0) then
@@ -1072,7 +1072,7 @@ end
 
 
 Interface.chatFixed = false
-function Interface.ChatFixer(timePassed)
+function Interface.ChatFixer(_)
 	if not NewChatWindow and not Interface.chatFixed then
 		return
 	end
@@ -1098,7 +1098,7 @@ function Interface.ChatFixer(timePassed)
 			WindowClearAnchors("NewChatWindowInputTextButton")
 			WindowAddAnchor("NewChatWindowInputTextButton", "bottomleft", "ResizeWindow", "bottomleft", 0, -6)
 		end
-		for key, wnd in pairs(ChatWindow.Windows) do
+		for _, wnd in pairs(ChatWindow.Windows) do
 			WindowSetShowing(wnd.wndName, not WindowGetShowing("NewChatWindow"))
 		end
 		
@@ -1112,7 +1112,7 @@ function Interface.ChatFixer(timePassed)
 	end
 	
 	if (DoesWindowNameExist("ChatWindow") and not ChatWindow.Settings.autohide ) then
-		for idxW, wnd in pairs(ChatWindow.Windows) do
+		for idxW, _ in pairs(ChatWindow.Windows) do
 			ChatWindow.PerformFadeIn(idxW)
 		end
 	end
@@ -1138,7 +1138,7 @@ function Interface.ChatFixer(timePassed)
 		end
 		if (DoesWindowNameExist("ChatWindowContainerTextInput")) then
 			WindowClearAnchors("ChatWindowContainerTextInput")
-			local x, y = WindowGetDimensions( "ChatWindowContainerChannelLabel" )
+			local x, _ = WindowGetDimensions( "ChatWindowContainerChannelLabel" )
 			WindowAddAnchor("ChatWindowContainerTextInput", "bottomleft", "ChatWindowContainerChannelLabel", "bottomleft", x + 5, -4)
 			WindowAddAnchor("ChatWindowContainerTextInput", "bottomright", "ChatWindowContainer", "bottomright", 0, 0)
 			WindowSetLayer("ChatWindowContainerTextInput", Window.Layers.BACKGROUND	)
@@ -1153,7 +1153,7 @@ function Interface.ChatFixer(timePassed)
 		end
 		if (DoesWindowNameExist("ChatWindowContainerTextInput")) then
 			WindowClearAnchors("ChatWindowContainerTextInput")
-			local x, y = WindowGetDimensions( "ChatWindowContainerChannelLabel" )
+			local x, _ = WindowGetDimensions( "ChatWindowContainerChannelLabel" )
 			WindowAddAnchor("ChatWindowContainerTextInput", "bottomleft", "ChatWindowContainerChannelLabel", "bottomleft", x + 5, -4)
 			WindowAddAnchor("ChatWindowContainerTextInput", "bottomright", "ChatWindowContainer", "bottomright", 0, 0)
 			WindowSetLayer("ChatWindowContainerTextInput", Window.Layers.BACKGROUND	)
@@ -1162,7 +1162,7 @@ function Interface.ChatFixer(timePassed)
 	Interface.chatFixed = true
 end
 
-function Interface.ClockUpdater(timePassed)
+function Interface.ClockUpdater(_)
 	Interface.Clock.Timestamp, Interface.Clock.YYYY, Interface.Clock.MM, Interface.Clock.DD, Interface.Clock.h, Interface.Clock.m, Interface.Clock.s  = GetCurrentDateTime()
 	Interface.Clock.MM = Interface.Clock.MM + 1
 	Interface.Clock.YYYY = 1900 + Interface.Clock.YYYY
@@ -1170,7 +1170,7 @@ function Interface.ClockUpdater(timePassed)
 	Interface.TimeSinceLogin = Interface.TimeSinceLogin + 1
 end
 
-function Interface.CheckLastTargetChanged(timePassed)
+function Interface.CheckLastTargetChanged(_)
 	if not WindowData.Cursor then
 		WindowData.Cursor = {}
 	end
@@ -1189,7 +1189,7 @@ function Interface.CheckLastTargetChanged(timePassed)
 	end
 end
 
-function Interface.PaperdollCheck(timePassed)
+function Interface.PaperdollCheck(_)
 
 	if not Interface.NewPlayerPaperdollToggled and (not MapCommon.AreaDescription or MapCommon.AreaDescription == "") and Interface.TimeSinceLogin < 2 then
 		return
@@ -1282,7 +1282,7 @@ function Interface.MapRefresh(timePassed)
 	end	
 end
 
-function Interface.SkillsTrackerUpdate(timePassed)
+function Interface.SkillsTrackerUpdate(_)
 	if (SkillsWindow.SkillsTrackerMode  == 1 or Interface.LoadBoolean( "ShowTracker" , false )) then
 		SkillsWindow.SkillsTrackerMode = 1
 		if (not DoesWindowNameExist("SkillsTrackerWindow")) then
@@ -1301,14 +1301,14 @@ end
 
 
 
-function Interface.SummonsManager(timePassed)
-	for mobileId, value in pairs(MobileHealthBar.CheckStatus) do
+function Interface.SummonsManager(_)
+	for mobileId, _ in pairs(MobileHealthBar.CheckStatus) do
 		if (MobileHealthBar.CreateTime[mobileId] and Interface.TimeSinceLogin > MobileHealthBar.CreateTime[mobileId] ) then
 			MobilesOnScreen.RemoveHealthBar(mobileId)	
 		end
 	end
     
-	for key, value in pairs (MobileHealthBar.SummonTimer) do
+	for key, _ in pairs (MobileHealthBar.SummonTimer) do
 		local windowName = "MobileHealthBar_"..key
 		if MobileHealthBar.SummonTimer[key] - Interface.TimeSinceLogin <= 0 then
 			MobileHealthBar.SummonTimer[key] = nil
@@ -1346,13 +1346,13 @@ function Interface.SummonsManager(timePassed)
 	end
 end
 
-function Interface.UpdateHealthbarStatus(timePassed)
-	for mobileId, value in pairs (MobileHealthBar.hasWindow) do
+function Interface.UpdateHealthbarStatus(_)
+	for mobileId, _ in pairs (MobileHealthBar.hasWindow) do
 		MobileHealthBar.UpdateStatus(mobileId)
 	end
 end
 
-function Interface.SkillLocker(timePassed)
+function Interface.SkillLocker(_)
 	if (Interface.DeltaTime >= 0.1) then
 		SkillsWindow.LockSkills()
 		SkillsWindow.DownSkills()
@@ -1367,8 +1367,8 @@ Interface.Beat = false
 Interface.BeatSoundStartDelta = 0 
 Interface.BeatSoundLength = 0
 
-function Interface.ClearWindowData(timePassed)
-	for mobileId, value in pairs(WindowData.MobileName) do
+function Interface.ClearWindowData(_)
+	for mobileId, _ in pairs(WindowData.MobileName) do
 		if tonumber(mobileId) and mobileId ~= WindowData.PlayerStatus.PlayerId and mobileId ~= WindowData.CurrentTarget.TargetId then
 			if not (DoesWindowNameExist("OverheadTextWindow_"..mobileId) or DoesWindowNameExist("PaperdollWindow"..mobileId) or DoesWindowNameExist("MobileHealthBar_"..mobileId) or PartyHealthBar.hasWindow[mobileId]) then
 				UnregisterWindowData(WindowData.MobileName.Type,mobileId)				
@@ -1392,7 +1392,7 @@ end
 function Interface.NewChatText()
 	
 	local ign = false
-	local share, ignore
+	local _, ignore
 
 	ok, ignore = pcall(TextParsing.IgnoreTextManager)
 	Interface.ErrorTracker(ok, ignore)
@@ -1534,7 +1534,7 @@ function Interface.ChatWindowOnKeyEnter()
 
 end
 
-function Interface.ChatWindowPerformFadeOut( rootWindowIndex )
+function Interface.ChatWindowPerformFadeOut(_)
 	return
 end
 
@@ -1623,20 +1623,20 @@ function Interface.GetMobileData(mobileId, forceRegister)
 		return
 	end
 	local mobileData = WindowData.MobileStatus[mobileId]
-	if not mobileData and WindowData.MobileStatus[0] then
-		mobileData = WindowData.MobileStatus[0][mobileId]
+	if not mobileData and WindowData.MobileStatus[1] then
+		mobileData = WindowData.MobileStatus[1][mobileId]
 	end
 	
 	if not mobileData and forceRegister then
 		--Debug.Print("MobileData not found: "..mobileId)
 		RegisterWindowData(WindowData.MobileStatus.Type, mobileId)
 		mobileData = WindowData.MobileStatus[mobileId]
-		if not mobileData and WindowData.MobileStatus[0] then
-			mobileData = WindowData.MobileStatus[0][mobileId]
+		if not mobileData and WindowData.MobileStatus[1] then
+			mobileData = WindowData.MobileStatus[1][mobileId]
 		end
-		local noto = nil
+		local noto
 		if(mobileData)then
-			local noto = mobileData.Notoriety+1
+			noto = mobileData.Notoriety+1
 		end
 
 		if WindowData.PlayerStatus.PlayerId ~= mobileId and ((not MobileHealthBar.HasWindow(mobileId) and CurrentTarget.id() ~= mobileId) or (noto == NameColor.Notoriety.INVULNERABLE)) then
@@ -1668,7 +1668,7 @@ function Interface.ErrorTracker(success, error)
 end
 
 function Interface.TotalUnregister()
-	for key, value in pairs(WindowData) do
+	for _, value in pairs(WindowData) do
 		if type(value) == "table" then
 			local typ = -1
 			for id, value2 in pairs(value) do
@@ -1679,7 +1679,7 @@ function Interface.TotalUnregister()
 			end
 			if typ ~= -1 then
 				--Debug.Print("WindowData." .. key .. ".Type = " .. typ)
-				for id, value2 in pairs(value) do
+				for id, _ in pairs(value) do
 					if tonumber(id) then
 						--Debug.Print("Unregistering ID: " .. id)
 						UnregisterWindowData(typ, id)
@@ -1709,7 +1709,7 @@ end
 
 function Interface.CountNamesData()
 	local a = 0
-	for key, value in pairs(WindowData.MobileName) do
+	for key, _ in pairs(WindowData.MobileName) do
 		if tonumber(key) then
 			a = a + 1
 		end
@@ -1719,7 +1719,7 @@ end
 
 function Interface.CountObjectData()
 	local a = 0
-	for key, value in pairs(WindowData.ObjectInfo) do
+	for key, _ in pairs(WindowData.ObjectInfo) do
 		if tonumber(key) then
 			a = a + 1
 		end
@@ -1729,7 +1729,7 @@ end
 
 function Interface.CountContainersData()
 	local a = 0
-	for key, value in pairs(WindowData.ContainerWindow) do
+	for key, _ in pairs(WindowData.ContainerWindow) do
 		if tonumber(key) then
 			a = a + 1
 		end
@@ -1739,7 +1739,7 @@ end
 
 function Interface.CountPropsData()
 	local a = 0
-	for key, value in pairs(WindowData.ItemProperties) do
+	for key, _ in pairs(WindowData.ItemProperties) do
 		if tonumber(key) and key ~= 0 then
 			a = a + 1
 		end
@@ -1750,7 +1750,7 @@ end
 
 function Interface.CountMobileStatusData()
 	local a = 0
-	for key, value in pairs(WindowData.MobileStatus) do
+	for key, _ in pairs(WindowData.MobileStatus) do
 		if tonumber(key) then
 			a = a + 1
 		end
@@ -1760,7 +1760,7 @@ end
 
 function Interface.CountPaperdollData()
 	local a = 0
-	for key, value in pairs(WindowData.Paperdoll) do
+	for key, _ in pairs(WindowData.Paperdoll) do
 		if tonumber(key) then
 			a = a + 1
 		end
@@ -1899,20 +1899,20 @@ function Interface.SpecialMoveUseRequest()
 end
 
 
-function Interface.OnTarget(lastTarget, newTarget)
+function Interface.OnTarget(_, _)
 	--Debug.Print("Target Triggered - PREVIOUS LAST: " .. lastTarget .. " NEW TARGET: " .. newTarget)
 end
 
-function Interface.OnSpellCastedSuccessfully(id)
+function Interface.OnSpellCastedSuccessfully(_)
 end
 
-function Interface.OnSpellCastFailed(id)
+function Interface.OnSpellCastFailed(_)
 end
 
-function Interface.OnSpecialMoveUsedSuccessfully(id, targetId)
+function Interface.OnSpecialMoveUsedSuccessfully(_, _)
 end
 
-function Interface.OnSpecialMoveDamageReceived(id)
+function Interface.OnSpecialMoveDamageReceived(_)
 end
 
 function Interface.OnMouseOverItemChanged(id)
@@ -1928,15 +1928,15 @@ function Interface.OnMouseOverItemChanged(id)
 	end
 end
 
-function Interface.OnMobileMouseOver(id)
+function Interface.OnMobileMouseOver(_)
 	-- Debug.Print("Over Mobile " .. id)
 end
 
-function Interface.OnObjectMouseOver(id)
+function Interface.OnObjectMouseOver(_)
 	-- Debug.Print("Over Object " .. id)
 end
 
-function Interface.OnActionMouseOver(id)
+function Interface.OnActionMouseOver(_)
 	-- Debug.Print("Over Action " .. id)
 end
 
