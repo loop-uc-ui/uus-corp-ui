@@ -192,13 +192,6 @@ function SettingsWindow.ClearTabStates()
 	WindowSetShowing("SettingsMobilesOnScreen", false)
 end
 
-function SettingsWindow.openTab(view)
-	if view == nil then
-		view = SettingsWindow.adapter.views[TAB_BUTTONS.Graphics]
-	end
-	SettingsWindow.ClearTabStates()
-end
-
 function SettingsWindow.OpenGraphicsTab()
 	SettingsWindow.ClearTabStates()
 	SettingsWindow.adapter.views[TAB_BUTTONS.Graphics]:setDisabledFlag(true)
