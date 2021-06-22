@@ -58,9 +58,9 @@ function Actions.ToggleMapWindow()
 end
 
 function Actions.ToggleGuildWindow()
-	local gumpID = nil
-	local type = nil
-    for k, v in pairs(GumpsParsing.ParsedGumps) do
+	local gumpID
+	local type
+	for k, v in pairs(GumpsParsing.ParsedGumps) do
 		if v == "GuildMenu" or v == "GuildMenuMyGuild" or v == "GuildMenuDiplomacy" or v == "GuildMenuRoster"  or v == "GuildMenuAdvSearch" or v == "GuildMenuPlayerDetails" or v == "GuildMenuRelationship"  or v == "GuildMenuWar" then
 			gumpID = k
 			type = v
@@ -101,8 +101,8 @@ function Actions.ToggleSkillsWindow()
 end
 
 function Actions.ToggleVirtuesWindow()
-    local gumpID = nil
-    for k, v in pairs(GumpsParsing.ParsedGumps) do
+    local gumpID
+	for k, v in pairs(GumpsParsing.ParsedGumps) do
 		if v == "Virtues" then
 			gumpID = k
 		end
@@ -116,8 +116,8 @@ function Actions.ToggleVirtuesWindow()
 end
 
 function Actions.ToggleQuestWindow()
-    local gumpID = nil
-    for k, v in pairs(GumpsParsing.ParsedGumps) do
+    local gumpID
+	for k, v in pairs(GumpsParsing.ParsedGumps) do
 		if v == "QuestLog" then
 			gumpID = k
 		end
@@ -131,8 +131,8 @@ function Actions.ToggleQuestWindow()
 end
 
 function Actions.ToggleHelpWindow()
-    local gumpID = nil
-    for k, v in pairs(GumpsParsing.ParsedGumps) do
+    local gumpID
+	for k, v in pairs(GumpsParsing.ParsedGumps) do
 		if v == "HelpMenu" then
 			gumpID = k
 		end
@@ -198,7 +198,7 @@ function Actions.ToggleFootsteps()
 	UserSettingsChanged()
 end
 
-function Actions.ToggleCharacterSheet(noloyalty)
+function Actions.ToggleCharacterSheet(_)
 	ToggleWindowByName("CharacterSheet", "", nil)
 end
 
@@ -315,19 +315,17 @@ function Actions.NearTarget()
 	if (MobilesOnScreen.DistanceSort) then
 		HandleSingleLeftClkTarget(MobilesOnScreen.DistanceSort[1])	
 	else
-		local minDist = -1000
 		local id = {}
 		for i = 1, table.getn(MobilesOnScreen.MobilesSort) do
-			if (MobilesOnScreen.IsPet(MobilesOnScreen.MobilesSort[i])) then
-				continue
-			end
-			local allow = Actions.TargetAllowed(MobilesOnScreen.MobilesSort[i])
-			if (allow) then
-				local dist = GetDistanceFromPlayer(MobilesOnScreen.MobilesSort[i])
-				id[dist] = MobilesOnScreen.MobilesSort[i]
+			if not MobilesOnScreen.IsPet(MobilesOnScreen.MobilesSort[i]) then
+				local allow = Actions.TargetAllowed(MobilesOnScreen.MobilesSort[i])
+				if (allow) then
+					local dist = GetDistanceFromPlayer(MobilesOnScreen.MobilesSort[i])
+					id[dist] = MobilesOnScreen.MobilesSort[i]
+				end
 			end
 		end
-		for i, value in pairsByKeys(id) do
+		for i, _ in pairsByKeys(id) do
 			if (CurrentTarget.id() == id[i]) then
 				return
 			end
@@ -341,7 +339,7 @@ end
 function Actions.InjuredFollower()
 	local lowerId = 0
 	local lowerHP = -1
-	for i, mobileId in pairs(PetWindow.SortedPet) do
+	for _, mobileId in pairs(PetWindow.SortedPet) do
 		local mobileData = Interface.GetMobileData(mobileId, true)
 		if (mobileData and IsHealthBarEnabled(mobileId) and Actions.IsMobileVisible(mobileId)) then
 			local curHealth = mobileData.CurrentHealth
@@ -404,7 +402,7 @@ function Actions.InjuredMobile()
 		end
 	end
 
-	for i, value in pairsByKeys(id) do
+	for i, _ in pairsByKeys(id) do
 		if (Actions.TargetAllowed(id[i]) ) then
 			HandleSingleLeftClkTarget(id[i])
 			return
@@ -419,7 +417,7 @@ function Actions.TargetFirstContainerObject()
 		return
 	end
 	local found = false
-	for id, value in pairs(ContainerWindow.OpenContainers) do
+	for id, _ in pairs(ContainerWindow.OpenContainers) do
 		if id == CurrentTarget.id() then
 			found = true
 		end
@@ -473,7 +471,7 @@ end
 
 function Actions.TargetByType(type, hue)
 	Actions.ScanQuantities()
-	for obj, value in pairs(Actions.itemQuantities) do
+	for obj, _ in pairs(Actions.itemQuantities) do
 		if obj == type then
 			for i = 1, #Actions.itemQuantities[obj] do
 				local id  = Actions.itemQuantities[obj][i]
@@ -506,8 +504,7 @@ function Actions.ScanQuantities()
 	local numItems = WindowData.ContainerWindow[backpackId].numItems
 	for i = 1, numItems do
 		local item = WindowData.ContainerWindow[backpackId].ContainedItems[i]
-		
-		local sub = Actions.ScanSubCont(item.objectId)
+
 		table.insert(Actions.AllItems,item.objectId )
 		
 		RegisterWindowData(WindowData.ObjectInfo.Type, item.objectId)
@@ -540,8 +537,7 @@ function Actions.ScanSubCont(id)
 		local numItems = WindowData.ContainerWindow[id].numItems
 		for i = 1, numItems do
 			local item = WindowData.ContainerWindow[id].ContainedItems[i]
-					
-			local sub = Actions.ScanSubCont(item.objectId)
+
 			table.insert(Actions.AllItems,item.objectId )
 			
 			RegisterWindowData(WindowData.ObjectInfo.Type, item.objectId)
@@ -864,9 +860,9 @@ function Actions.RequestContItems()
 		end
 		local props = ItemProperties.GetObjectProperties(AllItems[i], nil, "Actions - Request Container items list")
 		if props then
-			for i =1, #props do
-				if props[i] ~= "" then
-					output = output .. props[i] .. L"\r\n"
+			for j =1, #props do
+				if props[j] ~= "" then
+					output = output .. props[j] .. L"\r\n"
 				end
 			end
 		end
@@ -895,7 +891,7 @@ function Actions.ToggleEnglishNames()
 end
 
 function Actions.CloseAllContainers()
-	for id, value in pairs(ContainerWindow.OpenContainers) do
+	for id, _ in pairs(ContainerWindow.OpenContainers) do
 		if id ~= WindowData.PlayerEquipmentSlot[EquipmentData.EQPOS_BACKPACK].objectId then
 			DestroyWindow("ContainerWindow_"..id)
 		end
@@ -903,7 +899,7 @@ function Actions.CloseAllContainers()
 end
 
 function Actions.CloseAllCorpses()
-	for id, value in pairs(ContainerWindow.OpenContainers) do
+	for id, _ in pairs(ContainerWindow.OpenContainers) do
 		local item = WindowData.ObjectInfo[id]
 		if (item  ~= nil) then 
 			local name = wstring.lower(item.name)
@@ -938,12 +934,12 @@ function Actions.MassOrganizerStart()
 	end
 end
 
-function Actions.MassOrganizer(timePassed)
+function Actions.MassOrganizer(_)
 	
 	if (Actions.MassOrganize == true and ContainerWindow.CanPickUp == true and SystemData.DragItem.DragType ~= SystemData.DragItem.TYPE_ITEM) then
 		if not Actions.VacuumObjects or #Actions.VacuumObjects == 0 then
 			Actions.VacuumObjects = {}
-			for id, value in pairs(ContainerWindow.OpenContainers) do
+			for id, _ in pairs(ContainerWindow.OpenContainers) do
 				if (DoesWindowNameExist("ContainerWindow_"..id) and id ~= ContainerWindow.PlayerBackpack and id ~= ContainerWindow.OrganizeBag) then
 					local numItems = WindowData.ContainerWindow[id].numItems
 					for i = 1, numItems  do
@@ -989,7 +985,7 @@ function Actions.MassOrganizer(timePassed)
 			table.remove(Actions.VacuumObjects, 1)
 			if #Actions.VacuumObjects == 0 then
 				Actions.VacuumObjects = {}
-				for id, value in pairs(ContainerWindow.OpenContainers) do
+				for id, _ in pairs(ContainerWindow.OpenContainers) do
 					if (DoesWindowNameExist("ContainerWindow_"..id) and id ~= ContainerWindow.PlayerBackpack and id ~= ContainerWindow.OrganizeBag) then
 						local numItems = WindowData.ContainerWindow[id].numItems
 						for i = 1, numItems  do
@@ -1043,13 +1039,12 @@ function Actions.LoadShuri()
 			item = WindowData.ContainerWindow[backpackId].ContainedItems[i]
 			local itemdata = WindowData.ObjectInfo[item.objectId]
 			
-			if (not itemdata) then
-				continue
-			end
-			if (wstring.find(wstring.lower(itemdata.name), wstring.lower(GetStringFromTid(1030128)))) then
-				Actions.BeltMenuRequest = item.objectId
-				Actions.AutoLoadShurikens = true
-				break
+			if itemdata then
+				if (wstring.find(wstring.lower(itemdata.name), wstring.lower(GetStringFromTid(1030128)))) then
+					Actions.BeltMenuRequest = item.objectId
+					Actions.AutoLoadShurikens = true
+					break
+				end
 			end
 			UnregisterWindowData(WindowData.ObjectInfo.Type, item.objectId)
 		end
@@ -1106,15 +1101,14 @@ function Actions.AutoLoadShuri()
 		item = WindowData.ContainerWindow[backpackId].ContainedItems[i]
 		local itemdata = WindowData.ObjectInfo[item.objectId]
 		
-		if (not itemdata) then
-			continue
+		if itemdata then
+			local objType = WindowData.ObjectInfo[item.objectId].objectType
+			if (objType == 10156) then
+				HandleSingleLeftClkTarget(item.objectId)
+				return
+			end
+			UnregisterWindowData(WindowData.ObjectInfo.Type, item.objectId)
 		end
-		local objType = WindowData.ObjectInfo[item.objectId].objectType
-		if (objType == 10156) then
-			HandleSingleLeftClkTarget(item.objectId)
-			return
-		end
-		UnregisterWindowData(WindowData.ObjectInfo.Type, item.objectId)
 	end
 	if (WindowData.Cursor ~= nil and WindowData.Cursor.target == true) then
 		HandleSingleLeftClkTarget(0)
@@ -1450,7 +1444,7 @@ end
 
 Actions.UndressItems = {}
 
-function Actions.UndressAgent(timePassed)
+function Actions.UndressAgent(_)
 	local paperdollId = WindowData.PlayerStatus.PlayerId
 	if not WindowData.Paperdoll[paperdollId] then
 		RegisterWindowData(WindowData.Paperdoll.Type, paperdollId)
