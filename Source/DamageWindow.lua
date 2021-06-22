@@ -156,9 +156,9 @@ function DamageWindow.ShiftYWindowUp()
 		for i, _ in pairs(DamageWindow.AttachedId) do
 			DamageWindow.AnchorY[i] = DamageWindow.AnchorY[i] - DamageWindow.ShiftYAmount
 			windowName = "DamageWindow"..i
-  			labelName = windowName.."Text"
-  			WindowClearAnchors(labelName)
-  			WindowAddAnchor(labelName, "bottomleft",windowName , "bottomleft", 0, DamageWindow.AnchorY[i])
+			labelName = windowName.."Text"
+			WindowClearAnchors(labelName)
+			WindowAddAnchor(labelName, "bottomleft",windowName , "bottomleft", 0, DamageWindow.AnchorY[i])
 		end
 	end
 end
@@ -166,10 +166,10 @@ end
 function DamageWindow.IsOverlap()
 	for i, _ in pairs(DamageWindow.AttachedId) do
 		if (DamageWindow.AnchorY[i] >= DamageWindow.MaxAnchorYOverlap ) then
-  			return true
-  		end
-  	end
-  	return false
+			return true
+		end
+	end
+	return false
 end
 
 --The damage number moves up and slowly disappears off the screen

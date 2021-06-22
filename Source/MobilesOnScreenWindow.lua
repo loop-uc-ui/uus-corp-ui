@@ -406,6 +406,7 @@ function MobilesOnScreen.UpdateFilterSettings()
 
 end
 
+-- luacheck: ignore MobilesOnScreen.SaveFilterSettings
 function MobilesOnScreen.SaveFilterSettings()
 	for i = 2, table.getn(MobilesOnScreen.Filter) do
 		MobilesOnScreen.SavedFilter[i] = ButtonGetPressedFlag("FilterCheckButton_"..i.."Button") 

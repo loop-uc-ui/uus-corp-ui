@@ -496,14 +496,12 @@ function ContainerWindow.LegacyGridDock(this)
 	local gumpID = ContainersInfo.GetGump(id,WindowData.ContainerWindow[id].gumpNum) -- WindowData.ContainerWindow[id].gumpNum
 	
 	WindowSetShowing(this, true)
-	local isNotBankBox = true
 	if(WindowData.PlayerEquipmentSlot[EquipmentData.EQPOS_BANK] and id == WindowData.PlayerEquipmentSlot[EquipmentData.EQPOS_BANK].objectId)then
-		isNotBankBox = false
 		ContainerWindow.PlayerBank = id		
 	end
 	local windowName = "ContainerWindow_"..id
 	local listViewName = windowName.."ListView"
-	local maxOffset = 0
+	local maxOffset
 
 	if (ContainerWindow.ViewModes[id] == "List") then
 		local scrollchildName = listViewName.."ScrollChild"
@@ -958,8 +956,8 @@ function ContainerWindow.UpdateContents(id, _)
 	ContainerWindow.OpenContainers[id].inUpdate = true
 	
 	-- store the scrollbar offset so we can restore it when we are done
-	local listOffset = ScrollWindowGetOffset(list_view_this)
-	local gridOffset = ScrollWindowGetOffset(grid_view_this)
+	local listOffset
+	local gridOffset
 	
 	-- Create any contents slots we need
 	local numItems = data.numItems
