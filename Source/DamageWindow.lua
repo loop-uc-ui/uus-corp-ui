@@ -153,7 +153,7 @@ end
 -- If the previous Damage Number Y anchor too close to the new damage window, increase all the damage numbers y anchors
 function DamageWindow.ShiftYWindowUp()
 	if DamageWindow.IsOverlap() then
-		for i, id in pairs(DamageWindow.AttachedId) do
+		for i, _ in pairs(DamageWindow.AttachedId) do
 			DamageWindow.AnchorY[i] = DamageWindow.AnchorY[i] - DamageWindow.ShiftYAmount
 			windowName = "DamageWindow"..i
   			labelName = windowName.."Text"
@@ -164,7 +164,7 @@ function DamageWindow.ShiftYWindowUp()
 end
 
 function DamageWindow.IsOverlap()
-	for i, id in pairs(DamageWindow.AttachedId) do
+	for i, _ in pairs(DamageWindow.AttachedId) do
 		if (DamageWindow.AnchorY[i] >= DamageWindow.MaxAnchorYOverlap ) then
   			return true
   		end
@@ -173,9 +173,9 @@ function DamageWindow.IsOverlap()
 end
 
 --The damage number moves up and slowly disappears off the screen
-function DamageWindow.UpdateTime(UpdateInterfaceTime)
+function DamageWindow.UpdateTime(_)
 	local count = 0
-	for i, id in pairs(DamageWindow.AttachedId) do
+	for i, _ in pairs(DamageWindow.AttachedId) do
 		DamageWindow.AnchorY[i] = DamageWindow.AnchorY[i] - DamageWindow.OverheadMove
 	
 		if (DamageWindow.AnchorY[i] < DamageWindow.OverheadAlive) then			

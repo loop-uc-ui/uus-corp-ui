@@ -17,11 +17,6 @@ LuaLog.ERROR            = 2
 LuaLog.DEBUG            = 3
 LuaLog.FUNCTION         = 4
 
-local InterfaceLog      = {}
-InterfaceLog.DEBUG      = 1
-InterfaceLog.WARNING    = 2
-InterfaceLog.ERROR      = 3
-
 DebugWindow.logging = false
 
 ----------------------------------------------------------------
@@ -86,9 +81,6 @@ function DebugWindow.Initialize()
 	LabelSetText(  "DebugWindowOptionsFilterType3Label", L"Debug Messages" )
 	LabelSetText(  "DebugWindowOptionsFilterType4Label", L"Warning Messages" )
 	LabelSetText(  "DebugWindowOptionsFilterType5Label", L"Function Calls Messages" )
-	-- These dont seem to do anything
-	--LabelSetText(  "DebugWindowOptionsFilterType6Label", L"Update Spam" )
-	--LabelSetText(  "DebugWindowOptionsFilterType7Label", L"Mouse Movement Spam" )
 	
 	for index = 1, 5 do
 		ButtonSetStayDownFlag( "DebugWindowOptionsFilterType"..index.."Button", true )

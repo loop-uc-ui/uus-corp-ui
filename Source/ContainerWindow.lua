@@ -86,8 +86,8 @@ ContainerWindow.GHOUL_SKIN_BACKPACK = 30562
 -- Helper function
 function ContainerWindow.ReleaseRegisteredObjects(id)
 	if( ContainerWindow.RegisteredItems[id] ~= nil ) then
-		for id, value in pairs(ContainerWindow.RegisteredItems[id]) do
-			UnregisterWindowData(WindowData.ObjectInfo.Type, id)
+		for i, _ in pairs(ContainerWindow.RegisteredItems[id]) do
+			UnregisterWindowData(WindowData.ObjectInfo.Type, i)
 		end
 	end
 	ContainerWindow.RegisteredItems[id] = {}
@@ -502,7 +502,6 @@ function ContainerWindow.LegacyGridDock(this)
 		ContainerWindow.PlayerBank = id		
 	end
 	local windowName = "ContainerWindow_"..id
-	local gridViewName = windowName.."GridView"
 	local listViewName = windowName.."ListView"
 	local maxOffset = 0
 
@@ -618,7 +617,7 @@ function ContainerWindow.OrganizerContext()
 	end
 end
 
-function ContainerWindow.ContextMenuCallback( returnCode, param )
+function ContainerWindow.ContextMenuCallback(returnCode, _)
 	Organizer.ActiveOrganizer = returnCode
 	Interface.SaveNumber( "OrganizerActiveOrganizer" , Organizer.ActiveOrganizer )
 end
@@ -680,7 +679,7 @@ function ContainerWindow.RestockContext()
 	end
 end
 
-function ContainerWindow.RestockContextMenuCallback( returnCode, param )
+function ContainerWindow.RestockContextMenuCallback(returnCode, _)
 	Organizer.ActiveRestock = returnCode
 	Interface.SaveNumber( "OrganizerActiveRestock" , Organizer.ActiveRestock )
 end
@@ -936,7 +935,7 @@ function ContainerWindow.BackpackItemsCheck()
 	end
 end
 
-function ContainerWindow.UpdateContents(id,forceUpdate)
+function ContainerWindow.UpdateContents(id, _)
 		
 	this = "ContainerWindow_"..id
 
@@ -963,7 +962,6 @@ function ContainerWindow.UpdateContents(id,forceUpdate)
 	local gridOffset = ScrollWindowGetOffset(grid_view_this)
 	
 	-- Create any contents slots we need
-	local contents = data.ContainedItems
 	local numItems = data.numItems
 	local numCreatedSlots = data.numCreatedSlots or 1
 
@@ -1089,10 +1087,9 @@ end
 
 ContainerWindow.GetContentDelta = {}
 
-function ContainerWindow.GetContent(contId)	
-	local prop	
+function ContainerWindow.GetContent(contId)
 	local rtn = L""
-	local items, qta, wgt, val, token
+	local _, qta, wgt, val, token
 	wgt = 0
 	qta = 0
 	
@@ -1412,12 +1409,11 @@ function ContainerWindow.ToggleView()
 end
 
 function ContainerWindow.GetSlotNumFromGridIndex(containerId, gridIndex)
-    local slotNum = nil
-    
-    if( ContainerWindow.ViewModes[containerId] == "Grid" ) then
-        local containedItems = WindowData.ContainerWindow[containerId].ContainedItems
-        
-        if( WindowData.ContainerWindow[containerId].ContainedItems ) then
+    local slotNum
+
+	if( ContainerWindow.ViewModes[containerId] == "Grid" ) then
+
+		if( WindowData.ContainerWindow[containerId].ContainedItems ) then
             for index, item in ipairs(WindowData.ContainerWindow[containerId].ContainedItems) do                
 	            if( item.gridIndex == gridIndex ) then
 		            slotNum = index
@@ -1534,9 +1530,9 @@ function ContainerWindow.OnItemRelease()
 	    local containerId = WindowGetId(WindowUtils.GetActiveDialog())
 		local gridIndex = WindowGetId(SystemData.ActiveWindow.name)
 		local slotNum = ContainerWindow.GetSlotNumFromGridIndex(containerId, gridIndex)
-		local slot = nil
+		local slot
 
-        if( WindowData.ContainerWindow[containerId].ContainedItems ~= nil and slotNum ~= nil) then
+		if( WindowData.ContainerWindow[containerId].ContainedItems ~= nil and slotNum ~= nil) then
             slot = WindowData.ContainerWindow[containerId].ContainedItems[slotNum]
         end
 
@@ -1702,8 +1698,7 @@ function ContainerWindow.UpdatePickupTimer(timePassed)
 		if ContainerWindow.TODO[i] and not ContainerWindow.TODO[i].time then
 			ContainerWindow.TODO[i] = nil
 		end
-		if ContainerWindow.TODO[i] and Interface.TimeSinceLogin >= ContainerWindow.TODO[i].time then			
-			local ok = pcall(ContainerWindow.TODO[i].func)
+		if ContainerWindow.TODO[i] and Interface.TimeSinceLogin >= ContainerWindow.TODO[i].time then
 			ContainerWindow.TODO[i] = nil
 		end
 	end		
@@ -1766,7 +1761,7 @@ function ContainerWindow.UpdatePickupTimer(timePassed)
 					for i = 1, numItems  do
 						local item = WindowData.ContainerWindow[ContainerWindow.OrganizeParent].ContainedItems[i]
 						RegisterWindowData(WindowData.ObjectInfo.Type, item.objectId)
-						local itemData = WindowData.ObjectInfo[item.objectId]
+						itemData = WindowData.ObjectInfo[item.objectId]
 						if (itemData) then
 							if (Organizer.Organizer[Organizer.ActiveOrganizer]) then
 								for j=1,  Organizer.Organizers_Items[Organizer.ActiveOrganizer] do
@@ -1800,7 +1795,7 @@ function ContainerWindow.UpdatePickupTimer(timePassed)
 					for i = 1, numItems  do
 						local item = WindowData.ContainerWindow[ContainerWindow.OrganizeParent].ContainedItems[i]
 						RegisterWindowData(WindowData.ObjectInfo.Type, item.objectId)
-						local itemData = WindowData.ObjectInfo[item.objectId]
+						itemData = WindowData.ObjectInfo[item.objectId]
 						if (itemData) then
 							if (Organizer.Organizer[Organizer.ActiveOrganizer]) then
 								for j=1,  Organizer.Organizers_Items[Organizer.ActiveOrganizer] do
@@ -1912,7 +1907,7 @@ function ContainerWindow.UpdatePickupTimer(timePassed)
 					local numItems = WindowData.ContainerWindow[ContainerWindow.OrganizeParent].numItems
 					for i = 1, numItems  do
 						local item = WindowData.ContainerWindow[ContainerWindow.OrganizeParent].ContainedItems[i]
-						local itemData = WindowData.ObjectInfo[item.objectId]
+						itemData = WindowData.ObjectInfo[item.objectId]
 						if (itemData) then
 							table.insert(moveObjects,item.objectId)
 						end
@@ -1928,7 +1923,7 @@ function ContainerWindow.UpdatePickupTimer(timePassed)
 					local numItems = WindowData.ContainerWindow[ContainerWindow.OrganizeParent].numItems
 					for i = 1, numItems  do
 						local item = WindowData.ContainerWindow[ContainerWindow.OrganizeParent].ContainedItems[i]
-						local itemData = WindowData.ObjectInfo[item.objectId]
+						itemData = WindowData.ObjectInfo[item.objectId]
 						if (itemData) then
 							table.insert(moveObjects,item.objectId)
 						end
@@ -1941,7 +1936,7 @@ function ContainerWindow.UpdatePickupTimer(timePassed)
 		end
 	end
 
-	for id, value in pairs(ContainerWindow.OpenContainers) do
+	for id, _ in pairs(ContainerWindow.OpenContainers) do
 		if ContainerWindow.OpenContainers[id] ~= nil	then
 			local isDirty = ContainerWindow.OpenContainers[id].dirty						
 			if(isDirty == 1 and ContainerWindow.OpenContainers[id].LastUpdate and ContainerWindow.OpenContainers[id].LastUpdate < ContainerWindow.DeltaRefresh)then				
@@ -2009,8 +2004,6 @@ function ContainerWindow.UpdateListViewSockets(id)
 	--Debug.Print("ContainerWindow.UpdateListViewSockets("..id..")")
 	
 	local windowName = "ContainerWindow_"..id
-	local listViewName = windowName.."ListView"
-	local scrollchildName = listViewName.."ScrollChild"
 	if not DoesWindowNameExist(windowName) then
 		return
 	end	
@@ -2283,7 +2276,7 @@ function ContainerWindow.UpdateGridItemSlots(id, scrollpos)
 	local gridViewName = this.."GridView"
 	local data = WindowData.ContainerWindow[id]
 	local scrollViewChildName = gridViewName.."ScrollChild"
-	local parentX,parentY = WindowGetScreenPosition(scrollViewChildName)	
+	local _,parentY = WindowGetScreenPosition(scrollViewChildName)
 	
 	-- Fixing scrollbar
 	local scrollOffset
@@ -2293,7 +2286,7 @@ function ContainerWindow.UpdateGridItemSlots(id, scrollpos)
 		scrollOffset = scrollpos	
 	end
 	local socketName 	
-	local windowWidth, windowHeight = WindowGetDimensions(this)
+	local _, windowHeight = WindowGetDimensions(this)
 	local GRID_HEIGHT = math.floor((windowHeight - (ContainerWindow.Grid.PaddingTop + ContainerWindow.Grid.PaddingBottom)) / 40.5) 
 
 	local totalHidden = 0
@@ -2304,10 +2297,9 @@ function ContainerWindow.UpdateGridItemSlots(id, scrollpos)
 	for i = 1, data.numGridSockets do
 		socketName = this.."GridViewSocket"..i 
 		if(DoesWindowNameExist(socketName)) then
-			local elementX,elementY = WindowGetScreenPosition(socketName)
+			local _,elementY = WindowGetScreenPosition(socketName)
 			local temp = parentY + (beginningRowsToHide * sockSizeMod1) - 10			
-			local temp2 = temp + (GRID_HEIGHT * sockSizeMod2) +1		
-			local row = math.floor((elementY - parentY) / sockSizeMod1)			
+			local temp2 = temp + (GRID_HEIGHT * sockSizeMod2) +1
 			if (elementY < temp) then
 				--Debug.Print("Hidden :("..i.." temp: "..temp..")")
 				WindowSetShowing(socketName, false)
