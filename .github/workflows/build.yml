@@ -37,7 +37,7 @@ jobs:
         # uses: nebularg/actions-luacheck@86af42dcf465915896671903fcdec3e01a492e87
         uses: nebularg/actions-luacheck@v1.1.0
         with:
-          args: --ignore 111 112 113 142 143 # optional
+          args: --ignore 111 112 113 142 143 6111 612 # optional
       - name: Generate lua docs
         # You may pin to the exact commit or the version.
         # uses: Nick-Mazuk/lua-docs-generator@ceaed5f8e65de2f17c3ecb38b31e60b4becf6fdd
