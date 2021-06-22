@@ -440,8 +440,6 @@ function SpellsInfo.GetSpellDamage(spellId)
 			str = str .. ReplaceTokens(GetStringFromTid(1154874), {amount, min})
 		end		
 	elseif (spellId >= 678 and spellId <= 700) then -- Mysticism
-		skillId = 37
-		skillIdsec = 26 -- imbuing
 		skillIdthi= 21 -- focus
 		local secondSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 		serverId = WindowData.SkillsCSV[skillIdthi].ServerId
@@ -806,12 +804,12 @@ end
 -- Spell Trigger
 function SpellsInfo.GetButtonIDST(buttonId) -- 0 = force manual selection
 	local spellId = 676 + buttonId
-	local _, serverId, _, _, _, _, _, minskill, _ = GetAbilityData(spellId)
-	skillId = 37
-	skillIdsec = 26 -- imbuing
-	skillIdthi= 21 -- focus
+	local _, _, _, _, _, _, _, minskill, _ = GetAbilityData(spellId)
+	local skillId = 37
+	local skillIdsec = 26 -- imbuing
+	local skillIdthi= 21 -- focus
 	
-	serverId = WindowData.SkillsCSV[skillId].ServerId
+	local serverId = WindowData.SkillsCSV[skillId].ServerId
 	local mainSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 	
 	serverId = WindowData.SkillsCSV[skillIdsec].ServerId

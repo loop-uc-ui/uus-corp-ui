@@ -246,7 +246,7 @@ function OverheadText.UpdateName(mobileId)
 	else
 		--Destroy the entire overhead text window if the mobile status is not there anymore.
 		--Player probably teleported and we didn't delete the mobiles name.
-  		DestroyWindow(windowName)
+		DestroyWindow(windowName)
 	end
 end
 

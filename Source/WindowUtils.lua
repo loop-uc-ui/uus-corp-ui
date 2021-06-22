@@ -517,14 +517,10 @@ end
 -- linkParam is of type wstring
 --
 function WindowUtils.ProcessLink( linkParam )
-	
     if( wstring.sub(linkParam, 1, 4) == L"http" ) then
        local url = WStringToString( linkParam )
        OpenWebBrowser( url)
-    else
-		--Debug.PrintToDebugConsole(L"WindowUtils.ProcessLink: Link type not known for "..linkParam )
     end
-    
 end
 
 -- Note that if you are dynamically adding elements to the ScrollWindow, you should be done adding elements and have 
@@ -600,7 +596,7 @@ function WindowUtils.FitTextToLabel(labelName, labelText, isTitle )
 	local textX, textY = LabelGetTextDimensions(labelWindowName)
 	if DEBUG then
 		Debug.Print( L"The space allowed for this label is "..labelX..L" pixels." )
-		Debug.Print( L"The current text size is "..textX..L" pixels." )
+		Debug.Print( L"The text size is width="..textX..L" height="..textY )
 	end
     local text = labelText
 
@@ -1355,9 +1351,6 @@ end
 
 
 function WindowUtils.SendOverheadText(message, hue, chat, ignoreLast)
-	if (ignoreLast == nil) then
-		ignoreLast = true
-	end
 	SystemData.Text = message
 	SystemData.TextChannelID = 2
 	SystemData.TextSourceID = WindowData.PlayerStatus.PlayerId

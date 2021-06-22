@@ -316,7 +316,7 @@ function MobileHealthBar.UpdateStatus(mobileId)
 end
 
 function MobileHealthBar.ExtractWindow(windowName)
-	local mobileId = 0
+	local mobileId
 	if (windowName ~= nil and type(windowName) == "string") then
 		mobileId = WindowGetId(windowName)
 	else

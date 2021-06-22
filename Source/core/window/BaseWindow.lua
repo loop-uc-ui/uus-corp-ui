@@ -45,6 +45,7 @@ function BaseWindow:destroy()
     end
     WindowApi.destroyWindow(self.id)
     self = nil
+    return self
 end
 
 function BaseWindow:setColor(color)
@@ -76,5 +77,6 @@ function BaseWindow:registerEventHandler(event, callback)
         eventHandlers = {}
     end
     WindowApi.registerEventHandler(self.id, event, callback)
-    eventHandlers[callback] = event
+    self.eventHandlers[callback] = event
+    return self
 end

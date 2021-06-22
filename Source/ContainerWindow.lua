@@ -2084,7 +2084,7 @@ function ContainerWindow.UpdateGridViewSockets(id)
 	local newGridHeight = GRID_HEIGHT * ContainerWindow.Grid.SocketSize + ContainerWindow.Grid.PaddingTop
 	
 	-- fit the window width to the grid width
-	local newWindowWidth
+	local newWindowWidth = newGridWidth + ContainerWindow.Grid.PaddingRight
 	local newWindowHeight = windowHeight
 	
 	-- if we can see every slot in the container, snap the window height to the grid and hide the void created 
