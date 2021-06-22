@@ -262,7 +262,7 @@ end
 
 ---Stops the current position animation and resets the window to its true scale.
 ---@param windowName - (string) The name of the window.
-function WindowApi.stopScaleAnimation(windowName)
+function WindowApi.stopPositionAnimation(windowName)
     WindowStopPositionAnimation(windowName)
 end
 
@@ -270,8 +270,6 @@ end
 ---child elements as the ‘parent alpha’ value.  A window’s alpha and parent alpha values are
 ---multiples to produce the combined alpha result seen on the screen. If you want to animate the alpha for a window
 ---element, it is better to use the animation functions rather than directly call WindowSetAlpha every frame
----@see WindowApi.startAlphaAnimation
----@see WindowApi.stopAlphaAnimation
 ---@param windowName - (string) The name of the window.
 ---@param alpha - (number) The alpha value 0.0 to 1.0.
 function WindowApi.setAlpha(windowName, alpha)
