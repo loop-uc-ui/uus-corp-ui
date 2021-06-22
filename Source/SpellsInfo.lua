@@ -442,13 +442,8 @@ function SpellsInfo.GetSpellDamage(spellId)
 	elseif (spellId >= 678 and spellId <= 700) then -- Mysticism
 		skillId = 37
 		skillIdsec = 26 -- imbuing
-		skillIdthi= 21 -- focus		
-		
-		serverId = WindowData.SkillsCSV[skillId].ServerId
-
-		serverId = WindowData.SkillsCSV[skillIdsec].ServerId
+		skillIdthi= 21 -- focus
 		local secondSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
-		
 		serverId = WindowData.SkillsCSV[skillIdthi].ServerId
 		local tempSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 		secondSkillLevel = math.max(tempSkillLevel,secondSkillLevel)

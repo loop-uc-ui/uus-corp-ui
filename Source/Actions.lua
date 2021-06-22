@@ -907,7 +907,7 @@ function Actions.CloseAllCorpses()
 			if ( texto ~= nil ) then
 				WindowData.ContainerWindow[id].isCorpse = true 
 			end
-			local texto = wstring.find(name , L" corpse")
+			texto = wstring.find(name , L" corpse")
 			if ( texto ~= nil) then
 				WindowData.ContainerWindow[id].isCorpse = true 
 			end
@@ -991,7 +991,7 @@ function Actions.MassOrganizer(_)
 						for i = 1, numItems  do
 							local item = WindowData.ContainerWindow[id].ContainedItems[i]
 							RegisterWindowData(WindowData.ObjectInfo.Type, item.objectId)
-							local itemData = WindowData.ObjectInfo[item.objectId]
+							itemData = WindowData.ObjectInfo[item.objectId]
 							if (itemData) then
 								if (Organizer.Organizer[Organizer.ActiveOrganizer]) then
 									for j=1,  Organizer.Organizers_Items[Organizer.ActiveOrganizer] do
@@ -1193,8 +1193,7 @@ function Actions.LootbagTargetReceived()
 		WindowUtils.ChatPrint(GetStringFromTid(1155159), SystemData.ChatLogFilters.SYSTEM )
 		return
 	end
-	
-	local itemData = WindowData.ObjectInfo[objectId]
+
 	if ( objectId ~= backpackId and objectId ~= 0 and DoesPlayerHaveItem(objectId)) then
 		if (IsInPlayerBackPack(objectId) ) then
 			Interface.LootBoxID = objectId
@@ -1238,8 +1237,7 @@ function Actions.ToggleScaleMode()
 end
 
 function Actions.ObjectHandleContextMenu()
-    local filter
-    for filter = 1, #UserOptionsSettings.ObjectHandleFilters do
+	for filter = 1, #UserOptionsSettings.ObjectHandleFilters do
         ContextMenu.CreateLuaContextMenuItem(
 				UserOptionsSettings.ObjectHandleFilters[filter].text,
 				0,
