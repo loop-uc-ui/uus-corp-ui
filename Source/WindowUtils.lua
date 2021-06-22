@@ -172,28 +172,13 @@ function WindowUtils.SetActiveDialogTitle(title)
 end
 
 function WindowUtils.SetWindowTitle(window,title)
-    --Debug.Print("WindowUtils.SetWindowTitle: "..tostring(window).." title: "..tostring(title))
-    
 	if not title or not window  or title == "" then
 		return
 	end
-
 	title = wstring.upper(title)
-	
-
-	-- *** TESTING
-	if type(title) ~= "wstring" then
-		--Debug.Print("*** ERROR: window title is of type " .. type(title))
-	end
-	-- *** END TESTING
-	
 	if type(title) == "string" then
 	    title = StringToWString(title)	
-	end	
-	
-	
-	--local label = window.."Chrome_UO_TitleBar_WindowTitle"
-	--LabelSetText(label, title)
+	end
 	WindowUtils.FitTextToLabel(window, title, true)
 end
 
@@ -546,17 +531,10 @@ end
 -- called ScrollWindowUpdateScrollRect before using this function
 --
 function WindowUtils.ScrollToElementInScrollWindow( element, scrollWindow, scrollChild )
-
-	if (not DoesWindowNameExist(element)) or (not DoesWindowNameExist(scrollChild)) then
-		--Debug.Print("WindowUtils.GotoElementInScrollChild: Window does not exist!")
-		return
-	end
-	
 	local _,elementY = WindowGetScreenPosition(element)
 	local _,parentY = WindowGetScreenPosition(scrollChild)
 	local _, maxOffset = WindowGetDimensions(scrollChild)
 	local scrollOffset = elementY - parentY
-	
 	-- sanity checks
 	if( scrollOffset < 0 ) then
 	    scrollOffset = 0
@@ -564,7 +542,6 @@ function WindowUtils.ScrollToElementInScrollWindow( element, scrollWindow, scrol
 	if( scrollOffset > maxOffset ) then
 	    scrollOffset = maxOffset
 	end
-	
 	ScrollWindowSetOffset(scrollWindow, scrollOffset)
 end
 
@@ -597,16 +574,16 @@ end
 -- Append label text with ellipsis (...) if label text width exceeds label width
 -- Used by the function that sets window titles too, so that all titles don't extend beyond the window that contains them
 function WindowUtils.FitTextToLabel(labelName, labelText, isTitle )
-	
-local DEBUG = false -- enable for verbose debugging of this function
-
+	local DEBUG = false -- enable for verbose debugging of this function
 	local labelWindowName = labelName
 	if isTitle then
 		labelText = wstring.upper(labelText)
-		labelWindowName = labelName.."Chrome_UO_TitleBar_WindowTitle"	
-if DEBUG then Debug.Print( L"Called WindowUtils.FitTextToLabel() to set the title for window ''"..StringToWString(labelName)..L"'' to ''"..labelText..L"''" ) end
-	else
-if DEBUG then Debug.Print( L"Called WindowUtils.FitTextToLabel( "..StringToWString(labelWindowName)..L", "..labelText..L" )" ) end
+		labelWindowName = labelName.."Chrome_UO_TitleBar_WindowTitle"
+		if DEBUG then
+			Debug.Print( L"Called WindowUtils.FitTextToLabel() to set the title for window ''"..StringToWString(labelName)..L"'' to ''"..labelText..L"''" )
+		end
+	elseif DEBUG then
+		Debug.Print( L"Called WindowUtils.FitTextToLabel( "..StringToWString(labelWindowName)..L", "..labelText..L" )" )
 	end
 
 	if labelWindowName == nil or labelText == nil or labelWindowName == "" or labelText == "" or labelText == L"" then
@@ -621,10 +598,10 @@ if DEBUG then Debug.Print( L"Called WindowUtils.FitTextToLabel( "..StringToWStri
 	end
 	LabelSetText( labelWindowName, labelText )
 	local textX, textY = LabelGetTextDimensions(labelWindowName)
-	
-if DEBUG then Debug.Print( L"The space allowed for this label is "..labelX..L" pixels." ) end
-if DEBUG then Debug.Print( L"The current text size is "..textX..L" pixels." ) end
-
+	if DEBUG then
+		Debug.Print( L"The space allowed for this label is "..labelX..L" pixels." )
+		Debug.Print( L"The current text size is "..textX..L" pixels." )
+	end
     local text = labelText
 
 	if not textX or not labelX then
@@ -633,12 +610,18 @@ if DEBUG then Debug.Print( L"The current text size is "..textX..L" pixels." ) en
 	
 	while (textX  > labelX) and (text:len() > 1) do
 		text = wstring.sub(text, 1, -2)
-if DEBUG then Debug.Print( L"The text width ("..textX..L") is still greater than the label width ("..labelX..L"), so we're changing the text to ''"..text..L"...''" ) end		
+		if DEBUG then
+			Debug.Print( L"The text width ("..textX..L") is still greater than the label width ("..labelX..L"), so we're changing the text to ''"..text..L"...''" )
+		end
 		LabelSetText(labelWindowName, text..L"...")
 		textX, textY = LabelGetTextDimensions(labelWindowName)
-if DEBUG then Debug.Print( L"The new text size is width="..textX..L" height="..textY ) end
+		if DEBUG then
+			Debug.Print( L"The new text size is width="..textX..L" height="..textY )
+		end
 	end
-if DEBUG then Debug.Print( L"The text width ("..textX..L") is less than the label width ("..labelX..L"), so we are done." ) end		
+	if DEBUG then
+		Debug.Print( L"The text width ("..textX..L") is less than the label width ("..labelX..L"), so we are done." )
+	end
 end
 
 -- Local Functions
