@@ -455,8 +455,7 @@ function SpellsInfo.GetSpellDamage(spellId)
 		skillIdthi= 21 -- focus		
 		
 		serverId = WindowData.SkillsCSV[skillId].ServerId
-		local mainSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
-		
+
 		serverId = WindowData.SkillsCSV[skillIdsec].ServerId
 		local secondSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 		
@@ -523,7 +522,7 @@ function SpellsInfo.GetSpellSpeed(spellId)
 	end
 	
 	local fc = 	tonumber(WindowData.PlayerStatus["FasterCasting"])
-	local speed = nil
+	local speed
 	if (spellId >= 1 and spellId <= 8) then-- Magery 
 		speed = 0.5
 		forceCap = true
@@ -822,7 +821,7 @@ end
 -- Spell Trigger
 function SpellsInfo.GetButtonIDST(buttonId) -- 0 = force manual selection
 	local spellId = 676 + buttonId
-	local icon, serverId, tid, desctid, reagents, powerword, tithingcost, minskill, manacost  = GetAbilityData(spellId)
+	local _, serverId, _, _, _, _, _, minskill, _ = GetAbilityData(spellId)
 	skillId = 37
 	skillIdsec = 26 -- imbuing
 	skillIdthi= 21 -- focus
@@ -836,7 +835,6 @@ function SpellsInfo.GetButtonIDST(buttonId) -- 0 = force manual selection
 	serverId = WindowData.SkillsCSV[skillIdthi].ServerId
 	local tempSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 	secondSkillLevel = math.max(tempSkillLevel,secondSkillLevel)
-	local cando = 1
 	if minskill <= 20 or (minskill <= mainSkillLevel and minskill <= secondSkillLevel) then
 		return buttonId
 	else

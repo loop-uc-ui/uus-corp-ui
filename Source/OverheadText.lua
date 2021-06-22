@@ -111,8 +111,7 @@ function OverheadText.HandleMobileNameUpdate()
 end
 
 function OverheadText.HandleSettingsUpdate()
-	for i, id in pairs(OverheadText.ActiveIdList) do
-		local windowName = "OverheadTextWindow_"..i
+	for i, _ in pairs(OverheadText.ActiveIdList) do
 		if(SystemData.Settings.GameOptions.showNames == SystemData.Settings.GameOptions.SHOWNAMES_NONE) then
 			OverheadText.HideName(i)
 		elseif(SystemData.Settings.GameOptions.showNames == SystemData.Settings.GameOptions.SHOWNAMES_APPROACHING or SystemData.Settings.GameOptions.showNames == SystemData.Settings.GameOptions.SHOWNAMES_ALL) then
@@ -124,7 +123,7 @@ end
 -- Used in the Macro Action 'All Names'
 -- If the Show Names setting isn't set on 'Always', it will show all the names temporarily on the screen.
 function OverheadText.HandleFlashTempNames()
-	for i, id in pairs(OverheadText.ActiveIdList) do
+	for i, _ in pairs(OverheadText.ActiveIdList) do
 		OverheadText.ShowName(i)
 	end
 end
@@ -210,11 +209,11 @@ function OverheadText.UpdateName(mobileId)
 		end		
 		
 		CreaturesDB.updateSummonTimes()
-		local isSumm, name = MobilesOnScreen.IsSummon(data.MobName, mobileId)
+		local isSumm, thisName = MobilesOnScreen.IsSummon(data.MobName, mobileId)
 		if isSumm then
 			if (MobileHealthBar.SummonTimer[mobileId] == nil) then
 				
-				MobileHealthBar.SummonTimer[mobileId] = Interface.TimeSinceLogin + CreaturesDB.SummonTimes[name]
+				MobileHealthBar.SummonTimer[mobileId] = Interface.TimeSinceLogin + CreaturesDB.SummonTimes[thisName]
 			end
 		elseif not OverheadText.NameParsed[mobileId] then
 			
@@ -225,7 +224,7 @@ function OverheadText.UpdateName(mobileId)
 			end
 		end
 
-		if (name ~= L"" and name ~= "" and WindowData.PlayerStatus.PlayerId ~= mobileId and not MobilesOnScreen.IsPet(mobileId) and not HealthBarManager.IsPartyMember(mobileId)) then
+		if (thisName ~= L"" and thisName ~= "" and WindowData.PlayerStatus.PlayerId ~= mobileId and not MobilesOnScreen.IsPet(mobileId) and not HealthBarManager.IsPartyMember(mobileId)) then
 
 			local filterVisable = false
 			if (( noto == NameColor.Notoriety.NONE or noto == NameColor.Notoriety.CANATTACK or noto == NameColor.Notoriety.CRIMINAL) and DoesWindowNameExist("GreyDockspot") and WindowGetShowing("GreyDockspot")) then	
@@ -284,7 +283,7 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 		if (not sfind(data.MobName , L"Changeling")) then
 			data.MobName = data.MobName .. L" (Changeling)"
 		end
-		local name = data.MobName
+		name = data.MobName
 		if (sfind(wstring.sub(data.MobName,3), L" The ")) then
 			name = wstring.gsub(name, L" The ", L"<BR>The ", 1)
 		end
@@ -293,7 +292,7 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 		if (not sfind(data.MobName , L"Irk")) then
 			data.MobName = data.MobName .. L" (Irk)"
 		end
-		local name = data.MobName
+		name = data.MobName
 		if (sfind(wstring.sub(data.MobName,3), L" The ")) then
 			name = wstring.gsub(name, L" The ", L"<BR>The ", 1)
 		end
@@ -302,7 +301,7 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 		if (not sfind(data.MobName , L"Guile")) then
 			data.MobName = data.MobName .. L" (Guile)"
 		end
-		local name = data.MobName
+		name = data.MobName
 		if (sfind(wstring.sub(data.MobName,3), L" The ")) then
 			name = wstring.gsub(name, L" The ", L"<BR>The ", 1)
 		end
@@ -311,7 +310,7 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 		if (not sfind(data.MobName , L"Spite")) then
 			data.MobName = data.MobName .. L" (Spite)"
 		end
-		local name = data.MobName
+		name = data.MobName
 		if (sfind(wstring.sub(data.MobName,3), L" The ")) then
 			name = wstring.gsub(name, L" The ", L"<BR>The ", 1)
 		end
@@ -321,13 +320,13 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 			data.MobName = data.MobName .. L" (Travesty)"
 		end
 		
-		local name = data.MobName
+		name = data.MobName
 		if (sfind(wstring.sub(data.MobName,3), L" The ")) then
 			name = wstring.gsub(name, L" The ", L"<BR>The ", 1)
 		end
 		LabelSetText(labelName, L""..name)
 	else
-		local name = data.MobName
+		name = data.MobName
 		if (sfind(data.MobName, L" The ")) then
 			name =  wstring.gsub(data.MobName, L" The ", L"<BR>The ")			
 		end
@@ -363,9 +362,8 @@ function OverheadText.Update( timePassed )
 	end
 
 	if (SystemData.Settings.GameOptions.showNames ~= SystemData.Settings.GameOptions.SHOWNAMES_ALL) then
-		for i, id in pairs(OverheadText.ActiveIdList) do
-			local mobileId = i
-			
+		for i, _ in pairs(OverheadText.ActiveIdList) do
+
 			if( OverheadText.FadeTimeId[i] ~= nil ) then
 				OverheadText.TimePassed[i] = OverheadText.TimePassed[i] + timePassed
 				if(OverheadText.TimePassed[i] > OverheadText.FadeStartTime ) then

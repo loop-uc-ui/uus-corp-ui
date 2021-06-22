@@ -261,10 +261,8 @@ end
 function PartyHealthBar.UpdateStatus(mobileId)
 	local mobileData = Interface.GetMobileData(mobileId, true)
 	if(PartyHealthBar.hasWindow[mobileId] == true and mobileData) then
-		
-		
-		local windowName = PartyHealthBar.GetWindowName(mobileId)
-				
+
+
 		local memberIndex = HealthBarManager.GetMemberIndex(mobileId)
 		local windowName = "PartyHealthBar_"..memberIndex
 
@@ -304,9 +302,7 @@ end
 
 function PartyHealthBar.UpdateName(mobileId)
 	if(PartyHealthBar.hasWindow[mobileId] == true) then
-		
-		local windowName = PartyHealthBar.GetWindowName(mobileId)
-		
+
 		if(WindowData.MobileName[mobileId] ~= nil) then
 			
 			local memberIndex = HealthBarManager.GetMemberIndex(mobileId)
@@ -560,7 +556,7 @@ function PartyHealthBar.RedButton_OnMouseOver()
 	elseif (buttonDef == 3) then
 		spellId = UserHealthBarsSettings.redButtonSpell3()
 	end
-	local icon, serverId, tid, desctid = GetAbilityData(spellId)
+	local _, _, tid, _ = GetAbilityData(spellId)
 	if (not tid) then
 		tid = 1011051
 	end
@@ -625,7 +621,7 @@ function PartyHealthBar.GreenButton_OnMouseOver()
 	end
 		
 
-	local icon, serverId, tid, desctid = GetAbilityData(spellId)
+	local _, _, tid, _ = GetAbilityData(spellId)
 	if (not tid) then
 		tid = 1011051
 	end
@@ -682,7 +678,7 @@ function PartyHealthBar.BlueButton_OnMouseOver()
 		spellId = UserHealthBarsSettings.blueButtonSpell3()
 	end
 
-	local icon, serverId, tid, desctid = GetAbilityData(spellId)
+	local _, _, tid, _ = GetAbilityData(spellId)
 	if (not tid) then
 		tid = 1011051
 	end
@@ -713,21 +709,21 @@ function PartyHealthBar.Button_OnRButtonUp()
 		local buttonDef = Interface.LoadNumber("RedButtonDef_" .. mobileId, Interface.RedDef)
 		
 		local spellId = UserHealthBarsSettings.redButtonSpell1()
-		local icon, serverId, tid, desctid = GetAbilityData(spellId)
+		local _, _, tid, _ = GetAbilityData(spellId)
 		if (not tid) then
 			tid = 1011051
 		end
 		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(tid),0,"r1",2,buttonDef ==1)
 		
 		spellId = UserHealthBarsSettings.redButtonSpell2()
-		local icon, serverId, tid, desctid = GetAbilityData(spellId)
+		_, _, tid, _ = GetAbilityData(spellId)
 		if (not tid) then
 			tid = 1011051
 		end
 		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(tid),0,"r2",2,buttonDef==2)
 		
 		spellId = UserHealthBarsSettings.redButtonSpell3()
-		local icon, serverId, tid, desctid = GetAbilityData(spellId)
+		_, _, tid, _ = GetAbilityData(spellId)
 		if (not tid) then
 			tid = 1011051
 		end
@@ -736,21 +732,21 @@ function PartyHealthBar.Button_OnRButtonUp()
 	elseif (string.find(SystemData.ActiveWindow.name, "Green")) then
 		local buttonDef = Interface.LoadNumber("GreenButtonDef_" .. mobileId, Interface.GreenDef)
 		local spellId = UserHealthBarsSettings.greenButtonSpell1()
-		local icon, serverId, tid, desctid = GetAbilityData(spellId)
+		local _, _, tid, _ = GetAbilityData(spellId)
 		if (not tid) then
 			tid = 1011051
 		end
 		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(tid),0,"g1",2,buttonDef==1)
 		
 		spellId = UserHealthBarsSettings.greenButtonSpell2()
-		local icon, serverId, tid, desctid = GetAbilityData(spellId)
+		_, _, tid, _ = GetAbilityData(spellId)
 		if (not tid) then
 			tid = 1011051
 		end
 		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(tid),0,"g2",2,buttonDef==2)
 		
 		spellId = UserHealthBarsSettings.greenButtonSpell3()
-		local icon, serverId, tid, desctid = GetAbilityData(spellId)
+		_, _, tid, _ = GetAbilityData(spellId)
 		if (not tid) then
 			tid = 1011051
 		end
@@ -759,21 +755,21 @@ function PartyHealthBar.Button_OnRButtonUp()
 	elseif (string.find(SystemData.ActiveWindow.name, "Blue")) then
 		local buttonDef = Interface.LoadNumber("BlueButtonDef_" .. mobileId, Interface.BlueDef)
 		local spellId = UserHealthBarsSettings.blueButtonSpell1()
-		local icon, serverId, tid, desctid = GetAbilityData(spellId)
+		local _, _, tid, _ = GetAbilityData(spellId)
 		if (not tid) then
 			tid = 1011051
 		end
 		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(tid),0,"b1",2,buttonDef==1)
 		
 		spellId = UserHealthBarsSettings.blueButtonSpell2()
-		local icon, serverId, tid, desctid = GetAbilityData(spellId)
+		_, _, tid, _ = GetAbilityData(spellId)
 		if (not tid) then
 			tid = 1011051
 		end
 		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(tid),0,"b2",2,buttonDef==2)
 		
 		spellId = UserHealthBarsSettings.blueButtonSpell3()
-		local icon, serverId, tid, desctid = GetAbilityData(spellId)
+		_, _, tid, _ = GetAbilityData(spellId)
 		if (not tid) then
 			tid = 1011051
 		end
@@ -783,7 +779,7 @@ function PartyHealthBar.Button_OnRButtonUp()
 	ContextMenu.ActivateLuaContextMenu(PartyHealthBar.ContextMenuCallback)
 end
 
-function PartyHealthBar.ContextMenuCallback(returnCode, param)
+function PartyHealthBar.ContextMenuCallback(returnCode, _)
 	
 	if (string.find(returnCode, "r")) then
 		local val = string.gsub(returnCode,"r", "")

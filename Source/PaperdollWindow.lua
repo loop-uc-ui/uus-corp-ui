@@ -329,8 +329,7 @@ function PaperdollWindow.UpdatePaperdoll(windowName,paperdollId)
 	if( paperdollId == WindowGetId(windowName) ) then
 		local elementIcon		
 		local element
-		local topButton 
-		local pdscale = WindowGetScale(windowName)
+		local topButton
 		local mobileData = Interface.GetMobileData(paperdollId, true)
 		
 		if mobileData.Race == PaperdollWindow.GARGOYLE then	
@@ -495,7 +494,7 @@ function PaperdollWindow.UpdatePaperdoll(windowName,paperdollId)
 				
 				local visibleTextures = { tabNames[1].."Texture" }
 
-				local mobileData = Interface.GetMobileData(paperdollId, true)
+				mobileData = Interface.GetMobileData(paperdollId, true)
 				local paperdollTextureName = "paperdoll_texture"..paperdollId
 				for index, paperdollTexture in ipairs(visibleTextures) do
 					WindowSetShowing(paperdollTexture, true)
@@ -550,7 +549,7 @@ function PaperdollWindow.GetMouseSlotId()
 end
 
 function PaperdollWindow.OnPaperdollTextureLButtonDown(flags)
-	local paperdollId, slotId = PaperdollWindow.GetMouseSlotId()
+	local _, slotId = PaperdollWindow.GetMouseSlotId()
 	
 	if( WindowData.Cursor ~= nil and WindowData.Cursor.target == true and slotId ~= 0 )
 	then
@@ -612,13 +611,13 @@ function PaperdollWindow.OnPaperdollTextureLButtonUp()
 end
 
 function PaperdollWindow.OnPaperdollTextureLButtonDblClk()
-	local paperdollId, slotId = PaperdollWindow.GetMouseSlotId()
+	local _, slotId = PaperdollWindow.GetMouseSlotId()
 	UserActionUseItem(slotId,false)
 end
 
 
 function PaperdollWindow.OnPaperdollTextureRButtonDown()
-	local paperdollId, slotId = PaperdollWindow.GetMouseSlotId()
+	local _, slotId = PaperdollWindow.GetMouseSlotId()
 
 	
 	if( slotId ~= 0 ) then
@@ -629,7 +628,7 @@ end
 
 			
 function PaperdollWindow.OnPaperdollTextureMouseOver()
-	local ok, paperdollId, slotId  = pcall(PaperdollWindow.GetMouseSlotId)	
+	local ok, paperdollId, _ = pcall(PaperdollWindow.GetMouseSlotId)
 	Interface.ErrorTracker(ok, paperdollId)
 	if type(paperdollId) ~= "function" then
 		PaperdollWindow.ActivePaperdollImage = paperdollId
@@ -775,7 +774,7 @@ function PaperdollWindow.ItemMouseOver()
 	ItemProperties.SetActiveItem(itemData)
 end
 
-function PaperdollWindow.OnUpdate(timePassed)
+function PaperdollWindow.OnUpdate(_)
 	if( PaperdollWindow.ActivePaperdollImage ~= 0 ) then
 		local dialog = WindowUtils.GetActiveDialog()
 		local windowName = "PaperdollWindow"..PaperdollWindow.ActivePaperdollImage
@@ -891,7 +890,7 @@ end
 
 PaperdollWindow.GotDamage = false
 
-function PaperdollWindow.UpdateDurabilities(timePassed)
+function PaperdollWindow.UpdateDurabilities(_)
 	
 	if not PaperdollWindow.GotDamage then
 		return
@@ -942,11 +941,11 @@ function PaperdollWindow.UpdateDurabilities(timePassed)
 end
 
 -- Triggered when an item loses durability
-function PaperdollWindow.OnItemDamaged(id, slotId, durabilityLost)
+function PaperdollWindow.OnItemDamaged(_, _, _)
 
 end
 
 -- Triggered when an item loses MAX durability
-function PaperdollWindow.OnItemSeverelyDamaged(id, slotId, MAXdurabilityLost)
+function PaperdollWindow.OnItemSeverelyDamaged(_, _, _)
 
 end
