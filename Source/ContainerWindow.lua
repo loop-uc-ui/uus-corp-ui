@@ -1043,7 +1043,7 @@ function ContainerWindow.UpdateContents(id, _)
 			end
 			WindowSetScale(list_view_this.."ScrollChildItem"..i, scl)
 		end
-		local savedOffset = 0
+		local savedOffset
 		if ContainerWindow.ViewModes[id] == "List" then
 			for i = 1, numItems do
 				if ( DoesWindowNameExist(list_view_this.."ScrollChildItem"..i) and LabelGetText(list_view_this.."ScrollChildItem"..i.."Name" ) == "") then
@@ -1057,16 +1057,16 @@ function ContainerWindow.UpdateContents(id, _)
 			local maxOffset = VerticalScrollbarGetMaxScrollPosition(list_view_this.."Scrollbar")
 			savedOffset = Interface.LoadNumber("ScrollList" .. id, 0)
 			listOffset = savedOffset
-			if( listOffset > maxOffset ) then
-		   		listOffset = maxOffset
+			if listOffset > maxOffset then
+				listOffset = maxOffset
 			end
 			ScrollWindowSetOffset(list_view_this,listOffset)						
 		else
 			maxOffset = VerticalScrollbarGetMaxScrollPosition(grid_view_this.."Scrollbar")
 			savedOffset = Interface.LoadNumber("ScrollGrid" .. id, 0)
-			gridOffset = savedOffset		
-			if( gridOffset > maxOffset ) then
-		   		gridOffset = maxOffset
+			gridOffset = savedOffset
+			if gridOffset > maxOffset then
+				gridOffset = maxOffset
 			end
 			ScrollWindowSetOffset(grid_view_this, gridOffset)						
 		end	
@@ -1086,7 +1086,7 @@ ContainerWindow.GetContentDelta = {}
 
 function ContainerWindow.GetContent(contId)
 	local rtn = L""
-	local _, qta, wgt, val, token
+	local qta, wgt, val, token
 	wgt = 0
 	qta = 0
 	
@@ -1179,7 +1179,7 @@ end
 
 function ContainerWindow.ScanQuantities(backpackId, itemsOnly)
 	local AllItems = {}
-	local qta = 0 
+	local qta
 	local wgt = 0
 	if not WindowData.ContainerWindow[backpackId] then
 		RegisterWindowData(WindowData.ContainerWindow.Type, backpackId)
@@ -1386,8 +1386,8 @@ function ContainerWindow.ToggleView()
         if (ContainerWindow.ViewModes[id] == "List") then
 		    ContainerWindow.ViewModes[id] = "Grid"
 		    ContainerWindow.UpdateGridViewSockets(id)
-        elseif( ContainerWindow.ViewModes[id] == "Grid" ) then
-    	    ContainerWindow.ViewModes[id] = "List"    	    
+        elseif ContainerWindow.ViewModes[id] == "Grid" then
+			ContainerWindow.ViewModes[id] = "List"
 			ContainerWindow.UpdateListViewSockets(id)
 	    end	    
         ContainerWindow.UpdateContents(id,true)
@@ -1623,10 +1623,12 @@ function ContainerWindow.ItemMouseOver()
 	    objectId = containedItems[slotNum].objectId
     	
 	    if objectId then
-		    local itemData = { windowName = dialog,
-						       itemId = objectId,
-		    			       itemType = WindowData.ItemProperties.TYPE_ITEM,
-		    			       detail = ItemProperties.DETAIL_LONG }
+		    local itemData = {
+				windowName = dialog,
+				itemId = objectId,
+				itemType = WindowData.ItemProperties.TYPE_ITEM,
+				detail = ItemProperties.DETAIL_LONG
+			}
 		    ItemProperties.SetActiveItem(itemData)
 	    end
 	end
@@ -2082,7 +2084,7 @@ function ContainerWindow.UpdateGridViewSockets(id)
 	local newGridHeight = GRID_HEIGHT * ContainerWindow.Grid.SocketSize + ContainerWindow.Grid.PaddingTop
 	
 	-- fit the window width to the grid width
-	local newWindowWidth = newGridWidth + ContainerWindow.Grid.PaddingRight
+	local newWindowWidth
 	local newWindowHeight = windowHeight
 	
 	-- if we can see every slot in the container, snap the window height to the grid and hide the void created 
