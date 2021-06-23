@@ -43,4 +43,4 @@ jobs:
         # uses: Nick-Mazuk/lua-docs-generator@ceaed5f8e65de2f17c3ecb38b31e60b4becf6fdd
         uses: Nick-Mazuk/lua-docs-generator@v1.0.6
         with:
-          input: $GITHUB_WORKSPACE
+          input: ${{ github.workspace }}
