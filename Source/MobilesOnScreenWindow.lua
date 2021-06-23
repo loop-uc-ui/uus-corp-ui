@@ -364,7 +364,7 @@ function MobilesOnScreen.Shutdown()
 	end
 end
 
-function MobilesOnScreen.OnSlide( curPos )
+function MobilesOnScreen.OnSlide(_)
 	local bar = SystemData.ActiveWindow.name
 	local barName = string.gsub(SystemData.ActiveWindow.name, "SliderBar", "")
 	local barVal = 0
@@ -452,7 +452,7 @@ function MobilesOnScreen.SaveFilterSettings()
 	Interface.SaveNumber("MobilesOnScreenOffset", MobilesOnScreen.windowOffset )
 	
 	MobileHealthBar.Forced = true
-	for mob, value in pairs(MobileHealthBar.hasWindow) do
+	for mob, _ in pairs(MobileHealthBar.hasWindow) do
 		if not (MobilesOnScreen.IsPet(mob)) then
 			if (MobilesOnScreen.IsManagedMobileOnScreen(mob)) then
 				if (MobilesOnScreen.UnSorted[mob] or MobilesOnScreen.MobilesYellow[mob] or 	MobilesOnScreen.MobilesGrey[mob] or	MobilesOnScreen.MobilesBlue[mob] or	MobilesOnScreen.MobilesRed[mob] or	MobilesOnScreen.MobilesGreen[mob] or	MobilesOnScreen.MobilesOrange[mob] ) then
@@ -584,8 +584,7 @@ function MobilesOnScreen.IsSummon(name, mobileId)
 		if MobilesOnScreen.IsPet(mobileId) then --only for personal summons			
 			local summonNameFix = string.gsub(name, "^%s*(.-)%s*$","%1")
 			summonNameFix = string.lower(summonNameFix)
-			local org_summonNameFix = string.lower(summonNameFix)			
-			if summonNameFix == "a revenant" then	
+			if summonNameFix == "a revenant" then
 				if Interface.LastSpell ~= 114 then 
 					return false
 				end				
@@ -741,7 +740,6 @@ end
 
 function MobilesOnScreen.RemoveHealthBar(mobileId)
 	if MobilesOnScreen.IsManagedMobileOnScreen(mobileId)then
-		local windowName = "MobileHealthBar_"..mobileId		
 		MobileHealthBar.CloseWindowByMobileId(mobileId)
 		MobilesOnScreen.isDirty = true
 	end
@@ -865,56 +863,50 @@ function MobilesOnScreen.UpdateAnchors()
 		local mobileId = MobilesOnScreen.MobilesSort[pos]
 		-- ignoring: extracted bars, pets, not mobiles, disabled healthbars
 		if mobileId and mobileId ~= nil and MobilesOnScreen.IsManagedMobileOnScreen(mobileId) and not MobilesOnScreen.IsPet(mobileId) and not HealthBarManager.IsPartyMember(mobileId) then
-			if ( not IsMobile(mobileId) or MobileHealthBar.windowDisabled[mobileId]) then
-				if not DoesWindowNameExist("MobileHealthBar_"..mobileId) then
-					UnregisterWindowData(WindowData.MobileName.Type, mobileId)
-					continue
-				end
-
-				MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
-				continue
-			end
-
-			local windowName = "MobileHealthBar_"..mobileId
-			RegisterWindowData(WindowData.MobileName.Type, mobileId)
-			local data = WindowData.MobileName[mobileId]
-			if data then
-				if (MobilesOnScreen.STRFilter ~= "" ) then -- filter
+			if IsMobile(mobileId) and not MobileHealthBar.windowDisabled[mobileId] then
+				local windowName = "MobileHealthBar_"..mobileId
+				RegisterWindowData(WindowData.MobileName.Type, mobileId)
+				local data = WindowData.MobileName[mobileId]
+				if data then
 					local found = false
-					for cf in wstring.gmatch(MobilesOnScreen.STRFilter, L"[^|]+") do
-						if (wstring.find(wstring.lower(data.MobName), wstring.lower(cf))) then
-							found = true
+					if (MobilesOnScreen.STRFilter ~= "" ) then -- filter
+						for cf in wstring.gmatch(MobilesOnScreen.STRFilter, L"[^|]+") do
+							if (wstring.find(wstring.lower(data.MobName), wstring.lower(cf))) then
+								found = true
+							end
 						end
 					end
-					if (not found ) then
+
+					if not found and MobilesOnScreen.STRFilter ~= "" then
 						MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
-						continue
-					end
-				end
+					elseif IsValidObject(mobileId) and GetDistanceFromPlayer(mobileId) <= 25 then
+						local noto = data.Notoriety+1
+						-- let's check if the filters allow this mobile
+						local added = false
 
-				if IsValidObject(mobileId) and GetDistanceFromPlayer(mobileId) <= 25 then
-					local noto = data.Notoriety+1
-					-- let's check if the filters allow this mobile
-					local added = false
+						local canAddOne =  MobilesOnScreen.CanAddMobileOnScreen(noto, mobileId, data)
+						local canAddTwo = MobilesOnScreen.IgnoredMobile(data.MobName)
 
-					local canAddOne =  MobilesOnScreen.CanAddMobileOnScreen(noto, mobileId, data)
-					local canAddTwo = MobilesOnScreen.IgnoredMobile(data.MobName)
-
-					if not canAddTwo and canAddOne then
-						added = MobilesOnScreen.AddHealthbar(mobileId)
-						MobilesOnScreen.UnMarkHealthBarForDeletion(mobileId)
-					end
-					if (added and not DoesWindowNameExist(windowName)) then
-						MobileHealthBar.Forced = true
-						MobileHealthBar.CreateHealthBar(mobileId)
-						MobilesOnScreen.AddMobileOnScreenCount(mobileId)
-						MobileHealthBar.Forced = nil
-					elseif(not added)then
+						if not canAddTwo and canAddOne then
+							added = MobilesOnScreen.AddHealthbar(mobileId)
+							MobilesOnScreen.UnMarkHealthBarForDeletion(mobileId)
+						end
+						if (added and not DoesWindowNameExist(windowName)) then
+							MobileHealthBar.Forced = true
+							MobileHealthBar.CreateHealthBar(mobileId)
+							MobilesOnScreen.AddMobileOnScreenCount(mobileId)
+							MobileHealthBar.Forced = nil
+						elseif(not added)then
+							MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
+						end
+					else
 						MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
 					end
 				else
 					MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
 				end
+			elseif not DoesWindowNameExist("MobileHealthBar_"..mobileId) then
+				UnregisterWindowData(WindowData.MobileName.Type, mobileId)
 			else
 				MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
 			end
@@ -959,7 +951,7 @@ function MobilesOnScreen.HidePet()
 	if (not MobilesOnScreen.GetVisible()) then
 		MobilesOnScreen.Clear()
 	else
-		for mob, value in pairs(MobileHealthBar.Handled) do
+		for mob, _ in pairs(MobileHealthBar.Handled) do
 			if not (MobilesOnScreen.IsPet(mob)) then
 				if (MobilesOnScreen.UnSorted[mob] and MobilesOnScreen.IsManagedMobileOnScreen(mob)) then
 					MobilesOnScreen.RemoveHealthBar(mob)
@@ -1002,8 +994,6 @@ function MobilesOnScreen.ShowWindow()
 end
 
 function MobilesOnScreen.LockTooltip()
-	local windowname = WindowUtils.GetActiveDialog()
-
 	if ( MobilesOnScreen.locked  ) then
 		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1111696))
 	else
@@ -1038,7 +1028,6 @@ end
 
 
 function MobilesOnScreen.Lock()
-	local windowname = WindowGetId(WindowUtils.GetActiveDialog())
 	if  MobilesOnScreen.Hidden then
 		if(MobilesOnScreen.locked) then
 			ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(1111696),0,"Lock",1,false)
@@ -1183,7 +1172,7 @@ function MobilesOnScreen.SetFilter(j, newval)
 	end
 end
 
-function MobilesOnScreen.ContextMenuCallback( returnCode, param )
+function MobilesOnScreen.ContextMenuCallback(returnCode, _)
 	local windowName = "MobilesOnScreenWindow"
 	if ( returnCode=="Lock" ) then
 		MobilesOnScreen.locked = not MobilesOnScreen.locked
@@ -1445,8 +1434,7 @@ function MobilesOnScreen.CleanMobileSortCache()
 	if( mobileTargetList == nil ) then
 		return
 	end
-	local numTargets = table.getn(mobileTargetList)	
-	for index, mobileId in pairs(mobileTargetList) do
+	for _, mobileId in pairs(mobileTargetList) do
 		if not (MobilesOnScreen.IsPet(mobileId)) then
 			local data = WindowData.MobileName[mobileId]
 			if(data and data.MobName ~= nil) then
