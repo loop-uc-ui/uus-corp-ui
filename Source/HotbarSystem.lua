@@ -1392,12 +1392,12 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 		for _, tab in pairs(SpellsInfo.SpellsData) do
 			if tab.id >= 678 and tab.id <= 700 and tab.spellTrigger then
 				
-				local _, serverId, tid, _, _, _, _, minskill, _ = GetAbilityData(tab.id)
+				local _, _, tid, _, _, _, _, minskill, _ = GetAbilityData(tab.id)
 				local skillId = 37
 				local skillIdsec = 26 -- imbuing
 				local skillIdthi= 21 -- focus
 				
-				serverId = WindowData.SkillsCSV[skillId].ServerId
+				local serverId = WindowData.SkillsCSV[skillId].ServerId
 				local mainSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 				local mobileData = Interface.GetMobileData(WindowData.PlayerStatus.PlayerId, true)
 				if mobileData and mobileData.Race == PaperdollWindow.HUMAN and mainSkillLevel < 20 then
@@ -1406,9 +1406,9 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 				
 				serverId = WindowData.SkillsCSV[skillIdsec].ServerId
 				local secondSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
-				
-				local serverIdthi = WindowData.SkillsCSV[skillIdthi].ServerId
-				local tempSkillLevel = WindowData.SkillDynamicData[serverIdthi].TempSkillValue / 10
+
+				serverId = WindowData.SkillsCSV[skillIdthi].ServerId
+				local tempSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 				secondSkillLevel = math.max(tempSkillLevel,secondSkillLevel)
 				
 				if mobileData and mobileData.Race == PaperdollWindow.HUMAN and secondSkillLevel < 20 then
