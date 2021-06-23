@@ -172,12 +172,11 @@ function MapCommon.Shutdown()
 end
 
 function MapCommon.Update()
-    if( MapCommon.WaypointsDirty == true and
-            MapCommon.ActiveView ~= nil and
-            MapCommon.WaypointViewInfo[MapCommon.MAP_MODE_NAME].WaypointsEnabled == true ) then
-    	MapCommon.UpdateWaypoints(MapCommon.ActiveView)
-        MapCommon.WaypointsDirty = false
-    end
+    if MapCommon.WaypointsDirty == true and MapCommon.ActiveView ~= nil
+			and MapCommon.WaypointViewInfo[MapCommon.MAP_MODE_NAME].WaypointsEnabled == true then
+		MapCommon.UpdateWaypoints(MapCommon.ActiveView)
+		MapCommon.WaypointsDirty = false
+	end
 end
 
 function MapCommon.AdjustZoom(zoomDelta)
@@ -688,34 +687,18 @@ function MapCommon.ConvertToXYMinutes(latVal, longVal, latDir, longDir, facet, a
 	
 	local x = sectCenterX + ((absLong * MapCommon.sextantMaximumX) / 360)
 	local y = sectCenterY + ((absLat * MapCommon.sextantMaximumY) / 360)
-	
-	--if( (facet == 0 and area == MapCommon.sextantFeluccaLostLands) or (facet == 1 and area == MapCommon.sextantTrammelLostLands) ) then
-	--	if (x < MapCommon.sextantLostLandTopRightX) then
-	--		x = x + MapCommon.sextantLostLandTopLeftX
-	--	end
-	--	if (x >= MapCommon.sextantLostLandTopLeftX) then
-	--		x = x - MapCommon.sextantLostLandTopLeftX
-	--	end
-	--	if (y < MapCommon.sextantLostLandTopLeftY) then
-	--		y = y + MapCommon.sextantLostLandBottomLeftY
-	--	end
-	--	if (y >= MapCommon.sextantLostLandBottomLeftY) then
-	--		y = y - MapCommon.sextantLostLandBottomLeftY
-	--	end
-	--else
-		if (x < 0) then
-			x = x + MapCommon.sextantMaximumX
-		end
-		if (x >= MapCommon.sextantMaximumX) then
-			x = x - MapCommon.sextantMaximumX
-		end
-		if (y < 0) then
-			y = y + MapCommon.sextantMaximumY
-		end
-		if (y >= MapCommon.sextantMaximumY) then
-			y = y - MapCommon.sextantMaximumY
-		end		
-	--end
+	if (x < 0) then
+		x = x + MapCommon.sextantMaximumX
+	end
+	if (x >= MapCommon.sextantMaximumX) then
+		x = x - MapCommon.sextantMaximumX
+	end
+	if (y < 0) then
+		y = y + MapCommon.sextantMaximumY
+	end
+	if (y >= MapCommon.sextantMaximumY) then
+		y = y - MapCommon.sextantMaximumY
+	end
 	return x, y
 end
 
@@ -780,9 +763,9 @@ function MapCommon.WaypointMouseOver()
         
         local waypointId = WindowGetId(SystemData.ActiveWindow.name)
         local waypointWindow = "Waypoint"..waypointId..MapCommon.ActiveView
-        local waypointName = "Invalid Waypoint"
-        local waypointX = 0
-        local waypointY = 0
+        local waypointName
+        local waypointX
+        local waypointY
         
         if( waypointId ~= MapCommon.WaypointPlayerId ) then
 			local wtype, wflags, wname, wfacet, wx, wy, wz

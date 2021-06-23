@@ -453,14 +453,12 @@ function MobilesOnScreen.SaveFilterSettings()
 	
 	MobileHealthBar.Forced = true
 	for mob, value in pairs(MobileHealthBar.hasWindow) do
-		if (MobilesOnScreen.IsPet(mob)) then
-			continue
-		end
-		
-		if (MobilesOnScreen.IsManagedMobileOnScreen(mob)) then
-			if (MobilesOnScreen.UnSorted[mob] or MobilesOnScreen.MobilesYellow[mob] or 	MobilesOnScreen.MobilesGrey[mob] or	MobilesOnScreen.MobilesBlue[mob] or	MobilesOnScreen.MobilesRed[mob] or	MobilesOnScreen.MobilesGreen[mob] or	MobilesOnScreen.MobilesOrange[mob] ) then
-				MobilesOnScreen.RemoveHealthBar(mob)								
-				MobileHealthBar.Handled[mob] = false
+		if not (MobilesOnScreen.IsPet(mob)) then
+			if (MobilesOnScreen.IsManagedMobileOnScreen(mob)) then
+				if (MobilesOnScreen.UnSorted[mob] or MobilesOnScreen.MobilesYellow[mob] or 	MobilesOnScreen.MobilesGrey[mob] or	MobilesOnScreen.MobilesBlue[mob] or	MobilesOnScreen.MobilesRed[mob] or	MobilesOnScreen.MobilesGreen[mob] or	MobilesOnScreen.MobilesOrange[mob] ) then
+					MobilesOnScreen.RemoveHealthBar(mob)
+					MobileHealthBar.Handled[mob] = false
+				end
 			end
 		end
 	end
@@ -501,14 +499,12 @@ function MobilesOnScreen.Clear()
 	local endNumber = table.getn(MobilesOnScreen.MobilesSort)
 	for pos=1, endNumber do
 		local mob = MobilesOnScreen.MobilesSort[pos]
-		if (MobilesOnScreen.IsPet(mob)) then			
-			continue
+		if not (MobilesOnScreen.IsPet(mob)) then
+			local windowName = "MobileHealthBar_"..mob
+			if (MobilesOnScreen.IsManagedMobileOnScreen(mob) and DoesWindowExist(windowName)) then
+				MobilesOnScreen.RemoveHealthBar(mob)
+			end
 		end
-
-		local windowName = "MobileHealthBar_"..mob
-		if (MobilesOnScreen.IsManagedMobileOnScreen(mob) and DoesWindowExist(windowName)) then
-			MobilesOnScreen.RemoveHealthBar(mob)			
-		end		
 	end
 	
 	MobileHealthBar.Forced = nil
@@ -792,22 +788,21 @@ function MobilesOnScreen.HandleAnchorsForCategory( categoryWindows, categoryMobL
 	for i=1, table.getn(categoryMobList) do
 		local mob = categoryMobList[i]
 		local windowName = "MobileHealthBar_"..mob
-		if (mob == nil or not DoesWindowNameExist(windowName) or not MobilesOnScreen.IsManagedMobileOnScreen(mob) or not WindowGetShowing(windowName)) then		
-			continue
-		end
-		if (categoryWindows <= categoryLimit + 1) then
-			bars = bars + 1
-			categoryWindows = categoryWindows + 1
-			-- anchor management			
-			local showName = parent.."ShowView"
-			local windowPrev = "MobileHealthBar_"..unsortedPrev						
-			WindowClearAnchors(windowName)
-			if ( bars == 1 ) then				
-				WindowAddAnchor(windowName, "bottomleft", showName, "topleft", 0, 0 )
-			else
-				WindowAddAnchor(windowName, "bottomleft", windowPrev, "topleft", 0, MobilesOnScreen.windowOffset )
-			end			
-			unsortedPrev = mob
+		if mob ~= nil and DoesWindowNameExist(windowName) and MobilesOnScreen.IsManagedMobileOnScreen(mob) and WindowGetShowing(windowName) then
+			if (categoryWindows <= categoryLimit + 1) then
+				bars = bars + 1
+				categoryWindows = categoryWindows + 1
+				-- anchor management
+				local showName = parent.."ShowView"
+				local windowPrev = "MobileHealthBar_"..unsortedPrev
+				WindowClearAnchors(windowName)
+				if ( bars == 1 ) then
+					WindowAddAnchor(windowName, "bottomleft", showName, "topleft", 0, 0 )
+				else
+					WindowAddAnchor(windowName, "bottomleft", windowPrev, "topleft", 0, MobilesOnScreen.windowOffset )
+				end
+				unsortedPrev = mob
+			end
 		end
 	end
 end
@@ -867,70 +862,65 @@ function MobilesOnScreen.UpdateAnchors()
 	MobilesOnScreen.CurrentHandledCount = 0
 	local endNumber = table.getn(MobilesOnScreen.MobilesSort)
 	for pos=1, endNumber do
-		local mobileId = MobilesOnScreen.MobilesSort[pos]		
+		local mobileId = MobilesOnScreen.MobilesSort[pos]
 		-- ignoring: extracted bars, pets, not mobiles, disabled healthbars
-		if (not mobileId or mobileId == nil or not MobilesOnScreen.IsManagedMobileOnScreen(mobileId) or MobilesOnScreen.IsPet(mobileId) or HealthBarManager.IsPartyMember(mobileId)) then
-			if not DoesWindowNameExist("MobileHealthBar_"..mobileId) then				
-				UnregisterWindowData(WindowData.MobileName.Type, mobileId)
-			end			
-			continue			
-		end
-
-		if ( not IsMobile(mobileId) or MobileHealthBar.windowDisabled[mobileId]) then
-			if not DoesWindowNameExist("MobileHealthBar_"..mobileId) then
-				UnregisterWindowData(WindowData.MobileName.Type, mobileId)
-				continue
-			end	
-			
-			MobilesOnScreen.MarkHealthBarForDeletion(mobileId)						
-			continue			
-		end
-
-		local windowName = "MobileHealthBar_"..mobileId
-		RegisterWindowData(WindowData.MobileName.Type, mobileId)
-		local data = WindowData.MobileName[mobileId]
-		if (not data) then -- missing data			
-			MobilesOnScreen.MarkHealthBarForDeletion(mobileId)			
-			continue			
-		end
-		-- and not wstring.find(wstring.lower(data.MobName), wstring.lower(MobilesOnScreen.STRFilter))
-		if (MobilesOnScreen.STRFilter ~= "" ) then -- filter
-			local found = false
-			for cf in wstring.gmatch(MobilesOnScreen.STRFilter, L"[^|]+") do
-				if (wstring.find(wstring.lower(data.MobName), wstring.lower(cf))) then
-					found = true
+		if mobileId and mobileId ~= nil and MobilesOnScreen.IsManagedMobileOnScreen(mobileId) and not MobilesOnScreen.IsPet(mobileId) and not HealthBarManager.IsPartyMember(mobileId) then
+			if ( not IsMobile(mobileId) or MobileHealthBar.windowDisabled[mobileId]) then
+				if not DoesWindowNameExist("MobileHealthBar_"..mobileId) then
+					UnregisterWindowData(WindowData.MobileName.Type, mobileId)
+					continue
 				end
+
+				MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
+				continue
 			end
-			if (not found ) then				
-				MobilesOnScreen.MarkHealthBarForDeletion(mobileId)				
-				continue				
+
+			local windowName = "MobileHealthBar_"..mobileId
+			RegisterWindowData(WindowData.MobileName.Type, mobileId)
+			local data = WindowData.MobileName[mobileId]
+			if data then
+				if (MobilesOnScreen.STRFilter ~= "" ) then -- filter
+					local found = false
+					for cf in wstring.gmatch(MobilesOnScreen.STRFilter, L"[^|]+") do
+						if (wstring.find(wstring.lower(data.MobName), wstring.lower(cf))) then
+							found = true
+						end
+					end
+					if (not found ) then
+						MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
+						continue
+					end
+				end
+
+				if IsValidObject(mobileId) and GetDistanceFromPlayer(mobileId) <= 25 then
+					local noto = data.Notoriety+1
+					-- let's check if the filters allow this mobile
+					local added = false
+
+					local canAddOne =  MobilesOnScreen.CanAddMobileOnScreen(noto, mobileId, data)
+					local canAddTwo = MobilesOnScreen.IgnoredMobile(data.MobName)
+
+					if not canAddTwo and canAddOne then
+						added = MobilesOnScreen.AddHealthbar(mobileId)
+						MobilesOnScreen.UnMarkHealthBarForDeletion(mobileId)
+					end
+					if (added and not DoesWindowNameExist(windowName)) then
+						MobileHealthBar.Forced = true
+						MobileHealthBar.CreateHealthBar(mobileId)
+						MobilesOnScreen.AddMobileOnScreenCount(mobileId)
+						MobileHealthBar.Forced = nil
+					elseif(not added)then
+						MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
+					end
+				else
+					MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
+				end
+			else
+				MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
 			end
+		elseif not DoesWindowNameExist("MobileHealthBar_"..mobileId) then
+			UnregisterWindowData(WindowData.MobileName.Type, mobileId)
 		end
-
-		if (not IsValidObject(mobileId) or GetDistanceFromPlayer(mobileId) > 25) then			
-			MobilesOnScreen.MarkHealthBarForDeletion(mobileId)			
-			continue			
-		end
-
-		local noto = data.Notoriety+1
-		-- let's check if the filters allow this mobile
-		local added = false
-
-		local canAddOne =  MobilesOnScreen.CanAddMobileOnScreen(noto, mobileId, data)
-		local canAddTwo = MobilesOnScreen.IgnoredMobile(data.MobName)		
-
-		if not canAddTwo and canAddOne then
-			added = MobilesOnScreen.AddHealthbar(mobileId)						
-			MobilesOnScreen.UnMarkHealthBarForDeletion(mobileId)		   
-		end
-		if (added and not DoesWindowNameExist(windowName)) then
-			MobileHealthBar.Forced = true
-			MobileHealthBar.CreateHealthBar(mobileId)			
-			MobilesOnScreen.AddMobileOnScreenCount(mobileId)						
-			MobileHealthBar.Forced = nil
-		elseif(not added)then			
-			MobilesOnScreen.MarkHealthBarForDeletion(mobileId)
-		end		
 	end
 
 	MobilesOnScreen.HandleAnchors()
@@ -970,13 +960,12 @@ function MobilesOnScreen.HidePet()
 		MobilesOnScreen.Clear()
 	else
 		for mob, value in pairs(MobileHealthBar.Handled) do
-			if (MobilesOnScreen.IsPet(mob)) then
-				continue
-			end
-			if (MobilesOnScreen.UnSorted[mob] and MobilesOnScreen.IsManagedMobileOnScreen(mob)) then
-				MobilesOnScreen.RemoveHealthBar(mob)				
-				MobilesOnScreen.UnSorted[mob] = nil
-				MobilesOnScreen.UnsortedWindows = MobilesOnScreen.UnsortedWindows -1
+			if not (MobilesOnScreen.IsPet(mob)) then
+				if (MobilesOnScreen.UnSorted[mob] and MobilesOnScreen.IsManagedMobileOnScreen(mob)) then
+					MobilesOnScreen.RemoveHealthBar(mob)
+					MobilesOnScreen.UnSorted[mob] = nil
+					MobilesOnScreen.UnsortedWindows = MobilesOnScreen.UnsortedWindows -1
+				end
 			end
 		end		
 		MobilesOnScreen.UpdateAnchors()
@@ -1457,19 +1446,18 @@ function MobilesOnScreen.CleanMobileSortCache()
 		return
 	end
 	local numTargets = table.getn(mobileTargetList)	
-	for index, mobileId in pairs(mobileTargetList) do		
-		if (MobilesOnScreen.IsPet(mobileId)) then
-			continue
-		end
-		local data = WindowData.MobileName[mobileId]
-		if(data and data.MobName ~= nil) then			
-			if (WindowData.PlayerStatus.PlayerId ~= mobileId and MobilesOnScreen.GetVisible() and not HealthBarManager.IsPartyMember(mobileId)) then				
-				if (MobilesOnScreen.MobilesSortReverse[mobileId] == nil) then
+	for index, mobileId in pairs(mobileTargetList) do
+		if not (MobilesOnScreen.IsPet(mobileId)) then
+			local data = WindowData.MobileName[mobileId]
+			if(data and data.MobName ~= nil) then
+				if (WindowData.PlayerStatus.PlayerId ~= mobileId and MobilesOnScreen.GetVisible() and not HealthBarManager.IsPartyMember(mobileId)) then
+					if (MobilesOnScreen.MobilesSortReverse[mobileId] == nil) then
 						table.insert(MobilesOnScreen.MobilesSort, mobileId)
-						MobilesOnScreen.MobilesSortReverse[mobileId] = table.getn(MobilesOnScreen.MobilesSort)										
-				end														
-				MobilesOnScreen.isDirty = true				
-			end			
+						MobilesOnScreen.MobilesSortReverse[mobileId] = table.getn(MobilesOnScreen.MobilesSort)
+					end
+					MobilesOnScreen.isDirty = true
+				end
+			end
 		end
 	end	
 end
