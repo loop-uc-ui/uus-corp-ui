@@ -2085,7 +2085,7 @@ function ContainerWindow.UpdateGridViewSockets(id)
 	
 	-- fit the window width to the grid width
 	local newWindowWidth = newGridWidth + ContainerWindow.Grid.PaddingRight
-	local newWindowHeight = windowHeight
+	local newWindowHeight
 	
 	-- if we can see every slot in the container, snap the window height to the grid and hide the void created 
 	-- by the missing scrollbar

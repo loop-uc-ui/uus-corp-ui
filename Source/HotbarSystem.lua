@@ -670,18 +670,18 @@ function HotbarSystem.UpdateItemSlot()
 				else
 					local itemHasCharges
 					local uses = ItemProperties.GetCharges(id)
-			    	if(uses ~= nil)then	    	
+					if uses ~= nil then
 						itemHasCharges = Knumber(uses[2])
-				    	local labelString
-			    		if (tonumber(itemHasCharges) >= 1000) then
+						local labelString
+						if (tonumber(itemHasCharges) >= 1000) then
 							local q = itemHasCharges / 1000
 							q = math.floor(q)
-							labelString = StringToWString(tostring(q).."K")	
+							labelString = StringToWString(tostring(q).."K")
 						else
-							labelString = StringToWString(tostring(itemHasCharges))	
-						end						
+							labelString = StringToWString(tostring(itemHasCharges))
+						end
 						LabelSetText(element.."Quantity",labelString)
-			    	end	
+					end
 			    end	    	
 		    end		    
 		-- if this item has left the players backpack then disable it
@@ -986,7 +986,7 @@ function HotbarSystem.Update(timePassed)
 							if( HotbarSystem.ObjectSlots[id] == nil ) then
 								HotbarSystem.ObjectSlots[id] = {}
 							end
-							local time =  HotbarSystem.TalismanTimers[curElement]
+							local time
 
 							local chargeTime
 
@@ -1017,7 +1017,7 @@ function HotbarSystem.Update(timePassed)
 							if( not time or time == 0 ) then
 								HotbarSystem.UpdateCooldownSlot(curElement, 0)
 							else
-								local timer = math.floor(time)
+								local timer
 								local min = math.floor(time/60)
 								if min > 60 then
 									local prefix = ""
@@ -1097,16 +1097,7 @@ function HotbarSystem.Update(timePassed)
 								end
 							end
 
-							local _, _, _, _, _, _, _, minskill, manacost  = GetAbilityData(id)
-							local lmcMana
-							if manacost and WindowData.PlayerStatus then
-								lmcMana = math.ceil(manacost - (manacost * (tonumber(WindowData.PlayerStatus["LowerManaCost"]) / 100)))
-							end
-
-							if BuffDebuff.BuffWindowId[1104] then -- Mana Phase
-								lmcMana = 0
-							end
-
+							local _, _, _, _, _, _, _, minskill, _ = GetAbilityData(id)
 							if not minskill or minskill == 0 then
 								minskill = 0 --SpellsInfo.GetMinSkill(id)
 								if not minskill then

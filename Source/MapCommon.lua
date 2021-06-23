@@ -766,19 +766,18 @@ function MapCommon.WaypointMouseOver()
         local waypointName
         local waypointX
         local waypointY
+		local waypointFacet
         
         if( waypointId ~= MapCommon.WaypointPlayerId ) then
-			local wtype, wflags, wname, wfacet, wx, wy, wz
+			local wtype, _, wname, wfacet, wx, wy, _
 			
 			if (waypointId > 50000 ) then
 				if(TrackingPointer.TrackWaypoints[waypointId]) then
 					wtype = 13
-					wflags = 0
 					wname = GetStringFromTid(1155436)
 					wfacet = TrackingPointer.TrackWaypoints[waypointId].facet
 					wx = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerX)
 					wy = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerY)
-					wz = 0
 				else
 					wtype = nil
 				end
@@ -786,15 +785,13 @@ function MapCommon.WaypointMouseOver()
 				local data = Waypoints.UOGetWaypointInfo(waypointId - 10000, UOGetRadarFacet()) 
 				if data then
 					wtype = data.wtype
-					wflags = data.wflags
 					wname = StringToWString(data.wname)
 					wfacet = data.wfacet
 					wx = tonumber(data.wx)
 					wy = tonumber(data.wy)
-					wz = tonumber(data.wz)	
 				end
 			else
-				wtype, wflags, wname, wfacet, wx, wy, wz = UOGetWaypointInfo(waypointId)
+				wtype, _, wname, wfacet, wx, wy, wz = UOGetWaypointInfo(waypointId)
 				local texto = string.find(WStringToString(wname) , "_ICON_")
 				if (texto) then
 					local strip = string.sub(WStringToString(wname), 1 , texto - 1)
@@ -803,10 +800,10 @@ function MapCommon.WaypointMouseOver()
 			end
 
             if (wtype == nil) then
-            	DestroyWindow(waypointWindow)				
+				DestroyWindow(waypointWindow)
 				return
-            end
-            
+			end
+
             waypointName = wname
             waypointX = wx
             waypointY = wy
@@ -859,16 +856,13 @@ function MapCommon.WaypointOnRButtonUp()
 		params.type = MapCommon.WaypointPlayerType
 		params.name = GetStringFromTid(MapCommon.TID.YourLocation)
 	else
-		local wtype, wflags, wname, wfacet, wx, wy, wz, scale
+		local wtype, _, wname, _, wx, wy, _, scale
 		if (waypointId > 50000 ) then
 			if(TrackingPointer.TrackWaypoints[waypointId]) then
 				wtype = 13
-				wflags = 0
 				wname = GetStringFromTid(1155436)
-				wfacet = TrackingPointer.TrackWaypoints[waypointId].facet
 				wx = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerX)
 				wy = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerY)
-				wz = 0
 			else
 				wtype = nil
 			end
@@ -876,17 +870,14 @@ function MapCommon.WaypointOnRButtonUp()
 			local data = Waypoints.UOGetWaypointInfo(waypointId - 10000, UOGetRadarFacet()) 
 			if data then
 				wtype = data.wtype
-				wflags = data.wflags
 				wname = StringToWString(data.wname)
-				wfacet = data.wfacet
 				wx = tonumber(data.wx)
 				wy = tonumber(data.wy)
-				wz = tonumber(data.wz)	
 				scale = Waypoints.Facet[wfacet][waypointId - 10000].Scale
 			end
 
 		else
-			wtype, wflags, wname, wfacet, wx, wy, wz = UOGetWaypointInfo(waypointId)
+			wtype, _, wname, _, wx, wy, _ = UOGetWaypointInfo(waypointId)
 		end
 		if (wtype == nil) then
 			DestroyWindow(waypointWindowName)
