@@ -1,6 +1,3 @@
---[[ Header:method
-Hello world!
---]]
 WindowApi = {}
 
 function WindowApi.destroyWindow(windowName)
