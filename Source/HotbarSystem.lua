@@ -1097,30 +1097,9 @@ function HotbarSystem.Update(timePassed)
 								end
 							end
 
-							local _, _, _, _, _, _, _, minskill, _ = GetAbilityData(id)
-							if not minskill or minskill == 0 then
-								minskill = 0 --SpellsInfo.GetMinSkill(id)
-								if not minskill then
-									minskill = 0
-								end
-							end
-
 							local infoSkillId = SpellsInfo.GetSkillID(id)
 							if(infoSkillId == nil)then
 								return
-							end
-
-							local serverId = WindowData.SkillsCSV[infoSkillId].ServerId
-							local SkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
-							local mobileData = Interface.GetMobileData(WindowData.PlayerStatus.PlayerId, true)
-							if mobileData and mobileData.Race == PaperdollWindow.HUMAN and SkillLevel < 20 then
-								SkillLevel = 20
-							end
-
-							serverId = WindowData.SkillsCSV[47].ServerId
-							local sspeak = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
-							if mobileData and mobileData.Race == PaperdollWindow.HUMAN and sspeak < 20 then
-								sspeak = 20
 							end
 
 							if(id == 403) then -- EVASION
@@ -1210,11 +1189,6 @@ function HotbarSystem.Update(timePassed)
 							WindowSetShowing(element.."Disabled",false)
 							ButtonSetDisabledFlag(element,false)
 						else
-
-							local lmcMana = AbilitiesInfo.GetManaCost(EquipmentData.GetWeaponAbilityId(id))
-							if BuffDebuff.BuffWindowId[1104] then -- Mana Phase
-								lmcMana = 0
-							end
 							local mhandId  = 0
 							if WindowData.Paperdoll[WindowData.PlayerStatus.PlayerId] then
 								mhandId = WindowData.Paperdoll[WindowData.PlayerStatus.PlayerId][4].slotId
@@ -1433,9 +1407,8 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 				serverId = WindowData.SkillsCSV[skillIdsec].ServerId
 				local secondSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 				
-				
-				serverId = WindowData.SkillsCSV[skillIdthi].ServerId
-				local tempSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
+				local serverIdthi = WindowData.SkillsCSV[skillIdthi].ServerId
+				local tempSkillLevel = WindowData.SkillDynamicData[serverIdthi].TempSkillValue / 10
 				secondSkillLevel = math.max(tempSkillLevel,secondSkillLevel)
 				
 				if mobileData and mobileData.Race == PaperdollWindow.HUMAN and secondSkillLevel < 20 then

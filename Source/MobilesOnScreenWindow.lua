@@ -367,7 +367,7 @@ end
 function MobilesOnScreen.OnSlide(_)
 	local bar = SystemData.ActiveWindow.name
 	local barName = string.gsub(SystemData.ActiveWindow.name, "SliderBar", "")
-	local barVal = 0
+	local barVal
 	if (barName == "UpdateLimit") then
 		barVal =  tonumber(string.sub(tostring(SliderBarGetCurrentPosition(bar )),1, 4))
 		LabelSetText(barName .. "Val", L"" .. barVal .. L"s")
@@ -665,7 +665,7 @@ function MobilesOnScreen.IsSummon(name, mobileId)
 			end
 		end
 	end
-	local convName = ""
+	local convName
 	if (type(name) == "wstring") then
 		convName =string.gsub(tostring(name), "^%s*(.-)%s*$", "%1")
 	else
@@ -782,7 +782,6 @@ end
 function MobilesOnScreen.HandleAnchorsForCategory( categoryWindows, categoryMobList, categoryLimit, parent)
 	local bars = 0
 	local unsortedPrev = 0
-	categoryWindows = 0	
 	for i=1, table.getn(categoryMobList) do
 		local mob = categoryMobList[i]
 		local windowName = "MobileHealthBar_"..mob

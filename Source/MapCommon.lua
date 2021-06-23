@@ -769,7 +769,7 @@ function MapCommon.WaypointMouseOver()
 		local waypointFacet
         
         if( waypointId ~= MapCommon.WaypointPlayerId ) then
-			local wtype, _, wname, wfacet, wx, wy, _
+			local wtype, wname, wfacet, wx, wy
 			
 			if (waypointId > 50000 ) then
 				if(TrackingPointer.TrackWaypoints[waypointId]) then
@@ -856,7 +856,7 @@ function MapCommon.WaypointOnRButtonUp()
 		params.type = MapCommon.WaypointPlayerType
 		params.name = GetStringFromTid(MapCommon.TID.YourLocation)
 	else
-		local wtype, _, wname, _, wx, wy, _, scale
+		local wtype, wname, wx, wy, scale
 		if (waypointId > 50000 ) then
 			if(TrackingPointer.TrackWaypoints[waypointId]) then
 				wtype = 13
@@ -1027,7 +1027,7 @@ function MapCommon.UpdateAreaInfo(timePassed)
 		end
 
 		MapCommon.AreaDelta = 0
-		local notFound = false
+		local notFound
 		local area
 		local subarea
 		local desc
@@ -1090,14 +1090,6 @@ function MapCommon.UpdateAreaInfo(timePassed)
 			else
 				MapCommon.AreaDescription = subarea .. extraDesc
 			end
-		else
-			if extraDesc ~= "" then
-				desc = string.gsub(extraDesc, " [-] ", "")
-			end
-			if not desc then
-				desc = ""
-			end
-			desc = desc .. extraDesc
 		end
 	end
 end
