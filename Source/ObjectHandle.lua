@@ -85,121 +85,111 @@ function ObjectHandleWindow.CreateObjectHandles()
 		--Debug.Print(numberObjects)
 		for i=1, numberObjects do
 			local objectId = ObjectHandleWindow.ObjectsData.ObjectId[i]
-			if ObjectHandleWindow.hasWindow[objectId] then
-				continue
-			end
-			if not ObjectHandleWindow.ObjectsData.Names then
-				continue
-			end
-			if( DoesPlayerHaveItem(objectId)) then
-				continue
-			end
-			
-			local name = ObjectHandleWindow.ObjectsData.Names[i]
-			
-			if (ObjectHandleWindow.CurrentFilter ~= "" and name and name ~= "" and name ~= L"") then
-				local found = false
-				for cf in wstring.gmatch(ObjectHandleWindow.CurrentFilter, L"[^|]+") do
-                    if (wstring.find(wstring.lower(name), wstring.lower(cf))) then
-                        found = true
-                    else
-						found = false
-                    end
-                end
-				if (not found ) then
-					UnregisterWindowData(WindowData.ObjectInfo.Type, objectId)
-					continue
+			if not ObjectHandleWindow.hasWindow[objectId] and ObjectHandleWindow.ObjectsData.Names and not DoesPlayerHaveItem(objectId) then
+				local name = ObjectHandleWindow.ObjectsData.Names[i]
+				if (ObjectHandleWindow.CurrentFilter ~= "" and name and name ~= "" and name ~= L"") then
+					local found = false
+					for cf in wstring.gmatch(ObjectHandleWindow.CurrentFilter, L"[^|]+") do
+						if (wstring.find(wstring.lower(name), wstring.lower(cf))) then
+							found = true
+						else
+							found = false
+						end
+					end
+					if not found then
+						UnregisterWindowData(WindowData.ObjectInfo.Type, objectId)
+					end
 				end
-			end
-			
-			local lostItem = false
-			if not IsMobile(objectId) then
-				local props = ItemProperties.GetObjectProperties(objectId, nil, "Object Handle - check lost item")
-				for i=1, table.getn(props) do
-					local tid = wstring.lower(GetStringFromTid(1151520)) --lost item (Return to gain Honesty)
-					if wstring.lower(props[i]) == tid then
-						lostItem = true
+
+				local lostItem = false
+				if not IsMobile(objectId) then
+					local props = ItemProperties.GetObjectProperties(objectId, nil, "Object Handle - check lost item")
+					for j = 1, table.getn(props) do
+						local tid = wstring.lower(GetStringFromTid(1151520)) --lost item (Return to gain Honesty)
+						if wstring.lower(props[j]) == tid then
+							lostItem = true
+							break
+						end
+					end
+				end
+				local ignored = ( objectId == WindowData.PlayerStatus.PlayerId or name == L"") -- or MobilesOnScreen.IsPet(objectId))
+
+				local count = table.getn(ContainerWindow.IgnoreItems)
+				for j = 1, count do
+					if ( ContainerWindow.IgnoreItems[j] and ContainerWindow.IgnoreItems[j].id == objectId ) then
+						ignored = true
 						break
 					end
 				end
-			end
-			local ignored = ( objectId == WindowData.PlayerStatus.PlayerId or name == L"") -- or MobilesOnScreen.IsPet(objectId))
 
-			local count = table.getn(ContainerWindow.IgnoreItems)
-			for i=1, count do				
-				if ( ContainerWindow.IgnoreItems[i] and ContainerWindow.IgnoreItems[i].id == objectId ) then
+				local removeOnComplete = false
+				if not WindowData.ContainerWindow[objectId] then
+					RegisterWindowData(WindowData.ContainerWindow.Type, objectId)
+					removeOnComplete = true
+				end
+
+				if (isItemsOnly and (ObjectHandleWindow.ObjectsData.IsMobile[i] or (WindowData.ContainerWindow[objectId] and WindowData.ContainerWindow[objectId].isCorpse))) then
 					ignored = true
-					break
 				end
-			end
-			
-			local removeOnComplete = false
-			if not WindowData.ContainerWindow[objectId] then
-				RegisterWindowData(WindowData.ContainerWindow.Type, objectId)
-				removeOnComplete = true				
-			end
-			
-			if (isItemsOnly and (ObjectHandleWindow.ObjectsData.IsMobile[i] or (WindowData.ContainerWindow[objectId] and WindowData.ContainerWindow[objectId].isCorpse))) then
-				ignored = true
-			end
 
-			if ContainerWindow.OpenContainers[objectId] == nil and  removeOnComplete then
-				UnregisterWindowData(WindowData.ContainerWindow.Type, objectId)
-			end
-			
-			if (isLostItemsOnly and not lostItem) then
-				ignored = true
-			end
-			if (name == L"Treasure Sand") then
-				ignored = true
-			end
-			
-			if ( ignored == false ) then
-				local windowName = "ObjectHandleWindow"..objectId
-				local windowTintName = windowName.."Tint"
-				local labelName = windowName.."TintName"
-				local labelBGName = windowName.."TintNameBG"
-				CreateWindowFromTemplate(windowName, "ObjectHandleWindow", "Root")
-				WindowSetScale(windowName, ObjectHandleWindow.ObjectHandleScale)
-				WindowSetAlpha(windowName, ObjectHandleWindow.ObjectHandleAlpha)
-				AttachWindowToWorldObject(objectId, windowName)
-			
-				WindowSetId(windowName, objectId)
-				ObjectHandleWindow.hasWindow[objectId] = true
-				ObjectHandleWindow.ReverseObjectLookUp[objectId] = i
-				LabelSetText(labelName, ObjectHandleWindow.ObjectsData.Names[i])
-				LabelSetText(labelBGName, ObjectHandleWindow.ObjectsData.Names[i])
-				if (SystemData.Settings.Language.type == SystemData.Settings.Language.LANGUAGE_ENU) then
-					LabelSetFont(labelBGName,  "UO_GoldButtonText", 12)
-				else
-					LabelSetFont(labelBGName,  "UO_DefaultText", 12)
+				if ContainerWindow.OpenContainers[objectId] == nil and  removeOnComplete then
+					UnregisterWindowData(WindowData.ContainerWindow.Type, objectId)
 				end
-				if (SystemData.Settings.Language.type == SystemData.Settings.Language.LANGUAGE_ENU) then
-					LabelSetFont(labelName,  "UO_GoldButtonText", 12)
-				else
-					LabelSetFont(labelName,  "UO_DefaultText", 12)
+
+				if (isLostItemsOnly and not lostItem) then
+					ignored = true
 				end
-				
-				
-				
-				--Set the color of the window based off of the notoriety
-				if(ObjectHandleWindow.ObjectsData.IsMobile[i]) then
-					local hue = ObjectHandleWindow.TextColors[ObjectHandleWindow.ObjectsData.Notoriety[i]+1]
-					--Debug.Print("Seting tint color mobile r ="..hue.r.."g = "..hue.g.."b = "..hue.b)
-					if (objectId == Interface.CurrentHonor) then
-						hue = {r=163, g=73, b=164}
-					end
-					WindowSetTintColor(windowTintName, hue.r, hue.g, hue.b)
-				else
-					--Debug.Print("Seting tint color object r ="..ObjectHandleWindow.grayColor.r.."g = "..ObjectHandleWindow.grayColor.g.."b = "..ObjectHandleWindow.grayColor.b)
-					if (lostItem) then
-						WindowSetTintColor(windowTintName, 146, 245, 153)
+				if (name == L"Treasure Sand") then
+					ignored = true
+				end
+
+				if ( ignored == false ) then
+					local windowName = "ObjectHandleWindow"..objectId
+					local windowTintName = windowName.."Tint"
+					local labelName = windowName.."TintName"
+					local labelBGName = windowName.."TintNameBG"
+					CreateWindowFromTemplate(windowName, "ObjectHandleWindow", "Root")
+					WindowSetScale(windowName, ObjectHandleWindow.ObjectHandleScale)
+					WindowSetAlpha(windowName, ObjectHandleWindow.ObjectHandleAlpha)
+					AttachWindowToWorldObject(objectId, windowName)
+
+					WindowSetId(windowName, objectId)
+					ObjectHandleWindow.hasWindow[objectId] = true
+					ObjectHandleWindow.ReverseObjectLookUp[objectId] = i
+					LabelSetText(labelName, ObjectHandleWindow.ObjectsData.Names[i])
+					LabelSetText(labelBGName, ObjectHandleWindow.ObjectsData.Names[i])
+					if (SystemData.Settings.Language.type == SystemData.Settings.Language.LANGUAGE_ENU) then
+						LabelSetFont(labelBGName,  "UO_GoldButtonText", 12)
 					else
-						WindowSetTintColor(windowTintName, ObjectHandleWindow.grayColor.r, ObjectHandleWindow.grayColor.g,ObjectHandleWindow.grayColor.b)
+						LabelSetFont(labelBGName,  "UO_DefaultText", 12)
 					end
+					if (SystemData.Settings.Language.type == SystemData.Settings.Language.LANGUAGE_ENU) then
+						LabelSetFont(labelName,  "UO_GoldButtonText", 12)
+					else
+						LabelSetFont(labelName,  "UO_DefaultText", 12)
+					end
+
+
+
+					--Set the color of the window based off of the notoriety
+					if(ObjectHandleWindow.ObjectsData.IsMobile[i]) then
+						local hue = ObjectHandleWindow.TextColors[ObjectHandleWindow.ObjectsData.Notoriety[i]+1]
+						--Debug.Print("Seting tint color mobile r ="..hue.r.."g = "..hue.g.."b = "..hue.b)
+						if (objectId == Interface.CurrentHonor) then
+							hue = {r=163, g=73, b=164}
+						end
+						WindowSetTintColor(windowTintName, hue.r, hue.g, hue.b)
+					else
+						--Debug.Print("Seting tint color object r ="..ObjectHandleWindow.grayColor.r.."g = "..ObjectHandleWindow.grayColor.g.."b = "..ObjectHandleWindow.grayColor.b)
+						if (lostItem) then
+							WindowSetTintColor(windowTintName, 146, 245, 153)
+						else
+							WindowSetTintColor(windowTintName, ObjectHandleWindow.grayColor.r, ObjectHandleWindow.grayColor.g,ObjectHandleWindow.grayColor.b)
+						end
+					end
+				else
+					UnregisterWindowData(WindowData.ObjectInfo.Type, objectId)
 				end
-			else
-				UnregisterWindowData(WindowData.ObjectInfo.Type, objectId)
 			end
 		end
 	end 
@@ -208,7 +198,7 @@ end
 --Destroys all the object handles on the screen when the user lets go of ctrl+shift
 function ObjectHandleWindow.DestroyObjectHandles()
 	ObjectHandleWindow.Active = false
-	for key, value in pairs(ObjectHandleWindow.hasWindow) do
+	for key, _ in pairs(ObjectHandleWindow.hasWindow) do
 		ObjectHandle.DestroyObjectWindow(key) 
 	end
 	if (ObjectHandleWindow.mouseOverId == key) then
@@ -269,8 +259,6 @@ function ObjectHandleWindow.OnItemClicked()
 		local tableLoc = ObjectHandleWindow.ReverseObjectLookUp[objectId]
 		--If player is trying to drag the object handle window, have it act as if they are trying to pickup the object
 		if( SystemData.DragItem.DragType == SystemData.DragItem.TYPE_NONE) then
-			local cursorData
-			
 			if( (ObjectHandleWindow.ObjectsData.IsMobile[tableLoc] == false ) ) then
 				DragSlotSetObjectMouseClickData(objectId, SystemData.DragSource.SOURCETYPE_OBJECT)
 			else				
@@ -389,18 +377,14 @@ ObjectHandleWindow.cooldown = 0
 local okObjects = {}
 
 ObjectHandleWindow.ForceIgnore = nil
-function ObjectHandleWindow.OnUpdate(timePassed)
+function ObjectHandleWindow.OnUpdate(_)
 	if (ObjectHandleWindow.ForceIgnore) then
 		ObjectHandle.DestroyObjectWindow(ObjectHandleWindow.ForceIgnore) 
 		ObjectHandleWindow.ForceIgnore = nil
 	end
-
-	local objData = {}
-		
-	
 	if(ObjectHandleWindow.RefreshTimer > ObjectHandleWindow.REFRESH_DELAY) then	
 		ObjectHandleWindow.RefreshTimer = 0
-		for key, value in pairs(ObjectHandleWindow.hasWindow) do
+		for key, _ in pairs(ObjectHandleWindow.hasWindow) do
 			if not(IsValidObject(key)) or DoesPlayerHaveItem(key) then
 				ObjectHandle.DestroyObjectWindow(key) 
 			end
@@ -410,32 +394,26 @@ function ObjectHandleWindow.OnUpdate(timePassed)
 																				 --  ↓ or Organizer.ScavengeAll	-- TODO: SCAVENGE ALL or USE THE FILTER?
 	if (not okObjects or #okObjects == 0) and (Organizer.Scavengers_Items[Organizer.ActiveScavenger] > 0) then
 		okObjects = {}
-		for key, value in pairs(ObjectHandleWindow.hasWindow) do
-			if IsMobile(key) then
-				continue
-			end
-			if (IsValidObject(key) and GetDistanceFromPlayer(key) <=2 ) then
-				RegisterWindowData(WindowData.ObjectInfo.Type, key)
-				local itemData = WindowData.ObjectInfo[key]
-						
-				if (itemData) then
-					if false then -- TODO: SCAVENGE ALL or USE THE FILTER?
-						table.insert(okObjects, key)
-					else
+		for key, _ in pairs(ObjectHandleWindow.hasWindow) do
+			if not IsMobile(key) then
+				if (IsValidObject(key) and GetDistanceFromPlayer(key) <=2 ) then
+					RegisterWindowData(WindowData.ObjectInfo.Type, key)
+					local itemData = WindowData.ObjectInfo[key]
+
+					if (itemData) then
 						for j=1,  Organizer.Scavengers_Items[Organizer.ActiveScavenger] do
-							local itemData = WindowData.ObjectInfo[key]
-							
+							itemData = WindowData.ObjectInfo[key]
+
 							if (itemData) then
 								local itemL = Organizer.Scavenger[Organizer.ActiveScavenger][j]
 								if (itemL.type > 0 and itemL.type == itemData.objectType and itemL.hue == itemData.hueId) then
 									table.insert(okObjects, key)
 								end
 							end
-							
 						end
 					end
+					UnregisterWindowData(WindowData.ObjectInfo.Type, key)
 				end
-				UnregisterWindowData(WindowData.ObjectInfo.Type, key)
 			end
 		end
 	end

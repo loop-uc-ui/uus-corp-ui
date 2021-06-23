@@ -108,7 +108,7 @@ function WindowUtils.EndDrag( )
 	WindowUtils.dragging = false
 end
 
-function WindowUtils.OnLButtonUp( flags, x, y )
+function WindowUtils.OnLButtonUp(_, _, _)
 
 	-- End the resize
 	if( WindowUtils.resizing ) then
@@ -117,10 +117,8 @@ function WindowUtils.OnLButtonUp( flags, x, y )
         end
 
         local width, height = WindowGetDimensions( "ResizingWindowFrame" )
-        local posX, posY = WindowGetScreenPosition( "ResizingWindowFrame"  )
-        local scale      = WindowGetScale( WindowUtils.resizeWindow )
-          
-        -- Detatch and Hide the Resizing Frame  
+
+		-- Detatch and Hide the Resizing Frame
         WindowSetResizing( "ResizingWindowFrame", false, "", false );
         WindowClearAnchors( "ResizingWindowFrame" )
         WindowSetShowing( "ResizingWindowFrame", false )    
@@ -174,48 +172,33 @@ function WindowUtils.SetActiveDialogTitle(title)
 end
 
 function WindowUtils.SetWindowTitle(window,title)
-    --Debug.Print("WindowUtils.SetWindowTitle: "..tostring(window).." title: "..tostring(title))
-    
 	if not title or not window  or title == "" then
 		return
 	end
-
 	title = wstring.upper(title)
-	
-
-	-- *** TESTING
-	if type(title) ~= "wstring" then
-		--Debug.Print("*** ERROR: window title is of type " .. type(title))
-	end
-	-- *** END TESTING
-	
 	if type(title) == "string" then
 	    title = StringToWString(title)	
-	end	
-	
-	
-	--local label = window.."Chrome_UO_TitleBar_WindowTitle"
-	--LabelSetText(label, title)
+	end
 	WindowUtils.FitTextToLabel(window, title, true)
 end
 
 function WindowUtils.RetrieveWindowSettings()
 	-- update the positions for any window thats currently open
-	for window, type in pairs(WindowUtils.openWindows) do
+	for window, _ in pairs(WindowUtils.openWindows) do
 		WindowUtils.RestoreWindowPosition(window, false)
 	end
 end
 
 function WindowUtils.ForceResetWindowPositions()
 	-- update the positions for any window thats currently open
-	for window, type in pairs(WindowUtils.openWindows) do		
+	for window, _ in pairs(WindowUtils.openWindows) do
 		WindowUtils.ForceResetWindowPosition(window)		
 	end
 end
 
 function WindowUtils.SendWindowSettings()
 	-- save the positions for any window thats currently open
-	for window, type in pairs(WindowUtils.openWindows) do
+	for window, _ in pairs(WindowUtils.openWindows) do
 		WindowUtils.SaveWindowPosition(window, false)
 	end
 end
@@ -223,7 +206,7 @@ end
 function WindowUtils.CanRestorePosition(window)
 	local result = false
 	
-	for i, windowName in pairs(SystemData.Settings.Interface.WindowPositions.Names) do
+	for _, windowName in pairs(SystemData.Settings.Interface.WindowPositions.Names) do
 		if( window == windowName ) then
 			result = true
 			break
@@ -233,9 +216,8 @@ function WindowUtils.CanRestorePosition(window)
 	return result
 end
 
-function WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBounds)	
-	local windowPositions = SystemData.Settings.Interface.WindowPositions
-	local index = nil
+function WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBounds)
+	local index
 
 	--if no explicit alias, then use actual window name:
 	if not alias then
@@ -290,7 +272,7 @@ function WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBound
 end
 
 function WindowUtils.ForceResetWindowPosition(window)
-	local index = nil		
+	local index
 	for i, windowName in pairs(SystemData.Settings.Interface.WindowPositions.Names) do		
 		if( window == windowName ) then			
 			index = i
@@ -324,7 +306,7 @@ function WindowUtils.SaveWindowPosition(window, closing, alias)
 		local width, height = WindowGetDimensions(window)
 		local windowPositions = SystemData.Settings.Interface.WindowPositions
 		
-		local index = nil
+		local index
 		for i, windowName in pairs(windowPositions.Names) do
 			if( alias == windowName ) then
 				index = i
@@ -368,7 +350,7 @@ end
 function WindowUtils.ClearWindowPosition(window)	
 	local windowPositions = SystemData.Settings.Interface.WindowPositions
 
-	local index = nil
+	local index
 	for i, windowName in pairs(windowPositions.Names) do
 		if( window == windowName ) then
 			index = i
@@ -535,31 +517,20 @@ end
 -- linkParam is of type wstring
 --
 function WindowUtils.ProcessLink( linkParam )
-	
     if( wstring.sub(linkParam, 1, 4) == L"http" ) then
        local url = WStringToString( linkParam )
        OpenWebBrowser( url)
-    else
-		--Debug.PrintToDebugConsole(L"WindowUtils.ProcessLink: Link type not known for "..linkParam )
     end
-    
 end
 
 -- Note that if you are dynamically adding elements to the ScrollWindow, you should be done adding elements and have 
 -- called ScrollWindowUpdateScrollRect before using this function
 --
 function WindowUtils.ScrollToElementInScrollWindow( element, scrollWindow, scrollChild )
-
-	if (not DoesWindowNameExist(element)) or (not DoesWindowNameExist(scrollChild)) then
-		--Debug.Print("WindowUtils.GotoElementInScrollChild: Window does not exist!")
-		return
-	end
-	
-	local elementX,elementY = WindowGetScreenPosition(element)
-	local parentX,parentY = WindowGetScreenPosition(scrollChild)
-	local dontCare, maxOffset = WindowGetDimensions(scrollChild)
+	local _,elementY = WindowGetScreenPosition(element)
+	local _,parentY = WindowGetScreenPosition(scrollChild)
+	local _, maxOffset = WindowGetDimensions(scrollChild)
 	local scrollOffset = elementY - parentY
-	
 	-- sanity checks
 	if( scrollOffset < 0 ) then
 	    scrollOffset = 0
@@ -567,7 +538,6 @@ function WindowUtils.ScrollToElementInScrollWindow( element, scrollWindow, scrol
 	if( scrollOffset > maxOffset ) then
 	    scrollOffset = maxOffset
 	end
-	
 	ScrollWindowSetOffset(scrollWindow, scrollOffset)
 end
 
@@ -581,8 +551,8 @@ function WindowUtils.ScrollToElementInHorizontalScrollWindow( element, scrollWin
 		return
 	end
 	
-	local elementX,elementY = WindowGetScreenPosition(element)
-	local parentX,parentY = WindowGetScreenPosition(scrollChild)
+	local elementX, _ = WindowGetScreenPosition(element)
+	local parentX, _ = WindowGetScreenPosition(scrollChild)
 	local maxOffset = WindowGetDimensions(scrollChild)
 	local scrollOffset = elementX - parentX
 	
@@ -600,16 +570,16 @@ end
 -- Append label text with ellipsis (...) if label text width exceeds label width
 -- Used by the function that sets window titles too, so that all titles don't extend beyond the window that contains them
 function WindowUtils.FitTextToLabel(labelName, labelText, isTitle )
-	
-local DEBUG = false -- enable for verbose debugging of this function
-
+	local DEBUG = false -- enable for verbose debugging of this function
 	local labelWindowName = labelName
 	if isTitle then
 		labelText = wstring.upper(labelText)
-		labelWindowName = labelName.."Chrome_UO_TitleBar_WindowTitle"	
-if DEBUG then Debug.Print( L"Called WindowUtils.FitTextToLabel() to set the title for window ''"..StringToWString(labelName)..L"'' to ''"..labelText..L"''" ) end
-	else
-if DEBUG then Debug.Print( L"Called WindowUtils.FitTextToLabel( "..StringToWString(labelWindowName)..L", "..labelText..L" )" ) end
+		labelWindowName = labelName.."Chrome_UO_TitleBar_WindowTitle"
+		if DEBUG then
+			Debug.Print( L"Called WindowUtils.FitTextToLabel() to set the title for window ''"..StringToWString(labelName)..L"'' to ''"..labelText..L"''" )
+		end
+	elseif DEBUG then
+		Debug.Print( L"Called WindowUtils.FitTextToLabel( "..StringToWString(labelWindowName)..L", "..labelText..L" )" )
 	end
 
 	if labelWindowName == nil or labelText == nil or labelWindowName == "" or labelText == "" or labelText == L"" then
@@ -618,16 +588,16 @@ if DEBUG then Debug.Print( L"Called WindowUtils.FitTextToLabel( "..StringToWStri
 	end
 
     LabelSetWordWrap(labelWindowName, false)
-	local labelX, labelY = WindowGetDimensions(labelName)
+	local labelX, _ = WindowGetDimensions(labelName)
 	if isTitle then
 		labelX = labelX - 55 -- The window has about 55 pixels of spacing on both ends total that the title shouldn't use.
 	end
 	LabelSetText( labelWindowName, labelText )
 	local textX, textY = LabelGetTextDimensions(labelWindowName)
-	
-if DEBUG then Debug.Print( L"The space allowed for this label is "..labelX..L" pixels." ) end
-if DEBUG then Debug.Print( L"The current text size is "..textX..L" pixels." ) end
-
+	if DEBUG then
+		Debug.Print( L"The space allowed for this label is "..labelX..L" pixels." )
+		Debug.Print( L"The text size is width="..textX..L" height="..textY )
+	end
     local text = labelText
 
 	if not textX or not labelX then
@@ -636,12 +606,18 @@ if DEBUG then Debug.Print( L"The current text size is "..textX..L" pixels." ) en
 	
 	while (textX  > labelX) and (text:len() > 1) do
 		text = wstring.sub(text, 1, -2)
-if DEBUG then Debug.Print( L"The text width ("..textX..L") is still greater than the label width ("..labelX..L"), so we're changing the text to ''"..text..L"...''" ) end		
+		if DEBUG then
+			Debug.Print( L"The text width ("..textX..L") is still greater than the label width ("..labelX..L"), so we're changing the text to ''"..text..L"...''" )
+		end
 		LabelSetText(labelWindowName, text..L"...")
 		textX, textY = LabelGetTextDimensions(labelWindowName)
-if DEBUG then Debug.Print( L"The new text size is width="..textX..L" height="..textY ) end
+		if DEBUG then
+			Debug.Print( L"The new text size is width="..textX..L" height="..textY )
+		end
 	end
-if DEBUG then Debug.Print( L"The text width ("..textX..L") is less than the label width ("..labelX..L"), so we are done." ) end		
+	if DEBUG then
+		Debug.Print( L"The text width ("..textX..L") is less than the label width ("..labelX..L"), so we are done." )
+	end
 end
 
 -- Local Functions
@@ -786,10 +762,7 @@ function SnapUtils.GetAnchorDistance( anchorsList1, anchor1, anchorsList2, ancho
 end
 
 function SnapUtils.ComputeAnchorScreenPositions( windowName )
-
-    local uiScale = InterfaceCore.scale
-    local screenX, screenY = WindowGetScreenPosition( windowName ) 
-    
+	local screenX, screenY = WindowGetScreenPosition( windowName )
     local width, height = WindowGetDimensions( windowName ) 
     local scale = WindowGetScale( windowName ) 
         
@@ -799,8 +772,7 @@ function SnapUtils.ComputeAnchorScreenPositions( windowName )
     -- Compute the XY coordates for each anchor point
         
     local positions = {}    
-    for index, anchorPoint in ipairs( SnapUtils.ANCHOR_POINTS )
-    do    
+    for index, anchorPoint in ipairs( SnapUtils.ANCHOR_POINTS ) do
         positions[index] = { 
                              x=screenX + width*anchorPoint.widthMultipler,
                              y=screenY + height*anchorPoint.heightMultiplier
@@ -824,16 +796,11 @@ function SnapUtils.StartWindowSnap( windowName )
     WindowSetScale("SnapWindow", scale)
     WindowUtils.CopySize( windowName, "SnapWindow", 0, 0 )
     WindowSetShowing("SnapWindow",false)
-    
-	local x,y = WindowGetScreenPosition("SnapWindow")
-	local w,h = WindowGetDimensions("SnapWindow")
-
-    
 	SnapUtils.CurWindow = windowName
 	WindowSetMoving(windowName,true)
 end
 
-function SnapUtils.EndWindowSnap( windowName )
+function SnapUtils.EndWindowSnap(_)
     --Debug.Print("SnapUtils.EndWindowSnap: "..tostring(windowName))
     
     if( SnapUtils.SnapWindow and DoesWindowNameExist(SnapUtils.CurWindow) ) then
@@ -843,7 +810,7 @@ function SnapUtils.EndWindowSnap( windowName )
     DestroyWindow("SnapWindow")
 end
 
-function SnapUtils.SnapUpdate( timePassed )
+function SnapUtils.SnapUpdate(_)
     if( SnapUtils.CurWindow ) then
 		if( WindowGetMoving(SnapUtils.CurWindow) == false or DoesWindowNameExist(SnapUtils.CurWindow) == false ) then
 		    SnapUtils.EndWindowSnap( SnapUtils.CurWindow )
@@ -935,7 +902,7 @@ end
 
 
 
-function WindowUtils.Aplpha(x, y, delta)
+function WindowUtils.Aplpha(_, _, delta)
 	
 	local windowname = WindowUtils.GetActiveDialog()
 
@@ -995,7 +962,7 @@ function WindowUtils.Aplpha(x, y, delta)
 				end
 			end
 		elseif (windowname == "MobileHealthBarALPHA") then
-			for key, value in pairs(MobileHealthBar.hasWindow) do
+			for key, _ in pairs(MobileHealthBar.hasWindow) do
 				local windowName = "MobileHealthBar_"..key
 				WindowSetAlpha(windowName, endscale)
 				WindowSetFontAlpha(windowName, endscale)
@@ -1083,8 +1050,6 @@ function WindowUtils.Scale(x, y, delta)
 		
 		text = string.find(windowname , "MobileHealthBar_")
 		if ( text ~= nil ) or (windowname == "PetWindow") or (windowname == "MobilesOnScreenWindow") then
-			
-			local mobileId = WindowGetId(windowname)
 			windowname = "MobileHealthBarSCALE"
 		end
 		
@@ -1121,7 +1086,7 @@ function WindowUtils.Scale(x, y, delta)
 					end
 				end
 			elseif (windowname == "MobileHealthBarSCALE") then
-				for key, value in pairs(MobileHealthBar.hasWindow) do
+				for key, _ in pairs(MobileHealthBar.hasWindow) do
 					local windowName = "MobileHealthBar_"..key
 					WindowSetScale(windowName, endscale)
 				end
@@ -1233,16 +1198,13 @@ function WindowUtils.LoadAlpha( windowname )
 					end
 				end
 			elseif (windowname == "MobileHealthBarALPHA") then
-
-				for key, value in pairs(MobileHealthBar.hasWindow) do
+				for key, _ in pairs(MobileHealthBar.hasWindow) do
 					if (not MobileHealthBar.ObjecHasWindow[key]) then
 						local windowName = "MobileHealthBar_"..key
-						if (not DoesWindowNameExist(windowName)) then
-							continue
+						if DoesWindowNameExist(windowName) then
+							WindowSetAlpha(windowName, scale)
+							WindowSetFontAlpha(windowName, scale)
 						end
-						WindowSetAlpha(windowName, scale)
-						WindowSetFontAlpha(windowName, scale)
-						
 					end
 				end
 				WindowSetAlpha("PetWindow", scale)
@@ -1284,8 +1246,7 @@ function WindowUtils.LoadAlpha( windowname )
 	end
 end
 
-function WindowUtils.LoadScale( windowname, default )
-	
+function WindowUtils.LoadScale(windowname, _)
 	if (windowname ~= nil) then
 		WindowUtils.LoadAlpha( windowname )
 		
@@ -1345,15 +1306,12 @@ function WindowUtils.LoadScale( windowname, default )
 					end
 				end
 			elseif (windowname == "MobileHealthBarSCALE") then
-				for key, value in pairs(MobileHealthBar.hasWindow) do
-
+				for key, _ in pairs(MobileHealthBar.hasWindow) do
 					local windowName = "MobileHealthBar_"..key
-					if (not DoesWindowNameExist(windowName)) then
-						continue
+					if DoesWindowNameExist(windowName) then
+						WindowSetDimensions(windowName, 190, 50)
+						WindowSetScale(windowName, scale)
 					end
-					WindowSetDimensions(windowName, 190, 50)
-					WindowSetScale(windowName, scale)
-						
 				end
 				WindowSetScale("PetWindow", scale)
 				WindowSetScale("MobilesOnScreenWindow", scale)
@@ -1392,10 +1350,7 @@ end
 
 
 
-function WindowUtils.SendOverheadText(message, hue, chat, ignoreLast)
-	if (ignoreLast == nil) then
-		ignoreLast = true
-	end
+function WindowUtils.SendOverheadText(message, hue, chat, _)
 	SystemData.Text = message
 	SystemData.TextChannelID = 2
 	SystemData.TextSourceID = WindowData.PlayerStatus.PlayerId
@@ -1673,7 +1628,7 @@ function IsPlayer( mobileId )
 		   or string.find(name, "Kotl Automaton") or string.find(name, "Spectral Kotl") then
 		return false
 	else
-		local name = CreaturesDB.GetName(WindowData.CurrentTarget.TargetId)
+		name = CreaturesDB.GetName(WindowData.CurrentTarget.TargetId)
 		if CreaturesDB[name] then
 			return false
 		else

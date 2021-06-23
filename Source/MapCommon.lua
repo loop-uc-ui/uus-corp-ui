@@ -172,12 +172,11 @@ function MapCommon.Shutdown()
 end
 
 function MapCommon.Update()
-    if( MapCommon.WaypointsDirty == true and
-            MapCommon.ActiveView ~= nil and
-            MapCommon.WaypointViewInfo[MapCommon.MAP_MODE_NAME].WaypointsEnabled == true ) then
-    	MapCommon.UpdateWaypoints(MapCommon.ActiveView)
-        MapCommon.WaypointsDirty = false
-    end
+    if MapCommon.WaypointsDirty == true and MapCommon.ActiveView ~= nil
+			and MapCommon.WaypointViewInfo[MapCommon.MAP_MODE_NAME].WaypointsEnabled == true then
+		MapCommon.UpdateWaypoints(MapCommon.ActiveView)
+		MapCommon.WaypointsDirty = false
+	end
 end
 
 function MapCommon.AdjustZoom(zoomDelta)
@@ -323,7 +322,7 @@ function MapCommon.IgnoreWaypoint(scale, type)
 end
 
 function MapCommon.ClearWaypoints(displayMode)
-	for waypointId, value in pairs(MapCommon.WaypointViewInfo[displayMode].Windows) do
+	for waypointId, _ in pairs(MapCommon.WaypointViewInfo[displayMode].Windows) do
 		local windowName = "Waypoint"..waypointId..displayMode
 		if (DoesWindowNameExist(windowName)) then
 			DestroyWindow(windowName)
@@ -455,7 +454,7 @@ function MapCommon.CreateWPOnLocation(wname, wtype, wfacet, wx, wy, displayMode,
 		if (wtype == 4) then
 			iconId = 100122
 		end
-		local color = nil
+		local color
 		if wtype == 6 then
 			if wstring.find(wstring.lower(wname), L"priest of mondain") then
 				color = {r=255,g=0,b=0}
@@ -479,7 +478,7 @@ function CreatePartyWP(windowName, wname)
 
 
 	local pid = 0
-	for mobileId, bho in pairs (PartyHealthBar.PartyMembers) do
+	for mobileId, _ in pairs (PartyHealthBar.PartyMembers) do
 		if(PartyHealthBar.PartyMembers[mobileId].name and wstring.len(PartyHealthBar.PartyMembers[mobileId].name) > 4) then
 			pname = wstring.sub(PartyHealthBar.PartyMembers[mobileId].name, 2, -2)
 			
@@ -489,10 +488,7 @@ function CreatePartyWP(windowName, wname)
 			end
 		end
 	end
-	
-	
-	local mobileData = Interface.GetMobileData(pid, true)
-	
+
 	if (PartyHealthBar.PartyMembers[pid]) then
 		local curHealth = PartyHealthBar.PartyMembers[pid].CurrentHealth
 		local maxHealth = PartyHealthBar.PartyMembers[pid].MaxHealth
@@ -548,40 +544,28 @@ function MapCommon.UpdateWaypoints(displayMode)
 
 		windowName = "Waypoint"..waypointId..displayMode
 		
-        local wtype, wflags, wname, wfacet, wx, wy, wz = UOGetWaypointInfo(waypointId) 
+        local wtype, _, wname, wfacet, wx, wy, _ = UOGetWaypointInfo(waypointId)
         		
-        if (wname == nil) then
-			continue
-		end
-		
-        if (wtype == 10 ) then
-			continue
-        end
-		if (wtype == 4 and MapCommon.ZoomLevel[MapCommon.ActiveView].Current > -1) then
-			continue
-		end
-		
-        if( visibleFunc(wtype,wx,wy) ) then
-			
-			local data = MapCommon.GetWPDataFromString(wname, wtype, wfacet, facet, area)
-			if not data then
-				continue
+        if (wname ~= nil and wtype ~= 10 and wtype ~= 4 and MapCommon.ZoomLevel[MapCommon.ActiveView].Current <= -1) then
+			if( visibleFunc(wtype,wx,wy) ) then
+				local data = MapCommon.GetWPDataFromString(wname, wtype, wfacet, facet, area)
+				if data then
+					MapCommon.WaypointsTypes[waypointId] = data.type
+					MapCommon.WaypointsIconFacet[waypointId] = data.facet
+					MapCommon.WaypointsIcon[waypointId] = data.icon
+					MapCommon.WaypointsIconScale[waypointId] = data.scale
+
+					if (wtype == 5 ) then
+						MapCommon.WaypointsIconScale[waypointId] = 1.5
+					end
+
+					if (wtype == 6 ) then
+						MapCommon.WaypointsIconScale[waypointId] = 1.2
+					end
+
+					MapCommon.CreateWPOnLocation(wname, wtype, wfacet, wx, wy, displayMode, waypointId, windowName, parentWindow)
+				end
 			end
-			
-			MapCommon.WaypointsTypes[waypointId] = data.type
-			MapCommon.WaypointsIconFacet[waypointId] = data.facet
-			MapCommon.WaypointsIcon[waypointId] = data.icon
-			MapCommon.WaypointsIconScale[waypointId] = data.scale
-			
-			if (wtype == 5 ) then
-				MapCommon.WaypointsIconScale[waypointId] = 1.5
-			end
-			
-			if (wtype == 6 ) then
-				MapCommon.WaypointsIconScale[waypointId] = 1.2
-			end
-			
-			MapCommon.CreateWPOnLocation(wname, wtype, wfacet, wx, wy, displayMode, waypointId, windowName, parentWindow)
 		end
     end
     
@@ -595,103 +579,70 @@ function MapCommon.UpdateWaypoints(displayMode)
 		windowName = "Waypoint"..waypointId..displayMode
 		
 		local data = Waypoints.UOGetWaypointInfo(i, facet) 
-        wtype = data.wtype
-        wflags = data.wflags
-        wname = data.wname
-        wfacet = data.wfacet
-        wx = tonumber(data.wx)
-        wy = tonumber(data.wy)
-        wz = tonumber(data.wz)
+        local wtype = data.wtype
+        local wflags = data.wflags
+        local wname = data.wname
+        local wfacet = data.wfacet
+        local wx = tonumber(data.wx)
+        local wy = tonumber(data.wy)
 
-        if (wname == nil) then
-			continue
-		end
-		
-        if (wtype == 10 ) then
-			continue
-        end
-		if (wtype == 4 and MapCommon.ZoomLevel[MapCommon.ActiveView].Current > -1) then
-			continue
-		end
+		if (wname ~= nil) and (wtype ~= 10 ) and (wtype ~= 4 and MapCommon.ZoomLevel[MapCommon.ActiveView].Current <= -1) then
+			if( visibleFunc(wtype,wx,wy) ) then
 
-        if( visibleFunc(wtype,wx,wy) ) then
-			
-			if (wname == L"Shrine of Wisdom" and wfacet == 4) then
-				continue
-			end
-			if (wtype == 11 or wtype == 12 ) then
-				MapCommon.WaypointsIconScale[waypointId] = 0.69		
-			end
-			
-			if (wtype == 1) then
-				MapCommon.WaypointsIconScale[waypointId] = 0.6
-			end
-			
-			MapCommon.WaypointsTypes[waypointId] = wtype
-			MapCommon.WaypointsIconFacet[waypointId] = wfacet
-			MapCommon.WaypointsIcon[waypointId] = Waypoints.Facet[facet][i].Icon
-			MapCommon.WaypointsIconScale[waypointId] = Waypoints.Facet[facet][i].Scale
-			
-			if (MapCommon.IgnoreWaypoint(MapCommon.WaypointsIconScale[waypointId])) then
-				continue
-			end
+				if (wname ~= L"Shrine of Wisdom" and wfacet ~= 4) then
+					if (wtype == 11 or wtype == 12 ) then
+						MapCommon.WaypointsIconScale[waypointId] = 0.69
+					end
 
-			if (wflags == "DUNG" and facet == 4 and area == 0) then
-				continue
+					if (wtype == 1) then
+						MapCommon.WaypointsIconScale[waypointId] = 0.6
+					end
+
+					MapCommon.WaypointsTypes[waypointId] = wtype
+					MapCommon.WaypointsIconFacet[waypointId] = wfacet
+					MapCommon.WaypointsIcon[waypointId] = Waypoints.Facet[facet][i].Icon
+					MapCommon.WaypointsIconScale[waypointId] = Waypoints.Facet[facet][i].Scale
+
+					if not (MapCommon.IgnoreWaypoint(MapCommon.WaypointsIconScale[waypointId]) and wflags ~= "DUNG"
+							and facet ~= 4 and area ~= 0 and wflags == "ABYSS" and facet ~= 5 and area ~= 1)  then
+						MapCommon.CreateWPOnLocation(wname, wtype, wfacet, wx, wy, displayMode, waypointId, windowName, parentWindow)
+					end
+				end
 			end
-			
-			if (wflags ~= "ABYSS" and facet == 5 and area == 1) then
-				continue
-			end
-        
-            MapCommon.CreateWPOnLocation(wname, wtype, wfacet, wx, wy, displayMode, waypointId, windowName, parentWindow)
 		end
     end
 	
-     for waypointId , whocare in pairs (TrackingPointer.TrackWaypoints)  do
-		windowName = "Waypoint"..waypointId..displayMode
+     for waypointId , _ in pairs (TrackingPointer.TrackWaypoints)  do
+		 if TrackingPointer.TrackWaypoints[waypointId] then
+			 local wx = TrackingPointer.TrackWaypoints[waypointId].PointerX
+			 local wy = TrackingPointer.TrackWaypoints[waypointId].PointerY
 
-		if not TrackingPointer.TrackWaypoints[waypointId] then
-			continue
-		end
+			 if wx and wy and facet and not IsMobileVisible(waypointId) then
+				 if( visibleFunc(2,wx,wy) and name and not IsPartyMember( waypointId ))then
+					 MapCommon.WaypointsIcon[waypointId] = 100118
+					 MapCommon.WaypointsIconScale[waypointId] = 0.6
 
-		local wx = TrackingPointer.TrackWaypoints[waypointId].PointerX
-		local wy = TrackingPointer.TrackWaypoints[waypointId].PointerY
-		local wfacet = TrackingPointer.TrackWaypoints[waypointId].facet
-		local name = GetStringFromTid(1155436)
-		
-		if (not wx or not wy or not facet) then
-			continue
-		end
+					 local waypointX, waypointY = UOGetWorldPosToRadar(wx, wy)
 
-		if( IsMobile(waypointId) == true)then			
-			continue
-		end
+					 if( MapCommon.WaypointViewInfo[displayMode].Windows[waypointId] == nil ) then
+						 CreateWindowFromTemplate(windowName, "WaypointIconTemplate", parentWindow)
 
-		if( visibleFunc(2,wx,wy) and name and not IsPartyMember( waypointId ))then
-			MapCommon.WaypointsIcon[waypointId] = 100118
-			MapCommon.WaypointsIconScale[waypointId] = 0.6
-			
-			local waypointX, waypointY = UOGetWorldPosToRadar(wx, wy)
+						 MapCommon.WaypointViewInfo[displayMode].Windows[waypointId] = windowName
+						 WindowSetId(windowName,waypointId)
 
-            if( MapCommon.WaypointViewInfo[displayMode].Windows[waypointId] == nil ) then
-				CreateWindowFromTemplate(windowName, "WaypointIconTemplate", parentWindow)
-				
-				MapCommon.WaypointViewInfo[displayMode].Windows[waypointId] = windowName
-                WindowSetId(windowName,waypointId)
-                
-                WindowClearAnchors(windowName)
-				WindowAddAnchor(windowName, "topleft", parentWindow, "center", waypointX, waypointY)
-				MapCommon.UpdateWaypointIcon(100118,windowName,displayMode, waypointId)
-			end
-			
+						 WindowClearAnchors(windowName)
+						 WindowAddAnchor(windowName, "topleft", parentWindow, "center", waypointX, waypointY)
+						 MapCommon.UpdateWaypointIcon(100118,windowName,displayMode, waypointId)
+					 end
+				 end
+			 end
 		end
     end
 end
 
 function MapCommon.SetWaypointsEnabled(displayMode,isEnabled)
     if( isEnabled ~= MapCommon.WaypointViewInfo[displayMode].WaypointsEnabled ) then
-        for windowId, windowName in pairs(MapCommon.WaypointViewInfo[displayMode].Windows) do
+        for _, windowName in pairs(MapCommon.WaypointViewInfo[displayMode].Windows) do
             WindowSetShowing(windowName,isEnabled)
         end
         
@@ -736,34 +687,18 @@ function MapCommon.ConvertToXYMinutes(latVal, longVal, latDir, longDir, facet, a
 	
 	local x = sectCenterX + ((absLong * MapCommon.sextantMaximumX) / 360)
 	local y = sectCenterY + ((absLat * MapCommon.sextantMaximumY) / 360)
-	
-	--if( (facet == 0 and area == MapCommon.sextantFeluccaLostLands) or (facet == 1 and area == MapCommon.sextantTrammelLostLands) ) then
-	--	if (x < MapCommon.sextantLostLandTopRightX) then
-	--		x = x + MapCommon.sextantLostLandTopLeftX
-	--	end
-	--	if (x >= MapCommon.sextantLostLandTopLeftX) then
-	--		x = x - MapCommon.sextantLostLandTopLeftX
-	--	end
-	--	if (y < MapCommon.sextantLostLandTopLeftY) then
-	--		y = y + MapCommon.sextantLostLandBottomLeftY
-	--	end
-	--	if (y >= MapCommon.sextantLostLandBottomLeftY) then
-	--		y = y - MapCommon.sextantLostLandBottomLeftY
-	--	end
-	--else
-		if (x < 0) then
-			x = x + MapCommon.sextantMaximumX
-		end
-		if (x >= MapCommon.sextantMaximumX) then
-			x = x - MapCommon.sextantMaximumX
-		end
-		if (y < 0) then
-			y = y + MapCommon.sextantMaximumY
-		end
-		if (y >= MapCommon.sextantMaximumY) then
-			y = y - MapCommon.sextantMaximumY
-		end		
-	--end
+	if (x < 0) then
+		x = x + MapCommon.sextantMaximumX
+	end
+	if (x >= MapCommon.sextantMaximumX) then
+		x = x - MapCommon.sextantMaximumX
+	end
+	if (y < 0) then
+		y = y + MapCommon.sextantMaximumY
+	end
+	if (y >= MapCommon.sextantMaximumY) then
+		y = y - MapCommon.sextantMaximumY
+	end
 	return x, y
 end
 
@@ -828,22 +763,21 @@ function MapCommon.WaypointMouseOver()
         
         local waypointId = WindowGetId(SystemData.ActiveWindow.name)
         local waypointWindow = "Waypoint"..waypointId..MapCommon.ActiveView
-        local waypointName = "Invalid Waypoint"
-        local waypointX = 0
-        local waypointY = 0
+        local waypointName
+        local waypointX
+        local waypointY
+		local waypointFacet
         
         if( waypointId ~= MapCommon.WaypointPlayerId ) then
-			local wtype, wflags, wname, wfacet, wx, wy, wz
+			local wtype, wname, wfacet, wx, wy
 			
 			if (waypointId > 50000 ) then
 				if(TrackingPointer.TrackWaypoints[waypointId]) then
 					wtype = 13
-					wflags = 0
 					wname = GetStringFromTid(1155436)
 					wfacet = TrackingPointer.TrackWaypoints[waypointId].facet
 					wx = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerX)
 					wy = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerY)
-					wz = 0
 				else
 					wtype = nil
 				end
@@ -851,15 +785,13 @@ function MapCommon.WaypointMouseOver()
 				local data = Waypoints.UOGetWaypointInfo(waypointId - 10000, UOGetRadarFacet()) 
 				if data then
 					wtype = data.wtype
-					wflags = data.wflags
 					wname = StringToWString(data.wname)
 					wfacet = data.wfacet
 					wx = tonumber(data.wx)
 					wy = tonumber(data.wy)
-					wz = tonumber(data.wz)	
 				end
 			else
-				wtype, wflags, wname, wfacet, wx, wy, wz = UOGetWaypointInfo(waypointId)
+				wtype, _, wname, wfacet, wx, wy, wz = UOGetWaypointInfo(waypointId)
 				local texto = string.find(WStringToString(wname) , "_ICON_")
 				if (texto) then
 					local strip = string.sub(WStringToString(wname), 1 , texto - 1)
@@ -868,10 +800,10 @@ function MapCommon.WaypointMouseOver()
 			end
 
             if (wtype == nil) then
-            	DestroyWindow(waypointWindow)				
+				DestroyWindow(waypointWindow)
 				return
-            end
-            
+			end
+
             waypointName = wname
             waypointX = wx
             waypointY = wy
@@ -924,16 +856,13 @@ function MapCommon.WaypointOnRButtonUp()
 		params.type = MapCommon.WaypointPlayerType
 		params.name = GetStringFromTid(MapCommon.TID.YourLocation)
 	else
-		local wtype, wflags, wname, wfacet, wx, wy, wz, scale
+		local wtype, wname, wx, wy, scale
 		if (waypointId > 50000 ) then
 			if(TrackingPointer.TrackWaypoints[waypointId]) then
 				wtype = 13
-				wflags = 0
 				wname = GetStringFromTid(1155436)
-				wfacet = TrackingPointer.TrackWaypoints[waypointId].facet
 				wx = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerX)
 				wy = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerY)
-				wz = 0
 			else
 				wtype = nil
 			end
@@ -941,17 +870,14 @@ function MapCommon.WaypointOnRButtonUp()
 			local data = Waypoints.UOGetWaypointInfo(waypointId - 10000, UOGetRadarFacet()) 
 			if data then
 				wtype = data.wtype
-				wflags = data.wflags
 				wname = StringToWString(data.wname)
-				wfacet = data.wfacet
 				wx = tonumber(data.wx)
 				wy = tonumber(data.wy)
-				wz = tonumber(data.wz)	
 				scale = Waypoints.Facet[wfacet][waypointId - 10000].Scale
 			end
 
 		else
-			wtype, wflags, wname, wfacet, wx, wy, wz = UOGetWaypointInfo(waypointId)
+			wtype, _, wname, _, wx, wy, _ = UOGetWaypointInfo(waypointId)
 		end
 		if (wtype == nil) then
 			DestroyWindow(waypointWindowName)
@@ -1038,10 +964,10 @@ function MapCommon.GetRadarBorders(facet, area)
 	local x1, y1, x2, y2 = UORadarGetAreaDimensions(facet, area)
 	
 	if( x1 ~= nil and x2 ~= nil and y1 ~= nil and y2 ~= nil ) then
-	    local upperLeftX, upperLeftY = UOGetWorldPosToRadar(x1, y1)
-	    local upperRightX, upperRightY = UOGetWorldPosToRadar(x2, y1)
-	    local lowerLeftX, lowerLeftY = UOGetWorldPosToRadar(x1, y2)
-	    local lowerRightX, lowerRightY = UOGetWorldPosToRadar(x2, y2)
+	    local _, upperLeftY = UOGetWorldPosToRadar(x1, y1)
+	    local upperRightX, _ = UOGetWorldPosToRadar(x2, y1)
+	    local lowerLeftX, _ = UOGetWorldPosToRadar(x1, y2)
+	    local _, lowerRightY = UOGetWorldPosToRadar(x2, y2)
     	
 	    -- top, bottom, left, right
 	    return upperLeftY, lowerRightY, lowerLeftX, upperRightX
@@ -1068,10 +994,6 @@ MapCommon.AreaDelta = 0
 function MapCommon.UpdateAreaInfo(timePassed)
 	local currTerrain = LuaGetTerrainType(WindowData.PlayerLocation.x, WindowData.PlayerLocation.y)
 
-	local champ = (MapCommon.isChampionSpawn(MapCommon.CurrentSubArea) or MapCommon.isChampionSpawn(MapCommon.CurrentArea))
-	
-	local activeFight = WindowData.PlayerStatus.InWarMode and not champ and not IsPlayerDead()
-		
 	if (MapCommon.PlayerLocation.X ~= WindowData.PlayerLocation.x or MapCommon.PlayerLocation.Y ~= WindowData.PlayerLocation.y or MapCommon.PlayerLocation.MAP ~= WindowData.PlayerLocation.facet) then
 		MapCommon.PlayerLocation.X = WindowData.PlayerLocation.x
 		MapCommon.PlayerLocation.Y = WindowData.PlayerLocation.y
@@ -1103,14 +1025,12 @@ function MapCommon.UpdateAreaInfo(timePassed)
 		if (MapWindow and WindowGetShowing("MapWindow")) then
 			LabelSetText("MapWindowPlayerCoordsText", Sextant)
 		end
-		
-		
-		
+
 		MapCommon.AreaDelta = 0
-		local notFound = false
-		local area = nil
-		local subarea = nil
-		local desc = nil
+		local notFound
+		local area
+		local subarea
+		local desc
 		local extraDesc = ""
 		if (WindowData.PlayerLocation.facet == 0 or WindowData.PlayerLocation.facet == 1 or WindowData.PlayerLocation.facet ==4) and PlayerIsOnWater() then
 			if currTerrain == 52 then
@@ -1120,7 +1040,7 @@ function MapCommon.UpdateAreaInfo(timePassed)
 			end
 		end
 		
-		for key, value in pairs(KnownAreas) do
+		for key, _ in pairs(KnownAreas) do
 
 			notFound = true
 			for i = 1, table.getn(KnownAreas[key].MainAreas) do
@@ -1139,27 +1059,25 @@ function MapCommon.UpdateAreaInfo(timePassed)
 			end
 			
 			
-			if notFound then
-				continue
-			end
-			
-			for sub, value in pairs(KnownAreas[key].SubAreas) do
-				local found	
-				for i = 1, table.getn(KnownAreas[key].SubAreas[sub].Squares) do
-					local currShard = UserData.Settings.Login.lastShardSelected
-					local areaShard = KnownAreas[key].SubAreas[sub].Squares[i].shard
-					if (MapCommon.CheckSquareTable ( WindowData.PlayerLocation.x, WindowData.PlayerLocation.y, WindowData.PlayerLocation.z, WindowData.PlayerLocation.facet, KnownAreas[key].SubAreas[sub].Squares[i]) and (not areaShard or currShard == areaShard) ) then
-						found = KnownAreas[key].SubAreas[sub].Prior
-						subarea = sub
-						desc = KnownAreas[key].SubAreas[sub].Squares[i].name
+			if not notFound then
+				for sub, _ in pairs(KnownAreas[key].SubAreas) do
+					local found
+					for i = 1, table.getn(KnownAreas[key].SubAreas[sub].Squares) do
+						local currShard = UserData.Settings.Login.lastShardSelected
+						local areaShard = KnownAreas[key].SubAreas[sub].Squares[i].shard
+						if (MapCommon.CheckSquareTable ( WindowData.PlayerLocation.x, WindowData.PlayerLocation.y, WindowData.PlayerLocation.z, WindowData.PlayerLocation.facet, KnownAreas[key].SubAreas[sub].Squares[i]) and (not areaShard or currShard == areaShard) ) then
+							found = KnownAreas[key].SubAreas[sub].Prior
+							subarea = sub
+							desc = KnownAreas[key].SubAreas[sub].Squares[i].name
+							break
+						end
+
+					end
+					if ( found) then
 						break
 					end
-		
-				end
-				if ( found) then
-					break
-				end
 
+				end
 			end
 		end
 
@@ -1172,14 +1090,6 @@ function MapCommon.UpdateAreaInfo(timePassed)
 			else
 				MapCommon.AreaDescription = subarea .. extraDesc
 			end
-		else
-			if extraDesc ~= "" then
-				desc = string.gsub(extraDesc, " [-] ", "")
-			end
-			if not desc then
-				desc = ""
-			end
-			desc = desc .. extraDesc
 		end
 	end
 end

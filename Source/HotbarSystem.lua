@@ -128,11 +128,11 @@ function HotbarSystem.Initialize()
 	-- setup the "Request Target ID" description window
 	CreateWindow("RequestTargetIdInfo",false)
 	LabelSetText("RequestTargetIdInfoText",GetStringFromTid(HotbarSystem.TID_REQUEST_TARGET_ID_DESC))
-	local x, y = LabelGetTextDimensions( "RequestTargetIdInfoText" )
+	x, y = LabelGetTextDimensions( "RequestTargetIdInfoText" )
 	WindowSetDimensions("RequestTargetIdInfo",x+16,y+16)
 		
 	-- create a hotbar for each id in the list
-	for index, hotbarId in pairs(SystemData.Hotbar.HotbarIds) do
+	for _, hotbarId in pairs(SystemData.Hotbar.HotbarIds) do
 		HotbarSystem.SpawnNewHotbar(hotbarId)
 	end
 	
@@ -183,7 +183,7 @@ function HotbarSystem.DestroyHotbar(hotbarId)
 end
 
 function HotbarSystem.DestroyHotbarGroup(windowName)
-	local grp, cnt = Hotbar.FindHotbarGroup(windowName)
+	local grp, _ = Hotbar.FindHotbarGroup(windowName)
 	
 	for hbar, _ in pairs(grp) do
 		HotbarSystem.DestroyHotbar(WindowGetId(hbar))
@@ -236,7 +236,7 @@ function HotbarSystem.GetNextHotbarId()
 	
 	while newHotbarId ~= HotbarSystem.MAX_HOTBAR_ID do
 		local found = false
-		for index, hotbarId in pairs(SystemData.Hotbar.HotbarIds) do
+		for _, hotbarId in pairs(SystemData.Hotbar.HotbarIds) do
 			if( hotbarId == newHotbarId ) then
 				found = true
 			end
@@ -304,9 +304,9 @@ function HotbarSystem.UpdateActionButton(element, type, id, iconId, disabled )
 	if( type == SystemData.UserAction.TYPE_USE_ITEM or
 	    type == SystemData.UserAction.TYPE_USE_OBJECTTYPE) then
 
-        local item = nil
-        local playerHasItem = false
-        local itemHasCharges = nil
+        local item
+		local playerHasItem = false
+        local itemHasCharges
 		--Debug.Print("Step 1: "..tostring(type))
         if( type == SystemData.UserAction.TYPE_USE_ITEM ) then
 		    -- register for this object if its not already registered
@@ -317,10 +317,10 @@ function HotbarSystem.UpdateActionButton(element, type, id, iconId, disabled )
 	        item = WindowData.ObjectInfo[id]
 	        playerHasItem = DoesPlayerHaveItem(id)	        	        		    
 		    if playerHasItem and item ~= nil and item.quantity == 1 then
-		    	local uses = ItemProperties.GetCharges(id)		    	
-		    	if(uses ~= nil)then
-			    	itemHasCharges = Knumber(uses[2])		    			
-		    	end		    		
+				local uses = ItemProperties.GetCharges(id)
+				if uses ~= nil then
+					itemHasCharges = Knumber(uses[2])
+				end
 		    end
 		elseif( type == SystemData.UserAction.TYPE_USE_OBJECTTYPE ) then
 	        -- register for this object if its not already registered
@@ -477,10 +477,9 @@ function HotbarSystem.UpdateTargetTypeIndicator(element,hotbarId,itemIndex,subIn
     --Debug.Print("UpdateTargetTypeIndicator: "..tostring(element)..", "..tostring(hotbarId)..", "..tostring(itemIndex)..", "..tostring(subIndex))
 	local type = UserActionGetType(hotbarId, itemIndex, subIndex)
 	local idC = UserActionGetId(hotbarId, itemIndex, subIndex)
-	local actionId = UserActionGetId(hotbarId,itemIndex,subIndex)
 	local notarget = false
 	if (type == SystemData.UserAction.TYPE_SPELL and SpellsInfo) then
-		for no, value in pairs(SpellsInfo.SpellsData) do
+		for _, value in pairs(SpellsInfo.SpellsData) do
 			if value.id == idC then
 				notarget = value.notarget
 				break
@@ -574,14 +573,6 @@ function HotbarSystem.ClearActionIcon(element, hotbarId, itemIndex, subIndex, bU
 
 	
 	if( bUnregister == true ) then
-		-- clear out the macro reference if necesary
-		for itemId, elements in pairs(HotbarSystem.MacroReferenceSlots) do
-			elements[element] = nil
-			if( table.getn(elements) == 0 ) then
-				elements = nil
-			end			
-		end
-
 		-- clear the weapon ability (this does nothing if its not a weapon ability)
 		EquipmentData.UnregisterWeaponAbilitySlot(element)
 		-- clear the spell registration (this does nothing if it is not a spell
@@ -615,13 +606,11 @@ function HotbarSystem.ClearActionIcon(element, hotbarId, itemIndex, subIndex, bU
 					HotbarSystem.ObjectSlots[itemId] = nil
 				end
 				HotbarSystem.ObjectSlotsSize[itemId] = HotbarSystem.ObjectSlotsSize[itemId] - 1
-			end		
-			
-			
+			end
+
 			UnregisterWindowData(WindowData.ObjectTypeQuantity.Type,HotbarSystem.RegisteredGenericObjectType[element])
 			HotbarSystem.RegisteredGenericObjectType[element] = nil
 		end
-		
 
 		WindowSetShowing(element.."Disabled",false)
 		ButtonSetDisabledFlag(element,false)
@@ -679,25 +668,25 @@ function HotbarSystem.UpdateItemSlot()
 					end
 					LabelSetText(element.."Quantity",labelString)
 				else
-					local itemHasCharges = nil
-		    		local uses = ItemProperties.GetCharges(id)		    		
-			    	if(uses ~= nil)then	    	
+					local itemHasCharges
+					local uses = ItemProperties.GetCharges(id)
+					if uses ~= nil then
 						itemHasCharges = Knumber(uses[2])
-				    	local labelString
-			    		if (tonumber(itemHasCharges) >= 1000) then
+						local labelString
+						if (tonumber(itemHasCharges) >= 1000) then
 							local q = itemHasCharges / 1000
 							q = math.floor(q)
-							labelString = StringToWString(tostring(q).."K")	
+							labelString = StringToWString(tostring(q).."K")
 						else
-							labelString = StringToWString(tostring(itemHasCharges))	
-						end						
+							labelString = StringToWString(tostring(itemHasCharges))
+						end
 						LabelSetText(element.."Quantity",labelString)
-			    	end	
+					end
 			    end	    	
 		    end		    
 		-- if this item has left the players backpack then disable it
 		else
-			for element, itemLoc in pairs(HotbarSystem.ObjectSlots[id]) do
+			for element, _ in pairs(HotbarSystem.ObjectSlots[id]) do
 				WindowSetShowing(element.."Disabled",true)
 				WindowSetShowing(element.."Alert",false)
 				ButtonSetDisabledFlag(element,true)
@@ -708,7 +697,6 @@ end
 
 function HotbarSystem.SetHotbarIcon(element, iconId)
 	local elementIcon = element.."SquareIcon"
-	local elementHotkey = element.."Hotkey"
 	local elementOverlay = element.."Overlay"
 	
 	local custom = Interface.LoadNumber( element .. "Custom", 1 )
@@ -775,7 +763,7 @@ function HotbarSystem.UpdatePlayerStatLabel(element, id)
 		if(statsName == "TithingPoints" or statsName == "Gold")then 
 			LabelSetText(element.."Stats", Knumber(WindowData.PlayerStatus[statsName])	 )
 		elseif (CharacterSheet.Caps[statsName]) then
-			local cap = CharacterSheet.Caps[statsName] + CharacterSheet.CapsBonus[statsName]
+			cap = CharacterSheet.Caps[statsName] + CharacterSheet.CapsBonus[statsName]
 			LabelSetText(element.."StatsTop", labelString  )
 			LabelSetText(element.."StatsBottom", StringToWString(tostring(cap)) )		
 		elseif cap  then
@@ -795,7 +783,6 @@ function HotbarSystem.UpdatePlayerStat()
 end
 
 function HotbarSystem.UpdateQuantityForOneSlot(element)
-	local elementIcon = element.."SquareIcon"
 	LabelSetText(element.."Quantity",L"")
 end
 
@@ -851,7 +838,7 @@ function HotbarSystem.UpdateQuantity()
 			quantity = item.quantity
 		end
 		local objectType, hue = UserActionUseObjectTypeGetObjectTypeHue(id)
-		for element, itemLoc in pairs(HotbarSystem.ObjectSlots[id]) do
+		for element, _ in pairs(HotbarSystem.ObjectSlots[id]) do
 			local elementIcon = element.."SquareIcon"
 			local oldQuantity = tonumber(LabelGetText(element.."Quantity"))
 			local realId = UserActionGetNextObjectId(id)
@@ -919,375 +906,322 @@ function HotbarSystem.HandleUpdateActionItem()
 end
 
 function HotbarSystem.Update(timePassed)	
-	for id, element in pairs(HotbarSystem.SpecialActions) do
-		for element, curElement in pairs(HotbarSystem.SpecialActions[id]) do			
-			local patt = element
+	for id, _ in pairs(HotbarSystem.SpecialActions) do
+		for key, curElement in pairs(HotbarSystem.SpecialActions[id]) do
+			local patt = key
 			local fnd = string.find(patt , "Button")
-			if (element and fnd ~= nil ) then
+			if (key and fnd ~= nil ) then
 				local hotbarId = tonumber(string.sub(patt,7, fnd - 1))
 				local itemIndex = tonumber(string.sub(patt, fnd + 6 ))
-				if Hotbar.IsShrunken(hotbarId)then					
-					continue
-				end
+				if not Hotbar.IsShrunken(hotbarId) then
+					if not DoesWindowNameExist(WindowGetParent(key)) then
+						HotbarSystem.SpecialActions[id] = nil
+					else
+						local aId = UserActionGetId(hotbarId,itemIndex,0)
+						if aId then
+							if( HotbarSystem.SpecialActions[id] == nil ) then
+								HotbarSystem.SpecialActions[id] = {}
+							end
+							local bDisabled = false
+							if id == 3 then --TYPE_TOGGLE_WAR_MODE
+								WindowSetShowing(curElement.."Alert",WindowData.PlayerStatus.InWarMode)
+							end
+							if id == 83 then --TYPE_TOGGLE_ALWAYS_RUN
+								WindowSetShowing(curElement.."Alert",SystemData.Settings.GameOptions.alwaysRun)
+							end
 
-				if not DoesWindowNameExist(WindowGetParent(element)) then
-					HotbarSystem.SpecialActions[id] = nil
-					continue
+							if id == 86 or id == 87 then --TYPE_BANDAGE_SELF & TYPE_BANDAGE_SELECTED_TARGET
+								HotbarSystem.UpdateCooldownSlot(curElement, HotbarSystem.BandageDelayTime)
+							end
+							if ( DoesWindowNameExist(curElement.."Cooldown") ) then
+								WindowSetShowing(curElement .. "Hotkey", false)
+								WindowSetShowing(curElement.."Disabled",true)
+							elseif bDisabled then
+								WindowSetShowing(curElement.."Disabled",bDisabled)
+								ButtonSetDisabledFlag(curElement,bDisabled)
+							end
+						else
+							HotbarSystem.SpecialActions[id][key] = nil
+						end
+					end
 				end
-				local aId = UserActionGetId(hotbarId,itemIndex,0)
-				if not aId then
-					HotbarSystem.SpecialActions[id][element] = nil
-					continue
-				end
-				if( HotbarSystem.SpecialActions[id] == nil ) then
-					HotbarSystem.SpecialActions[id] = {}
-				end
-				local bDisabled = false
-				if id == 3 then --TYPE_TOGGLE_WAR_MODE
-					WindowSetShowing(curElement.."Alert",WindowData.PlayerStatus.InWarMode)
-				end
-				if id == 83 then --TYPE_TOGGLE_ALWAYS_RUN
-					WindowSetShowing(curElement.."Alert",SystemData.Settings.GameOptions.alwaysRun)
-				end
-	
-				if id == 86 or id == 87 then --TYPE_BANDAGE_SELF & TYPE_BANDAGE_SELECTED_TARGET	
-					HotbarSystem.UpdateCooldownSlot(curElement, HotbarSystem.BandageDelayTime)						
-				end
-				if ( DoesWindowNameExist(curElement.."Cooldown") ) then
-					WindowSetShowing(curElement .. "Hotkey", false)
-					WindowSetShowing(curElement.."Disabled",true)					
-				elseif bDisabled then
-					WindowSetShowing(curElement.."Disabled",bDisabled)
-					ButtonSetDisabledFlag(curElement,bDisabled)
-				end
-				
 			end
 		end
 	end
 	
-	for id, nextElement in pairs (HotbarSystem.ObjectSlots) do
-		for curElement, itemLoc in pairs(HotbarSystem.ObjectSlots[id]) do
+	for id, _ in pairs (HotbarSystem.ObjectSlots) do
+		for curElement, _ in pairs(HotbarSystem.ObjectSlots[id]) do
 			local patt = curElement
 			local fnd = string.find(patt , "Button")
 			if (curElement and fnd ~= nil ) then
 				local hotbarId = tonumber(string.sub(patt,7, fnd - 1))				
-				if Hotbar.IsShrunken(hotbarId)then					
-					continue
-				end
-			end
+				if not Hotbar.IsShrunken(hotbarId) then
+					local item  = WindowData.ObjectInfo[id]
+					if curElement and DoesWindowNameExist(WindowGetParent(curElement)) then
+						local objectType, hue = UserActionUseObjectTypeGetObjectTypeHue(id)
+						if ( item ~= nil ) then
+							hue = item.hueId
+						end
+						if(objectType == 3617 or objectType == 3817) then -- BANDAGES
+							if( HotbarSystem.ObjectSlots[id] == nil ) then
+								HotbarSystem.ObjectSlots[id] = {}
+							end
+							HotbarSystem.UpdateCooldownSlot(curElement, HotbarSystem.BandageDelayTime, 7)
+						elseif(objectType == 3852) then -- HEALING POTION
+							if( HotbarSystem.ObjectSlots[id] == nil ) then
+								HotbarSystem.ObjectSlots[id] = {}
+							end
+							HotbarSystem.UpdateCooldownSlot(curElement, HotbarSystem.HealPotDelayTime, 10)
+						elseif(objectType == 12248 and hue == 1160) then -- ENCHANTED APPLE
+							if( HotbarSystem.ObjectSlots[id] == nil ) then
+								HotbarSystem.ObjectSlots[id] = {}
+							end
+							HotbarSystem.UpdateCooldownSlot(curElement, HotbarSystem.AppleDelayTime, 30)
+						elseif(objectType == 12247 and hue == 1154) then -- GRAPES OF WRATH
+							if( HotbarSystem.ObjectSlots[id] == nil ) then
+								HotbarSystem.ObjectSlots[id] = {}
+							end
+							HotbarSystem.UpdateCooldownSlot(curElement, HotbarSystem.GrapeDelayTime, 120)
+						elseif(objectType == 12120 or objectType == 12121 or objectType == 12122 or objectType == 12123 or objectType == 4246) then -- TALISMANS
+							if( HotbarSystem.ObjectSlots[id] == nil ) then
+								HotbarSystem.ObjectSlots[id] = {}
+							end
+							local time
 
-			local item  = WindowData.ObjectInfo[id]				
-			if not curElement or not DoesWindowNameExist(WindowGetParent(curElement)) then
-				HotbarSystem.ObjectSlots[id] = nil
-				continue
-			end
-				
-			local objectType, hue = UserActionUseObjectTypeGetObjectTypeHue(id)
-			if ( item ~= nil ) then
-				hue = item.hueId
-			end
-			if(objectType == 3617 or objectType == 3817) then -- BANDAGES
-				if( HotbarSystem.ObjectSlots[id] == nil ) then
-					HotbarSystem.ObjectSlots[id] = {}
-				end
-				HotbarSystem.UpdateCooldownSlot(curElement, HotbarSystem.BandageDelayTime, 7)				
-			elseif(objectType == 3852) then -- HEALING POTION
-				if( HotbarSystem.ObjectSlots[id] == nil ) then
-					HotbarSystem.ObjectSlots[id] = {}
-				end
-				HotbarSystem.UpdateCooldownSlot(curElement, HotbarSystem.HealPotDelayTime, 10)				
-			elseif(objectType == 12248 and hue == 1160) then -- ENCHANTED APPLE
-				if( HotbarSystem.ObjectSlots[id] == nil ) then
-					HotbarSystem.ObjectSlots[id] = {}
-				end
-				HotbarSystem.UpdateCooldownSlot(curElement, HotbarSystem.AppleDelayTime, 30)				
-			elseif(objectType == 12247 and hue == 1154) then -- GRAPES OF WRATH
-				if( HotbarSystem.ObjectSlots[id] == nil ) then
-					HotbarSystem.ObjectSlots[id] = {}
-				end
-				HotbarSystem.UpdateCooldownSlot(curElement, HotbarSystem.GrapeDelayTime, 120)						
-			elseif(objectType == 12120 or objectType == 12121 or objectType == 12122 or objectType == 12123 or objectType == 4246) then -- TALISMANS
-				if( HotbarSystem.ObjectSlots[id] == nil ) then
-					HotbarSystem.ObjectSlots[id] = {}
-				end
-				local time =  HotbarSystem.TalismanTimers[curElement]
-				
-				local chargeTime
-				
-				local props = ItemProperties.GetObjectPropertiesArray( UserActionGetNextObjectId(id), "container items weight scan" )
-				if props  then
-					local params = ItemProperties.BuildParamsArray( props )
-					
-					for j = 1, #props.PropertiesTids do
-						if ItemPropertiesInfo.LifeSpanTid[props.PropertiesTids[j]] then
-							local token = ItemPropertiesInfo.LifeSpanTid[props.PropertiesTids[j]]
-							local val = tostring(params[props.PropertiesTids[j]][token])
-							
-							chargeTime = tonumber(val)
-							break
-						end
-					end
-				end
-				time = chargeTime
-				if time then
-					time = time - timePassed
-					HotbarSystem.TalismanTimers[curElement] = time
-					if time <= 0 then
-						HotbarSystem.TalismanTimers[curElement] = nil
-						time = nil
-					end
-				end
+							local chargeTime
 
-				if( not time or time == 0 ) then
-					HotbarSystem.UpdateCooldownSlot(curElement, 0)
-				else	
-					local timer = math.floor(time)
-					local min = math.floor(time/60)
-					if min > 60 then
-						local prefix = ""
-						if ((min / 60) - math.floor(min / 60) > 0) then
-							prefix = ">"
+							local props = ItemProperties.GetObjectPropertiesArray( UserActionGetNextObjectId(id), "container items weight scan" )
+							if props  then
+								local params = ItemProperties.BuildParamsArray( props )
+
+								for j = 1, #props.PropertiesTids do
+									if ItemPropertiesInfo.LifeSpanTid[props.PropertiesTids[j]] then
+										local token = ItemPropertiesInfo.LifeSpanTid[props.PropertiesTids[j]]
+										local val = tostring(params[props.PropertiesTids[j]][token])
+
+										chargeTime = tonumber(val)
+										break
+									end
+								end
+							end
+							time = chargeTime
+							if time then
+								time = time - timePassed
+								HotbarSystem.TalismanTimers[curElement] = time
+								if time <= 0 then
+									HotbarSystem.TalismanTimers[curElement] = nil
+									time = nil
+								end
+							end
+
+							if( not time or time == 0 ) then
+								HotbarSystem.UpdateCooldownSlot(curElement, 0)
+							else
+								local timer
+								local min = math.floor(time/60)
+								if min > 60 then
+									local prefix = ""
+									if ((min / 60) - math.floor(min / 60) > 0) then
+										prefix = ">"
+									end
+									local h = math.floor(min / 60)
+									timer = StringToWString(prefix .. tostring(h) .. "h")
+								elseif min > 0 then
+									local prefix = ""
+									if (time - (min * 60) > 0) then
+										prefix = ">"
+									end
+									timer = StringToWString(prefix .. tostring(min)	.. "m")
+								else
+									timer = StringToWString(tostring( math.floor(time))	.. "s")
+								end
+								HotbarSystem.UpdateCooldownSlot(curElement, time, 1800, timer)
+							end
 						end
-						local h = math.floor(min / 60)
-						timer = StringToWString(prefix .. tostring(h) .. "h")
-					elseif min > 0 then
-						local prefix = ""
-						if (time - (min * 60) > 0) then
-							prefix = ">"
-						end
-						timer = StringToWString(prefix .. tostring(min)	.. "m")
 					else
-						timer = StringToWString(tostring( math.floor(time))	.. "s")
+						HotbarSystem.ObjectSlots[id] = nil
 					end
-					HotbarSystem.UpdateCooldownSlot(curElement, time, 1800, timer)					
 				end
-			end			
-		end
-	end
-	
-	for id, element in pairs(HotbarSystem.Skills) do
-		for element, curElement in pairs(HotbarSystem.Skills[id]) do
-			local patt = element
-			local fnd = string.find(patt , "Button")
-			if (element and fnd ~= nil ) then
-				local hotbarId = tonumber(string.sub(patt,7, fnd - 1))
-				local itemIndex = tonumber(string.sub(patt, fnd + 6 ))
-				if Hotbar.IsShrunken(hotbarId)then					
-					continue
-				end
-				
-				if not DoesWindowNameExist(WindowGetParent(element)) then
-					HotbarSystem.Skills[id] = nil
-					continue
-				end
-				
-				if( HotbarSystem.Skills[id] == nil ) then
-					HotbarSystem.Skills[id] = {}
-				end
-				WindowSetShowing(element.."Disabled",false)
-				WindowSetShowing(element.."Alert",false)				
-				HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.SkillDelayTime, HotbarSystem.SkillDelayTimeMax)								
 			end
 		end
 	end
 	
-	for id, element in pairs(HotbarSystem.Spells) do
-		for element, curElement in pairs(HotbarSystem.Spells[id]) do
+	for id, _ in pairs(HotbarSystem.Skills) do
+		for element, _ in pairs(HotbarSystem.Skills[id]) do
+			local patt = element
+			local fnd = string.find(patt , "Button")
+			if (element and fnd ~= nil ) then
+				local hotbarId = tonumber(string.sub(patt,7, fnd - 1))
+				if not Hotbar.IsShrunken(hotbarId)then
+					if DoesWindowNameExist(WindowGetParent(element)) then
+						if( HotbarSystem.Skills[id] == nil ) then
+							HotbarSystem.Skills[id] = {}
+						end
+						WindowSetShowing(element.."Disabled",false)
+						WindowSetShowing(element.."Alert",false)
+						HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.SkillDelayTime, HotbarSystem.SkillDelayTimeMax)
+					else
+						HotbarSystem.Skills[id] = nil
+					end
+				end
+			end
+		end
+	end
+	
+	for id, _ in pairs(HotbarSystem.Spells) do
+		for element, _ in pairs(HotbarSystem.Spells[id]) do
 			local patt = element
 			local fnd = string.find(patt , "Button")
 			if (element and fnd ~= nil ) then
 				local hotbarId = tonumber(string.sub(patt,7, fnd - 1))
 				local itemIndex = tonumber(string.sub(patt, fnd + 6 ))
-				if Hotbar.IsShrunken(hotbarId)then					
-					continue
-				end
-				
-				if not DoesWindowNameExist(WindowGetParent(element)) then
-					HotbarSystem.Spells[id] = nil
-					continue
-				end
-				
-				if( HotbarSystem.Spells[id] == nil ) then
-					HotbarSystem.Spells[id] = {}
-				end
-				
-				
-				local type = UserActionGetType(hotbarId, itemIndex, 1)
-				local idC = UserActionGetId(hotbarId, itemIndex, 1)
-				WindowSetTintColor(element.."Disabled", 255,255,255)
-				
-				if ( not HotbarHasItem(hotbarId, itemIndex) or id ~= idC or type ~= SystemData.UserAction.TYPE_SPELL ) then
-					HotbarSystem.Spells[id][element] = nil
-					WindowSetShowing(element.."Disabled",false)
-				else
-					local distance = -1
-					for no, value in pairs(SpellsInfo.SpellsData) do
-						if value.id== id then
-							distance = value.distance
-							break
+				if not Hotbar.IsShrunken(hotbarId)then
+					if DoesWindowNameExist(WindowGetParent(element)) then
+						if( HotbarSystem.Spells[id] == nil ) then
+							HotbarSystem.Spells[id] = {}
 						end
-					end
-				
-					local icon, serverId, tid, desctid, reagents, powerword, tithingcost, minskill, manacost  = GetAbilityData(id)
-					local lmcMana = nil
-					if manacost and WindowData.PlayerStatus then
-						lmcMana = math.ceil(manacost - (manacost * (tonumber(WindowData.PlayerStatus["LowerManaCost"]) / 100)))
-					end
-					
-					if BuffDebuff.BuffWindowId[1104] then -- Mana Phase
-						lmcMana = 0
-					end
-					
-					if not minskill or minskill == 0 then
-						minskill = 0 --SpellsInfo.GetMinSkill(id)
-						if not minskill then
-							minskill = 0
-						end
-					end
 
-					local infoSkillId = SpellsInfo.GetSkillID(id)
-					if(infoSkillId == nil)then
-						return
-					end
+						local type = UserActionGetType(hotbarId, itemIndex, 1)
+						local idC = UserActionGetId(hotbarId, itemIndex, 1)
+						WindowSetTintColor(element.."Disabled", 255,255,255)
 
-					local serverId = WindowData.SkillsCSV[infoSkillId].ServerId
-					local SkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
-					local mobileData = Interface.GetMobileData(WindowData.PlayerStatus.PlayerId, true)
-					if mobileData and mobileData.Race == PaperdollWindow.HUMAN and SkillLevel < 20 then
-						SkillLevel = 20
-					end
-					
-					serverId = WindowData.SkillsCSV[47].ServerId
-					local sspeak = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
-					if mobileData and mobileData.Race == PaperdollWindow.HUMAN and sspeak < 20 then
-						sspeak = 20
-					end
-
-					if(id == 403) then -- EVASION
-						if( HotbarSystem.ObjectSlots[id] == nil ) then
-							HotbarSystem.ObjectSlots[id] = {}
-						end						
-						HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.EvasionCooldown, 16)						
-					elseif(id == 604) then -- ATTUNEMENT
-						if( HotbarSystem.ObjectSlots[id] == nil ) then
-							HotbarSystem.ObjectSlots[id] = {}
-						end
-						HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.AttunementCooldown, 120)						
-					elseif(id == 613) then -- ETHEREAL VOYAGE
-						if( HotbarSystem.ObjectSlots[id] == nil ) then
-							HotbarSystem.ObjectSlots[id] = {}
-						end						
-						HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.EtherealVoyageCooldown, 300)						
-					elseif(id == 36) then -- MAGIC REFLECTION
-						if( HotbarSystem.ObjectSlots[id] == nil ) then
-							HotbarSystem.ObjectSlots[id] = {}
-						end
-						HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.ReflectionCooldown, 30)						
-					end					
-					
-					if (id == 56 or id == 106 or id == 107 or id == 116 or id == 609 or id == 613 or id == 685 or id == 508 ) and BuffDebuff.BuffWindowId[1054] then -- FLYING RESTRICTIONS
-						WindowSetShowing(element.."Disabled",true)
-						WindowSetShowing(element.."Alert",false)						
-					elseif id == 604 and BuffDebuff.Timers[1021] then -- ATTUNE_WEAPON
-						WindowSetShowing(element.."Disabled",true)
-						WindowSetShowing(element.."Alert",false)						
-					elseif id == 613 and BuffDebuff.Timers[1024] then -- ETHEREAL_VOYAGE
-						WindowSetShowing(element.."Disabled",true)
-						WindowSetShowing(element.."Alert",false)						
-					elseif id == 681 and BuffDebuff.Timers[1091] then -- ENCHANT
-						WindowSetShowing(element.."Disabled",true)
-						WindowSetShowing(element.."Alert",false)
-					elseif Interface.CurrentSpell.casting then
-						WindowSetShowing(element.."Disabled",true)
-						WindowSetShowing(element.."Alert",false)
-					elseif (distance and distance >= 0) and WindowData.CurrentTarget.TargetId then
-						local targetType = UserActionGetTargetType(hotbarId,itemIndex,1)
-						if targetType and targetType == SystemData.Hotbar.TargetType.TARGETTYPE_CURRENT then
-							bDisabled= GetDistanceFromPlayer(WindowData.CurrentTarget.TargetId) > distance and not DoesPlayerHaveItem(WindowData.CurrentTarget.TargetId)
-						elseif targetType and targetType == SystemData.Hotbar.TargetType.TARGETTYPE_OBJECT_ID then
-							local targ = UserActionGetTargetId(hotbarId,itemIndex,1)
-							bDisabled= GetDistanceFromPlayer(targ) > distance and not DoesPlayerHaveItem(targ)
+						if ( not HotbarHasItem(hotbarId, itemIndex) or id ~= idC or type ~= SystemData.UserAction.TYPE_SPELL ) then
+							HotbarSystem.Spells[id][element] = nil
+							WindowSetShowing(element.."Disabled",false)
 						else
-							bDisabled = false
+							local distance = -1
+							for _, value in pairs(SpellsInfo.SpellsData) do
+								if value.id== id then
+									distance = value.distance
+									break
+								end
+							end
+
+							local infoSkillId = SpellsInfo.GetSkillID(id)
+							if(infoSkillId == nil)then
+								return
+							end
+
+							if(id == 403) then -- EVASION
+								if( HotbarSystem.ObjectSlots[id] == nil ) then
+									HotbarSystem.ObjectSlots[id] = {}
+								end
+								HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.EvasionCooldown, 16)
+							elseif(id == 604) then -- ATTUNEMENT
+								if( HotbarSystem.ObjectSlots[id] == nil ) then
+									HotbarSystem.ObjectSlots[id] = {}
+								end
+								HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.AttunementCooldown, 120)
+							elseif(id == 613) then -- ETHEREAL VOYAGE
+								if( HotbarSystem.ObjectSlots[id] == nil ) then
+									HotbarSystem.ObjectSlots[id] = {}
+								end
+								HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.EtherealVoyageCooldown, 300)
+							elseif(id == 36) then -- MAGIC REFLECTION
+								if( HotbarSystem.ObjectSlots[id] == nil ) then
+									HotbarSystem.ObjectSlots[id] = {}
+								end
+								HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.ReflectionCooldown, 30)
+							end
+
+							if (id == 56 or id == 106 or id == 107 or id == 116 or id == 609 or id == 613 or id == 685 or id == 508 ) and BuffDebuff.BuffWindowId[1054] then -- FLYING RESTRICTIONS
+								WindowSetShowing(element.."Disabled",true)
+								WindowSetShowing(element.."Alert",false)
+							elseif id == 604 and BuffDebuff.Timers[1021] then -- ATTUNE_WEAPON
+								WindowSetShowing(element.."Disabled",true)
+								WindowSetShowing(element.."Alert",false)
+							elseif id == 613 and BuffDebuff.Timers[1024] then -- ETHEREAL_VOYAGE
+								WindowSetShowing(element.."Disabled",true)
+								WindowSetShowing(element.."Alert",false)
+							elseif id == 681 and BuffDebuff.Timers[1091] then -- ENCHANT
+								WindowSetShowing(element.."Disabled",true)
+								WindowSetShowing(element.."Alert",false)
+							elseif Interface.CurrentSpell.casting then
+								WindowSetShowing(element.."Disabled",true)
+								WindowSetShowing(element.."Alert",false)
+							elseif (distance and distance >= 0) and WindowData.CurrentTarget.TargetId then
+								local targetType = UserActionGetTargetType(hotbarId,itemIndex,1)
+								if targetType and targetType == SystemData.Hotbar.TargetType.TARGETTYPE_CURRENT then
+									bDisabled= GetDistanceFromPlayer(WindowData.CurrentTarget.TargetId) > distance and not DoesPlayerHaveItem(WindowData.CurrentTarget.TargetId)
+								elseif targetType and targetType == SystemData.Hotbar.TargetType.TARGETTYPE_OBJECT_ID then
+									local targ = UserActionGetTargetId(hotbarId,itemIndex,1)
+									bDisabled= GetDistanceFromPlayer(targ) > distance and not DoesPlayerHaveItem(targ)
+								else
+									bDisabled = false
+								end
+								if( bDisabled == true ) then
+									WindowSetShowing(element.."Disabled",true)
+									WindowSetShowing(element.."Alert",false)
+								else
+									WindowSetShowing(element.."Disabled",false)
+								end
+							elseif not DoesWindowNameExist(element.."Cooldown") then
+								WindowSetShowing(element.."Disabled",false)
+								ButtonSetDisabledFlag(element,false)
+							end
 						end
-						if( bDisabled == true ) then
-							WindowSetShowing(element.."Disabled",true)
-							WindowSetShowing(element.."Alert",false)							
-						else	
-							WindowSetShowing(element.."Disabled",false)							
-						end
-					elseif not DoesWindowNameExist(element.."Cooldown") then
-						WindowSetShowing(element.."Disabled",false)
-						ButtonSetDisabledFlag(element,false)
+					else
+						HotbarSystem.Spells[id] = nil
 					end
 				end
 			end
-
 		end
 	end
 	
-	for id, element in pairs(HotbarSystem.Specials) do
-		for element, curElement in pairs(HotbarSystem.Specials[id]) do
+	for id, _ in pairs(HotbarSystem.Specials) do
+		for element, _ in pairs(HotbarSystem.Specials[id]) do
 			local patt = element
 			local fnd = string.find(patt , "Button")
 			if (element and fnd ~= nil ) then
 				local hotbarId = tonumber(string.sub(patt,7, fnd - 1))
 				local itemIndex = tonumber(string.sub(patt, fnd + 6 ))
-				if Hotbar.IsShrunken(hotbarId)then					
-					continue
-				end
-				
-				if not DoesWindowNameExist(WindowGetParent(element)) then
-					HotbarSystem.Specials[id] = nil
-					continue
-				end
-				
-				if( HotbarSystem.Specials[id] == nil ) then
-					HotbarSystem.Specials[id] = {}
-				end
-				
-				local type = UserActionGetType(hotbarId, itemIndex, 1)
-				local idC = UserActionGetId(hotbarId, itemIndex, 1)
-				WindowSetTintColor(element.."Disabled", 255,255,255)
-				if ( not HotbarHasItem(hotbarId, itemIndex) or id ~= idC or type ~= SystemData.UserAction.TYPE_WEAPON_ABILITY ) then
-					HotbarSystem.Specials[id][element] = nil
-					WindowSetShowing(element.."Disabled",false)					
-					ButtonSetDisabledFlag(element,false)					
-				else
-					
-					local lmcMana = AbilitiesInfo.GetManaCost(EquipmentData.GetWeaponAbilityId(id)) 
-					if BuffDebuff.BuffWindowId[1104] then -- Mana Phase
-						lmcMana = 0
-					end
-					local mhandId  = 0
-					if WindowData.Paperdoll[WindowData.PlayerStatus.PlayerId] then
-						mhandId = WindowData.Paperdoll[WindowData.PlayerStatus.PlayerId][4].slotId
-					end
-					local lance = false
-					if mhandId ~= 0 then
-						
-						RegisterWindowData(WindowData.ObjectInfo.Type, mhandId)						
-						local objType = WindowData.ObjectInfo[mhandId].objectType
-						if objType == 18634 or objType == 18635 or objType == 9920 or objType == 9930 then
-							lance = true
+				if not Hotbar.IsShrunken(hotbarId) then
+					if DoesWindowNameExist(WindowGetParent(element)) then
+						if( HotbarSystem.Specials[id] == nil ) then
+							HotbarSystem.Specials[id] = {}
 						end
-						UnregisterWindowData(WindowData.ObjectInfo.Type, mhandId)
-					end
-					if (EquipmentData.GetWeaponAbilityId(id) == 22 ) and not (BuffDebuff.BuffWindowId[1054] or IsRiding()) then
-						WindowSetShowing(element.."Disabled",true)
-						WindowSetShowing(element.."Alert",false)						
-					elseif (EquipmentData.GetWeaponAbilityId(id) == 6 ) and (BuffDebuff.BuffWindowId[1054] or IsRiding()) and not lance then
-						WindowSetShowing(element.."Disabled",true)
-						WindowSetShowing(element.."Alert",false)						
-					elseif IsPlayerDead() then
-						WindowSetShowing(element.."Disabled",true)
-						WindowSetShowing(element.."Alert",false)						
-					elseif Interface.CurrentSpell.casting then
-						WindowSetShowing(element.."Disabled",true)
-						WindowSetShowing(element.."Alert",false)										
+
+						local type = UserActionGetType(hotbarId, itemIndex, 1)
+						local idC = UserActionGetId(hotbarId, itemIndex, 1)
+						WindowSetTintColor(element.."Disabled", 255,255,255)
+						if ( not HotbarHasItem(hotbarId, itemIndex) or id ~= idC or type ~= SystemData.UserAction.TYPE_WEAPON_ABILITY ) then
+							HotbarSystem.Specials[id][element] = nil
+							WindowSetShowing(element.."Disabled",false)
+							ButtonSetDisabledFlag(element,false)
+						else
+							local mhandId  = 0
+							if WindowData.Paperdoll[WindowData.PlayerStatus.PlayerId] then
+								mhandId = WindowData.Paperdoll[WindowData.PlayerStatus.PlayerId][4].slotId
+							end
+							local lance = false
+							if mhandId ~= 0 then
+
+								RegisterWindowData(WindowData.ObjectInfo.Type, mhandId)
+								local objType = WindowData.ObjectInfo[mhandId].objectType
+								if objType == 18634 or objType == 18635 or objType == 9920 or objType == 9930 then
+									lance = true
+								end
+								UnregisterWindowData(WindowData.ObjectInfo.Type, mhandId)
+							end
+							if (EquipmentData.GetWeaponAbilityId(id) == 22 ) and not (BuffDebuff.BuffWindowId[1054] or IsRiding()) then
+								WindowSetShowing(element.."Disabled",true)
+								WindowSetShowing(element.."Alert",false)
+							elseif (EquipmentData.GetWeaponAbilityId(id) == 6 ) and (BuffDebuff.BuffWindowId[1054] or IsRiding()) and not lance then
+								WindowSetShowing(element.."Disabled",true)
+								WindowSetShowing(element.."Alert",false)
+							elseif IsPlayerDead() then
+								WindowSetShowing(element.."Disabled",true)
+								WindowSetShowing(element.."Alert",false)
+							elseif Interface.CurrentSpell.casting then
+								WindowSetShowing(element.."Disabled",true)
+								WindowSetShowing(element.."Alert",false)
+							else
+								WindowSetShowing(element.."Disabled",false)
+								ButtonSetDisabledFlag(element,false)
+							end
+						end
 					else
-						WindowSetShowing(element.."Disabled",false)
-						ButtonSetDisabledFlag(element,false)
+						HotbarSystem.Specials[id] = nil
 					end
 				end
 			end
@@ -1302,7 +1236,7 @@ function HotbarSystem.UpdateMacroReferenceSlot(macroIndex)
 	end
 	
 	if( HotbarSystem.MacroReferenceSlots[id] ~= nil ) then
-		local macroIndex = MacroSystemGetMacroIndexById(id)
+		macroIndex = MacroSystemGetMacroIndexById(id)
 		
 		for element, itemLoc in pairs(HotbarSystem.MacroReferenceSlots[id]) do
 			-- if macroIndex is 0 then the macro was deleted
@@ -1333,7 +1267,7 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 	local noSelf=false
 	local notarget = false
 	if (type == SystemData.UserAction.TYPE_SPELL) then
-		for no, value in pairs(SpellsInfo.SpellsData) do
+		for _, value in pairs(SpellsInfo.SpellsData) do
 			if value.id == idC then
 				notarget = value.notarget
 				noSelf = value.noSelf
@@ -1408,7 +1342,6 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 	end		
 		
 	if type == SystemData.UserAction.TYPE_SPELL  and actionId == 681 then -- enchant
-		local element = "Hotbar"..hotbarId.."Button"..itemIndex
 		local press = Interface.ForceEnchant
 		local subMenu = {
 		{ str = GetStringFromTid(1080133),flags=0,returnCode="enchant0",param=param,pressed=press==0,false }; -- Select Enchant
@@ -1422,7 +1355,6 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 	end
 	
 	if type == SystemData.UserAction.TYPE_SPELL  and actionId == 503 then -- animal form
-		local element = "Hotbar"..hotbarId.."Button"..itemIndex
 		local press = Interface.ForceAnimal
 		if SpellsInfo.AnimalFormSkillRequirements(Interface.ForceAnimal) == 1 then
 			press = 0
@@ -1451,24 +1383,21 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 	end
 	
 	if type == SystemData.UserAction.TYPE_SPELL  and actionId == 686 then -- spell trigger
-		local element = "Hotbar"..hotbarId.."Button"..itemIndex
 		local press = Interface.ForceSpellTrigger
-
-
 		local subMenu = {
 			{ str = FormatProperly(WindowUtils.translateMarkup(GetStringFromTid(1078861))),flags=0,returnCode="spellTrigger0",param=param,pressed=press==0,false }; -- Select
 		}
 		
 		local tempSubMenu = {}
-		for words, tab in pairs(SpellsInfo.SpellsData) do
+		for _, tab in pairs(SpellsInfo.SpellsData) do
 			if tab.id >= 678 and tab.id <= 700 and tab.spellTrigger then
 				
-				local icon, serverId, tid, desctid, reagents, powerword, tithingcost, minskill, manacost  = GetAbilityData(tab.id)
-				skillId = 37
-				skillIdsec = 26 -- imbuing
-				skillIdthi= 21 -- focus
+				local _, _, tid, _, _, _, _, minskill, _ = GetAbilityData(tab.id)
+				local skillId = 37
+				local skillIdsec = 26 -- imbuing
+				local skillIdthi= 21 -- focus
 				
-				serverId = WindowData.SkillsCSV[skillId].ServerId
+				local serverId = WindowData.SkillsCSV[skillId].ServerId
 				local mainSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 				local mobileData = Interface.GetMobileData(WindowData.PlayerStatus.PlayerId, true)
 				if mobileData and mobileData.Race == PaperdollWindow.HUMAN and mainSkillLevel < 20 then
@@ -1477,8 +1406,7 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 				
 				serverId = WindowData.SkillsCSV[skillIdsec].ServerId
 				local secondSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
-				
-				
+
 				serverId = WindowData.SkillsCSV[skillIdthi].ServerId
 				local tempSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 				secondSkillLevel = math.max(tempSkillLevel,secondSkillLevel)
@@ -1497,7 +1425,7 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 			end
 		end
 		local buttonId = 2
-		for id, menu in pairsByKeys(tempSubMenu) do
+		for _, menu in pairsByKeys(tempSubMenu) do
 			menu.returnCode = "spellTrigger".. buttonId
 			if press == buttonId and menu.flags == 1 then
 				subMenu[1].pressed = true
@@ -1515,7 +1443,6 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 	end
 	
 	if type == SystemData.UserAction.TYPE_SPELL  and actionId == 56 then -- polymorph
-		local element = "Hotbar"..hotbarId.."Button"..itemIndex
 		local press = Interface.ForcePolymorph
 
 		local subMenu = {
@@ -1543,7 +1470,6 @@ function HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, su
 	end
 	
 	if type == SystemData.UserAction.TYPE_SPELL  and actionId == 112 then -- summon familiar
-		local element = "Hotbar"..hotbarId.."Button"..itemIndex
 		local press = Interface.ForceFamiliar
 		if SpellsInfo.SumonFamiliarSkillRequirements(Interface.ForceFamiliar) == 1 then
 			press = 0

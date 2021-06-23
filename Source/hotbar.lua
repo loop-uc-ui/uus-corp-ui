@@ -68,7 +68,6 @@ function Hotbar.ReloadHotbar(hotbarId)
 	
 	for slot = 1, Hotbar.NUM_BUTTONS do	
 		Hotbar.SetHotbarItem(hotbarId,slot)
-		local element = "Hotbar"..hotbarId.."Button"..slot		
 	end
 	
 	local hotbar = "Hotbar"..hotbarId
@@ -283,7 +282,7 @@ function Hotbar.FindHotbarMovingBlock(CurWindow)
 		if( windowName ~= CurWindow and string.find(windowName, "Hotbar") and not Hotbar.InMovement[windowName] and not WindowGetMoving(windowName) ) then          
 			local comparePositions = SnapUtils.ComputeAnchorScreenPositions(windowName)            
             
-			for index, snapPair in ipairs( SnapUtils.SNAP_PAIRS )
+			for _, snapPair in ipairs( SnapUtils.SNAP_PAIRS )
 			do
 				local dist = SnapUtils.GetAnchorDistance( anchorPositions, snapPair[1], comparePositions, snapPair[2] )
                
@@ -306,8 +305,7 @@ function Hotbar.FindHotbarShrinkBlock(CurWindow)
 		if( windowName ~= CurWindow and string.find(windowName, "Hotbar") and not Interface.LoadBoolean( windowName.. "Closed",false ) ) then          
 			local comparePositions = SnapUtils.ComputeAnchorScreenPositions(windowName)            
             
-			for index, snapPair in ipairs( SnapUtils.SNAP_PAIRS )
-			do
+			for _, snapPair in ipairs( SnapUtils.SNAP_PAIRS ) do
 				local dist = SnapUtils.GetAnchorDistance( anchorPositions, snapPair[1], comparePositions, snapPair[2] )
                
 				-- If the distance between the anchors is within the snap threshold, save the value
@@ -327,8 +325,7 @@ function Hotbar.FindHotbarEnlargeBlock(CurWindow)
 		if( windowName ~= CurWindow and string.find(windowName, "Hotbar") and Interface.LoadBoolean( windowName.. "Closed",false ) ) then          
 			local comparePositions = SnapUtils.ComputeAnchorScreenPositions(windowName)            
             
-			for index, snapPair in ipairs( SnapUtils.SNAP_PAIRS )
-			do
+			for _, snapPair in ipairs( SnapUtils.SNAP_PAIRS ) do
 				local dist = SnapUtils.GetAnchorDistance( anchorPositions, snapPair[1], comparePositions, snapPair[2] )
                
 				-- If the distance between the anchors is within the snap threshold, save the value
@@ -352,8 +349,7 @@ function Hotbar.FindHotbarGroup(CurWindow, group)
 		if( windowName ~= CurWindow and string.find(windowName, "Hotbar") and not group[windowName] ) then          
 			local comparePositions = SnapUtils.ComputeAnchorScreenPositions(windowName)            
             
-			for index, snapPair in ipairs( SnapUtils.SNAP_PAIRS )
-			do
+			for _, snapPair in ipairs( SnapUtils.SNAP_PAIRS ) do
 				local dist = SnapUtils.GetAnchorDistance( anchorPositions, snapPair[1], comparePositions, snapPair[2] )
                
 				-- If the distance between the anchors is within the snap threshold, save the value
@@ -493,7 +489,7 @@ function Hotbar.ItemLButtonUp(flags)
 		        local notarget = false
 				local type = UserActionGetType(hotbarId, slot, 0)
 				if (type == SystemData.UserAction.TYPE_SPELL and SpellsInfo) then
-					for no, value in pairs(SpellsInfo.SpellsData) do
+					for _, value in pairs(SpellsInfo.SpellsData) do
 						if value.id == actionId then
 							notarget = value.notarget
 							break
@@ -657,7 +653,7 @@ function Hotbar.ItemRButtonUp()
 	
 	if( hotbarId ~= HotbarSystem.STATIC_HOTBAR_ID and hotbarId ~= Interface.MenuBar) then
 		ContextMenu.CreateLuaContextMenuItem(HotbarSystem.TID_DESTROY_HOTBAR,0,HotbarSystem.ContextReturnCodes.DESTROY_HOTBAR,param)
-		local grp, cnt = Hotbar.FindHotbarGroup("Hotbar" .. hotbarId)
+		local _, cnt = Hotbar.FindHotbarGroup("Hotbar" .. hotbarId)
 		if cnt > 0 then
 			ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(1155386),0,"DestroyGroup",param, false)
 		end
@@ -669,7 +665,6 @@ function Hotbar.ItemRButtonUp()
 	
 	if( HotbarHasItem(hotbarId,itemIndex) == true ) then
 		local slotWindow = "Hotbar"..hotbarId.."Button"..slot
-		local actionId = UserActionGetId(hotbarId,itemIndex,0)
 		HotbarSystem.CreateUserActionContextMenuOptions(hotbarId, itemIndex, 0, slotWindow)
 	end
 
@@ -678,9 +673,8 @@ function Hotbar.ItemRButtonUp()
 	local subMenu = {}
 	local custom = Interface.LoadNumber( element .. "Custom", 1 )
 	
-	for i = 1, table.getn( MiniTexturePack.Overlays )do
-		local press = false
-		press =custom == i
+	for i = 1, table.getn( MiniTexturePack.Overlays ) do
+		local press = custom == i
 		item = { str = MiniTexturePack.Overlays[i].name,flags=0,returnCode="minitxt" .. i,param=param,pressed=press,false }
 		table.insert(subMenu, item)
 	end
@@ -697,7 +691,6 @@ function Hotbar.ItemMouseOver()
 	local slot = WindowGetId(this)
 	local itemIndex = slot
 	local actionId = UserActionGetId(hotbarId,itemIndex,0)
-	local type = UserActionGetType(hotbarId, itemIndex, 0)
 	Hotbar.ShowBar("Hotbar" .. hotbarId)
 	local actionType = SystemData.UserAction.TYPE_NONE
 	-- default id to the slot so it shows the item properties when there is only a binding
@@ -713,7 +706,7 @@ function Hotbar.ItemMouseOver()
 	
 	if( HotbarHasItem(hotbarId,itemIndex) == true ) then
 	    actionType = UserActionGetType(hotbarId,itemIndex,0)
-		local actionId = UserActionGetId(hotbarId,itemIndex,0)
+		actionId = UserActionGetId(hotbarId,itemIndex,0)
 		if( actionId ~= 0 ) then
 			itemId = actionId
 		end
@@ -744,7 +737,7 @@ function Hotbar.ItemMouseOver()
 
 	local notarget = false
 	if (type == SystemData.UserAction.TYPE_SPELL and SpellsInfo) then
-		for no, value in pairs(SpellsInfo.SpellsData) do
+		for _, value in pairs(SpellsInfo.SpellsData) do
 			if value.id == idC then
 				notarget = value.notarget
 				break
@@ -752,8 +745,8 @@ function Hotbar.ItemMouseOver()
 		end
 	end
 	
-	local icon, serverId, tid, desctid, reagents, powerword, tithingcost, minskill, manacost  = GetAbilityData(idC)	
-	local lmcMana = nil
+	local _, _, _, _, _, _, _, _, manacost  = GetAbilityData(idC)
+	local lmcMana
 	if manacost and WindowData.PlayerStatus then
 		lmcMana = math.floor(manacost - (manacost * (tonumber(WindowData.PlayerStatus["LowerManaCost"]) / 100)))
 	end
@@ -793,14 +786,14 @@ function Hotbar.ItemMouseOver()
 		if not actionData then
 			return
 		end
-		local name = L""
+		local name
 		if (actionData.nameTid) then
 			name = GetStringFromTid(actionData.nameTid)
 		else
 			name = actionData.nameString
 		end
 		
-		local desc = L""
+		local desc
 		if (not actionData.detailTid) then
 			desc = actionData.detailString
 		else
@@ -826,7 +819,7 @@ function Hotbar.ItemMouseOver()
 			end
 		else
 			if (actionId == 5732) then
-				local name = ReplaceTokens(GetStringFromTid(1155442), {towstring( Organizer.ActiveOrganizer ) } ) 
+				name = ReplaceTokens(GetStringFromTid(1155442), {towstring( Organizer.ActiveOrganizer ) } )
 				if (Organizer.Organizers_Desc[Organizer.ActiveOrganizer] ~= L"") then
 					name = Organizer.Organizers_Desc[Organizer.ActiveOrganizer]
 				end
@@ -847,14 +840,6 @@ function Hotbar.ItemMouseOver()
 		end		
 		ItemProperties.SetActiveItem(itemData)	
 	else
-		
-		
-		local qtaLbl = "Hotbar".. hotbarId .. "Button" ..slot .."Quantity"
-		local qta = nil
-		if (DoesWindowNameExist(qtaLbl)) then
-			qta = LabelGetText(qtaLbl)
-		end
-
 		local detailType = ItemProperties.DETAIL_SHORT
 		if(SystemData.Settings.Interface.showTooltips) then
 			detailType = ItemProperties.DETAIL_LONG
@@ -885,7 +870,7 @@ function Hotbar.ItemMouseOver()
 					abilityId = EquipmentData.GetWeaponAbilityId(id) + CharacterAbilities.WEAPONABILITY_OFFSET
 				end
 
-				local icon, serverId, tid, desctid, reagents, powerword, tithingcost, minskill, manacost  = GetAbilityData(abilityId)
+				local _, _, tid, desctid, _, _, _, minskill, mCost = GetAbilityData(abilityId)
 
 				local name = GetStringFromTid(tid)
 				local desc = L""
@@ -909,8 +894,7 @@ function Hotbar.ItemMouseOver()
 						end
 						desc = desc .. L"\n" .. ReplaceTokens(GetStringFromTid(1060181), { towstring(mana) } ) .. L"\n"
 					elseif actionType == SystemData.UserAction.TYPE_SPELL then
-						
-						local lmcMana = math.floor(manacost - (manacost * (tonumber(WindowData.PlayerStatus["LowerManaCost"]) / 100)))
+						lmcMana = math.floor(mCost - (mCost * (tonumber(WindowData.PlayerStatus["LowerManaCost"]) / 100)))
 						if BuffDebuff.BuffWindowId[1104] then -- Mana Phase
 							lmcMana = 0
 						end
@@ -977,7 +961,6 @@ function Hotbar.ItemMouseOver()
 						itemType = itemType,
 						actionType = actionType,
 						itemLoc = {hotbarId=hotbarId, itemIndex=itemIndex},
-						itemType = WindowData.ItemProperties.TYPE_WSTRINGDATA,
 						binding = bindingText, -- As defined above
 						title =	name,
 						body = desc
@@ -1192,7 +1175,7 @@ function Hotbar.OnResizeEnd(curWindow)
 	end	
 end
 
-function Hotbar.OnHandleLButDown(flags, x, y)
+function Hotbar.OnHandleLButDown(flags, _, _)
 	local hotbarId = WindowGetId(WindowUtils.GetActiveDialog())
 	local hotbarWindow = WindowGetParent(SystemData.ActiveWindow.name)
 
@@ -1208,7 +1191,7 @@ function Hotbar.OnHandleLButDown(flags, x, y)
 	end
 end
 
-function Hotbar.OnHandleLButUp(flags, x, y)
+function Hotbar.OnHandleLButUp(_, _, _)
 	local hotbarWindow = WindowGetParent(SystemData.ActiveWindow.name)
 	
 	if WindowGetMoving(hotbarWindow) then
@@ -1254,7 +1237,6 @@ function Hotbar.ItemMouseOverEnd()
 end
 
 function Hotbar.HandleMouseOver()
-	local this = SystemData.ActiveWindow.name
 	local hotbarId = WindowGetId(WindowUtils.GetActiveDialog())
 	Hotbar.ShowBar("Hotbar" .. hotbarId)
 end
@@ -1432,7 +1414,7 @@ function Hotbar.ContextMenuCallbackLock( returnCode, param )
 	end	
 end
 
-function Hotbar.CreateNew(_, text)
+function Hotbar.CreateNew(_, _)
 	HotbarSystem.SpawnNewHotbar(_, 12)
 end
 
@@ -1444,7 +1426,7 @@ function Hotbar.SetText(windowname, text)
 	LabelSetText(windowname .. "NameHrev", text)
 end
 
-function Hotbar.PickColor(color, windowname)
+function Hotbar.PickColor(_, windowname)
 	Hotbar.CurrentChangeColorWindow = windowname
 	local defaultColors = {
 		0, --HUE_NONE 
@@ -1463,7 +1445,6 @@ function Hotbar.PickColor(color, windowname)
 				hueTable[(idx-1)*10+i+1] = hue+i
 			end
 		end
-		local Brightness = 1
 		CreateWindowFromTemplate( "ColorPicker", "ColorPickerWindowTemplate", "Root" )
 		WindowSetLayer( "ColorPicker", Window.Layers.SECONDARY	)
 		ColorPickerWindow.SetNumColorsPerRow(9)
@@ -1474,7 +1455,6 @@ function Hotbar.PickColor(color, windowname)
 		ColorPickerWindow.SetColorTable(hueTable,"ColorPicker")
 		ColorPickerWindow.DrawColorTable("ColorPicker")
 		ColorPickerWindow.SetAfterColorSelectionFunction(Hotbar.ColorPicked)
-		local w, h = WindowGetDimensions("ColorPicker")
 		WindowAddAnchor( "ColorPicker", "center", "Root", "center", 0, 0)
 		ColorPickerWindow.SetFrameEnabled(false)
 		WindowSetShowing( "ColorPicker", true )
@@ -1691,7 +1671,7 @@ function Hotbar.IsShrunken(hotbarId)
 	return true
 end
 
-function Hotbar.OnHandleLButtonDown(flags, x, y)
+function Hotbar.OnHandleLButtonDown(_, _, _)
 	local hotbarId = WindowGetId(WindowUtils.GetActiveDialog())
 	if not SystemData.Hotbar[hotbarId].Locked and not Interface.LoadBoolean( "Hotbar" .. hotbarId .. "LockWithHandle", false ) then
 		hotbarWindow = WindowGetParent(SystemData.ActiveWindow.name)

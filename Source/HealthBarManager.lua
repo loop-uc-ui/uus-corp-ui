@@ -98,22 +98,20 @@ end
 function HealthBarManager.IsPartyMember(mobileId)
 	for i = 1, WindowData.PartyMember.NUM_PARTY_MEMBERS do
 		local currentPartyMemberId = WindowData.PartyMember[i].memberId
-    	if (currentPartyMemberId == mobileId) then
-    		return true
+		if (currentPartyMemberId == mobileId) then
+			return true
 		end
-    end
-	
+	end
 	return false
 end
 
 function HealthBarManager.GetMemberIndex(mobileId)
 	for i = 1, HealthBarManager.MAX_PARTY_MEMBERS do
-    	if (HealthBarManager.partyMemberIndex[i] == mobileId) then
-    		return i
+		if (HealthBarManager.partyMemberIndex[i] == mobileId) then
+			return i
 		end
-    end
-    
-    return 0
+	end
+	return 0
 end
 
 function HealthBarManager.SkillUpdate()

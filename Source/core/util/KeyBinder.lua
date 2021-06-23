@@ -72,7 +72,7 @@ function KeyBinder:onKeyRecorded(
             end
         end
 
-        self:onKeyBind(
+        self.onKeyBind(
                 conflictIndex,
                 conflictType,
                 windowRoot,
@@ -84,7 +84,7 @@ function KeyBinder:onKeyRecorded(
     end
 end
 
-function KeyBinder:onKeyBind(
+function KeyBinder.onKeyBind(
         conflictIndex,
         conflictType,
         windowRoot,

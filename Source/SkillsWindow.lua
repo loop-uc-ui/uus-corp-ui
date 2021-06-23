@@ -179,7 +179,6 @@ function SkillsWindow.UpdateTotalSkillPoints()
 end
 
 function SkillsWindow.DoNothing()
-	local doNothing = 0
 end
 
 function SkillsWindow.ToggleSkillsWindow()
@@ -356,7 +355,7 @@ function SkillsWindow.ShowTab(tabnum)
 			local iconTexture, x, y = GetIconData(iconId)
 			local displayName = GetStringFromTid(WindowData.SkillsCSV[skillId].NameTid)	
 			
-			local skillLevel = nil
+			local skillLevel
 			if (SkillsWindow.SkillDataMode == 0) then
 				skillLevel = WindowData.SkillDynamicData[serverId].RealSkillValue
 			else
@@ -465,21 +464,21 @@ function SkillsWindow.SkillLButtonDown(flags)
 	    local iconId = WindowData.SkillsCSV[skillIndex].IconId
     	
 	    --Debug.PrintToDebugConsole(L"SkillsWindow.SkillLButtonDown(): iconId = "..StringToWString(tostring(iconId)))
-    	
-	    if (WindowData.SkillsCSV[skillIndex].DragIcon == 1) then
-		    if( skillId ~= nil ) then	
+
+		if (WindowData.SkillsCSV[skillIndex].DragIcon == 1) then
+			if( skillId ~= nil ) then
 				if flags == SystemData.ButtonFlags.CONTROL then -- SINGLE HOTBAR ICON
 					local blockBar = HotbarSystem.GetNextHotbarId()
 					Interface.SaveBoolean("Hotbar" .. blockBar .. "_IsBlockbar", true)
 					HotbarSystem.SpawnNewHotbar()
-					
+
 					HotbarSystem.SetActionOnHotbar(SystemData.UserAction.TYPE_SKILL, skillId,iconId, blockBar,  1)
-					
-					local scaleFactor = 1/InterfaceCore.scale	
-					
+
+					local scaleFactor = 1/InterfaceCore.scale
+
 					local propWindowWidth = Hotbar.BUTTON_SIZE
 					local propWindowHeight = Hotbar.BUTTON_SIZE
-					
+
 					-- Set the position
 					local mouseX = SystemData.MousePosition.x - 30
 					if mouseX + (propWindowWidth / scaleFactor) > SystemData.screenResolution.x then
@@ -487,25 +486,22 @@ function SkillsWindow.SkillLButtonDown(flags)
 					else
 						propWindowX = mouseX
 					end
-						
+
 					local mouseY = SystemData.MousePosition.y - 15
 					if mouseY + (propWindowHeight / scaleFactor) > SystemData.screenResolution.y then
 						propWindowY = mouseY - (propWindowHeight / scaleFactor)
 					else
 						propWindowY = mouseY
 					end
-					
+
 					WindowSetOffsetFromParent("Hotbar" .. blockBar, propWindowX * scaleFactor, propWindowY * scaleFactor)
 					WindowSetMoving("Hotbar" .. blockBar, true)
-					
-				else		
+
+				else
 					DragSlotSetActionMouseClickData(SystemData.UserAction.TYPE_SKILL,skillId,iconId)
 				end
-		    end
-	    else
-		    --Debug.PrintToDebugConsole(L"SkillsWindow.SkillLButtonDown(): Not allowed to drag index = "..StringToWString(tostring(skillIndex)))
-    	
-	    end
+			end
+		end
 	end       
 end
 
@@ -827,11 +823,9 @@ end
 
 function SkillsWindow.CheckSkillForUpdate(skill)
 	if oldSkillValues[skill] ~= nil and WindowData.SkillDynamicData[skill] ~= nil then
-	
-		local oldSkillValue = oldSkillValues[skill]
+
 		local newSkillValue = WindowData.SkillDynamicData[skill].RealSkillValue
 		local skillId = WindowData.SkillList[skill].CSVId
-		local serverId = WindowData.SkillsCSV[skillId].ServerId
 		if not SkillsWindow.SessionGains[skill] then
 			SkillsWindow.SessionGains[skill] = 0
 		end
@@ -841,7 +835,6 @@ function SkillsWindow.CheckSkillForUpdate(skill)
 				ReturnWindowData.SkillSystem.SkillId = WindowData.SkillsCSV[skillId].ServerId
 				ReturnWindowData.SkillSystem.SkillButtonState = 2
 				BroadcastEvent(SystemData.Events.SKILLS_ACTION_SKILL_STATE_CHANGE)
-				local skillName = WindowData.SkillList[skill].skillName
 			end
 			
 			if (newSkillValue == SkillsWindow.SkillTargetVals[skillId] and WindowData.SkillDynamicData[WindowData.SkillsCSV[skillId].ServerId].SkillState ~= 2) then
@@ -849,14 +842,13 @@ function SkillsWindow.CheckSkillForUpdate(skill)
 				ReturnWindowData.SkillSystem.SkillId = WindowData.SkillsCSV[skillId].ServerId
 				ReturnWindowData.SkillSystem.SkillButtonState = 2
 				BroadcastEvent(SystemData.Events.SKILLS_ACTION_SKILL_STATE_CHANGE)
-				local skillName = WindowData.SkillList[skill].skillName
 			end
 			SkillsWindow.ShowTab(data.activeTab)
 		end
 	
 	
 		local oldSkillValue = oldSkillValues[skill]
-		local newSkillValue = WindowData.SkillDynamicData[skill].RealSkillValue
+		newSkillValue = WindowData.SkillDynamicData[skill].RealSkillValue
 		if oldSkillValue > newSkillValue then
 			local skillValueDiff = SkillsWindow.FormatSkillValue(oldSkillValue - newSkillValue)..L"%"
 			local skillName = WindowData.SkillList[skill].skillName
@@ -900,8 +892,8 @@ end
 
 function SkillsWindow.CheckAllSkillsForUpdate()
 	if hasSkillValues then
-		for i, tab in ipairs(tabContents) do
-			for i, skill in ipairs(tab) do
+		for _, tab in ipairs(tabContents) do
+			for _, skill in ipairs(tab) do
 				SkillsWindow.CheckSkillForUpdate(WindowData.SkillsCSV[skill].ServerId)
 			end
 		end
@@ -915,8 +907,8 @@ end
 function SkillsWindow.SaveCurrentSkillValues()
 
 	hasSkillValues = true
-	for i, tab in ipairs(tabContents) do
-		for i, skill in ipairs(tab) do
+	for _, tab in ipairs(tabContents) do
+		for _, skill in ipairs(tab) do
 			SkillsWindow.SaveCurrentSkillValue(WindowData.SkillsCSV[skill].ServerId)
 		end
 	end
@@ -927,7 +919,7 @@ function SkillsWindow.ContextMenuCallback(returnCode,param)
 		if( returnCode == SkillsWindow.ContextReturnCodes.REMOVE_CUSTOM ) then
 			local newTabContents = {}
 			local newIndex = 1
-			for index, item in pairs(tabContents[SkillsWindow.CUSTOM_TAB_NUM]) do
+			for _, item in pairs(tabContents[SkillsWindow.CUSTOM_TAB_NUM]) do
 				if( item ~= param ) then
 					newTabContents[newIndex] = item
 					newIndex = newIndex + 1
@@ -941,7 +933,7 @@ function SkillsWindow.ContextMenuCallback(returnCode,param)
 			end
 		elseif( returnCode == SkillsWindow.ContextReturnCodes.ADD_TO_CUSTOM ) then
 			local found = false
-			for index, item in pairs(tabContents[SkillsWindow.CUSTOM_TAB_NUM]) do
+			for _, item in pairs(tabContents[SkillsWindow.CUSTOM_TAB_NUM]) do
 				if( item == param ) then
 					found = true
 				end
@@ -959,7 +951,6 @@ function SkillsWindow.ContextMenuCallback(returnCode,param)
 			SkillsWindow.ShowTab(data.activeTab)
 			SkillsTracker.Update()
 		elseif( returnCode == "SetAutolock" ) then
-		
 			local serverId = WindowData.SkillsCSV[param].ServerId
 			local max = WindowData.SkillDynamicData[serverId].SkillCap / 10
 			local rdata = {title=GetStringFromTid(WindowData.SkillsCSV[param].NameTid), subtitle=ReplaceTokens(GetStringFromTid(1154798), {towstring(0), towstring(max)}), callfunction=SkillsWindow.SetAutoLock, min = 0, max = max, id=param}

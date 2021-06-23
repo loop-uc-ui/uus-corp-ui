@@ -534,7 +534,7 @@ function TextParsing.TimersNbuff()
 		
 		) then 
 	
-		local icon, serverId, tid, desctid = GetAbilityData(Interface.LastSpecialMove + CharacterAbilities.WEAPONABILITY_OFFSET)
+		local _, _, tid, _ = GetAbilityData(Interface.LastSpecialMove + CharacterAbilities.WEAPONABILITY_OFFSET)
 
 		if(tid ~= nil or tid ~= 0)then			
 			DamageWindow.waitSpecialDamage = GetStringFromTid(tid).. L"!"
@@ -545,7 +545,7 @@ function TextParsing.TimersNbuff()
 	-- RECEIVED
 	if  (SystemData.SourceName == L"" and AbilitiesInfo.MessageToID[SystemData.TextID] ) then 
 		
-		local icon, serverId, tid, desctid = GetAbilityData(AbilitiesInfo.MessageToID[SystemData.TextID] + CharacterAbilities.WEAPONABILITY_OFFSET)
+		local _, _, tid, _ = GetAbilityData(AbilitiesInfo.MessageToID[SystemData.TextID] + CharacterAbilities.WEAPONABILITY_OFFSET)
 		DamageWindow.waitDamage =tid .. L"!"
 		Interface.OnSpecialMoveDamageReceived(Interface.LastSpecialMove)
 	end
@@ -580,8 +580,8 @@ function TextParsing.SpecialTexts()
 	if ( SystemData.TextID ==  1151281) then -- "Your Clean Up Britannia point total is now ~1_VALUE~!"
 		local clean =  wstring.gsub(GetStringFromTid(1151281),L"~1_VALUE~!", L"")
 		local num = wstring.gsub(senderText, clean, "")
-		local num = wstring.gsub(num, "!", "")
-		local num = WindowUtils.AddCommasToNumber(num)
+		num = wstring.gsub(num, "!", "")
+		num = WindowUtils.AddCommasToNumber(num)
 		SystemData.Text = wstring.gsub(GetStringFromTid(1151281),L"~1_VALUE~", num)
 		SystemData.TextColor = {r=16,g=184, b=0}
 	end
@@ -765,7 +765,6 @@ function TextParsing.ForceOverhead()
 end
 
 function TextParsing.Taunts()
-	local senderText = SystemData.Text	
 	if ( SystemData.TextID == 1060093 ) then -- "Your weapon has been disarmed!"
 		PlaySound(1, 323, WindowData.PlayerLocation.x,WindowData.PlayerLocation.y,WindowData.PlayerLocation.z)
 	end

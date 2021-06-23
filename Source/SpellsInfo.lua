@@ -306,9 +306,9 @@ function SpellsInfo.GetSkillID(spellId)
 end
 
 function SpellsInfo.GetSpellDamage(spellId) 
-	local skillId = 0
-	local skillIdsec = 0
-	local skillIdthi= 0
+	local skillId
+	local skillIdsec
+	local skillIdthi
 	local itemSDI = tonumber(WindowData.PlayerStatus["SpellDamageIncrease"])
 	local int = tonumber(WindowData.PlayerStatus["Intelligence"]) 
 	local intSDI = math.ceil(tonumber(WindowData.PlayerStatus["Intelligence"]) / 10)	
@@ -412,16 +412,6 @@ function SpellsInfo.GetSpellDamage(spellId)
 			max = math.floor(max * evalSDI)
 			str = ReplaceTokens(GetStringFromTid(1154879), { min .. L" - " .. max .. GetStringFromTid(1154880)})
 		end
-		
-	elseif (spellId >= 101 and spellId <= 200) then -- Necromancy
-		skillId = 38
-		skillIdsec = 47 -- spirit speak
-	elseif (spellId >= 201 and spellId <= 300) then -- Chivalry
-		skillId = 13
-	elseif (spellId >= 401 and spellId <= 500) then -- Bushido
-		skillId = 9
-	elseif (spellId >= 501 and spellId <= 600) then	-- Ninjitsu
-		skillId = 39
 	elseif (spellId >= 601 and spellId <= 677) then -- Spellweaving
 		skillId = 46
 		serverId = WindowData.SkillsCSV[skillId].ServerId
@@ -450,16 +440,8 @@ function SpellsInfo.GetSpellDamage(spellId)
 			str = str .. ReplaceTokens(GetStringFromTid(1154874), {amount, min})
 		end		
 	elseif (spellId >= 678 and spellId <= 700) then -- Mysticism
-		skillId = 37
-		skillIdsec = 26 -- imbuing
-		skillIdthi= 21 -- focus		
-		
-		serverId = WindowData.SkillsCSV[skillId].ServerId
-		local mainSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
-		
-		serverId = WindowData.SkillsCSV[skillIdsec].ServerId
+		skillIdthi= 21 -- focus
 		local secondSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
-		
 		serverId = WindowData.SkillsCSV[skillIdthi].ServerId
 		local tempSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 		secondSkillLevel = math.max(tempSkillLevel,secondSkillLevel)
@@ -523,7 +505,7 @@ function SpellsInfo.GetSpellSpeed(spellId)
 	end
 	
 	local fc = 	tonumber(WindowData.PlayerStatus["FasterCasting"])
-	local speed = nil
+	local speed
 	if (spellId >= 1 and spellId <= 8) then-- Magery 
 		speed = 0.5
 		forceCap = true
@@ -822,12 +804,12 @@ end
 -- Spell Trigger
 function SpellsInfo.GetButtonIDST(buttonId) -- 0 = force manual selection
 	local spellId = 676 + buttonId
-	local icon, serverId, tid, desctid, reagents, powerword, tithingcost, minskill, manacost  = GetAbilityData(spellId)
-	skillId = 37
-	skillIdsec = 26 -- imbuing
-	skillIdthi= 21 -- focus
+	local _, _, _, _, _, _, _, minskill, _ = GetAbilityData(spellId)
+	local skillId = 37
+	local skillIdsec = 26 -- imbuing
+	local skillIdthi= 21 -- focus
 	
-	serverId = WindowData.SkillsCSV[skillId].ServerId
+	local serverId = WindowData.SkillsCSV[skillId].ServerId
 	local mainSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 	
 	serverId = WindowData.SkillsCSV[skillIdsec].ServerId
@@ -836,7 +818,6 @@ function SpellsInfo.GetButtonIDST(buttonId) -- 0 = force manual selection
 	serverId = WindowData.SkillsCSV[skillIdthi].ServerId
 	local tempSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 	secondSkillLevel = math.max(tempSkillLevel,secondSkillLevel)
-	local cando = 1
 	if minskill <= 20 or (minskill <= mainSkillLevel and minskill <= secondSkillLevel) then
 		return buttonId
 	else

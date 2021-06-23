@@ -16,7 +16,7 @@ end
 
 function WindowEventRegister:unregisterEventHandler(event)
     WindowApi.unregisterEventHandler(self.id, event)
-    for key, value in pairs(self.eventHandlers) do
+    for key, _ in pairs(self.eventHandlers) do
         if event == key then
             table.remove(self.eventHandlers, key)
             break

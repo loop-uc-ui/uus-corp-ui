@@ -141,11 +141,9 @@ function MobileHealthBar.HandleAnchorWindow(healthWindow)
 	end
 
 	if ( healthWindow == "StatusWindow" or (MobileHealthBar.Forced == false and not MobileHealthBar.Handled[mobileId])) then
-		
-		local propWindowX = 0
-		local propWindowY = 0
-		local scaleFactor = 1/InterfaceCore.scale	
-		
+		local propWindowX
+		local propWindowY
+		local scaleFactor = 1 / InterfaceCore.scale
 		local propWindowWidth = 180
 		local propWindowHeight = 38
 		
@@ -318,7 +316,7 @@ function MobileHealthBar.UpdateStatus(mobileId)
 end
 
 function MobileHealthBar.ExtractWindow(windowName)
-	local mobileId = 0
+	local mobileId
 	if (windowName ~= nil and type(windowName) == "string") then
 		mobileId = WindowGetId(windowName)
 	else
@@ -375,15 +373,12 @@ function MobileHealthBar.ExtractWindow(windowName)
 		
 	MobileHealthBar.HandleAnchorWindow(windowName)
 	WindowClearAnchors(windowName)
-	local propWindowX = 0
-	local propWindowY = 0
+	local propWindowX
+	local propWindowY
 	local scale = WindowGetScale(windowName)
 	
 	local scaleFactor = 1/scale
-	
-	local propWindowWidth = 180
-	local propWindowHeight = 38
-	
+
 	-- Set the position
 	local mouseX = SystemData.MousePosition.x - 30	
 	propWindowX = mouseX	
@@ -415,7 +410,6 @@ function MobileHealthBar.UpdateName(mobileId)
 			OverheadText.ChangelingNameCheck(data, windowName, mobileId)			
 			WindowUtils.FitTextToLabel(windowName.."Name", data.MobName)
 			NameColor.UpdateLabelNameColor(windowName.."Name", data.Notoriety+1)
-			local newr,newg,newb = LabelGetTextColor(windowName.."Name")
 			local noto = NameColor.TextColors[data.Notoriety+1]
 
 			if (mobileId == Interface.CurrentHonor) then				
@@ -425,7 +419,7 @@ function MobileHealthBar.UpdateName(mobileId)
 		else
 			local name = LabelGetText(windowName.."Name")
 			if wstring.len(name) <=0 or name ~= L"???" then
-				local name = ItemProperties.GetObjectProperties( mobileId, 1, "Healthbar name update - checking if in the properties there is a name")
+				name = ItemProperties.GetObjectProperties( mobileId, 1, "Healthbar name update - checking if in the properties there is a name")
 				if name then
 					LabelSetText(windowName.."Name", name )
 				else
@@ -525,13 +519,12 @@ function MobileHealthBar.HealthbarCloseWindow()
 end
 
 function MobileHealthBar.CloseAllHealthbars(avoidHandled)
-	for mob, value in pairs(MobileHealthBar.hasWindow) do
-		if avoidHandled and MobileHealthBar.Handled[mob] == true then
-			continue
-		end
-		local windowName = "MobileHealthBar_"..mob
-		if (MobileHealthBar.Handled[mob] and DoesWindowExist(windowName)) then
-			MobileHealthBar.CloseWindowByMobileId(mob)
+	for mob, _ in pairs(MobileHealthBar.hasWindow) do
+		if not avoidHandled and not MobileHealthBar.Handled[mob] then
+			local windowName = "MobileHealthBar_"..mob
+			if (MobileHealthBar.Handled[mob] and DoesWindowExist(windowName)) then
+				MobileHealthBar.CloseWindowByMobileId(mob)
+			end
 		end
 	end
 end
@@ -555,7 +548,7 @@ function MobileHealthBar.OnMouseDrag()
     SnapUtils.StartWindowSnap(WindowUtils.GetActiveDialog())
 end
 
-function MobileHealthBar.OnLButtonDown(flags, x, y)
+function MobileHealthBar.OnLButtonDown(flags, _, _)
 	local mobileId = WindowGetId(WindowUtils.GetActiveDialog())
 	local windowName = "MobileHealthBar_"..mobileId
 	if (flags == SystemData.ButtonFlags.CONTROL and not MobileHealthBar.Handled[mobileId] and not (WindowData.Cursor and WindowData.Cursor.target == true) and not Interface.ShowCloseExtract) then		
@@ -724,7 +717,6 @@ end
 function MobileHealthBar.OnBPackLButtonUp()
 	local parent = WindowGetParent(SystemData.ActiveWindow.name)
 	local mobileId = WindowGetId( parent )
-	local bakcpackId = 0
 	if WindowData.Paperdoll[mobileId] then
 		backpackId = WindowData.Paperdoll[mobileId].backpackId
 	else

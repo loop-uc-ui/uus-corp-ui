@@ -28,9 +28,9 @@ function IgnoreWindow.Initialize()
 	ButtonSetText( "IgnoreWindowAddButton", GetStringFromTid(IgnoreWindow.TID.Add) )
 	ButtonSetText( "IgnoreWindowCancelButton", GetStringFromTid(IgnoreWindow.TID.Cancel) )
 	
-	local previousChannelButton = nil
-	local currentChannelButton = nil
-	
+	local previousChannelButton
+	local currentChannelButton
+
 	for i = 1, WindowData.RecentChatPlayerListCount do
 		currentChannelButton = "recentchatplayer_"..WindowData.RecentChatPlayerIdList[i]
 		

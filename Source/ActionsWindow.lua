@@ -472,20 +472,15 @@ function ActionsWindow.Initialize()
     ActionsWindow.InitActionData()
     Interface.OnCloseCallBack["ActionsWindow"] = ActionsWindow.OnClose
 
-	
-	local groupItr
-	local group
-	local itemItr
-	local actionIndex
 	local actionData
-	for groupItr, group in pairs(ActionsWindow.Groups) do
+	for key, value in pairs(ActionsWindow.Groups) do
 		local rowIndex = 1
-		for itemItr, actionIndex in pairs(group.index) do	
+		for _, actionIndex in pairs(value.index) do
 			actionData = ActionsWindow.ActionData[actionIndex]		
 
 			if( actionData and actionData.inActionWindow == true ) then
 				local scrollChild = "ActionsWindowListScrollChild"
-				local windowName = scrollChild.."Group"..groupItr.."Row"..rowIndex			
+				local windowName = scrollChild.."Group".. key .."Row"..rowIndex
 				CreateWindowFromTemplate(windowName, "ActionItemDef", scrollChild)
 				WindowSetId(windowName.."Button", actionIndex )
 				local texture, x, y = GetIconData( actionData.iconId )
@@ -512,7 +507,7 @@ function ActionsWindow.Initialize()
 				if( rowIndex == 1 ) then
 					WindowAddAnchor(windowName,"topleft",scrollChild,"topleft",0,0)
 				else
-					local relativeTo = scrollChild.."Group"..groupItr.."Row"..(rowIndex-1)
+					local relativeTo = scrollChild.."Group".. key .."Row"..(rowIndex-1)
 					WindowAddAnchor(windowName,"bottomleft",relativeTo,"topleft",0,0)
 				end
 				rowIndex = rowIndex + 1
@@ -612,14 +607,14 @@ function ActionsWindow.ItemMouseOver()
 	if(actionData.type == SystemData.UserAction.TYPE_INVOKE_VIRTUE) then
 		index = actionData.invokeId
 	end
-	local name = L""
+	local name
 	if (actionData.nameTid) then
 		name = FormatProperly(GetStringFromTid(actionData.nameTid))
 	else
 		name = actionData.nameString
 	end
 
-	local desc = L""
+	local desc
 	if (actionData.detailTid) then
 		desc = GetStringFromTid(actionData.detailTid)
 	else
@@ -666,7 +661,7 @@ function ActionsWindow.ItemMouseOver()
 end
 
 function ActionsWindow.GetActionDataForType(actionType)
-	for index, actionData in pairs(ActionsWindow.ActionData) do
+	for _, actionData in pairs(ActionsWindow.ActionData) do
 		if( actionData.type == actionType ) then
 			return actionData
 		end
@@ -702,17 +697,13 @@ function ActionsWindow.UpdateCurrentGroup(modifier)
 end
 
 function ActionsWindow.HideAllGroups()
-	local groupItr
-	local group
-	local itemItr
-	local actionIndex
 	local actionData
-	for groupItr, group in pairs(ActionsWindow.Groups) do
+	for key, value in pairs(ActionsWindow.Groups) do
 		local rowIndex = 1
-		for itemItr, actionIndex in pairs(group.index) do	
+		for _, actionIndex in pairs(value.index) do
 			actionData = ActionsWindow.ActionData[actionIndex]		
 			if( actionData and actionData.inActionWindow == true ) then
-				local windowName = "ActionsWindowListScrollChildGroup"..groupItr.."Row"..rowIndex			
+				local windowName = "ActionsWindowListScrollChildGroup".. key .."Row"..rowIndex
 				WindowSetShowing( windowName, false )
 				WindowClearAnchors( windowName )
 				rowIndex = rowIndex + 1
@@ -722,8 +713,6 @@ function ActionsWindow.HideAllGroups()
 end
 
 function ActionsWindow.ShowActiveGroup()
-	local itemItr
-	local actionIndex
 	local actionData
 	local rowIndex = 1
 	for itemItr, actionIndex in pairs(ActionsWindow.Groups[ActionsWindow.CurrentGroup].index) do	
@@ -744,7 +733,7 @@ end
 
 function ActionsWindow.Context()
 	for i=1, table.getn(ActionsWindow.Groups) do
-		local name = ""
+		local name
 		if (ActionsWindow.Groups[i].nameTid) then
 			name = GetStringFromTid(ActionsWindow.Groups[i].nameTid)
 		else
@@ -755,7 +744,7 @@ function ActionsWindow.Context()
 	ContextMenu.ActivateLuaContextMenu(ActionsWindow.ContextMenuCallback)
 end
 
-function ActionsWindow.ContextMenuCallback( returnCode, param )
+function ActionsWindow.ContextMenuCallback(returnCode, _)
 	ActionsWindow.CurrentGroup=returnCode
 	ActionsWindow.RefreshList(0)
 end

@@ -28,7 +28,7 @@ function BuffDebuff.Update(timePassed)
 	BuffDebuff.DeltaTime = BuffDebuff.DeltaTime + timePassed
 	
 	if (BuffDebuff.Timers ~= nil) then
-		for key, value in pairs(BuffDebuff.Timers) do
+		for key, _ in pairs(BuffDebuff.Timers) do
 			local buffId = key
 			local parent = "BuffDebuff"
 			local iconName = parent.."Icon"..buffId .. "TextureIcon"
@@ -131,9 +131,7 @@ function BuffDebuff.ShouldCreateNewBuff()
 				--Debug.Print("BuffDebuff.CreateNewBuff() failed: "..tostring(textureId))
 				BuffDebuff.BuffData[buffId] = nil
 			end
-		end		
-	else
-		--Debug.Print("BuffDebuff.retrieveBuffData failed")
+		end
 	end
 end
 
@@ -164,7 +162,7 @@ function BuffDebuff.HandleBuffRemoved(buffId)
 	DestroyWindow(iconName)
 end
 
-function BuffDebuff.UpdateTimer(timePassed)
+function BuffDebuff.UpdateTimer(_)
 	local endNumber = table.getn(AdvancedBuff.TableOrderGood)
 	for i=1, endNumber do
 		local buffId = AdvancedBuff.TableOrderGood[i]
@@ -192,8 +190,7 @@ function BuffDebuff.UpdateTimer(timePassed)
 			end
 		end
 		LabelSetText(iconName.."TimerLabel",timer)
-		local scale = 1
-		scale = WindowGetScale( AdvancedBuff.WindowNameGood )
+		local scale = WindowGetScale( AdvancedBuff.WindowNameGood )
 		WindowSetScale(iconName, scale)
 	end
 end
