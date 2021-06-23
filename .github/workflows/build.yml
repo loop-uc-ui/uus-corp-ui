@@ -25,6 +25,11 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
         uses: actions/checkout@v2.3.4
+      - name: Clone wiki
+        uses: actions/checkout@v2
+        with:
+          repository: ${{ github.repository }}.wiki
+          path: .wiki
       - name: Install Lua/LuaJIT
         # You may pin to the exact commit or the version.
         # uses: leafo/gh-actions-lua@ea0ae38722c0b45aa4e770f7c4a650c6b26800d0
@@ -38,10 +43,15 @@ jobs:
         uses: nebularg/actions-luacheck@v1.1.0
         with:
           args: --ignore 111 112 113 142 143 611 612 614 631 --exclude-files '.install/*' # optional
-      - name: Lua docs generator
-        # You may pin to the exact commit or the version.
-        # uses: p3lim/lua-doc-parser@61479a988cde4992b15efa9f3d08ac638aec488a
+      - name: Parse and generate documentation
         uses: p3lim/lua-doc-parser@v2
         with:
-          # Output path for generated documentation files
-          output: ./docs
+          output: .wiki
+      - name: Push wiki changes
+        working-directory: .wiki
+        run: |
+          git config user.name CI
+          git config user.email "<>"
+          git add .
+          git diff --quiet HEAD || git commit -m "$GITHUB_SHA"
+          git push
