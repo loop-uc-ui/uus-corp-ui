@@ -38,9 +38,10 @@ jobs:
         uses: nebularg/actions-luacheck@v1.1.0
         with:
           args: --ignore 111 112 113 142 143 611 612 614 631 --exclude-files '.install/*' # optional
-      - name: Generate lua docs
+      - name: Lua docs generator
         # You may pin to the exact commit or the version.
-        # uses: Nick-Mazuk/lua-docs-generator@ceaed5f8e65de2f17c3ecb38b31e60b4becf6fdd
-        uses: Nick-Mazuk/lua-docs-generator@v1.0.6
+        # uses: p3lim/lua-doc-parser@61479a988cde4992b15efa9f3d08ac638aec488a
+        uses: p3lim/lua-doc-parser@v2
         with:
-          input: ${{ github.workspace }}
+          # Output path for generated documentation files
+          output: ./docs
