@@ -549,6 +549,7 @@ function Interface.CreateWindows()
 	if not UserInterfaceVariables.LoadBoolean("StatusWindowClosed", false) then
 		CreateWindow( "StatusWindow", true)
 	end
+	CreateWindow(AdvancedBuff.id, true)
 end
 
 function Interface.InitializeWindows()
@@ -562,7 +563,6 @@ function Interface.InitializeWindows()
 	OverheadText.InitializeEvents()
     StaticTextWindow.Initialize()
     MapCommon.Initialize()
-    AdvancedBuff.Initialize()
     BuffDebuff.Initialize()
 	LegacyRunebookLoader.Initialize()
 	PetWindow.UpdatePet()

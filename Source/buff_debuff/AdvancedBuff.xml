@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-        <Window name="AdvancedBuff" movable="false" layer="default" sticky="true">
+        <Window name="AdvancedBuffGood" movable="false" layer="default" sticky="true">
             <Anchors>
                 <Anchor point="topleft" relativePoint="topleft">
                     <AbsPoint x="712" y="20"/>
                 </Anchor>
             </Anchors>
             <EventHandlers>
+                <EventHandler event="OnInitialize" function="AdvancedBuff.Initialize"/>
                 <EventHandler event="OnLButtonDown" function="AdvancedBuff.OnLButtonDown"/>
                 <EventHandler event="OnShutdown" function="AdvancedBuff.Shutdown"/>
                 <EventHandler event="OnMouseWheel" function="WindowUtils.Scale"/>
@@ -34,27 +35,7 @@
                         <PressedHighlit x="38" y="0"/>
                     </TexCoords>
                 </Button>
-                <Button name="$parentLock" layer="default" backgroundtexture="UO_Core" highlighttexture="UO_Core"
-                        textureScale="1">
-                    <Size>
-                        <AbsPoint x="20" y="20"/>
-                    </Size>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="AdvancedBuff.LockMe"/>
-                    </EventHandlers>
-                    <TexCoords>
-                        <Normal x="0" y="0"/>
-                        <NormalHighlit x="0" y="0"/>
-                        <Pressed x="0" y="0"/>
-                        <PressedHighlit x="0" y="0"/>
-                        <Disabled x="0" y="0"/>
-                    </TexCoords>
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topright" relativeTo="$parentContext">
-                            <AbsPoint x="-5" y="-5"/>
-                        </Anchor>
-                    </Anchors>
-                </Button>
+                <Button name="$parentLock" layer="default" inherits="LockButton"/>
                 <Window name="BuffDebuff" layer="default">
                     <Size>
                         <AbsPoint x="0" y="0"/>

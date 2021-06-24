@@ -1,12 +1,7 @@
-----------------------------------------------------------------
--- Global Variables
-----------------------------------------------------------------
+--Keep original name for compatibility
+AdvancedBuff = ListWindow:new("AdvancedBuffGood", false)
 
-AdvancedBuff = {}
-
-----------------------------------------------------------------
--- Local Variables
-----------------------------------------------------------------
+local adapter = AdvancedBuff.adapter
 
 AdvancedBuff.WindowNameGood = "AdvancedBuffGood"
 
@@ -51,31 +46,14 @@ AdvancedBuff.PrevIconsGood = 0
 ----------------------------------------------------------------
 
 function AdvancedBuff.Initialize()
-	CreateWindowFromTemplate(AdvancedBuff.WindowNameGood, "AdvancedBuff", "Root")
+	adapter:addLock()
 	if (WindowGetAnchorCount(AdvancedBuff.WindowNameGood) > 0) then
 		WindowClearAnchors(AdvancedBuff.WindowNameGood)
 	end
 	WindowSetOffsetFromParent(AdvancedBuff.WindowNameGood, 451 , 125)
     WindowUtils.RestoreWindowPosition(AdvancedBuff.WindowNameGood)  
     WindowUtils.LoadScale( AdvancedBuff.WindowNameGood )
-    
-    AdvancedBuff.GoodLocked = Interface.LoadBoolean( "AdvancedBuffGoodLocked",AdvancedBuff.GoodLocked )
-    
     WindowSetMovable(AdvancedBuff.WindowNameGood, AdvancedBuff.GoodLocked)
-    
-    local texture = "UO_Core"
-	if ( AdvancedBuff.GoodLocked  ) then		
-		ButtonSetTexture(AdvancedBuff.WindowNameGood.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 69,341)
-		ButtonSetTexture(AdvancedBuff.WindowNameGood.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 92,341)
-		ButtonSetTexture(AdvancedBuff.WindowNameGood.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 92,341)
-		ButtonSetTexture(AdvancedBuff.WindowNameGood.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 92,341)
-	else
-		ButtonSetTexture(AdvancedBuff.WindowNameGood.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 117,341)
-		ButtonSetTexture(AdvancedBuff.WindowNameGood.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 142,341)
-		ButtonSetTexture(AdvancedBuff.WindowNameGood.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 142,341)
-		ButtonSetTexture(AdvancedBuff.WindowNameGood.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 142,341)		
-	end
-		
     AdvancedBuff.GoodDirection = Interface.LoadNumber( "AdvancedBuffGoodDirection", AdvancedBuff.GoodDirection )
     AdvancedBuff.UpdateDirections()
 end
@@ -163,42 +141,17 @@ function AdvancedBuff.UpdateDirections(isRotating)
 end
 
 function AdvancedBuff.Rotate()
-	local windowname = WindowUtils.GetActiveDialog()
-	if string.find(windowname, "Good") then
-		if (AdvancedBuff.GoodDirection == 1) then
-			AdvancedBuff.GoodDirection = 3
-		elseif (AdvancedBuff.GoodDirection == 3) then
-			AdvancedBuff.GoodDirection = 5
-		elseif (AdvancedBuff.GoodDirection == 5) then
-			AdvancedBuff.GoodDirection = 8
-		elseif (AdvancedBuff.GoodDirection == 8) then
-			AdvancedBuff.GoodDirection = 1
-		end
-		Interface.SaveNumber( "AdvancedBuffGoodDirection", AdvancedBuff.GoodDirection )
-		AdvancedBuff.UpdateDirections(0)
+	if (AdvancedBuff.GoodDirection == 1) then
+		AdvancedBuff.GoodDirection = 3
+	elseif (AdvancedBuff.GoodDirection == 3) then
+		AdvancedBuff.GoodDirection = 5
+	elseif (AdvancedBuff.GoodDirection == 5) then
+		AdvancedBuff.GoodDirection = 8
+	elseif (AdvancedBuff.GoodDirection == 8) then
+		AdvancedBuff.GoodDirection = 1
 	end
-end
-
-function AdvancedBuff.LockMe()
-	local windowname = WindowUtils.GetActiveDialog()
-	if string.find(windowname, "Good") then
-		AdvancedBuff.GoodLocked = not AdvancedBuff.GoodLocked
-		Interface.SaveBoolean( "AdvancedBuffGoodLocked", AdvancedBuff.GoodLocked  )
-		WindowSetMovable(AdvancedBuff.WindowNameGood, AdvancedBuff.GoodLocked)
-		
-		local texture = "UO_Core"
-		if ( AdvancedBuff.GoodLocked  ) then		
-			ButtonSetTexture(windowname.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 69,341)
-			ButtonSetTexture(windowname.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 92,341)
-			ButtonSetTexture(windowname.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 92,341)
-			ButtonSetTexture(windowname.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 92,341)
-		else
-			ButtonSetTexture(windowname.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 117,341)
-			ButtonSetTexture(windowname.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 142,341)
-			ButtonSetTexture(windowname.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 142,341)
-			ButtonSetTexture(windowname.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 142,341)		
-		end
-	end
+	Interface.SaveNumber( "AdvancedBuffGoodDirection", AdvancedBuff.GoodDirection )
+	AdvancedBuff.UpdateDirections(0)
 end
 
 function AdvancedBuff.ContextToolsTooltip()
@@ -208,13 +161,7 @@ function AdvancedBuff.ContextToolsTooltip()
 end
 
 function AdvancedBuff.OnLButtonDown()
-	if (SystemData.ActiveWindow.name == AdvancedBuff.WindowNameGood) then
-		if (not AdvancedBuff.GoodLocked ) then			
-			WindowSetMoving(AdvancedBuff.WindowNameGood,true)
-		else
-			WindowSetMoving(AdvancedBuff.WindowNameGood,false)
-		end
-	end
+	AdvancedBuff:onLeftClickDown()
 end
 
 function AdvancedBuff.HandleReAnchorBuffGood(position)

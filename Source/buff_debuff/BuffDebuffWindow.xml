@@ -20,7 +20,7 @@
                         </Anchor>
                     </Anchors>
                 </DynamicImage>
-                <Label name="$parentTimerLabel" inherits="UO_Default_Label_Color" font="UO_Default_Outline_Text"
+                <Label name="$parentTimerLabel" inherits="UO_Default_Label_Color" font="caption"
                        maxchars="6" handleinput="false" autoresize="true" textalign="top">
                     <Size>
                         <AbsPoint x="44" y="10"/>
