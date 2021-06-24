@@ -113,6 +113,7 @@
 		<Script file="Source/core/data/CurrentTarget.lua"/>
 		<Script file="Source/core/data/Cursor.lua"/>
 		<Script file="Source/core/data/PlayerStatus.lua"/>
+		<Script file="Source/core/api/DynamicImageApi.lua"/>
 		<Script file="Source/core/api/DragApi.lua"/>
 		<Script file="Source/core/api/TargetApi.lua"/>
 		<Script file="Source/core/api/UserActionApi.lua"/>
@@ -130,6 +131,7 @@
 		<Script file="Source/core/resources/TextIds.lua"/>
 		<Script file="Source/core/window/WindowEventRegister.lua"/>
 		<Script file="Source/core/window/BaseWindow.lua"/>
+		<Script file="Source/core/window/DynamicImageWindow.lua"/>
 		<Script file="Source/core/window/ListWindow.lua"/>
 		<Script file="Source/core/window/LabelWindow.lua"/>
 		<Script file="Source/core/window/SliderWindow.lua"/>

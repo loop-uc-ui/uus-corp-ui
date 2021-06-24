@@ -1,9 +1,4 @@
-
-----------------------------------------------------------------
--- Global Variables
-----------------------------------------------------------------
-
-BuffDebuff = {}
+BuffDebuff = ListWindow:new("BuffDebuff", false)
 
 BuffDebuff.BuffData = {}
 BuffDebuff.Timers = {}
@@ -21,9 +16,6 @@ BuffDebuff.ActiveBuffs = {}
 BuffDebuff.Fade = {}
 BuffDebuff.FadeRaising = {}
 
-----------------------------------------------------------------
--- Functions
-----------------------------------------------------------------
 function BuffDebuff.Update(timePassed)
 	BuffDebuff.DeltaTime = BuffDebuff.DeltaTime + timePassed
 	
@@ -42,7 +34,6 @@ function BuffDebuff.Update(timePassed)
 					BuffDebuff.Fade[buffId] = false
 					WindowStopAlphaAnimation(iconName)
 				end
-				
 			end
 		end
 	end
@@ -140,24 +131,12 @@ function BuffDebuff.HandleBuffRemoved(buffId)
 	local position = AdvancedBuff.ReverseOrderGood[buffId]
 	table.remove(AdvancedBuff.TableOrderGood, position)
 	AdvancedBuff.HandleReAnchorBuffGood(1)
-	
-	if (buffId == 1094) then
-		HotbarSystem.EvasionCooldown = 20
-	end
-	if (buffId == 1021) then
-		HotbarSystem.AttunementCooldown = 120
-	end
-	if (buffId == 1024) then
-		HotbarSystem.EtherealVoyageCooldown = 300
-	end
-	
 	-- Have to set this to nil since the buffId is removed from the table
 	BuffDebuff.ReverseOrder[buffId] = nil
 	BuffDebuff.BuffWindowId[buffId] = false
 	BuffDebuff.BuffData[buffId] = nil
 	BuffDebuff.Timers[buffId] = nil
 	BuffDebuff.ActiveBuffs[buffId] = nil
-	
 	WindowUtils.SaveWindowPosition(iconName)
 	DestroyWindow(iconName)
 end
@@ -274,7 +253,6 @@ end
 
 function BuffDebuff.Shutdown()
 	UnregisterWindowData(WindowData.BuffDebuff.Type, 0)
-	
 	UOUnloadCSVTable("BuffDataCSV")
 end
 

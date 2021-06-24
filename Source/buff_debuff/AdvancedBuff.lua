@@ -224,7 +224,6 @@ function AdvancedBuff.HandleReAnchorBuffGood(position)
 				WindowAddAnchor(iconName.."TimerLabel", "left", iconName, "right", -2, 0)
 				LabelSetTextAlign(iconName.."TimerLabel", "right")
 			end
-			
 		end
 	end
 end
