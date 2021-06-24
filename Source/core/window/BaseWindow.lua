@@ -30,6 +30,15 @@ function BaseWindow:clearAnchors()
     return self
 end
 
+function BaseWindow:getAnchorCount()
+    return WindowApi.getAnchorCount(self.id)
+end
+
+function BaseWindow:setOffsetFromParent(x, y)
+    WindowApi.setOffsetFromParent(self.id, x, y)
+    return self
+end
+
 function BaseWindow:isShowing()
     return WindowApi.isShowing(self.id)
 end

@@ -34,7 +34,7 @@ AdvancedBuff.GoodLocked = false
 --  |  == 8
 
 
-AdvancedBuff.GoodDirection = 1
+local direction = 1
 
 AdvancedBuff.ReverseOrderGood = {}
 AdvancedBuff.TableOrderGood = {}
@@ -47,19 +47,18 @@ AdvancedBuff.PrevIconsGood = 0
 
 function AdvancedBuff.Initialize()
 	adapter:addLock()
-	if (WindowGetAnchorCount(AdvancedBuff.WindowNameGood) > 0) then
-		WindowClearAnchors(AdvancedBuff.WindowNameGood)
+	if AdvancedBuff:getAnchorCount() > 0 then
+		AdvancedBuff:clearAnchors()
 	end
-	WindowSetOffsetFromParent(AdvancedBuff.WindowNameGood, 451 , 125)
-    WindowUtils.RestoreWindowPosition(AdvancedBuff.WindowNameGood)  
-    WindowUtils.LoadScale( AdvancedBuff.WindowNameGood )
-    WindowSetMovable(AdvancedBuff.WindowNameGood, AdvancedBuff.GoodLocked)
-    AdvancedBuff.GoodDirection = Interface.LoadNumber( "AdvancedBuffGoodDirection", AdvancedBuff.GoodDirection )
+	AdvancedBuff:setOffsetFromParent(451, 125)
+    WindowUtils.RestoreWindowPosition(AdvancedBuff.id)
+    WindowUtils.LoadScale(AdvancedBuff.id)
+    direction = UserInterfaceVariables.LoadNumber("AdvancedBuffGoodDirection", direction)
     AdvancedBuff.UpdateDirections()
 end
 
 function AdvancedBuff.Shutdown()
-	if (AdvancedBuff.GoodDirection == 1 or AdvancedBuff.GoodDirection == 3) then
+	if (direction == 1 or direction == 3) then
 		local endIcons = table.getn(AdvancedBuff.TableOrderGood)
 		if (endIcons > 0) then
 			for i=1, endIcons do
@@ -71,9 +70,8 @@ function AdvancedBuff.Shutdown()
 end
 
 function AdvancedBuff.UpdateDirections(isRotating)
-	-- GOOD
 	local goodX, goodY = WindowGetOffsetFromParent(AdvancedBuff.WindowNameGood .. "Context")
-	if (AdvancedBuff.GoodDirection == 1) then
+	if (direction == 1) then
 		DynamicImageSetTexture(AdvancedBuff.WindowNameGood .. "Image", "AdvancedBuffDockspot", 3, 0 )
 		WindowSetDimensions(AdvancedBuff.WindowNameGood, 106,71)
 		DynamicImageSetTextureDimensions(AdvancedBuff.WindowNameGood .. "Image", 97, 52)
@@ -88,7 +86,7 @@ function AdvancedBuff.UpdateDirections(isRotating)
 		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Lock")
 		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Lock","topleft", AdvancedBuff.WindowNameGood .. "Context", "topright", -5, -5)
 		
-	elseif (AdvancedBuff.GoodDirection == 3) then
+	elseif (direction == 3) then
 		DynamicImageSetTexture(AdvancedBuff.WindowNameGood .. "Image", "AdvancedBuffDockspot", 107, 1 )
 		WindowSetDimensions(AdvancedBuff.WindowNameGood, 71,106)
 		DynamicImageSetTextureDimensions(AdvancedBuff.WindowNameGood .. "Image", 52, 97)
@@ -102,7 +100,7 @@ function AdvancedBuff.UpdateDirections(isRotating)
 		
 		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Lock")
 		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Lock","topright", AdvancedBuff.WindowNameGood .. "Context", "topleft", 5, -5)
-	elseif (AdvancedBuff.GoodDirection == 5) then
+	elseif (direction == 5) then
 		DynamicImageSetTexture(AdvancedBuff.WindowNameGood .. "Image", "AdvancedBuffDockspot", 121, 112 )
 		WindowSetDimensions(AdvancedBuff.WindowNameGood, 106,71)
 		DynamicImageSetTextureDimensions(AdvancedBuff.WindowNameGood .. "Image", 97, 52)
@@ -116,7 +114,7 @@ function AdvancedBuff.UpdateDirections(isRotating)
 		
 		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Lock")
 		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Lock","topright", AdvancedBuff.WindowNameGood .. "Context", "topleft", 5, -5)
-	elseif (AdvancedBuff.GoodDirection == 8) then
+	elseif (direction == 8) then
 		DynamicImageSetTexture(AdvancedBuff.WindowNameGood .. "Image", "AdvancedBuffDockspot", 55, 121 )
 		WindowSetDimensions(AdvancedBuff.WindowNameGood, 71,106)
 		DynamicImageSetTextureDimensions(AdvancedBuff.WindowNameGood .. "Image", 52, 97)
@@ -141,16 +139,16 @@ function AdvancedBuff.UpdateDirections(isRotating)
 end
 
 function AdvancedBuff.Rotate()
-	if (AdvancedBuff.GoodDirection == 1) then
-		AdvancedBuff.GoodDirection = 3
-	elseif (AdvancedBuff.GoodDirection == 3) then
-		AdvancedBuff.GoodDirection = 5
-	elseif (AdvancedBuff.GoodDirection == 5) then
-		AdvancedBuff.GoodDirection = 8
-	elseif (AdvancedBuff.GoodDirection == 8) then
-		AdvancedBuff.GoodDirection = 1
+	if (direction == 1) then
+		direction = 3
+	elseif (direction == 3) then
+		direction = 5
+	elseif (direction == 5) then
+		direction = 8
+	elseif (direction == 8) then
+		direction = 1
 	end
-	Interface.SaveNumber( "AdvancedBuffGoodDirection", AdvancedBuff.GoodDirection )
+	UserInterfaceVariables.SaveNumber( "AdvancedBuffGoodDirection", direction)
 	AdvancedBuff.UpdateDirections(0)
 end
 
@@ -167,7 +165,7 @@ end
 function AdvancedBuff.HandleReAnchorBuffGood(position)
 	local endIcons = table.getn(AdvancedBuff.TableOrderGood)
 	if (endIcons > 0) then
-		if (AdvancedBuff.GoodDirection == 1) then
+		if (direction == 1) then
 			for i=position, endIcons do
 				iconName = "BuffDebuffIcon"..AdvancedBuff.TableOrderGood[i]
 				WindowClearAnchors(iconName)
@@ -182,7 +180,7 @@ function AdvancedBuff.HandleReAnchorBuffGood(position)
 				LabelSetTextAlign(iconName.."TimerLabel", "center")
 			end			
 			AdvancedBuff.PrevIconsGood = endIcons			
-		elseif (AdvancedBuff.GoodDirection == 3) then
+		elseif (direction == 3) then
 		
 			for i=position, endIcons do
 				iconName = "BuffDebuffIcon"..AdvancedBuff.TableOrderGood[i]
@@ -198,7 +196,7 @@ function AdvancedBuff.HandleReAnchorBuffGood(position)
 				LabelSetTextAlign(iconName.."TimerLabel", "left")
 			end			
 			AdvancedBuff.PrevIconsGood = endIcons			
-		elseif (AdvancedBuff.GoodDirection == 5) then
+		elseif (direction == 5) then
 			for i=position, endIcons do
 				iconName = "BuffDebuffIcon"..AdvancedBuff.TableOrderGood[i]
 				WindowClearAnchors(iconName)
@@ -212,7 +210,7 @@ function AdvancedBuff.HandleReAnchorBuffGood(position)
 				WindowAddAnchor(iconName.."TimerLabel", "bottom", iconName, "top", 0, 2)
 				LabelSetTextAlign(iconName.."TimerLabel", "center")
 			end			
-		elseif (AdvancedBuff.GoodDirection == 8) then
+		elseif (direction == 8) then
 			for i=position, endIcons do
 				iconName = "BuffDebuffIcon"..AdvancedBuff.TableOrderGood[i]
 				WindowClearAnchors(iconName)

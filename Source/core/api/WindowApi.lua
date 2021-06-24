@@ -78,6 +78,10 @@ function WindowApi.isMovable(windowName)
     return WindowGetMovable(windowName)
 end
 
+function WindowApi.setOffsetFromParent(windowName, xOffset, yOffset)
+    WindowSetOffsetFromParent(windowName, xOffset, yOffset)
+end
+
 ---Determines whether or not the window is sticky or unsticky.
 ---@param windowName - (string) The name of the window.
 ---@return @(boolean) Is the window sticky?  True, or false.
