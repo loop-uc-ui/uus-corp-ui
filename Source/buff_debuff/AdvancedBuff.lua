@@ -1,4 +1,7 @@
---Keep original name for compatibility
+--[[
+	This window shows the list of buffs.
+	We've kept the original window name for compatibility purposes.
+]]--
 AdvancedBuff = ListWindow:new("AdvancedBuffGood", false)
 
 local adapter = AdvancedBuff.adapter
@@ -53,7 +56,7 @@ function AdvancedBuff.Initialize()
 	AdvancedBuff:setOffsetFromParent(451, 125)
     WindowUtils.RestoreWindowPosition(AdvancedBuff.id)
     WindowUtils.LoadScale(AdvancedBuff.id)
-    direction = UserInterfaceVariables.LoadNumber("AdvancedBuffGoodDirection", direction)
+    direction = BuffDebuffSettings.windowDirection()
     AdvancedBuff.UpdateDirections()
 end
 
@@ -148,7 +151,7 @@ function AdvancedBuff.Rotate()
 	elseif (direction == 8) then
 		direction = 1
 	end
-	UserInterfaceVariables.SaveNumber( "AdvancedBuffGoodDirection", direction)
+	BuffDebuffSettings.windowDirection(direction)
 	AdvancedBuff.UpdateDirections(0)
 end
 

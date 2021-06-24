@@ -103,3 +103,10 @@ function WindowAdapter:addLock(onLock, onUnlock)
     self.views[lock.id] = lock
     return self
 end
+
+function WindowAdapter:addDynamicImage(id, texture, xOffset, yOffset)
+    local image = DynamicImageWindow:new(id)
+    image:setTexture(texture, xOffset, yOffset)
+    self.adapter[image.id] = image
+    return self
+end
