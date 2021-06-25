@@ -25,6 +25,11 @@ function BaseWindow:addAnchor(
     return self
 end
 
+function BaseWindow:setDimensions(x, y)
+    WindowApi.setDimensions(self.id, x, y)
+    return self
+end
+
 function BaseWindow:clearAnchors()
     WindowApi.clearAnchors(self.id)
     return self

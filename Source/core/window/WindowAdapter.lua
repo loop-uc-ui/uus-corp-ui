@@ -62,7 +62,9 @@ end
 
 function WindowAdapter:addButton(id, text)
     local button = ButtonWindow:new(id)
-    button:setText(text)
+    if text ~= nil then
+        button:setText(text)
+    end
     self.views[button.id] = button
     return self
 end
@@ -106,7 +108,9 @@ end
 
 function WindowAdapter:addDynamicImage(id, texture, xOffset, yOffset)
     local image = DynamicImageWindow:new(id)
-    image:setTexture(texture, xOffset, yOffset)
+    if texture ~= nil and xOffset ~= nil and yOffset ~= nil then
+        image:setTexture(texture, xOffset, yOffset)
+    end
     self.views[image.id] = image
     return self
 end

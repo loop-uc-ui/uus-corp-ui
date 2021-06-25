@@ -82,6 +82,14 @@ function WindowApi.setOffsetFromParent(windowName, xOffset, yOffset)
     WindowSetOffsetFromParent(windowName, xOffset, yOffset)
 end
 
+function WindowApi.setDimensions(windowName, xOffset, yOffset)
+    WindowSetDimensions(windowName, xOffset, yOffset)
+end
+
+function WindowApi.getDimensions(windowName)
+    return WindowGetDimensions(windowName)
+end
+
 ---Determines whether or not the window is sticky or unsticky.
 ---@param windowName - (string) The name of the window.
 ---@return @(boolean) Is the window sticky?  True, or false.

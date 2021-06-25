@@ -8,56 +8,91 @@ local adapter = AdvancedBuff.adapter
 
 AdvancedBuff.WindowNameGood = "AdvancedBuffGood"
 
-AdvancedBuff.GoodLocked = false
-
--- directions:
-
--- ___|  == 1
-
--- |___  == 2
-
--- |
--- |_  == 3
-
---  |
--- _| == 4
-
---  ___  
--- |     == 5
-
--- ___  
---    | == 6
-
---  _
--- |
--- |  == 7
-
--- _
---  |
---  |  == 8
-
-
-local direction = 1
+local direction = 0
+local DOCKSPOT = "AdvancedBuffGoodImage"
+local DOCKSPOT_TEXTURE = "AdvancedBuffDockspot"
+local ROTATE_BUTTON = "AdvancedBuffGoodContext"
 
 AdvancedBuff.ReverseOrderGood = {}
 AdvancedBuff.TableOrderGood = {}
 
 AdvancedBuff.PrevIconsGood = 0
 
-----------------------------------------------------------------
--- Functions
-----------------------------------------------------------------
+local function UpdateDirections(orientation)
+	local background = adapter.views[DOCKSPOT]
+	local rotateButton = adapter.views[ROTATE_BUTTON]
+	local lockButton = adapter.views["AdvancedBuffGoodLock"]
+
+	if orientation == 1 then
+		AdvancedBuff:setDimensions(106, 71)
+		background:setTexture(DOCKSPOT_TEXTURE, 3, 0)
+				  :setDimensions(97, 52)
+				  :setTextureDimensions(97, 52)
+				  :clearAnchors()
+				  :addAnchor("topright", AdvancedBuff.id, "topright", 0, 10)
+		rotateButton:clearAnchors()
+					:addAnchor("bottomright", AdvancedBuff.id, "bottomright", -3, -11)
+		lockButton:clearAnchors()
+				  :addAnchor("topleft", rotateButton.id, "topright", -5, -5)
+	elseif orientation == 3 then
+		AdvancedBuff:setDimensions(71, 106)
+		background:setTexture(DOCKSPOT_TEXTURE, 107, 1)
+				  :setDimensions(52, 97)
+				  :setTextureDimensions(52, 97)
+				  :clearAnchors()
+				  :addAnchor("bottomleft", AdvancedBuff.id, "bottomleft", 0, 0)
+		rotateButton:clearAnchors()
+					:addAnchor("bottomleft", AdvancedBuff.id, "bottomleft", 3, -2)
+		lockButton:clearAnchors()
+				  :addAnchor("topright", rotateButton.id, "topleft", 5, -5)
+	elseif orientation == 5 then
+		AdvancedBuff:setDimensions(106, 71)
+		background:setTexture(DOCKSPOT_TEXTURE, 121, 112)
+				  :setDimensions(97, 52)
+				  :setTextureDimensions(97, 52)
+				  :clearAnchors()
+				  :addAnchor("topleft", AdvancedBuff.id, "topleft", 0, 0)
+		rotateButton:clearAnchors()
+					:addAnchor("topleft", AdvancedBuff.id, "topleft", 2, 3)
+		lockButton:clearAnchors()
+				  :addAnchor("topright", rotateButton.id, "topleft", 5, -5)
+	elseif orientation == 8 then
+		AdvancedBuff:setDimensions(71, 106)
+		background:setTexture(DOCKSPOT_TEXTURE, 55, 121)
+				  :setDimensions(52, 97)
+				  :setTextureDimensions(52, 97)
+				  :clearAnchors()
+				  :addAnchor("topright", AdvancedBuff.id, "topright", 0, 0)
+		rotateButton:clearAnchors()
+					:addAnchor("topright", AdvancedBuff.id, "topright", -2, 2)
+		lockButton:clearAnchors()
+				  :addAnchor("topleft", rotateButton.id, "topright", -5, -5)
+	else
+		UpdateDirections(1)
+	end
+	AdvancedBuff.HandleReAnchorBuffGood(1)
+end
 
 function AdvancedBuff.Initialize()
 	adapter:addLock()
+			:addDynamicImage(DOCKSPOT, DOCKSPOT_TEXTURE, 3, 0)
+			:addButton(ROTATE_BUTTON)
+
 	if AdvancedBuff:getAnchorCount() > 0 then
 		AdvancedBuff:clearAnchors()
 	end
+
+	adapter.views[DOCKSPOT]:setColor({
+		r = 170,
+		g = 254,
+		b = 141
+	})
+
 	AdvancedBuff:setOffsetFromParent(451, 125)
     WindowUtils.RestoreWindowPosition(AdvancedBuff.id)
     WindowUtils.LoadScale(AdvancedBuff.id)
     direction = BuffDebuffSettings.windowDirection()
-    AdvancedBuff.UpdateDirections()
+    UpdateDirections()
 end
 
 function AdvancedBuff.Shutdown()
@@ -72,87 +107,18 @@ function AdvancedBuff.Shutdown()
 	WindowUtils.SaveWindowPosition(AdvancedBuff.WindowNameGood)
 end
 
-function AdvancedBuff.UpdateDirections(isRotating)
-	local goodX, goodY = WindowGetOffsetFromParent(AdvancedBuff.WindowNameGood .. "Context")
-	if (direction == 1) then
-		DynamicImageSetTexture(AdvancedBuff.WindowNameGood .. "Image", "AdvancedBuffDockspot", 3, 0 )
-		WindowSetDimensions(AdvancedBuff.WindowNameGood, 106,71)
-		DynamicImageSetTextureDimensions(AdvancedBuff.WindowNameGood .. "Image", 97, 52)
-		WindowSetDimensions(AdvancedBuff.WindowNameGood .. "Image", 97, 52)
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Image")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Image","topright", AdvancedBuff.WindowNameGood, "topright", 0, 10)		
-		
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Context")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Context","bottomright", AdvancedBuff.WindowNameGood, "bottomright", -3, -11)
-		WindowSetTintColor(AdvancedBuff.WindowNameGood .. "Image", 170,254,141)
-		
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Lock")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Lock","topleft", AdvancedBuff.WindowNameGood .. "Context", "topright", -5, -5)
-		
-	elseif (direction == 3) then
-		DynamicImageSetTexture(AdvancedBuff.WindowNameGood .. "Image", "AdvancedBuffDockspot", 107, 1 )
-		WindowSetDimensions(AdvancedBuff.WindowNameGood, 71,106)
-		DynamicImageSetTextureDimensions(AdvancedBuff.WindowNameGood .. "Image", 52, 97)
-		WindowSetDimensions(AdvancedBuff.WindowNameGood .. "Image", 52, 97)
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Image")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Image","bottomleft", AdvancedBuff.WindowNameGood, "bottomleft", 0, 0)
-		
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Context")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Context","bottomleft", AdvancedBuff.WindowNameGood, "bottomleft", 3, -2)
-		WindowSetTintColor(AdvancedBuff.WindowNameGood .. "Image", 170,254,141)
-		
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Lock")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Lock","topright", AdvancedBuff.WindowNameGood .. "Context", "topleft", 5, -5)
-	elseif (direction == 5) then
-		DynamicImageSetTexture(AdvancedBuff.WindowNameGood .. "Image", "AdvancedBuffDockspot", 121, 112 )
-		WindowSetDimensions(AdvancedBuff.WindowNameGood, 106,71)
-		DynamicImageSetTextureDimensions(AdvancedBuff.WindowNameGood .. "Image", 97, 52)
-		WindowSetDimensions(AdvancedBuff.WindowNameGood .. "Image", 97, 52)
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Image")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Image","topleft", AdvancedBuff.WindowNameGood, "topleft", 0, 0)
-		
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Context")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Context","topleft", AdvancedBuff.WindowNameGood, "topleft", 2, 3)
-		WindowSetTintColor(AdvancedBuff.WindowNameGood .. "Image", 170,254,141)
-		
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Lock")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Lock","topright", AdvancedBuff.WindowNameGood .. "Context", "topleft", 5, -5)
-	elseif (direction == 8) then
-		DynamicImageSetTexture(AdvancedBuff.WindowNameGood .. "Image", "AdvancedBuffDockspot", 55, 121 )
-		WindowSetDimensions(AdvancedBuff.WindowNameGood, 71,106)
-		DynamicImageSetTextureDimensions(AdvancedBuff.WindowNameGood .. "Image", 52, 97)
-		WindowSetDimensions(AdvancedBuff.WindowNameGood .. "Image", 52, 97)
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Image")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Image","topright", AdvancedBuff.WindowNameGood, "topright", 0, 0)
-		
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Context")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Context","topright", AdvancedBuff.WindowNameGood, "topright", -2, 2)
-		WindowSetTintColor(AdvancedBuff.WindowNameGood .. "Image", 170,254,141)
-		
-		WindowClearAnchors(AdvancedBuff.WindowNameGood .. "Lock")
-		WindowAddAnchor(AdvancedBuff.WindowNameGood .. "Lock","topleft", AdvancedBuff.WindowNameGood .. "Context", "topright", -5, -5)
-	end
-	AdvancedBuff.HandleReAnchorBuffGood(1)
-	if isRotating and isRotating == 0 then
-		local goodX_new, goodY_new = WindowGetOffsetFromParent(AdvancedBuff.WindowNameGood .. "Context")
-		local gx, gy = WindowGetOffsetFromParent(AdvancedBuff.WindowNameGood)
-		WindowClearAnchors(AdvancedBuff.WindowNameGood)
-		WindowSetOffsetFromParent(AdvancedBuff.WindowNameGood, gx - (goodX_new - goodX), gy - (goodY_new - goodY))
-	end
-end
-
 function AdvancedBuff.Rotate()
-	if (direction == 1) then
+	if direction == 1 then
 		direction = 3
-	elseif (direction == 3) then
+	elseif direction == 3 then
 		direction = 5
-	elseif (direction == 5) then
+	elseif direction == 5 then
 		direction = 8
-	elseif (direction == 8) then
+	else
 		direction = 1
 	end
 	BuffDebuffSettings.windowDirection(direction)
-	AdvancedBuff.UpdateDirections(0)
+	UpdateDirections(direction)
 end
 
 function AdvancedBuff.ContextToolsTooltip()
