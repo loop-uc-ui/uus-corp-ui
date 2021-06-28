@@ -516,6 +516,7 @@ function Interface.LoadVariables()
 end
 
 function Interface.CreateWindows()
+	CSVUtilities.initialize()
 	CreateWindow( "ResizeWindow", true )
 	CreateWindow( "MainMenuWindow", false )
 	CreateWindow( "SettingsWindow", false )
@@ -1648,6 +1649,7 @@ function Interface.GetMobileData(mobileId, forceRegister)
 end
 
 function Interface.Shutdown()
+	CSVUtilities.shutdown()
 	QuickStats.Shutdown()
 	EquipmentData.Shutdown()
 	HotbarSystem.Shutdown()

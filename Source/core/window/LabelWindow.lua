@@ -15,8 +15,15 @@ function LabelWindow:setText(text)
         text = StringFormatter.toWString(text)
     end
     LabelApi.setText(self.id, text)
+    return self
 end
 
 function LabelWindow:setTextColor(color)
     LabelApi.setTextColor(self.id, color)
+    return self
+end
+
+function LabelWindow:setTextAlignment(alignment)
+    LabelApi.setTextAlignment(self.id, alignment)
+    return self
 end

@@ -10,7 +10,7 @@
                 <EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
             </EventHandlers>
             <Windows>
-                <DynamicImage name="$parentTextureIcon" texturescale="1.2" handleinput="false">
+                <DynamicImage name="$parentTextureIcon" texturescale="1.2" handleinput="false" layer="background">
                     <Size>
                         <AbsPoint x="38" y="38"/>
                     </Size>

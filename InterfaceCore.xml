@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Interface.xsd">
+    <Scripts>
+      <Script file="Source/LuaUtils.lua" />
+      <Script file="Source/WindowUtils.lua" />
+      <Script file="Source/StringUtils.lua" />
+      <Script file="Source/core/util/CSVUtilities.lua" />
+      <Script file="Source/EquipmentData.lua" />
+      <Script file="Source/Debug.lua" />
+      <Script file="Source/DebugWindow.lua" />
+      <Script file="Source/Tooltips.lua" />
+      <Script file="Source/ColorPickerWindow.lua" />
+      <Script file="Source/UO_DefaultWindow.lua" />
+      <Script file="Source/UO_StandardDialog.lua" />
+    </Scripts>
+
+    <!-- Assets -->
+    <Include file="Textures/CoreTextures.xml" />
+
+    <!-- Templates -->
+    <Include file="Source/UO_DefaultWindow.xml" />
+    <Include file="Source/UO_Default_UI_Templates.xml" />
+    <Include file="Source/CoreWindowTemplates.xml" />
+
+    <!-- Windows -->
+    <Include file="Source/UO_StandardDialog.xml"/>
+    <Include file="Source/ColorPickerWindow.xml" />
+    <Include file="Source/DebugWindow.xml" />
+    <Include file="Source/Tooltips.xml" />
+</Interface>

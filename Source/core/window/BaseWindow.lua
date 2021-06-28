@@ -3,6 +3,7 @@ BaseWindow = {}
 function BaseWindow:new(id)
     local this = {
         id = id,
+        time = TimeApi.getCurrentTime(),
         eventRegister = WindowEventRegister:new(id)
     }
     self.__index = self
@@ -79,10 +80,12 @@ end
 
 function BaseWindow:setId(id)
     WindowApi.setId(self.id, id)
+    return self
 end
 
 function BaseWindow:setMoving(isMoving)
     WindowApi.setMoving(self.id, isMoving)
+    return self
 end
 
 function BaseWindow:registerEventHandler(event, callback)
@@ -92,4 +95,37 @@ function BaseWindow:registerEventHandler(event, callback)
     WindowApi.registerEventHandler(self.id, event, callback)
     self.eventHandlers[callback] = event
     return self
+end
+
+function BaseWindow:startAlphaAnimation(
+        animType,
+        startAlpha,
+        endAlpha,
+        duration,
+        setStartBeforeDelay,
+        delay,
+        numLoop
+)
+    if not self.isAnimating then
+        self.isAnimating = true
+        WindowApi.startAlphaAnimation(self.id, animType, startAlpha, endAlpha, duration, setStartBeforeDelay, delay, numLoop)
+    end
+    return self
+end
+
+function BaseWindow:stopAlphaAnimation()
+    if self.isAnimating then
+        self.isAnimating = false
+        WindowApi.stopAlphaAnimation(self.id)
+    end
+    return self
+end
+
+function BaseWindow:setScale(scale)
+    WindowApi.setScale(self.id, scale)
+    return self
+end
+
+function BaseWindow:getScale()
+    return WindowApi.getScale(self.id)
 end

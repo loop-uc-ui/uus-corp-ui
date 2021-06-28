@@ -39,3 +39,7 @@ end
 function Buffs.toolTipVector()
     return WindowData.BuffDebuff.ToolTipWStringVector
 end
+
+function Buffs.csv()
+    return WindowData.BuffDataCSV
+end

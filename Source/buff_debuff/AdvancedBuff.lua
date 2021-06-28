@@ -14,14 +14,14 @@ local DOCKSPOT_TEXTURE = "AdvancedBuffDockspot"
 local ROTATE_BUTTON = "AdvancedBuffGoodContext"
 
 AdvancedBuff.ReverseOrderGood = {}
-AdvancedBuff.TableOrderGood = {}
+AdvancedBuff.Buffs = {}
 
 AdvancedBuff.PrevIconsGood = 0
 
 local function UpdateDirections(orientation)
 	local background = adapter.views[DOCKSPOT]
 	local rotateButton = adapter.views[ROTATE_BUTTON]
-	local lockButton = adapter.views["AdvancedBuffGoodLock"]
+	local lockButton = adapter.views[AdvancedBuff.id.."Lock"]
 
 	if orientation == 1 then
 		AdvancedBuff:setDimensions(106, 71)
@@ -70,7 +70,7 @@ local function UpdateDirections(orientation)
 	else
 		UpdateDirections(1)
 	end
-	AdvancedBuff.HandleReAnchorBuffGood(1)
+	AdvancedBuff.rotateIcon(1)
 end
 
 function AdvancedBuff.Initialize()
@@ -97,10 +97,10 @@ end
 
 function AdvancedBuff.Shutdown()
 	if (direction == 1 or direction == 3) then
-		local endIcons = table.getn(AdvancedBuff.TableOrderGood)
+		local endIcons = table.getn(AdvancedBuff.Buffs)
 		if (endIcons > 0) then
 			for i=1, endIcons do
-				BuffDebuff.HandleBuffRemoved(AdvancedBuff.TableOrderGood[i])
+				BuffDebuff.HandleBuffRemoved(AdvancedBuff.Buffs[i])
 			end
 		end
 	end
@@ -131,18 +131,18 @@ function AdvancedBuff.OnLButtonDown()
 	AdvancedBuff:onLeftClickDown()
 end
 
-function AdvancedBuff.HandleReAnchorBuffGood(position)
-	local endIcons = table.getn(AdvancedBuff.TableOrderGood)
+function AdvancedBuff.rotateIcon(position)
+	local endIcons = table.getn(AdvancedBuff.Buffs)
 	if (endIcons > 0) then
 		if (direction == 1) then
 			for i=position, endIcons do
-				iconName = "BuffDebuffIcon"..AdvancedBuff.TableOrderGood[i]
+				iconName = "BuffDebuffIcon"..AdvancedBuff.Buffs[i]
 				WindowClearAnchors(iconName)
-				AdvancedBuff.ReverseOrderGood[AdvancedBuff.TableOrderGood[i]] = i
+				AdvancedBuff.ReverseOrderGood[AdvancedBuff.Buffs[i]] = i
 				if i == 1 then					
 					WindowAddAnchor(iconName, "topright", AdvancedBuff.WindowNameGood, "topright", -20, 5)
 				else
-					WindowAddAnchor(iconName, "topleft", "BuffDebuffIcon" ..AdvancedBuff.TableOrderGood[i-1] , "topright", -5, 0)
+					WindowAddAnchor(iconName, "topleft", "BuffDebuffIcon" ..AdvancedBuff.Buffs[i-1] , "topright", -5, 0)
 				end
 				WindowClearAnchors(iconName.."TimerLabel")
 				WindowAddAnchor(iconName.."TimerLabel", "top", iconName, "bottom", 0, -2)
@@ -152,13 +152,13 @@ function AdvancedBuff.HandleReAnchorBuffGood(position)
 		elseif (direction == 3) then
 		
 			for i=position, endIcons do
-				iconName = "BuffDebuffIcon"..AdvancedBuff.TableOrderGood[i]
+				iconName = "BuffDebuffIcon"..AdvancedBuff.Buffs[i]
 				WindowClearAnchors(iconName)
-				AdvancedBuff.ReverseOrderGood[AdvancedBuff.TableOrderGood[i]] = i
+				AdvancedBuff.ReverseOrderGood[AdvancedBuff.Buffs[i]] = i
 				if i == 1 then					
 					WindowAddAnchor(iconName, "bottomleft", AdvancedBuff.WindowNameGood, "bottomleft", 18, -18)
 				else
-					WindowAddAnchor(iconName, "topleft", "BuffDebuffIcon" ..AdvancedBuff.TableOrderGood[i-1] , "bottomleft",0 , -5)
+					WindowAddAnchor(iconName, "topleft", "BuffDebuffIcon" ..AdvancedBuff.Buffs[i-1] , "bottomleft",0 , -5)
 				end
 				WindowClearAnchors(iconName.."TimerLabel")
 				WindowAddAnchor(iconName.."TimerLabel", "right", iconName, "left", 2, 0)
@@ -167,13 +167,13 @@ function AdvancedBuff.HandleReAnchorBuffGood(position)
 			AdvancedBuff.PrevIconsGood = endIcons			
 		elseif (direction == 5) then
 			for i=position, endIcons do
-				iconName = "BuffDebuffIcon"..AdvancedBuff.TableOrderGood[i]
+				iconName = "BuffDebuffIcon"..AdvancedBuff.Buffs[i]
 				WindowClearAnchors(iconName)
-				AdvancedBuff.ReverseOrderGood[AdvancedBuff.TableOrderGood[i]] = i
+				AdvancedBuff.ReverseOrderGood[AdvancedBuff.Buffs[i]] = i
 				if i == 1 then
 					WindowAddAnchor(iconName, "topleft", AdvancedBuff.WindowNameGood, "topleft", 20, 20)
 				else
-					WindowAddAnchor(iconName, "topright", "BuffDebuffIcon" ..AdvancedBuff.TableOrderGood[i-1] , "topleft", 5, 0)
+					WindowAddAnchor(iconName, "topright", "BuffDebuffIcon" ..AdvancedBuff.Buffs[i-1] , "topleft", 5, 0)
 				end
 				WindowClearAnchors(iconName.."TimerLabel")
 				WindowAddAnchor(iconName.."TimerLabel", "bottom", iconName, "top", 0, 2)
@@ -181,13 +181,13 @@ function AdvancedBuff.HandleReAnchorBuffGood(position)
 			end			
 		elseif (direction == 8) then
 			for i=position, endIcons do
-				iconName = "BuffDebuffIcon"..AdvancedBuff.TableOrderGood[i]
+				iconName = "BuffDebuffIcon"..AdvancedBuff.Buffs[i]
 				WindowClearAnchors(iconName)
-				AdvancedBuff.ReverseOrderGood[AdvancedBuff.TableOrderGood[i]] = i
+				AdvancedBuff.ReverseOrderGood[AdvancedBuff.Buffs[i]] = i
 				if i == 1 then					
 					WindowAddAnchor(iconName, "topright", AdvancedBuff.WindowNameGood, "topright", -20, 20)
 				else
-					WindowAddAnchor(iconName, "bottomleft", "BuffDebuffIcon" ..AdvancedBuff.TableOrderGood[i-1] , "topleft",0 , 5)
+					WindowAddAnchor(iconName, "bottomleft", "BuffDebuffIcon" ..AdvancedBuff.Buffs[i-1] , "topleft",0 , 5)
 				end
 				WindowClearAnchors(iconName.."TimerLabel")
 				WindowAddAnchor(iconName.."TimerLabel", "left", iconName, "right", -2, 0)

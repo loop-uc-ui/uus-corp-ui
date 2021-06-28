@@ -113,6 +113,8 @@
 		<Script file="Source/core/data/CurrentTarget.lua"/>
 		<Script file="Source/core/data/Cursor.lua"/>
 		<Script file="Source/core/data/PlayerStatus.lua"/>
+		<Script file="Source/core/api/TimeApi.lua"/>
+		<Script file="Source/core/api/CSVApi.lua"/>
 		<Script file="Source/core/api/DynamicImageApi.lua"/>
 		<Script file="Source/core/api/DragApi.lua"/>
 		<Script file="Source/core/api/TargetApi.lua"/>

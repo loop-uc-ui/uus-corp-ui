@@ -77,8 +77,6 @@ function BuffDebuff.retrieveBuffData( buffData )
 end
 
 function BuffDebuff.Initialize()
-	--Debug.Print("BuffDebuff.Initialize() ")
-	UOBuildTableFromCSV("Data/GameData/buffdata.csv", "BuffDataCSV")
 	RegisterWindowData(WindowData.BuffDebuff.Type, 0)
 	WindowRegisterEventHandler( "BuffDebuff", WindowData.BuffDebuff.Event, "BuffDebuff.ShouldCreateNewBuff")
 end
@@ -129,8 +127,8 @@ end
 function BuffDebuff.HandleBuffRemoved(buffId)
 	local iconName = "BuffDebuffIcon"..buffId
 	local position = AdvancedBuff.ReverseOrderGood[buffId]
-	table.remove(AdvancedBuff.TableOrderGood, position)
-	AdvancedBuff.HandleReAnchorBuffGood(1)
+	table.remove(AdvancedBuff.Buffs, position)
+	AdvancedBuff.rotateIcon(1)
 	-- Have to set this to nil since the buffId is removed from the table
 	BuffDebuff.ReverseOrder[buffId] = nil
 	BuffDebuff.BuffWindowId[buffId] = false
@@ -142,9 +140,9 @@ function BuffDebuff.HandleBuffRemoved(buffId)
 end
 
 function BuffDebuff.UpdateTimer(_)
-	local endNumber = table.getn(AdvancedBuff.TableOrderGood)
+	local endNumber = table.getn(AdvancedBuff.Buffs)
 	for i=1, endNumber do
-		local buffId = AdvancedBuff.TableOrderGood[i]
+		local buffId = AdvancedBuff.Buffs[i]
 		local parent = "BuffDebuff"
 		local iconName = parent.."Icon"..buffId
 		local timer = L" "
@@ -182,16 +180,16 @@ function BuffDebuff.CreateNewBuff()
 		-- Need to know the ordering so we can anchor the buffs correctly 
 		local parent = "BuffDebuff"
 		local iconName = parent.."Icon"..buffId
-		table.insert(AdvancedBuff.TableOrderGood, buffId)
+		table.insert(AdvancedBuff.Buffs, buffId)
 		CreateWindowFromTemplate(iconName, "BuffDebuffTemplate", "Root")
 		table.insert(BuffDebuff.TableOrder, buffId) 
 	
 		local scale = WindowGetScale( AdvancedBuff.WindowNameGood )
 		WindowSetScale(iconName, scale)
 		WindowSetId(iconName, buffId)
-		local numIcons = table.getn(AdvancedBuff.TableOrderGood)
+		local numIcons = table.getn(AdvancedBuff.Buffs)
 		AdvancedBuff.ReverseOrderGood[buffId] = numIcons
-		AdvancedBuff.HandleReAnchorBuffGood(numIcons)
+		AdvancedBuff.rotateIcon(numIcons)
 		BuffDebuff.BuffWindowId[buffId] = true
 		BuffDebuff.UpdateStatus(buffId)
 	else
@@ -253,7 +251,6 @@ end
 
 function BuffDebuff.Shutdown()
 	UnregisterWindowData(WindowData.BuffDebuff.Type, 0)
-	UOUnloadCSVTable("BuffDataCSV")
 end
 
 function BuffDebuff.UpdateStatus(iconId)
