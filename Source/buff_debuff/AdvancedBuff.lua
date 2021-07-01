@@ -74,6 +74,8 @@ local function UpdateDirections(orientation)
 end
 
 function AdvancedBuff.Initialize()
+	RegisterWindowData(WindowData.BuffDebuff.Type, 0)
+	WindowRegisterEventHandler( "BuffDebuff", WindowData.BuffDebuff.Event, "AdvancedBuff.addBuff")
 	adapter:addLock()
 			:addDynamicImage(DOCKSPOT, DOCKSPOT_TEXTURE, 3, 0)
 			:addButton(ROTATE_BUTTON)
@@ -195,4 +197,42 @@ function AdvancedBuff.rotateIcon(position)
 			end
 		end
 	end
+end
+
+function AdvancedBuff.addBuff()
+	local buffId = Buffs.id()
+	local csv = Buffs.csv()
+	local rowNum = CSVUtilities.getRowIdWithColumnValue(csv, "ServerId", buffId)
+	local textureId = rowNum and csv and csv[rowNum] and csv[rowNum].IconId or -1
+	local windowId = "BuffDebuffIcon"..buffId
+	local buff = textureId ~= -1 and not Buffs.isBeingRemoved() and adapter.views[windowId] == nil and BuffDebuffIcon:new(
+			textureId,
+			buffId,
+			Buffs.timer(),
+			Buffs.hasTimer(),
+			Buffs.isBeingRemoved(),
+			Buffs.nameVectorSize(),
+			Buffs.toolTipVectorSize(),
+			Buffs.nameVector(),
+			Buffs.toolTipVector()
+	) or adapter.views[windowId]
+	Debug.Print("test")
+	if buff ~= nil then
+		adapter.views[windowId] = buff
+	elseif buff ~=nil and (Buffs.isBeingRemoved() or TimeApi.getCurrentTime() >= buff.expireTime) then
+		adapter.views[windowId] = nil
+		buff:destroy()
+	else
+		adapter.views[windowId] = nil
+	end
+end
+
+function AdvancedBuff.getBuffs()
+	local buffs = {}
+	for key, value in pairs(adapter.views) do
+		if string.match(key, "BuffDebuff") then
+			buffs[key] = value
+		end
+	end
+	return buffs
 end

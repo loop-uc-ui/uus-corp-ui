@@ -166,7 +166,7 @@ function BuffDebuff.UpdateTimer(_)
 				timer = StringToWString(tostring(BuffDebuff.Timers[buffId])	.. "s")
 			end
 		end
-		LabelSetText(iconName.."TimerLabel",timer)
+		LabelSetText(iconName.."TimerLabel", WindowData.BuffDebuff.NameWStringVector[1])
 		local scale = WindowGetScale( AdvancedBuff.WindowNameGood )
 		WindowSetScale(iconName, scale)
 	end

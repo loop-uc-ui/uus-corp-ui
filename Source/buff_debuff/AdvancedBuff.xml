@@ -41,7 +41,7 @@
                         <AbsPoint x="0" y="0"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="StatusWindow">
+                        <Anchor point="right" relativePoint="right" relativeTo="$parent">
                             <AbsPoint x="91" y="57"/>
                         </Anchor>
                     </Anchors>

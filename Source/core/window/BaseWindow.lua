@@ -10,6 +10,10 @@ function BaseWindow:new(id)
     return setmetatable(this, self)
 end
 
+function BaseWindow:exists()
+    return WindowApi.doesExist(self.id)
+end
+
 function BaseWindow:setAlpha(alpha)
     WindowApi.setAlpha(self.id, alpha)
     return self
