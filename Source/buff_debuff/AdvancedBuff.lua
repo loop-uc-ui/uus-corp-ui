@@ -205,7 +205,8 @@ function AdvancedBuff.addBuff()
 	local rowNum = CSVUtilities.getRowIdWithColumnValue(csv, "ServerId", buffId)
 	local textureId = rowNum and csv and csv[rowNum] and csv[rowNum].IconId or -1
 	local windowId = "BuffDebuffIcon"..buffId
-	local buff = textureId ~= -1 and not Buffs.isBeingRemoved() and adapter.views[windowId] == nil and BuffDebuffIcon:new(
+	local buff = textureId ~= -1 and not Buffs.isBeingRemoved() and BuffDebuffIcon:new(
+			table.getn(AdvancedBuff.getBuffs()) + 1,
 			textureId,
 			buffId,
 			Buffs.timer(),
@@ -216,14 +217,16 @@ function AdvancedBuff.addBuff()
 			Buffs.nameVector(),
 			Buffs.toolTipVector()
 	) or adapter.views[windowId]
-	Debug.Print("test")
-	if buff ~= nil then
-		adapter.views[windowId] = buff
-	elseif buff ~=nil and (Buffs.isBeingRemoved() or TimeApi.getCurrentTime() >= buff.expireTime) then
-		adapter.views[windowId] = nil
+
+	--Overwrite the buff
+	if buff ~= nil and buff:exists() then
 		buff:destroy()
-	else
 		adapter.views[windowId] = nil
+	end
+
+	if buff ~= nil then
+		buff:create()
+		adapter.views[windowId] = buff
 	end
 end
 
@@ -231,8 +234,40 @@ function AdvancedBuff.getBuffs()
 	local buffs = {}
 	for key, value in pairs(adapter.views) do
 		if string.match(key, "BuffDebuff") then
-			buffs[key] = value
+			table.insert(buffs, value)
 		end
 	end
 	return buffs
+end
+
+function AdvancedBuff.updateBuffs()
+	local buffs = AdvancedBuff.getBuffs()
+	if #buffs <= 0 then
+		return
+	end
+
+	for i = 1, #buffs do
+		local buff = buffs[i]
+		local remainingTime = buff.timer - (TimeApi.getCurrentTime() - buff.time)
+		if remainingTime >= 0 then
+			buff:setTimerLabel(remainingTime)
+		end
+
+		if buff:getTimerLabel() ~= nil and remainingTime <= 10 and not buff.isAnimating then
+			buff:startAlphaAnimation(Window.AnimationType.LOOP, 0.1, 0.8, 0.8, false, 0, 0)
+			buff.isAnimating = true
+		end
+
+		if remainingTime < 0 then
+			ItemProperties.ClearMouseOverItem()
+			buff:stopAlphaAnimation()
+			buff.isAnimating = false
+			buff:destroy()
+			adapter.views[buff.id] = nil
+		end
+	end
+end
+
+function AdvancedBuff.onBuffMouseOver()
+	--Debug.Print("test")
 end

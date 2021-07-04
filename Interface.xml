@@ -108,12 +108,14 @@
 
 	<!-- Script Files -->
 	<Scripts>
+		<Script file="Source/core/data/ActiveWindow.lua"/>
 		<Script file="Source/core/data/Buffs.lua"/>
 		<Script file="Source/core/data/Drag.lua"/>
 		<Script file="Source/core/resources/Colors.lua"/>
 		<Script file="Source/core/data/CurrentTarget.lua"/>
 		<Script file="Source/core/data/Cursor.lua"/>
 		<Script file="Source/core/data/PlayerStatus.lua"/>
+		<Script file="Source/core/api/IconApi.lua"/>
 		<Script file="Source/core/api/TimeApi.lua"/>
 		<Script file="Source/core/api/CSVApi.lua"/>
 		<Script file="Source/core/api/DynamicImageApi.lua"/>

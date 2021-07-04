@@ -8,6 +8,7 @@
                 </Anchor>
             </Anchors>
             <EventHandlers>
+                <EventHandler event="OnUpdate" function="AdvancedBuff.updateBuffs"/>
                 <EventHandler event="OnInitialize" function="AdvancedBuff.Initialize"/>
                 <EventHandler event="OnLButtonDown" function="AdvancedBuff.OnLButtonDown"/>
                 <EventHandler event="OnShutdown" function="AdvancedBuff.Shutdown"/>
@@ -38,11 +39,11 @@
                 <Button name="$parentLock" layer="default" inherits="LockButton"/>
                 <Window name="BuffDebuff" layer="default">
                     <Size>
-                        <AbsPoint x="0" y="0"/>
+                        <AbsPoint x="38" y="38"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="right" relativePoint="right" relativeTo="$parent">
-                            <AbsPoint x="91" y="57"/>
+                        <Anchor point="right" relativePoint="right" relativeTo="$parentContext">
+                            <AbsPoint x="-14" y="-32"/>
                         </Anchor>
                     </Anchors>
                 </Window>

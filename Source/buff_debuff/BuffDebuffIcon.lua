@@ -21,6 +21,7 @@ local function formatTime(time)
 end
 
 function BuffDebuffIcon:new(
+        index,
         textureId,
         buffId,
         timer,
@@ -32,6 +33,8 @@ function BuffDebuffIcon:new(
         toolTipString
 )
     local this = {}
+    this.textureId = textureId
+    this.index = index
     this.id = BuffDebuffIcon.id..buffId
     this.buffId = buffId
     this.timer = timer
@@ -44,17 +47,62 @@ function BuffDebuffIcon:new(
     this.time = TimeApi.getCurrentTime()
     this.expireTime = timer and this.time + timer or timer
     this.adapter = WindowAdapter:new(this.id)
-    WindowApi.createFromTemplate(this.id, "BuffDebuffIcon", "BuffDebuff")
-    local texture, x, y = GetIconData(textureId)
-    this.adapter:addDynamicImage(this.id.."Texture", texture, x, y)
+    this.isAnimating = false
     self.__index = self
-    local meta = setmetatable(this, self)
-    meta:addTimerLabel()
-    return meta
+    return setmetatable(this, self)
 end
 
-function BuffDebuffIcon:addTimerLabel()
-    if self.timer ~= 0 then
-        self.adapter:addLabel(self.id.."TimerLabel", formatTime(self.expireTime - self.time))
+function BuffDebuffIcon:create()
+    WindowApi.createFromTemplate(self.id, "BuffDebuffIcon", "BuffDebuff")
+    local texture, x, y = IconApi.getIconData(self.textureId)
+    self.adapter:addDynamicImage(self.id.."Texture", texture, x, y)
+end
+
+function BuffDebuffIcon:setTimerLabel(time)
+    if self.timer > 0 and self.hasTimer then
+        self.adapter:addLabel(self.id.."TimerLabel", formatTime(time))
     end
+end
+
+function BuffDebuffIcon:getTimerLabel()
+    return self.adapter.views[self.id.."TimerLabel"]
+end
+
+function BuffDebuffIcon:anchor(index, orientation)
+    if orientation == 1 then
+
+    elseif orientation == 3 then
+
+    elseif orientation == 5 then
+
+    elseif orientation == 8 then
+
+    else
+        self:anchor(index, 1)
+    end
+end
+
+function BuffDebuffIcon.mouseOver()
+    local buffWindow = AdvancedBuff.adapter.views[ActiveWindow.name()]
+    local nameString = L""
+    for i = 1, buffWindow.nameVectorSize do
+        nameString = buffWindow.nameString[i]
+    end
+
+    local tooltipString = L""
+    for i = 1, buffWindow.toolTipVectorSize do
+        tooltipString = buffWindow.toolTipString[i]
+    end
+
+    local bodyText = WindowUtils.translateMarkup(tooltipString)
+    local itemData = {
+        windowName = buffWindow.id,
+        itemId = buffWindow.buffId,
+        itemType = WindowData.ItemProperties.TYPE_WSTRINGDATA,
+        binding = L"",
+        detail = nil,
+        title =	WindowUtils.translateMarkup(nameString),
+        body = bodyText
+    }
+    ItemProperties.SetActiveItem(itemData)
 end

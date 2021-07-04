@@ -133,3 +133,35 @@ end
 function BaseWindow:getScale()
     return WindowApi.getScale(self.id)
 end
+
+function BaseWindow:setUpdateFrequency(frequency)
+    WindowApi.setUpdateFrequency(self.id, frequency)
+    return self
+end
+
+function BaseWindow:startAlphaAnimationWindowApi(
+        animType,
+        startAlpha,
+        endAlpha,
+        duration,
+        setStartBeforeDelay,
+        delay,
+        numLoop
+)
+    WindowApi.startAlphaAnimation(
+            self.id,
+            animType,
+            startAlpha,
+            endAlpha,
+            duration,
+            setStartBeforeDelay,
+            delay,
+            numLoop
+    )
+    return self
+end
+
+function BaseWindow:stopAlphaAnimation()
+    WindowApi.stopAlphaAnimation(self.id)
+    return self
+end
