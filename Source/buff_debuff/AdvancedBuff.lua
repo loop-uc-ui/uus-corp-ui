@@ -70,7 +70,15 @@ local function UpdateDirections(orientation)
 	else
 		UpdateDirections(1)
 	end
-	AdvancedBuff.rotateIcon(1)
+
+	local buffs = AdvancedBuff.getBuffs()
+	for i = 1, #buffs do
+		if i == 1 then
+			buffs[i]:anchor(orientation)
+		else
+			buffs[i]:anchor(orientation, buffs[i - 1])
+		end
+	end
 end
 
 function AdvancedBuff.Initialize()
@@ -102,7 +110,7 @@ function AdvancedBuff.Shutdown()
 		local endIcons = table.getn(AdvancedBuff.Buffs)
 		if (endIcons > 0) then
 			for i=1, endIcons do
-				BuffDebuff.HandleBuffRemoved(AdvancedBuff.Buffs[i])
+				--BuffDebuff.HandleBuffRemoved(AdvancedBuff.Buffs[i])
 			end
 		end
 	end
@@ -131,72 +139,6 @@ end
 
 function AdvancedBuff.OnLButtonDown()
 	AdvancedBuff:onLeftClickDown()
-end
-
-function AdvancedBuff.rotateIcon(position)
-	local endIcons = table.getn(AdvancedBuff.Buffs)
-	if (endIcons > 0) then
-		if (direction == 1) then
-			for i=position, endIcons do
-				iconName = "BuffDebuffIcon"..AdvancedBuff.Buffs[i]
-				WindowClearAnchors(iconName)
-				AdvancedBuff.ReverseOrderGood[AdvancedBuff.Buffs[i]] = i
-				if i == 1 then					
-					WindowAddAnchor(iconName, "topright", AdvancedBuff.WindowNameGood, "topright", -20, 5)
-				else
-					WindowAddAnchor(iconName, "topleft", "BuffDebuffIcon" ..AdvancedBuff.Buffs[i-1] , "topright", -5, 0)
-				end
-				WindowClearAnchors(iconName.."TimerLabel")
-				WindowAddAnchor(iconName.."TimerLabel", "top", iconName, "bottom", 0, -2)
-				LabelSetTextAlign(iconName.."TimerLabel", "center")
-			end			
-			AdvancedBuff.PrevIconsGood = endIcons			
-		elseif (direction == 3) then
-		
-			for i=position, endIcons do
-				iconName = "BuffDebuffIcon"..AdvancedBuff.Buffs[i]
-				WindowClearAnchors(iconName)
-				AdvancedBuff.ReverseOrderGood[AdvancedBuff.Buffs[i]] = i
-				if i == 1 then					
-					WindowAddAnchor(iconName, "bottomleft", AdvancedBuff.WindowNameGood, "bottomleft", 18, -18)
-				else
-					WindowAddAnchor(iconName, "topleft", "BuffDebuffIcon" ..AdvancedBuff.Buffs[i-1] , "bottomleft",0 , -5)
-				end
-				WindowClearAnchors(iconName.."TimerLabel")
-				WindowAddAnchor(iconName.."TimerLabel", "right", iconName, "left", 2, 0)
-				LabelSetTextAlign(iconName.."TimerLabel", "left")
-			end			
-			AdvancedBuff.PrevIconsGood = endIcons			
-		elseif (direction == 5) then
-			for i=position, endIcons do
-				iconName = "BuffDebuffIcon"..AdvancedBuff.Buffs[i]
-				WindowClearAnchors(iconName)
-				AdvancedBuff.ReverseOrderGood[AdvancedBuff.Buffs[i]] = i
-				if i == 1 then
-					WindowAddAnchor(iconName, "topleft", AdvancedBuff.WindowNameGood, "topleft", 20, 20)
-				else
-					WindowAddAnchor(iconName, "topright", "BuffDebuffIcon" ..AdvancedBuff.Buffs[i-1] , "topleft", 5, 0)
-				end
-				WindowClearAnchors(iconName.."TimerLabel")
-				WindowAddAnchor(iconName.."TimerLabel", "bottom", iconName, "top", 0, 2)
-				LabelSetTextAlign(iconName.."TimerLabel", "center")
-			end			
-		elseif (direction == 8) then
-			for i=position, endIcons do
-				iconName = "BuffDebuffIcon"..AdvancedBuff.Buffs[i]
-				WindowClearAnchors(iconName)
-				AdvancedBuff.ReverseOrderGood[AdvancedBuff.Buffs[i]] = i
-				if i == 1 then					
-					WindowAddAnchor(iconName, "topright", AdvancedBuff.WindowNameGood, "topright", -20, 20)
-				else
-					WindowAddAnchor(iconName, "bottomleft", "BuffDebuffIcon" ..AdvancedBuff.Buffs[i-1] , "topleft",0 , 5)
-				end
-				WindowClearAnchors(iconName.."TimerLabel")
-				WindowAddAnchor(iconName.."TimerLabel", "left", iconName, "right", -2, 0)
-				LabelSetTextAlign(iconName.."TimerLabel", "right")
-			end
-		end
-	end
 end
 
 function AdvancedBuff.addBuff()
@@ -254,20 +196,16 @@ function AdvancedBuff.updateBuffs()
 		end
 
 		if buff:getTimerLabel() ~= nil and remainingTime <= 10 and not buff.isAnimating then
-			buff:startAlphaAnimation(Window.AnimationType.LOOP, 0.1, 0.8, 0.8, false, 0, 0)
+			buff:getIcon():startAlphaAnimation(Window.AnimationType.LOOP, 0.1, 0.8, 0.8, false, 0, 0)
 			buff.isAnimating = true
 		end
 
 		if remainingTime < 0 then
 			ItemProperties.ClearMouseOverItem()
-			buff:stopAlphaAnimation()
+			buff:getIcon():stopAlphaAnimation()
 			buff.isAnimating = false
 			buff:destroy()
 			adapter.views[buff.id] = nil
 		end
 	end
-end
-
-function AdvancedBuff.onBuffMouseOver()
-	--Debug.Print("test")
 end

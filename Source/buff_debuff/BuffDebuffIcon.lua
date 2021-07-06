@@ -68,17 +68,59 @@ function BuffDebuffIcon:getTimerLabel()
     return self.adapter.views[self.id.."TimerLabel"]
 end
 
-function BuffDebuffIcon:anchor(index, orientation)
+function BuffDebuffIcon:getIcon()
+    return self.adapter.views[self.id.."Texture"]
+end
+
+function BuffDebuffIcon:anchor(orientation, previous)
+    local timerLabel = self:getTimerLabel()
+    if timerLabel ~= nil then
+        timerLabel:clearAnchors()
+    end
+    self:clearAnchors()
+
     if orientation == 1 then
+        if previous == nil then
+            self:addAnchor("topright", AdvancedBuff.id, "topright", -20, 5)
+        else
+           self:addAnchor("topleft", previous.id, "topright", -5, 0)
+        end
 
+        if timerLabel ~= nil then
+            timerLabel:addAnchor("top", self.id, "bottom", 0, -2)
+        end
     elseif orientation == 3 then
+        if previous == nil then
+           self:addAnchor("bottomleft", AdvancedBuff.id, "bottomleft", 18, -18)
+        else
+            self:addAnchor("topleft", previous.id , "bottomleft",0 , -5)
+        end
 
+        if timerLabel ~= nil then
+            timerLabel:addAnchor("right", self.id, "left", 2, 0)
+        end
     elseif orientation == 5 then
+        if previous == nil then
+            self:addAnchor("topleft", AdvancedBuff.id, "topleft", 20, 20)
+        else
+            self:addAnchor("topright", previous.id, "topleft", 5, 0)
+        end
 
+        if timerLabel ~= nil then
+            timerLabel:addAnchor("bottom", self.id, "top", 0, 2)
+        end
     elseif orientation == 8 then
+        if previous == nil then
+            self:addAnchor("topright", AdvancedBuff.id, "topright", -20, 20)
+        else
+            self:addAnchor("bottomleft", previous.id, "topleft",0 , 5)
+        end
 
+        if timerLabel ~= nil then
+            timerLabel:addAnchor("left", self.id, "right", -2, 0)
+        end
     else
-        self:anchor(index, 1)
+        self:anchor(1, previous)
     end
 end
 

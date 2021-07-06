@@ -48,7 +48,6 @@
 	<Include file="Source/CharacterAbilities.xml" />
 	<Include file="Source/ItemProperties.xml" />
 	<Include file="Source/PetWindow.xml" />
-	<Include file="Source/buff_debuff/BuffDebuffWindow.xml" />
 	<Include file="Source/buff_debuff/BuffDebuffIcon.xml" />
 	<Include file="Source/GenericQuantity.xml" />
 	<Include file="Source/Shopkeeper.xml" />
@@ -174,7 +173,6 @@
 		<Script file="Source/MacroPickerWindow.lua" />
 		<Script file="Source/MacroWindow.lua" />
 		<Script file="Source/buff_debuff/BuffDebuffSettings.lua"/>
-		<Script file="Source/buff_debuff/BuffDebuffWindow.lua" />
 		<Script file="Source/buff_debuff/BuffDebuffIcon.lua" />
 		<Script file="Source/buff_debuff/AdvancedBuff.lua" />
 		<Script file="Source/DamageWindow.lua" />
