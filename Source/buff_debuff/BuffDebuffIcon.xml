@@ -25,11 +25,18 @@
                         <AbsPoint x="44" y="10"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="top" relativePoint="top" relativeTo="$parent">
-                            <AbsPoint x="0" y="-20"/>
+                        <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent">
+                            <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
                 </Label>
+
+                <FullResizeImage name="$parentTimerLabelBackground" inherits="UO_Simple_Black_Background" alpha="0.33">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTimerLabel"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTimerLabel"/>
+                    </Anchors>
+                </FullResizeImage>
             </Windows>
         </Window>
     </Windows>
