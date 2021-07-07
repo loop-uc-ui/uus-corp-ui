@@ -54,6 +54,7 @@ function BuffDebuffIcon:create()
     WindowApi.createFromTemplate(self.id, "BuffDebuffIcon", "BuffDebuff")
     local texture, x, y = IconApi.getIconData(self.textureId)
     self.adapter:addDynamicImage(self.id.."Texture", texture, x, y)
+    self:setTimerLabel(self:getRemainingTime())
 end
 
 function BuffDebuffIcon:setTimerLabel(time)
@@ -116,4 +117,8 @@ function BuffDebuffIcon.mouseOver()
         body = bodyText
     }
     ItemProperties.SetActiveItem(itemData)
+end
+
+function BuffDebuffIcon:getRemainingTime()
+    return self.timer - (TimeApi.getCurrentTime() - self.time)
 end

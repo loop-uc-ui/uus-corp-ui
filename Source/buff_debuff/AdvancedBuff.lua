@@ -86,7 +86,7 @@ end
 
 function AdvancedBuff.Initialize()
 	RegisterWindowData(WindowData.BuffDebuff.Type, 0)
-	WindowRegisterEventHandler( "BuffDebuff", WindowData.BuffDebuff.Event, "AdvancedBuff.addBuff")
+	WindowRegisterEventHandler( AdvancedBuff.id, WindowData.BuffDebuff.Event, "AdvancedBuff.addBuff")
 	adapter:addLock()
 			:addDynamicImage(DOCKSPOT, DOCKSPOT_TEXTURE, 3, 0)
 			:addButton(ROTATE_BUTTON)
@@ -155,12 +155,18 @@ function AdvancedBuff.addBuff()
 	) or adapter.views[windowId]
 
 	--Overwrite the buff
-	if buff ~= nil and buff:exists() then
+	if buff ~= nil and (buff:exists() or Buffs.isBeingRemoved()) then
+		ItemProperties.ClearMouseOverItem()
+		if buff.isAnimating then
+			buff:getIcon():stopAlphaAnimation()
+			buff.isAnimating = false
+		end
 		buff:destroy()
 		adapter.views[windowId] = nil
+		anchorBuffs(orientation)
 	end
 
-	if buff ~= nil then
+	if buff ~= nil and not Buffs.isBeingRemoved() then
 		buff:create()
 		adapter.views[windowId] = buff
 		anchorBuffs(orientation)
@@ -185,7 +191,7 @@ function AdvancedBuff.updateBuffs()
 
 	for i = 1, #buffs do
 		local buff = buffs[i]
-		local remainingTime = buff.timer - (TimeApi.getCurrentTime() - buff.time)
+		local remainingTime = buff:getRemainingTime()
 		if remainingTime >= 0 then
 			buff:setTimerLabel(remainingTime)
 		end
@@ -193,15 +199,6 @@ function AdvancedBuff.updateBuffs()
 		if buff:getTimerLabel() ~= nil and remainingTime <= 10 and not buff.isAnimating then
 			buff:getIcon():startAlphaAnimation(Window.AnimationType.LOOP, 0.1, 0.8, 0.8, false, 0, 0)
 			buff.isAnimating = true
-		end
-
-		if remainingTime < 0 then
-			ItemProperties.ClearMouseOverItem()
-			buff:getIcon():stopAlphaAnimation()
-			buff.isAnimating = false
-			buff:destroy()
-			adapter.views[buff.id] = nil
-			anchorBuffs(orientation)
 		end
 	end
 end
