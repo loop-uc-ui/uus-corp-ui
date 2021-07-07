@@ -7,11 +7,14 @@ AdvancedBuff = ListWindow:new("AdvancedBuffGood", false)
 local adapter = AdvancedBuff.adapter
 
 local orientation = 0
+
 local DOCKSPOT = "AdvancedBuffGoodImage"
+
 local DOCKSPOT_TEXTURE = "AdvancedBuffDockspot"
+
 local ROTATE_BUTTON = "AdvancedBuffGoodContext"
 
-local function anchorBuffs()
+local function anchorBuffs(newOrientation)
 	local buffs = AdvancedBuff.getBuffs()
 	if #buffs <= 0 then
 		return
@@ -78,7 +81,7 @@ local function rotate(newOrientation)
 	else
 		rotate(1)
 	end
-	anchorBuffs()
+	anchorBuffs(newOrientation)
 end
 
 function AdvancedBuff.Initialize()
@@ -160,7 +163,7 @@ function AdvancedBuff.addBuff()
 	if buff ~= nil then
 		buff:create()
 		adapter.views[windowId] = buff
-		anchorBuffs()
+		anchorBuffs(orientation)
 	end
 end
 
@@ -198,7 +201,7 @@ function AdvancedBuff.updateBuffs()
 			buff.isAnimating = false
 			buff:destroy()
 			adapter.views[buff.id] = nil
-			anchorBuffs()
+			anchorBuffs(orientation)
 		end
 	end
 end
