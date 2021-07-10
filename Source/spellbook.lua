@@ -198,19 +198,19 @@ function Spellbook.SpellContext()
 			for _, tab in pairs(SpellsInfo.SpellsData) do
 				if tab.id >= 678 and tab.id <= 700 and tab.spellTrigger then
 					
-					local _, abilityServerId, tid, _, _, _, _, minskill, _ = GetAbilityData(tab.id)
-					skillId = 37
-					skillIdsec = 26 -- imbuing
-					skillIdthi= 21 -- focus
+					local _, _, tid, _, _, _, _, minskill, _ = GetAbilityData(tab.id)
+					local skillId = 37
+					local skillIdsec = 26 -- imbuing
+					local skillIdthi= 21 -- focus
 					
-					abilityServerId = WindowData.SkillsCSV[skillId].ServerId
-					local mainSkillLevel = WindowData.SkillDynamicData[abilityServerId].TempSkillValue / 10
+					serverId = WindowData.SkillsCSV[skillId].ServerId
+					local mainSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 					
-					abilityServerId = WindowData.SkillsCSV[skillIdsec].ServerId
-					local secondSkillLevel = WindowData.SkillDynamicData[abilityServerId].TempSkillValue / 10
+					serverId = WindowData.SkillsCSV[skillIdsec].ServerId
+					local secondSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 					
-					abilityServerId = WindowData.SkillsCSV[skillIdthi].ServerId
-					local tempSkillLevel = WindowData.SkillDynamicData[abilityServerId].TempSkillValue / 10
+					serverId = WindowData.SkillsCSV[skillIdthi].ServerId
+					local tempSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 					secondSkillLevel = math.max(tempSkillLevel,secondSkillLevel)
 					local cando = 1
 					if minskill <= 20 or (minskill <= mainSkillLevel and minskill <= secondSkillLevel) then
@@ -387,10 +387,9 @@ function Spellbook.UpdateSpells()
             Spellbook[id].numTabs = numTabs
             
             -- Displays Tabs on Top
-
-            if not(Spellbook.IsMasteryBook(id)) then
-            	Spellbook.CreateTabs(this, Spellbook[id].numTabs)
-            end
+			if not(Spellbook.IsMasteryBook(id)) then
+				Spellbook.CreateTabs(this, Spellbook[id].numTabs)
+			end
 			
 			
 			Spellbook[id].tabsCreated = true
@@ -444,13 +443,7 @@ function Spellbook.UpdateSpells()
         local xSize, ySize
 		local scale = 2.0
 		texture, xSize, ySize = RequestGumpArt( texture )
-		local textureSize = xSize
-		
-		if (textureSize < ySize) then
-			textureSize = ySize
-		end
-		
-		
+
 		WindowSetDimensions(  this, (xSize * scale), (ySize * scale) + 20 )
 		WindowSetDimensions(  this.."LegacyBook", xSize * scale, ySize * scale )
 		DynamicImageSetTexture( this.."LegacyBook", texture, 0, 0 )
@@ -1011,9 +1004,9 @@ end
 
 function Spellbook.OnMasteryUpdate(windowName)
 	local objectId = WindowGetId(windowName)    
-    if Spellbook.IsMasteryBook(objectId) then	
-    	if(Spellbook.UpdateMasteryBook == 0)then--if (Spellbook[objectId].lastUpdate < Spellbook.DeltaRefresh)then    		
-    		return
+    if Spellbook.IsMasteryBook(objectId) then
+		if(Spellbook.UpdateMasteryBook == 0) then
+			return
 		end
 
 		local currentMastery = 0
