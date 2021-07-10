@@ -750,9 +750,6 @@ function Hotbar.ItemMouseOver()
 	if manacost and WindowData.PlayerStatus then
 		lmcMana = math.floor(manacost - (manacost * (tonumber(WindowData.PlayerStatus["LowerManaCost"]) / 100)))
 	end
-	if BuffDebuff.BuffWindowId[1104] then -- Mana Phase
-		lmcMana = 0
-	end
 	if type == SystemData.UserAction.TYPE_SKILL and idC ~= 9 then
 		noSelf=true
 	end
@@ -889,15 +886,9 @@ function Hotbar.ItemMouseOver()
 				if r == 0 and g == 0 and b == 255 then
 					if actionType == SystemData.UserAction.TYPE_WEAPON_ABILITY then
 						local mana = AbilitiesInfo.GetManaCost(abilityId)
-						if BuffDebuff.BuffWindowId[1104] then -- Mana Phase
-							mana = 0
-						end
 						desc = desc .. L"\n" .. ReplaceTokens(GetStringFromTid(1060181), { towstring(mana) } ) .. L"\n"
 					elseif actionType == SystemData.UserAction.TYPE_SPELL then
 						lmcMana = math.floor(mCost - (mCost * (tonumber(WindowData.PlayerStatus["LowerManaCost"]) / 100)))
-						if BuffDebuff.BuffWindowId[1104] then -- Mana Phase
-							lmcMana = 0
-						end
 						desc = desc .. L"\n" .. ReplaceTokens(GetStringFromTid(1060181), { towstring(lmcMana) } ) .. L"\n"
 					end
 				else
@@ -915,25 +906,25 @@ function Hotbar.ItemMouseOver()
 						end
 					end
 					
-					if (actionType == SystemData.UserAction.TYPE_WEAPON_ABILITY and EquipmentData.GetWeaponAbilityId(id) == 22 ) and not (BuffDebuff.BuffWindowId[1054] or IsRiding()) then
+					if (actionType == SystemData.UserAction.TYPE_WEAPON_ABILITY and EquipmentData.GetWeaponAbilityId(id) == 22 ) and not IsRiding() then
 						desc = desc .. L"\n" .. GetStringFromTid(1070770) .. L"\n"
-					elseif (actionType == SystemData.UserAction.TYPE_WEAPON_ABILITY and EquipmentData.GetWeaponAbilityId(id) == 6 ) and (BuffDebuff.BuffWindowId[1054] or IsRiding()) and not lance then
+					elseif (actionType == SystemData.UserAction.TYPE_WEAPON_ABILITY and EquipmentData.GetWeaponAbilityId(id) == 6 ) and IsRiding() and not lance then
 						desc = desc .. L"\n" .. GetStringFromTid(1061283) .. L"\n"
-					elseif (abilityId == 56 or abilityId == 106 or abilityId == 107 or abilityId == 116 or abilityId == 609 or abilityId == 613 or abilityId == 685 or abilityId == 508 ) and BuffDebuff.BuffWindowId[1054] then
+					elseif (abilityId == 56 or abilityId == 106 or abilityId == 107 or abilityId == 116 or abilityId == 609 or abilityId == 613 or abilityId == 685 or abilityId == 508 ) then
 						desc = desc .. L"\n" .. GetStringFromTid(1113415) .. L"\n"
-					elseif abilityId == 604 and BuffDebuff.Timers[1021] and actionType == SystemData.UserAction.TYPE_SPELL then
+					elseif abilityId == 604 and actionType == SystemData.UserAction.TYPE_SPELL then
 						desc = desc .. L"\n" .. GetStringFromTid(1005417) .. L"\n"
-					elseif abilityId == 613 and BuffDebuff.Timers[1024] and actionType == SystemData.UserAction.TYPE_SPELL then
+					elseif abilityId == 613 and actionType == SystemData.UserAction.TYPE_SPELL then
 						desc = desc .. L"\n" .. GetStringFromTid(1005417) .. L"\n"
-					elseif abilityId == 681 and BuffDebuff.Timers[1091] and actionType == SystemData.UserAction.TYPE_SPELL then
+					elseif abilityId == 681 and actionType == SystemData.UserAction.TYPE_SPELL then
 						desc = desc .. L"\n" .. GetStringFromTid(501775) .. L"\n"
 					elseif (actionType == SystemData.UserAction.TYPE_WEAPON_ABILITY or actionType == SystemData.UserAction.TYPE_SPELL) and IsPlayerDead() then
 						desc = desc .. L"\n" .. GetStringFromTid(1060169) .. L"\n"
 					elseif (actionType == SystemData.UserAction.TYPE_WEAPON_ABILITY or actionType == SystemData.UserAction.TYPE_SPELL) and Interface.CurrentSpell.casting then	
 						desc = desc .. L"\n" .. GetStringFromTid(502165) .. L"\n"
-					elseif (actionType == SystemData.UserAction.TYPE_SPELL) and (HotbarSystem.StunTime > 0 or BuffDebuff.Timers[1037]) then	
+					elseif (actionType == SystemData.UserAction.TYPE_SPELL) and HotbarSystem.StunTime > 0 then
 						desc = desc .. L"\n" .. GetStringFromTid(502646) .. L"\n"
-					elseif (actionType == SystemData.UserAction.TYPE_WEAPON_ABILITY) and (HotbarSystem.StunTime > 0 or BuffDebuff.Timers[1037]) then	
+					elseif (actionType == SystemData.UserAction.TYPE_WEAPON_ABILITY) and HotbarSystem.StunTime > 0 then
 						desc = desc .. L"\n" .. GetStringFromTid(1060170) .. L"\n"
 					elseif actionType == SystemData.UserAction.TYPE_WEAPON_ABILITY then
 						 if not AbilitiesInfo.CanUse(abilityId) then

@@ -1124,16 +1124,16 @@ function HotbarSystem.Update(timePassed)
 								HotbarSystem.UpdateCooldownSlot(element, HotbarSystem.ReflectionCooldown, 30)
 							end
 
-							if (id == 56 or id == 106 or id == 107 or id == 116 or id == 609 or id == 613 or id == 685 or id == 508 ) and BuffDebuff.BuffWindowId[1054] then -- FLYING RESTRICTIONS
+							if (id == 56 or id == 106 or id == 107 or id == 116 or id == 609 or id == 613 or id == 685 or id == 508 ) then -- FLYING RESTRICTIONS
 								WindowSetShowing(element.."Disabled",true)
 								WindowSetShowing(element.."Alert",false)
-							elseif id == 604 and BuffDebuff.Timers[1021] then -- ATTUNE_WEAPON
+							elseif id == 604 then -- ATTUNE_WEAPON
 								WindowSetShowing(element.."Disabled",true)
 								WindowSetShowing(element.."Alert",false)
-							elseif id == 613 and BuffDebuff.Timers[1024] then -- ETHEREAL_VOYAGE
+							elseif id == 613 then -- ETHEREAL_VOYAGE
 								WindowSetShowing(element.."Disabled",true)
 								WindowSetShowing(element.."Alert",false)
-							elseif id == 681 and BuffDebuff.Timers[1091] then -- ENCHANT
+							elseif id == 681 then -- ENCHANT
 								WindowSetShowing(element.."Disabled",true)
 								WindowSetShowing(element.."Alert",false)
 							elseif Interface.CurrentSpell.casting then
@@ -1203,10 +1203,10 @@ function HotbarSystem.Update(timePassed)
 								end
 								UnregisterWindowData(WindowData.ObjectInfo.Type, mhandId)
 							end
-							if (EquipmentData.GetWeaponAbilityId(id) == 22 ) and not (BuffDebuff.BuffWindowId[1054] or IsRiding()) then
+							if (EquipmentData.GetWeaponAbilityId(id) == 22 ) and not IsRiding() then
 								WindowSetShowing(element.."Disabled",true)
 								WindowSetShowing(element.."Alert",false)
-							elseif (EquipmentData.GetWeaponAbilityId(id) == 6 ) and (BuffDebuff.BuffWindowId[1054] or IsRiding()) and not lance then
+							elseif (EquipmentData.GetWeaponAbilityId(id) == 6 ) and IsRiding() and not lance then
 								WindowSetShowing(element.."Disabled",true)
 								WindowSetShowing(element.."Alert",false)
 							elseif IsPlayerDead() then
