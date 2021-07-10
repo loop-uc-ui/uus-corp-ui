@@ -131,7 +131,7 @@ function Spellbook.SpellContext()
     local index = WindowGetId(SystemData.ActiveWindow.name)
     local curSpell = (page-1)*Spellbook.numSpellsPerTab[data.firstSpellNum] + index + data.firstSpellNum - 1
 
-    local icon, serverId = GetAbilityData(curSpell)
+    local _, serverId = GetAbilityData(curSpell)
     
     if( serverId ~= nil ) then
 		if serverId == 681 then
@@ -198,19 +198,19 @@ function Spellbook.SpellContext()
 			for _, tab in pairs(SpellsInfo.SpellsData) do
 				if tab.id >= 678 and tab.id <= 700 and tab.spellTrigger then
 					
-					local _, serverId, tid, _, _, _, _, minskill, _ = GetAbilityData(tab.id)
+					local _, abilityServerId, tid, _, _, _, _, minskill, _ = GetAbilityData(tab.id)
 					skillId = 37
 					skillIdsec = 26 -- imbuing
 					skillIdthi= 21 -- focus
 					
-					serverId = WindowData.SkillsCSV[skillId].ServerId
-					local mainSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
+					abilityServerId = WindowData.SkillsCSV[skillId].ServerId
+					local mainSkillLevel = WindowData.SkillDynamicData[abilityServerId].TempSkillValue / 10
 					
-					serverId = WindowData.SkillsCSV[skillIdsec].ServerId
-					local secondSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
+					abilityServerId = WindowData.SkillsCSV[skillIdsec].ServerId
+					local secondSkillLevel = WindowData.SkillDynamicData[abilityServerId].TempSkillValue / 10
 					
-					serverId = WindowData.SkillsCSV[skillIdthi].ServerId
-					local tempSkillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
+					abilityServerId = WindowData.SkillsCSV[skillIdthi].ServerId
+					local tempSkillLevel = WindowData.SkillDynamicData[abilityServerId].TempSkillValue / 10
 					secondSkillLevel = math.max(tempSkillLevel,secondSkillLevel)
 					local cando = 1
 					if minskill <= 20 or (minskill <= mainSkillLevel and minskill <= secondSkillLevel) then
@@ -227,7 +227,6 @@ function Spellbook.SpellContext()
 			
 			ContextMenu.CreateLuaContextMenuItemWithString(WindowUtils.translateMarkup(GetStringFromTid(1080151)),0,0,"null",false,subMenu)
 		elseif type == SystemData.UserAction.TYPE_SPELL  and actionId == 56 then -- polymorph
-			local element = "Hotbar"..hotbarId.."Button"..itemIndex
 			local press = Interface.ForcePolymorph
 
 			local subMenu = {
@@ -302,7 +301,6 @@ end
 function Spellbook.UpdateTithing()
 	local this = WindowUtils.GetActiveDialog()
 	local id = WindowGetId(this)
-	local data = WindowData.Spellbook[id]
 	--If it is a paladin/chivarlry spellbook show the updated tithing points
 	if (WindowData.Spellbook[id].firstSpellNum == 201) then -- PALADIN/CHIVALRY
 		local tithingName = "Spellbook_"..id.."Tithing"
@@ -398,7 +396,7 @@ function Spellbook.UpdateSpells()
 			Spellbook[id].tabsCreated = true
 			local buttonId = 1
 			for i = data.firstSpellNum, data.firstSpellNum + Spellbook.numSpellsPerTab[data.firstSpellNum] do
-				local icon, serverId, tid = GetAbilityData(i)
+				local _, serverId, tid = GetAbilityData(i)
 				if(tid ~= nil and tid > 0) then
 					Spellbook.RegisterSpellIcon(id, buttonId, serverId)
 					buttonId = buttonId + 1    
@@ -565,7 +563,6 @@ function Spellbook.InitMasteryIndexTab()
 
 	local id = WindowGetId(this)
     local data = WindowData.Spellbook[id]
-    local scl = WindowGetScale(this)	
 	local lastShownIdx = 0
 	
 	local abilityId
@@ -643,7 +640,7 @@ function Spellbook.InitMasteryIndexTab()
 	lastShownIdx = 0
 	for i=1, Spellbook.MASTERY_COUNT do
 		
-		local abilityId = data.firstSpellNum + i - 1
+		abilityId = data.firstSpellNum + i - 1
 		local currentWindowName = baseItemName.."All"..i
 		if (DoesWindowExist(currentWindowName)) then
 			DestroyWindow(currentWindowName)
@@ -767,7 +764,7 @@ function Spellbook.SpellLButtonUp()
 		curSpell = index
 	end   
 
-    local icon, serverId = GetAbilityData(curSpell)
+    local _, serverId = GetAbilityData(curSpell)
 
     if( serverId ~= nil ) then
 		UserActionCastSpell(serverId)
@@ -793,7 +790,7 @@ function Spellbook.SpellMouseOver()
 		curSpell = index		
 	end
 
-    local icon, serverId, tid, desctid, reagents, powerword, tithingcost, minskill, manacost  = GetAbilityData(curSpell)
+    local _, serverId, _, _, reagents, _, tithingcost, minskill, manacost  = GetAbilityData(curSpell)
     local reagentsStr = L""
     local tithingStr = L""
     local minskillStr = L"<BR>"
@@ -856,7 +853,7 @@ function Spellbook.SpellMouseOver()
 	
 	
 	if (curSpell < 701) then
-		local serverId = WindowData.SkillsCSV[skillId].ServerId
+		serverId = WindowData.SkillsCSV[skillId].ServerId
 		skillLevel = WindowData.SkillDynamicData[serverId].TempSkillValue / 10
 	end
 	

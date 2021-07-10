@@ -29,7 +29,7 @@ ItemsInfo.Reagents = {
 }
 
 
-function GetCooldown(type, hue)
+function GetCooldown(type, _)
 	for i = 1, #ItemsInfo.Data do
 		for j=1, #ItemsInfo.Data[i].types do
 			if ItemsInfo.Data[i].types[j] == type then
