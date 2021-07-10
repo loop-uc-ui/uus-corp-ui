@@ -1766,16 +1766,6 @@ function HasAccessibleInventory(mobileId)
 	return false
 end
 
-function IsPlayerParalyzed()
-	
-	return BuffDebuff.BuffWindowId[1037]
-end
-
-function IsPlayerInvisible()
-	
-	return BuffDebuff.BuffWindowId[1036] or BuffDebuff.BuffWindowId[1012]
-end
-
 function WindowUtils.DrawObjectIcon(objectType, hueId, elementIcon, w, h, scl)
 	if not w or not h then
 		w, h = WindowGetDimensions(elementIcon)

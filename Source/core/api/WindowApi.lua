@@ -463,3 +463,7 @@ end
 function WindowApi.restoreDefaultSettings(windowName)
     WindowRestoreDefaultSettings(windowName)
 end
+
+function WindowApi.setUpdateFrequency(windowName, frequency)
+    WindowSetUpdateFrequency(windowName, frequency)
+end

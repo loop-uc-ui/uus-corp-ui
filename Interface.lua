@@ -564,7 +564,6 @@ function Interface.InitializeWindows()
 	OverheadText.InitializeEvents()
     StaticTextWindow.Initialize()
     MapCommon.Initialize()
-    BuffDebuff.Initialize()
 	LegacyRunebookLoader.Initialize()
 	PetWindow.UpdatePet()
 end

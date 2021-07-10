@@ -48,7 +48,7 @@
 	<Include file="Source/CharacterAbilities.xml" />
 	<Include file="Source/ItemProperties.xml" />
 	<Include file="Source/PetWindow.xml" />
-	<Include file="Source/buff_debuff/BuffDebuffWindow.xml" />
+	<Include file="Source/buff_debuff/BuffDebuffIcon.xml" />
 	<Include file="Source/GenericQuantity.xml" />
 	<Include file="Source/Shopkeeper.xml" />
 	<Include file="Source/NewPlayerGuide.xml" />
@@ -107,12 +107,14 @@
 
 	<!-- Script Files -->
 	<Scripts>
+		<Script file="Source/core/data/ActiveWindow.lua"/>
 		<Script file="Source/core/data/Buffs.lua"/>
 		<Script file="Source/core/data/Drag.lua"/>
 		<Script file="Source/core/resources/Colors.lua"/>
 		<Script file="Source/core/data/CurrentTarget.lua"/>
 		<Script file="Source/core/data/Cursor.lua"/>
 		<Script file="Source/core/data/PlayerStatus.lua"/>
+		<Script file="Source/core/api/IconApi.lua"/>
 		<Script file="Source/core/api/TimeApi.lua"/>
 		<Script file="Source/core/api/CSVApi.lua"/>
 		<Script file="Source/core/api/DynamicImageApi.lua"/>
@@ -171,7 +173,7 @@
 		<Script file="Source/MacroPickerWindow.lua" />
 		<Script file="Source/MacroWindow.lua" />
 		<Script file="Source/buff_debuff/BuffDebuffSettings.lua"/>
-		<Script file="Source/buff_debuff/BuffDebuffWindow.lua" />
+		<Script file="Source/buff_debuff/BuffDebuffIcon.lua" />
 		<Script file="Source/buff_debuff/AdvancedBuff.lua" />
 		<Script file="Source/DamageWindow.lua" />
 		<Script file="Source/HotbarSystem.lua" />

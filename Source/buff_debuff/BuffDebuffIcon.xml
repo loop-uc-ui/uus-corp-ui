@@ -1,0 +1,43 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="BuffDebuffIcon" movable="false" layer="secondary">
+            <Size>
+                <AbsPoint x="38" y="38"/>
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="BuffDebuffIcon.mouseOver"/>
+                <EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
+            </EventHandlers>
+            <Windows>
+                <DynamicImage name="$parentTexture" texturescale="1.2" handleinput="false" layer="background">
+                    <Size>
+                        <AbsPoint x="38" y="38"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+                <Label name="$parentTimerLabel" inherits="UO_Default_Label_Color" font="body"
+                       maxchars="6" handleinput="false" autoresize="true" textalign="top">
+                    <Size>
+                        <AbsPoint x="44" y="10"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <FullResizeImage name="$parentTimerLabelBackground" inherits="UO_Simple_Black_Background" alpha="0.33">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTimerLabel"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTimerLabel"/>
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>
