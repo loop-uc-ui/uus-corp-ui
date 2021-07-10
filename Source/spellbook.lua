@@ -468,14 +468,13 @@ function Spellbook.UpdateSpells()
 				local ordinal = Spellbook.uniqueOrdinals[i] or L"th"
 				ButtonSetText( this.."TabButton"..i, L""..i..ordinal)
 			end	
-		
-        	Spellbook.ShowTab(Spellbook[id].activeTab)
+			Spellbook.ShowTab(Spellbook[id].activeTab)
         else
-        	Spellbook.InitMasteryIndexTab()
-        	WindowSetShowing( this.."TabWindow", false)
-        	WindowSetShowing( this.."LeftScrollWindow", true)
-        	WindowSetShowing( this.."RightScrollWindow", true)
-        end
+			Spellbook.InitMasteryIndexTab()
+			WindowSetShowing( this.."TabWindow", false)
+			WindowSetShowing( this.."LeftScrollWindow", true)
+			WindowSetShowing( this.."RightScrollWindow", true)
+		end
 	else
 		return
 	end
@@ -705,14 +704,14 @@ function Spellbook.SpellLButtonDown(flags)
     local id = WindowGetId(this)
     local data = WindowData.Spellbook[id]    
     local index = WindowGetId(SystemData.ActiveWindow.name)
-    local curSpell = 0 	
+    local curSpell
 
-    if not Spellbook.IsMasteryBook(id) then	
-	    local page = Spellbook[id].activeTab	    
-	    curSpell = (page-1)*Spellbook.numSpellsPerTab[data.firstSpellNum] + index + data.firstSpellNum - 1
+	if not Spellbook.IsMasteryBook(id) then
+		local page = Spellbook[id].activeTab
+		curSpell = (page-1)*Spellbook.numSpellsPerTab[data.firstSpellNum] + index + data.firstSpellNum - 1
 	else
 		curSpell = index
-	end    
+	end
 
     local icon, serverId = GetAbilityData(curSpell)
     if flags == SystemData.ButtonFlags.CONTROL then
@@ -755,14 +754,14 @@ function Spellbook.SpellLButtonUp()
     local id = WindowGetId(this)
     local data = WindowData.Spellbook[id]    
     local index = WindowGetId(SystemData.ActiveWindow.name)
-    local curSpell = 0
- 	
-    if not Spellbook.IsMasteryBook(id) then	
-	    local page = Spellbook[id].activeTab	    
-	    curSpell = (page-1)*Spellbook.numSpellsPerTab[data.firstSpellNum] + index + data.firstSpellNum - 1
+    local curSpell
+
+	if not Spellbook.IsMasteryBook(id) then
+		local page = Spellbook[id].activeTab
+		curSpell = (page-1)*Spellbook.numSpellsPerTab[data.firstSpellNum] + index + data.firstSpellNum - 1
 	else
 		curSpell = index
-	end   
+	end
 
     local _, serverId = GetAbilityData(curSpell)
 
@@ -779,11 +778,10 @@ function Spellbook.SpellMouseOver()
 	local this = WindowUtils.GetActiveDialog()
 	local id = WindowGetId(this)
 	local index = WindowGetId(SystemData.ActiveWindow.name)
-	local curSpell = 0
- 	local data = WindowData.Spellbook[id]
+	local curSpell
+	local data = WindowData.Spellbook[id]
 
-    if not Spellbook.IsMasteryBook(id) then	
-    	
+	if not Spellbook.IsMasteryBook(id) then
 	    local page = Spellbook[id].activeTab	    
 	    curSpell = (page-1)*Spellbook.numSpellsPerTab[data.firstSpellNum] + index + data.firstSpellNum - 1	    
 	else		
@@ -984,10 +982,10 @@ function Spellbook.TithLButtonDown(flags)
 end
 
 function Spellbook.SetMiniIconStats(iconWindow, iconId)
-	local texture, x, y = GetIconData( iconId )	
+	local texture, _, _ = GetIconData( iconId )
 	--Start position of the texture, need to be offset by x and y to get the stat icon image
-	x = 4  
-	y = 3
+	local x = 4
+	local y = 3
 	WindowSetDimensions(iconWindow.."SquareIcon", 20, 20)
 	DynamicImageSetTexture( iconWindow.."SquareIcon", texture, x, y )	   
 	DynamicImageSetTextureScale(iconWindow.."SquareIcon", 1 )			
@@ -1016,23 +1014,23 @@ function Spellbook.OnMasteryUpdate(windowName)
     if Spellbook.IsMasteryBook(objectId) then	
     	if(Spellbook.UpdateMasteryBook == 0)then--if (Spellbook[objectId].lastUpdate < Spellbook.DeltaRefresh)then    		
     		return
-    	end
+		end
 
-    	local currentMastery = 0
-    	local isDirty = 0
-    	if(Spellbook.UpdateMasteryBook ~= 1)then
-    		for i=1, #Spellbook.MasteryBookTIDs do				
+		local currentMastery = 0
+		local isDirty = 0
+		if(Spellbook.UpdateMasteryBook ~= 1)then
+			for i=1, #Spellbook.MasteryBookTIDs do
 				if Spellbook.MasteryBookTIDs[i] == Spellbook.UpdateMasteryBook then
-					currentMastery = Spellbook.UpdateMasteryBook					
+					currentMastery = Spellbook.UpdateMasteryBook
 					break
 				end
-			end    		
-    	end
-    	Spellbook.UpdateMasteryBook = 0 
-    	
-    	if(currentMastery == 0)then
+			end
+		end
+		Spellbook.UpdateMasteryBook = 0
+
+		if(currentMastery == 0)then
 			local noObjectFound = 0
-			if(not WindowData.ObjectInfo[objectId])then		
+			if(not WindowData.ObjectInfo[objectId])then
 				RegisterWindowData(WindowData.ObjectInfo.Type, objectId)
 				noObjectFound = 1
 			end
@@ -1040,7 +1038,7 @@ function Spellbook.OnMasteryUpdate(windowName)
 			local props = ItemProperties.GetObjectPropertiesArray( objectId, "Spellbook.OnMasteryUpdate" )
 			if not props then
 				return
-			end			
+			end
 			
 			for j = 1, #props.PropertiesTids do
 				local indexTID = props.PropertiesTids[j]
