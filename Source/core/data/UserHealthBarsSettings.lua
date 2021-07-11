@@ -8,30 +8,6 @@ function UserHealthBarsSettings.enableMobileArrow(newValue)
     return UserInterfaceVariables.LoadBoolean("EnableMobileArrow", true)
 end
 
-function UserHealthBarsSettings.legacyCloseStyle(newValue)
-    if newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("LegacyCloseStyle", newValue)
-        return newValue
-    end
-    return UserInterfaceVariables.LoadBoolean("LegacyCloseStyle", true)
-end
-
-function UserHealthBarsSettings.legacyPetCloseStyle(newValue)
-    if newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("PetLegacyCloseStyle", newValue)
-        return newValue
-    end
-    return UserInterfaceVariables.LoadBoolean("PetLegacyCloseStyle", true)
-end
-
-function UserHealthBarsSettings.showClose(newValue)
-    if newValue ~= nil then
-        UserInterfaceVariables.SaveBoolean("ShowCloseExtract", newValue)
-        return newValue
-    end
-    return UserInterfaceVariables.LoadBoolean("ShowCloseExtract", true)
-end
-
 function UserHealthBarsSettings.redButtonSpell1(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveNumber("RedButton", newValue)

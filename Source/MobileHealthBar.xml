@@ -169,42 +169,6 @@
                         <EventHandler event="OnLButtonUp" function="PartyHealthBar.BlueButton_OnLButtonUp"/>
                         <EventHandler event="OnMouseOver" function="PartyHealthBar.BlueButton_OnMouseOver"/>
                         <EventHandler event="OnMouseOverEnd" function="PartyHealthBar.OnMouseOverEnd"/>
-
-                    </EventHandlers>
-                </Button>
-                <Button name="$parentCloseButton" inherits="UO_Default_Close_Button" texturescale="0.70" layer="popup">
-                    <Size>
-                        <AbsPoint x="14" y="14"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="topright" relativePoint="topright">
-                            <AbsPoint x="-2" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MobileHealthBar.CloseWindow"/>
-                        <EventHandler event="OnMouseOver" function="MobileHealthBar.CloseButton_OnMouseOver"/>
-                    </EventHandlers>
-                </Button>
-                <Button name="$parentExtract" backgroundtexture="ExtractRight" highlighttexture="ExtractRight"
-                        texturescale="0.8">
-                    <Size>
-                        <AbsPoint x="19" y="19"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="topright" relativePoint="topright">
-                            <AbsPoint x="-1" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                    <TexCoords>
-                        <Normal x="0" y="0"/>
-                        <NormalHighlit x="24" y="0"/>
-                        <Pressed x="24" y="0"/>
-                        <PressedHighlit x="24" y="0"/>
-                    </TexCoords>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MobileHealthBar.ExtractWindow"/>
-                        <EventHandler event="OnMouseOver" function="MobileHealthBar.Extract_OnMouseOver"/>
                     </EventHandlers>
                 </Button>
 

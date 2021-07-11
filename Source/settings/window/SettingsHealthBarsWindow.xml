@@ -50,56 +50,12 @@
                                         </Anchor>
                                     </Anchors>
                                 </Window>
-                                <Window name="$parentButtonsSubSection" inherits="SubSectionLabelTemplate">
-                                    <Anchors>
-                                        <Anchor point="topleft" relativePoint="topleft"
-                                                relativeTo="ToggleMobileArrow">
-                                            <AbsPoint x="0" y="80"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
-                                <Window name="LegacyCloseStyle" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="350" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="$parentButtonsSubSection">
-                                            <AbsPoint x="0" y="52"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
-                                <Window name="PetLegacyCloseStyle" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="500" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="LegacyCloseStyle">
-                                            <AbsPoint x="0" y="26"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
-
-                                <Window name="ShowCloseExtract" inherits="Settings_LabelCheckButton">
-                                    <Size>
-                                        <AbsPoint x="500" y="32"/>
-                                    </Size>
-                                    <Anchors>
-                                        <Anchor point="bottomleft" relativePoint="topleft"
-                                                relativeTo="PetLegacyCloseStyle">
-                                            <AbsPoint x="0" y="26"/>
-                                        </Anchor>
-                                    </Anchors>
-                                </Window>
 
                                 <Window name="$parentSpellsButtonsSubSection"
                                         inherits="SubSectionLabelTemplate">
                                     <Anchors>
                                         <Anchor point="topleft" relativePoint="topleft"
-                                                relativeTo="ShowCloseExtract">
+                                                relativeTo="ToggleMobileArrow">
                                             <AbsPoint x="0" y="80"/>
                                         </Anchor>
                                     </Anchors>

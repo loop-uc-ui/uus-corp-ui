@@ -23,9 +23,6 @@ MobileHealthBar.CreateTime = {}
 MobileHealthBar.CheckStatus = {}
 MobileHealthBar.RegisterTime = {}
 
-MobileHealthBar.LegacyCloseStyle = false
-MobileHealthBar.PetLegacyCloseStyle = false
-
 ----------------------------------------------------------------
 -- Functions
 ----------------------------------------------------------------
@@ -41,7 +38,6 @@ function MobileHealthBar.CreateHealthBar(mobileId)
 		WindowSetTintColor(windowName.."SummonDuration", 106, 106, 255)
 		StatusBarSetMaximumValue( windowName.."SummonDuration", 0)
 		WindowSetId(windowName, mobileId)
-		WindowSetId(windowName.."CloseButton", mobileId)
 		
 		MobileHealthBar.RegisterHealthBar(windowName)
 		
@@ -116,14 +112,6 @@ function MobileHealthBar.CreateHealthBar(mobileId)
 	
 	if(MobileHealthBar.Forced) then
 		MobileHealthBar.Handled[mobileId] = false
-		if (Interface.ShowCloseExtract) then
-			WindowSetShowing( windowName .. "CloseButton", false)
-			WindowSetShowing( windowName .. "Extract", true)
-		else
-			WindowSetShowing( windowName .. "CloseButton", false)
-			WindowSetShowing( windowName .. "Extract", false)
-		end
-		
 		MobileHealthBar.HandleAnchorWindow(windowName)		
 	else		
 		MobileHealthBar.ExtractWindow(windowName)
@@ -246,16 +234,7 @@ function MobileHealthBar.UpdateStatus(mobileId)
 		
 		StatusBarSetCurrentValue( windowName.."HealthBar", curHealth )	
 		StatusBarSetMaximumValue( windowName.."HealthBar", maxHealth )
-		
-		if (Interface.ShowCloseExtract and MobileHealthBar.Handled[mobileId] ~= nil) then
-			WindowSetShowing( windowName .. "CloseButton", MobileHealthBar.Handled[mobileId])
-			WindowSetShowing( windowName .. "Extract", not MobileHealthBar.Handled[mobileId])
-		else
-			WindowSetShowing( windowName .. "CloseButton", false)
-			WindowSetShowing( windowName .. "Extract", false)
-		end
-	
-			
+
 		-- Check if the has an accessible backpack (for pets)
 		if (DoesWindowNameExist(windowName.."Inventory") ) then
 			if HasAccessibleInventory(mobileId) and GetDistanceFromPlayer(mobileId) <=2 then
@@ -342,15 +321,6 @@ function MobileHealthBar.ExtractWindow(windowName)
 	end	
 
 	MobileHealthBar.Handled[mobileId] = true
-
-	if (Interface.ShowCloseExtract and MobileHealthBar.Handled[mobileId] ~= nil) then
-		WindowSetShowing( windowName .. "CloseButton", MobileHealthBar.Handled[mobileId])
-		WindowSetShowing( windowName .. "Extract", not MobileHealthBar.Handled[mobileId])
-	else
-		WindowSetShowing( windowName .. "CloseButton", false)
-		WindowSetShowing( windowName .. "Extract", false)
-	end
-
 	MobileHealthBar.HandleAnchorWindow(windowName)
 	WindowClearAnchors(windowName)
 	local propWindowX
@@ -475,13 +445,6 @@ function MobileHealthBar.HealthbarCloseWindow()
 	else
 		if (not MobileHealthBar.windowDisabled[mobileId] and IsObjectIdPet(mobileId)) then
 			MobileHealthBar.Handled[mobileId] = false
-			if (Interface.ShowCloseExtract) then
-				WindowSetShowing( SystemData.ActiveWindow.name .. "CloseButton", false)
-				WindowSetShowing( SystemData.ActiveWindow.name .. "Extract", true)
-			else
-				WindowSetShowing( SystemData.ActiveWindow.name .. "CloseButton", false)
-				WindowSetShowing( SystemData.ActiveWindow.name .. "Extract", false)
-			end
 			return
 		end
 		MobileHealthBar.CloseWindowByMobileId(mobileId)
@@ -515,12 +478,12 @@ end
 function MobileHealthBar.OnLButtonDown(flags, _, _)
 	local mobileId = WindowGetId(WindowUtils.GetActiveDialog())
 	local windowName = "MobileHealthBar_"..mobileId
-	if (flags == SystemData.ButtonFlags.CONTROL and not MobileHealthBar.Handled[mobileId] and not (WindowData.Cursor and WindowData.Cursor.target == true) and not Interface.ShowCloseExtract) then		
+	if (flags == SystemData.ButtonFlags.CONTROL and not MobileHealthBar.Handled[mobileId] and not (WindowData.Cursor and WindowData.Cursor.target == true)) then
 		MobileHealthBar.ExtractWindow(windowName)
 		return
 	end
 	
-	if (flags == SystemData.ButtonFlags.ALT and MobileHealthBar.Handled[mobileId] and not (WindowData.Cursor and WindowData.Cursor.target == true) and not Interface.ShowCloseExtract) then
+	if (flags == SystemData.ButtonFlags.ALT and MobileHealthBar.Handled[mobileId] and not (WindowData.Cursor and WindowData.Cursor.target == true)) then
 		MobileHealthBar.HealthbarCloseWindow()
 		return
 	end
@@ -552,41 +515,16 @@ function MobileHealthBar.OnLButtonDblClk()
 	end
 end
 
-function MobileHealthBar.OnRButtonUp()
+function MobileHealthBar.OnRButtonUp(flags)
 	local mobileId = WindowGetId(SystemData.ActiveWindow.name)
-	if (IsObjectIdPet(mobileId)) then
-		if (not MobileHealthBar.PetLegacyCloseStyle) then
-			if(MobileHealthBar.windowDisabled[mobileId] == false) then
-				RequestContextMenu(mobileId)
-			end
-		else
-			MobileHealthBar.CloseWindowByMobileId(mobileId)
-		end
+	if flags == SystemData.ButtonFlags.SHIFT and MobileHealthBar.windowDisabled[mobileId] == false then
+		RequestContextMenu(mobileId)
 	else
-		if (not MobileHealthBar.LegacyCloseStyle) then
-			if(MobileHealthBar.windowDisabled[mobileId] == false) then
-				RequestContextMenu(mobileId)
-			end
-		else
-			MobileHealthBar.CloseWindowByMobileId(mobileId)
-		end
+		MobileHealthBar.CloseWindowByMobileId(mobileId)
 	end
 end
 
-function MobileHealthBar.CloseButton_OnMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1061046))
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-end
-
-function MobileHealthBar.Extract_OnMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1153469) )
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-end
-
 function MobileHealthBar.OnMouseOver()
-	
 	if (string.find(SystemData.ActiveWindow.name, "Inventory")) then
 		mobileId = WindowGetId(WindowGetParent(SystemData.ActiveWindow.name))
 		local backpackId = 0

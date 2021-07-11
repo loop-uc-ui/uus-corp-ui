@@ -346,10 +346,6 @@ Interface.ExtraBrightContainers = false
 
 Interface.EnableMobileArrow = true
 
--- MobileHealthBar.LegacyCloseStyle
--- MobileHealthBar.PetLegacyCloseStyle
-Interface.ShowCloseExtract = true
-
 Interface.RedDef = 1
 Interface.GreenDef = 1
 Interface.BlueDef = 1
@@ -496,10 +492,6 @@ function Interface.LoadVariables()
 	Interface.LockChatLine = 							Interface.LoadBoolean( "LockChatLine" , Interface.LockChatLine )
 
 	Interface.EnableMobileArrow =						Interface.LoadBoolean( "EnableMobileArrow", Interface.EnableMobileArrow )
-	
-	MobileHealthBar.LegacyCloseStyle =					Interface.LoadBoolean( "LegacyCloseStyle", MobileHealthBar.LegacyCloseStyle ) 
-	MobileHealthBar.PetLegacyCloseStyle =				Interface.LoadBoolean( "PetLegacyCloseStyle", MobileHealthBar.PetLegacyCloseStyle ) 
-	Interface.ShowCloseExtract =						Interface.LoadBoolean( "ShowCloseExtract", Interface.ShowCloseExtract ) 
 
 	ContainerWindow.EnableAutoIgnoreCorpses =			Interface.LoadBoolean( "AutoIgnoreCorpses", ContainerWindow.EnableAutoIgnoreCorpses)
 	

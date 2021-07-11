@@ -1,10 +1,7 @@
 SettingsHealthBarsWindow = ListWindow:new(SettingsWindow.WINDOWS.HealthBars)
 
 local CHECK_BOXES = {
-    ToggleMobileArrow = "ToggleMobileArrowButton",
-    LegacyCloseStyle = "LegacyCloseStyleButton",
-    PetLegacyCloseStyle = "PetLegacyCloseStyleButton",
-    ShowCloseExtract = "ShowCloseExtractButton"
+    ToggleMobileArrow = "ToggleMobileArrowButton"
 }
 
 local COMBO_BOXES = {
@@ -99,17 +96,9 @@ end
 
 function SettingsHealthBarsWindow.Initialize()
     SettingsHealthBarsWindow.adapter:addLabel("HealthbarsOptionsStatusWindowSubSectionLabel", 1155313)
-            :addLabel("HealthbarsOptionsButtonsSubSectionLabel", 1155323)
-            :addLabel("HealthbarsOptionsSpellsButtonsSubSectionLabel", 1155332)
             :addLabel("HealthbarsOptionsSpellsButtonsSubSectionLabel", 1155332)
             :addLabel("ToggleMobileArrowLabel", 1155321)
             :addCheckBox(CHECK_BOXES.ToggleMobileArrow)
-            :addLabel("LegacyCloseStyleLabel", 1155324)
-            :addCheckBox(CHECK_BOXES.LegacyCloseStyle)
-            :addLabel("PetLegacyCloseStyleLabel", 1155326)
-            :addCheckBox(CHECK_BOXES.PetLegacyCloseStyle)
-            :addLabel("ShowCloseExtractLabel", 1155328)
-            :addCheckBox(CHECK_BOXES.ShowCloseExtract)
             :addComboBox(COMBO_BOXES.Red, SPELL_TEXT)
             :addComboBox(COMBO_BOXES.Red2, SPELL_TEXT)
             :addComboBox(COMBO_BOXES.Red3, SPELL_TEXT)
@@ -123,9 +112,6 @@ end
 
 function SettingsHealthBarsWindow.UpdateSettings()
     SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.ToggleMobileArrow]:setChecked(UserHealthBarsSettings.enableMobileArrow())
-    SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.LegacyCloseStyle]:setChecked(UserHealthBarsSettings.legacyCloseStyle())
-    SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.PetLegacyCloseStyle]:setChecked(UserHealthBarsSettings.legacyPetCloseStyle())
-    SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.ShowCloseExtract]:setChecked(UserHealthBarsSettings.showClose())
 
     SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Red]:findItem(
             function (_, item)
@@ -184,13 +170,6 @@ function SettingsHealthBarsWindow.OnApplyButton()
         DestroyWindow("MobileArrow")
     end
 
-    UserHealthBarsSettings.legacyCloseStyle(SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.LegacyCloseStyle]:isChecked())
-    UserHealthBarsSettings.legacyPetCloseStyle(SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.PetLegacyCloseStyle]:isChecked())
-
-    local isChecked = SettingsHealthBarsWindow.adapter.views[CHECK_BOXES.ShowCloseExtract]:isChecked()
-    local updateHealthbars = UserHealthBarsSettings.showClose() ~=	isChecked
-    UserHealthBarsSettings.showClose(isChecked)
-
     UserHealthBarsSettings.redButtonSpell1(
             SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Red]:getSelectedItem()].SpellId
     )
@@ -220,10 +199,4 @@ function SettingsHealthBarsWindow.OnApplyButton()
     UserHealthBarsSettings.blueButtonSpell3(
             SPELLS[SettingsHealthBarsWindow.adapter.views[COMBO_BOXES.Blue3]:getSelectedItem()].SpellId
     )
-
-    if (updateHealthbars) then
-        for key, _ in pairs(MobileHealthBar.hasWindow) do
-            MobileHealthBar.UpdateStatus(key)
-        end
-    end
 end
