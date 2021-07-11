@@ -85,8 +85,8 @@ local function rotate(newOrientation)
 end
 
 function AdvancedBuff.Initialize()
-	RegisterWindowData(WindowData.BuffDebuff.Type, 0)
-	WindowRegisterEventHandler( AdvancedBuff.id, WindowData.BuffDebuff.Event, "AdvancedBuff.addBuff")
+	AdvancedBuff:registerData(Buffs.dataType(), 0)
+	AdvancedBuff.eventRegister:registerEventHandler(Buffs.event(), "AdvancedBuff.addBuff")
 	adapter:addLock()
 			:addDynamicImage(DOCKSPOT, DOCKSPOT_TEXTURE, 3, 0)
 			:addButton(ROTATE_BUTTON)
@@ -105,7 +105,7 @@ function AdvancedBuff.Initialize()
     WindowUtils.RestoreWindowPosition(AdvancedBuff.id)
     WindowUtils.LoadScale(AdvancedBuff.id)
     orientation = BuffDebuffSettings.windowDirection()
-    rotate()
+    rotate(orientation)
 end
 
 function AdvancedBuff.Shutdown()
