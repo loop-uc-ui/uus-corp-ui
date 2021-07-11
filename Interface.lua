@@ -538,7 +538,6 @@ function Interface.CreateWindows()
 	CreateWindow( "OrganizerWindow", true)
 	CreateWindow( "ContainerSearchWindow", false)
 	CreateWindow( "RenameWindow", false)
-	CreateWindow( "MobilesOnScreenWindow", true)
 	CreateWindow( "Compass", false)
 	CreateWindow( "MapFindWindow", false)
 	CreateWindow( "WarShield", UserOptionsSettings.showWarShield())
@@ -740,9 +739,7 @@ function Interface.Update( timePassed )
 	
 	ok, err = pcall(Interface.MapRefresh, timePassed)	
 	Interface.ErrorTracker(ok, err)
-		
-	
-	
+
 	ok, err = pcall(QuickStats.OnUpdate, timePassed)
 	Interface.ErrorTracker(ok, err)
 	

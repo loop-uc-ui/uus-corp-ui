@@ -20,7 +20,6 @@
 	<Include file="Source/core/window/LockWindow.xml"/>
 	<Include file="Source/MapCommon.xml" />
 	<Include file="Source/MobileHealthBar.xml" />
-	<Include file="Source/MobilesOnScreenWindow.xml"/>
 	<Include file="Source/Organizer.xml" />
 	<Include file="Source/ResizeWindow.xml"/>
 	<Include file="Source/Hotbar.xml" />
@@ -34,7 +33,6 @@
 	<Include file="Source/settings/window/SettingsContainersWindow.xml"/>
 	<Include file="Source/settings/view/SettingsColorButton.xml"/>
 	<Include file="Source/settings/window/SettingsOverheadTextWindow.xml"/>
-	<Include file="Source/settings/window/SettingsMobilesWindow.xml"/>
 	<Include file="Source/settings/window/SettingsWindow.xml" />
 	<Include file="Source/Spellbook.xml" />
 	<Include file="Source/player_status/StatusWindow.xml" />

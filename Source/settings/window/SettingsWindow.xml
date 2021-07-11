@@ -328,16 +328,6 @@
                         <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenHealthbarsTab"/>
                     </EventHandlers>
                 </Button>
-                <Button name="$parentMobilesOnScreenTabButton" inherits="SettingsWindowTabButton">
-                    <Anchors>
-                        <Anchor point="right" relativePoint="left" relativeTo="$parentHealthbarsTabButton">
-                            <AbsPoint x="0" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="SettingsWindow.OpenMobilesTab"/>
-                    </EventHandlers>
-                </Button>
                 <!-- Gold lines -->
                 <FullResizeImage name="$parentGoldLine1" inherits="UO_Default_Horizontal_Gold_Line">
                     <Size>
@@ -384,7 +374,6 @@
                 <ScrollWindow inherits="HealthbarsSettingsWindow"/>
                 <ScrollWindow inherits="ContainersSettingsWindow"/>
                 <ScrollWindow inherits="OverheadTextSettingsWindow"/>
-                <ScrollWindow inherits="SettingsMobilesOnScreen"/>
             </Windows>
         </Window>
     </Windows>

@@ -1072,13 +1072,6 @@ function WindowUtils.Scale(x, y, delta)
 					local windowName = "MobileHealthBar_"..key
 					WindowSetScale(windowName, endscale)
 				end
-				WindowSetScale("MobilesOnScreenWindow", endscale)
-				WindowSetScale("YellowDockspot", endscale)
-				WindowSetScale("GreyDockspot", endscale)
-				WindowSetScale("BlueDockspot", endscale)
-				WindowSetScale("RedDockspot", endscale)
-				WindowSetScale("GreenDockspot", endscale)
-				WindowSetScale("OrangeDockspot", endscale)
 				MobilesOnScreen.BarScale = endscale				
 				MobilesOnScreen.isDirty= true
 			elseif (windowname == "MapWindow") then
