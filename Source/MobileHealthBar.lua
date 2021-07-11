@@ -354,9 +354,7 @@ function MobileHealthBar.ExtractWindow(windowName)
 
 	MobileHealthBar.Handled[mobileId] = true
 	
-	if (MobilesOnScreen.IsPet(mobileId)) then		
-		PetWindow.UpdateAnchors()
-	elseif (IsMobile(mobileId)) then			
+	if (IsMobile(mobileId)) then
 		MobilesOnScreen.HandleAnchors()
 	else
 		MobileHealthBar.HandleAnchorWindow(windowName)
@@ -509,8 +507,7 @@ function MobileHealthBar.HealthbarCloseWindow()
 			else
 				WindowSetShowing( SystemData.ActiveWindow.name .. "CloseButton", false)
 				WindowSetShowing( SystemData.ActiveWindow.name .. "Extract", false)
-			end			
-			PetWindow.UpdatePet()
+			end
 			return
 		end
 		MobileHealthBar.CloseWindowByMobileId(mobileId)

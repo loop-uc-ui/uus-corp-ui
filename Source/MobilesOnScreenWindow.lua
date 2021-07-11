@@ -299,7 +299,6 @@ function MobilesOnScreen.Initialize()
 	WindowSetScale("RedDockspot", SystemData.Settings.Interface.customUiScale * 0.80)
 	WindowSetScale("GreenDockspot", SystemData.Settings.Interface.customUiScale * 0.80)
 	WindowSetScale("OrangeDockspot", SystemData.Settings.Interface.customUiScale * 0.80)
-	PetWindow.UpdatePet()
 end
 
 function MobilesOnScreen.GetVisible(ignoreMain)
@@ -775,7 +774,6 @@ function MobilesOnScreen.SlowUpdate(timePassed)
 	
 	if (MobilesOnScreen.AnchorUpdateRequest) then								
 		MobilesOnScreen.UpdateAnchors()
-		PetWindow.UpdatePet()		
 	end
 end
 

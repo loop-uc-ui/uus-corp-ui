@@ -929,10 +929,8 @@ function WindowUtils.Aplpha(_, _, delta)
 	end
 	
 	text = string.find(windowname , "MobileHealthBar_")
-	if ( text ~= nil ) or (windowname == "PetWindow") or (windowname == "MobilesOnScreenWindow") then
-		
+	if text ~= nil then
 		windowname = "MobileHealthBarALPHA"
-
 	end
 	
 	if(string.find(originalWindow,"ItemHealthBar")) then
@@ -967,22 +965,6 @@ function WindowUtils.Aplpha(_, _, delta)
 				WindowSetAlpha(windowName, endscale)
 				WindowSetFontAlpha(windowName, endscale)
 			end
-			WindowSetAlpha("PetWindow", endscale)
-			WindowSetFontAlpha("PetWindow", endscale)
-			WindowSetAlpha("MobilesOnScreenWindow", endscale)
-			WindowSetFontAlpha("MobilesOnScreenWindow", endscale)
-			WindowSetAlpha("YellowDockspot", endscale)
-			WindowSetFontAlpha("YellowDockspot", endscale)
-			WindowSetAlpha("GreyDockspot", endscale)
-			WindowSetFontAlpha("GreyDockspot", endscale)
-			WindowSetAlpha("BlueDockspot", endscale)
-			WindowSetFontAlpha("BlueDockspot", endscale)
-			WindowSetAlpha("RedDockspot", endscale)
-			WindowSetFontAlpha("RedDockspot", endscale)
-			WindowSetAlpha("GreenDockspot", endscale)
-			WindowSetFontAlpha("GreenDockspot", endscale)
-			WindowSetAlpha("OrangeDockspot", endscale)
-			WindowSetFontAlpha("OrangeDockspot", endscale)
 		elseif (windowname == "MapWindow") then
 			if (MapWindow.Big) then
 				windowname = "MapWindowBig"
@@ -1049,7 +1031,7 @@ function WindowUtils.Scale(x, y, delta)
 		end
 		
 		text = string.find(windowname , "MobileHealthBar_")
-		if ( text ~= nil ) or (windowname == "PetWindow") or (windowname == "MobilesOnScreenWindow") then
+		if text ~= nil then
 			windowname = "MobileHealthBarSCALE"
 		end
 		
@@ -1090,7 +1072,6 @@ function WindowUtils.Scale(x, y, delta)
 					local windowName = "MobileHealthBar_"..key
 					WindowSetScale(windowName, endscale)
 				end
-				WindowSetScale("PetWindow", endscale)
 				WindowSetScale("MobilesOnScreenWindow", endscale)
 				WindowSetScale("YellowDockspot", endscale)
 				WindowSetScale("GreyDockspot", endscale)
@@ -1207,8 +1188,6 @@ function WindowUtils.LoadAlpha( windowname )
 						end
 					end
 				end
-				WindowSetAlpha("PetWindow", scale)
-				WindowSetFontAlpha("PetWindow", scale)
 				WindowSetAlpha("MobilesOnScreenWindow", scale)
 				WindowSetFontAlpha("MobilesOnScreenWindow", scale)
 				WindowSetAlpha("YellowDockspot", scale)
@@ -1313,7 +1292,6 @@ function WindowUtils.LoadScale(windowname, _)
 						WindowSetScale(windowName, scale)
 					end
 				end
-				WindowSetScale("PetWindow", scale)
 				WindowSetScale("MobilesOnScreenWindow", scale)
 				
 				WindowSetScale("YellowDockspot", scale)

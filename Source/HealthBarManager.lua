@@ -58,9 +58,6 @@ function HealthBarManager.OnBeginDragHealthBar(id)
 				end,
 				mobileId
 		)
-	elseif(HealthBarManager.IsPartyMember(mobileId)) then
-		MobilesOnScreen.RemoveHealthBar(mobileId)
-		WindowUtils.BeginDrag(PartyHealthBar.CreateHealthBar, mobileId)
 	else
 		WindowUtils.BeginDrag(MobileHealthBar.CreateHealthBar, mobileId)
 	end

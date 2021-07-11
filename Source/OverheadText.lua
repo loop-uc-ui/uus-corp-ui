@@ -194,11 +194,7 @@ function OverheadText.UpdateName(mobileId)
 			NameColor.UpdateLabelNameColor(labelName, data.Notoriety+1)
 		end
 		local name = string.gsub(WStringToString(data.MobName), "^%s*(.-)%s*$", "%1")
-		
-		if (WindowData.PlayerStatus.PlayerId ~= mobileId and name ~= "" and MobilesOnScreen.IsPet(mobileId) and not MobileHealthBar.HasWindow(mobileId)) then					
-			PetWindow.UpdatePet()			
-		end		
-		
+
 		CreaturesDB.updateSummonTimes()
 		local isSumm, thisName = MobilesOnScreen.IsSummon(data.MobName, mobileId)
 		if isSumm then
@@ -216,7 +212,6 @@ function OverheadText.UpdateName(mobileId)
 		end
 
 		if (thisName ~= L"" and thisName ~= "" and WindowData.PlayerStatus.PlayerId ~= mobileId and not MobilesOnScreen.IsPet(mobileId) and not HealthBarManager.IsPartyMember(mobileId)) then
-
 			local filterVisable = false
 			if (( noto == NameColor.Notoriety.NONE or noto == NameColor.Notoriety.CANATTACK or noto == NameColor.Notoriety.CRIMINAL) and DoesWindowNameExist("GreyDockspot") and WindowGetShowing("GreyDockspot")) then	
 				filterVisable = true				

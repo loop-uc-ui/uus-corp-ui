@@ -339,7 +339,18 @@ end
 function Actions.InjuredFollower()
 	local lowerId = 0
 	local lowerHP = -1
-	for _, mobileId in pairs(PetWindow.SortedPet) do
+	local sortedPets = {}
+	if WindowData.Pets.PetId ~= nil then
+		local petSize = table.getn(WindowData.Pets.PetId)
+		if petSize > 0 then
+			for numPet = 1, petSize do
+				local mobileId = WindowData.Pets.PetId[numPet]
+				sortedPets[numPet] = mobileId
+			end
+		end
+	end
+
+	for _, mobileId in pairs(sortedPets) do
 		local mobileData = Interface.GetMobileData(mobileId, true)
 		if (mobileData and IsHealthBarEnabled(mobileId) and Actions.IsMobileVisible(mobileId)) then
 			local curHealth = mobileData.CurrentHealth
