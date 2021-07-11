@@ -248,9 +248,6 @@ function SettingsOptionsWindow.UpdateSliderSettings(curPos)
         LabelSetText( "SettingsOptionsCacheSizeVal", L""..cacheSize )
         return
     end
-
-    MobilesOnScreen.OnSlide( curPos )
-
     if (barName == "BaseAlpha") then
         barVal = SliderBarGetCurrentPosition(bar )
         barVal = tonumber(string.format("%.2f", barVal))

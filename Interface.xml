@@ -160,7 +160,6 @@
 		<Script file="Source/Generic/UO_GenericGump.lua" />
 		<Script file="Source/player_status/StatusWindow.lua" />
 		<Script file="Source/MobileHealthBar.lua" />
-		<Script file="Source/MobilesOnScreenWindow.lua"/>
 		<Script file="Source/PartyHealthBar.lua" />
 		<Script file="Source/ContainerWindow.lua"/>
 		<Script file="Source/ActionEditWindow.lua" />

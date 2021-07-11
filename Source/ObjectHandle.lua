@@ -112,7 +112,7 @@ function ObjectHandleWindow.CreateObjectHandles()
 						end
 					end
 				end
-				local ignored = ( objectId == WindowData.PlayerStatus.PlayerId or name == L"") -- or MobilesOnScreen.IsPet(objectId))
+				local ignored = ( objectId == WindowData.PlayerStatus.PlayerId or name == L"") -- or IsObjectIdPet(objectId))
 
 				local count = table.getn(ContainerWindow.IgnoreItems)
 				for j = 1, count do

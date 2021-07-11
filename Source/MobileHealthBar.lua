@@ -19,7 +19,6 @@ MobileHealthBar.Spites = {}
 MobileHealthBar.Travestys = {}
 
 MobileHealthBar.Handled = {}
-MobileHealthBar.SummonTimer = {}
 MobileHealthBar.CreateTime = {}
 MobileHealthBar.CheckStatus = {}
 MobileHealthBar.RegisterTime = {}
@@ -69,7 +68,7 @@ function MobileHealthBar.CreateHealthBar(mobileId)
 	MobileHealthBar.UpdateHealthBarState(mobileId)
 	WindowUtils.LoadScale( "MobileHealthBarSCALE" )
 	
-	if (MobilesOnScreen.IsPet(mobileId) and not DoesWindowNameExist(windowName.."Inventory")) then
+	if (IsObjectIdPet(mobileId) and not DoesWindowNameExist(windowName.."Inventory")) then
 		CreateWindowFromTemplate( windowName.."Inventory", "PetInventoryIconTemplate", windowName)
 		WindowClearAnchors(windowName.."Inventory")
 		WindowAddAnchor(windowName.."Inventory", "topright", windowName .. "Name", "topleft", -4, 13)
@@ -325,15 +324,11 @@ function MobileHealthBar.ExtractWindow(windowName)
 	end
 
 
-	local isPet = MobilesOnScreen.IsPet(mobileId)
+	local isPet = IsObjectIdPet(mobileId)
 	if isPet ~= true then
 		if HealthBarManager.CappedNumServerHealthBars == HealthBarManager.NumHealthBars then		
 			local lastHBWindowName = "MobileHealthBar_"..HealthBarManager.LastHandledHealthBar
 			if(DoesWindowNameExist(lastHBWindowName) == false)then			
-				return
-			end
-
-			if MobilesOnScreen.IsManagedMobileOnScreen(HealthBarManager.LastHandledHealthBar) then			
 				return
 			end
 
@@ -344,23 +339,10 @@ function MobileHealthBar.ExtractWindow(windowName)
 		elseif MobileHealthBar.Handled[mobileId] ~= true then
 			HealthBarManager.NumHealthBars = HealthBarManager.NumHealthBars + 1
 		end
-		MobilesOnScreen.isDirty = true
-		
-		if MobilesOnScreen.IsManagedMobileOnScreen(mobileId) then
-			HealthBarManager.LastHandledHealthBar = mobileId		
-			MobilesOnScreen.RemoveMobileOnScreenCount(mobileId)
-		end
 	end	
 
 	MobileHealthBar.Handled[mobileId] = true
-	
-	if (IsMobile(mobileId)) then
-		MobilesOnScreen.HandleAnchors()
-	else
-		MobileHealthBar.HandleAnchorWindow(windowName)
-		return
-	end
-	
+
 	if (Interface.ShowCloseExtract and MobileHealthBar.Handled[mobileId] ~= nil) then
 		WindowSetShowing( windowName .. "CloseButton", MobileHealthBar.Handled[mobileId])
 		WindowSetShowing( windowName .. "Extract", not MobileHealthBar.Handled[mobileId])
@@ -368,7 +350,7 @@ function MobileHealthBar.ExtractWindow(windowName)
 		WindowSetShowing( windowName .. "CloseButton", false)
 		WindowSetShowing( windowName .. "Extract", false)
 	end
-		
+
 	MobileHealthBar.HandleAnchorWindow(windowName)
 	WindowClearAnchors(windowName)
 	local propWindowX
@@ -455,10 +437,7 @@ function MobileHealthBar.UpdateHealthBarState(mobileId)
 			
 			LabelSetTextColor(windowName.."HealthBarLabel", 255, 255, 255)
 			
-			MobileHealthBar.windowDisabled[mobileId] = false		
-			if(MobileHealthBar.Handled[mobileId] ~= true and not MobilesOnScreen.IsPet(mobileId))then
-				MobilesOnScreen.UnMarkHealthBarForDeletion(mobileId)				
-			end
+			MobileHealthBar.windowDisabled[mobileId] = false
 		-- disable window
 		elseif( IsHealthBarEnabled(mobileId) == false and MobileHealthBar.windowDisabled[mobileId]==false ) then
 			local windowName = "MobileHealthBar_"..mobileId
@@ -466,10 +445,6 @@ function MobileHealthBar.UpdateHealthBarState(mobileId)
 			--LabelSetTextColor(windowName.."Name", 128, 128, 128)
 			LabelSetTextColor(windowName.."HealthBarLabel", 128, 128, 128)			
 			MobileHealthBar.windowDisabled[mobileId] = true
-			MobilesOnScreen.isDirty = true			
-			if(MobileHealthBar.Handled[mobileId] ~= true and not MobilesOnScreen.IsPet(mobileId)) then
-				MobilesOnScreen.MarkHealthBarForDeletion(mobileId)				
-			end		
 		end
 	end
 end
@@ -480,7 +455,6 @@ function MobileHealthBar.CloseWindow()
 	local windowName = "MobileHealthBar_"..mobileId	
 	if DoesWindowNameExist(windowName) then		
 		DestroyWindow(windowName)
-		MobilesOnScreen.isDirty = true		
 	end
 end
 
@@ -496,10 +470,10 @@ end
 function MobileHealthBar.HealthbarCloseWindow()
 	local mobileId = WindowGetId(SystemData.ActiveWindow.name)
 	
-	if not MobilesOnScreen.IsPet(mobileId) then
+	if not IsObjectIdPet(mobileId) then
 		MobileHealthBar.CloseWindowByMobileId(mobileId)
 	else
-		if (not MobileHealthBar.windowDisabled[mobileId] and MobilesOnScreen.IsPet(mobileId)) then
+		if (not MobileHealthBar.windowDisabled[mobileId] and IsObjectIdPet(mobileId)) then
 			MobileHealthBar.Handled[mobileId] = false
 			if (Interface.ShowCloseExtract) then
 				WindowSetShowing( SystemData.ActiveWindow.name .. "CloseButton", false)
@@ -529,16 +503,9 @@ end
 function MobileHealthBar.OnShutdown()
     local windowName = WindowUtils.GetActiveDialog()
 	local mobileId = WindowGetId(SystemData.ActiveWindow.name)
-	HealthBarManager.UpdateRemovedHealthBarCount(mobileId)
 	MobileHealthBar.Handled[mobileId] = nil	
 	MobileHealthBar.UnregisterHealthBar(windowName)	
 	MobileHealthBar.CreateTime[mobileId] = nil
-	if (not MobileHealthBar.Forced) then			
-		if (MobilesOnScreen.IsPet(mobileId)) then			
-			MobilesOnScreen.isDirty = true			
-		end
-	end	
-	
 end
 
 function MobileHealthBar.OnMouseDrag()
@@ -587,7 +554,7 @@ end
 
 function MobileHealthBar.OnRButtonUp()
 	local mobileId = WindowGetId(SystemData.ActiveWindow.name)
-	if (MobilesOnScreen.IsPet(mobileId)) then
+	if (IsObjectIdPet(mobileId)) then
 		if (not MobileHealthBar.PetLegacyCloseStyle) then
 			if(MobileHealthBar.windowDisabled[mobileId] == false) then
 				RequestContextMenu(mobileId)

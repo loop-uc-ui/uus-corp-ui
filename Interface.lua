@@ -1766,7 +1766,6 @@ function Interface.HonorMobileConfirm(mobileId)
 	Interface.WaitHonor = false
 	MobileHealthBar.UpdateName(mobileId)
 	OverheadText.UpdateName(mobileId)
-	MobilesOnScreen.isDirty = true
 end
 
 function Interface.ItemUseRequest()
@@ -1828,7 +1827,6 @@ function Interface.VirtueUseRequest()
 		if(lastHonorTarget ~= nil and lastHonorTarget ~= 0)then			
 			MobileHealthBar.UpdateName(lastHonorTarget)
 			OverheadText.UpdateName(lastHonorTarget)
-			MobilesOnScreen.isDirty = true
 		end						
 	end	
 end

@@ -1072,8 +1072,6 @@ function WindowUtils.Scale(x, y, delta)
 					local windowName = "MobileHealthBar_"..key
 					WindowSetScale(windowName, endscale)
 				end
-				MobilesOnScreen.BarScale = endscale				
-				MobilesOnScreen.isDirty= true
 			elseif (windowname == "MapWindow") then
 				if (MapWindow.Big) then
 					windowname = "MapWindowBig"
@@ -1181,22 +1179,7 @@ function WindowUtils.LoadAlpha( windowname )
 						end
 					end
 				end
-				WindowSetAlpha("MobilesOnScreenWindow", scale)
-				WindowSetFontAlpha("MobilesOnScreenWindow", scale)
-				WindowSetAlpha("YellowDockspot", scale)
-				WindowSetFontAlpha("YellowDockspot", scale)
-				WindowSetAlpha("GreyDockspot", scale)
-				WindowSetFontAlpha("GreyDockspot", scale)
-				WindowSetAlpha("BlueDockspot", scale)
-				WindowSetFontAlpha("BlueDockspot", scale)
-				WindowSetAlpha("RedDockspot", scale)
-				WindowSetFontAlpha("RedDockspot", scale)
-				WindowSetAlpha("GreenDockspot", scale)
-				WindowSetFontAlpha("GreenDockspot", scale)
-				WindowSetAlpha("OrangeDockspot", scale)
-				WindowSetFontAlpha("OrangeDockspot", scale)
 			elseif (windowname == "MapWindow") then
-				
 				WindowSetAlpha(originalWindow, scale)
 				WindowSetFontAlpha(originalWindow, scale)
 			elseif(windowname == "PperdollWindow") then
@@ -1285,16 +1268,7 @@ function WindowUtils.LoadScale(windowname, _)
 						WindowSetScale(windowName, scale)
 					end
 				end
-				WindowSetScale("MobilesOnScreenWindow", scale)
-				
-				WindowSetScale("YellowDockspot", scale)
-				WindowSetScale("GreyDockspot", scale)
-				WindowSetScale("BlueDockspot", scale)
-				WindowSetScale("RedDockspot", scale)
-				WindowSetScale("GreenDockspot", scale)
-				WindowSetScale("OrangeDockspot", scale)
 			elseif (windowname == "MapWindow") then
-				
 				WindowSetScale(originalWindow, scale)
 				WindowSetScale("MapWindowCoordsText", 0.9 * InterfaceCore.scale)
 				WindowSetScale("MapWindowPlayerCoordsText", 0.9 * InterfaceCore.scale)
@@ -1343,7 +1317,7 @@ end
 
 function IsContainer(id)
 	if IsMobile(id) then
-		if MobilesOnScreen.IsPet(id) then
+		if IsObjectIdPet(id) then
 			RegisterWindowData(WindowData.Paperdoll.Type, id)
 			if WindowData.Paperdoll[id] and WindowData.Paperdoll[id].backpackId then
 				UnregisterWindowData(WindowData.Paperdoll.Type, mobileId)
@@ -1413,7 +1387,7 @@ function WindowUtils.Dec2Hex(nValue)
 end
 
 function IsVendor( merchantId )
-	if MobilesOnScreen.IsPet(merchantId) then
+	if IsObjectIdPet(merchantId) then
 		return false
 	elseif not IsMobile(merchantId) or mobileId == WindowData.PlayerStatus.PlayerId then
 		return false
@@ -1428,7 +1402,7 @@ end
 
 function IsBodDealer( mobileId )
 	
-	if MobilesOnScreen.IsPet(mobileId) then
+	if IsObjectIdPet(mobileId) then
 		return false
 	elseif not IsMobile(mobileId) or mobileId == WindowData.PlayerStatus.PlayerId then
 		return false
@@ -1508,7 +1482,7 @@ function IsBodDealer( mobileId )
 end
 
 function IsOldQuestGiver( mobileId )
-	if MobilesOnScreen.IsPet(mobileId) then
+	if IsObjectIdPet(mobileId) then
 		return false
 	elseif not IsMobile(mobileId) or mobileId == WindowData.PlayerStatus.PlayerId then
 		return false
@@ -1538,7 +1512,7 @@ function IsOldQuestGiver( mobileId )
 end
 
 function IsBanker( mobileId )
-	if MobilesOnScreen.IsPet(mobileId) then
+	if IsObjectIdPet(mobileId) then
 		return false
 	elseif not IsMobile(mobileId) or mobileId == WindowData.PlayerStatus.PlayerId then
 		return false
@@ -1555,7 +1529,7 @@ function IsBanker( mobileId )
 end
 
 function IsPartyMember( mobileId )
-	if MobilesOnScreen.IsPet(mobileId) then
+	if IsObjectIdPet(mobileId) then
 		return false
 	elseif not IsMobile(mobileId) or WindowData.PlayerStatus and mobileId == WindowData.PlayerStatus.PlayerId then
 		return false
@@ -1572,7 +1546,7 @@ function IsPartyMember( mobileId )
 end
 
 function IsPlayer( mobileId )	
-	if MobilesOnScreen.IsPet(mobileId) then		
+	if IsObjectIdPet(mobileId) then
 		return false
 	end
 
@@ -1625,58 +1599,9 @@ function IsPlayer( mobileId )
 	return false
 end
 
-function IsTamable( mobileId )
-	if MobilesOnScreen.IsPet(mobileId) then
-		return false
-	end
-	if not IsMobile(mobileId) or MobilesOnScreen.IsPet(mobileId) then
-		return false
-	end
-	local name = CreaturesDB.GetName(WindowData.CurrentTarget.TargetId)
-	local props = ItemProperties.GetObjectPropertiesTid( mobileId, nil, "Istamable check" )
-	if not props then
-		return false
-	end
-	for i = 1, #props do
-		if ItemPropertiesInfo.TamedTid[props[i]] then
-			return false
-		end
-	end
-	if CreaturesDB[name] then
-		return CreaturesDB[name].tamable
-	else
-		
-		RequestContextMenu(mobileId, false)
-		local menuItems = ContextMenu.GetMenuItemData()
-		if not WindowData.ContextMenu then
-			return false
-		end
-		if not menuItems or WindowData.ContextMenu.objectId ~= WindowData.CurrentTarget.TargetId then
-			return false
-		end
-		for i = 1, #menuItems do
-			if menuItems[i].returnCode == 301 then
-				return true
-			end
-		end
-	end
-	return false
-end
-
-function IsQuestGiver( mobileId )
-	local props = ItemProperties.GetObjectPropertiesTid( mobileId, 2, "Isquestgiver check" )
-	if MobilesOnScreen.IsPet(mobileId) then
-		return false
-	elseif ItemPropertiesInfo.QuestGiverTid[props] then
-		return true
-	end
-	return false
-end
-
 function IsMobileVisible(mobileId)
 	return GetDistanceFromPlayer(mobileId) < 22
 end
-
 
 function PlayerIsOnWater()
 	local currTerrain = LuaGetTerrainType(WindowData.PlayerLocation.x, WindowData.PlayerLocation.y)
@@ -1704,7 +1629,7 @@ end
 
 function HasAccessibleInventory(mobileId)
 	local mobileData = Interface.GetMobileData(mobileId, true)
-	if MobilesOnScreen.IsPet(mobileId) and not mobileData.IsDead then
+	if IsObjectIdPet(mobileId) and not mobileData.IsDead then
 		local backpackId = 0
 		if WindowData.Paperdoll[mobileId] then
 			backpackId = WindowData.Paperdoll[mobileId].backpackId
