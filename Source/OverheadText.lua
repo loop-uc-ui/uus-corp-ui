@@ -184,10 +184,9 @@ function OverheadText.UpdateName(mobileId)
 		local x, y = LabelGetTextDimensions(labelName)
 		WindowSetScale(windowName, OverheadText.OverhedTextSize)
 		WindowSetDimensions(windowName, x, y)
-
-		local noto = NameColor.TextColors[data.Notoriety+1]
+		
 		if (mobileId == Interface.CurrentHonor) then
-			noto = {r=163, g=73, b=164}
+			local noto = {r=163, g=73, b=164}
 			LabelSetTextColor(labelName, noto.r, noto.g, noto.b)
 		else
 			NameColor.UpdateLabelNameColor(labelName, data.Notoriety+1)
