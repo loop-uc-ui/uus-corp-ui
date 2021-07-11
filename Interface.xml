@@ -20,7 +20,6 @@
 	<Include file="Source/core/window/LockWindow.xml"/>
 	<Include file="Source/MapCommon.xml" />
 	<Include file="Source/MobileHealthBar.xml" />
-	<Include file="Source/MobilesOnScreenWindow.xml"/>
 	<Include file="Source/Organizer.xml" />
 	<Include file="Source/ResizeWindow.xml"/>
 	<Include file="Source/Hotbar.xml" />
@@ -34,7 +33,6 @@
 	<Include file="Source/settings/window/SettingsContainersWindow.xml"/>
 	<Include file="Source/settings/view/SettingsColorButton.xml"/>
 	<Include file="Source/settings/window/SettingsOverheadTextWindow.xml"/>
-	<Include file="Source/settings/window/SettingsMobilesWindow.xml"/>
 	<Include file="Source/settings/window/SettingsWindow.xml" />
 	<Include file="Source/Spellbook.xml" />
 	<Include file="Source/player_status/StatusWindow.xml" />
@@ -47,7 +45,6 @@
 	<Include file="Source/CharacterSheet.xml" />
 	<Include file="Source/CharacterAbilities.xml" />
 	<Include file="Source/ItemProperties.xml" />
-	<Include file="Source/PetWindow.xml" />
 	<Include file="Source/buff_debuff/BuffDebuffIcon.xml" />
 	<Include file="Source/GenericQuantity.xml" />
 	<Include file="Source/Shopkeeper.xml" />
@@ -163,8 +160,6 @@
 		<Script file="Source/Generic/UO_GenericGump.lua" />
 		<Script file="Source/player_status/StatusWindow.lua" />
 		<Script file="Source/MobileHealthBar.lua" />
-		<Script file="Source/MobilesOnScreenWindow.lua"/>
-		<Script file="Source/PetWindow.lua" />
 		<Script file="Source/PartyHealthBar.lua" />
 		<Script file="Source/ContainerWindow.lua"/>
 		<Script file="Source/ActionEditWindow.lua" />

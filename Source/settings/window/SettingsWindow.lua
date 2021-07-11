@@ -6,7 +6,6 @@ local TAB_BUTTONS = {
 	Options = "SettingsWindowOptionsTabButton",
 	Sound = "SettingsWindowSoundTabButton",
 	Filters = "SettingsWindowProfanityTabButton",
-	Mobiles = "SettingsWindowMobilesOnScreenTabButton",
 	HealthBars = "SettingsWindowHealthbarsTabButton",
 	Containers = "SettingsWindowContainersTabButton",
 	OverheadText = "SettingsWindowOverheadTextTabButton"
@@ -29,7 +28,6 @@ SettingsWindow.WINDOWS = {
 	OverheadText = "OverheadTextSettingsWindow",
 	Containers = "ContainersSettingsWindow",
 	HealthBars = "HealthbarsSettingsWindow",
-	Mobiles = "SettingsMobilesOnScreen"
 }
 
 local function overrideLegacySettings()
@@ -57,9 +55,6 @@ function SettingsWindow.Initialize()
 	):addButton(
 			TAB_BUTTONS.Filters,
 			3000173
-	):addButton(
-			TAB_BUTTONS.Mobiles,
-			1154852
 	):addButton(
 			TAB_BUTTONS.HealthBars,
 			1155276
@@ -138,7 +133,6 @@ function SettingsWindow.OnApplyButton()
 	SettingsKeyBindingsWindow.OnApplyButton()
 	SettingsHealthBarsWindow.OnApplyButton()
 	SettingsOverheadTextWindow.OnApplyButton()
-	MobilesOnScreen.SaveFilterSettings()
 	-- push the new values to c++
 	needsReload = UserSettingsChanged()
 	if ( needsReload == true ) then
@@ -189,7 +183,6 @@ function SettingsWindow.ClearTabStates()
 	SettingsHealthBarsWindow:setShowing(false)
 	SettingsGraphicsWindow:setShowing(false)
 	SettingsContainersWindow:setShowing(false)
-	WindowSetShowing("SettingsMobilesOnScreen", false)
 end
 
 function SettingsWindow.OpenGraphicsTab()
@@ -225,13 +218,6 @@ function SettingsWindow.OpenProfanityTab()
 	SettingsWindow.adapter.views[TAB_BUTTONS.Filters]:setDisabledFlag(true)
 	SettingsWindow.adapter.views[TAB_BUTTONS.Filters.."Tab"]:setShowing(false)
 	SettingsProfanityWindow:setShowing(true)
-end
-
-function SettingsWindow.OpenMobilesTab()
-	SettingsWindow.ClearTabStates()
-	SettingsWindow.adapter.views[TAB_BUTTONS.Mobiles]:setDisabledFlag(true)
-	SettingsWindow.adapter.views[TAB_BUTTONS.Mobiles.."Tab"]:setShowing(false)
-	WindowSetShowing("SettingsMobilesOnScreen", true)
 end
 
 function SettingsWindow.OpenHealthbarsTab()

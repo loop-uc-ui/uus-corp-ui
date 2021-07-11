@@ -161,7 +161,7 @@ function OverheadText.UpdateName(mobileId)
 
 	local data = WindowData.MobileName[mobileId]
 	local windowName = "OverheadTextWindow_"..mobileId
-	
+
 	--If windowName does not exist exit funciton
 	if( DoesWindowNameExist( windowName) == false ) then
 		return
@@ -170,75 +170,33 @@ function OverheadText.UpdateName(mobileId)
 	if(data and data.MobName ~= nil) then
 		OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 		if (mobileId ~= WindowData.PlayerStatus.PlayerId and true and not OverheadText.LastSeeName[mobileId]) then -- TODO: "you see" enabled?
-			if (data.MobName ~= nil and data.MobName ~= L"" and data.Notoriety+1 ~= NameColor.Notoriety.NONE and passa) then	
+			if (data.MobName ~= nil and data.MobName ~= L"" and data.Notoriety+1 ~= NameColor.Notoriety.NONE and passa) then
 				if (not OverheadText.LastSeeName[mobileId]) then
 					PrintWStringToChatWindow(GetStringFromTid(3002000) ..data.MobName,SystemData.ChatLogFilters.SYSTEM)
 				end
 				OverheadText.LastSeeName[mobileId] = true
 			end
-			
 		end
-	
+
 		local labelName = windowName.."Name"
 		LabelSetFont(labelName, FontSelector.Fonts[OverheadText.NameFontIndex].fontName, WindowUtils.FONT_DEFAULT_TEXT_LINESPACING)
-		
+
 		local x, y = LabelGetTextDimensions(labelName)
 		WindowSetScale(windowName, OverheadText.OverhedTextSize)
 		WindowSetDimensions(windowName, x, y)
 		
-		local noto = NameColor.TextColors[data.Notoriety+1]
 		if (mobileId == Interface.CurrentHonor) then
-			noto = {r=163, g=73, b=164}
+			local noto = {r=163, g=73, b=164}
 			LabelSetTextColor(labelName, noto.r, noto.g, noto.b)
 		else
 			NameColor.UpdateLabelNameColor(labelName, data.Notoriety+1)
 		end
-		local name = string.gsub(WStringToString(data.MobName), "^%s*(.-)%s*$", "%1")
-		
-		if (WindowData.PlayerStatus.PlayerId ~= mobileId and name ~= "" and MobilesOnScreen.IsPet(mobileId) and not MobileHealthBar.HasWindow(mobileId)) then					
-			PetWindow.UpdatePet()			
-		end		
-		
+
 		CreaturesDB.updateSummonTimes()
-		local isSumm, thisName = MobilesOnScreen.IsSummon(data.MobName, mobileId)
-		if isSumm then
-			if (MobileHealthBar.SummonTimer[mobileId] == nil) then
-				
-				MobileHealthBar.SummonTimer[mobileId] = Interface.TimeSinceLogin + CreaturesDB.SummonTimes[thisName]
-			end
-		elseif not OverheadText.NameParsed[mobileId] then
-			
+		if not OverheadText.NameParsed[mobileId] then
 			local props = ItemProperties.GetObjectPropertiesParamsForTid( mobileId, 1153089, "Overhead Text - Check for lifespan summon" )
 			if props  then
 				time = tonumber(props[1]) * 60
-				MobileHealthBar.SummonTimer[mobileId] = Interface.Clock.Timestamp + time
-			end
-		end
-
-		if (thisName ~= L"" and thisName ~= "" and WindowData.PlayerStatus.PlayerId ~= mobileId and not MobilesOnScreen.IsPet(mobileId) and not HealthBarManager.IsPartyMember(mobileId)) then
-
-			local filterVisable = false
-			if (( noto == NameColor.Notoriety.NONE or noto == NameColor.Notoriety.CANATTACK or noto == NameColor.Notoriety.CRIMINAL) and DoesWindowNameExist("GreyDockspot") and WindowGetShowing("GreyDockspot")) then	
-				filterVisable = true				
-			elseif ( noto == NameColor.Notoriety.INNOCENT and DoesWindowNameExist("BlueDockspot") and WindowGetShowing("BlueDockspot")) then
-				filterVisable = true
-			elseif ( noto == NameColor.Notoriety.FRIEND  and DoesWindowNameExist("GreenDockspot") and WindowGetShowing("GreenDockspot")) then
-				filterVisable = true				
-			elseif ( noto == NameColor.Notoriety.ENEMY and DoesWindowNameExist("OrangeDockspot") and WindowGetShowing("OrangeDockspot")) then
-				filterVisable = true
-			elseif ( noto == NameColor.Notoriety.MURDERER and DoesWindowNameExist("RedDockspot") and WindowGetShowing("RedDockspot")) then
-				filterVisable = true				
-			elseif ( noto == NameColor.Notoriety.INVULNERABLE and DoesWindowNameExist("YellowDockspot") and WindowGetShowing("YellowDockspot")) then
-				filterVisable = true
-			elseif (noto ~= NameColor.Notoriety.INVULNERABLE and not MobilesOnScreen.Hidden) then				
-				filterVisable = true
-			end			
-			if(filterVisable)then				
-				if (MobilesOnScreen.MobilesSortReverse[mobileId] == nil) then					
-					table.insert(MobilesOnScreen.MobilesSort, mobileId)
-					MobilesOnScreen.MobilesSortReverse[mobileId] = table.getn(MobilesOnScreen.MobilesSort)										
-				end														
-				MobilesOnScreen.isDirty = true
 			end
 		end
 		OverheadText.NameParsed[mobileId] = true
@@ -288,7 +246,7 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 			name = wstring.gsub(name, L" The ", L"<BR>The ", 1)
 		end
 		LabelSetText(labelName, L""..name)
-	elseif (MobileHealthBar.Guiles[mobileId]) then	
+	elseif (MobileHealthBar.Guiles[mobileId]) then
 		if (not sfind(data.MobName , L"Guile")) then
 			data.MobName = data.MobName .. L" (Guile)"
 		end
@@ -297,7 +255,7 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 			name = wstring.gsub(name, L" The ", L"<BR>The ", 1)
 		end
 		LabelSetText(labelName, L""..name)
-	elseif (MobileHealthBar.Spites[mobileId]) then	
+	elseif (MobileHealthBar.Spites[mobileId]) then
 		if (not sfind(data.MobName , L"Spite")) then
 			data.MobName = data.MobName .. L" (Spite)"
 		end
@@ -306,11 +264,11 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 			name = wstring.gsub(name, L" The ", L"<BR>The ", 1)
 		end
 		LabelSetText(labelName, L""..name)
-	elseif (MobileHealthBar.Travestys[mobileId]) then	
+	elseif (MobileHealthBar.Travestys[mobileId]) then
 		if (not  sfind(data.MobName , L"Travesty")) then
 			data.MobName = data.MobName .. L" (Travesty)"
 		end
-		
+
 		name = data.MobName
 		if (sfind(wstring.sub(data.MobName,3), L" The ")) then
 			name = wstring.gsub(name, L" The ", L"<BR>The ", 1)
@@ -319,12 +277,12 @@ function OverheadText.ChangelingNameCheck(data, windowName, mobileId)
 	else
 		name = data.MobName
 		if (sfind(data.MobName, L" The ")) then
-			name =  wstring.gsub(data.MobName, L" The ", L"<BR>The ")			
+			name =  wstring.gsub(data.MobName, L" The ", L"<BR>The ")
 		end
 
 		LabelSetText(labelName, L""..name)
 	end
-	
+
 end
 
 function OverheadText.Update( timePassed )
@@ -337,15 +295,15 @@ function OverheadText.Update( timePassed )
 					if data.timePassed[index] >= OverheadText.OverheadAlive then
 						local windowName = "OverheadTextWindow_"..id
 						local overheadChatWindow = windowName.."Chat"..index
-						
+
 						WindowSetShowing(overheadChatWindow, false)
 						LabelSetText( overheadChatWindow, L"")
-						
+
 						data.timePassed[index] = nil
 						data.numVisibleChat = data.numVisibleChat - 1
 						if (data.numVisibleChat < 0) then
 							data.numVisibleChat = 0
-						end	
+						end
 					end
 				end
 			end
@@ -366,7 +324,7 @@ function OverheadText.Update( timePassed )
 					else
 						local labelName = windowName.."Name"
 						WindowSetFontAlpha(labelName, OverheadText.FadeTimeId[i])
-						
+
 					end
 				end
 			end
@@ -378,25 +336,25 @@ function OverheadText.ShowName(mobileId)
 	if (OverheadText.ChatData[mobileId].showName == false) then
 		return
 	end
-	
+
 	OverheadText.FadeTimeId[mobileId] = OverheadText.AlphaStart
 	OverheadText.TimePassed[mobileId] = 0
-	
+
 	local windowName = "OverheadTextWindow_"..mobileId
 	WindowSetShowing(windowName.."Name", true)
 	LabelSetFont(windowName.."Name", FontSelector.Fonts[OverheadText.NameFontIndex].fontName, WindowUtils.FONT_DEFAULT_TEXT_LINESPACING)
 	WindowSetFontAlpha(windowName.."Name", 1)
-	
+
 	OverheadText.UpdateOverheadAnchors(mobileId)
 end
 
 function OverheadText.HideName(mobileId)
 	OverheadText.FadeTimeId[mobileId] = nil
 	OverheadText.TimePassed[mobileId] = nil
-	
+
 	local windowName = "OverheadTextWindow_"..mobileId
 	WindowSetShowing(windowName.."Name", false)
-	
+
 	OverheadText.UpdateOverheadAnchors(mobileId)
 end
 
@@ -408,7 +366,7 @@ function OverheadText.UpdateOverheadAnchors(mobileId)
 	local overheadChat3Window = windowName.."Chat3"
 	WindowSetHandleInput(overheadNameWindow, true)
 	WindowSetScale(windowName, OverheadText.OverhedTextSize)
-	
+
 	if(DoesWindowNameExist(windowName) == true) then
 		-- NOTE: Player and object names are not displayed, do not anchor chat window to name window.
 		if( WindowGetShowing(overheadNameWindow) == true and OverheadText.ChatData[mobileId].showName == true ) then
@@ -433,14 +391,14 @@ function OverheadText.OnShown()
 	local this = SystemData.ActiveWindow.name
 	local mobileId = WindowGetId(this)
 	local labelName = this.."Name"
-	
+
 	-- if names are not being displayed, keep name hidden
 	if(SystemData.Settings.GameOptions.showNames == SystemData.Settings.GameOptions.SHOWNAMES_NONE) then
 		OverheadText.HideName(mobileId)
 		return
 	end
-	
-    -- window was shown so reset the timers and the font alpha	
+
+    -- window was shown so reset the timers and the font alpha
 	OverheadText.FadeTimeId[mobileId] = OverheadText.AlphaStart
 	OverheadText.TimePassed[mobileId] = 0
 
@@ -451,7 +409,7 @@ function OverheadText.NameOnLClick()
 	local this = SystemData.ActiveWindow.name
 	local parent = WindowGetParent(this)
 	local mobileId = WindowGetId(parent)
-	
+
 	--Let the targeting manager handle single left click on the target
 	if(mobileId ~= nil)then
 		--If player has a targeting cursor up and they target the overhead name
@@ -461,8 +419,8 @@ function OverheadText.NameOnLClick()
 			HandleSingleLeftClkTarget(mobileId)
 			return
 		end
-		
-		if( SystemData.DragItem.DragType == SystemData.DragItem.TYPE_NONE and 
+
+		if( SystemData.DragItem.DragType == SystemData.DragItem.TYPE_NONE and
 			IsMobile(mobileId) ) then
 			HealthBarManager.OnBeginDragHealthBar(mobileId)
 		end
@@ -483,7 +441,7 @@ function OverheadText.NameOnDblClick()
 	local this = SystemData.ActiveWindow.name
 	local parent = WindowGetParent(this)
 	local mobileId = WindowGetId(parent)
-	
+
 	UserActionUseItem(mobileId,false)
 end
 
@@ -496,7 +454,7 @@ function OverheadText.NameOnMouseOver()
 		windowName = this,
 		itemId = mobileId,
 		itemType = WindowData.ItemProperties.TYPE_ITEM,
-	}					
+	}
 	ItemProperties.SetActiveItem(itemData)
 	OverheadText.mouseOverId = mobileId
 end
@@ -514,10 +472,10 @@ function OverheadText.ShowOverheadText()
 	if (not OverheadText.GetsOverhead[SystemData.TextChannelID]) then
 		return
 	end
-	
+
 	local senderText = WStringToString(SystemData.Text)
 	local find = string.find
-	if ( find(senderText , " looks ill.*") 
+	if ( find(senderText , " looks ill.*")
 		or find(senderText , " looks extremely ill. *")
 		or find(senderText , " stumbles around in confusion and pain. *")
 		or find(senderText , " is wracked with extreme pain. *")
@@ -527,21 +485,21 @@ function OverheadText.ShowOverheadText()
 		) and not Interface.noPoisonOthers then
 		return
 	end
-	
+
 	local spell = SpellsInfo.SpellsData[WStringToString(SystemData.Text)]
 	local IsSpell = spell ~= nil
 	if (IsSpell and Interface.DisableSpells) then
 		SystemData.Text = L""
 		return
 	end
-	
+
 	if (IsSpell and Interface.ShowSpellName ) then
 		SystemData.Text = SystemData.Text .. L" [" .. StringToWString(spell.name) .. L"]"
 	end
-	
-	local windowName = "OverheadTextWindow_"..SystemData.TextSourceID	
+
+	local windowName = "OverheadTextWindow_"..SystemData.TextSourceID
 	local overheadChatWindow = windowName.."Chat1"
-	
+
 	if OverheadText.ChatData[SystemData.TextSourceID] == nil then
 	    if( DoesWindowNameExist(windowName) == false ) then
 			-- Cases where this would hit are for either the player or non-mobile object
@@ -553,14 +511,14 @@ function OverheadText.ShowOverheadText()
 			OverheadText.HideName(SystemData.TextSourceID)
 		end
 	end
-	
+
 	-- if there are other chats move them all up one
 	if( OverheadText.ChatData[SystemData.TextSourceID].numVisibleChat > 0 ) then
-		for i=OverheadText.ChatData[SystemData.TextSourceID].numVisibleChat+1, 2, -1 do 
+		for i=OverheadText.ChatData[SystemData.TextSourceID].numVisibleChat+1, 2, -1 do
 			if( i <= 3 ) then
 				local oldWindow = windowName.."Chat"..(i-1)
 				local newWindow = windowName.."Chat"..i
-				
+
 				local text = LabelGetText(oldWindow)
 				if (fontName == FontSelector.Fonts[OverheadText.SpellsFontIndex].fontName) then
 					LabelSetFont(newWindow, FontSelector.Fonts[OverheadText.SpellsFontIndex].fontName, WindowUtils.FONT_DEFAULT_TEXT_LINESPACING)
@@ -580,7 +538,7 @@ function OverheadText.ShowOverheadText()
 	if( OverheadText.ChatData[SystemData.TextSourceID].numVisibleChat < 3 ) then
 		OverheadText.ChatData[SystemData.TextSourceID].numVisibleChat = OverheadText.ChatData[SystemData.TextSourceID].numVisibleChat + 1
 	end
-		
+
 	OverheadText.ChatData[SystemData.TextSourceID].timePassed[1] = 0
 
 	local default = ChatSettings.ChannelColors[SystemData.TextChannelID]
@@ -593,16 +551,16 @@ function OverheadText.ShowOverheadText()
 	elseif (SystemData.TextColor ~= 0) then
 		color.r,color.g,color.b = HueRGBAValue(SystemData.TextColor)
 	end
-	
+
 	if (IsSpell) then
 		LabelSetFont(overheadChatWindow, FontSelector.Fonts[OverheadText.SpellsFontIndex].fontName, WindowUtils.FONT_DEFAULT_TEXT_LINESPACING)
 	else
 		LabelSetFont(overheadChatWindow, FontSelector.Fonts[OverheadText.FontIndex].fontName, WindowUtils.FONT_DEFAULT_TEXT_LINESPACING)
 	end
-	
+
 	LabelSetTextColor( overheadChatWindow, color.r, color.g, color.b)
 	LabelSetText( overheadChatWindow, SystemData.Text)
-	
+
 	if( WindowGetShowing(overheadChatWindow) == false ) then
 		OverheadText.UpdateOverheadAnchors(SystemData.TextSourceID)
 		WindowSetShowing(overheadChatWindow, true)
@@ -612,6 +570,6 @@ end
 function OverheadText.OnOverheadChatShutdown()
     local windowName = SystemData.ActiveWindow.name
     local id = WindowGetId(windowName)
-    
+
     OverheadText.ChatData[id] = nil
 end

@@ -58,9 +58,6 @@ function HealthBarManager.OnBeginDragHealthBar(id)
 				end,
 				mobileId
 		)
-	elseif(HealthBarManager.IsPartyMember(mobileId)) then
-		MobilesOnScreen.RemoveHealthBar(mobileId)
-		WindowUtils.BeginDrag(PartyHealthBar.CreateHealthBar, mobileId)
 	else
 		WindowUtils.BeginDrag(MobileHealthBar.CreateHealthBar, mobileId)
 	end
@@ -120,16 +117,5 @@ function HealthBarManager.SkillUpdate()
 		HealthBarManager.UseSchool = HealthBarManager.SpellSchools.MAGERY
 	else
 		HealthBarManager.UseSchool = HealthBarManager.SpellSchools.CHIVALRY
-	end
-end
-
-function HealthBarManager.UpdateRemovedHealthBarCount(mobileId)
-	if(MobilesOnScreen.IsManagedMobileOnScreen(mobileId))then
-			MobilesOnScreen.RemoveMobileOnScreenCount(mobileId)
-			MobilesOnScreen.isDirty = true			
-	elseif not MobilesOnScreen.IsPet(mobileId) then
-			HealthBarManager.NumHealthBars = HealthBarManager.NumHealthBars - 1
-			MobilesOnScreen.isDirty = true
-			--Debug.Print("NumHealthBars: "..HealthBarManager.NumHealthBars)
 	end
 end

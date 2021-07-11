@@ -641,9 +641,7 @@ function TextParsing.SpecialTexts()
 	
 	
 	if ( SystemData.TextID == 1043255 ) then -- "is better off without a master"
-		MobilesOnScreen.ReversePet[SystemData.TextSourceID] = nil
-		MobileHealthBar.CloseWindowByMobileId(SystemData.TextSourceID)		
-		MobilesOnScreen.isDirty = true
+		MobileHealthBar.CloseWindowByMobileId(SystemData.TextSourceID)
 	end
 	
 	if (find(senderText , L"Thy current bank balance is:")) then

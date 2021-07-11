@@ -46,7 +46,7 @@ function DamageWindow.Init()
 	local windowName = "DamageWindow"..numWindow
 	local labelName = windowName.."Text"
 
-	if MobilesOnScreen.IsPet(Damage.mobileId) then
+	if IsObjectIdPet(Damage.mobileId) then
 		color = DamageWindow.PETGETDAMAGE_COLOR
 	elseif (Damage.mobileId == WindowData.PlayerStatus.PlayerId ) then
 		color = DamageWindow.YOUGETAMAGE_COLOR	

@@ -224,7 +224,7 @@ function SettingsOptionsWindow.OnApplyButton()
 end
 
 --TODO move this when we've refactored everything
-function SettingsOptionsWindow.UpdateSliderSettings(curPos)
+function SettingsOptionsWindow.UpdateSliderSettings(_)
     -- update ui scale
     local barName = string.gsub(SystemData.ActiveWindow.name, "SliderBar", "")
     local bar = SystemData.ActiveWindow.name
@@ -248,9 +248,6 @@ function SettingsOptionsWindow.UpdateSliderSettings(curPos)
         LabelSetText( "SettingsOptionsCacheSizeVal", L""..cacheSize )
         return
     end
-
-    MobilesOnScreen.OnSlide( curPos )
-
     if (barName == "BaseAlpha") then
         barVal = SliderBarGetCurrentPosition(bar )
         barVal = tonumber(string.format("%.2f", barVal))

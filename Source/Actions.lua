@@ -3,6 +3,27 @@ Actions = {}
 
 Actions.WarMode = 0
 
+
+local function getMobiles()
+	local mobiles = {}
+	local mobileTargetList = GetAllMobileTargets()
+	if mobileTargetList == nil then
+		return
+	end
+	for _, mobileId in pairs(mobileTargetList) do
+		if not IsObjectIdPet(mobileId) then
+			local data = WindowData.MobileName[mobileId]
+			if data and data.MobName ~= nil then
+				if WindowData.PlayerStatus.PlayerId ~= mobileId and not HealthBarManager.IsPartyMember(mobileId) then
+					table.insert(mobiles, mobileId)
+				end
+			end
+		end
+	end
+
+	return mobiles
+end
+
 function Actions.ToggleMainMenu()	
 	WindowSetShowing("MainMenuWindow", not WindowGetShowing("MainMenuWindow"))
 end
@@ -237,9 +258,10 @@ function Actions.ToggleMacros()
 end
 
 function Actions.PrevTarget()
-	for i = 1, table.getn(MobilesOnScreen.MobilesSort) do
-		if (Actions.TargetAllowed(MobilesOnScreen.MobilesSort[i]) and MobilesOnScreen.MobilesSort[i] == CurrentTarget.id() and i ~= 1) then
-			HandleSingleLeftClkTarget(MobilesOnScreen.MobilesSort[i - 1])
+	local mobiles = getMobiles()
+	for i = 1, table.getn(mobiles) do
+		if (Actions.TargetAllowed(mobiles[i]) and mobiles[i] == CurrentTarget.id() and i ~= 1) then
+			HandleSingleLeftClkTarget(mobiles[i - 1])
 			return
 		end
 	end
@@ -248,9 +270,10 @@ end
 Actions.nxt = 1
 function Actions.NextTarget()
 	local final = 0
-	for i = Actions.nxt, table.getn(MobilesOnScreen.MobilesSort) do
-		if (Actions.TargetAllowed(MobilesOnScreen.MobilesSort[i]) and MobilesOnScreen.MobilesSort[i] ~= CurrentTarget.id() ) then
-			HandleSingleLeftClkTarget(MobilesOnScreen.MobilesSort[i])
+	local mobiles = getMobiles()
+	for i = Actions.nxt, table.getn(mobiles) do
+		if (Actions.TargetAllowed(mobiles[i]) and mobiles[i] ~= CurrentTarget.id() ) then
+			HandleSingleLeftClkTarget(mobiles[i])
 		end
 	end
 	if final ~= 0 then
@@ -272,38 +295,16 @@ function Actions.TargetAllowed(mobileId)
 			return false
 		end
 	end
-	if (MobilesOnScreen.STRFilter ~= "" ) then -- filter
-		local found = false
-		for cf in wstring.gmatch(MobilesOnScreen.STRFilter, L"[^|]+") do
-			if (wstring.find(wstring.lower(data.MobName), wstring.lower(cf))) then
-				found = true
-			end
-		end
-		if (not found ) then
-			return false
-		end
-	end
-	local passa = true
-	if (not MobilesOnScreen.SavedFilter[9] and MobilesOnScreen.IsFarm(data.MobName))  or wstring.find(data.MobName, L"A Mannequin") then
-			passa = false
-	end
-	if (not MobilesOnScreen.SavedFilter[10] and MobilesOnScreen.IsSummon(data.MobName, mobileId)) then
-				passa = false
-	end
-	if (not MobilesOnScreen.IsPet(mobileId) and MobilesOnScreen.GetVisible()  and IsMobile(mobileId) and passa) then
+	if (not IsObjectIdPet(mobileId) and IsMobile(mobileId)) then
 		if (MobileHealthBar.windowDisabled[mobileId] and MobileHealthBar.windowDisabled[mobileId]== true) then
 			UnregisterWindowData(WindowData.MobileName.Type, mobileId)
-			return false			
-		end
-		local noto = data.Notoriety+1
-		if (not MobilesOnScreen.SavedFilter[noto]) then
 			return false
 		end
 	end
 	if not Actions.IsMobileVisible(mobileId) then
 		return false
 	end
-	return passa
+	return true
 end
 
 function Actions.IsMobileVisible(mobileId)
@@ -312,26 +313,23 @@ function Actions.IsMobileVisible(mobileId)
 end
 
 function Actions.NearTarget()
-	if (MobilesOnScreen.DistanceSort) then
-		HandleSingleLeftClkTarget(MobilesOnScreen.DistanceSort[1])	
-	else
-		local id = {}
-		for i = 1, table.getn(MobilesOnScreen.MobilesSort) do
-			if not MobilesOnScreen.IsPet(MobilesOnScreen.MobilesSort[i]) then
-				local allow = Actions.TargetAllowed(MobilesOnScreen.MobilesSort[i])
-				if (allow) then
-					local dist = GetDistanceFromPlayer(MobilesOnScreen.MobilesSort[i])
-					id[dist] = MobilesOnScreen.MobilesSort[i]
-				end
+	local id = {}
+	local mobiles = getMobiles()
+	for i = 1, table.getn(mobiles) do
+		if not IsObjectIdPet(mobiles[i]) then
+			local allow = Actions.TargetAllowed(mobiles[i])
+			if (allow) then
+				local dist = GetDistanceFromPlayer(mobiles[i])
+				id[dist] = mobiles[i]
 			end
 		end
-		for i, _ in pairsByKeys(id) do
-			if (CurrentTarget.id() == id[i]) then
-				return
-			end
-			if (Actions.TargetAllowed(id[i])) then
-				HandleSingleLeftClkTarget(id[i])
-			end
+	end
+	for i, _ in pairsByKeys(id) do
+		if (CurrentTarget.id() == id[i]) then
+			return
+		end
+		if (Actions.TargetAllowed(id[i])) then
+			HandleSingleLeftClkTarget(id[i])
 		end
 	end
 end
@@ -339,7 +337,18 @@ end
 function Actions.InjuredFollower()
 	local lowerId = 0
 	local lowerHP = -1
-	for _, mobileId in pairs(PetWindow.SortedPet) do
+	local sortedPets = {}
+	if WindowData.Pets.PetId ~= nil then
+		local petSize = table.getn(WindowData.Pets.PetId)
+		if petSize > 0 then
+			for numPet = 1, petSize do
+				local mobileId = WindowData.Pets.PetId[numPet]
+				sortedPets[numPet] = mobileId
+			end
+		end
+	end
+
+	for _, mobileId in pairs(sortedPets) do
 		local mobileData = Interface.GetMobileData(mobileId, true)
 		if (mobileData and IsHealthBarEnabled(mobileId) and Actions.IsMobileVisible(mobileId)) then
 			local curHealth = mobileData.CurrentHealth
@@ -389,8 +398,9 @@ end
 
 function Actions.InjuredMobile()
 	local id = {}
-	for i = Actions.nxt, table.getn(MobilesOnScreen.MobilesSort) do
-		local mobileId = MobilesOnScreen.MobilesSort[i]
+	local mobiles = getMobiles()
+	for i = Actions.nxt, table.getn(mobiles) do
+		local mobileId = mobiles[i]
 		if (Actions.TargetAllowed(mobileId) and not IsPartyMember(mobileId)) then
 			local mobileData = Interface.GetMobileData(mobileId, true)
 			if mobileData then
@@ -573,7 +583,7 @@ function Actions.SetDefaultPet()
 		WindowUtils.ChatPrint(GetStringFromTid(500330), SystemData.ChatLogFilters.SYSTEM )
 	else
 	
-		if( MobilesOnScreen.IsPet(objectId)) then
+		if( IsObjectIdPet(objectId)) then
 			if (Actions.DefaultRecordID == 1) then	
 				Interface.DefaultPet1 = objectId
 				Interface.SaveNumber( "DefaultPet1" , Interface.DefaultPet1 )
@@ -711,10 +721,10 @@ function Actions.MountRequestTargetInfoReceived()
 		if( IsMobile(objectId) and Actions.ActionEditRequest.ActionId == 5098) then -- BOAT
 			local speechText = L"script DragSlotDropObjectToObject(" .. objectId .. L")"
 			UserActionSpeechSetText(Actions.ActionEditRequest.HotbarId, Actions.ActionEditRequest.ItemIndex, Actions.ActionEditRequest.SubIndex, speechText)
-		elseif( MobilesOnScreen.IsPet(objectId) or Actions.ActionEditRequest.ActionId == 5156) then -- BOAT WHEEL
+		elseif( IsObjectIdPet(objectId) or Actions.ActionEditRequest.ActionId == 5156) then -- BOAT WHEEL
 			local speechText = L"script HandleSingleLeftClkTarget(" .. objectId .. L")"
 			UserActionSpeechSetText(Actions.ActionEditRequest.HotbarId, Actions.ActionEditRequest.ItemIndex, Actions.ActionEditRequest.SubIndex, speechText)
-		elseif( MobilesOnScreen.IsPet(objectId)) then
+		elseif( IsObjectIdPet(objectId)) then
 			local speechText = L"script HandleSingleLeftClkTarget(" .. objectId .. L")"
 			UserActionSpeechSetText(Actions.ActionEditRequest.HotbarId, Actions.ActionEditRequest.ItemIndex, Actions.ActionEditRequest.SubIndex, speechText)
 		elseif (Actions.ActionEditRequest.ActionId >= 5800 and Actions.ActionEditRequest.ActionId < 5900) and DoesPlayerHaveItem(objectId) and objectId ~= 0 then

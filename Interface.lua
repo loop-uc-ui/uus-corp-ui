@@ -443,9 +443,6 @@ function Interface.LoadVariables()
 	Interface.AlternateGrid =							Interface.LoadBoolean( "AlternateGrid" , Interface.AlternateGrid )
 	Interface.ExtraBrightContainers =					Interface.LoadBoolean( "ExtraBrightContainers" , Interface.ExtraBrightContainers )
 
-	PetWindow.CloseLeft =								Interface.LoadBoolean( "PetWindowCloseLeft", true )
-	PetWindow.PetWindowHidden =							Interface.LoadBoolean( "PetWindowHidden", Interface.PetWindowHidden )
-
 	Interface.RedDef =									Interface.LoadNumber( "RedDef", Interface.RedDef )
 	Interface.GreenDef =								Interface.LoadNumber( "GreenDef", Interface.GreenDef )
 	Interface.BlueDef =									Interface.LoadNumber( "BlueDef", Interface.BlueDef )
@@ -541,8 +538,6 @@ function Interface.CreateWindows()
 	CreateWindow( "OrganizerWindow", true)
 	CreateWindow( "ContainerSearchWindow", false)
 	CreateWindow( "RenameWindow", false)
-	CreateWindow( "PetWindow", true )
-	CreateWindow( "MobilesOnScreenWindow", true)
 	CreateWindow( "Compass", false)
 	CreateWindow( "MapFindWindow", false)
 	CreateWindow( "WarShield", UserOptionsSettings.showWarShield())
@@ -565,7 +560,6 @@ function Interface.InitializeWindows()
     StaticTextWindow.Initialize()
     MapCommon.Initialize()
 	LegacyRunebookLoader.Initialize()
-	PetWindow.UpdatePet()
 end
 
 function Interface.InitializeSOSWaypoints()
@@ -664,7 +658,6 @@ function Interface.InterfaceInitialize()
 		WindowSetOffsetFromParent("AdvancedBuffGood", x,y)
 		
 		WindowClearAnchors("ResizeWindow")
-		WindowAddAnchor("ResizeWindow", "topright", "PetWindow", "topleft", 5, 0)
 		x, y= WindowGetOffsetFromParent("ResizeWindow")
 		WindowClearAnchors("ResizeWindow")
 		WindowSetOffsetFromParent("ResizeWindow", x,y)
@@ -746,13 +739,8 @@ function Interface.Update( timePassed )
 	
 	ok, err = pcall(Interface.MapRefresh, timePassed)	
 	Interface.ErrorTracker(ok, err)
-		
-	
-	
+
 	ok, err = pcall(QuickStats.OnUpdate, timePassed)
-	Interface.ErrorTracker(ok, err)
-	
-	ok, err = pcall(Interface.SummonsManager, timePassed)	
 	Interface.ErrorTracker(ok, err)
 	
 	Interface.DeltaTime = Interface.DeltaTime + timePassed	
@@ -762,7 +750,6 @@ function Interface.Update( timePassed )
 	
 	ok, err = pcall(Interface.CheckLastTargetChanged, timePassed)	
 	Interface.ErrorTracker(ok, err)
-	
 	
 	ok, err = pcall(Actions.MassOrganizer, timePassed)	
 	Interface.ErrorTracker(ok, err)
@@ -1298,54 +1285,6 @@ function Interface.SkillsTrackerUpdate(_)
 	end
 end
 
-
-
-
-function Interface.SummonsManager(_)
-	for mobileId, _ in pairs(MobileHealthBar.CheckStatus) do
-		if (MobileHealthBar.CreateTime[mobileId] and Interface.TimeSinceLogin > MobileHealthBar.CreateTime[mobileId] ) then
-			MobilesOnScreen.RemoveHealthBar(mobileId)	
-		end
-	end
-    
-	for key, _ in pairs (MobileHealthBar.SummonTimer) do
-		local windowName = "MobileHealthBar_"..key
-		if MobileHealthBar.SummonTimer[key] - Interface.TimeSinceLogin <= 0 then
-			MobileHealthBar.SummonTimer[key] = nil
-			MobilesOnScreen.ReversePet[key] = nil
-			MobileHealthBar.CloseWindowByMobileId(key)
-		else
-			local timer = MobileHealthBar.SummonTimer[key] - Interface.TimeSinceLogin
-			if (MobileHealthBar.hasWindow[key] and DoesWindowNameExist(windowName)) then
-				WindowSetShowing(windowName.."SummonDuration", true)
-				StatusBarSetCurrentValue( windowName.."SummonDuration", timer )	
-				if (StatusBarGetMaximumValue(windowName.."SummonDuration") == 0) then
-					StatusBarSetMaximumValue( windowName.."SummonDuration", timer )
-				end
-			end
-			
-			
-			
-			if timer >= 60 then
-				local min = math.floor(timer/60)
-				local prefix = ""
-				if (timer - (min * 60) > 0) then
-					prefix = ">"
-				end
-				timer = StringToWString(prefix .. string.format("%.0f", min)	.. " min")
-			else
-				timer = StringToWString(string.format("%.0f", timer)	.. " sec")
-			end
-			
-			if (MobileHealthBar.hasWindow[key] and DoesWindowNameExist(windowName) ) then
-				LabelSetText(windowName.."HealthBarTimeSpan", timer )
-				--WindowSetFontAlpha(windowName .. "HealthBarTimeSpan", 0.5)
-			end
-			
-		end
-	end
-end
-
 function Interface.UpdateHealthbarStatus(_)
 	for mobileId, _ in pairs (MobileHealthBar.hasWindow) do
 		MobileHealthBar.UpdateStatus(mobileId)
@@ -1827,7 +1766,6 @@ function Interface.HonorMobileConfirm(mobileId)
 	Interface.WaitHonor = false
 	MobileHealthBar.UpdateName(mobileId)
 	OverheadText.UpdateName(mobileId)
-	MobilesOnScreen.isDirty = true
 end
 
 function Interface.ItemUseRequest()
@@ -1889,7 +1827,6 @@ function Interface.VirtueUseRequest()
 		if(lastHonorTarget ~= nil and lastHonorTarget ~= 0)then			
 			MobileHealthBar.UpdateName(lastHonorTarget)
 			OverheadText.UpdateName(lastHonorTarget)
-			MobilesOnScreen.isDirty = true
 		end						
 	end	
 end
