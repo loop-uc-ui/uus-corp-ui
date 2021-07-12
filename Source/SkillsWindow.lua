@@ -53,9 +53,6 @@ SkillsWindow.SkillDataMode = 0
 -- SkillCapMode  0 = don't show skill caps, 1 = show skill caps
 SkillsWindow.SkillCapMode = 0
 
--- SkillsTracker  0 = don't show Skills Tracker, 1 = show Skills Tracker
-SkillsWindow.SkillsTrackerMode = 0
-
 local oldSkillValues = {}
 local hasSkillValues = false
 
@@ -77,12 +74,6 @@ function SkillsWindow.Initialize()
 	end
 
 	UOBuildTableFromCSV ("data/gamedata/skilldata.csv","SkillsCSV")
-	--Debug.PrintToDebugConsole(L"SkillsWindow.Initialize: WindowData.SkillsCSV[1].ID =  "..StringToWString(tostring(WindowData.SkillsCSV[1].ID)))
-	--Debug.PrintToDebugConsole(L"SkillsWindow.Initialize: WindowData.SkillsCSV[1].NameTid =  "..StringToWString(tostring(WindowData.SkillsCSV[1].NameTid)))
-	--Debug.PrintToDebugConsole(L"SkillsWindow.Initialize: WindowData.SkillsCSV[1].ShowIcon =  "..StringToWString(tostring(WindowData.SkillsCSV[1].ShowIcon)))
-	
-	WindowRegisterEventHandler("SkillsWindow", SystemData.Events.TOGGLE_SKILLS_TRACKER_WINDOW, "SkillsWindow.SkillsTrackerToggleLButtonUp")
-	
 	this = "SkillsWindow"
 	
 	tabContents[SkillsWindow.CUSTOM_TAB_NUM] = SystemData.Settings.Interface.CustomSkills
@@ -146,7 +137,6 @@ function SkillsWindow.Initialize()
 	
 	SkillsWindow.UpdateSkillValueTypeToggleButtonText()	
 	SkillsWindow.UpdateSkillCapToggleButtonText()
-	SkillsWindow.UpdateSkillsTrackerToggleButtonText()
 	
 	SkillsWindow.UpdateTotalSkillPoints()
 	WindowUtils.RestoreWindowPosition("SkillsWindow")
@@ -755,11 +745,7 @@ function SkillsWindow.SkillValueTypeToggleLButtonUp()
 
 	SkillsWindow.UpdateSkillValueTypeToggleButtonText()	
 	SkillsWindow.ShowTab(data.activeTab)
-	
-	if( DoesWindowNameExist("SkillsTrackerWindow") ) then
-		SkillsTracker.Update()
-	end
-end -- SkillsWindowHidden.SkillValueTypeToggleLButtonUp
+end
 
 function SkillsWindow.UpdateSkillValueTypeToggleButtonText()
 	if (SkillsWindow.SkillDataMode == 0) then
@@ -783,11 +769,7 @@ function SkillsWindow.SkillCapToggleLButtonUp()
 	SkillsWindow.UpdateSkillCapToggleButtonText()	
 	
 	SkillsWindow.ShowTab(data.activeTab)
-	
-	if( DoesWindowNameExist("SkillsTrackerWindow") ) then
-		SkillsTracker.Update()
-	end
-end -- SkillsWindowHidden.SkillValueCapToggleLButtonUp
+end
 
 function SkillsWindow.UpdateSkillCapToggleButtonText()
 	--Debug.PrintToDebugConsole(L"SkillsWindow.UpdateSkillCapToggleButtonText():  SkillCapMode = "..StringToWString(tostring(SkillsWindow.SkillCapMode)))
@@ -796,28 +778,6 @@ function SkillsWindow.UpdateSkillCapToggleButtonText()
 		ButtonSetText( "SkillsWindowSkillCapToggleButton", GetStringFromTid(1078113) ) -- "Show Caps"
 	else
 		ButtonSetText( "SkillsWindowSkillCapToggleButton", GetStringFromTid(1078114) ) -- "Hide Caps"
-	end
-end
-
-function SkillsWindow.SkillsTrackerToggleLButtonUp()
-	if (SkillsWindow.SkillsTrackerMode == 0) then
-		SkillsWindow.SkillsTrackerMode = 1
-		CreateWindow("SkillsTrackerWindow", true)
-	else
-		SkillsWindow.SkillsTrackerMode = 0
-		DestroyWindow("SkillsTrackerWindow")
-	end
-	Interface.SaveBoolean( "ShowTracker" , SkillsWindow.SkillsTrackerMode == 1 )
-	SkillsWindow.UpdateSkillsTrackerToggleButtonText()	
-end
-
-function SkillsWindow.UpdateSkillsTrackerToggleButtonText()
-	if (SkillsWindow.SkillsTrackerMode == 0) then
-		ButtonSetText( "SkillsWindowSkillsTrackerToggleButton", GetStringFromTid(1111937) ) -- "Show Tracker"
-		SkillsWindow.SkillsTrackerMode = 0
-	else
-		ButtonSetText( "SkillsWindowSkillsTrackerToggleButton", GetStringFromTid(1111938) ) -- "Hide Tracker"
-		SkillsWindow.SkillsTrackerMode = 1
 	end
 end
 
@@ -860,9 +820,6 @@ function SkillsWindow.CheckSkillForUpdate(skill)
 			else
 				PrintWStringToChatWindow(text,SystemData.ChatLogFilters.SYSTEM)
 			end
-			if( DoesWindowNameExist("SkillsTrackerWindow") ) then
-				SkillsTracker.Update()
-			end
 			return 1
 		end
 
@@ -877,9 +834,6 @@ function SkillsWindow.CheckSkillForUpdate(skill)
 				NewChatWindow.UpdateLog()
 			else
 				PrintWStringToChatWindow(text,SystemData.ChatLogFilters.SYSTEM)
-			end
-			if( DoesWindowNameExist("SkillsTrackerWindow") ) then
-				SkillsTracker.Update()
 			end
 			
 			return 1
@@ -928,9 +882,6 @@ function SkillsWindow.ContextMenuCallback(returnCode,param)
 			SystemData.Settings.Interface.CustomSkills = newTabContents
 			tabContents[SkillsWindow.CUSTOM_TAB_NUM] = SystemData.Settings.Interface.CustomSkills
 			SkillsWindow.ShowTab(SkillsWindow.CUSTOM_TAB_NUM)
-			if( DoesWindowNameExist("SkillsTrackerWindow") ) then
-				SkillsTracker.Update()
-			end
 		elseif( returnCode == SkillsWindow.ContextReturnCodes.ADD_TO_CUSTOM ) then
 			local found = false
 			for _, item in pairs(tabContents[SkillsWindow.CUSTOM_TAB_NUM]) do
@@ -942,14 +893,10 @@ function SkillsWindow.ContextMenuCallback(returnCode,param)
 				local nextSlot = table.getn(tabContents[SkillsWindow.CUSTOM_TAB_NUM]) + 1		
 				tabContents[SkillsWindow.CUSTOM_TAB_NUM][nextSlot] = param
 			end
-			if( DoesWindowNameExist("SkillsTrackerWindow") ) then
-				SkillsTracker.Update()
-			end
 		elseif( returnCode == "ClearAutolock" ) then
 			SkillsWindow.SkillTargetVals[param] = nil
 			Interface.DeleteSetting( "SkillTargetVals_"..param )
 			SkillsWindow.ShowTab(data.activeTab)
-			SkillsTracker.Update()
 		elseif( returnCode == "SetAutolock" ) then
 			local serverId = WindowData.SkillsCSV[param].ServerId
 			local max = WindowData.SkillDynamicData[serverId].SkillCap / 10
@@ -993,7 +940,6 @@ function SkillsWindow.SetAutoLock(id, value, max, min)
 			BroadcastEvent(SystemData.Events.SKILLS_ACTION_SKILL_STATE_CHANGE)
 		end
 		SkillsWindow.ShowTab(data.activeTab)
-		SkillsTracker.Update()
 	end
 end
 

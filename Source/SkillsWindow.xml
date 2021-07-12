@@ -58,11 +58,6 @@
 			</EventHandlers>
 		</Button>
 
-		<Button name="SkillsTrackerToggleButton" inherits="UO_Default_Medium_Select_Button" font="UO_GoldButtonText" drawchildrenfirst="true" wordwrap="false">
-			<EventHandlers>
-				<EventHandler event="OnLButtonUp" function="SkillsWindow.SkillsTrackerToggleLButtonUp" />
-			</EventHandlers>
-		</Button>
 		<Button name="SkillsLock" inherits="UO_Default_Medium_Select_Button" font="UO_GoldButtonText" drawchildrenfirst="true" wordwrap="false">
 			<EventHandlers>
 				<EventHandler event="OnLButtonUp" function="SkillsWindow.SkillsLockLButtonUp" />
@@ -414,14 +409,6 @@
 				<Button name="$parentSkillCapToggleButton" inherits="SkillCapToggleButton" >
 					<Anchors>
 						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentSkillValueTypeToggleButton">
-							<AbsPoint x="5" y="0"/>
-						</Anchor>
-					</Anchors>
-				</Button>
-
-				<Button name="$parentSkillsTrackerToggleButton" inherits="SkillsTrackerToggleButton" >
-					<Anchors>
-						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentSkillCapToggleButton">
 							<AbsPoint x="5" y="0"/>
 						</Anchor>
 					</Anchors>

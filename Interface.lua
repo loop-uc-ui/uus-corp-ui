@@ -821,8 +821,6 @@ function Interface.Update( timePassed )
 			ok, err = pcall(QuickStats.Initialize)
 			Interface.ErrorTracker(ok, err)
 		end
-		
-		ok, err = pcall(Interface.SkillsTrackerUpdate, timePassed)	
 		Interface.ErrorTracker(ok, err)
 	end
 end
@@ -1259,22 +1257,6 @@ function Interface.MapRefresh(timePassed)
 			end
 		end	
 	end	
-end
-
-function Interface.SkillsTrackerUpdate(_)
-	if (SkillsWindow.SkillsTrackerMode  == 1 or Interface.LoadBoolean( "ShowTracker" , false )) then
-		SkillsWindow.SkillsTrackerMode = 1
-		if (not DoesWindowNameExist("SkillsTrackerWindow")) then
-			CreateWindow("SkillsTrackerWindow", true)
-			WindowUtils.RestoreWindowPosition("SkillsTrackerWindow")
-			SkillsTracker.Update()
-		end
-	else
-		SkillsWindow.SkillsTrackerMode = 0
-		if DoesWindowNameExist("SkillsTrackerWindow") then
-			DestroyWindow("SkillsTrackerWindow")
-		end
-	end
 end
 
 function Interface.UpdateHealthbarStatus(_)
