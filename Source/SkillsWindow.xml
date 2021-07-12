@@ -26,8 +26,6 @@
 				<EventHandler event="OnLButtonDown" function="SkillsWindow.SkillLButtonDown" />
 				<EventHandler event="OnLButtonUp" function="SkillsWindow.SkillLButtonUp" />
 				<EventHandler event="OnRButtonUp" function="SkillsWindow.SkillRButtonUp" />
-				<EventHandler event="OnMouseOver" function="SkillsWindow.SkillMouseOver" />
-				<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
 			</EventHandlers>
 		</Button>
 
@@ -42,7 +40,6 @@
 			</Anchors>
 			<EventHandlers>
 				<EventHandler event="OnLButtonUp" function="SkillsWindow.CycleLButtonUp" />
-				<EventHandler event="OnMouseOver" function="SkillsWindow.CycleMouseOver" />
 			</EventHandlers>
 		</Button>
 

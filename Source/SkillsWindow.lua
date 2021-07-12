@@ -576,28 +576,7 @@ function SkillsWindow.SkillLButtonUp()
 end
 
 function SkillsWindow.UseSkill (skillId)
-	-- skillId is the server id for the skill
-	--Debug.PrintToDebugConsole(L"SkillsWindow.UseSkill(): serverId = "..StringToWString(tostring(skillId)))
-	
 	UserActionUseSkill(skillId)
-end
-
--- OnMouseOver Handler
-function SkillsWindow.SkillMouseOver()
-	local buttonNum = WindowGetId( SystemData.ActiveWindow.name)
-	local tab = data.activeTab
-	local activeContent = tabContents[tab]
-	local skillIndex = activeContent[buttonNum]
-	
-	-- NOTE: Need to fix this. Id 0 is also a null check, so no tooltip for Alchemy
-	local skillId = WindowData.SkillsCSV[skillIndex].ServerId + 1
-
-	local itemData = { windowName = this,
-						itemId = skillId,
-						itemType = WindowData.ItemProperties.TYPE_ACTION,
-						actionType = SystemData.UserAction.TYPE_SKILL,
-						detail = ItemProperties.DETAIL_LONG }
-	ItemProperties.SetActiveItem(itemData)
 end
 
 -- Tab Handler
@@ -669,15 +648,6 @@ function SkillsWindow.CycleLButtonUp()
 	ReturnWindowData.SkillSystem.SkillId = WindowData.SkillsCSV[skillId].ServerId
 	ReturnWindowData.SkillSystem.SkillButtonState = state
 	BroadcastEvent (SystemData.Events.SKILLS_ACTION_SKILL_STATE_CHANGE)
-	
-end
-
-function SkillsWindow.CycleMouseOver()
-	local text = GetStringFromTid(1112103)
-	local buttonName = SystemData.ActiveWindow.name
-	Tooltips.CreateTextOnlyTooltip(buttonName, text)
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
 end
 
 -- Format an integer so it looks like "000.0" 
