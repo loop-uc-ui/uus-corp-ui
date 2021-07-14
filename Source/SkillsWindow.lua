@@ -250,10 +250,10 @@ function SkillsWindow.ShowTab(tabnum)
 			local skillFormatted = SkillsWindow.FormatSkillValue(skillLevel)
 			local capFormatted = SkillsWindow.FormatSkillValue(skillLevelCap)
 			if skillLevel ~= nil then
-				LabelSetText(valuePath, skillFormatted..L"/"..capFormatted..L"%")
+				LabelSetText(valuePath, skillFormatted..L"/"..capFormatted)
 			else
 				-- This shouldn't happen unless it misregisters the skills
-				LabelSetText(valuePath, L"---.-/---.-%")
+				LabelSetText(valuePath, L"---.-/---.-")
 			end
 			WindowSetId(base.."Icon", i)
 			WindowSetId(buttonPath, i)
@@ -526,9 +526,9 @@ function SkillsWindow.CheckSkillForUpdate(skill)
 		local oldSkillValue = oldSkillValues[skill]
 		newSkillValue = WindowData.SkillDynamicData[skill].RealSkillValue
 		if oldSkillValue > newSkillValue then
-			local skillValueDiff = SkillsWindow.FormatSkillValue(oldSkillValue - newSkillValue)..L"%"
+			local skillValueDiff = SkillsWindow.FormatSkillValue(oldSkillValue - newSkillValue)
 			local skillName = WindowData.SkillList[skill].skillName
-			local text = ReplaceTokens(GetStringFromTid(TID_SKILLDECREASE_TOK), {skillName, skillValueDiff, SkillsWindow.FormatSkillValue(newSkillValue)..L"%"})
+			local text = ReplaceTokens(GetStringFromTid(TID_SKILLDECREASE_TOK), {skillName, skillValueDiff, SkillsWindow.FormatSkillValue(newSkillValue)})
 			if (Interface.UseNewChat) then
 				local logVal = {text = text, channel = SystemData.ChatLogFilters.SYSTEM, color = TextParsing.SpecialColor, sourceId = 0, sourceName = "", ignore = false, category = 0, timeStamp = StringToWString(string.format("%02.f", Interface.Clock.h) .. ":" .. string.format("%02.f", Interface.Clock.m) .. ":" .. string.format("%02.f", Interface.Clock.s))}
 				table.insert(NewChatWindow.Messages, logVal)
@@ -540,9 +540,9 @@ function SkillsWindow.CheckSkillForUpdate(skill)
 		end
 
 		if oldSkillValue < newSkillValue then
-			local skillValueDiff = SkillsWindow.FormatSkillValue(newSkillValue - oldSkillValue)..L"%"
+			local skillValueDiff = SkillsWindow.FormatSkillValue(newSkillValue - oldSkillValue)
 			local skillName = WindowData.SkillList[skill].skillName
-			local text = ReplaceTokens(GetStringFromTid(TID_SKILLINCREASE_TOK), {skillName, skillValueDiff, SkillsWindow.FormatSkillValue(newSkillValue)..L"%"})
+			local text = ReplaceTokens(GetStringFromTid(TID_SKILLINCREASE_TOK), {skillName, skillValueDiff, SkillsWindow.FormatSkillValue(newSkillValue)})
 			
 			if (Interface.UseNewChat) then
 				local logVal = {text = text, channel = SystemData.ChatLogFilters.SYSTEM, color = TextParsing.SpecialColor, sourceId = 0, sourceName = "", ignore = false, category = 0, timeStamp = StringToWString(string.format("%02.f", Interface.Clock.h) .. ":" .. string.format("%02.f", Interface.Clock.m) .. ":" .. string.format("%02.f", Interface.Clock.s))}
