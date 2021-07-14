@@ -25,7 +25,6 @@
 			<EventHandlers>
 				<EventHandler event="OnLButtonDown" function="SkillsWindow.SkillLButtonDown" />
 				<EventHandler event="OnLButtonUp" function="SkillsWindow.SkillLButtonUp" />
-				<EventHandler event="OnRButtonUp" function="SkillsWindow.SkillRButtonUp" />
 			</EventHandlers>
 		</Button>
 
@@ -366,14 +365,6 @@
 					</Anchors>
 				</Button>
 
-				<Button name="$parentTabButton8" inherits="SkillsWindowTabButton" >
-					<Anchors>
-						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentTabButton7">
-							<AbsPoint x="5" y="0" />
-						</Anchor>
-					</Anchors>
-				</Button>
-
 				<Window name="$parentTabWindow1" inherits="SkillsWindowTabWindowTemplate" />
 				<Window name="$parentTabWindow2" inherits="SkillsWindowTabWindowTemplate" />
 				<Window name="$parentTabWindow3" inherits="SkillsWindowTabWindowTemplate" />
@@ -381,19 +372,6 @@
 				<Window name="$parentTabWindow5" inherits="SkillsWindowTabWindowTemplate" />
 				<Window name="$parentTabWindow6" inherits="SkillsWindowTabWindowTemplate" />
 				<Window name="$parentTabWindow7" inherits="SkillsWindowTabWindowTemplate" />
-				<Window name="$parentTabWindow8" inherits="SkillsWindowTabWindowTemplate" />
-
-				<Label name="$parentCustomHelp" font="UO_DefaultText" linespacing="20" maxchars="256" textalign="left" autoresize="true" handleinput="false" wordwrap="true" >
-					<Size>
-						<AbsPoint x="300" y="20" />
-					</Size>
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTabWindow1">
-							<AbsPoint x="12" y="12" />
-						</Anchor>
-					</Anchors>
-					<Color r="255" g="255" b="255" a="255" />
-				</Label>
 
 				<Button name="$parentSkillValueTypeToggleButton" inherits="SkillValueToggleButton" >
 					<Anchors>
