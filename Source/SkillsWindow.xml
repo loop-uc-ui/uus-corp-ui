@@ -48,12 +48,6 @@
 			</EventHandlers>
 		</Button>
 
-		<Button name="SkillCapToggleButton" inherits="UO_Default_Medium_Select_Button" font="UO_GoldButtonText" drawchildrenfirst="true" wordwrap="false">
-			<EventHandlers>
-				<EventHandler event="OnLButtonUp" function="SkillsWindow.SkillCapToggleLButtonUp" />
-			</EventHandlers>
-		</Button>
-
 		<Button name="SkillsLock" inherits="UO_Default_Medium_Select_Button" font="UO_GoldButtonText" drawchildrenfirst="true" wordwrap="false">
 			<EventHandlers>
 				<EventHandler event="OnLButtonUp" function="SkillsWindow.SkillsLockLButtonUp" />
@@ -381,14 +375,6 @@
 					</Anchors>
 				</Button>
 
-				<Button name="$parentSkillCapToggleButton" inherits="SkillCapToggleButton" >
-					<Anchors>
-						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentSkillValueTypeToggleButton">
-							<AbsPoint x="5" y="0"/>
-						</Anchor>
-					</Anchors>
-				</Button>
-
 				<Button name="$parentSkillsLock" inherits="SkillsLock" >
 					<Anchors>
 						<Anchor point="bottom" relativePoint="bottom" relativeTo="$parentSkillValueTypeToggleButton">
@@ -399,8 +385,8 @@
 
 				<Button name="$parentSkillsDown" inherits="SkillsDown" >
 					<Anchors>
-						<Anchor point="bottom" relativePoint="bottom" relativeTo="$parentSkillCapToggleButton">
-							<AbsPoint x="80" y="38"/>
+						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentSkillValueTypeToggleButton">
+							<AbsPoint x="5" y="0"/>
 						</Anchor>
 					</Anchors>
 				</Button>

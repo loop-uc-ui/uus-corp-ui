@@ -32,9 +32,6 @@ local data = 0
 -- SkillDataMode 0 = real skill value, 1 = skill with mods
 SkillsWindow.SkillDataMode = 0
 
--- SkillCapMode  0 = don't show skill caps, 1 = show skill caps
-SkillsWindow.SkillCapMode = 0
-
 local oldSkillValues = {}
 local hasSkillValues = false
 
@@ -48,7 +45,6 @@ function SkillsWindow.Initialize()
 	end
 	UOBuildTableFromCSV ("data/gamedata/skilldata.csv","SkillsCSV")
 	local this = "SkillsWindow"
-    SkillsWindow.SkillCapMode = (SystemData.Settings.Interface.SkillsWindowShowCaps and 1 or 0)
     SkillsWindow.SkillDataMode = (SystemData.Settings.Interface.SkillsWindowShowModified and 1 or 0)
 	
 	local id = SystemData.DynamicWindowId
@@ -85,8 +81,7 @@ function SkillsWindow.Initialize()
 	if (showing) then
 		SkillsWindow.ShowTab(data.activeTab)
 	end
-	SkillsWindow.UpdateSkillValueTypeToggleButtonText()	
-	SkillsWindow.UpdateSkillCapToggleButtonText()
+	SkillsWindow.UpdateSkillValueTypeToggleButtonText()
 	SkillsWindow.UpdateTotalSkillPoints()
 	WindowUtils.RestoreWindowPosition("SkillsWindow")
 	hasSkillValues = false
@@ -253,20 +248,12 @@ function SkillsWindow.ShowTab(tabnum)
 
 			-- Clean up the number so it works as a percentage
 			local skillFormatted = SkillsWindow.FormatSkillValue(skillLevel)
-			if (SkillsWindow.SkillCapMode == 0) then
-				if skillLevel ~= nil then
-					LabelSetText(valuePath, skillFormatted..L"%")		
-				else
-					LabelSetText(valuePath, L"---.-%")
-				end	
+			local capFormatted = SkillsWindow.FormatSkillValue(skillLevelCap)
+			if skillLevel ~= nil then
+				LabelSetText(valuePath, skillFormatted..L"/"..capFormatted..L"%")
 			else
-				local capFormatted = SkillsWindow.FormatSkillValue(skillLevelCap)
-				if skillLevel ~= nil then
-					LabelSetText(valuePath, skillFormatted..L"/"..capFormatted..L"%")		
-				else
-					-- This shouldn't happen unless it misregisters the skills
-					LabelSetText(valuePath, L"---.-/---.-%")
-				end
+				-- This shouldn't happen unless it misregisters the skills
+				LabelSetText(valuePath, L"---.-/---.-%")
 			end
 			WindowSetId(base.."Icon", i)
 			WindowSetId(buttonPath, i)
@@ -509,25 +496,6 @@ function SkillsWindow.UpdateSkillValueTypeToggleButtonText()
 		ButtonSetText( "SkillsWindowSkillValueTypeToggleButton", GetStringFromTid(1077768) ) -- "Show Modified"
 	else
 		ButtonSetText( "SkillsWindowSkillValueTypeToggleButton", GetStringFromTid(1077769) ) -- "Show Real"
-	end
-end
-
-function SkillsWindow.SkillCapToggleLButtonUp()
-	if (SkillsWindow.SkillCapMode == 0) then
-		SkillsWindow.SkillCapMode = 1
-	else
-		SkillsWindow.SkillCapMode = 0
-	end
-    SystemData.Settings.Interface.SkillsWindowShowCaps = (SkillsWindow.SkillCapMode == 1)
-	SkillsWindow.UpdateSkillCapToggleButtonText()
-	SkillsWindow.ShowTab(data.activeTab)
-end
-
-function SkillsWindow.UpdateSkillCapToggleButtonText()
-	if (SkillsWindow.SkillCapMode == 0) then
-		ButtonSetText( "SkillsWindowSkillCapToggleButton", GetStringFromTid(1078113) ) -- "Show Caps"
-	else
-		ButtonSetText( "SkillsWindowSkillCapToggleButton", GetStringFromTid(1078114) ) -- "Hide Caps"
 	end
 end
 
