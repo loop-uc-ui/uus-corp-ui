@@ -217,12 +217,9 @@ function SkillsWindow.ShowTab(tabnum)
 		if i <= numItemsInTab then
 			local skillId = activeContents[i]
 			local serverId = WindowData.SkillsCSV[skillId].ServerId
-			local iconPath = base .. "IconGraphic"
 			local namePath = base .. "Name"
 			local valuePath = base .. "Value"			
 			local buttonPath = base .. "SkillStateButton"
-			local iconId = WindowData.SkillsCSV[skillId].IconId
-			local iconTexture, x, y = GetIconData(iconId)
 			local displayName = GetStringFromTid(WindowData.SkillsCSV[skillId].NameTid)	
 			
 			local skillLevel
@@ -238,8 +235,6 @@ function SkillsWindow.ShowTab(tabnum)
 			end
 
 			local skillState = WindowData.SkillDynamicData[serverId].SkillState
-			DynamicImageSetTexture(iconPath, iconTexture, x, y)
-			DynamicImageSetTexture(iconPath.."BG", MiniTexturePack.DB[MiniTexturePack.Current].texture .. "Icon", 0, 0 )
 			LabelSetText(namePath, displayName)
 
 			-- Clean up the number so it works as a percentage
