@@ -219,7 +219,6 @@ function SkillsWindow.ShowTab(tabnum)
 			local serverId = WindowData.SkillsCSV[skillId].ServerId
 			local iconPath = base .. "IconGraphic"
 			local namePath = base .. "Name"
-			local titlePath = base .. "Title"
 			local valuePath = base .. "Value"			
 			local buttonPath = base .. "SkillStateButton"
 			local iconId = WindowData.SkillsCSV[skillId].IconId
@@ -241,10 +240,7 @@ function SkillsWindow.ShowTab(tabnum)
 			local skillState = WindowData.SkillDynamicData[serverId].SkillState
 			DynamicImageSetTexture(iconPath, iconTexture, x, y)
 			DynamicImageSetTexture(iconPath.."BG", MiniTexturePack.DB[MiniTexturePack.Current].texture .. "Icon", 0, 0 )
-			local titleString = SkillsWindow.GetSkillTitle (WindowData.SkillDynamicData[serverId].RealSkillValue)
-
 			LabelSetText(namePath, displayName)
-			LabelSetText(titlePath, titleString)
 
 			-- Clean up the number so it works as a percentage
 			local skillFormatted = SkillsWindow.FormatSkillValue(skillLevel)
@@ -448,36 +444,6 @@ function SkillsWindow.FormatSkillValue(skillLevel)
 	end
 	local output = whole..L"."..lastDigit
 	return output
-end
-
-function SkillsWindow.GetSkillTitle (skillLevel)
-	local titleString = L""
-	local level = skillLevel/100
-	
-	if (level > 2) then
-		if ((level >= 3) and (level < 4)) then
-			titleString = L"("..GetStringFromTid(1077474)..L")" -- "Neophyte"
-		elseif ((level >= 4) and (level < 5)) then
-			titleString = L"("..GetStringFromTid(1077475)..L")"-- "Novice"
-		elseif ((level >= 5) and (level < 6)) then
-			titleString = L"("..GetStringFromTid(1077476)..L")" -- "Apprentice"
-		elseif ((level >= 6) and (level < 7)) then
-			titleString = L"("..GetStringFromTid(1077477)..L")"  -- "Journeyman"
-		elseif ((level >= 7) and (level < 8)) then
-			titleString = L"("..GetStringFromTid(1077478)..L")" -- "Expert"
-		elseif ((level >= 8) and (level < 9)) then
-			titleString = L"("..GetStringFromTid(1077479)..L")" -- "Adept"
-		elseif ((level >= 9) and (level < 10)) then
-			titleString = L"("..GetStringFromTid(1077480)..L")"  -- "Master"
-		elseif (level >= 10) and (level < 11)  then
-			titleString = L"("..GetStringFromTid(1079309)..L")" -- "Grandmaster"
-		elseif (level >= 11) and (level < 12)  then
-			titleString = L"("..GetStringFromTid(1079272)..L")" -- "Elder"
-		elseif (level >= 12)   then
-			titleString = L"("..GetStringFromTid(1079273)..L")" -- "Legendary"
-		end		
-	end
-	return titleString
 end
 
 function SkillsWindow.SkillValueTypeToggleLButtonUp()
