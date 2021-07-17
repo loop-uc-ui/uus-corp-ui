@@ -1,4 +1,4 @@
-<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../Interface.xsd">
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Windows>
 		<Button name="SkillIcon" texturescale="1.28" font="UO_DefaultText" textalign="topleft" drawchildrenfirst="true">
 			<Size>
