@@ -1,5 +1,13 @@
 Skills = {}
 
+function Skills.dynamicDataType()
+    return WindowData.SkillDynamicData.Type
+end
+
+function Skills.listDataType()
+    return WindowData.SkillList.Type
+end
+
 function Skills.list()
     return WindowData.SkillList
 end

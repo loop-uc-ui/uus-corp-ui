@@ -1,0 +1,58 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="SkillsListItemWindow.lua"/>
+    </Scripts>
+    <Windows>
+        <Window name="SkillsListItemWindow">
+            <Windows>
+                <Label name="$parentName" inherits="UO_Default_Label_Color" font="body"
+                       handleinput="false" autoresize="true" textalign="left">
+                    <Size>
+                        <AbsPoint x="162" y="10"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Label name="$parentRealValue" inherits="UO_Default_Label_Color" font="body"
+                       handleinput="false" autoresize="true" textalign="right">
+                    <Size>
+                        <AbsPoint x="76" y="10"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentName">
+                            <AbsPoint x="10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Label name="$parentModifiedValue" inherits="UO_Default_Label_Color" font="body"
+                       handleinput="false" autoresize="true" textalign="right">
+                    <Size>
+                        <AbsPoint x="76" y="10"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentRealValue">
+                            <AbsPoint x="10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Label name="$parentCapValue" inherits="UO_Default_Label_Color" font="body"
+                       handleinput="false" autoresize="true" textalign="right">
+                    <Size>
+                        <AbsPoint x="76" y="10"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentModifiedValue">
+                            <AbsPoint x="10" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

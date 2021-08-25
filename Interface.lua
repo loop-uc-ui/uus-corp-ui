@@ -735,10 +735,7 @@ function Interface.Update( timePassed )
 	ok, err = pcall(QuickStats.OnUpdate, timePassed)
 	Interface.ErrorTracker(ok, err)
 	
-	Interface.DeltaTime = Interface.DeltaTime + timePassed	
-	
-	ok, err = pcall(Interface.SkillLocker, timePassed)	
-	Interface.ErrorTracker(ok, err)
+	Interface.DeltaTime = Interface.DeltaTime + timePassed
 	
 	ok, err = pcall(Interface.CheckLastTargetChanged, timePassed)	
 	Interface.ErrorTracker(ok, err)
@@ -1262,13 +1259,6 @@ end
 function Interface.UpdateHealthbarStatus(_)
 	for mobileId, _ in pairs (MobileHealthBar.hasWindow) do
 		MobileHealthBar.UpdateStatus(mobileId)
-	end
-end
-
-function Interface.SkillLocker(_)
-	if (Interface.DeltaTime >= 0.1) then
-		SkillsWindow.LockSkills()
-		SkillsWindow.DownSkills()
 	end
 end
 
