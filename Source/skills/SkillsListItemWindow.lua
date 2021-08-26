@@ -2,18 +2,27 @@ SkillsListItemWindow = ListWindow:new("SkillsListItemWindow", false)
 
 local SKILLS_LIST_ITEM_WINDOW = "SkillsListItemWindow"
 
-function SkillsListItemWindow:new(index)
+function SkillsListItemWindow:new(
+        index,
+        name,
+        csvId,
+        iconId,
+        realValue,
+        baseValue,
+        capValue,
+        state
+)
     local this = {}
     this.index = index
     this.id = SKILLS_LIST_ITEM_WINDOW..index
     this.adapter = WindowAdapter:new(this.id)
     this.eventRegister = WindowEventRegister:new(this.id)
     this.isScrollable = false
-    this.name = Skills:name(index)
-    this.realValue = StringFormatter.toWString(Skills:realValue(index))
-    this.modifiedValue = StringFormatter.toWString(Skills:tempValue(index))
-    this.capValue = StringFormatter.toWString(Skills:cap(index))
-    this.state = Skills:state(index)
+    this.name = name
+    this.realValue = StringFormatter.toWString(realValue)
+    this.modifiedValue = StringFormatter.toWString(baseValue)
+    this.capValue = StringFormatter.toWString(capValue)
+    this.state = state
     self.__index = self
     return setmetatable(this, self)
 end

@@ -1,7 +1,10 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Scripts>
+		<Script file="SkillsWindow.lua"/>
+	</Scripts>
 	<Windows>
 		<ScrollWindow name="SkillsWindow" movable="true" childscrollwindow="SkillsWindowScrollChild"
-					  scrollbar="SkillsWindowScrollbar" autoHideScrollBar="false">
+					  scrollbar="SkillsWindowScrollbar" autoHideScrollBar="false" handleinput="true">
 			<Size>
 				<AbsPoint x="512" y="512" />
 			</Size>
@@ -37,7 +40,7 @@
 				</FullResizeImage>
 
 				<Label name="SkillsWindowNameLabel" inherits="UO_Default_Label_Color" font="body"
-					   handleinput="false" autoresize="true" textalign="center">
+					   handleinput="true" autoresize="true" textalign="center">
 					<Size>
 						<AbsPoint x="162" y="48" />
 					</Size>
@@ -46,6 +49,9 @@
 							<AbsPoint x="24" y="-24"/>
 						</Anchor>
 					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="SkillsWindow.OnNameSort" />
+					</EventHandlers>
 				</Label>
 
 				<Label name="SkillsWindowRealLabel" inherits="UO_Default_Label_Color" font="body"
@@ -105,7 +111,7 @@
 						</Anchor>
 					</Anchors>
 					<Windows>
-						<FullResizeImage name="$parentTimerLabelBackground" inherits="UO_Simple_Black_Background" alpha="0.33">
+						<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" alpha="0.33">
 							<Anchors>
 								<Anchor point="topleft" relativePoint="topleft" relativeTo="SkillsWindow"/>
 								<Anchor point="bottomright" relativePoint="bottomright" relativeTo="SkillsWindow"/>
