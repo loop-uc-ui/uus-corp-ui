@@ -23,4 +23,5 @@ end
 
 function ButtonWindow:setTexture(state, texture, x, y)
     ButtonApi.setTexture(self.id, state, texture, x, y)
+    return self
 end

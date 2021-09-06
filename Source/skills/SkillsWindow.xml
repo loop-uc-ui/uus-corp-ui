@@ -3,20 +3,16 @@
 		<Script file="SkillsWindow.lua"/>
 	</Scripts>
 	<Windows>
-		<ScrollWindow name="SkillsWindow" movable="true" childscrollwindow="SkillsWindowScrollChild"
-					  scrollbar="SkillsWindowScrollbar" autoHideScrollBar="false" handleinput="true">
+		<Window name="SkillsWindow" movable="true">
 			<Size>
 				<AbsPoint x="512" y="512" />
 			</Size>
 			<Anchors>
 				<Anchor point="center" relativePoint="center" />
 			</Anchors>
-			<EventHandlers>
-				<EventHandler event="OnInitialize" function="SkillsWindow.Initialize" />
-				<EventHandler event="OnShutdown" function="SkillsWindow.Shutdown" />
-			</EventHandlers>
+
 			<Windows>
-				<FullResizeImage name="SkillsBackground" texture="TMapBG" handleinput="false">
+				<FullResizeImage name="SkillsBackground" texture="TMapBG">
 					<Anchors>
 						<Anchor point="topleft" relativePoint="topleft"/>
 						<Anchor point="bottomright" relativePoint="bottomright"/>
@@ -39,94 +35,161 @@
 					</TexCoords>
 				</FullResizeImage>
 
-				<Label name="SkillsWindowNameLabel" inherits="UO_Default_Label_Color" font="body"
-					   handleinput="true" autoresize="true" textalign="center">
+				<Label name="$parentNameLabel" inherits="UO_Default_Label_Color"
+					   font="body" autoresize="true" textalign="leftcenter" layer="overlay">
 					<Size>
-						<AbsPoint x="162" y="48" />
+						<AbsPoint x="48" y="48" />
 					</Size>
 					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft">
-							<AbsPoint x="24" y="-24"/>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+							<AbsPoint x="24" y="12"/>
+						</Anchor>
+					</Anchors>
+				</Label>
+
+				<Button name="$parentNameSortButton" layer="overlay">
+					<Size>
+						<AbsPoint x="22" y="22" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentNameLabel">
+							<AbsPoint x="0" y="0" />
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="SkillsWindow.OnNameSort" />
+						<EventHandler event="OnLButtonUp" function="SkillsWindow.OnNameSort"/>
 					</EventHandlers>
-				</Label>
+				</Button>
 
-				<Label name="SkillsWindowRealLabel" inherits="UO_Default_Label_Color" font="body"
-					   handleinput="false" autoresize="true" textalign="center">
+				<Label name="$parentRealLabel" inherits="UO_Default_Label_Color" font="body"
+					   autoresize="true" textalign="leftcenter" layer="overlay">
 					<Size>
-						<AbsPoint x="76" y="48" />
+						<AbsPoint x="48" y="48" />
 					</Size>
 					<Anchors>
-						<Anchor point="topright" relativePoint="topleft" relativeTo="SkillsWindowNameLabel">
-							<AbsPoint x="10" y="0"/>
-						</Anchor>
-					</Anchors>
-				</Label>
-
-				<Label name="SkillsWindowBaseLabel" inherits="UO_Default_Label_Color" font="body"
-					   handleinput="false" autoresize="true" textalign="center">
-					<Size>
-						<AbsPoint x="76" y="48" />
-					</Size>
-					<Anchors>
-						<Anchor point="topright" relativePoint="topleft" relativeTo="SkillsWindowRealLabel">
-							<AbsPoint x="10" y="0"/>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentNameSortButton">
+							<AbsPoint x="112" y="0"/>
 						</Anchor>
 					</Anchors>
 				</Label>
 
-				<Label name="SkillsWindowCapLabel" inherits="UO_Default_Label_Color" font="body"
-					   handleinput="false" autoresize="true" textalign="center">
+				<Button name="$parentRealSortButton" layer="overlay">
 					<Size>
-						<AbsPoint x="76" y="48" />
+						<AbsPoint x="22" y="22" />
 					</Size>
 					<Anchors>
-						<Anchor point="topright" relativePoint="topleft" relativeTo="SkillsWindowBaseLabel">
-							<AbsPoint x="10" y="0"/>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentRealLabel">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="SkillsWindow.OnRealSort"/>
+					</EventHandlers>
+				</Button>
+
+				<Label name="$parentBaseLabel" inherits="UO_Default_Label_Color" font="body"
+					   autoresize="true" textalign="leftcenter" layer="overlay">
+					<Size>
+						<AbsPoint x="42" y="48" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentRealSortButton">
+							<AbsPoint x="20" y="0"/>
 						</Anchor>
 					</Anchors>
 				</Label>
 
-				<VerticalScrollbar name="$parentScrollbar" inherits="StandardVertScroll">
-					<Anchors>
-						<Anchor point="topright" relativePoint="topleft">
-							<AbsPoint x="-11" y="24"/>
-						</Anchor>
-						<Anchor point="bottomright" relativePoint="bottomright">
-							<AbsPoint x="0" y="-24"/>
-						</Anchor>
-					</Anchors>
-				</VerticalScrollbar>
-
-				<Window name="SkillsWindowScrollChild">
+				<Button name="$parentBaseSortButton" layer="overlay">
 					<Size>
-						<AbsPoint x="468" y="512" />
+						<AbsPoint x="22" y="22" />
 					</Size>
 					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft">
-							<AbsPoint x="24" y="48"/>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentBaseLabel">
+							<AbsPoint x="0" y="0" />
 						</Anchor>
 					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="SkillsWindow.OnBaseSort"/>
+					</EventHandlers>
+				</Button>
+
+				<Label name="$parentCapLabel" inherits="UO_Default_Label_Color" font="body"
+					   autoresize="true" textalign="leftcenter" layer="overlay" >
+					<Size>
+						<AbsPoint x="36" y="48" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentBaseSortButton">
+							<AbsPoint x="32" y="0"/>
+						</Anchor>
+					</Anchors>
+				</Label>
+
+				<Button name="$parentCapSortButton" layer="overlay">
+					<Size>
+						<AbsPoint x="22" y="22" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentCapLabel">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="SkillsWindow.OnCapSort"/>
+					</EventHandlers>
+				</Button>
+
+				<ScrollWindow name="SkillsScrollWindow" childscrollwindow="SkillsWindowScrollChild"
+							  scrollbar="SkillsScrollWindowScrollbar" autoHideScrollBar="false">
+					<Size>
+						<AbsPoint x="512" y="512" />
+					</Size>
+					<Anchors>
+						<Anchor point="center" relativePoint="center" />
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnInitialize" function="SkillsWindow.Initialize" />
+						<EventHandler event="OnShutdown" function="SkillsWindow.Shutdown" />
+					</EventHandlers>
 					<Windows>
-						<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" alpha="0.33">
+						<VerticalScrollbar name="$parentScrollbar" inherits="StandardVertScroll">
 							<Anchors>
-								<Anchor point="topleft" relativePoint="topleft" relativeTo="SkillsWindow"/>
-								<Anchor point="bottomright" relativePoint="bottomright" relativeTo="SkillsWindow"/>
+								<Anchor point="topright" relativePoint="topleft">
+									<AbsPoint x="-11" y="24"/>
+								</Anchor>
+								<Anchor point="bottomright" relativePoint="bottomright">
+									<AbsPoint x="0" y="-24"/>
+								</Anchor>
 							</Anchors>
-						</FullResizeImage>
+						</VerticalScrollbar>
 
-						<Window name="Skills">
+						<Window name="SkillsWindowScrollChild" >
 							<Size>
-								<AbsPoint x="512" y="1920"/>
+								<AbsPoint x="468" y="512" />
 							</Size>
+							<Windows>
+								<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" alpha="0.50">
+									<Anchors>
+										<Anchor point="topleft" relativePoint="topleft" relativeTo="SkillsScrollWindow"/>
+										<Anchor point="bottomright" relativePoint="bottomright" relativeTo="SkillsScrollWindow"/>
+									</Anchors>
+								</FullResizeImage>
+
+								<Window name="Skills">
+									<Size>
+										<AbsPoint x="512" y="1920"/>
+									</Size>
+									<Anchors>
+										<Anchor point="topleft" relativePoint="topleft">
+											<AbsPoint x="24" y="48"/>
+										</Anchor>
+									</Anchors>
+								</Window>
+							</Windows>
 						</Window>
 					</Windows>
-				</Window>
+				</ScrollWindow>
 			</Windows>
-		</ScrollWindow>
-
+		</Window>
 	</Windows>
 </Interface>
