@@ -247,9 +247,8 @@ local function setSortButtonTexture(sortMode)
 	end
 end
 
-local function sortSkills(sortMode)
+local function sortSkills(mode)
 	local list = mapSkills()
-	mode = sortMode
 	if mode == SORT_NAME_DESC then
 		table.sort(
 				list,
@@ -358,7 +357,7 @@ function SkillsWindow.ToggleSkillsWindow()
 end
 
 function SkillsWindow.OnNameSort()
-	if mode == SORT_NAME_ASC then
+	if mode ~= SORT_NAME_DESC then
 		mode = SORT_NAME_DESC
 	else
 		mode = SORT_NAME_ASC
@@ -367,7 +366,7 @@ function SkillsWindow.OnNameSort()
 end
 
 function SkillsWindow.OnRealSort()
-	if mode == SORT_REAL_ASC then
+	if mode ~= SORT_REAL_DESC then
 		mode = SORT_REAL_DESC
 	else
 		mode = SORT_REAL_ASC
@@ -376,7 +375,7 @@ function SkillsWindow.OnRealSort()
 end
 
 function SkillsWindow.OnBaseSort()
-	if mode == SORT_BASE_ASC then
+	if mode ~= SORT_BASE_DESC then
 		mode = SORT_BASE_DESC
 	else
 		mode = SORT_BASE_ASC
@@ -385,7 +384,7 @@ function SkillsWindow.OnBaseSort()
 end
 
 function SkillsWindow.OnCapSort()
-	if mode == SORT_CAP_ASC then
+	if mode ~= SORT_CAP_DESC then
 		mode = SORT_CAP_DESC
 	else
 		mode = SORT_CAP_ASC
