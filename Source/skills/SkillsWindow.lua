@@ -109,7 +109,7 @@ local function setSortButtonTexture(sortMode)
 	if sortMode == SORT_NAME_DESC then
 		applyUpDownTexture(
 				SkillsWindow.adapter.views[NAME_BUTTON],
-				false
+				true
 		)
 		applyUpDownTexture(
 				SkillsWindow.adapter.views[BASE_BUTTON],
@@ -126,7 +126,7 @@ local function setSortButtonTexture(sortMode)
 	elseif sortMode == SORT_NAME_ASC then
 		applyUpDownTexture(
 				SkillsWindow.adapter.views[NAME_BUTTON],
-				true
+				false
 		)
 		applyUpDownTexture(
 				SkillsWindow.adapter.views[BASE_BUTTON],
