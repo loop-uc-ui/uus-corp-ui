@@ -1,0 +1,15 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="SkillsLockButtonWind.lua"/>
+    </Scripts>
+    <Windows>
+        <Button name="SkillsLockButtonWindow" layer="overlay">
+            <Size>
+                <AbsPoint x="22" y="22" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="SkillsLockButtonWindow.OnToggleSort"/>
+            </EventHandlers>
+        </Button>
+    </Windows>
+</Interface>

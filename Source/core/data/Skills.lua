@@ -51,3 +51,11 @@ end
 function Skills:cap(index)
     return self:dynamicData()[index].SkillCap
 end
+
+function Skills.icon(index)
+    return WindowData.SkillsCSV[index].IconId
+end
+
+function Skills.serverId(index)
+    return WindowData.SkillsCSV[index].ServerId
+end

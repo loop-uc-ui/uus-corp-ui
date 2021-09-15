@@ -52,6 +52,20 @@
                         </Anchor>
                     </Anchors>
                 </Label>
+
+                <DynamicImage name="$parentLockButton" layer="overlay">
+                    <Size>
+                        <AbsPoint x="22" y="22" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentCapValue">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SkillsListItemWindow.OnLock"/>
+                    </EventHandlers>
+                </DynamicImage>
             </Windows>
         </Window>
     </Windows>

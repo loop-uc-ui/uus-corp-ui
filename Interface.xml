@@ -40,6 +40,7 @@
 	<Include file="Source/ContextMenu.xml" />
 	<Include file="Source/CourseMapWindow.xml" />
 	<Include file="Source/DamageWindow.xml" />
+	<Include file="Source/skills/SkillsLockButtonWindow.xml"/>
 	<Include file="Source/skills/SkillsListItemWindow.xml"/>
 	<Include file="Source/skills/SkillsWindow.xml" />
 	<Include file="Source/PaperdollWindow.xml" />
@@ -201,6 +202,7 @@
 		<Script file="Source/ItemPropertiesInfo.lua"/>
 		<Script file="Source/MapCommon.lua" />
 		<Script file="Source/MapWindow.lua" />
+		<Script file="Source/skills/SkillsLockButtonWindow.lua"/>
 		<Script file="Source/skills/SkillsListItemWindow.lua"/>
 		<Script file="Source/skills/SkillsWindow.lua" />
 		<Script file="Source/GenericGump.lua" />

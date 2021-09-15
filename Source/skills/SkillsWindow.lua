@@ -21,10 +21,18 @@ local BASE_BUTTON = "SkillsWindowBaseSortButton"
 local CAP_LABEL = "SkillsWindowCapLabel"
 local CAP_BUTTON = "SkillsWindowCapSortButton"
 
-local ARROW_UP = "arrowup"
-local ARROW_DOWN = "arrowdown"
-
 local mode = SORT_NAME_DESC
+
+local function createSortButton(id, parent, state, onSort)
+	WindowApi.createFromTemplate(id, "SkillsLockButtonWindow", parent)
+	local button = SkillsLockButtonWindow:new(
+			id,
+			state,
+			onSort
+	)
+	button:setButtonTexture()
+	SkillsWindow.adapter.views[id] = button
+end
 
 local function mapSkills()
 	local skills = {}
@@ -76,229 +84,58 @@ local function addSkills(list)
 	end
 end
 
-local function applyUpDownTexture(button, isDown)
-	local arrow = ARROW_UP
-	if isDown then
-		arrow = ARROW_DOWN
-	end
-
-	button:setTexture(
-			InterfaceCore.ButtonStates.STATE_NORMAL,
-			arrow,
-			0,
-			0
-	):setTexture(
-			InterfaceCore.ButtonStates.STATE_PRESSED,
-			arrow,
-			0,
-			0
-	):setTexture(
-			InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE,
-			arrow,
-			24,
-			0
-	):setTexture(
-			InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE,
-			arrow,
-			24,
-			0
-	):setShowing(true)
-end
-
-local function setSortButtonTexture(sortMode)
-	if sortMode == SORT_NAME_DESC then
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[NAME_BUTTON],
-				true
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[BASE_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[REAL_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[CAP_BUTTON],
-				false
-		)
-	elseif sortMode == SORT_NAME_ASC then
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[NAME_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[BASE_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[REAL_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[CAP_BUTTON],
-				false
-		)
-	elseif sortMode == SORT_REAL_DESC then
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[REAL_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[BASE_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[NAME_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[CAP_BUTTON],
-				false
-		)
-	elseif sortMode == SORT_REAL_ASC then
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[REAL_BUTTON],
-				true
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[BASE_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[NAME_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[CAP_BUTTON],
-				false
-		)
-	elseif sortMode == SORT_BASE_DESC then
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[BASE_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[REAL_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[NAME_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[CAP_BUTTON],
-				false
-		)
-	elseif sortMode == SORT_BASE_ASC then
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[BASE_BUTTON],
-				true
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[REAL_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[NAME_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[CAP_BUTTON],
-				false
-		)
-	elseif sortMode == SORT_CAP_DESC then
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[CAP_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[REAL_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[NAME_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[BASE_BUTTON],
-				false
-		)
-	elseif sortMode == SORT_CAP_ASC then
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[CAP_BUTTON],
-				true
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[REAL_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[NAME_BUTTON],
-				false
-		)
-		applyUpDownTexture(
-				SkillsWindow.adapter.views[BASE_BUTTON],
-				false
-		)
-	else
-		setSortButtonTexture(SORT_NAME_ASC)
-	end
-end
-
-local function sortSkills(mode)
+local function sortSkills(sortMode)
 	local list = mapSkills()
-	if mode == SORT_NAME_DESC then
+	if sortMode == SORT_NAME_DESC then
 		table.sort(
 				list,
 				function (a, b)
 					return a.name < b.name
 				end
 		)
-	elseif mode == SORT_NAME_ASC then
+	elseif sortMode == SORT_NAME_ASC then
 		table.sort(
 				list,
 				function (a, b)
 					return a.name > b.name
 				end
 		)
-	elseif mode == SORT_REAL_ASC then
+	elseif sortMode == SORT_REAL_ASC then
 		table.sort(
 				list,
 				function (a, b)
 					return a.realValue > b.realValue
 				end
 		)
-	elseif mode == SORT_REAL_DESC then
+	elseif sortMode == SORT_REAL_DESC then
 		table.sort(
 				list,
 				function (a, b)
 					return a.realValue < b.realValue
 				end
 		)
-	elseif mode == SORT_BASE_ASC then
+	elseif sortMode == SORT_BASE_ASC then
 		table.sort(
 				list,
 				function (a, b)
 					return a.baseValue > b.baseValue
 				end
 		)
-	elseif mode == SORT_BASE_DESC then
+	elseif sortMode == SORT_BASE_DESC then
 		table.sort(
 				list,
 				function (a, b)
 					return a.baseValue < b.baseValue
 				end
 		)
-	elseif mode == SORT_CAP_ASC then
+	elseif sortMode == SORT_CAP_ASC then
 		table.sort(
 				list,
 				function (a, b)
 					return a.cap > b.cap
 				end
 		)
-	elseif mode == SORT_CAP_DESC then
+	elseif sortMode == SORT_CAP_DESC then
 		table.sort(
 				list,
 				function (a, b)
@@ -311,7 +148,76 @@ local function sortSkills(mode)
 
 	clearSkills()
 	addSkills(list)
-	setSortButtonTexture(mode)
+end
+
+local function onNameSort()
+	if mode ~= SORT_NAME_DESC then
+		mode = SORT_NAME_DESC
+	else
+		mode = SORT_NAME_ASC
+	end
+	sortSkills(mode)
+end
+
+local function onRealSort()
+	if mode ~= SORT_REAL_DESC then
+		mode = SORT_REAL_DESC
+	else
+		mode = SORT_REAL_ASC
+	end
+	sortSkills(mode)
+end
+
+local function onBaseSort()
+	if mode ~= SORT_BASE_DESC then
+		mode = SORT_BASE_DESC
+	else
+		mode = SORT_BASE_ASC
+	end
+	sortSkills(mode)
+end
+
+local function onCapSort()
+	if mode ~= SORT_CAP_DESC then
+		mode = SORT_CAP_DESC
+	else
+		mode = SORT_CAP_ASC
+	end
+	sortSkills(mode)
+end
+
+local function toggleButton(button, state)
+	for key, value in pairs(SkillsWindow.adapter.views) do
+		if string.find(key, "SortButton") then
+			if key == button then
+				value.canLock = false
+				value.state = state
+			else
+				value.state = SkillsLockButtonWindow.STATE_LOCKED
+			end
+			value:setButtonTexture()
+		end
+	end
+end
+
+local function toggleButtonTextures()
+	if mode == SORT_NAME_ASC then
+		toggleButton(NAME_BUTTON, SkillsLockButtonWindow.STATE_UP)
+	elseif mode == SORT_NAME_DESC then
+		toggleButton(NAME_BUTTON, SkillsLockButtonWindow.STATE_DOWN)
+	elseif mode == SORT_REAL_ASC then
+		toggleButton(REAL_BUTTON, SkillsLockButtonWindow.STATE_UP)
+	elseif mode == SORT_REAL_DESC then
+		toggleButton(REAL_BUTTON, SkillsLockButtonWindow.STATE_DOWN)
+	elseif mode == SORT_BASE_ASC then
+		toggleButton(BASE_BUTTON, SkillsLockButtonWindow.STATE_UP)
+	elseif mode == SORT_BASE_DESC then
+		toggleButton(BASE_BUTTON, SkillsLockButtonWindow.STATE_DOWN)
+	elseif mode == SORT_CAP_ASC then
+		toggleButton(CAP_BUTTON, SkillsLockButtonWindow.STATE_UP)
+	elseif mode == SORT_CAP_DESC then
+		toggleButton(CAP_BUTTON, SkillsLockButtonWindow.STATE_DOWN)
+	end
 end
 
 function SkillsWindow.Initialize()
@@ -339,55 +245,47 @@ function SkillsWindow.Initialize()
 	):addLabel(
 			CAP_LABEL,
 			"Cap"
-	):addButton(
-			NAME_BUTTON
-	):addButton(
-			REAL_BUTTON
-	):addButton(
-			CAP_BUTTON
-	):addButton(
-			BASE_BUTTON
 	)
-	SkillsWindow.adapter.views[NAME_BUTTON]:setShowing(false)
+
+	createSortButton(
+			NAME_BUTTON,
+			"SkillsWindowNameSortWindow",
+			SkillsLockButtonWindow.STATE_DOWN,
+			function ()
+				onNameSort()
+				toggleButtonTextures()
+			end
+	)
+	createSortButton(
+			REAL_BUTTON,
+			"SkillsWindowRealSortWindow",
+			SkillsLockButtonWindow.STATE_LOCKED,
+			function()
+				onRealSort()
+				toggleButtonTextures()
+			end
+	)
+	createSortButton(
+			CAP_BUTTON,
+			"SkillsWindowCapSortWindow",
+			SkillsLockButtonWindow.STATE_LOCKED,
+			function ()
+				onCapSort()
+				toggleButtonTextures()
+			end
+	)
+	createSortButton(
+			BASE_BUTTON,
+			"SkillsWindowBaseSortWindow",
+			SkillsLockButtonWindow.STATE_LOCKED,
+			function()
+				onBaseSort()
+				toggleButtonTextures()
+			end
+	)
 	sortSkills(mode)
 end
 
 function SkillsWindow.ToggleSkillsWindow()
 	SkillsWindow:setShowing(not SkillsWindow:isShowing())
-end
-
-function SkillsWindow.OnNameSort()
-	if mode ~= SORT_NAME_DESC then
-		mode = SORT_NAME_DESC
-	else
-		mode = SORT_NAME_ASC
-	end
-	sortSkills(mode)
-end
-
-function SkillsWindow.OnRealSort()
-	if mode ~= SORT_REAL_DESC then
-		mode = SORT_REAL_DESC
-	else
-		mode = SORT_REAL_ASC
-	end
-	sortSkills(mode)
-end
-
-function SkillsWindow.OnBaseSort()
-	if mode ~= SORT_BASE_DESC then
-		mode = SORT_BASE_DESC
-	else
-		mode = SORT_BASE_ASC
-	end
-	sortSkills(mode)
-end
-
-function SkillsWindow.OnCapSort()
-	if mode ~= SORT_CAP_DESC then
-		mode = SORT_CAP_DESC
-	else
-		mode = SORT_CAP_ASC
-	end
-	sortSkills(mode)
 end
