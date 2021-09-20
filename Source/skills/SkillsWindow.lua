@@ -193,6 +193,7 @@ local function toggleButton(button, state)
 				value.canLock = false
 				value.state = state
 			else
+				value.canLock = true
 				value.state = SkillsLockButtonWindow.STATE_LOCKED
 			end
 			value:setButtonTexture()

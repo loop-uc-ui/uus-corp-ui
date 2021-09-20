@@ -3,7 +3,7 @@
 		<Script file="SkillsWindow.lua"/>
 	</Scripts>
 	<Windows>
-		<Window name="SkillsWindow" movable="true">
+		<Window name="SkillsWindow" movable="true" popable="true">
 			<Size>
 				<AbsPoint x="512" y="512" />
 			</Size>
@@ -35,6 +35,22 @@
 					</TexCoords>
 				</FullResizeImage>
 
+				<HorizontalResizeImage name="$parentColumnBar" texture="WindowTitle" layer="popup">
+					<Size>
+						<AbsPoint x="10" y="26" />
+					</Size>
+					<Sizes left="8" middle="80" right="8" />
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+						<Anchor point="topright" relativePoint="topright" relativeTo="$parent"/>
+					</Anchors>
+					<TexCoords>
+						<Left x="0" y="0" />
+						<Middle x="55" y="0" />
+						<Right x="152" y="0" />
+					</TexCoords>
+				</HorizontalResizeImage>
+
 				<Label name="$parentNameLabel" inherits="UO_Default_Label_Color"
 					   font="body" autoresize="true" textalign="leftcenter" layer="overlay">
 					<Size>
@@ -42,7 +58,7 @@
 					</Size>
 					<Anchors>
 						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
-							<AbsPoint x="24" y="12"/>
+							<AbsPoint x="24" y="6"/>
 						</Anchor>
 					</Anchors>
 				</Label>
@@ -111,7 +127,7 @@
 					</Size>
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentBaseSortWindow">
-							<AbsPoint x="32" y="0"/>
+							<AbsPoint x="48" y="0"/>
 						</Anchor>
 					</Anchors>
 				</Label>
@@ -143,7 +159,7 @@
 						<VerticalScrollbar name="$parentScrollbar" inherits="StandardVertScroll">
 							<Anchors>
 								<Anchor point="topright" relativePoint="topleft">
-									<AbsPoint x="-11" y="24"/>
+									<AbsPoint x="-11" y="36"/>
 								</Anchor>
 								<Anchor point="bottomright" relativePoint="bottomright">
 									<AbsPoint x="0" y="-24"/>
@@ -169,7 +185,7 @@
 									</Size>
 									<Anchors>
 										<Anchor point="topleft" relativePoint="topleft">
-											<AbsPoint x="24" y="48"/>
+											<AbsPoint x="24" y="36"/>
 										</Anchor>
 									</Anchors>
 								</Window>
