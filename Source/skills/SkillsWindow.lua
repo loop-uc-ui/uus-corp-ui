@@ -104,42 +104,66 @@ local function sortSkills(sortMode)
 		table.sort(
 				list,
 				function (a, b)
-					return a.realValue > b.realValue
+					if a.realValue == b.realValue then
+						return a.name < b.name
+					else
+						return a.realValue > b.realValue
+					end
 				end
 		)
 	elseif sortMode == SORT_REAL_DESC then
 		table.sort(
 				list,
 				function (a, b)
-					return a.realValue < b.realValue
+					if a.realValue == b.realValue then
+						return a.name < b.name
+					else
+						return a.realValue < b.realValue
+					end
 				end
 		)
 	elseif sortMode == SORT_BASE_ASC then
 		table.sort(
 				list,
 				function (a, b)
-					return a.baseValue > b.baseValue
+					if a.baseValue == b.baseValue then
+						return a.name < b.name
+					else
+						return a.baseValue > b.baseValue
+					end
 				end
 		)
 	elseif sortMode == SORT_BASE_DESC then
 		table.sort(
 				list,
 				function (a, b)
-					return a.baseValue < b.baseValue
+					if a.baseValue == b.baseValue then
+						return a.name < b.name
+					else
+						return a.baseValue < b.baseValue
+					end
 				end
 		)
 	elseif sortMode == SORT_CAP_ASC then
 		table.sort(
 				list,
 				function (a, b)
-					return a.cap > b.cap
+					if a.cap == b.cap then
+						return a.name < b.name
+					else
+						return a.cap > b.cap
+					end
 				end
 		)
 	elseif sortMode == SORT_CAP_DESC then
 		table.sort(
 				list,
 				function (a, b)
-					return a.cap < b.cap
+					if a.cap == b.cap then
+						return a.name < b.name
+					else
+						return a.cap < b.cap
+					end
 				end
 		)
 	else
@@ -151,8 +175,10 @@ local function sortSkills(sortMode)
 end
 
 local function onNameSort()
-	if mode ~= SORT_NAME_DESC then
+	if mode == SORT_NAME_ASC then
 		mode = SORT_NAME_DESC
+	elseif mode == SORT_NAME_DESC then
+		mode = SORT_NAME_ASC
 	else
 		mode = SORT_NAME_ASC
 	end
@@ -160,8 +186,10 @@ local function onNameSort()
 end
 
 local function onRealSort()
-	if mode ~= SORT_REAL_DESC then
+	if mode == SORT_REAL_ASC then
 		mode = SORT_REAL_DESC
+	elseif mode == SORT_REAL_DESC then
+		mode = SORT_REAL_ASC
 	else
 		mode = SORT_REAL_ASC
 	end
@@ -169,8 +197,10 @@ local function onRealSort()
 end
 
 local function onBaseSort()
-	if mode ~= SORT_BASE_DESC then
+	if mode == SORT_BASE_ASC then
 		mode = SORT_BASE_DESC
+	elseif mode == SORT_BASE_DESC then
+		mode = SORT_BASE_ASC
 	else
 		mode = SORT_BASE_ASC
 	end
@@ -178,8 +208,10 @@ local function onBaseSort()
 end
 
 local function onCapSort()
-	if mode ~= SORT_CAP_DESC then
+	if mode == SORT_CAP_ASC then
 		mode = SORT_CAP_DESC
+	elseif mode == SORT_CAP_DESC then
+		mode = SORT_CAP_ASC
 	else
 		mode = SORT_CAP_ASC
 	end

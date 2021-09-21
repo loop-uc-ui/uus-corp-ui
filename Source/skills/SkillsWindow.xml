@@ -45,9 +45,9 @@
 						<Anchor point="topright" relativePoint="topright" relativeTo="$parent"/>
 					</Anchors>
 					<TexCoords>
-						<Left x="0" y="0" />
+						<Left x="55" y="0" />
 						<Middle x="55" y="0" />
-						<Right x="152" y="0" />
+						<Right x="55" y="0" />
 					</TexCoords>
 				</HorizontalResizeImage>
 
@@ -58,7 +58,7 @@
 					</Size>
 					<Anchors>
 						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
-							<AbsPoint x="24" y="6"/>
+							<AbsPoint x="24" y="4"/>
 						</Anchor>
 					</Anchors>
 				</Label>
