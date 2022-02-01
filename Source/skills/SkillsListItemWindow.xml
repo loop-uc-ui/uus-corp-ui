@@ -3,12 +3,38 @@
         <Script file="SkillsListItemWindow.lua"/>
     </Scripts>
     <Windows>
-        <Window name="SkillsListItemWindow">
+        <Window name="SkillsListItemWindow" layer="overlay" handleinput="true">
+            <Size>
+                <AbsPoint x="512" y="22"/>
+            </Size>
             <Windows>
+                <DynamicImage name="$parentBackground" layer="background" handleinput="true" texture="UO_Core">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentName">
+                            <AbsPoint x="0" y="-6"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentCapValue"/>
+                    </Anchors>
+                    <Size>
+                        <AbsPoint x="76" y="22"/>
+                    </Size>
+                    <TexCoords>
+                        <TopLeft x="260" y="4" />
+                        <TopCenter x="263" y="4" />
+                        <TopRight x="313" y="4" />
+                        <MiddleLeft x="260" y="4" />
+                        <MiddleCenter x="263" y="4" />
+                        <MiddleRight x="313" y="4" />
+                        <BottomLeft x="260" y="63" />
+                        <BottomCenter x="263" y="63" />
+                        <BottomRight x="313" y="63" />
+                    </TexCoords>
+                </DynamicImage>
+
                 <Label name="$parentName" inherits="UO_Default_Label_Color" font="body"
                        handleinput="false" autoresize="true" textalign="left">
                     <Size>
-                        <AbsPoint x="162" y="10"/>
+                        <AbsPoint x="162" y="22"/>
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
@@ -20,7 +46,7 @@
                 <Label name="$parentRealValue" inherits="UO_Default_Label_Color" font="body"
                        handleinput="false" autoresize="true" textalign="right">
                     <Size>
-                        <AbsPoint x="76" y="10"/>
+                        <AbsPoint x="76" y="22"/>
                     </Size>
                     <Anchors>
                         <Anchor point="topright" relativePoint="topleft" relativeTo="$parentName">
@@ -32,7 +58,7 @@
                 <Label name="$parentModifiedValue" inherits="UO_Default_Label_Color" font="body"
                        handleinput="false" autoresize="true" textalign="right">
                     <Size>
-                        <AbsPoint x="76" y="10"/>
+                        <AbsPoint x="76" y="22"/>
                     </Size>
                     <Anchors>
                         <Anchor point="topright" relativePoint="topleft" relativeTo="$parentRealValue">
@@ -44,7 +70,7 @@
                 <Label name="$parentCapValue" inherits="UO_Default_Label_Color" font="body"
                        handleinput="false" autoresize="true" textalign="right">
                     <Size>
-                        <AbsPoint x="76" y="10"/>
+                        <AbsPoint x="76" y="22"/>
                     </Size>
                     <Anchors>
                         <Anchor point="topright" relativePoint="topleft" relativeTo="$parentModifiedValue">
@@ -53,7 +79,7 @@
                     </Anchors>
                 </Label>
 
-                <DynamicImage name="$parentLockButton" layer="overlay">
+                <Window name="$parentLockButtonWindow" layer="overlay">
                     <Size>
                         <AbsPoint x="22" y="22" />
                     </Size>
@@ -62,10 +88,7 @@
                             <AbsPoint x="0" y="0" />
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="SkillsListItemWindow.OnLock"/>
-                    </EventHandlers>
-                </DynamicImage>
+                </Window>
             </Windows>
         </Window>
     </Windows>

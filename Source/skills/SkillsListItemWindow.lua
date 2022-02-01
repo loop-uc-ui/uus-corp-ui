@@ -42,24 +42,27 @@ function SkillsListItemWindow:new(
     return setmetatable(this, self)
 end
 
-function SkillsListItemWindow:setLockState()
-    local button = self.adapter.views[self.id.."LockButton"]
-    if self.state == STATE_UP then
-        button:setTexture("arrowup", 0, 0)
-    elseif self.state == STATE_DOWN then
-        button:setTexture("arrowdown", 0, 0)
-    elseif self.state == STATE_LOCKED then
-        button:setTexture("Lock_Button", 0, 0)
-    end
-end
-
 function SkillsListItemWindow:initialize()
     self.adapter:addLabel(self.id.."Name", self.name)
         :addLabel(self.id.."RealValue", self.realValue)
         :addLabel(self.id.."ModifiedValue", self.modifiedValue)
         :addLabel(self.id.."CapValue", self.capValue)
-        :addDynamicImage(self.id.."LockButton", "arrowup", 0, 0)
-    self:setLockState()
+
+    WindowApi.setShowing(self.id.."Background", false)
+    WindowApi.createFromTemplate(
+            self.id.."LockButton",
+            "SkillsLockButtonWindow",
+            self.id.."LockButtonWindow"
+    )
+    local button = SkillsLockButtonWindow:new(
+            self.id.."LockButton",
+            self.state,
+            function()
+                Debug.Print("test")
+            end
+    )
+    button:setButtonTexture()
+    self.adapter.views[button.id] = button
 
     if self.index > 1 then
         self:clearAnchors()
@@ -68,7 +71,7 @@ function SkillsListItemWindow:initialize()
                 SKILLS_LIST_ITEM_WINDOW..(self.index - 1),
                 "bottomleft",
                 0,
-                32
+                46
         )
     end
 end
@@ -140,4 +143,8 @@ function SkillsListItemWindow.OnDrag(flags)
 
         end
     end
+end
+
+function SkillsListItemWindow.OnMouseOver()
+    Debug.Print(SystemData.ActiveWindow.name)
 end

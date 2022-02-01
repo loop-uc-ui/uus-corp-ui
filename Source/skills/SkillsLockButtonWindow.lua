@@ -1,4 +1,4 @@
-SkillsLockButtonWindow = ButtonWindow:new("SkillsLockButtonWindow")
+SkillsLockButtonWindow = DynamicImageWindow:new("SkillsLockButtonWindow")
 
 SkillsLockButtonWindow.STATE_UP = 0
 SkillsLockButtonWindow.STATE_DOWN = 1
@@ -11,12 +11,12 @@ local LOCK_BUTTON = "Lock_Button"
 function SkillsLockButtonWindow:new(
         id,
         state,
-        onStateChange
+        onClick
 )
     local this = {}
     this.state = state
     this.id = id
-    this.onStateChange = onStateChange
+    this.onClick = onClick
     this.canLock = true
     self.__index = self
     return setmetatable(this, self)
@@ -33,31 +33,41 @@ function SkillsLockButtonWindow:setButtonTexture()
     end
 
     self:setTexture(
-            InterfaceCore.ButtonStates.STATE_NORMAL,
             texture,
             0,
             0
     ):setTexture(
-            InterfaceCore.ButtonStates.STATE_PRESSED,
             texture,
             0,
             0
     ):setTexture(
-            InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE,
             texture,
             24,
             0
     ):setTexture(
-            InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE,
             texture,
             24,
             0
-    ):setShowing(true)
+    ):setColor(
+            {
+                r = 220,
+                g = 220,
+                b = 220
+            }
+    )
 end
 
-function SkillsLockButtonWindow.OnToggleSort()
+local function findButton(id)
+    for key, value in pairs(SkillsWindow.adapter.views) do
+        if (string.find(id, key)) then
+            return value.adapter.views[id]
+        end
+    end
+end
+
+function SkillsLockButtonWindow.OnClick()
     local window = SystemData.ActiveWindow.name
-    local button = SkillsWindow.adapter.views[window]
+    local button = findButton(window)
     if button.state == SkillsLockButtonWindow.STATE_UP then
         button.state = SkillsLockButtonWindow.STATE_DOWN
     elseif button.state == SkillsLockButtonWindow.STATE_DOWN and button.canLock then
@@ -66,5 +76,5 @@ function SkillsLockButtonWindow.OnToggleSort()
         button.state = SkillsLockButtonWindow.STATE_UP
     end
     button:setButtonTexture()
-    button:onStateChange()
+    button:onClick()
 end
