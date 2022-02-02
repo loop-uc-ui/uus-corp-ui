@@ -8,28 +8,24 @@
                 <AbsPoint x="512" y="22"/>
             </Size>
             <Windows>
-                <DynamicImage name="$parentBackground" layer="background" handleinput="true" texture="UO_Core">
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentName">
-                            <AbsPoint x="0" y="-6"/>
-                        </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentCapValue"/>
-                    </Anchors>
+                <Button name="$parentButtonBackground" texturescale="0.9" backgroundtexture="" highlighttexture="Menu_Selection"
+                        font="UO_GoldButtonText" layer="default">
                     <Size>
-                        <AbsPoint x="76" y="22"/>
+                        <AbsPoint x="195" y="45"/>
                     </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="-10"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentLockButtonWindow">
+                            <AbsPoint x="0" y="10"/>
+                        </Anchor>
+                    </Anchors>
                     <TexCoords>
-                        <TopLeft x="260" y="4" />
-                        <TopCenter x="263" y="4" />
-                        <TopRight x="313" y="4" />
-                        <MiddleLeft x="260" y="4" />
-                        <MiddleCenter x="263" y="4" />
-                        <MiddleRight x="313" y="4" />
-                        <BottomLeft x="260" y="63" />
-                        <BottomCenter x="263" y="63" />
-                        <BottomRight x="313" y="63" />
+                        <NormalHighlit x="10" y="10"/>
+                        <PressedHighlit x="10" y="10"/>
                     </TexCoords>
-                </DynamicImage>
+                </Button>
 
                 <Label name="$parentName" inherits="UO_Default_Label_Color" font="body"
                        handleinput="false" autoresize="true" textalign="left">

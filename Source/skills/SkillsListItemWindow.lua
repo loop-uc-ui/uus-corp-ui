@@ -47,8 +47,8 @@ function SkillsListItemWindow:initialize()
         :addLabel(self.id.."RealValue", self.realValue)
         :addLabel(self.id.."ModifiedValue", self.modifiedValue)
         :addLabel(self.id.."CapValue", self.capValue)
+        :addButton(self.id.."ButtonBackground")
 
-    WindowApi.setShowing(self.id.."Background", false)
     WindowApi.createFromTemplate(
             self.id.."LockButton",
             "SkillsLockButtonWindow",
@@ -74,6 +74,8 @@ function SkillsListItemWindow:initialize()
                 46
         )
     end
+
+    self.adapter.views[self.id.."ButtonBackground"]:setColor(Colors.OffBlack)
 end
 
 function SkillsListItemWindow.OnLock()
