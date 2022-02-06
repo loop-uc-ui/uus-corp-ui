@@ -14,7 +14,8 @@
                         <AbsPoint x="195" y="45"/>
                     </Size>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonDown" function="SkillsListItemWindow.SkillLButtonDown" />
+                        <EventHandler event="OnLButtonDown" function="SkillsListItemWindow.onLeftClick" />
+                        <EventHandler event="OnLButtonDblClk" function="SkillsListItemWindow.onDoubleClick" />
                     </EventHandlers>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft">

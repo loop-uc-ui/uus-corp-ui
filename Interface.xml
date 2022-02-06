@@ -109,6 +109,8 @@
 		<Script file="Source/core/data/Skills.lua"/>
 		<Script file="Source/core/data/Buffs.lua"/>
 		<Script file="Source/core/data/Drag.lua"/>
+		<Script file="Source/core/data/UserAction.lua"/>
+		<Script file="Source/core/data/ButtonFlags.lua"/>
 		<Script file="Source/core/resources/Colors.lua"/>
 		<Script file="Source/core/data/CurrentTarget.lua"/>
 		<Script file="Source/core/data/Cursor.lua"/>

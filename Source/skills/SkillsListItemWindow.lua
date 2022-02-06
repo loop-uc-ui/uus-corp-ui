@@ -20,8 +20,6 @@ end
 function SkillsListItemWindow:new(
         index,
         name,
-        csvId,
-        iconId,
         realValue,
         baseValue,
         capValue,
@@ -38,6 +36,9 @@ function SkillsListItemWindow:new(
     this.modifiedValue = formatValue(baseValue)
     this.capValue = formatValue(capValue)
     this.state = state
+    this.dragIcon = Skills.dragIcon(index)
+    this.serverId = Skills.serverId(index)
+    this.iconId = Skills.icon(index)
     self.__index = self
     return setmetatable(this, self)
 end
@@ -89,73 +90,24 @@ function SkillsListItemWindow.OnLock()
     end
 end
 
-function SkillsListItemWindow.OnDrag(flags)
-    if( SystemData.DragItem.DragType == SystemData.DragItem.TYPE_NONE ) then
-        -- Player is dragging an icon
+function SkillsListItemWindow.onLeftClick()
+    if Drag.isNone() then
+        local button = SkillsListItemWindow.getActiveWindow()
 
-        -- button number is its location on the screen (1 = top of left column, 2 = 2nd in left column, etc with left column done first before starting through the right column)
-        local buttonNum = WindowGetId(SystemData.ActiveWindow.name)
-        local skill = SkillsWindow.adapter.views[buttonNum]
-
-        -- skillIndex is the line index in the csv file for this skill
-        local skillIndex = activeContent[buttonNum]
-        local skillId = Skills.serverId(skill.index)
-        local iconId = Skills.icon(skill.index)
-
-        --Debug.PrintToDebugConsole(L"SkillsWindow.SkillLButtonDown(): iconId = "..StringToWString(tostring(iconId)))
-
-        if (WindowData.SkillsCSV[skillIndex].DragIcon == 1) then
-            if( skillId ~= nil ) then
-                if flags == SystemData.ButtonFlags.CONTROL then -- SINGLE HOTBAR ICON
-                    local blockBar = HotbarSystem.GetNextHotbarId()
-                    Interface.SaveBoolean("Hotbar" .. blockBar .. "_IsBlockbar", true)
-                    HotbarSystem.SpawnNewHotbar()
-
-                    HotbarSystem.SetActionOnHotbar(SystemData.UserAction.TYPE_SKILL, skillId,iconId, blockBar,  1)
-
-                    local scaleFactor = 1/InterfaceCore.scale
-
-                    local propWindowWidth = Hotbar.BUTTON_SIZE
-                    local propWindowHeight = Hotbar.BUTTON_SIZE
-
-                    -- Set the position
-                    local mouseX = SystemData.MousePosition.x - 30
-                    if mouseX + (propWindowWidth / scaleFactor) > SystemData.screenResolution.x then
-                        propWindowX = mouseX - (propWindowWidth / scaleFactor)
-                    else
-                        propWindowX = mouseX
-                    end
-
-                    local mouseY = SystemData.MousePosition.y - 15
-                    if mouseY + (propWindowHeight / scaleFactor) > SystemData.screenResolution.y then
-                        propWindowY = mouseY - (propWindowHeight / scaleFactor)
-                    else
-                        propWindowY = mouseY
-                    end
-
-                    WindowSetOffsetFromParent("Hotbar" .. blockBar, propWindowX * scaleFactor, propWindowY * scaleFactor)
-                    WindowSetMoving("Hotbar" .. blockBar, true)
-
-                else
-                    DragSlotSetActionMouseClickData(SystemData.UserAction.TYPE_SKILL,skillId,iconId)
-                end
-            end
-        else
-            --Debug.PrintToDebugConsole(L"SkillsWindow.SkillLButtonDown(): Not allowed to drag index = "..StringToWString(tostring(skillIndex)))
-
+        if Skills.dragIcon(button.index) == 1 and button.serverId ~= nil then
+            DragSlotSetActionMouseClickData(
+                    SystemData.UserAction.TYPE_SKILL,
+                    button.serverId,
+                    button.iconId
+            )
         end
     end
 end
 
-function SkillsListItemWindow.SkillLButtonDown(flags)
-    if Drag.isNone() then
-        local button = SkillsWindow.adapter.views[string.gsub(ActiveWindow.name(), "ButtonBackground", "")]
-        local skillIndex = button.index
-        local skillId = Skills.serverId(skillIndex)
-        local iconId = Skills.icon(skillIndex)
+function SkillsListItemWindow.getActiveWindow()
+    return SkillsWindow.adapter.views[string.gsub(ActiveWindow.name(), "ButtonBackground", "")]
+end
 
-        if Skills.dragIcon(skillIndex) == 1 and skillId ~= nil then
-            DragSlotSetActionMouseClickData(SystemData.UserAction.TYPE_SKILL,skillId,iconId)
-        end
-    end
+function SkillsListItemWindow.onDoubleClick()
+    UserAction.useSkill(SkillsListItemWindow.getActiveWindow().serverId)
 end
