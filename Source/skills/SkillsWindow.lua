@@ -318,5 +318,10 @@ function SkillsWindow.Initialize()
 end
 
 function SkillsWindow.ToggleSkillsWindow()
-	SkillsWindow:setShowing(not SkillsWindow:isShowing())
+	if SkillsWindow:isShowing() then
+		SkillsWindow:destroy()
+	else
+		CreateWindow("SkillsWindow", false)
+		SkillsWindow:setShowing(true)
+	end
 end

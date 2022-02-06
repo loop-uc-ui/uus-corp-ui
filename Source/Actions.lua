@@ -115,10 +115,6 @@ end
 
 function Actions.ToggleSkillsWindow()
 	SkillsWindow.ToggleSkillsWindow()
-
-	-- if window is active, hilite button on menu bar
-	local WindowName = "SkillsWindow"
-	showing = WindowGetShowing(WindowName)
 end
 
 function Actions.ToggleVirtuesWindow()

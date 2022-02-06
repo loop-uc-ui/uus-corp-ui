@@ -12,7 +12,6 @@
 			</Anchors>
 			<EventHandlers>
 				<EventHandler event="OnInitialize" function="SkillsWindow.Initialize" />
-				<EventHandler event="OnShutdown" function="SkillsWindow.Shutdown" />
 			</EventHandlers>
 			<Windows>
 				<FullResizeImage name="SkillsBackground" texture="TMapBG" layer="background">
