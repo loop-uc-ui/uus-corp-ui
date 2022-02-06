@@ -326,3 +326,19 @@ function SkillsWindow.ToggleSkillsWindow()
 		SkillsWindow:setShowing(true)
 	end
 end
+
+function SkillsWindow.onUpdate()
+	local views = SkillsWindow.adapter.views
+
+	for i = 0, #Skills.dynamicData() - 1 do
+		for _, value in pairs(views) do
+			if value.csvId ~= nil and value.csvId == Skills:csvId(i) then
+				value:update(
+						Skills:realValue(i),
+						Skills:tempValue(i),
+						Skills:cap(i)
+				)
+			end
+		end
+	end
+end

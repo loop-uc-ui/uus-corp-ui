@@ -12,6 +12,7 @@
 			</Anchors>
 			<EventHandlers>
 				<EventHandler event="OnInitialize" function="SkillsWindow.Initialize" />
+				<EventHandler event="OnUpdate" function="SkillsWindow.onUpdate" />
 			</EventHandlers>
 			<Windows>
 				<FullResizeImage name="SkillsBackground" texture="TMapBG" layer="background">

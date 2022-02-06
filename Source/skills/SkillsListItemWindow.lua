@@ -112,3 +112,15 @@ end
 function SkillsListItemWindow.onDoubleClick()
     UserAction.useSkill(SkillsListItemWindow.getActiveWindow().serverId)
 end
+
+function SkillsListItemWindow:update(baseValue, modifiedValue, capValue)
+    self.adapter.views[self.id.."RealValue"]:setText(
+            formatValue(baseValue)
+    )
+    self.adapter.views[self.id.."ModifiedValue"]:setText(
+            formatValue(modifiedValue)
+    )
+    self.adapter.views[self.id.."CapValue"]:setText(
+            formatValue(capValue)
+    )
+end
