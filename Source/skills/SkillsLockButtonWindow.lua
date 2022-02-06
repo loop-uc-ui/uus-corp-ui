@@ -23,7 +23,7 @@ function SkillsLockButtonWindow:new(
 end
 
 function SkillsLockButtonWindow:setButtonTexture()
-    local texture = ARROW_UP
+    local texture
     if self.state == SkillsLockButtonWindow.STATE_UP then
         texture = ARROW_UP
     elseif self.state == SkillsLockButtonWindow.STATE_DOWN then
@@ -66,7 +66,7 @@ local function findButton(id)
 end
 
 function SkillsLockButtonWindow.OnClick()
-    local window = SystemData.ActiveWindow.name
+    local window = ActiveWindow.name()
     local button = findButton(window)
     if button.state == SkillsLockButtonWindow.STATE_UP then
         button.state = SkillsLockButtonWindow.STATE_DOWN
