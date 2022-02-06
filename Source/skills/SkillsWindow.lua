@@ -316,6 +316,7 @@ function SkillsWindow.Initialize()
 			end
 	)
 	sortSkills(mode)
+	WindowUtils.RestoreWindowPosition(SkillsWindow.id, true)
 end
 
 function SkillsWindow.ToggleSkillsWindow()
@@ -341,4 +342,8 @@ function SkillsWindow.onUpdate()
 			end
 		end
 	end
+end
+
+function SkillsWindow.shutdown()
+	WindowUtils.SaveWindowPosition(SkillsWindow.id)
 end
