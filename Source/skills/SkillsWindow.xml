@@ -13,6 +13,7 @@
 			<EventHandlers>
 				<EventHandler event="OnInitialize" function="SkillsWindow.Initialize" />
 				<EventHandler event="OnUpdate" function="SkillsWindow.onUpdate" />
+				<EventHandler event="OnRButtonUp" function="SkillsWindow.ToggleSkillsWindow"/>
 			</EventHandlers>
 			<Windows>
 				<FullResizeImage name="SkillsBackground" texture="TMapBG" layer="background">
