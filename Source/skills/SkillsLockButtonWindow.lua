@@ -59,7 +59,7 @@ end
 
 local function findButton(id)
     for key, value in pairs(SkillsWindow.adapter.views) do
-        if (string.find(id, key)) then
+        if key.."LockButton" == id then
             return value.adapter.views[id]
         end
     end
