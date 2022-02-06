@@ -11,3 +11,11 @@ end
 function Drag.isNone()
     return Drag.type() == SystemData.DragItem.TYPE_NONE
 end
+
+function Drag.setActionMouseClickData(userAction, actionId, iconId)
+    DragSlotSetActionMouseClickData(
+            userAction,
+            actionId,
+            iconId
+    )
+end

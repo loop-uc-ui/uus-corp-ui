@@ -95,8 +95,8 @@ function SkillsListItemWindow.onLeftClick()
         local button = SkillsListItemWindow.getActiveWindow()
 
         if Skills.dragIcon(button.index) == 1 and button.serverId ~= nil then
-            DragSlotSetActionMouseClickData(
-                    SystemData.UserAction.TYPE_SKILL,
+            Drag.setActionMouseClickData(
+                    UserAction.typeSkill(),
                     button.serverId,
                     button.iconId
             )
