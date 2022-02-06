@@ -71,6 +71,7 @@ local function addSkills(list)
 		)
 		local item = SkillsListItemWindow:new(
 				i,
+				skill.csvId,
 				skill.name,
 				skill.realValue,
 				skill.baseValue,

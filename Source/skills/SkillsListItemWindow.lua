@@ -19,6 +19,7 @@ end
 
 function SkillsListItemWindow:new(
         index,
+        csvId,
         name,
         realValue,
         baseValue,
@@ -28,6 +29,7 @@ function SkillsListItemWindow:new(
     local this = {}
     this.index = index
     this.id = SKILLS_LIST_ITEM_WINDOW..index
+    this.csvId = csvId
     this.adapter = WindowAdapter:new(this.id)
     this.eventRegister = WindowEventRegister:new(this.id)
     this.isScrollable = false
@@ -36,9 +38,9 @@ function SkillsListItemWindow:new(
     this.modifiedValue = formatValue(baseValue)
     this.capValue = formatValue(capValue)
     this.state = state
-    this.dragIcon = Skills.dragIcon(index)
-    this.serverId = Skills.serverId(index)
-    this.iconId = Skills.icon(index)
+    this.dragIcon = Skills.dragIcon(csvId)
+    this.serverId = Skills.serverId(csvId)
+    this.iconId = Skills.icon(csvId)
     self.__index = self
     return setmetatable(this, self)
 end
@@ -93,8 +95,7 @@ end
 function SkillsListItemWindow.onLeftClick()
     if Drag.isNone() then
         local button = SkillsListItemWindow.getActiveWindow()
-
-        if Skills.dragIcon(button.index) == 1 and button.serverId ~= nil then
+        if button.dragIcon == 1 and button.serverId ~= nil then
             Drag.setActionMouseClickData(
                     UserAction.typeSkill(),
                     button.serverId,
