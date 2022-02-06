@@ -147,6 +147,15 @@ function SkillsListItemWindow.OnDrag(flags)
     end
 end
 
-function SkillsListItemWindow.OnMouseOver()
-    Debug.Print(SystemData.ActiveWindow.name)
+function SkillsListItemWindow.SkillLButtonDown(flags)
+    if Drag.isNone() then
+        local button = SkillsWindow.adapter.views[string.gsub(ActiveWindow.name(), "ButtonBackground", "")]
+        local skillIndex = button.index
+        local skillId = Skills.serverId(skillIndex)
+        local iconId = Skills.icon(skillIndex)
+
+        if Skills.dragIcon(skillIndex) == 1 and skillId ~= nil then
+            DragSlotSetActionMouseClickData(SystemData.UserAction.TYPE_SKILL,skillId,iconId)
+        end
+    end
 end

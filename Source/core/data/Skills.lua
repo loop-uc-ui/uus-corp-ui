@@ -59,3 +59,7 @@ end
 function Skills.serverId(index)
     return WindowData.SkillsCSV[index].ServerId
 end
+
+function Skills.dragIcon(index)
+    return WindowData.SkillsCSV[index].DragIcon
+end

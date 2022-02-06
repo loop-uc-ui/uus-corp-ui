@@ -3,16 +3,19 @@
         <Script file="SkillsListItemWindow.lua"/>
     </Scripts>
     <Windows>
-        <Window name="SkillsListItemWindow" layer="overlay" handleinput="true">
+        <Window name="SkillsListItemWindow" layer="default">
             <Size>
                 <AbsPoint x="512" y="22"/>
             </Size>
             <Windows>
                 <Button name="$parentButtonBackground" texturescale="0.9" backgroundtexture="" highlighttexture="Menu_Selection"
-                        font="UO_GoldButtonText" layer="default">
+                        font="UO_GoldButtonText" layer="background">
                     <Size>
                         <AbsPoint x="195" y="45"/>
                     </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="SkillsListItemWindow.SkillLButtonDown" />
+                    </EventHandlers>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
                             <AbsPoint x="0" y="-10"/>
