@@ -50,7 +50,7 @@ function BaseWindow:setOffsetFromParent(x, y)
 end
 
 function BaseWindow:isShowing()
-    return WindowApi.isShowing(self.id)
+    return self ~= nil and WindowApi.doesExist(self.id) and WindowApi.isShowing(self.id)
 end
 
 function BaseWindow:setShowing(doShow)

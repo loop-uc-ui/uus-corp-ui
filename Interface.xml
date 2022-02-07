@@ -40,6 +40,8 @@
 	<Include file="Source/ContextMenu.xml" />
 	<Include file="Source/CourseMapWindow.xml" />
 	<Include file="Source/DamageWindow.xml" />
+	<Include file="Source/skills/SkillsLockButtonWindow.xml"/>
+	<Include file="Source/skills/SkillsListItemWindow.xml"/>
 	<Include file="Source/skills/SkillsWindow.xml" />
 	<Include file="Source/PaperdollWindow.xml" />
 	<Include file="Source/CharacterSheet.xml" />
@@ -104,12 +106,17 @@
 	<!-- Script Files -->
 	<Scripts>
 		<Script file="Source/core/data/ActiveWindow.lua"/>
+		<Script file="Source/core/data/Events.lua"/>
+		<Script file="Source/core/data/Skills.lua"/>
 		<Script file="Source/core/data/Buffs.lua"/>
 		<Script file="Source/core/data/Drag.lua"/>
+		<Script file="Source/core/data/UserAction.lua"/>
+		<Script file="Source/core/data/ButtonFlags.lua"/>
 		<Script file="Source/core/resources/Colors.lua"/>
 		<Script file="Source/core/data/CurrentTarget.lua"/>
 		<Script file="Source/core/data/Cursor.lua"/>
 		<Script file="Source/core/data/PlayerStatus.lua"/>
+		<Script file="Source/core/data/Skills.lua"/>
 		<Script file="Source/core/api/IconApi.lua"/>
 		<Script file="Source/core/api/TimeApi.lua"/>
 		<Script file="Source/core/api/CSVApi.lua"/>
@@ -198,6 +205,8 @@
 		<Script file="Source/ItemPropertiesInfo.lua"/>
 		<Script file="Source/MapCommon.lua" />
 		<Script file="Source/MapWindow.lua" />
+		<Script file="Source/skills/SkillsLockButtonWindow.lua"/>
+		<Script file="Source/skills/SkillsListItemWindow.lua"/>
 		<Script file="Source/skills/SkillsWindow.lua" />
 		<Script file="Source/GenericGump.lua" />
 		<Script file="Source/ChannelWindow.lua" />

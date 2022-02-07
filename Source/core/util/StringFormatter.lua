@@ -52,8 +52,10 @@ end
 function StringFormatter.toWString(text)
     if type(text) == "wstring" then
         return text
-    else
+    elseif type(text) == "string" then
         return StringApi.toWString(text)
+    else
+        return StringApi.toWString(tostring(text))
     end
 end
 

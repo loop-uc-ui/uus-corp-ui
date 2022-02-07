@@ -53,6 +53,10 @@ function ListWindow:onLeftClickUp()
 end
 
 function ListWindow:destroy()
+    if self == nil or not WindowApi.doesExist(self.id) then
+        return
+    end
+
     if self.eventRegister ~= nil then
         self.eventRegister:unregisterAllEvents()
     end

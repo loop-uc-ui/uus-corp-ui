@@ -722,8 +722,7 @@ function Hotbar.ItemMouseOver()
 	end
 
 	if( actionType == SystemData.UserAction.TYPE_SKILL ) then
-		bindingText = SkillsWindow.FormatSkillValue(WindowData.SkillDynamicData[itemId].RealSkillValue)..L"%\n"..bindingText -- Tack on the formatted skill level.
-		
+		bindingText = L""
 		-- NOTE: Need to fix this. Id 0 is also a null check, so no tooltip for Alchemy
 		itemId = itemId + 1
 	end	

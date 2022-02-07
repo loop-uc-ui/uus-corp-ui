@@ -5,12 +5,19 @@ local BUFFS = {
     NAME = "BuffDataCSV"
 }
 
+local SKILLS = {
+    PATH = "data/gamedata/skilldata.csv",
+    NAME = "SkillsCSV"
+}
+
 function CSVUtilities.initialize()
     CSVApi.buildTable(BUFFS.PATH, BUFFS.NAME)
+    CSVApi.buildTable(SKILLS.PATH, SKILLS.NAME)
 end
 
 function CSVUtilities.shutdown()
     CSVApi.unloadCSV(BUFFS.NAME)
+    CSVApi.unloadCSV(SKILLS.NAME)
 end
 
 function CSVUtilities.getNumRows(CSVTable)

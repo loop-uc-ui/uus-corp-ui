@@ -47,3 +47,9 @@ Colors.OffWhite = {
     g = 229,
     b = 229
 }
+
+Colors.OffBlack = {
+    r = 34,
+    g = 34,
+    b = 34
+}
