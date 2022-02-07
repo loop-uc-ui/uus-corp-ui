@@ -60,8 +60,10 @@ function SkillsListItemWindow:initialize()
     local button = SkillsLockButtonWindow:new(
             self.id.."LockButton",
             self.state,
-            function()
-                Debug.Print("test")
+            function(button)
+                Skills.setId(self.serverId)
+                Skills.setState(self.serverId, button.state)
+                EventApi.broadcast(Events.SkillStateChange())
             end
     )
     button:setButtonTexture()
@@ -96,7 +98,7 @@ function SkillsListItemWindow.onLeftClick()
     if Drag.isNone() then
         local button = SkillsListItemWindow.getActiveWindow()
         if button.dragIcon == 1 and button.serverId ~= nil then
-            Drag.setActionMouseClickData(
+            DragApi.setActionMouseClickData(
                     UserAction.typeSkill(),
                     button.serverId,
                     button.iconId

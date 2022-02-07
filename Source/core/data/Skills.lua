@@ -63,3 +63,16 @@ end
 function Skills.dragIcon(index)
     return WindowData.SkillsCSV[index].DragIcon
 end
+
+function Skills.setId(id)
+    ReturnWindowData.SkillSystem.SkillId = id
+end
+
+function Skills.setState(id, state)
+    WindowData.SkillDynamicData[id].SkillState = state
+    ReturnWindowData.SkillSystem.SkillButtonState = state
+end
+
+function Skills.event()
+    return Skills.dynamicData().Event
+end

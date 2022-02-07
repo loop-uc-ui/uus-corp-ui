@@ -265,6 +265,11 @@ function SkillsWindow.Initialize()
 			0
 	)
 
+	SkillsWindow:registerEventHandler(
+			Skills.event(),
+			"SkillsWindow.onUpdate"
+	)
+
 	SkillsWindow.adapter:addLabel(
 			NAME_LABEL,
 			"Name"
