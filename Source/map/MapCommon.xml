@@ -16,7 +16,6 @@
             <EventHandlers>
                 <EventHandler event="OnMouseOver" function="MapCommon.WaypointMouseOver" />
                 <EventHandler event="OnMouseOverEnd" function="MapCommon.WaypointMouseOverEnd" />
-                <EventHandler event="OnRButtonUp" function="MapCommon.WaypointOnRButtonUp" />
             </EventHandlers>
         </DynamicImage>
 
