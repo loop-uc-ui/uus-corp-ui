@@ -65,7 +65,6 @@
 	<Include file="Source/BookTemplate.xml"/>
 	<Include file="Source/RaceChange.xml"/>
 	<Include file="Source/TrackingPointer.xml" />
-	<Include file="Source/UserWaypointWindow.xml" />
 	<Include file="Source/FaceSelectionWindow.xml" />
 	<Include file="Source/StaticTextWindow.xml" />
 	<Include file="Source/DragWindow.xml" />
@@ -214,7 +213,6 @@
 		<Script file="Source/CharacterAbilities.lua" />
 		<Script file="Source/CharacterSheet.lua" />
 		<Script file="Source/ContextMenu.lua" />
-		<Script file="Source/UserWaypointWindow.lua" />
 		<Script file="Source/Shopkeeper.lua" />
 		<Script file="Source/RaceChange.lua" />
 		<Script file="Source/CustomizeHouseWindow.lua" />
