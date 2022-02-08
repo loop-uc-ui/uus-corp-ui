@@ -888,20 +888,7 @@ function MapCommon.WaypointOnRButtonUp()
 		params.name = wname
 		params.scale = scale
 	end
-	
-	-- IF CUSTOM WAYPOINT TYPE, SHOW DELETE WAYPOINT
-	if (SystemData.Waypoint.TypeIsCustomizable[params.type] == 1) then
-		ContextMenu.CreateLuaContextMenuItem(MapCommon.TID.DeleteWaypoint,0,MapCommon.ContextReturnCodes.DELETE_WAYPOINT,params)
-	-- IF PLAYER WAYPOINT TYPE, SHOW CREATE WAYPOINT UI	
-	elseif (waypointId == MapCommon.WaypointPlayerId) then
-		ContextMenu.CreateLuaContextMenuItem(MapCommon.TID.CreateWaypoint,0,MapCommon.ContextReturnCodes.CREATE_WAYPOINT,params)
-	-- IF REGULAR WAYPOINT TYPE, SHOW VIEW WAYPOINT UI	
-	else
-		ContextMenu.CreateLuaContextMenuItem(MapCommon.TID.ViewWaypoint,0,MapCommon.ContextReturnCodes.VIEW_WAYPOINT,params)
-	end
-	
 	ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(1154860),0,"magnetize", params,false)
-	
 	ContextMenu.ActivateLuaContextMenu(MapCommon.ContextMenuCallback)
 end
 
@@ -917,20 +904,6 @@ function MapCommon.ContextMenuCallback(returnCode, params)
 			Compass.MagnetPoint.waypointId = params.id
 			Compass.delta = 100
 			WindowSetShowing("Compass", true)
-		elseif (returnCode == MapCommon.ContextReturnCodes.CREATE_WAYPOINT) then
-			UserWaypointWindow.InitializeCreateWaypointData(params)
-		elseif(returnCode == MapCommon.ContextReturnCodes.DELETE_WAYPOINT) then
-			UODeleteUserWaypoint(params.id)
-			local waypointId = params.id
-			local windowName = "Waypoint"..waypointId..MapCommon.ActiveView
-			MapCommon.WaypointViewInfo[MapCommon.ActiveView].Windows[waypointId] = nil
-			--if (DoesWindowNameExist(windowName)) then
-			DestroyWindow(windowName)
-			--end
-			MapCommon.ForcedUpdate = true
-			MapCommon.WaypointsDirty = true			
-		elseif(returnCode == MapCommon.ContextReturnCodes.VIEW_WAYPOINT) then
-			UserWaypointWindow.InitializeViewWaypointData(params)
 		end
 	else
 		local text = string.find(returnCode, "callFacet") 
