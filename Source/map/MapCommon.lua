@@ -846,62 +846,6 @@ function MapCommon.WaypointMouseOverEnd()
     end    
 end
 
-function MapCommon.WaypointOnRButtonUp()
-	local waypointWindowName = SystemData.ActiveWindow.name
-	local waypointId = WindowGetId(waypointWindowName)
-
-	if waypointId ~= MapCommon.WaypointPlayerId then
-		local wtype, wname, wx, wy, scale
-		if (waypointId > 50000 ) then
-			if(TrackingPointer.TrackWaypoints[waypointId]) then
-				wtype = 13
-				wname = GetStringFromTid(1155436)
-				wx = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerX)
-				wy = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerY)
-			else
-				wtype = nil
-			end
-		elseif (waypointId > 10000 ) then
-			local data = Waypoints.UOGetWaypointInfo(waypointId - 10000, UOGetRadarFacet()) 
-			if data then
-				wtype = data.wtype
-				wname = StringToWString(data.wname)
-				wx = tonumber(data.wx)
-				wy = tonumber(data.wy)
-				scale = Waypoints.Facet[wfacet][waypointId - 10000].Scale
-			end
-
-		else
-			wtype, _, wname, _, wx, wy, _ = UOGetWaypointInfo(waypointId)
-		end
-		if (wtype == nil) then
-			DestroyWindow(waypointWindowName)
-			return
-        end
-		ContextMenu.ActivateLuaContextMenu(MapCommon.ContextMenuCallback)
-	end
-end
-
-function MapCommon.ContextMenuCallback(returnCode, _)
-	local text = string.find(returnCode, "callFacet")
-	if (text) then
-		local facet = tonumber(string.sub(returnCode, 10))
-		local area = 0
-		MapWindow.CenterOnPlayer = false
-		ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-		UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
-		MapCommon.ChangeMap(facet, area)
-	else
-		local facet = UOGetRadarFacet()
-		local area = tonumber(string.sub(returnCode, 9))
-
-		MapWindow.CenterOnPlayer = false
-		ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-		UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
-		MapCommon.ChangeMap(facet, area)
-	end
-end
-
 function MapCommon.GetRadarBorders(facet, area)
 	if not area then
 		return 0,0,0,0
