@@ -1,0 +1,69 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+		<Label name="WPText" font="Arial_Black_Shadow_12" maxchars="16" textalign="center" autoresize="true" wordwrap="false" layer="overlay" handleinput="false">
+			<Size>
+				<AbsPoint x="100" y="10" />
+			</Size>
+		</Label>
+
+		<StatusBar name="WPHealthBar" foreground="RedBar" handleinput="false">
+			<Size>
+				<AbsPoint x="120" y="20" />
+			</Size>
+		</StatusBar>
+		
+        <DynamicImage name="WaypointIconTemplate" movable="false" handleinput="true" layer="overlay" >
+            <EventHandlers>
+                <EventHandler event="OnMouseOver" function="MapCommon.WaypointMouseOver" />
+                <EventHandler event="OnMouseOverEnd" function="MapCommon.WaypointMouseOverEnd" />
+                <EventHandler event="OnRButtonUp" function="MapCommon.WaypointOnRButtonUp" />
+            </EventHandlers>
+        </DynamicImage>
+
+        <Window name="WaypointInfoTemplate" movable="false" layer="overlay" handleinput="false" sticky="true">
+            <Size>
+                <AbsPoint x="0" y="0" />
+            </Size>
+            <Windows>
+                <!-- Body background -->
+                <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <!-- Inner Frame Boilerplate -->
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+                <!-- End of Inner Frame Boilerplate -->
+
+                <Label name="$parentDetails" font="UO_DefaultText" maxchars="256" textalign="left" autoresize="true">
+                    <Size>
+                        <AbsPoint x="600" y="64" />
+                    </Size>                    
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="">
+                            <AbsPoint x="3" y="3"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="243" g="227" b="49" a="255" />
+                </Label>
+                <Label name="$parentLocation" font="UO_DefaultText" maxchars="256" textalign="left" autoresize="true">
+                    <Size>
+                        <AbsPoint x="600" y="64" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDetails">
+                            <AbsPoint x="0" y="3"/>
+                        </Anchor>
+                    </Anchors>                    
+                </Label>
+            </Windows>
+        </Window>   
+    </Windows>
+</Interface>

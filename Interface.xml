@@ -18,7 +18,7 @@
 
 	<!-- Windows -->
 	<Include file="Source/core/window/LockWindow.xml"/>
-	<Include file="Source/MapCommon.xml" />
+	<Include file="Source/map/MapCommon.xml" />
 	<Include file="Source/MobileHealthBar.xml" />
 	<Include file="Source/Organizer.xml" />
 	<Include file="Source/ResizeWindow.xml"/>
@@ -61,7 +61,7 @@
 	<Include file="Source/ActionEditWindow.xml" />
 	<Include file="Source/MacroEditWindow.xml" />
 	<Include file="Source/MacroPickerWindow.xml" />
-	<Include file="Source/MapWindow.xml" />
+	<Include file="Source/map/MapWindow.xml" />
 	<Include file="Source/BookTemplate.xml"/>
 	<Include file="Source/RaceChange.xml"/>
 	<Include file="Source/TrackingPointer.xml" />
@@ -84,7 +84,7 @@
 	<Include file="Source/GenericGump.xml" />
 	<Include file="Source/RenameWindow.xml"/>
 	<Include file="Source/Compass.xml"/>
-	<Include file="Source/MapFind.xml"/>
+	<Include file="Source/map/MapFind.xml"/>
 	<Include file="Source/WarShield.xml"/>
 	<Include file="Source/CrystalPortal.xml"/>
 	<Include file="Source/VendorSearch.xml"/>
@@ -196,15 +196,15 @@
 		<Script file="Source/Waypoints.lua"/>
 		<Script file="Source/KnownAreas.lua"/>
 		<Script file="Source/Compass.lua"/>
-		<Script file="Source/MapFind.lua"/>
+		<Script file="Source/map/MapFind.lua"/>
 		<Script file="Source/Actions.lua"/>
 		<Script file="Source/PaperdollWindow.lua" />
 		<Script file="Source/ItemsInfo.lua"/>
 		<Script file="Source/ContainersInfo.lua"/>
 		<Script file="Source/HuesInfo.lua"/>
 		<Script file="Source/ItemPropertiesInfo.lua"/>
-		<Script file="Source/MapCommon.lua" />
-		<Script file="Source/MapWindow.lua" />
+		<Script file="Source/map/MapCommon.lua" />
+		<Script file="Source/map/MapWindow.lua" />
 		<Script file="Source/skills/SkillsLockButtonWindow.lua"/>
 		<Script file="Source/skills/SkillsListItemWindow.lua"/>
 		<Script file="Source/skills/SkillsWindow.lua" />
