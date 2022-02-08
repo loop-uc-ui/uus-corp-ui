@@ -448,9 +448,7 @@ function MapWindow.MapOnRButtonUp(_, x, y)
 	local x1, y1, x2, y2 = UORadarGetAreaDimensions(facet, area)
 	
 	if (x1 < waypointX and y1 < waypointY and x2 > waypointX and y2 > waypointY) then
-		ContextMenu.CreateLuaContextMenuItem(MapCommon.TID.CreateWaypoint,0,MapCommon.ContextReturnCodes.CREATE_WAYPOINT,params)
 		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(1154860),0,"magnetize", params,false)
-
 		if (not MapWindow.Big) then
 			ContextMenu.CreateLuaContextMenuItemWithString(L"",0,0,"null",false)
 		end
