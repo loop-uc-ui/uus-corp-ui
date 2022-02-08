@@ -18,7 +18,6 @@ MapWindow.IsMouseOver = false
 MapWindow.TypeEnabled = {}
 MapWindow.LegendVisible = false
 MapWindow.CenterOnPlayer = true
-MapWindow.Tilt = false
 
 MapWindow.WINDOW_WIDTH_MAX = 716
 MapWindow.WINDOW_HEIGHT_MAX = 776
@@ -62,11 +61,6 @@ function MapWindow.Initialize()
 		--Debug.Print("Adding: "..tostring(GetStringFromTid(UORadarGetFacetLabel(facet))))
         ComboBoxAddMenuItem( "MapWindowFacetCombo", GetStringFromTid(UORadarGetFacetLabel(facet)) )
     end
-
-
-    LabelSetText("MapWindowTiltLabel", GetStringFromTid(1154867))
-    ButtonSetCheckButtonFlag( "MapWindowTiltButton", true )
-    ButtonSetPressedFlag( "MapWindowTiltButton", MapWindow.Tilt )
     
     LabelSetText("MapWindowCenterOnPlayerLabel", GetStringFromTid(1112059))
     ButtonSetCheckButtonFlag( "MapWindowCenterOnPlayerButton", true )
@@ -82,8 +76,6 @@ function MapWindow.Initialize()
 
 	WindowSetScale("MapWindowCenterOnPlayerButton", 0.9 * InterfaceCore.scale)
 	WindowSetScale("MapWindowCenterOnPlayerLabel", 0.9 * InterfaceCore.scale)
-	WindowSetScale("MapWindowTiltButton", 0.9 * InterfaceCore.scale)
-	WindowSetScale("MapWindowTiltLabel", 0.9 * InterfaceCore.scale)
     
     local this = "MapWindow"
     
@@ -202,17 +194,10 @@ function MapWindow.UpdateMap()
 				ComboBoxSetSelectedMenuItem( "MapWindowAreaCombo", (area + 1) )				
 				DynamicImageSetTextureScale("MapImage", WindowData.Radar.TexScale)
 				DynamicImageSetTexture("MapImage","radar_texture", WindowData.Radar.TexCoordX, WindowData.Radar.TexCoordY)
-				if MapWindow.Tilt then
-					DynamicImageSetRotation("MapImage", 0)
-					if (DoesWindowNameExist("MapCompass")) then
-						DynamicImageSetRotation( "MapCompass", 0 )
-					end
-				else
-					DynamicImageSetRotation("MapImage", WindowData.Radar.TexRotation)
-					if (DoesWindowNameExist("MapCompass")) then
-						DynamicImageSetRotation( "MapCompass", WindowData.Radar.TexRotation )
-					end
-				end				
+				DynamicImageSetRotation("MapImage", WindowData.Radar.TexRotation)
+				if (DoesWindowNameExist("MapCompass")) then
+					DynamicImageSetRotation( "MapCompass", WindowData.Radar.TexRotation )
+				end
 				MapCommon.ForcedUpdate = (oldArea ~= area) or (oldFacet ~= facet)
 				if (MapCommon.ForcedUpdate) then
 					for waypointId, value in pairs(MapCommon.WaypointsIconFacet) do
@@ -271,11 +256,7 @@ function MapWindow.ActivateMap()
     local mapTextureWidth, mapTextureHeight = WindowGetDimensions("MapImage")
 
     UORadarSetWindowSize(mapTextureWidth, mapTextureHeight, true, MapWindow.CenterOnPlayer)
-    if MapWindow.Tilt then
-			UOSetRadarRotation(0)
-    else
-			UOSetRadarRotation(MapWindow.Rotation)
-    end	
+	UOSetRadarRotation(MapWindow.Rotation)
     
     UORadarSetWindowOffset(0, 0)
 
@@ -493,16 +474,6 @@ function MapWindow.CenterOnPlayerOnLButtonUp()
 	end
 	MapCommon.ForcedUpdate = true
 	MapWindow.UpdateWaypoints()	
-end
-
-function MapWindow.TiltOnLButtonUp()
-	MapWindow.Tilt = ButtonGetPressedFlag( "MapWindowTiltButton" )
-	Interface.SaveBoolean( "MapWindowTilt" , MapWindow.Tilt )
-	if MapWindow.Tilt then
-			UOSetRadarRotation(0)
-	else
-			UOSetRadarRotation(MapWindow.Rotation)
-	end	
 end
 
 function MapWindow.MapOnLButtonDown()
