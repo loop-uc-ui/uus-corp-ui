@@ -88,7 +88,7 @@ function MapFind.MagnifyTooltip()
 	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
 end
 
-function MapFind.SearchText(null, text)
+function MapFind.SearchText(_, text)
 	
 	if (not text or text == L"" or text == "") then
 		return
@@ -113,15 +113,14 @@ function MapFind.SearchText(null, text)
 		end
 	end
 	for waypointId = 1,WindowData.WaypointList.waypointCount do	
-		local wtype, wflags, wname, wfacet, wx, wy, wz = UOGetWaypointInfo(waypointId) 
+		local wtype, _, wname, wfacet, wx, wy, wz = UOGetWaypointInfo(waypointId)
 		if wtype == 15 then
 			local data = MapCommon.GetWPDataFromString(wname, wtype, wfacet, facet, area)
-			if not data then
-				continue
-			end
-			local wp = {x=wx, y=wy, z=wz, type=data.type, Name=data.name, Icon=data.icon, Scale=tonumber(data.scale), Map= data.facet};
-			if wstring.find(wstring.lower(wp.Name), wtext) then
-				table.insert(MapFind.Items, wp)
+			if data then
+				local wp = {x=wx, y=wy, z=wz, type=data.type, Name=data.name, Icon=data.icon, Scale=tonumber(data.scale), Map= data.facet};
+				if wstring.find(wstring.lower(wp.Name), wtext) then
+					table.insert(MapFind.Items, wp)
+				end
 			end
 		end
 	end	
