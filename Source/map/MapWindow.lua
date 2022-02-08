@@ -437,23 +437,10 @@ function MapWindow.ToggleAreaDownOnLButtonUp()
 	MapCommon.ChangeMap(facet, area)
 end
 
-function MapWindow.MapOnRButtonUp(_, x, y)
-	local useScale = false
-	local scale = WindowGetScale("MapWindow")
-	local waypointX, waypointY = UOGetRadarPosToWorld(x/scale, y/scale, useScale)
-	local params = {x=waypointX, y=waypointY, facetId=UOGetRadarFacet()} 
-	
-	local facet = UOGetRadarFacet()
-	local area = UOGetRadarArea()
-	local x1, y1, x2, y2 = UORadarGetAreaDimensions(facet, area)
-	
-	if (x1 < waypointX and y1 < waypointY and x2 > waypointX and y2 > waypointY) then
-		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(1154860),0,"magnetize", params,false)
-		if (not MapWindow.Big) then
-			ContextMenu.CreateLuaContextMenuItemWithString(L"",0,0,"null",false)
-		end
-	end
-	if (not MapWindow.Big) then
+function MapWindow.MapOnRButtonUp(_, _, _)
+	if MapWindow.Big then
+		return
+	else
 		local subMenu = {}
 		local currfacet = UOGetRadarFacet()
 		for i = 0, (MapCommon.NumFacets - 1) do

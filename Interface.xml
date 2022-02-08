@@ -82,7 +82,6 @@
 	<Script file="Source/KnownAreas.lua"/>
 	<Include file="Source/GenericGump.xml" />
 	<Include file="Source/RenameWindow.xml"/>
-	<Include file="Source/Compass.xml"/>
 	<Include file="Source/map/MapFind.xml"/>
 	<Include file="Source/WarShield.xml"/>
 	<Include file="Source/CrystalPortal.xml"/>
@@ -194,7 +193,6 @@
 		<Script file="Source/AbilitiesInfo.lua"/>
 		<Script file="Source/Waypoints.lua"/>
 		<Script file="Source/KnownAreas.lua"/>
-		<Script file="Source/Compass.lua"/>
 		<Script file="Source/map/MapFind.lua"/>
 		<Script file="Source/Actions.lua"/>
 		<Script file="Source/PaperdollWindow.lua" />

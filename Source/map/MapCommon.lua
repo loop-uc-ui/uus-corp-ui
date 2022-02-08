@@ -850,12 +850,8 @@ function MapCommon.WaypointOnRButtonUp()
 	local waypointWindowName = SystemData.ActiveWindow.name
 	local waypointId = WindowGetId(waypointWindowName)
 	local params = {id=waypointId, x=nil, y=nil, facetId=UOGetRadarFacet(), type=nil, name=nil}
-	
-	if (waypointId == MapCommon.WaypointPlayerId) then
-		params.x, params.y = WindowData.PlayerLocation.x, WindowData.PlayerLocation.y
-		params.type = MapCommon.WaypointPlayerType
-		params.name = GetStringFromTid(MapCommon.TID.YourLocation)
-	else
+
+	if waypointId ~= MapCommon.WaypointPlayerId then
 		local wtype, wname, wx, wy, scale
 		if (waypointId > 50000 ) then
 			if(TrackingPointer.TrackWaypoints[waypointId]) then
@@ -887,44 +883,28 @@ function MapCommon.WaypointOnRButtonUp()
 		params.type = wtype
 		params.name = wname
 		params.scale = scale
+		ContextMenu.ActivateLuaContextMenu(MapCommon.ContextMenuCallback)
 	end
-	ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(1154860),0,"magnetize", params,false)
-	ContextMenu.ActivateLuaContextMenu(MapCommon.ContextMenuCallback)
 end
 
-function MapCommon.ContextMenuCallback(returnCode, params)
-	
-	if( params ~= nil ) then
-		if (returnCode == "magnetize") then
-			Compass.Close()
-			Compass.MagnetPoint = {waypointId = nil; x = 0; y = 0; facet = 0;}
-			Compass.MagnetPoint.x = params.x
-			Compass.MagnetPoint.y = params.y
-			Compass.MagnetPoint.facet = params.facetId
-			Compass.MagnetPoint.waypointId = params.id
-			Compass.delta = 100
-			WindowSetShowing("Compass", true)
-		end
+function MapCommon.ContextMenuCallback(returnCode, _)
+	local text = string.find(returnCode, "callFacet")
+	if (text) then
+		local facet = tonumber(string.sub(returnCode, 10))
+		local area = 0
+		MapWindow.CenterOnPlayer = false
+		ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
+		UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
+		MapCommon.ChangeMap(facet, area)
 	else
-		local text = string.find(returnCode, "callFacet") 
-		if (text) then
-			local facet = tonumber(string.sub(returnCode, 10))
-			local area = 0
-			MapWindow.CenterOnPlayer = false
-			ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-			UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
-			MapCommon.ChangeMap(facet, area)
-		else
-			local facet = UOGetRadarFacet()
-			local area = tonumber(string.sub(returnCode, 9))
-			
-			MapWindow.CenterOnPlayer = false
-			ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-			UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
-			MapCommon.ChangeMap(facet, area)
-		end
+		local facet = UOGetRadarFacet()
+		local area = tonumber(string.sub(returnCode, 9))
+
+		MapWindow.CenterOnPlayer = false
+		ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
+		UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
+		MapCommon.ChangeMap(facet, area)
 	end
-	
 end
 
 function MapCommon.GetRadarBorders(facet, area)
