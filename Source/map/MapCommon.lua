@@ -849,7 +849,6 @@ end
 function MapCommon.WaypointOnRButtonUp()
 	local waypointWindowName = SystemData.ActiveWindow.name
 	local waypointId = WindowGetId(waypointWindowName)
-	local params = {id=waypointId, x=nil, y=nil, facetId=UOGetRadarFacet(), type=nil, name=nil}
 
 	if waypointId ~= MapCommon.WaypointPlayerId then
 		local wtype, wname, wx, wy, scale
@@ -879,10 +878,6 @@ function MapCommon.WaypointOnRButtonUp()
 			DestroyWindow(waypointWindowName)
 			return
         end
-		params.x, params.y = wx, wy
-		params.type = wtype
-		params.name = wname
-		params.scale = scale
 		ContextMenu.ActivateLuaContextMenu(MapCommon.ContextMenuCallback)
 	end
 end
