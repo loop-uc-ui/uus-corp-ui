@@ -1,0 +1,209 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+		<Window name="ItemTemplateMF"  draganddrop="true">
+			<Size>
+				<AbsPoint x="250" y="60" />
+			</Size>
+			<EventHandlers>
+				<EventHandler event="OnLButtonUp" function="MapFind.Locate" />
+				<EventHandler event="OnMouseOver" function="MapFind.ItemMouseOver"/>
+				<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
+			</EventHandlers>
+			<Windows>
+				<DynamicImage name="$parentIcon" texture=""  texturescale="2.0" draganddrop="true">
+					<Size>
+						<AbsPoint x="45" y="45" />
+					</Size>
+					<TexCoords x="399" y="32"/>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" >
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="MapFind.Locate" />
+						<EventHandler event="OnMouseOver" function="MapFind.ItemMouseOver"/>
+						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
+					</EventHandlers>
+				</DynamicImage>
+
+				<Label name="$parentName" font="UO_GoldButtonText" maxchars="64" textalign="left" draganddrop="true" wordwrap="true">
+					<Size>
+						<AbsPoint x="230" y="16" />
+					</Size>
+					<Anchors>
+						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentIcon">
+							<AbsPoint x="5" y="5" />
+						</Anchor>
+					</Anchors>
+					<Color r="255" g="255" b="255" a="255" />
+				</Label>
+			</Windows>
+		</Window>
+
+		<Window name="MapFindWindow" movable="true">
+			<Size>
+				<AbsPoint x="300" y="330" />
+			</Size>
+			<Anchors>
+				<Anchor point="center" relativePoint="center" relativeTo="ResizeWindow">
+					<AbsPoint x="0" y="0" />
+				</Anchor>
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="MapFind.Initialize" />
+				<EventHandler event="OnShutdown" function="MapFind.Shutdown" />
+				<EventHandler event="OnRButtonUp" function="UO_DefaultWindow.CloseDialog" />
+			</EventHandlers>
+			<Windows>
+				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background" alpha="0.2">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" />
+						<Anchor point="bottomright" relativePoint="bottomright" />
+					</Anchors>
+				</FullResizeImage>
+				<FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" />
+						<Anchor point="bottomright" relativePoint="bottomright" />
+					</Anchors>
+				</FullResizeImage>
+				<EditBox name="$parentSearchBox" font="UO_DefaultText" taborder="1" maxchars="20" scrolling="horz" layer="overlay">
+					<Size>
+						<AbsPoint x="200" y="20" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+							<AbsPoint x="60" y="40" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnKeyEnter" function="MapFind.OnLButtonUpSearch" />
+					</EventHandlers>
+				</EditBox>
+				<Window name="$parentSearchBoxBG" handleinput="false">
+					<Size>
+						<AbsPoint x="200" y="30" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parentSearchBox" >
+							<AbsPoint x="-5" y="-5" />
+						</Anchor>
+					</Anchors>
+					<Windows>
+						<!-- Inner Frame Boilerplate -->
+						<FullResizeImage name="$parentBG" inherits="UO_Simple_Black_Background">
+							<Anchors>
+								<Anchor point="topleft" relativePoint="topleft" />
+								<Anchor point="bottomright" relativePoint="bottomright" />
+							</Anchors>
+						</FullResizeImage>
+						<FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame">
+							<Anchors>
+								<Anchor point="topleft" relativePoint="topleft" />
+								<Anchor point="bottomright" relativePoint="bottomright" />
+							</Anchors>
+						</FullResizeImage>
+						<!-- End of Inner Frame Boilerplate -->
+					</Windows>
+				</Window>
+				<Button name="$parentNextButton" inherits="UO_Default_SmallNextButton">
+					<Anchors>
+						<Anchor point="bottomright" relativePoint="bottomleft" relativeTo="$parentSearchBoxBG">
+							<AbsPoint x="5" y="-3" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnMouseOver" function="MapFind.SearchTooltip" />
+						<EventHandler event="OnLButtonUp" function="MapFind.OnLButtonUpSearch" />
+					</EventHandlers>
+				</Button>
+				<Button name="$parentCancelButton" backgroundtexture="CloseButton" highlighttexture="CloseButton" texturescale="1.15" layer="popup">
+					<Size>
+						<AbsPoint x="22" y="22" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topright" relativeTo="$parentSearchBoxBG">
+							<AbsPoint x="-5" y="5" />
+						</Anchor>
+					</Anchors>
+          <TexCoords>
+            <Normal x="21" y="0" />
+            <NormalHighlit x="63" y="0" />
+            <Pressed x="42" y="0"  />
+            <PressedHighlit x="42" y="0" />
+            <Disabled x="0" y="0" />
+          </TexCoords>
+
+					<EventHandlers>
+						<EventHandler event="OnMouseOver" function="MapFind.RemoveFiltersTooltip" />
+						<EventHandler event="OnLButtonUp" function="MapFind.Restart" />
+					</EventHandlers>
+				</Button>
+
+				<Label name="$parentInfoText" font="UO_GoldButtonText" textalign="center" handleinput="false" wordwrap="true">
+					<Size>
+						<AbsPoint x="300" y="20" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" />
+					</Anchors>
+					<Color r="255" g="255" b="0" a="255" />
+				</Label>
+				<Label name="$parentTotal" font="UO_GoldButtonText" maxchars="100" textalign="right" draganddrop="false">
+					<Size>
+						<AbsPoint x="180" y="16" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+							<AbsPoint x="-5" y="-8" />
+						</Anchor>
+					</Anchors>
+					<Color r="255" g="255" b="255" a="255" />
+				</Label>
+				<ScrollWindow name="MapFindSW" childscrollwindow="MapFindSWScrollChild" scrollbar="MapFindSWScrollbar" lineheight="18" autoHideScrollBar="true" >
+					<Size>
+						<AbsPoint x="350" y="200" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent" >
+							<AbsPoint x="5" y="70" />
+						</Anchor>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" >
+							<AbsPoint x="-5" y="-30" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>					
+					</EventHandlers>
+					<Windows>
+						<VerticalScrollbar name="$parentScrollbar" inherits="StandardVertScroll" layer="secondary"/>
+						<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background" alpha="0.2">
+							<Anchors>
+								<Anchor point="topleft" relativePoint="topleft" />
+								<Anchor point="bottomright" relativePoint="bottomright" />
+							</Anchors>
+						</FullResizeImage>
+						<FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+							<Anchors>
+								<Anchor point="topleft" relativePoint="topleft" />
+								<Anchor point="bottomright" relativePoint="bottomright" />
+							</Anchors>
+						</FullResizeImage>
+						<Window name="$parentScrollChild" popable="false">
+							<Size>
+								<AbsPoint x="290" y="200"/>
+							</Size>
+							<Anchors>
+								<Anchor point="topleft" relativePoint="topleft">
+									<AbsPoint x="5" y="5" />
+								</Anchor>
+							</Anchors>
+
+						</Window>
+					</Windows>
+				</ScrollWindow>
+
+			</Windows>
+		</Window>
+	</Windows>
+</Interface>
