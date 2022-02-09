@@ -1,192 +1,170 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
-	<Windows>
-		<Window name="RadarWindow" movable="true"  >
-			<Size>
-				<AbsPoint x="235" y="235" />
-			</Size>
-			<Anchors>
-				<Anchor point="topright" relativePoint="topright" relativeTo="">
-					<AbsPoint x="0" y="0" />
-				</Anchor>
-			</Anchors>
-			<EventHandlers>
-				<EventHandler event="OnLButtonDown" function="RadarWindow.OnMouseDrag" />
-				<EventHandler event="OnInitialize" function="RadarWindow.Initialize" />
-				<EventHandler event="OnShutdown" function="RadarWindow.Shutdown" />
-				<EventHandler event="OnMouseWheel" function="RadarWindow.RadarOnMouseWheel" />
-				<EventHandler event="OnLButtonDblClk" function="RadarWindow.RadarOnLButtonDblClk" />
-			</EventHandlers>
-			<Windows>
-				<CircleImage name="$parentMap" numsegments="16" texturescale="1.0" layer="default">
-					<Size>
-						<AbsPoint x="200" y="200" />
-					</Size>
-					<Anchors>
-						<Anchor point="center" relativePoint="center">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords x="128" y="128" />
-				</CircleImage>
+    <Windows>
+        <Window name="RadarWindow" movable="true">
+            <Size>
+                <AbsPoint x="235" y="235"/>
+            </Size>
+            <Anchors>
+                <Anchor point="topright" relativePoint="topright" relativeTo="">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="RadarWindow.OnMouseDrag"/>
+                <EventHandler event="OnInitialize" function="RadarWindow.Initialize"/>
+                <EventHandler event="OnShutdown" function="RadarWindow.Shutdown"/>
+                <EventHandler event="OnMouseWheel" function="RadarWindow.RadarOnMouseWheel"/>
+                <EventHandler event="OnLButtonDblClk" function="RadarWindow.RadarOnLButtonDblClk"/>
+            </EventHandlers>
+            <Windows>
+                <CircleImage name="$parentMap" numsegments="64" texturescale="1.0" layer="default" texture="radar_texture">
+                    <Size>
+                        <AbsPoint x="190" y="190"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parentRing">
+                            <AbsPoint x="3" y="1"/>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords x="128" y="128"/>
+                </CircleImage>
 
-				<Button name="RadarBigButton" inherits="UO_Default_Plus_Button" texturescale="1.0" layer="overlay">
-					<Size>
-						<AbsPoint x="25" y="25" />
-					</Size>
+                <Button name="RadarBigButton" inherits="UO_Default_Plus_Button" texturescale="1.0" layer="overlay">
+                    <Size>
+                        <AbsPoint x="25" y="25"/>
+                    </Size>
 
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="RadarWindow.BigOnLButtonUp" />
-						<EventHandler event="OnMouseOver" function="RadarWindow.BigOnMouseOver" />
-					</EventHandlers>
-				</Button>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="RadarWindow.BigOnLButtonUp"/>
+                        <EventHandler event="OnMouseOver" function="RadarWindow.BigOnMouseOver"/>
+                    </EventHandlers>
+                </Button>
 
-				<Button name="RadarLock">
-					<Size>
-						<AbsPoint x="25" y="25" />
-					</Size>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="RadarWindow.Lock" />
-						<EventHandler event="OnMouseOver" function="RadarWindow.LockTooltip" />
-					</EventHandlers>
-				</Button>
+                <Button name="RadarLock">
+                    <Size>
+                        <AbsPoint x="25" y="25"/>
+                    </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="RadarWindow.Lock"/>
+                        <EventHandler event="OnMouseOver" function="RadarWindow.LockTooltip"/>
+                    </EventHandlers>
+                </Button>
 
-				<Button name="RadarRotate" inherits="UO_Default_Small_Right_Left_Arrow_Button" texturescale="1.2" layer="overlay">
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="RadarWindow.RotateLButtonUp" />
-						<EventHandler event="OnMouseOver" function="RadarWindow.RotateButtonMouseOver" />
-					</EventHandlers>
-				</Button>
+                <Button name="RadarRotate" inherits="UO_Default_Small_Right_Left_Arrow_Button" texturescale="1.2"
+                        layer="overlay">
+                    <Size>
+                        <AbsPoint x="32" y="32"/>
+                    </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="RadarWindow.RotateLButtonUp"/>
+                        <EventHandler event="OnMouseOver" function="RadarWindow.RotateButtonMouseOver"/>
+                    </EventHandlers>
+                </Button>
 
-				<Button name="RadarWP" inherits="UO_Default_Small_Left_Right_Arrow_Button" texturescale="1.2" layer="overlay">
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="RadarWindow.WPLButtonUp" />
-						<EventHandler event="OnMouseOver" function="RadarWindow.WPButtonMouseOver" />
-					</EventHandlers>
-				</Button>
+                <Button name="RadarWP" inherits="UO_Default_Small_Left_Right_Arrow_Button" texturescale="1.2"
+                        layer="overlay">
+                    <Size>
+                        <AbsPoint x="32" y="32"/>
+                    </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="RadarWindow.WPLButtonUp"/>
+                        <EventHandler event="OnMouseOver" function="RadarWindow.WPButtonMouseOver"/>
+                    </EventHandlers>
+                </Button>
 
-				<Button name="RadarTinyButton" inherits="UO_Default_Minus_Button" texturescale="1.0" layer="overlay">
-					<Size>
-						<AbsPoint x="25" y="25" />
-					</Size>
+                <Button name="RadarTinyButton" inherits="UO_Default_Minus_Button" texturescale="1.0" layer="overlay">
+                    <Size>
+                        <AbsPoint x="25" y="25"/>
+                    </Size>
 
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="RadarWindow.TinyOnLButtonUp" />
-						<EventHandler event="OnMouseOver" function="RadarWindow.TinyOnMouseOver" />
-					</EventHandlers>
-				</Button>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="RadarWindow.TinyOnLButtonUp"/>
+                        <EventHandler event="OnMouseOver" function="RadarWindow.TinyOnMouseOver"/>
+                    </EventHandlers>
+                </Button>
 
-				<!--
-        <DynamicImage name="$parentRing" texture="hud_image" handleinput="false" texturescale="1.1" layer="overlay">
-          <Size>
-            <AbsPoint x="260" y="260" />
-          </Size>
-          <Anchors>
-            <Anchor point="topleft" relativePoint="topleft">
-              <AbsPoint x="0" y="0" />
-            </Anchor>
-          </Anchors>
-          <TexCoords x="194" y="629"/>
-        </DynamicImage>
-        -->
-				<DynamicImage name="$parentRing" texture="hud_image" handleinput="false" texturescale="1.1" layer="background">
-					<Size>
-						<AbsPoint x="250" y="250" />
-					</Size>
-					<Anchors>
-						<Anchor point="center" relativePoint="center">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords x="194" y="629"/>
-				</DynamicImage>
+                <DynamicImage name="$parentRing" texture="hud_image" handleinput="false" texturescale="1.1"
+                              layer="background">
+                    <Size>
+                        <AbsPoint x="250" y="250"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords x="194" y="629"/>
+                </DynamicImage>
 
+                <Button name="$parentZoomInButton" inherits="UO_Default_Plus_Button" texturescale="1.2" layer="overlay">
+                    <Size>
+                        <AbsPoint x="32" y="32"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentRing">
+                            <AbsPoint x="80" y="-15"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MapWindow.ZoomInOnLButtonUp"/>
+                        <EventHandler event="OnMouseOver" function="RadarWindow.ZoomInOnMouseOver"/>
+                    </EventHandlers>
+                </Button>
 
-				<CircleImage name="PartyHealthBarPortraitBgA" texture="radar_texture" numsegments="16" texturescale="0.7"
-							 layer="default" popable="false" handleinput="false">
-					<Size>
-						<AbsPoint x="250" y="250" />
-					</Size>
-					<Anchors>
-						<Anchor point="center" relativePoint="center">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords x="40" y="40"/>
-				</CircleImage>
+                <Button name="$parentZoomOutButton" inherits="UO_Default_Minus_Button" texturescale="1.2"
+                        layer="overlay">
+                    <Size>
+                        <AbsPoint x="32" y="32"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentRing">
+                            <AbsPoint x="-70" y="-15"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MapWindow.ZoomOutOnLButtonUp"/>
+                        <EventHandler event="OnMouseOver" function="RadarWindow.ZoomOutOnMouseOver"/>
+                    </EventHandlers>
+                </Button>
 
+                <Button name="RadarWindowToggleMapButton" inherits="UO_Default_Spring_Button" textalign="center"
+                        font="UO_GoldButtonText" layer="overlay">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="">
+                            <AbsPoint x="80" y="15"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="RadarWindow.ToggleMap"/>
+                        <EventHandler event="OnMouseOver" function="RadarWindow.ToggleMapOnMouseOver"/>
+                    </EventHandlers>
+                </Button>
 
-				<Button name="$parentZoomInButton" inherits="UO_Default_Plus_Button" texturescale="1.2" layer="overlay">
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
-					<Anchors>
-						<Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentRing">
-							<AbsPoint x="80" y="-15" />
-						</Anchor>
-					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="MapWindow.ZoomInOnLButtonUp" />
-						<EventHandler event="OnMouseOver" function="RadarWindow.ZoomInOnMouseOver" />
-					</EventHandlers>
-				</Button>
+                <Button name="$parentCloseButton" inherits="UO_Default_Close_Button" texturescale="1.05"
+                        layer="overlay">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="">
+                            <AbsPoint x="-70" y="15"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="RadarWindow.CloseMap"/>
+                        <EventHandler event="OnMouseOver" function="RadarWindow.CloseMapOnMouseOver"/>
+                    </EventHandlers>
+                </Button>
+                <Label name="radarSextant" font="Arial_Black_Shadow_12" maxchars="64" textalign="left">
+                    <Size>
+                        <AbsPoint x="250" y="30"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="center" relativeTo="$parent">
+                            <AbsPoint x="50" y="10"/>
+                        </Anchor>
 
-				<Button name="$parentZoomOutButton" inherits="UO_Default_Minus_Button" texturescale="1.2" layer="overlay">
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
-					<Anchors>
-						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentRing">
-							<AbsPoint x="-70" y="-15" />
-						</Anchor>
-					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="MapWindow.ZoomOutOnLButtonUp" />
-						<EventHandler event="OnMouseOver" function="RadarWindow.ZoomOutOnMouseOver" />
-					</EventHandlers>
-				</Button>
-
-				<Button name="RadarWindowToggleMapButton" inherits="UO_Default_Spring_Button" textalign="center"  font="UO_GoldButtonText" layer="overlay">
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft" relativeTo="">
-							<AbsPoint x="80" y="15" />
-						</Anchor>
-					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="RadarWindow.ToggleMap" />
-						<EventHandler event="OnMouseOver" function="RadarWindow.ToggleMapOnMouseOver" />
-					</EventHandlers>
-				</Button>
-
-				<Button name="$parentCloseButton" inherits="UO_Default_Close_Button" texturescale="1.05" layer="overlay">
-					<Anchors>
-						<Anchor point="topright" relativePoint="topright" relativeTo="">
-							<AbsPoint x="-70" y="15" />
-						</Anchor>
-					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="RadarWindow.CloseMap" />
-						<EventHandler event="OnMouseOver" function="RadarWindow.CloseMapOnMouseOver" />
-					</EventHandlers>
-				</Button>
-				<Label name="radarSextant" font="Arial_Black_Shadow_12" maxchars="64" textalign="left">
-					<Size>
-						<AbsPoint x="250" y="30" />
-					</Size>
-					<Anchors>
-						<Anchor point="bottom" relativePoint="center" relativeTo="$parent" >
-							<AbsPoint x="50" y="10" />
-						</Anchor>
-
-					</Anchors>
-					<Color r="255" g="0" b="0" a="0" />
-				</Label>
-			</Windows>
-		</Window>
-	</Windows>
+                    </Anchors>
+                    <Color r="255" g="0" b="0" a="0"/>
+                </Label>
+            </Windows>
+        </Window>
+    </Windows>
 </Interface>
