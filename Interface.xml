@@ -62,6 +62,7 @@
 	<Include file="Source/MacroEditWindow.xml" />
 	<Include file="Source/MacroPickerWindow.xml" />
 	<Include file="Source/map/MapWindow.xml" />
+	<Include file="Source/map/RadarWindow.xml" />
 	<Include file="Source/BookTemplate.xml"/>
 	<Include file="Source/RaceChange.xml"/>
 	<Include file="Source/TrackingPointer.xml" />
@@ -202,6 +203,7 @@
 		<Script file="Source/ItemPropertiesInfo.lua"/>
 		<Script file="Source/map/MapCommon.lua" />
 		<Script file="Source/map/MapWindow.lua" />
+		<Script file="Source/map/RadarWindow.lua" />
 		<Script file="Source/skills/SkillsLockButtonWindow.lua"/>
 		<Script file="Source/skills/SkillsListItemWindow.lua"/>
 		<Script file="Source/skills/SkillsWindow.lua" />
