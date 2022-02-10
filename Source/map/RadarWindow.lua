@@ -1,12 +1,4 @@
-----------------------------------------------------------------
--- Global Variables
-----------------------------------------------------------------
-
 RadarWindow = {}
-
-----------------------------------------------------------------
--- Local Variables
-----------------------------------------------------------------
 
 RadarWindow.Rotation = 45
 RadarWindow.Tilt = false
@@ -15,16 +7,7 @@ RadarWindow.Scale = 1.0
 
 RadarWindow.Locked = false
 
------------------------------------------------------------------
--- MapCommon Helper Functions
------------------------------------------------------------------
-
-----------------------------------------------------------------
--- Functions
-----------------------------------------------------------------
-
 function RadarWindow.Initialize()
-	--Debug.Print("RadarWindow.Initialize(): "..SystemData.Settings.Interface.mapMode)
 	WindowUtils.RestoreWindowPosition("RadarWindow")
 	RadarWindow.Scale = WindowGetScale("RadarWindow")
 		

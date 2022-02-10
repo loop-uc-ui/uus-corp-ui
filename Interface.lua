@@ -547,6 +547,7 @@ function Interface.InitializeWindows()
 	ObjectHandleWindow.Initialize()
 	OverheadText.InitializeEvents()
     StaticTextWindow.Initialize()
+	MapWindow.Initialize()
     MapCommon.Initialize()
 	LegacyRunebookLoader.Initialize()
 end
@@ -753,9 +754,6 @@ function Interface.Update( timePassed )
 	Interface.ErrorTracker(ok, err)
 	
 	ok, err = pcall(Interface.LoginTimeoutCheck, timePassed)	
-	Interface.ErrorTracker(ok, err)
-	
-	ok, err = pcall(MapCommon.UpdateAreaInfo, timePassed)	
 	Interface.ErrorTracker(ok, err)
 	
 	ok, err = pcall(Interface.SpecialMovesManaCooldown, timePassed)	
