@@ -1,4 +1,4 @@
-RadarWindow = {}
+RadarWindow = ListWindow:new("RadarWindow", false)
 
 RadarWindow.Rotation = 45
 RadarWindow.Tilt = false
@@ -8,44 +8,17 @@ RadarWindow.Scale = 1.0
 RadarWindow.Locked = false
 
 function RadarWindow.Initialize()
-	WindowUtils.RestoreWindowPosition("RadarWindow")
+	WindowUtils.RestoreWindowPosition(RadarWindow.id)
 	RadarWindow.Scale = WindowGetScale("RadarWindow")
-		
-	WindowClearAnchors("RadarBigButton")
-	WindowAddAnchor("RadarBigButton", "left", "RadarWindowRing", "center", 31, -20)
-	WindowSetLayer("RadarBigButton", Window.Layers.OVERLAY)
-	WindowSetTintColor("RadarBigButton" , 255, 0, 0)
-	
-	WindowClearAnchors("RadarTinyButton")
-	WindowAddAnchor("RadarTinyButton", "left", "RadarWindowRing", "center", 31, 20)
-	WindowSetLayer("RadarTinyButton", Window.Layers.OVERLAY)
-	WindowSetTintColor("RadarTinyButton" , 255, 0, 0)
-	
-	WindowClearAnchors("RadarRotate")
-	WindowAddAnchor("RadarRotate", "bottom", "RadarWindowRing", "center", 5, -26)
-	WindowSetLayer("RadarRotate", Window.Layers.OVERLAY)
-	
-	WindowClearAnchors("RadarWP")
-	WindowAddAnchor("RadarWP", "right", "RadarWindowRing", "center", -20, 0)
-	WindowSetLayer("RadarWP", Window.Layers.OVERLAY)
-	WindowSetTintColor("RadarWP" , 255, 0, 0)
-	
-	WindowClearAnchors("RadarLock")
-	ButtonSetTexture("RadarLock", InterfaceCore.ButtonStates.STATE_NORMAL, "UO_Core", 68, 338)
-	ButtonSetTexture("RadarLock",InterfaceCore.ButtonStates.STATE_PRESSED, "UO_Core", 68, 338)
-	ButtonSetTexture("RadarLock", InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, "UO_Core", 92, 338) -- 248
-	ButtonSetTexture("RadarLock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, "UO_Core", 92, 338) -- 248
-	WindowAddAnchor("RadarLock", "top", "RadarWindowRing", "center", 5, 20)
-	WindowSetLayer("RadarLock", Window.Layers.OVERLAY)
+	RadarWindow.adapter:addLock()
 	
 	RadarWindow.Size = WindowGetDimensions("RadarWindowMap")
 
     -- Update registration
     RegisterWindowData(WindowData.Radar.Type,0)
     RegisterWindowData(WindowData.WaypointList.Type,0)
-    
-    --WindowRegisterEventHandler("RadarWindow", WindowData.Radar.Event, "RadarWindow.UpdateRadar")	
-    --WindowRegisterEventHandler("RadarWindow", WindowData.WaypointList.Event, "RadarWindow.UpdateWaypoints")
+	WindowRegisterEventHandler("RadarWindow", WindowData.Radar.Event, "RadarWindow.UpdateRadar")
+	WindowRegisterEventHandler("RadarWindow", WindowData.WaypointList.Event, "RadarWindow.UpdateWaypoints")
     SnapUtils.SnappableWindows["RadarWindow"] = true
     
     RadarWindow.ToggleMap()
@@ -53,14 +26,7 @@ function RadarWindow.Initialize()
 end
 
 function RadarWindow.LockTooltip()
-	if ( RadarWindow.Locked ) then
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, L"Unlock Radar")
-	else
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, L"Lock Radar")
-	end
-	
 	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
 end
 
 function RadarWindow.Lock()
@@ -77,13 +43,7 @@ function RadarWindow.Shutdown()
 end
 
 function RadarWindow.OnMouseDrag()
-	if (not RadarWindow.Locked ) then
-		SnapUtils.StartWindowSnap("RadarWindow")
-		WindowSetMoving("RadarWindow",true)
-	else
-		WindowSetMoving("RadarWindow",false)
-	end
-
+	RadarWindow:onLeftClickDown()
 end
 
 function RadarWindow.UpdateRadar() 
@@ -140,10 +100,7 @@ function RadarWindow.ToggleMapOnMouseOver()
 end
 
 function RadarWindow.CloseMap()
-	WindowSetShowing("MapWindow", false)
-	WindowSetShowing("RadarWindow", false) 	
 	MapCommon.ActiveView = nil
-	
 	SystemData.Settings.Interface.mapMode = MapCommon.MAP_HIDDEN
 end
 
@@ -154,12 +111,6 @@ end
 
 function RadarWindow.WPButtonMouseOver()
 	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, L"Create Waypoint")
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_BOTTOM )
-end
-
-function RadarWindow.CloseMapOnMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(MapCommon.TID.Close))
 	Tooltips.Finalize()
 	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_BOTTOM )
 end
