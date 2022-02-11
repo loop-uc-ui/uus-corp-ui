@@ -17,21 +17,14 @@ function RadarWindow.Initialize()
     -- Update registration
     RegisterWindowData(WindowData.Radar.Type,0)
     RegisterWindowData(WindowData.WaypointList.Type,0)
+	RegisterWindowData(WindowData.PlayerLocation.Type,0)
+	WindowRegisterEventHandler("RadarWindow", WindowData.PlayerLocation.Event, "RadarWindow.UpdateRadar")
 	WindowRegisterEventHandler("RadarWindow", WindowData.Radar.Event, "RadarWindow.UpdateRadar")
 	WindowRegisterEventHandler("RadarWindow", WindowData.WaypointList.Event, "RadarWindow.UpdateWaypoints")
     SnapUtils.SnappableWindows["RadarWindow"] = true
     
     RadarWindow.ToggleMap()
     WindowSetShowing("RadarWindow", false) 
-end
-
-function RadarWindow.LockTooltip()
-	Tooltips.Finalize()
-end
-
-function RadarWindow.Lock()
-	RadarWindow.Locked = not RadarWindow.Locked 
-	Interface.SaveBoolean( "RadarWindowLocked", RadarWindow.Locked  )
 end
 
 function RadarWindow.Shutdown()
@@ -46,21 +39,14 @@ function RadarWindow.OnMouseDrag()
 	RadarWindow:onLeftClickDown()
 end
 
-function RadarWindow.UpdateRadar() 
-    if( MapCommon.ActiveView == MapCommon.RADAR_MODE_NAME ) then 
-		RadarWindow.SetRadarCoords()
-		 WindowSetScale("RadarWindow", RadarWindow.Scale) 
-        local xOffset = RadarWindow.Size / 2
-        local yOffset = RadarWindow.Size / 2
+function RadarWindow.UpdateRadar()
+	RadarWindow.SetRadarCoords()
+	WindowSetScale("RadarWindow", RadarWindow.Scale)
+
+	CircleImageSetTexture("RadarWindowMap","radar_texture", WindowData.Radar.TexCoordX + 550, WindowData.Radar.TexCoordY + 550)
+	CircleImageSetTextureScale("RadarWindowMap", WindowData.Radar.TexScale)
         
-        CircleImageSetTexture("RadarWindowMap","radar_texture", WindowData.Radar.TexCoordX + xOffset, WindowData.Radar.TexCoordY + yOffset)
-        CircleImageSetTextureScale("RadarWindowMap", WindowData.Radar.TexScale)
-        
-        CircleImageSetRotation("RadarWindowMap", RadarWindow.Rotation)
-        
-        MapCommon.WaypointsDirty = true
- 
-    end
+	CircleImageSetRotation("RadarWindowMap", RadarWindow.Rotation)
 end
 
 function RadarWindow.UpdateWaypoints()
@@ -102,52 +88,6 @@ end
 function RadarWindow.CloseMap()
 	MapCommon.ActiveView = nil
 	SystemData.Settings.Interface.mapMode = MapCommon.MAP_HIDDEN
-end
-
-function RadarWindow.WPLButtonUp()
-	local params = {x=WindowData.PlayerLocation.x, y=WindowData.PlayerLocation.y, facetId=UOGetRadarFacet()} 
-	UserWaypointWindow.InitializeCreateWaypointData(params)
-end
-
-function RadarWindow.WPButtonMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, L"Create Waypoint")
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_BOTTOM )
-end
-
-function RadarWindow.ZoomOutOnMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(MapCommon.TID.ZoomOut))
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_BOTTOM )
-end
-function RadarWindow.BigOnMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, L"Increase the map size")
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_BOTTOM )
-end
-
-function RadarWindow.BigOnLButtonUp()
-	RadarWindow.Scale = RadarWindow.Scale + 0.1
-	Interface.SaveNumber( "RadarWindowScale", RadarWindow.Scale )
-	RadarWindow.UpdateRadar() 
-end
-
-function RadarWindow.TinyOnMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, L"Decrease the map size")
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_BOTTOM )
-end
-
-function RadarWindow.TinyOnLButtonUp()
-	RadarWindow.Scale = RadarWindow.Scale - 0.1
-	Interface.SaveNumber( "RadarWindowScale", RadarWindow.Scale )
-	RadarWindow.UpdateRadar() 
-end
-
-function RadarWindow.RotateButtonMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1154867))
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_BOTTOM )
 end
 
 function RadarWindow.RotateLButtonUp()

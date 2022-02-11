@@ -4,11 +4,6 @@
             <Size>
                 <AbsPoint x="235" y="235"/>
             </Size>
-            <Anchors>
-                <Anchor point="topright" relativePoint="topright" relativeTo="">
-                    <AbsPoint x="0" y="0"/>
-                </Anchor>
-            </Anchors>
             <EventHandlers>
                 <EventHandler event="OnLButtonDown" function="RadarWindow.OnMouseDrag"/>
                 <EventHandler event="OnInitialize" function="RadarWindow.Initialize"/>
@@ -29,13 +24,13 @@
                     <TexCoords x="128" y="128"/>
                 </CircleImage>
 
-                <Button name="RadarWindowLock" inherits="LockButton">
+                <Button name="RadarWindowLock" inherits="LockButton" texturescale="1.1">
                     <Size>
                         <AbsPoint x="25" y="25"/>
                     </Size>
                     <Anchors>
                         <Anchor point="topright" relativePoint="topright" relativeTo="$parentRing">
-                            <AbsPoint x="-70" y="23"/>
+                            <AbsPoint x="-70" y="20"/>
                         </Anchor>
                     </Anchors>
                 </Button>
