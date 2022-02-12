@@ -10,7 +10,7 @@ end
 
 function Radar.textureRotation()
     return WindowData.Radar.TexRotation
-end 
+end
 
 function Radar.textureScale()
     return WindowData.Radar.TexScale

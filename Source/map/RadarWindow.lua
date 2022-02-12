@@ -11,16 +11,26 @@ function RadarWindow.Initialize()
 	WindowUtils.RestoreWindowPosition(RadarWindow.id)
 	RadarWindow.Scale = WindowGetScale("RadarWindow")
 	RadarWindow.adapter:addLock()
+
+	RadarWindow:registerData(
+			Radar.type()
+	):registerData(
+			WaypointList.type()
+	):registerData(
+			PlayerLocation.type()
+	):registerEventHandler(
+			PlayerLocation.event(),
+			"RadarWindow.UpdateRadar"
+	):registerEventHandler(
+			Radar.event(),
+			"RadarWindow.UpdateRadar"
+	):registerEventHandler(
+			WaypointList.event(),
+			"RadarWindow.UpdateWaypoints"
+	)
 	
 	RadarWindow.Size = WindowGetDimensions("RadarWindowMap")
 
-    -- Update registration
-    RegisterWindowData(WindowData.Radar.Type,0)
-    RegisterWindowData(WindowData.WaypointList.Type,0)
-	RegisterWindowData(WindowData.PlayerLocation.Type,0)
-	WindowRegisterEventHandler("RadarWindow", WindowData.PlayerLocation.Event, "RadarWindow.UpdateRadar")
-	WindowRegisterEventHandler("RadarWindow", WindowData.Radar.Event, "RadarWindow.UpdateRadar")
-	WindowRegisterEventHandler("RadarWindow", WindowData.WaypointList.Event, "RadarWindow.UpdateWaypoints")
     SnapUtils.SnappableWindows["RadarWindow"] = true
     
     RadarWindow.ToggleMap()
