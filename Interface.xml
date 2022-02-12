@@ -119,6 +119,8 @@
 		<Script file="Source/core/api/IconApi.lua"/>
 		<Script file="Source/core/api/TimeApi.lua"/>
 		<Script file="Source/core/api/CSVApi.lua"/>
+		<Script file="Source/core/api/CircleImageApi.lua"/>
+		<Script file="Source/core/api/RadarApi.lua"/>
 		<Script file="Source/core/api/DynamicImageApi.lua"/>
 		<Script file="Source/core/api/DragApi.lua"/>
 		<Script file="Source/core/api/TargetApi.lua"/>
