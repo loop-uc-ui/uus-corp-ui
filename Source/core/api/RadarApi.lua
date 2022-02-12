@@ -12,3 +12,10 @@ function RadarApi.getArea()
     return UOGetRadarArea()
 end
 
+function RadarApi.setOffset(offsetX, offsetY)
+    UORadarSetWindowOffset(offsetX, offsetY)
+end
+
+function RadarApi.getMaxZoom(facet, area)
+    return UORadarGetMaxZoomForMap(facet, area)
+end

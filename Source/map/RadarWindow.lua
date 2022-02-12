@@ -28,11 +28,9 @@ function RadarWindow.Initialize()
 			WaypointList.event(),
 			"RadarWindow.UpdateWaypoints"
 	)
-	
+
 	RadarWindow.Size = WindowGetDimensions("RadarWindowMap")
 
-    SnapUtils.SnappableWindows["RadarWindow"] = true
-    
     RadarWindow.ToggleMap()
 end
 
@@ -69,17 +67,17 @@ function RadarWindow.ActivateRadar()
 	    UORadarSetWindowSize(RadarWindow.Size, RadarWindow.Size, true, true)
 	    UOSetRadarRotation(RadarWindow.Rotation)
 	    UORadarSetWindowOffset(0, 0)
-    	
+
 	    WindowSetShowing("MapWindow", false)
 	    WindowSetShowing("RadarWindow", true)
-	    
+
 	    MapCommon.ActiveView = MapCommon.RADAR_MODE_NAME
 	    UOSetWaypointDisplayMode(MapCommon.RADAR_MODE_NAME)
-		
+
 		SystemData.Settings.Interface.mapMode = MapCommon.MAP_RADAR
-	    
+
 	    MapCommon.AdjustZoom(0)
-		
+
 	    RadarWindow.UpdateRadar()
 	end
 end
@@ -98,18 +96,6 @@ function RadarWindow.CloseMap()
 	MapCommon.ActiveView = nil
 	SystemData.Settings.Interface.mapMode = MapCommon.MAP_HIDDEN
 end
-
-function RadarWindow.RotateLButtonUp()
-	RadarWindow.Tilt = not RadarWindow.Tilt
-	if (RadarWindow.Tilt) then
-		RadarWindow.Rotation = 0
-	else
-		RadarWindow.Rotation = 45
-	end
-
-	RadarWindow.UpdateRadar() 
-end
-
 
 function RadarWindow.ZoomInOnMouseOver()
 	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(MapCommon.TID.ZoomIn))

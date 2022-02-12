@@ -259,7 +259,6 @@ function MapWindow.ActivateMap()
     local mapTextureWidth, mapTextureHeight = WindowGetDimensions("MapImage")
 
     UORadarSetWindowSize(mapTextureWidth, mapTextureHeight, true, MapWindow.CenterOnPlayer)
-	UOSetRadarRotation(MapWindow.Rotation)
     
     UORadarSetWindowOffset(0, 0)
 

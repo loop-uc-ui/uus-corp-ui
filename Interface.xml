@@ -163,6 +163,7 @@
         <Script file="Source/core/data/UserSoundSettings.lua"/>
         <Script file="Source/core/data/UserControlSettings.lua"/>
         <Script file="Source/core/data/UserGraphicsSettings.lua"/>
+        <Script file="Source/core/data/MapSettings.lua"/>
         <Script file="Interface.lua"/>
         <Script file="Source/Cooldown.lua"/>
         <Script file="Source/TextParsing.lua"/>
@@ -199,6 +200,7 @@
         <Script file="Source/AbilitiesInfo.lua"/>
         <Script file="Source/Waypoints.lua"/>
         <Script file="Source/KnownAreas.lua"/>
+        <Script file="Source/map/MapImage.lua"/>
         <Script file="Source/map/MapFind.lua"/>
         <Script file="Source/Actions.lua"/>
         <Script file="Source/PaperdollWindow.lua"/>
