@@ -1,8 +1,11 @@
 MapSettings = {}
 
-local MAP_MODE_HIDDEN = "hidden"
-local MAP_MODE_RADAR = "radar"
-local MAP_MODE_ATLAS = "atlas"
+MapSettings.MODES = {
+    HIDDEN = "hidden",
+    RADAR = "radar",
+    ATLAS = "atlas"
+}
+
 local MAP_SETTING_ZOOM = "MapZoom"
 
 function MapSettings.getMapMode()
@@ -10,15 +13,19 @@ function MapSettings.getMapMode()
 end
 
 function MapSettings.isAtlas()
-    return MapSettings.getMapMode() == MAP_MODE_ATLAS
+    return MapSettings.getMapMode() == MapSettings.MODES.ATLAS
 end
 
 function MapSettings.isRadar()
-    return MapSettings.getMapMode() == MAP_MODE_RADAR
+    return MapSettings.getMapMode() == MapSettings.MODES.RADAR
 end
 
 function MapSettings.isHidden()
-    return MapSettings.getMapMode() == MAP_MODE_HIDDEN
+    return MapSettings.getMapMode() == MapSettings.MODES.HIDDEN
+end
+
+function MapSettings.setMode(mode)
+    SystemData.Settings.Interface.mapMode = mode
 end
 
 function MapSettings.setZoom(zoom)

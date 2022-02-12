@@ -63,23 +63,21 @@ function RadarWindow.UpdateWaypoints()
 end
 
 function RadarWindow.ActivateRadar()
-    if( MapCommon.ActiveView ~= MapCommon.RADAR_MODE_NAME ) then
-	    UORadarSetWindowSize(RadarWindow.Size, RadarWindow.Size, true, true)
-	    UOSetRadarRotation(RadarWindow.Rotation)
-	    UORadarSetWindowOffset(0, 0)
+	UORadarSetWindowSize(RadarWindow.Size, RadarWindow.Size, true, true)
+	UOSetRadarRotation(RadarWindow.Rotation)
+	UORadarSetWindowOffset(0, 0)
 
-	    WindowSetShowing("MapWindow", false)
-	    WindowSetShowing("RadarWindow", true)
+	WindowSetShowing("MapWindow", false)
+	WindowSetShowing("RadarWindow", true)
 
-	    MapCommon.ActiveView = MapCommon.RADAR_MODE_NAME
-	    UOSetWaypointDisplayMode(MapCommon.RADAR_MODE_NAME)
+	MapCommon.ActiveView = MapCommon.RADAR_MODE_NAME
+	UOSetWaypointDisplayMode(MapCommon.RADAR_MODE_NAME)
 
-		SystemData.Settings.Interface.mapMode = MapCommon.MAP_RADAR
+	SystemData.Settings.Interface.mapMode = MapCommon.MAP_RADAR
 
-	    MapCommon.AdjustZoom(0)
+	MapCommon.AdjustZoom(0)
 
-	    RadarWindow.UpdateRadar()
-	end
+	RadarWindow.UpdateRadar()
 end
 
 function RadarWindow.ToggleMap()
