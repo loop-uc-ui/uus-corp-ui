@@ -34,7 +34,6 @@ function RadarWindow.Initialize()
     SnapUtils.SnappableWindows["RadarWindow"] = true
     
     RadarWindow.ToggleMap()
-    WindowSetShowing("RadarWindow", false) 
 end
 
 function RadarWindow.Shutdown()
