@@ -1,4 +1,4 @@
-MapImage = BaseWindow:new()
+MapImage = ListWindow:new()
 
 local function getSextantCenter(x, y, facet)
     --Old, hardcoded logic
@@ -41,7 +41,9 @@ function MapImage:new(id, isCircular, facet, area, rotation)
         facet = facet or RadarApi.getFacet(),
         area = area or RadarApi.getArea(),
         zoom = MapSettings.getZoom(),
-        rotation = rotation or 45
+        rotation = rotation or 45,
+        adapter = WindowAdapter:new(id),
+        drawPlayerWaypoint = true
     }
 
     if this.isCircular then
@@ -103,6 +105,17 @@ function MapImage:setRotation(rotation)
     RadarApi.setRotation(rotation)
 end
 
+function MapImage:addWaypoint(typeId, x, y)
+    local waypoint = WaypointWindow:new(
+            typeId,
+            self.id,
+            x,
+            y
+    )
+    self.adapter.views[waypoint.id] = waypoint
+    return waypoint
+end
+
 function MapImage:update()
     self:setRotation(self.rotation)
     self:setTextureScale(Radar.textureScale())
@@ -115,6 +128,11 @@ function MapImage:update()
     self.facet = facet
     self.zoom = MapSettings.getZoom()
     self.maxZoom = RadarApi.getMaxZoom(facet, area)
+
+    if self.drawPlayerWaypoint then
+        self:addWaypoint(WaypointDisplay.TYPE_PLAYER, PlayerLocation.xCord(), PlayerLocation.yCord())
+        self.drawPlayerWaypoint = false
+    end
 end
 
 function MapImage:onMouseWheel(_, _, delta)

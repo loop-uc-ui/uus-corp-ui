@@ -38,8 +38,6 @@ function RadarWindow.Initialize()
 	RadarWindow.adapter.views[map.id] = map
 	local width, height = map:getDimensions()
 	RadarApi.setWindowSize(width, height, true, true)
-
-	WaypointWindow:new(10000, MAP_IMAGE, PlayerLocation.xCord(), PlayerLocation.yCord())
 end
 
 function RadarWindow.Shutdown()

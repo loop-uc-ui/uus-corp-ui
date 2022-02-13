@@ -1,5 +1,6 @@
 WaypointDisplay = {}
 
+WaypointDisplay.TYPE_PLAYER = 14
 
 function WaypointDisplay.currentDisplayMode()
     return WindowData.WaypointDisplay.currentDisplayMode
@@ -25,9 +26,7 @@ function WaypointDisplay.getTypeIndex(mode, index)
     return WindowData.WaypointDisplay.displayTypes[mode][index].displayIndex
 end
 
-function WaypointDisplay.getIconId(mode, index)
-    Debug.Print(mode)
-    Debug.Print(WindowData.WaypointDisplay.displayTypes[mode])
+function WaypointDisplay.getTypeIconId(mode, index)
     return WindowData.WaypointDisplay.displayTypes[mode][index].iconId
 end
 

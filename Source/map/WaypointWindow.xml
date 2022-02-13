@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-        <DynamicImage name="WaypointIcon" movable="false" handleinput="true" layer="overlay" >
+        <DynamicImage name="WaypointIcon" movable="false" handleinput="true" layer="overlay" texturescale="0.5">
             <EventHandlers>
                 <EventHandler event="OnMouseOver" function="WaypointWindow.WaypointMouseOver" />
                 <EventHandler event="OnMouseOverEnd" function="WaypointWindow.WaypointMouseOverEnd" />
