@@ -1,5 +1,37 @@
 MapImage = BaseWindow:new()
 
+local function getSextantCenter(x, y, facet)
+    --Old, hardcoded logic
+    if ((facet == 0 or facet == 1) and (x >= 5120) and (y >= 2304)) then
+        --Lost lands apparently.
+        return 6144, 3112
+    else
+        return 1323, 1624
+    end
+end
+
+local function convertToMinutes(x, y, facet)
+    --Another old, terrible function.
+    local sectCenterX, sectCenterY = getSextantCenter(x,y,facet)
+    local minutesX = 21600 * (x - sectCenterX) / 5120
+    local minutesY = 21600 * (y - sectCenterY) / 4096
+
+    if minutesX > 10800 then
+        minutesX = minutesX - 21600
+    end
+    if minutesX <= -10800 then
+        minutesX = minutesX + 21600
+    end
+    if minutesY > 10800 then
+        minutesY = minutesY - 21600
+    end
+    if minutesY <= -10800 then
+        minutesY = minutesY + 21600
+    end
+
+    return minutesX, minutesY
+end
+
 function MapImage:new(id, isCircular, facet, area, rotation)
     local this = {
         id = id,
@@ -85,7 +117,7 @@ function MapImage:update()
     self.maxZoom = RadarApi.getMaxZoom(facet, area)
 end
 
-function MapImage:onMouseWheel(x, y, delta)
+function MapImage:onMouseWheel(_, _, delta)
     local zoom = self.zoom - (delta * 0.2)
 
     if zoom < -2 then
@@ -99,3 +131,23 @@ function MapImage:onMouseWheel(x, y, delta)
     self.zoom = zoom
 end
 
+function MapImage:getFormattedLocation(x, y)
+    --Old function
+    local minutesX, minutesY = convertToMinutes(x, y, self.facet)
+    local latDir = L"S"
+    local longDir = L"E"
+
+    if minutesY < 0 then
+        latDir = L"N"
+        minutesY = -minutesY
+    end
+    if minutesX < 0 then
+        longDir = L"W"
+        minutesX = -minutesX
+    end
+
+    local latString = StringFormatter.toWString(string.format( "%d", (minutesY/60)))..L"."..StringFormatter.toWString(string.format( "%02d", (minutesY%60)))
+    local longString = StringFormatter.toWString(string.format( "%d", (minutesX/60)))..L"."..StringFormatter.toWString(string.format( "%02d", (minutesX%60)))
+
+    return latString, longString, latDir, longDir
+end

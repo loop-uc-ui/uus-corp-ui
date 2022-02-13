@@ -8,11 +8,12 @@ RadarWindow.Scale = 1.0
 RadarWindow.Locked = false
 
 local MAP_IMAGE = "RadarWindowMap"
+local COORD_LABEL = "radarSextant"
 
 function RadarWindow.Initialize()
 	WindowUtils.RestoreWindowPosition(RadarWindow.id)
 	RadarWindow.Scale = WindowGetScale("RadarWindow")
-	RadarWindow.adapter:addLock()
+	RadarWindow.adapter:addLock():addLabel(COORD_LABEL)
 
 	RadarWindow:registerData(
 			Radar.type()
@@ -50,8 +51,19 @@ function RadarWindow.OnMouseDrag()
 end
 
 function RadarWindow.UpdateRadar()
-	RadarWindow.adapter.views[MAP_IMAGE]:update()
-	RadarWindow.SetRadarCoords()
+	local map = RadarWindow.adapter.views[MAP_IMAGE]
+	map:update()
+
+	local latStr, longStr, latDir, longDir = map:getFormattedLocation(
+			PlayerLocation.xCord(),
+			PlayerLocation.yCord()
+	)
+
+	LabelSetText("radarSextant", latStr..L"'"..latDir..L" "..longStr..L"'"..longDir)
+
+	if( MapCommon.ActiveView == MapCommon.MAP_MODE_NAME ) then
+		LabelSetText("radarSextant", latStr..L"'"..latDir..L" "..longStr..L"'"..longDir)
+	end
 end
 
 function RadarWindow.UpdateWaypoints()
@@ -90,19 +102,4 @@ function RadarWindow.RadarOnLButtonDblClk(flags,x,y)
 	if( UORadarIsLocationInArea(worldX, worldY, facet, area) ) then
 		UOCenterRadarOnLocation(worldX, worldY, facet, area, true)
 	end
-end
-
-function RadarWindow.SetRadarCoords()
-	waypointName = GetStringFromTid(MapCommon.TID.YourLocation)
-	waypointX = WindowData.PlayerLocation.x
-	waypointY = WindowData.PlayerLocation.y
-	waypointFacet = WindowData.PlayerLocation.facet
-
-	local latStr, longStr, latDir, longDir = MapCommon.GetSextantLocationStrings(waypointX, waypointY, waypointFacet)
-	        
-	LabelSetText("radarSextant", latStr..L"'"..latDir..L" "..longStr..L"'"..longDir)
-	        
-	if( MapCommon.ActiveView == MapCommon.MAP_MODE_NAME ) then
-		LabelSetText("radarSextant", latStr..L"'"..latDir..L" "..longStr..L"'"..longDir)
-	end	
 end
