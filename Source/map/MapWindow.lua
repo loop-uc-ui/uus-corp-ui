@@ -49,8 +49,10 @@ function MapWindow.Initialize()
     RegisterWindowData(WindowData.Radar.Type,0)
     RegisterWindowData(WindowData.WaypointDisplay.Type,0)
     RegisterWindowData(WindowData.WaypointList.Type,0)
+	RegisterWindowData(WindowData.PlayerLocation.Type, 0)
     
     WindowRegisterEventHandler("MapWindow", WindowData.Radar.Event, "MapWindow.UpdateMap")
+	WindowRegisterEventHandler("MapWindow", WindowData.PlayerLocation.Event, "MapWindow.UpdateMap")
     WindowRegisterEventHandler("MapWindow", WindowData.WaypointList.Event, "MapWindow.UpdateWaypoints")
     
     local isVisible = WindowGetShowing("MapWindow")
@@ -164,6 +166,7 @@ function MapWindow.Shutdown()
 	end
 	WindowUtils.SaveWindowPosition("MapWindow")
     UnregisterWindowData(WindowData.Radar.Type,0)
+	UnregisterWindowData(WindowData.PlayerLocation.Type,0)
     UnregisterWindowData(WindowData.WaypointDisplay.Type,0)
     UnregisterWindowData(WindowData.WaypointList.Type,0)
     SnapUtils.SnappableWindows["MapWindow"] = nil
@@ -256,7 +259,6 @@ function MapWindow.ActivateMap()
     local mapTextureWidth, mapTextureHeight = WindowGetDimensions("MapImage")
 
     UORadarSetWindowSize(mapTextureWidth, mapTextureHeight, true, MapWindow.CenterOnPlayer)
-	UOSetRadarRotation(MapWindow.Rotation)
     
     UORadarSetWindowOffset(0, 0)
 

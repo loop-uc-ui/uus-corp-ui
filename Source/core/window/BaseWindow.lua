@@ -165,3 +165,7 @@ function BaseWindow:stopAlphaAnimation()
     WindowApi.stopAlphaAnimation(self.id)
     return self
 end
+
+function BaseWindow:getDimensions()
+    return WindowApi.getDimensions(self.id)
+end
