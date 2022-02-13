@@ -38,8 +38,7 @@ function RadarApi.getAreaDimensions()
     return UORadarGetAreaDimensions()
 end
 
-function RadarApi.getFacetLabel()
-    --TODO determine proper args
+function RadarApi.getFacetLabel(facet)
     return UORadarGetFacetLabel(facet)
 end
 

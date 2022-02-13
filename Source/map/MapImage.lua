@@ -105,9 +105,10 @@ function MapImage:setRotation(rotation)
     RadarApi.setRotation(rotation)
 end
 
-function MapImage:addWaypoint(typeId, x, y)
+function MapImage:addWaypoint(name, iconId, x, y)
     local waypoint = WaypointWindow:new(
-            typeId,
+            name,
+            iconId,
             self.id,
             x,
             y
@@ -115,6 +116,8 @@ function MapImage:addWaypoint(typeId, x, y)
     self.adapter.views[waypoint.id] = waypoint
     return waypoint
 end
+
+local doAdd = true
 
 function MapImage:update()
     self:setRotation(self.rotation)
@@ -130,9 +133,33 @@ function MapImage:update()
     self.maxZoom = RadarApi.getMaxZoom(facet, area)
 
     if self.drawPlayerWaypoint then
-        self:addWaypoint(WaypointDisplay.TYPE_PLAYER, PlayerLocation.xCord(), PlayerLocation.yCord())
+        self:addWaypoint(
+                "Player",
+                WaypointDisplay.getTypeIconId(MapSettings.getMapMode(), WaypointDisplay.TYPE_PLAYER),
+                PlayerLocation.xCord(),
+                PlayerLocation.yCord()
+        )
         self.drawPlayerWaypoint = false
     end
+
+    if not doAdd then
+        return
+    end
+
+    for i = 0, #Waypoints.Facet - 1 do
+        if i == self.facet then
+            for _, value in pairs(Waypoints.Facet[i]) do
+                self:addWaypoint(
+                        value.Name.."_"..RadarApi.getFacetLabel(i).."_"..value.Icon,
+                        tonumber(value.Icon),
+                        tonumber(value.x),
+                        tonumber(value.y)
+                )
+            end
+            break
+        end
+    end
+    doAdd = false
 end
 
 function MapImage:onMouseWheel(_, _, delta)

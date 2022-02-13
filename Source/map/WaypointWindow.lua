@@ -1,10 +1,9 @@
 WaypointWindow = BaseWindow:new()
 
-function WaypointWindow:new(waypointId, parent, pointX, pointY)
+function WaypointWindow:new(name, iconId, parent, pointX, pointY)
     local this = {
-        id = "WaypointIcon"..waypointId,
-        waypointId = waypointId,
-        iconId = WaypointDisplay.getTypeIconId(MapSettings.getMapMode(), waypointId),
+        id = name,
+        iconId = iconId,
         parent = parent,
         pointX = pointX,
         pointY = pointY
@@ -22,10 +21,10 @@ function WaypointWindow:new(waypointId, parent, pointX, pointY)
     table:addAnchor("topleft", this.parent, "center", locX, locY)
 
     local iconTexture, x, y = IconApi.getIconData(this.iconId)
-    local iconWidth, iconHeight = UOGetTextureSize("icon"..this.iconId)
+    local iconWidth, iconHeight = IconApi.getTextureSize("icon"..this.iconId)
 
     if iconTexture ~= nil and iconWidth ~=nil and iconHeight ~=nil then
-        table:setDimensions(iconWidth / 2, iconHeight / 2)
+        table:setDimensions(iconWidth, iconHeight)
         DynamicImageApi.setTexture(
                 this.id,
                 iconTexture,
