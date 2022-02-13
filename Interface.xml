@@ -61,6 +61,7 @@
     <Include file="Source/ActionEditWindow.xml"/>
     <Include file="Source/MacroEditWindow.xml"/>
     <Include file="Source/MacroPickerWindow.xml"/>
+    <Include file="Source/map/WaypointWindow.xml"/>
     <Include file="Source/map/MapWindow.xml"/>
     <Include file="Source/map/RadarWindow.xml"/>
     <Include file="Source/BookTemplate.xml"/>
@@ -79,7 +80,7 @@
     <Script file="Source/CreaturesDB.lua"/>
     <Script file="Source/SpellsInfo.lua"/>
     <Script file="Source/AbilitiesInfo.lua"/>
-    <Script file="Source/Waypoints.lua"/>
+    <Script file="Source/map/Waypoints.lua"/>
     <Script file="Source/KnownAreas.lua"/>
     <Include file="Source/GenericGump.xml"/>
     <Include file="Source/RenameWindow.xml"/>
@@ -119,6 +120,7 @@
         <Script file="Source/core/data/PlayerLocation.lua"/>
         <Script file="Source/core/data/Radar.lua"/>
         <Script file="Source/core/data/WaypointList.lua"/>
+        <Script file="Source/core/data/WaypointDisplay.lua"/>
         <Script file="Source/core/api/IconApi.lua"/>
         <Script file="Source/core/api/TimeApi.lua"/>
         <Script file="Source/core/api/CSVApi.lua"/>
@@ -209,6 +211,7 @@
         <Script file="Source/ContainersInfo.lua"/>
         <Script file="Source/HuesInfo.lua"/>
         <Script file="Source/ItemPropertiesInfo.lua"/>
+        <Script file="Source/map/WaypointWindow.lua"/>
         <Script file="Source/map/MapCommon.lua"/>
         <Script file="Source/map/MapWindow.lua"/>
         <Script file="Source/map/RadarWindow.lua"/>

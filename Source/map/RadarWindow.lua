@@ -18,6 +18,8 @@ function RadarWindow.Initialize()
 	RadarWindow:registerData(
 			Radar.type()
 	):registerData(
+			WaypointDisplay.type()
+	):registerData(
 			WaypointList.type()
 	):registerData(
 			PlayerLocation.type()
@@ -36,6 +38,8 @@ function RadarWindow.Initialize()
 	RadarWindow.adapter.views[map.id] = map
 	local width, height = map:getDimensions()
 	RadarApi.setWindowSize(width, height, true, true)
+
+	WaypointWindow:new(10000, MAP_IMAGE, PlayerLocation.xCord(), PlayerLocation.yCord())
 end
 
 function RadarWindow.Shutdown()

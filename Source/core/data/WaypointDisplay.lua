@@ -1,7 +1,12 @@
 WaypointDisplay = {}
 
+
 function WaypointDisplay.currentDisplayMode()
     return WindowData.WaypointDisplay.currentDisplayMode
+end
+
+function WaypointDisplay.type()
+    return WindowData.WaypointDisplay.Type
 end
 
 function WaypointDisplay.typeNames()
@@ -12,16 +17,18 @@ function WaypointDisplay.displayTypes()
     return WindowData.WaypointDisplay.displayTypes
 end
 
-function WaypointDisplay.isTypeDisplayed(type)
-    return WaypointDisplay.displayTypes()[type].isDisplayed
+function WaypointDisplay.isTypeDisplayed(mode, index)
+    return WindowData.WaypointDisplay.displayTypes[mode][index].isDisplayed
 end
 
-function WaypointDisplay.getTypeIndex(type)
-    return WaypointDisplay.displayTypes()[type].displayIndex
+function WaypointDisplay.getTypeIndex(mode, index)
+    return WindowData.WaypointDisplay.displayTypes[mode][index].displayIndex
 end
 
-function WaypointDisplay.getIconId(type)
-    return WaypointDisplay.displayTypes()[type].iconId
+function WaypointDisplay.getIconId(mode, index)
+    Debug.Print(mode)
+    Debug.Print(WindowData.WaypointDisplay.displayTypes[mode])
+    return WindowData.WaypointDisplay.displayTypes[mode][index].iconId
 end
 
 function WaypointDisplay.iconNames()
