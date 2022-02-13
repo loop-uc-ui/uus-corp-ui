@@ -7,6 +7,8 @@ RadarWindow.Scale = 1.0
 
 RadarWindow.Locked = false
 
+local MAP_IMAGE = "RadarWindowMap"
+
 function RadarWindow.Initialize()
 	WindowUtils.RestoreWindowPosition(RadarWindow.id)
 	RadarWindow.Scale = WindowGetScale("RadarWindow")
@@ -29,9 +31,10 @@ function RadarWindow.Initialize()
 			"RadarWindow.UpdateWaypoints"
 	)
 
-	RadarWindow.Size = WindowGetDimensions("RadarWindowMap")
-
-    RadarWindow.ToggleMap()
+	local map = MapImage:new(MAP_IMAGE)
+	RadarWindow.adapter.views[map.id] = map
+	local width, height = map:getDimensions()
+	RadarApi.setWindowSize(width, height, true, true)
 end
 
 function RadarWindow.Shutdown()
@@ -47,41 +50,14 @@ function RadarWindow.OnMouseDrag()
 end
 
 function RadarWindow.UpdateRadar()
+	RadarWindow.adapter.views[MAP_IMAGE]:update()
 	RadarWindow.SetRadarCoords()
-	WindowSetScale("RadarWindow", RadarWindow.Scale)
-
-	CircleImageSetTexture("RadarWindowMap","radar_texture", WindowData.Radar.TexCoordX + 550, WindowData.Radar.TexCoordY + 550)
-	CircleImageSetTextureScale("RadarWindowMap", WindowData.Radar.TexScale)
-        
-	CircleImageSetRotation("RadarWindowMap", RadarWindow.Rotation)
 end
 
 function RadarWindow.UpdateWaypoints()
     if( MapCommon.ActiveView == MapCommon.RADAR_MODE_NAME ) then
         MapCommon.WaypointsDirty = true
     end    
-end
-
-function RadarWindow.ActivateRadar()
-	UORadarSetWindowSize(RadarWindow.Size, RadarWindow.Size, true, true)
-	UOSetRadarRotation(RadarWindow.Rotation)
-	UORadarSetWindowOffset(0, 0)
-
-	WindowSetShowing("MapWindow", false)
-	WindowSetShowing("RadarWindow", true)
-
-	MapCommon.ActiveView = MapCommon.RADAR_MODE_NAME
-	UOSetWaypointDisplayMode(MapCommon.RADAR_MODE_NAME)
-
-	SystemData.Settings.Interface.mapMode = MapCommon.MAP_RADAR
-
-	MapCommon.AdjustZoom(0)
-
-	RadarWindow.UpdateRadar()
-end
-
-function RadarWindow.ToggleMap()
-	MapWindow.ActivateMap()
 end
 
 function RadarWindow.ToggleMapOnMouseOver()
@@ -102,7 +78,7 @@ function RadarWindow.ZoomInOnMouseOver()
 end
 
 function RadarWindow.RadarOnMouseWheel(x, y, delta)
-    MapCommon.AdjustZoom(-delta)
+	RadarWindow.adapter.views[MAP_IMAGE]:onMouseWheel(x, y, delta)
 end
 
 function RadarWindow.RadarOnLButtonDblClk(flags,x,y)

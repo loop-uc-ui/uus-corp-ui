@@ -20,6 +20,10 @@ function RadarApi.getMaxZoom(facet, area)
     return UORadarGetMaxZoomForMap(facet, area)
 end
 
+function RadarApi.setZoom(zoom)
+    UOSetRadarZoom(zoom)
+end
+
 function RadarApi.getCenterOnPlayer(isCenter)
     UORadarSetCenterOnPlayer(isCenter)
 end
@@ -51,4 +55,24 @@ end
 
 function RadarApi.getCenter()
     return UOGetRadarCenter()
+end
+
+function RadarApi.setRotation(rotation)
+    UOSetRadarRotation(rotation)
+end
+
+function RadarApi.centerOnLocation(x, y, facet, area, bool)
+    UOCenterRadarOnLocation(x, y, facet, area, bool)
+end
+
+function RadarApi.isLocationInArea(x, y, facet, area)
+    return UORadarIsLocationInArea(x, y, facet, area)
+end
+
+function RadarApi.worldPosToRadar(x, y)
+    return UOGetWorldPosToRadar(x, y)
+end
+
+function RadarApi.radarPosToWorld(offsetX, offsetY, useScale)
+    return UOGetRadarPosToWorld(offsetX, offsetY, useScale)
 end

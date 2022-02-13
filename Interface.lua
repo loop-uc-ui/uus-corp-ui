@@ -524,7 +524,6 @@ function Interface.CreateWindows()
 	CreateWindow( "ActionEditArmDisarm", false )
 	CreateWindow( "ActionEditTargetByResource", false )
 	CreateWindow( "ActionEditTargetByObjectId", false )
-	CreateWindow( "MapWindow", false )
 	CreateWindow( "OrganizerWindow", true)
 	CreateWindow( "ContainerSearchWindow", false)
 	CreateWindow( "RenameWindow", false)
@@ -547,8 +546,6 @@ function Interface.InitializeWindows()
 	ObjectHandleWindow.Initialize()
 	OverheadText.InitializeEvents()
     StaticTextWindow.Initialize()
-	MapWindow.Initialize()
-    MapCommon.Initialize()
 	LegacyRunebookLoader.Initialize()
 end
 
@@ -666,12 +663,6 @@ function Interface.InterfaceInitialize()
 		x, y= WindowGetOffsetFromParent("Hotbar" .. hb)
 		WindowClearAnchors("Hotbar" .. hb)
 		WindowSetOffsetFromParent("Hotbar" .. hb, x,y)
-		
-		WindowClearAnchors("MapWindow")
-		WindowAddAnchor("MapWindow", "topright", "ResizeWindow", "topleft", 0, 0)
-		x, y= WindowGetOffsetFromParent("MapWindow")
-		WindowClearAnchors("MapWindow")
-		WindowSetOffsetFromParent("MapWindow", x,y)
 				
 		Interface.BackpackFirstPositioning = true
 		Interface.NewChatFirstPositioning = true
@@ -1231,11 +1222,6 @@ function Interface.MapRefresh(timePassed)
 	end
 
 	if(SystemData.Settings.Interface.mapMode == MapCommon.MAP_HIDDEN)then		
-		return
-	end
-
-	if((MapCommon.AreaDescription ~= "New Player Quest Area") and (SystemData.Settings.Interface.mapMode ~= MapCommon.MAP_HIDDEN) and not WindowGetShowing( "MapWindow") )then		
-		MapWindow.ActivateMap()
 		return
 	end
 
