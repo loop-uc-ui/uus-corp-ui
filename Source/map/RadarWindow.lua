@@ -93,7 +93,7 @@ function RadarWindow.RadarOnMouseWheel(x, y, delta)
 	RadarWindow.adapter.views[MAP_IMAGE]:onMouseWheel(x, y, delta)
 end
 
-function RadarWindow.RadarOnLButtonDblClk(flags,x,y)
+function RadarWindow.RadarOnLButtonDblClk(_, x, y)
 	local useScale = true
     local worldX, worldY = UOGetRadarPosToWorld(x, y, useScale)
 	local facet = UOGetRadarFacet()
