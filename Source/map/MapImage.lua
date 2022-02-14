@@ -35,6 +35,7 @@ end
 function MapImage:new(id, isCircular, facet, area, rotation)
     local this = {
         id = id,
+        mask = id.."Mask",
         isCircular = isCircular or true,
         texture = "radar_texture",
         centerOnPlayer = true,
@@ -42,7 +43,6 @@ function MapImage:new(id, isCircular, facet, area, rotation)
         area = area or RadarApi.getArea(),
         zoom = MapSettings.getZoom(),
         rotation = rotation or 45,
-        adapter = WindowAdapter:new(id),
         drawWaypoints = true
     }
 
@@ -109,9 +109,9 @@ function MapImage:addWaypoint(name, iconId, x, y)
     local waypoint = WaypointWindow:new(
             name,
             iconId,
-            self.id,
-            x,
-            y
+            self.mask,
+            x - 6,
+            y + 1
     )
     self.adapter.views[waypoint.id] = waypoint
     return waypoint
@@ -159,6 +159,12 @@ function MapImage:update()
     end
 
     self.drawWaypoints = false
+
+    for key, value in pairs(self.adapter.views) do
+        if key ~= "WaypointIconPlayer" then
+           value:update(self.maxZoom)
+        end
+    end
 end
 
 function MapImage:onMouseWheel(_, _, delta)

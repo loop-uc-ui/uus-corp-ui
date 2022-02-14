@@ -41,3 +41,9 @@ function WaypointWindow:new(name, iconId, parent, pointX, pointY)
 
     return table
 end
+
+function WaypointWindow:update()
+    local locX, locY = RadarApi.worldPosToRadar(self.pointX, self.pointY)
+    self:clearAnchors()
+    self:addAnchor("topleft", self.parent, "center", locX, locY)
+end
