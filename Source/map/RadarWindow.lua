@@ -20,8 +20,6 @@ function RadarWindow.Initialize()
 	):registerData(
 			WaypointDisplay.type()
 	):registerData(
-			WaypointList.type()
-	):registerData(
 			PlayerLocation.type()
 	):registerEventHandler(
 			PlayerLocation.event(),
@@ -29,9 +27,6 @@ function RadarWindow.Initialize()
 	):registerEventHandler(
 			Radar.event(),
 			"RadarWindow.UpdateRadar"
-	):registerEventHandler(
-			WaypointList.event(),
-			"RadarWindow.UpdateWaypoints"
 	)
 
 	local map = MapImage:new(MAP_IMAGE)
@@ -44,12 +39,12 @@ function RadarWindow.Shutdown()
 	WindowUtils.SaveWindowPosition("RadarWindow")
 	
 	UnregisterWindowData(WindowData.Radar.Type,0)
-	UnregisterWindowData(WindowData.WaypointList.Type,0)
 	 SnapUtils.SnappableWindows["RadarWindow"] = nil
 end
 
 function RadarWindow.OnMouseDrag()
 	RadarWindow:onLeftClickDown()
+	RadarWindow.UpdateRadar()
 end
 
 function RadarWindow.UpdateRadar()
@@ -61,17 +56,9 @@ function RadarWindow.UpdateRadar()
 			PlayerLocation.yCord()
 	)
 
-	LabelSetText("radarSextant", latStr..L"'"..latDir..L" "..longStr..L"'"..longDir)
-
-	if( MapCommon.ActiveView == MapCommon.MAP_MODE_NAME ) then
-		LabelSetText("radarSextant", latStr..L"'"..latDir..L" "..longStr..L"'"..longDir)
-	end
-end
-
-function RadarWindow.UpdateWaypoints()
-    if( MapCommon.ActiveView == MapCommon.RADAR_MODE_NAME ) then
-        MapCommon.WaypointsDirty = true
-    end    
+	RadarWindow.adapter.views[COORD_LABEL]:setText(
+			latStr..L"'"..latDir..L" "..longStr..L"'"..longDir
+	)
 end
 
 function RadarWindow.ToggleMapOnMouseOver()
@@ -93,15 +80,4 @@ end
 
 function RadarWindow.RadarOnMouseWheel(x, y, delta)
 	RadarWindow.adapter.views[MAP_IMAGE]:onMouseWheel(x, y, delta)
-end
-
-function RadarWindow.RadarOnLButtonDblClk(_, x, y)
-	local useScale = true
-    local worldX, worldY = UOGetRadarPosToWorld(x, y, useScale)
-	local facet = UOGetRadarFacet()
-	local area = UOGetRadarArea()
-	
-	if( UORadarIsLocationInArea(worldX, worldY, facet, area) ) then
-		UOCenterRadarOnLocation(worldX, worldY, facet, area, true)
-	end
 end
