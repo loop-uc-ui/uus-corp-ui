@@ -43,7 +43,7 @@ function MapImage:new(id, isCircular, facet, area, rotation)
         zoom = MapSettings.getZoom(),
         rotation = rotation or 45,
         adapter = WindowAdapter:new(id),
-        drawPlayerWaypoint = true
+        drawWaypoints = true
     }
 
     if this.isCircular then
@@ -117,8 +117,6 @@ function MapImage:addWaypoint(name, iconId, x, y)
     return waypoint
 end
 
-local doAdd = true
-
 function MapImage:update()
     self:setRotation(self.rotation)
     self:setTextureScale(Radar.textureScale())
@@ -132,34 +130,35 @@ function MapImage:update()
     self.zoom = MapSettings.getZoom()
     self.maxZoom = RadarApi.getMaxZoom(facet, area)
 
-    if self.drawPlayerWaypoint then
+    if self.drawWaypoints and not WindowApi.doesExist("WaypointIconPlayer") then
         self:addWaypoint(
                 "WaypointIconPlayer",
                 WaypointDisplay.getTypeIconId(MapSettings.getMapMode(), WaypointDisplay.TYPE_PLAYER),
                 PlayerLocation.xCord(),
                 PlayerLocation.yCord()
         )
-        self.drawPlayerWaypoint = false
     end
 
-    if not doAdd then
-        return
-    end
-
-    for i = 0, #Waypoints.Facet - 1 do
-        if i == self.facet then
-            for _, value in pairs(Waypoints.Facet[i]) do
-                self:addWaypoint(
-                        value.Name.."_"..RadarApi.getFacetLabel(i).."_"..value.Icon,
-                        tonumber(value.Icon),
-                        tonumber(value.x),
-                        tonumber(value.y)
-                )
+    if self.drawWaypoints then
+        for i = 0, #Waypoints.Facet - 1 do
+            if i == self.facet then
+                for _, value in pairs(Waypoints.Facet[i]) do
+                    local id = value.Name.."_"..RadarApi.getFacetLabel(i).."_"..RadarApi.getAreaLabel(i, self.area).."_"..value.Icon
+                    if not WindowApi.doesExist(id) then
+                        self:addWaypoint(
+                                id,
+                                tonumber(value.Icon),
+                                tonumber(value.x),
+                                tonumber(value.y)
+                        )
+                    end
+                end
+                break
             end
-            break
         end
     end
-    doAdd = false
+
+    self.drawWaypoints = false
 end
 
 function MapImage:onMouseWheel(_, _, delta)
