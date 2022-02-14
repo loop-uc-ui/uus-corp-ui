@@ -50,6 +50,7 @@ end
 
 function RadarWindow.OnMouseDrag()
 	RadarWindow:onLeftClickDown()
+	RadarWindow.UpdateRadar()
 end
 
 function RadarWindow.UpdateRadar()
