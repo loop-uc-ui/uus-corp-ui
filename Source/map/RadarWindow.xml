@@ -9,7 +9,6 @@
                 <EventHandler event="OnInitialize" function="RadarWindow.Initialize"/>
                 <EventHandler event="OnShutdown" function="RadarWindow.Shutdown"/>
                 <EventHandler event="OnMouseWheel" function="RadarWindow.RadarOnMouseWheel"/>
-                <EventHandler event="OnLButtonDblClk" function="RadarWindow.RadarOnLButtonDblClk"/>
             </EventHandlers>
             <Windows>
                 <CircleImage name="$parentMap" numsegments="64" texturescale="1.0" layer="default" texture="radar_texture">
