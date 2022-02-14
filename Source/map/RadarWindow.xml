@@ -26,10 +26,10 @@
 
                 <MaskWindow name="$parentMapMask">
                     <Size>
-                        <AbsPoint x="165" y="165"/>
+                        <AbsPoint x="160" y="160"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="center" relativePoint="center" relativeTo="$parentMap">
+                        <Anchor point="center" relativePoint="center" relativeTo="$parentRing">
                             <AbsPoint x="3" y="1"/>
                         </Anchor>
                     </Anchors>

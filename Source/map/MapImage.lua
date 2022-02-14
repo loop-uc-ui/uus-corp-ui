@@ -111,7 +111,7 @@ function MapImage:addWaypoint(name, iconId, x, y)
             iconId,
             self.mask,
             x - 6,
-            y + 1
+            y + 2
     )
     self.adapter.views[waypoint.id] = waypoint
     return waypoint
