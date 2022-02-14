@@ -34,7 +34,7 @@
                     </Anchors>
                 </MaskWindow>
 
-                <Button name="RadarWindowLock" inherits="LockButton" texturescale="1.1">
+                <Button name="RadarWindowLock" inherits="LockButton" texturescale="1.1" layer="overlay">
                     <Size>
                         <AbsPoint x="25" y="25"/>
                     </Size>
@@ -45,8 +45,8 @@
                     </Anchors>
                 </Button>
 
-                <DynamicImage name="$parentRing" texture="hud_image" handleinput="false" texturescale="1.1"
-                              layer="background">
+                <DynamicImage name="$parentRing" texture="hud_image" texturescale="1.1"
+                              layer="default">
                     <Size>
                         <AbsPoint x="250" y="250"/>
                     </Size>
@@ -71,17 +71,26 @@
                     </EventHandlers>
                 </Button>
 
-                <Label name="radarSextant" font="Arial_Black_Shadow_12" maxchars="64" textalign="left">
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background"
+                                 alpha="0.75">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="radarSextant"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="radarSextant">
+                            <AbsPoint x="0" y="10"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+
+                <Label name="radarSextant" font="uo_classic_16" maxchars="64" textalign="bottom">
                     <Size>
-                        <AbsPoint x="250" y="30"/>
+                        <AbsPoint x="150" y="40"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="center" relativeTo="$parent">
-                            <AbsPoint x="50" y="10"/>
+                        <Anchor point="bottom" relativePoint="center" relativeTo="$parentMap">
+                            <AbsPoint x="0" y="10"/>
                         </Anchor>
-
                     </Anchors>
-                    <Color r="255" g="0" b="0" a="0"/>
+                    <Color r="229" g="229" b="229" a="0"/>
                 </Label>
             </Windows>
         </Window>
