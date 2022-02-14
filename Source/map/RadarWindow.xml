@@ -12,7 +12,7 @@
                 <EventHandler event="OnLButtonDblClk" function="RadarWindow.RadarOnLButtonDblClk"/>
             </EventHandlers>
             <Windows>
-                <CircleImage name="$parentMap" numsegments="64" texturescale="1.0" layer="default" texture="radar_texture">
+                <MaskWindow name="RadarWindowMask">
                     <Size>
                         <AbsPoint x="190" y="190"/>
                     </Size>
@@ -21,8 +21,16 @@
                             <AbsPoint x="3" y="1"/>
                         </Anchor>
                     </Anchors>
-                    <TexCoords x="128" y="128"/>
-                </CircleImage>
+                    <Windows>
+                        <CircleImage name="RadarWindowMap" numsegments="64" texturescale="1.0" layer="default"
+                                     texture="radar_texture">
+                            <Size>
+                                <AbsPoint x="190" y="190"/>
+                            </Size>
+                            <TexCoords x="128" y="128"/>
+                        </CircleImage>
+                    </Windows>
+                </MaskWindow>
 
                 <Button name="RadarWindowLock" inherits="LockButton" texturescale="1.1">
                     <Size>

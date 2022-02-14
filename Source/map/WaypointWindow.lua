@@ -24,7 +24,7 @@ function WaypointWindow:new(name, iconId, parent, pointX, pointY)
     local iconWidth, iconHeight = IconApi.getTextureSize("icon"..this.iconId)
 
     if iconTexture ~= nil and iconWidth ~=nil and iconHeight ~=nil then
-        table:setDimensions(iconWidth, iconHeight)
+        table:setDimensions(iconWidth / 3, iconHeight / 3)
         DynamicImageApi.setTexture(
                 this.id,
                 iconTexture,

@@ -134,7 +134,7 @@ function MapImage:update()
 
     if self.drawPlayerWaypoint then
         self:addWaypoint(
-                "Player",
+                "WaypointIconPlayer",
                 WaypointDisplay.getTypeIconId(MapSettings.getMapMode(), WaypointDisplay.TYPE_PLAYER),
                 PlayerLocation.xCord(),
                 PlayerLocation.yCord()
