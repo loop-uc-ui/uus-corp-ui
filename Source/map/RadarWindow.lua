@@ -9,11 +9,15 @@ RadarWindow.Locked = false
 
 local MAP_IMAGE = "RadarWindowMap"
 local COORD_LABEL = "radarSextant"
+local FACET_INFO_LABEL = "RadarWindowFacetInfo"
+local AREA_INFO_LABEL = "RadarWindowAreaInfo"
 
 function RadarWindow.Initialize()
 	WindowUtils.RestoreWindowPosition(RadarWindow.id)
 	RadarWindow.Scale = WindowGetScale("RadarWindow")
 	RadarWindow.adapter:addLock():addLabel(COORD_LABEL)
+		:addLabel(FACET_INFO_LABEL)
+		:addLabel(AREA_INFO_LABEL)
 
 	RadarWindow:registerData(
 			Radar.type()
@@ -59,6 +63,14 @@ function RadarWindow.UpdateRadar()
 	RadarWindow.adapter.views[COORD_LABEL]:setText(
 			latStr..L"'"..latDir..L" "..longStr..L"'"..longDir
 	)
+
+	RadarWindow.adapter.views[FACET_INFO_LABEL]:setText(
+			RadarApi.getFacetLabel(RadarApi.getFacet())
+	)
+
+	RadarWindow.adapter.views[AREA_INFO_LABEL]:setText(
+			RadarApi.getAreaLabel(RadarApi.getFacet(), RadarApi.getArea())
+	)
 end
 
 function RadarWindow.ToggleMapOnMouseOver()
@@ -70,12 +82,6 @@ end
 function RadarWindow.CloseMap()
 	MapCommon.ActiveView = nil
 	SystemData.Settings.Interface.mapMode = MapCommon.MAP_HIDDEN
-end
-
-function RadarWindow.ZoomInOnMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(MapCommon.TID.ZoomIn))
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_BOTTOM )
 end
 
 function RadarWindow.RadarOnMouseWheel(x, y, delta)
