@@ -1,9 +1,9 @@
 MapSettings = {}
 
 MapSettings.MODES = {
-    HIDDEN = "hidden",
-    RADAR = "radar",
-    ATLAS = "atlas"
+    HIDDEN = "HIDDEN",
+    RADAR = "RADAR",
+    ATLAS = "ATLAS"
 }
 
 local MAP_SETTING_ZOOM = "MapZoom"

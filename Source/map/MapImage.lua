@@ -1,4 +1,4 @@
-MapImage = BaseWindow:new()
+MapImage = ListWindow:new()
 
 local function getSextantCenter(x, y, facet)
     --Old, hardcoded logic
@@ -35,13 +35,15 @@ end
 function MapImage:new(id, isCircular, facet, area, rotation)
     local this = {
         id = id,
+        mask = id.."Mask",
         isCircular = isCircular or true,
         texture = "radar_texture",
         centerOnPlayer = true,
         facet = facet or RadarApi.getFacet(),
         area = area or RadarApi.getArea(),
         zoom = MapSettings.getZoom(),
-        rotation = rotation or 45
+        rotation = rotation or 45,
+        drawWaypoints = true
     }
 
     if this.isCircular then
@@ -103,6 +105,18 @@ function MapImage:setRotation(rotation)
     RadarApi.setRotation(rotation)
 end
 
+function MapImage:addWaypoint(name, iconId, x, y)
+    local waypoint = WaypointWindow:new(
+            name,
+            iconId,
+            self.mask,
+            x - 6,
+            y + 2
+    )
+    self.adapter.views[waypoint.id] = waypoint
+    return waypoint
+end
+
 function MapImage:update()
     self:setRotation(self.rotation)
     self:setTextureScale(Radar.textureScale())
@@ -115,6 +129,42 @@ function MapImage:update()
     self.facet = facet
     self.zoom = MapSettings.getZoom()
     self.maxZoom = RadarApi.getMaxZoom(facet, area)
+
+    if self.drawWaypoints and not WindowApi.doesExist("WaypointIconPlayer") then
+        self:addWaypoint(
+                "WaypointIconPlayer",
+                WaypointDisplay.getTypeIconId(MapSettings.getMapMode(), WaypointDisplay.TYPE_PLAYER),
+                PlayerLocation.xCord(),
+                PlayerLocation.yCord()
+        )
+    end
+
+    if self.drawWaypoints then
+        for i = 0, #Waypoints.Facet - 1 do
+            if i == self.facet then
+                for _, value in pairs(Waypoints.Facet[i]) do
+                    local id = value.Name.."_"..RadarApi.getFacetLabel(i).."_"..RadarApi.getAreaLabel(i, self.area).."_"..value.Icon
+                    if not WindowApi.doesExist(id) then
+                        self:addWaypoint(
+                                id,
+                                tonumber(value.Icon),
+                                tonumber(value.x),
+                                tonumber(value.y)
+                        )
+                    end
+                end
+                break
+            end
+        end
+    end
+
+    self.drawWaypoints = false
+
+    for key, value in pairs(self.adapter.views) do
+        if key ~= "WaypointIconPlayer" then
+           value:update(self.maxZoom)
+        end
+    end
 end
 
 function MapImage:onMouseWheel(_, _, delta)

@@ -18,6 +18,8 @@ function RadarWindow.Initialize()
 	RadarWindow:registerData(
 			Radar.type()
 	):registerData(
+			WaypointDisplay.type()
+	):registerData(
 			WaypointList.type()
 	):registerData(
 			PlayerLocation.type()

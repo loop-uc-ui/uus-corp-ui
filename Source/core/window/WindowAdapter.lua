@@ -22,10 +22,15 @@ function WindowAdapter:addLabel(
         color
 )
     local label = LabelWindow:new(id)
-    label:setText(text)
+
+    if text ~= nil then
+        label:setText(text)
+    end
+
     if color ~= nil then
         label:setTextColor(color)
     end
+
     self.views[label.id] = label
     return self
 end
