@@ -54,10 +54,7 @@ function MapWindow.Initialize()
     WindowRegisterEventHandler("MapWindow", WindowData.Radar.Event, "MapWindow.UpdateMap")
 	WindowRegisterEventHandler("MapWindow", WindowData.PlayerLocation.Event, "MapWindow.UpdateMap")
     WindowRegisterEventHandler("MapWindow", WindowData.WaypointList.Event, "MapWindow.UpdateWaypoints")
-    
-    local isVisible = WindowGetShowing("MapWindow")
-    CreateWindow("LegendWindow",isVisible)
-    
+
     ComboBoxClearMenuItems( "MapWindowFacetCombo" )
     for facet = 0, (MapCommon.NumFacets - 1) do
 		--Debug.Print("Adding: "..tostring(GetStringFromTid(UORadarGetFacetLabel(facet))))
@@ -73,8 +70,6 @@ function MapWindow.Initialize()
 		WindowSetDimensions("MapWindowPlayerCoordsText",250,70)
     end
     WindowSetScale("MapWindowPlayerCoordsText", 0.9 * InterfaceCore.scale)
-    
-    
 
 	WindowSetScale("MapWindowCenterOnPlayerButton", 0.9 * InterfaceCore.scale)
 	WindowSetScale("MapWindowCenterOnPlayerLabel", 0.9 * InterfaceCore.scale)
@@ -95,7 +90,6 @@ function MapWindow.Initialize()
 	end
 	WindowAddAnchor("MapWindowLock", "topright", "MapWindow", "topright", 0, -5)
 	WindowSetShowing("MapWindowLegendToggle", false)
-    MapWindow.PopulateMapLegend()
     SnapUtils.SnappableWindows["MapWindow"] = true
    WindowSetShowing("MapWindowToggleRadarButton", false)
    
@@ -182,76 +176,42 @@ function MapWindow.OnMouseDrag()
 end
 
 function MapWindow.UpdateMap()
-	if (WindowGetShowing("MapWindow") == true) then
-		local oldArea = ( ComboBoxGetSelectedMenuItem( "MapWindowAreaCombo" ) - 1 )
-		local oldFacet = ( ComboBoxGetSelectedMenuItem( "MapWindowFacetCombo" ) - 1 )
-		if( MapCommon.ActiveView == MapCommon.MAP_MODE_NAME) then
-			local facet = UOGetRadarFacet()
-			if (facet ~= nil) then		
-				ComboBoxSetSelectedMenuItem( "MapWindowFacetCombo", (facet + 1) )					
-				ComboBoxClearMenuItems( "MapWindowAreaCombo" )
-				for areaIndex = 0, (UORadarGetAreaCount(facet) - 1) do
-					ComboBoxAddMenuItem( "MapWindowAreaCombo", GetStringFromTid(UORadarGetAreaLabel(facet, areaIndex)) )
-				end				
-				local area = UOGetRadarArea()
-				ComboBoxSetSelectedMenuItem( "MapWindowAreaCombo", (area + 1) )				
-				DynamicImageSetTextureScale("MapImage", WindowData.Radar.TexScale)
-				DynamicImageSetTexture("MapImage","radar_texture", WindowData.Radar.TexCoordX, WindowData.Radar.TexCoordY)
-				DynamicImageSetRotation("MapImage", WindowData.Radar.TexRotation)
-				if (DoesWindowNameExist("MapCompass")) then
-					DynamicImageSetRotation( "MapCompass", WindowData.Radar.TexRotation )
-				end
-				MapCommon.ForcedUpdate = (oldArea ~= area) or (oldFacet ~= facet)
-				if (MapCommon.ForcedUpdate) then
-					for waypointId, value in pairs(MapCommon.WaypointsIconFacet) do
-						local windowName = "Waypoint"..waypointId..MapCommon.ActiveView
-						if (value ~= facet) then
-							if (DoesWindowNameExist(windowName)) then
-								MapCommon.WaypointViewInfo[MapCommon.ActiveView].Windows[waypointId] = nil
-								DestroyWindow(windowName)
-							end
-						end
+	local oldArea = ( ComboBoxGetSelectedMenuItem( "MapWindowAreaCombo" ) - 1 )
+	local oldFacet = ( ComboBoxGetSelectedMenuItem( "MapWindowFacetCombo" ) - 1 )
+	local facet = UOGetRadarFacet()
+	if (facet ~= nil) then
+		ComboBoxSetSelectedMenuItem( "MapWindowFacetCombo", (facet + 1) )
+		ComboBoxClearMenuItems( "MapWindowAreaCombo" )
+		for areaIndex = 0, (UORadarGetAreaCount(facet) - 1) do
+			ComboBoxAddMenuItem( "MapWindowAreaCombo", GetStringFromTid(UORadarGetAreaLabel(facet, areaIndex)) )
+		end
+		local area = UOGetRadarArea()
+		ComboBoxSetSelectedMenuItem( "MapWindowAreaCombo", (area + 1) )
+		DynamicImageSetTextureScale("MapImage", WindowData.Radar.TexScale)
+		DynamicImageSetTexture("MapImage","radar_texture", WindowData.Radar.TexCoordX, WindowData.Radar.TexCoordY)
+		DynamicImageSetRotation("MapImage", WindowData.Radar.TexRotation)
+		if (DoesWindowNameExist("MapCompass")) then
+			DynamicImageSetRotation( "MapCompass", WindowData.Radar.TexRotation )
+		end
+		MapCommon.ForcedUpdate = (oldArea ~= area) or (oldFacet ~= facet)
+		if (MapCommon.ForcedUpdate) then
+			for waypointId, value in pairs(MapCommon.WaypointsIconFacet) do
+				local windowName = "Waypoint"..waypointId..MapCommon.ActiveView
+				if (value ~= facet) then
+					if (DoesWindowNameExist(windowName)) then
+						MapCommon.WaypointViewInfo[MapCommon.ActiveView].Windows[waypointId] = nil
+						DestroyWindow(windowName)
 					end
-				end				
-				MapWindow.UpdateWaypoints()
+				end
 			end
 		end
+		MapWindow.UpdateWaypoints()
 	end
 end
 
 function MapWindow.UpdateWaypoints()
     if(WindowGetShowing("MapWindow") == true and MapCommon.ActiveView == MapCommon.MAP_MODE_NAME ) then
         MapCommon.WaypointsDirty = true
-    end
-end
-
-function MapWindow.PopulateMapLegend()
-    if( WindowData.WaypointDisplay.displayTypes.ATLAS ~= nil and WindowData.WaypointDisplay.typeNames ~= nil ) then
-        local prevWindowName
-
-		for index=1, table.getn(WindowData.WaypointDisplay.typeNames) do
-            if WindowData.WaypointDisplay.displayTypes.ATLAS[index].isDisplayed then
-                local windowName = "MapLegend"..index             
-                
-                CreateWindowFromTemplate(windowName,"MapLegendItemTemplate", "LegendWindow" )
-                WindowSetId(windowName, index)
-                
-                if( prevWindowName == nil ) then
-                    WindowAddAnchor(windowName, "top", "LegendWindow", "top", 10, 10)
-                else
-                    WindowAddAnchor(windowName, "bottom", prevWindowName, "top", 0, 0)
-                end
-                prevWindowName = windowName
-                
-                local waypointName = WindowData.WaypointDisplay.typeNames[index]
-                LabelSetText(windowName.."Text", waypointName)
-                
-                local iconId = WindowData.WaypointDisplay.displayTypes.ATLAS[index].iconId
-                MapCommon.UpdateWaypointIcon(iconId,windowName.."Icon") 
-                
-                MapWindow.TypeEnabled[index] = true
-            end
-        end
     end
 end
 

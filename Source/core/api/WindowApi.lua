@@ -315,6 +315,10 @@ function WindowApi.createFromTemplate(windowName, template, parent)
     CreateWindowFromTemplate(windowName, template, parent)
 end
 
+function WindowApi.createWindow(windowName, doShow)
+    CreateWindow(windowName, doShow)
+end
+
 ---Sets the id value for the window. The id number for a window needs not be unique.  The window’s name is
 ---its unique identifier, so the id value is entirely defined by its use in xml/lua.
 ---@param windowName - (string) The name of the window.
