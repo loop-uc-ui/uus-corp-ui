@@ -966,11 +966,7 @@ function WindowUtils.Aplpha(_, _, delta)
 				WindowSetFontAlpha(windowName, endscale)
 			end
 		elseif (windowname == "MapWindow") then
-			if (MapWindow.Big) then
-				windowname = "MapWindowBig"
-			else
-				windowname = "MapWindow"
-			end
+			windowname = "MapWindowBig"
 			WindowSetAlpha(originalWindow, endscale)
 			WindowSetFontAlpha(originalWindow, endscale)
 		elseif(windowname == "PperdollWindow") then
@@ -1073,11 +1069,7 @@ function WindowUtils.Scale(x, y, delta)
 					WindowSetScale(windowName, endscale)
 				end
 			elseif (windowname == "MapWindow") then
-				if (MapWindow.Big) then
-					windowname = "MapWindowBig"
-				else
-					windowname = "MapWindow"
-				end
+				windowname = "MapWindowBig"
 				WindowSetScale(originalWindow, endscale)
 				WindowSetScale("MapWindowCoordsText", 0.9 * InterfaceCore.scale)
 				WindowSetScale("MapWindowPlayerCoordsText", 0.9 * InterfaceCore.scale)
@@ -1148,7 +1140,7 @@ function WindowUtils.LoadAlpha( windowname )
 		end
 		
 		
-		if (MapWindow.Big and windowname == "MapWindow") then
+		if (windowname == "MapWindow") then
 			windowname = "MapWindowBig"
 		end
 		local scale = Interface.LoadNumber( windowname.."ALP", -5 )
@@ -1236,7 +1228,7 @@ function WindowUtils.LoadScale(windowname, _)
 		end
 		
 		
-		if (MapWindow.Big and windowname == "MapWindow") then
+		if (windowname == "MapWindow") then
 			windowname = "MapWindowBig"
 		end
 		local scale = Interface.LoadNumber( windowname.."SC", -5 )
