@@ -1,8 +1,9 @@
 WaypointWindow = BaseWindow:new()
 
-function WaypointWindow:new(name, iconId, parent, pointX, pointY)
+function WaypointWindow:new(id, name, iconId, parent, pointX, pointY)
     local this = {
-        id = name,
+        id = id,
+        name = name,
         iconId = iconId,
         parent = parent,
         pointX = pointX,
@@ -46,4 +47,13 @@ function WaypointWindow:update()
     local locX, locY = RadarApi.worldPosToRadar(self.pointX, self.pointY)
     self:clearAnchors()
     self:addAnchor("topleft", self.parent, "center", locX, locY)
+end
+
+function WaypointWindow.WaypointMouseOver()
+    local waypoint = RadarWindow.adapter.views[RadarWindow.MAP_IMAGE].adapter.views[ActiveWindow.name()]
+    if waypoint ~= nil and waypoint.name ~= nil then
+        Tooltips.CreateTextOnlyTooltip(ActiveWindow.name(), StringFormatter.toWString(waypoint.name))
+        Tooltips.Finalize()
+        Tooltips.AnchorTooltip(Tooltips.ANCHOR_WINDOW_TOP)
+    end
 end

@@ -23,7 +23,7 @@
                     <TexCoords x="128" y="128"/>
                 </CircleImage>
 
-                <MaskWindow name="$parentMapMask">
+                <MaskWindow name="$parentMapMask" layer="overlay">
                     <Size>
                         <AbsPoint x="160" y="160"/>
                     </Size>
@@ -46,7 +46,7 @@
                 </Button>
 
                 <DynamicImage name="$parentRing" texture="hud_image" texturescale="1.1"
-                              layer="default">
+                              layer="secondary">
                     <Size>
                         <AbsPoint x="250" y="250"/>
                     </Size>

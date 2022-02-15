@@ -7,7 +7,7 @@ RadarWindow.Scale = 1.0
 
 RadarWindow.Locked = false
 
-local MAP_IMAGE = "RadarWindowMap"
+RadarWindow.MAP_IMAGE = "RadarWindowMap"
 local COORD_LABEL = "radarSextant"
 local FACET_INFO_LABEL = "RadarWindowFacetInfo"
 local AREA_INFO_LABEL = "RadarWindowAreaInfo"
@@ -33,7 +33,7 @@ function RadarWindow.Initialize()
 			"RadarWindow.UpdateRadar"
 	)
 
-	local map = MapImage:new(MAP_IMAGE)
+	local map = MapImage:new(RadarWindow.MAP_IMAGE)
 	RadarWindow.adapter.views[map.id] = map
 	local width, height = map:getDimensions()
 	RadarApi.setWindowSize(width, height, true, true)
@@ -52,7 +52,7 @@ function RadarWindow.OnMouseDrag()
 end
 
 function RadarWindow.UpdateRadar()
-	local map = RadarWindow.adapter.views[MAP_IMAGE]
+	local map = RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]
 	map:update()
 
 	local latStr, longStr, latDir, longDir = map:getFormattedLocation(
@@ -85,5 +85,5 @@ function RadarWindow.CloseMap()
 end
 
 function RadarWindow.RadarOnMouseWheel(x, y, delta)
-	RadarWindow.adapter.views[MAP_IMAGE]:onMouseWheel(x, y, delta)
+	RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]:onMouseWheel(x, y, delta)
 end
