@@ -105,8 +105,9 @@ function MapImage:setRotation(rotation)
     RadarApi.setRotation(rotation)
 end
 
-function MapImage:addWaypoint(name, iconId, x, y)
+function MapImage:addWaypoint(id, name, iconId, x, y)
     local waypoint = WaypointWindow:new(
+            id,
             name,
             iconId,
             self.mask,
@@ -133,6 +134,7 @@ function MapImage:update()
     if self.drawWaypoints and not WindowApi.doesExist("WaypointIconPlayer") then
         self:addWaypoint(
                 "WaypointIconPlayer",
+                nil,
                 WaypointDisplay.getTypeIconId(MapSettings.getMapMode(), WaypointDisplay.TYPE_PLAYER),
                 PlayerLocation.xCord(),
                 PlayerLocation.yCord()
@@ -147,6 +149,7 @@ function MapImage:update()
                     if not WindowApi.doesExist(id) then
                         self:addWaypoint(
                                 id,
+                                value.Name,
                                 tonumber(value.Icon),
                                 tonumber(value.x),
                                 tonumber(value.y)
