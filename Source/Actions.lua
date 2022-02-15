@@ -66,15 +66,14 @@ function Actions.ToggleInventoryWindow()
 end
 
 function Actions.ToggleMapWindow()
-	if (SystemData.Settings.Interface.mapMode ~= MapCommon.MAP_ATLAS)then
-		MapWindow.ActivateMap()		
+	if WindowApi.doesExist("RadarWindow") then
+		WindowApi.destroyWindow("RadarWindow")
+		WindowApi.createWindow("MapWindow", true)
+		MapWindow.ActivateMap()
+	elseif WindowApi.doesExist("MapWindow") then
+		WindowApi.destroyWindow("MapWindow")
 	else
-		MapWindow.CloseMap()
-	end
-		
-	if HighlightEffect and HighlightEffect.Buttons and HighlightEffect.Buttons.map ~= "" and WindowData.HighlightEffect.windowToHighlight == HighlightEffect.Buttons.map then
-		Interface.NewPlayerMapToggled = true
-		Interface.SaveBoolean( "NewPlayerMapToggled", true ) 
+		WindowApi.createWindow("RadarWindow", true)
 	end
 end
 
