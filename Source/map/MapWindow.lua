@@ -7,7 +7,6 @@ MapWindow = {}
 ----------------------------------------------------------------
 -- Local Variables
 ----------------------------------------------------------------
-MapWindow.Big = false
 
 MapWindow.ComboBCK = false
 			  
@@ -89,7 +88,6 @@ function MapWindow.Initialize()
 		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 142,341)		
 	end
 	WindowAddAnchor("MapWindowLock", "topright", "MapWindow", "topright", 0, -5)
-	WindowSetShowing("MapWindowLegendToggle", false)
     SnapUtils.SnappableWindows["MapWindow"] = true
    WindowSetShowing("MapWindowToggleRadarButton", false)
    
@@ -104,24 +102,17 @@ function MapWindow.Initialize()
 end
 
 function MapWindow.ToggleCombos()
-	WindowSetShowing("MapWindowFacetCombo", MapWindow.Big)
-	WindowSetShowing("MapWindowFacetNextButton", MapWindow.Big)
-	WindowSetShowing("MapWindowFacetPrevButton", MapWindow.Big)
-	WindowSetShowing("MapWindowAreaCombo", MapWindow.Big)
-	WindowSetShowing("MapWindowAreaNextButton", MapWindow.Big)
-	WindowSetShowing("MapWindowAreaPrevButton", MapWindow.Big)
+	WindowSetShowing("MapWindowFacetCombo", true)
+	WindowSetShowing("MapWindowFacetNextButton", true)
+	WindowSetShowing("MapWindowFacetPrevButton", true)
+	WindowSetShowing("MapWindowAreaCombo", true)
+	WindowSetShowing("MapWindowAreaNextButton", true)
+	WindowSetShowing("MapWindowAreaPrevButton", true)
 	WindowClearAnchors("Map")
-	if (not MapWindow.Big) then
-		WindowAddAnchor("Map", "topleft", "MapWindow", "topleft", 12, 35 )
-		WindowAddAnchor("Map", "bottomright", "MapWindow", "bottomright", -12, -13 )
-		MapWindow.MAP_HEIGHT_DIFFERENCE = MapWindow.MAP_HEIGHT_DIFFERENCE -55
-	else
-		MapWindow.MAP_HEIGHT_DIFFERENCE = 111
-		WindowAddAnchor("Map", "bottom", "MapWindowAreaCombo", "top", 0, 3 )
-		local windowWidth, windowHeight = WindowGetDimensions("MapWindow")
-		WindowSetDimensions("Map", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)
-
-	end
+	MapWindow.MAP_HEIGHT_DIFFERENCE = 111
+	WindowAddAnchor("Map", "bottom", "MapWindowAreaCombo", "top", 0, 3 )
+	local windowWidth, windowHeight = WindowGetDimensions("MapWindow")
+	WindowSetDimensions("Map", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)
 end
 
 
@@ -155,9 +146,6 @@ function MapWindow.Lock()
 end
 
 function MapWindow.Shutdown()
-	if (MapWindow.Big) then
-		MapWindow.BigToggle()
-	end
 	WindowUtils.SaveWindowPosition("MapWindow")
     UnregisterWindowData(WindowData.Radar.Type,0)
 	UnregisterWindowData(WindowData.PlayerLocation.Type,0)
@@ -253,26 +241,6 @@ end
 
 function MapWindow.MapOnMouseWheel(_, _, delta)
 	MapCommon.AdjustZoom(-delta)
-end
-
-function MapWindow.ZoomOutOnLButtonUp()
-	MapCommon.AdjustZoom(1)
-end
-
-function MapWindow.ZoomOutOnMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(MapCommon.TID.ZoomOut))
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-end
-
-function MapWindow.ZoomInOnLButtonUp()
-    MapCommon.AdjustZoom(-1)
-end
-
-function MapWindow.ZoomInOnMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(MapCommon.TID.ZoomIn))
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
 end
 
 function MapWindow.MapMouseDrag(_, deltaX, deltaY)
@@ -380,30 +348,6 @@ function MapWindow.ToggleAreaDownOnLButtonUp()
 	MapCommon.ChangeMap(facet, area)
 end
 
-function MapWindow.MapOnRButtonUp(_, _, _)
-	if MapWindow.Big then
-		return
-	else
-		local subMenu = {}
-		local currfacet = UOGetRadarFacet()
-		for i = 0, (MapCommon.NumFacets - 1) do
-			table.insert(subMenu, { str = GetStringFromTid(UORadarGetFacetLabel(i)), flags=0, returnCode="callFacet".. i, pressed= i ==currfacet })
-
-		end
-
-		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(1155476),0,0,"null",false,subMenu)
-		subMenu = {}
-		local currArea = UOGetRadarArea()
-		for areaIndex = 0, (UORadarGetAreaCount(currfacet) - 1) do
-			table.insert(subMenu, { str = GetStringFromTid(UORadarGetAreaLabel(currfacet, areaIndex)),flags=0,returnCode="callArea"..areaIndex,pressed=areaIndex==currArea })
-
-		end
-
-		ContextMenu.CreateLuaContextMenuItemWithString(GetStringFromTid(1155477),0,0,"null",false,subMenu)
-	end
-	ContextMenu.ActivateLuaContextMenu(MapCommon.ContextMenuCallback)
-end
-
 function MapWindow.LegendIconOnLButtonUp()
     local windowName = SystemData.ActiveWindow.name
     waypointType = WindowGetId(windowName)
@@ -500,13 +444,6 @@ function MapWindow.SelectFacet()
     end
 end
 
-function MapWindow.OnLegendToggle()
-	MapWindow.LegendVisible = not MapWindow.LegendVisible
-	--Debug.Print("LegendWindow Visible: "..tostring(MapWindow.LegendVisible))
-	ButtonSetPressedFlag("MapWindowLegendToggle", MapWindow.LegendVisible)
-	WindowSetShowing("LegendWindow",MapWindow.LegendVisible)
-end
-
 function MapWindow.OnShown()
 	if( MapWindow.LegendVisible == true ) then
 		WindowSetShowing("LegendWindow",true)
@@ -547,70 +484,11 @@ function MapWindow.CloseMap()
 	MapCommon.ActiveView = nil		
 end
 
-function MapWindow.OnLegendButtonMouseOver()
-	Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(MapCommon.TID.ShowLegend))
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-end
-
 function MapWindow.OnResizeBegin()
 	local windowName = WindowUtils.GetActiveDialog()
 	local widthMin = 400
 	local heightMin = 400
     WindowUtils.BeginResize( windowName, "topleft", widthMin, heightMin, false, MapWindow.OnResizeEnd)
-end
-
-function MapWindow.BigToggle()
-	MapWindow.Big = not MapWindow.Big
-	local MapZoom
-		
-	if (MapWindow.Big) then
-		WindowUtils.SaveWindowPosition("MapWindow", false)
-		MapZoom = Interface.LoadNumber( "MapZoomBig" , -100)
-		local w = Interface.LoadNumber( "MapWindowBigW" , 716)
-		local h = Interface.LoadNumber( "MapWindowBigH" , 776)
-
-		WindowSetDimensions("MapWindow", w , h)
-		MapWindow.OnResizeEnd("MapWindow")
-		WindowSetScale("MapWindow", SystemData.Settings.Interface.customUiScale * 0.80)
-		WindowUtils.LoadScale( "MapWindow" )
-		MapWindow.ToggleCombos()
-		WindowClearAnchors("MapWindow")
-		WindowAddAnchor("MapWindow", "center", "Root", "center",0,0)
-		WindowUtils.RestoreWindowPosition("MapWindow", false, "mapwindowBig")
-		MapCommon.ForcedUpdate = true
-		MapWindow.UpdateWaypoints()		
-		
-	else
-		WindowUtils.SaveWindowPosition("MapWindow", false, "mapwindowBig")
-		MapZoom = Interface.LoadNumber( "MapZoom" , -100)
-		local w = Interface.LoadNumber( "MapWindowW" , 716)
-		local h = Interface.LoadNumber( "MapWindowH" , 776)
-		WindowSetDimensions("MapWindow", w , h)
-		MapWindow.OnResizeEnd("MapWindow")
-		WindowSetScale("MapWindow", SystemData.Settings.Interface.customUiScale * 0.80)
-		WindowUtils.LoadScale( "MapWindow" )
-		MapWindow.ToggleCombos()
-		WindowSetShowing("MapWindow".."ResizeButton", true)
-		WindowUtils.RestoreWindowPosition("MapWindow", true)
-		MapCommon.ForcedUpdate = true
-		MapWindow.UpdateWaypoints()		
-	end
-	if (MapZoom ~= nil) then
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Current = MapZoom
-			MapCommon.AdjustZoom(MapCommon.ZoomLevel[MapCommon.ActiveView].Current)
-		end
-end
-
-function MapWindow.BigOnMouseOver()
-	if (MapWindow.Big) then
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1154865))
-	else
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1154866))
-	end
-	
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
 end
 
 function MapWindow.OnResizeEnd(_)
@@ -632,13 +510,8 @@ function MapWindow.OnResizeEnd(_)
 	
 	WindowSetDimensions("MapWindow", windowWidth, windowHeight)
 	if (Interface) then
-		if (MapWindow.Big) then
-			Interface.SaveNumber( "MapWindowBigW" , windowWidth)
-			Interface.SaveNumber( "MapWindowBigH" , windowHeight )
-		else
-			Interface.SaveNumber( "MapWindowW" , windowWidth)
-			Interface.SaveNumber( "MapWindowH" , windowHeight )
-		end
+		Interface.SaveNumber( "MapWindowBigW" , windowWidth)
+		Interface.SaveNumber( "MapWindowBigH" , windowHeight )
 	end
 	
 	WindowSetDimensions("Map", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)

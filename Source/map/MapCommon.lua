@@ -196,11 +196,7 @@ function MapCommon.AdjustZoom(zoomDelta)
 		end
 		UOSetRadarZoom(MapCommon.ZoomLevel[MapCommon.ActiveView].Current)
 
-		if (MapWindow.Big) then
-			Interface.SaveNumber( "MapZoomBig" , MapCommon.ZoomLevel[MapCommon.ActiveView].Current )
-		else
-			Interface.SaveNumber( "MapZoom" , MapCommon.ZoomLevel[MapCommon.ActiveView].Current )
-		end
+		Interface.SaveNumber( "MapZoomBig" , MapCommon.ZoomLevel[MapCommon.ActiveView].Current )
 
 		for waypointId, value in pairs(MapCommon.WaypointsIconFacet) do
 			local windowName = "Waypoint"..waypointId..MapCommon.ActiveView
