@@ -85,5 +85,5 @@ function RadarWindow.CloseMap()
 end
 
 function RadarWindow.RadarOnMouseWheel(x, y, delta)
-	RadarWindow.adapter.views[MAP_IMAGE]:onMouseWheel(x, y, delta)
+	RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]:onMouseWheel(x, y, delta)
 end
