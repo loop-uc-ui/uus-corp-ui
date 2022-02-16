@@ -1,21 +1,11 @@
-----------------------------------------------------------------
--- Global Variables
-----------------------------------------------------------------
-
-MapWindow = {}
-
-----------------------------------------------------------------
--- Local Variables
-----------------------------------------------------------------
+MapWindow = ListWindow:new("MapWindow")
 
 MapWindow.ComboBCK = false
-			  
-MapWindow.Rotation = 45
+
 MapWindow.ZoomScale = 0.1
 MapWindow.IsDragging = false
 MapWindow.IsMouseOver = false
 MapWindow.TypeEnabled = {}
-MapWindow.LegendVisible = false
 MapWindow.CenterOnPlayer = true
 
 MapWindow.WINDOW_WIDTH_MAX = 716
@@ -23,37 +13,32 @@ MapWindow.WINDOW_HEIGHT_MAX = 776
 MapWindow.MAP_WIDTH_DIFFERENCE = 26
 MapWindow.MAP_HEIGHT_DIFFERENCE = 111
 
-MapWindow.LegendItemTextColors = { normal={r=255,g=255,b=255}, disabled={r=80,g=80,b=80} }
-
 MapWindow.Locked = false
-
------------------------------------------------------------------
--- MapCommon Helper Functions
------------------------------------------------------------------
-
-----------------------------------------------------------------
--- Event Functions
-----------------------------------------------------------------
 
 function MapWindow.Initialize()
 	WindowUtils.RestoreWindowPosition("MapWindow", true)
-	WindowSetScale("MapWindow", SystemData.Settings.Interface.customUiScale * 0.80)
 	
 	MapWindow.OnResizeEnd("MapWindow")
+
+	MapWindow:registerData(
+			Radar.type()
+	):registerData(
+			WaypointDisplay.type()
+	):registerData(
+			WaypointList.type()
+	):registerData(
+			PlayerLocation.type()
+	):registerEventHandler(
+			Radar.event(),
+			"MapWindow.UpdateMap"
+	):registerEventHandler(
+			PlayerLocation.event(),
+			"MapWindow.UpdateMap"
+	):registerEventHandler(
+			WaypointList.event(),
+			"MapWindow.UpdateMap"
+	)
 	
-    -- Static text initialization
-    --WindowUtils.SetWindowTitle("MapWindow",GetStringFromTid(MapCommon.TID.Atlas))
-
-    -- Update registration
-    RegisterWindowData(WindowData.Radar.Type,0)
-    RegisterWindowData(WindowData.WaypointDisplay.Type,0)
-    RegisterWindowData(WindowData.WaypointList.Type,0)
-	RegisterWindowData(WindowData.PlayerLocation.Type, 0)
-    
-    WindowRegisterEventHandler("MapWindow", WindowData.Radar.Event, "MapWindow.UpdateMap")
-	WindowRegisterEventHandler("MapWindow", WindowData.PlayerLocation.Event, "MapWindow.UpdateMap")
-    WindowRegisterEventHandler("MapWindow", WindowData.WaypointList.Event, "MapWindow.UpdateWaypoints")
-
     ComboBoxClearMenuItems( "MapWindowFacetCombo" )
     for facet = 0, (MapCommon.NumFacets - 1) do
 		--Debug.Print("Adding: "..tostring(GetStringFromTid(UORadarGetFacetLabel(facet))))
@@ -113,36 +98,6 @@ function MapWindow.ToggleCombos()
 	WindowAddAnchor("Map", "bottom", "MapWindowAreaCombo", "top", 0, 3 )
 	local windowWidth, windowHeight = WindowGetDimensions("MapWindow")
 	WindowSetDimensions("Map", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)
-end
-
-
-function MapWindow.LockTooltip()
-	if ( MapWindow.Locked ) then
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1154868))
-	else
-		Tooltips.CreateTextOnlyTooltip(SystemData.ActiveWindow.name, GetStringFromTid(1154871))
-	end
-	
-	Tooltips.Finalize()
-	Tooltips.AnchorTooltip( Tooltips.ANCHOR_WINDOW_TOP )
-end
-
-function MapWindow.Lock()
-	MapWindow.Locked = not MapWindow.Locked 
-	Interface.SaveBoolean( "MapWindowLocked", MapWindow.Locked  )
-	local this = WindowUtils.GetActiveDialog()
-	local texture = "UO_Core"
-	if ( MapWindow.Locked ) then		
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 69,341)
-		ButtonSetTexture(this.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 92,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 92,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 92,341)
-	else
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 117,341)
-		ButtonSetTexture(this.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 142,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 142,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 142,341)		
-	end
 end
 
 function MapWindow.Shutdown()
@@ -235,10 +190,6 @@ function MapWindow.ActivateMap()
 	MapWindow.ToggleCombos()
 end
 
------------------------------------------------------------------
--- Input Event Handlers
------------------------------------------------------------------
-
 function MapWindow.MapOnMouseWheel(_, _, delta)
 	MapCommon.AdjustZoom(-delta)
 end
@@ -288,11 +239,10 @@ function MapWindow.MapMouseDrag(_, deltaX, deltaY)
 			end
 		end
 		UOCenterRadarOnLocation(newCenterX, newCenterY, facet, area, false)
-	    MapCommon.ForcedUpdate = true		
-		MapWindow.UpdateWaypoints()		
+	    MapCommon.ForcedUpdate = true
+		MapWindow.UpdateWaypoints()
     end
 end
-
 
 function MapWindow.ToggleFacetUpOnLButtonUp()
 	local facet = UOGetRadarFacet() + 1
@@ -348,24 +298,6 @@ function MapWindow.ToggleAreaDownOnLButtonUp()
 	MapCommon.ChangeMap(facet, area)
 end
 
-function MapWindow.LegendIconOnLButtonUp()
-    local windowName = SystemData.ActiveWindow.name
-    waypointType = WindowGetId(windowName)
-    
-    MapWindow.TypeEnabled[waypointType] = not MapWindow.TypeEnabled[waypointType]
-    
-    local alpha = 1.0
-    local color = MapWindow.LegendItemTextColors.normal
-    if( MapWindow.TypeEnabled[waypointType] == false ) then
-		alpha = 0.5
-		color = MapWindow.LegendItemTextColors.disabled
-	end
-    WindowSetAlpha(windowName,alpha)
-    LabelSetTextColor(windowName.."Text",color.r,color.g,color.b)
-    
-    MapWindow.UpdateWaypoints()
-end
-
 function MapWindow.CenterOnPlayerOnLButtonUp()
 	MapWindow.CenterOnPlayer = ButtonGetPressedFlag( "MapWindowCenterOnPlayerButton" )
 	UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
@@ -379,7 +311,7 @@ function MapWindow.CenterOnPlayerOnLButtonUp()
 		end
 	end
 	MapCommon.ForcedUpdate = true
-	MapWindow.UpdateWaypoints()	
+	MapWindow.UpdateWaypoints()
 end
 
 function MapWindow.MapOnLButtonDown()
@@ -444,12 +376,6 @@ function MapWindow.SelectFacet()
     end
 end
 
-function MapWindow.OnShown()
-	if( MapWindow.LegendVisible == true ) then
-		WindowSetShowing("LegendWindow",true)
-	end
-end
-
 function MapWindow.OnUpdate(_)
 	if( DoesWindowNameExist("MapWindow") == true and WindowGetShowing("MapWindow") == true and MapWindow.IsMouseOver == true) then
 		local windowX, windowY = WindowGetScreenPosition("MapImage")
@@ -472,11 +398,6 @@ function MapWindow.OnUpdate(_)
 			LabelSetText("MapWindowCoordsText", L"")
 		end
 	end
-end
-
-function MapWindow.OnHidden()
-	WindowSetShowing("LegendWindow",false)
-	SystemData.Settings.Interface.mapMode = MapCommon.MAP_HIDDEN	
 end
 
 function MapWindow.CloseMap()	
