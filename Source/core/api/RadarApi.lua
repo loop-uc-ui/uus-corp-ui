@@ -24,7 +24,7 @@ function RadarApi.setZoom(zoom)
     UOSetRadarZoom(zoom)
 end
 
-function RadarApi.getCenterOnPlayer(isCenter)
+function RadarApi.setCenterOnPlayer(isCenter)
     UORadarSetCenterOnPlayer(isCenter)
 end
 

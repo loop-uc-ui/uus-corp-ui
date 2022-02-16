@@ -15,6 +15,17 @@ MapWindow.MAP_HEIGHT_DIFFERENCE = 111
 
 MapWindow.Locked = false
 
+local NUM_FACETS = 6
+
+local VIEWS = {
+	FACET_COMBO = "MapWindowFacetCombo",
+	LABEL_CENTER_ON_PLAYER = "MapWindowCenterOnPlayerLabel",
+	LABEL_PLAYER_CORDS = "MapWindowPlayerCoordsText",
+	LABEL_MAP_CORDS = "MapWindowCoordsText",
+	BUTTON_CENTER_ON_PLAYER = "MapWindowCenterOnPlayerButton",
+	IMAGE_COMPASS = "MapCompass"
+}
+
 function MapWindow.Initialize()
 	WindowUtils.RestoreWindowPosition("MapWindow", true)
 	
@@ -38,66 +49,32 @@ function MapWindow.Initialize()
 			WaypointList.event(),
 			"MapWindow.UpdateMap"
 	)
-	
-    ComboBoxClearMenuItems( "MapWindowFacetCombo" )
-    for facet = 0, (MapCommon.NumFacets - 1) do
-		--Debug.Print("Adding: "..tostring(GetStringFromTid(UORadarGetFacetLabel(facet))))
-        ComboBoxAddMenuItem( "MapWindowFacetCombo", GetStringFromTid(UORadarGetFacetLabel(facet)) )
-    end
-    
-    LabelSetText("MapWindowCenterOnPlayerLabel", GetStringFromTid(1112059))
-    ButtonSetCheckButtonFlag( "MapWindowCenterOnPlayerButton", true )
-    ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-    
-    WindowSetScale("MapWindowCoordsText", 0.9 * InterfaceCore.scale)
-    if (SystemData.Settings.Language.type ~= SystemData.Settings.Language.LANGUAGE_ENU) then
-		WindowSetDimensions("MapWindowPlayerCoordsText",250,70)
-    end
-    WindowSetScale("MapWindowPlayerCoordsText", 0.9 * InterfaceCore.scale)
 
-	WindowSetScale("MapWindowCenterOnPlayerButton", 0.9 * InterfaceCore.scale)
-	WindowSetScale("MapWindowCenterOnPlayerLabel", 0.9 * InterfaceCore.scale)
-    
-    local this = "MapWindow"
-    
-	local texture = "UO_Core"
-	if ( MapWindow.Locked) then		
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 69,341)
-		ButtonSetTexture(this.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 92,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 92,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 92,341)
-	else
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_NORMAL, texture, 117,341)
-		ButtonSetTexture(this.."Lock",InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 142,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED, texture, 142,341)
-		ButtonSetTexture(this.."Lock", InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE, texture, 142,341)		
+	local facets = {}
+
+	for i = 0, NUM_FACETS - 1 do
+		table.insert(facets, StringFormatter.fromTid(RadarApi.getFacetLabel(i)))
 	end
-	WindowAddAnchor("MapWindowLock", "topright", "MapWindow", "topright", 0, -5)
-    SnapUtils.SnappableWindows["MapWindow"] = true
-   WindowSetShowing("MapWindowToggleRadarButton", false)
-   
-	CreateWindowFromTemplate("MapCompass", "MapCompass", "MapWindow")
-	DynamicImageSetTexture( "MapCompass", "CompassTexture", 0, 0 )
-	local scale = 0.65
-	local x, y = WindowGetDimensions( "MapCompass" )
-	WindowSetDimensions("MapCompass", x * scale, y * scale)
-	DynamicImageSetRotation( "MapCompass", WindowData.Radar.TexRotation )
-	WindowSetAlpha("MapCompass", 1)
-	WindowAddAnchor("MapCompass", "topright", "MapWindowPlayerCoordsText", "topright", 0, - (y*scale))
-end
 
-function MapWindow.ToggleCombos()
-	WindowSetShowing("MapWindowFacetCombo", true)
-	WindowSetShowing("MapWindowFacetNextButton", true)
-	WindowSetShowing("MapWindowFacetPrevButton", true)
-	WindowSetShowing("MapWindowAreaCombo", true)
-	WindowSetShowing("MapWindowAreaNextButton", true)
-	WindowSetShowing("MapWindowAreaPrevButton", true)
-	WindowClearAnchors("Map")
-	MapWindow.MAP_HEIGHT_DIFFERENCE = 111
-	WindowAddAnchor("Map", "bottom", "MapWindowAreaCombo", "top", 0, 3 )
-	local windowWidth, windowHeight = WindowGetDimensions("MapWindow")
-	WindowSetDimensions("Map", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)
+	MapWindow.adapter:addComboBox(
+			VIEWS.FACET_COMBO,
+			facets,
+			RadarApi.getFacet() + 1
+	):addLabel(
+			VIEWS.LABEL_CENTER_ON_PLAYER,
+			1112059
+	):addCheckBox(
+			VIEWS.BUTTON_CENTER_ON_PLAYER,
+			true
+	):addLabel(
+			VIEWS.LABEL_MAP_CORDS
+	):addLabel(
+			VIEWS.LABEL_PLAYER_CORDS
+	):addLock():addDynamicImage(
+			VIEWS.IMAGE_COMPASS
+	)
+
+	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(true)
 end
 
 function MapWindow.Shutdown()
@@ -187,7 +164,6 @@ function MapWindow.ActivateMap()
     
     MapWindow.UpdateMap()
     MapWindow.UpdateWaypoints()
-	MapWindow.ToggleCombos()
 end
 
 function MapWindow.MapOnMouseWheel(_, _, delta)
@@ -430,10 +406,8 @@ function MapWindow.OnResizeEnd(_)
 	end
 	
 	WindowSetDimensions("MapWindow", windowWidth, windowHeight)
-	if (Interface) then
-		Interface.SaveNumber( "MapWindowBigW" , windowWidth)
-		Interface.SaveNumber( "MapWindowBigH" , windowHeight )
-	end
+	Interface.SaveNumber( "MapWindowBigW" , windowWidth)
+	Interface.SaveNumber( "MapWindowBigH" , windowHeight )
 	
 	WindowSetDimensions("Map", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)
 	local _, topHeight = WindowGetDimensions("MapWindow".."Top")
