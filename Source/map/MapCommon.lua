@@ -229,29 +229,6 @@ function MapCommon.ChangeMap(facet, area)
 	local centerY = ( ( y2 - y1 ) / 2 ) + y1
 	
 	UOCenterRadarOnLocation(centerX, centerY, facet, area, false)
-	
-	MapCommon.UpdateZoomValues(facet, area)
-	
-	
-	MapCommon.AdjustZoom(0)
-end
-
-function MapCommon.UpdateZoomValues(facet, area)
-	if( MapCommon.ActiveView == MapCommon.MAP_MODE_NAME ) then
-		local maxZoom = UORadarGetMaxZoomForMap(facet, area)
-		local MapZoom = Interface.LoadNumber( "MapZoom" , -100)
-		if( maxZoom > 0 and MapZoom ~= -100 ) then
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Current = MapZoom
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Min = -2.0
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Max = maxZoom
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Step = MapCommon.ZoomLevel[MapCommon.ActiveView].Max / 5
-		else
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Current = MapZoom
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Min = -2.0
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Max = 0.0
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Step = 0.50
-		end
-	end
 end
 
 function MapCommon.GetWaypointScale(displayMode)

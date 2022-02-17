@@ -63,6 +63,7 @@ function ListWindow:destroy()
     for i = 1, #self.adapter.views do
         self.adapter.views[i]:destroy()
     end
+    WindowUtils.SaveWindowPosition(self.id)
     WindowApi.destroyWindow(self.id)
     self = nil
     return self

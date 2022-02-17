@@ -13,9 +13,6 @@
             </Anchors>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="MapWindow.Initialize"/>
-                <EventHandler event="OnShutdown" function="MapWindow.Shutdown"/>
-                <EventHandler event="OnShown" function="MapWindow.OnShown"/>
-                <EventHandler event="OnHidden" function="MapWindow.OnHidden"/>
                 <EventHandler event="OnUpdate" function="MapWindow.OnUpdate"/>
                 <EventHandler event="OnLButtonDown" function="MapWindow.OnMouseDrag"/>
                 <EventHandler event="OnMouseWheel" function="WindowUtils.Scale"/>

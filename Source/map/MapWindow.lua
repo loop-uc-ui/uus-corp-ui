@@ -23,7 +23,8 @@ local VIEWS = {
 	LABEL_PLAYER_CORDS = "MapWindowPlayerCoordsText",
 	LABEL_MAP_CORDS = "MapWindowCoordsText",
 	BUTTON_CENTER_ON_PLAYER = "MapWindowCenterOnPlayerButton",
-	IMAGE_COMPASS = "MapCompass"
+	IMAGE_COMPASS = "MapCompass",
+	IMAGE_MAP = "MapImage"
 }
 
 function MapWindow.Initialize()
@@ -76,24 +77,21 @@ function MapWindow.Initialize()
 
 	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(true)
 	MapWindow.adapter.views[VIEWS.IMAGE_COMPASS]:setRotation(45)
-end
 
-function MapWindow.Shutdown()
-	WindowUtils.SaveWindowPosition("MapWindow")
-    UnregisterWindowData(WindowData.Radar.Type,0)
-	UnregisterWindowData(WindowData.PlayerLocation.Type,0)
-    UnregisterWindowData(WindowData.WaypointDisplay.Type,0)
-    UnregisterWindowData(WindowData.WaypointList.Type,0)
-    SnapUtils.SnappableWindows["MapWindow"] = nil
+	local map = MapImage:new(
+			VIEWS.IMAGE_MAP,
+			false
+	)
+	local width, height = map:getDimensions()
+	RadarApi.setWindowSize(width, height, true, true)
+	MapWindow.adapter.views[VIEWS.IMAGE_MAP] = map
+
+	MapWindow.UpdateMap()
+	MapWindow.UpdateWaypoints()
 end
 
 function MapWindow.OnMouseDrag()
-	if (not MapWindow.Locked ) then
-		SnapUtils.StartWindowSnap("MapWindow")
-		WindowSetMoving("MapWindow",true)
-	else
-		WindowSetMoving("MapWindow",false)
-	end
+	MapWindow:onLeftClickDown()
 end
 
 function MapWindow.UpdateMap()
@@ -134,44 +132,12 @@ function MapWindow.UpdateWaypoints()
     end
 end
 
-function MapWindow.ActivateMap()
-    local mapTextureWidth, mapTextureHeight = WindowGetDimensions("MapImage")
-
-    UORadarSetWindowSize(mapTextureWidth, mapTextureHeight, true, MapWindow.CenterOnPlayer)
-    
-    UORadarSetWindowOffset(0, 0)
-
-    WindowSetShowing("MapWindow", true)
-    
-    MapCommon.ActiveView = MapCommon.MAP_MODE_NAME    
-	
-	SystemData.Settings.Interface.mapMode = MapCommon.MAP_ATLAS
-    
-    local facet = UOGetRadarFacet()
-    local area = UOGetRadarArea()
-    MapCommon.UpdateZoomValues(facet, area)
-    local MapZoom = Interface.LoadNumber( "MapZoom" , -100)
-    if MapZoom ~= -100 then 
-		MapCommon.AdjustZoom(MapZoom)
-	else
-		if(MapWindow.CenterOnPlayer == true) then
-			MapCommon.AdjustZoom(-20)
-		else
-			MapCommon.AdjustZoom(0)
-		end
-	end
-    
-    MapWindow.UpdateMap()
-    MapWindow.UpdateWaypoints()
-end
-
-function MapWindow.MapOnMouseWheel(_, _, delta)
-	MapCommon.AdjustZoom(-delta)
+function MapWindow.MapOnMouseWheel(x, y, delta)
+	MapWindow.adapter.views[VIEWS.IMAGE_MAP]:onMouseWheel(x, y, delta)
 end
 
 function MapWindow.MapMouseDrag(_, deltaX, deltaY)
     if( MapWindow.IsDragging and (deltaX ~= 0 or deltaY ~= 0) ) then
-		MapCommon.SetWaypointsEnabled(MapCommon.ActiveView, false)
 		local facet = UOGetRadarFacet()
 		local area = UOGetRadarArea()
 		local mapCenterX, mapCenterY = UOGetRadarCenter()
@@ -220,56 +186,52 @@ function MapWindow.MapMouseDrag(_, deltaX, deltaY)
 end
 
 function MapWindow.ToggleFacetUpOnLButtonUp()
-	local facet = UOGetRadarFacet() + 1
-	
-	if (facet >= MapCommon.NumFacets) then
+	local facet = RadarApi.getFacet() + 1
+
+	if (facet >= NUM_FACETS) then
 		facet = 0
 	end
 
-	MapWindow.CenterOnPlayer = false
-    ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-	UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
+	RadarApi.setCenterOnPlayer(false)
+	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
 	MapCommon.ChangeMap(facet, 0)
 end
 
 function MapWindow.ToggleFacetDownOnLButtonUp()
-	local facet = UOGetRadarFacet() - 1
+	local facet = RadarApi.getFacet() - 1
 	
 	if (facet < 0) then
-		facet = MapCommon.NumFacets - 1
+		facet = NUM_FACETS - 1
 	end
-	
-	MapWindow.CenterOnPlayer = false
-    ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-	UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
-	MapCommon.ChangeMap(facet,0)
+
+	RadarApi.setCenterOnPlayer(false)
+	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	MapCommon.ChangeMap(facet, 0)
 end
 
 function MapWindow.ToggleAreaUpOnLButtonUp()
-	local facet = UOGetRadarFacet()
-	local area = UOGetRadarArea() + 1
+	local facet = RadarApi.getFacet()
+	local area = RadarApi.getArea() + 1
 	
-	if (area >= UORadarGetAreaCount(facet)) then
+	if (area >= RadarApi.getAreaCount(facet)) then
 		area = 0
 	end
-	
-	MapWindow.CenterOnPlayer = false
-    ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-	UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
+
+	RadarApi.setCenterOnPlayer(false)
+	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
 	MapCommon.ChangeMap(facet, area)
 end
 
 function MapWindow.ToggleAreaDownOnLButtonUp()
-	local facet = UOGetRadarFacet()
-	local area = UOGetRadarArea() - 1
+	local facet = RadarApi.getFacet()
+	local area = RadarApi.getArea() - 1
 	
 	if (area < 0) then
-		area = UORadarGetAreaCount(facet) - 1
+		area = RadarApi.getAreaCount(facet) - 1
 	end
 
-	MapWindow.CenterOnPlayer = false
-    ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-	UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
+	RadarApi.setCenterOnPlayer(false)
+	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
 	MapCommon.ChangeMap(facet, area)
 end
 
@@ -295,12 +257,10 @@ function MapWindow.MapOnLButtonDown()
     MapWindow.CenterOnPlayer = false
     ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
     UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
-    MapCommon.SetWaypointsEnabled(MapCommon.ActiveView, false)
 end
 
 function MapWindow.MapOnLButtonUp()
     MapWindow.IsDragging = false
-    MapCommon.SetWaypointsEnabled(MapCommon.ActiveView, true)
 end
 
 function MapWindow.OnMouseOver()
@@ -310,7 +270,6 @@ end
 function MapWindow.OnMouseOverEnd()
     MapWindow.IsDragging = false
     MapWindow.IsMouseOver = false
-    MapCommon.SetWaypointsEnabled(MapCommon.ActiveView, true)
 end
 
 function MapWindow.SelectArea()

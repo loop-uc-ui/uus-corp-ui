@@ -62,6 +62,7 @@ function BaseWindow:destroy()
     if self.eventRegister ~= nil then
         self.eventRegister:unregisterAllEvents()
     end
+    WindowUtils.SaveWindowPosition(self.id)
     WindowApi.destroyWindow(self.id)
     self = nil
     return self
