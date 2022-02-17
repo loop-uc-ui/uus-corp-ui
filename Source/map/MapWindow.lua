@@ -75,6 +75,7 @@ function MapWindow.Initialize()
 	)
 
 	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(true)
+	MapWindow.adapter.views[VIEWS.IMAGE_COMPASS]:setRotation(45)
 end
 
 function MapWindow.Shutdown()
@@ -110,9 +111,7 @@ function MapWindow.UpdateMap()
 		DynamicImageSetTextureScale("MapImage", WindowData.Radar.TexScale)
 		DynamicImageSetTexture("MapImage","radar_texture", WindowData.Radar.TexCoordX, WindowData.Radar.TexCoordY)
 		DynamicImageSetRotation("MapImage", WindowData.Radar.TexRotation)
-		if (DoesWindowNameExist("MapCompass")) then
-			DynamicImageSetRotation( "MapCompass", WindowData.Radar.TexRotation )
-		end
+
 		MapCommon.ForcedUpdate = (oldArea ~= area) or (oldFacet ~= facet)
 		if (MapCommon.ForcedUpdate) then
 			for waypointId, value in pairs(MapCommon.WaypointsIconFacet) do
@@ -302,21 +301,6 @@ end
 function MapWindow.MapOnLButtonUp()
     MapWindow.IsDragging = false
     MapCommon.SetWaypointsEnabled(MapCommon.ActiveView, true)
-end
-
-function MapWindow.MapOnLButtonDblClk(_, x, y)
-	local useScale = false
-	local scale = WindowGetScale("MapWindow")
-	local worldX, worldY = UOGetRadarPosToWorld(x/scale, y/scale, useScale)
-	local facet = UOGetRadarFacet()
-	local area = UOGetRadarArea()
-	if( UORadarIsLocationInArea(worldX, worldY, facet, area) ) then
-		UOCenterRadarOnLocation(worldX, worldY, facet, area, true)
-	end	
-
-    MapWindow.CenterOnPlayer = false
-    ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-    UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)	
 end
 
 function MapWindow.OnMouseOver()
