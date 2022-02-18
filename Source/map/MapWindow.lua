@@ -3,7 +3,6 @@ MapWindow = ListWindow:new("MapWindow")
 MapWindow.ComboBCK = false
 
 MapWindow.ZoomScale = 0.1
-MapWindow.IsDragging = false
 MapWindow.IsMouseOver = false
 MapWindow.TypeEnabled = {}
 MapWindow.CenterOnPlayer = true
@@ -137,7 +136,7 @@ function MapWindow.MapOnMouseWheel(x, y, delta)
 end
 
 function MapWindow.MapMouseDrag(_, deltaX, deltaY)
-    if( MapWindow.IsDragging and (deltaX ~= 0 or deltaY ~= 0) ) then
+    if deltaX ~= 0 or deltaY ~= 0 then
 		local facet = UOGetRadarFacet()
 		local area = UOGetRadarArea()
 		local mapCenterX, mapCenterY = UOGetRadarCenter()
@@ -252,15 +251,8 @@ function MapWindow.CenterOnPlayerOnLButtonUp()
 end
 
 function MapWindow.MapOnLButtonDown()
-    MapWindow.IsDragging = true
-    
-    MapWindow.CenterOnPlayer = false
-    ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-    UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
-end
-
-function MapWindow.MapOnLButtonUp()
-    MapWindow.IsDragging = false
+    MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	RadarApi.setCenterOnPlayer(false)
 end
 
 function MapWindow.OnMouseOver()
@@ -268,7 +260,6 @@ function MapWindow.OnMouseOver()
 end
 
 function MapWindow.OnMouseOverEnd()
-    MapWindow.IsDragging = false
     MapWindow.IsMouseOver = false
 end
 
@@ -319,9 +310,9 @@ function MapWindow.OnUpdate(_)
 	end
 end
 
-function MapWindow.CloseMap()	
-	WindowSetShowing("MapWindow", false)		
-	MapCommon.ActiveView = nil		
+function MapWindow.CloseMap()
+	WindowSetShowing("MapWindow", false)
+	MapCommon.ActiveView = nil
 end
 
 function MapWindow.OnResizeBegin()

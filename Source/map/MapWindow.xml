@@ -189,7 +189,6 @@
                             </Anchors>
                             <EventHandlers>
                                 <EventHandler event="OnLButtonDown" function="MapWindow.MapOnLButtonDown"/>
-                                <EventHandler event="OnLButtonUp" function="MapWindow.MapOnLButtonUp"/>
                                 <EventHandler event="OnLButtonDblClk" function="MapWindow.MapOnLButtonDblClk"/>
                                 <EventHandler event="OnMouseDrag" function="MapWindow.MapMouseDrag"/>
                                 <EventHandler event="OnMouseOver" function="MapWindow.OnMouseOver"/>
