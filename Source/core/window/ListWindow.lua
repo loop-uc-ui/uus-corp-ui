@@ -5,7 +5,7 @@ function ListWindow:new(id, isScrollable)
         id = id,
         adapter = WindowAdapter:new(id),
         eventRegister = WindowEventRegister:new(id),
-        isScrollable = isScrollable == nil or isScrollable
+        isScrollable = isScrollable or false
     }
     self.__index = self
     return setmetatable(this, self)

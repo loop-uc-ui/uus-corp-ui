@@ -1,12 +1,5 @@
 RadarWindow = ListWindow:new("RadarWindow", false)
 
-RadarWindow.Rotation = 45
-RadarWindow.Tilt = false
-RadarWindow.Size = 0
-RadarWindow.Scale = 1.0
-
-RadarWindow.Locked = false
-
 RadarWindow.MAP_IMAGE = "RadarWindowMap"
 local COORD_LABEL = "radarSextant"
 local FACET_INFO_LABEL = "RadarWindowFacetInfo"
@@ -14,7 +7,6 @@ local AREA_INFO_LABEL = "RadarWindowAreaInfo"
 
 function RadarWindow.Initialize()
 	WindowUtils.RestoreWindowPosition(RadarWindow.id)
-	RadarWindow.Scale = WindowGetScale("RadarWindow")
 	RadarWindow.adapter:addLock():addLabel(COORD_LABEL)
 		:addLabel(FACET_INFO_LABEL)
 		:addLabel(AREA_INFO_LABEL)

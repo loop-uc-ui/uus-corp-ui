@@ -12,8 +12,6 @@ MapWindow.WINDOW_HEIGHT_MAX = 776
 MapWindow.MAP_WIDTH_DIFFERENCE = 26
 MapWindow.MAP_HEIGHT_DIFFERENCE = 111
 
-MapWindow.Locked = false
-
 local NUM_FACETS = 6
 
 local VIEWS = {
