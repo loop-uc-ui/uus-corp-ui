@@ -50,7 +50,15 @@ function WaypointWindow:update()
 end
 
 function WaypointWindow.WaypointMouseOver()
-    local waypoint = RadarWindow.adapter.views[RadarWindow.MAP_IMAGE].adapter.views[ActiveWindow.name()]
+    local mapId = RadarWindow.MAP_IMAGE
+    local parent = RadarWindow
+
+    if MapSettings.isAtlas() then
+        mapId = MapWindow.MAP_IMAGE
+        parent = MapWindow
+    end
+
+    local waypoint = parent.adapter.views[mapId].adapter.views[ActiveWindow.name()]
     if waypoint ~= nil and waypoint.name ~= nil then
         Tooltips.CreateTextOnlyTooltip(ActiveWindow.name(), StringFormatter.toWString(waypoint.name))
         Tooltips.Finalize()

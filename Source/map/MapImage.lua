@@ -36,7 +36,7 @@ function MapImage:new(id, isCircular, facet, area, rotation)
     local this = {
         id = id,
         mask = id.."Mask",
-        isCircular = isCircular or true,
+        isCircular = isCircular,
         texture = "radar_texture",
         centerOnPlayer = true,
         facet = facet or RadarApi.getFacet(),
@@ -121,8 +121,17 @@ end
 function MapImage:update()
     self:setRotation(self.rotation)
     self:setTextureScale(Radar.textureScale())
+
     local width, height = WindowApi.getDimensions(self.id)
-    self:setTexture(Radar.textureXCord() + width / 2, Radar.textureYCord() + height / 2)
+    if MapSettings.isRadar() then
+        width = width / 2
+        height = height / 2
+    else
+        width = 0
+        height = 0
+    end
+
+    self:setTexture(Radar.textureXCord() + width, Radar.textureYCord() + height)
 
     local area = RadarApi.getArea()
     self.area = area

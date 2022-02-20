@@ -14,7 +14,7 @@ MapWindow.MAP_HEIGHT_DIFFERENCE = 111
 
 local NUM_FACETS = 6
 
-local VIEWS = {
+MapWindow.VIEWS = {
 	AREA_COMBO = "MapWindowAreaCombo",
 	FACET_COMBO = "MapWindowFacetCombo",
 	LABEL_CENTER_ON_PLAYER = "MapWindowCenterOnPlayerLabel",
@@ -22,7 +22,7 @@ local VIEWS = {
 	LABEL_MAP_CORDS = "MapWindowCoordsText",
 	BUTTON_CENTER_ON_PLAYER = "MapWindowCenterOnPlayerButton",
 	IMAGE_COMPASS = "MapCompass",
-	IMAGE_MAP = "MapImage"
+	IMAGE_MAP = "MapWindowMapImage"
 }
 
 local function updateAreaCombo(facet)
@@ -41,6 +41,42 @@ function MapWindow.Initialize()
 	WindowUtils.RestoreWindowPosition("MapWindow", true)
 	
 	MapWindow.OnResizeEnd("MapWindow")
+
+	local facets = {}
+
+	for i = 0, NUM_FACETS - 1 do
+		table.insert(facets, StringFormatter.fromTid(RadarApi.getFacetLabel(i)))
+	end
+
+	MapWindow.adapter:addComboBox(
+			MapWindow.VIEWS.FACET_COMBO,
+			facets,
+			RadarApi.getFacet() + 1
+	):addComboBox(
+			MapWindow.VIEWS.AREA_COMBO,
+			updateAreaCombo(),
+			RadarApi.getArea() + 1
+	):addLabel(
+			MapWindow.VIEWS.LABEL_CENTER_ON_PLAYER,
+			1112059
+	):addCheckBox(
+			MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER,
+			true
+	):addLabel(
+			MapWindow.VIEWS.LABEL_MAP_CORDS
+	):addLabel(
+			MapWindow.VIEWS.LABEL_PLAYER_CORDS
+	):addLock():addDynamicImage(
+			MapWindow.VIEWS.IMAGE_COMPASS
+	)
+
+	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(true)
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_COMPASS]:setRotation(45)
+
+	local map = MapImage:new(MapWindow.VIEWS.IMAGE_MAP, false)
+	local width, height = map:getDimensions()
+	RadarApi.setWindowSize(width, height, true, true)
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP] = map
 
 	MapWindow:registerData(
 			Radar.type()
@@ -61,44 +97,7 @@ function MapWindow.Initialize()
 			"MapWindow.UpdateMap"
 	)
 
-	local facets = {}
-
-	for i = 0, NUM_FACETS - 1 do
-		table.insert(facets, StringFormatter.fromTid(RadarApi.getFacetLabel(i)))
-	end
-
-	MapWindow.adapter:addComboBox(
-			VIEWS.FACET_COMBO,
-			facets,
-			RadarApi.getFacet() + 1
-	):addComboBox(
-			VIEWS.AREA_COMBO,
-			updateAreaCombo(),
-			RadarApi.getArea() + 1
-	):addLabel(
-			VIEWS.LABEL_CENTER_ON_PLAYER,
-			1112059
-	):addCheckBox(
-			VIEWS.BUTTON_CENTER_ON_PLAYER,
-			true
-	):addLabel(
-			VIEWS.LABEL_MAP_CORDS
-	):addLabel(
-			VIEWS.LABEL_PLAYER_CORDS
-	):addLock():addDynamicImage(
-			VIEWS.IMAGE_COMPASS
-	)
-
-	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(true)
-	MapWindow.adapter.views[VIEWS.IMAGE_COMPASS]:setRotation(45)
-
-	local map = MapImage:new(VIEWS.IMAGE_MAP, false)
-	local width, height = map:getDimensions()
-	RadarApi.setWindowSize(width, height, true, true)
-	MapWindow.adapter.views[VIEWS.IMAGE_MAP] = map
-
 	MapWindow.UpdateMap()
-	MapWindow.UpdateWaypoints()
 end
 
 function MapWindow.OnMouseDrag()
@@ -106,35 +105,7 @@ function MapWindow.OnMouseDrag()
 end
 
 function MapWindow.UpdateMap()
-	local oldArea = ( ComboBoxGetSelectedMenuItem( "MapWindowAreaCombo" ) - 1 )
-	local oldFacet = ( ComboBoxGetSelectedMenuItem( "MapWindowFacetCombo" ) - 1 )
-	local facet = UOGetRadarFacet()
-	if (facet ~= nil) then
-		ComboBoxSetSelectedMenuItem( "MapWindowFacetCombo", (facet + 1) )
-		ComboBoxClearMenuItems( "MapWindowAreaCombo" )
-		for areaIndex = 0, (UORadarGetAreaCount(facet) - 1) do
-			ComboBoxAddMenuItem( "MapWindowAreaCombo", GetStringFromTid(UORadarGetAreaLabel(facet, areaIndex)) )
-		end
-		local area = UOGetRadarArea()
-		ComboBoxSetSelectedMenuItem( "MapWindowAreaCombo", (area + 1) )
-		DynamicImageSetTextureScale("MapImage", WindowData.Radar.TexScale)
-		DynamicImageSetTexture("MapImage","radar_texture", WindowData.Radar.TexCoordX, WindowData.Radar.TexCoordY)
-		DynamicImageSetRotation("MapImage", WindowData.Radar.TexRotation)
-
-		MapCommon.ForcedUpdate = (oldArea ~= area) or (oldFacet ~= facet)
-		if (MapCommon.ForcedUpdate) then
-			for waypointId, value in pairs(MapCommon.WaypointsIconFacet) do
-				local windowName = "Waypoint"..waypointId..MapCommon.ActiveView
-				if (value ~= facet) then
-					if (DoesWindowNameExist(windowName)) then
-						MapCommon.WaypointViewInfo[MapCommon.ActiveView].Windows[waypointId] = nil
-						DestroyWindow(windowName)
-					end
-				end
-			end
-		end
-		MapWindow.UpdateWaypoints()
-	end
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:update()
 end
 
 function MapWindow.UpdateWaypoints()
@@ -144,7 +115,7 @@ function MapWindow.UpdateWaypoints()
 end
 
 function MapWindow.MapOnMouseWheel(x, y, delta)
-	MapWindow.adapter.views[VIEWS.IMAGE_MAP]:onMouseWheel(x, y, delta)
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:onMouseWheel(x, y, delta)
 end
 
 function MapWindow.MapMouseDrag(_, deltaX, deltaY)
@@ -204,7 +175,7 @@ function MapWindow.ToggleFacetUpOnLButtonUp()
 	end
 
 	RadarApi.setCenterOnPlayer(false)
-	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
 	MapCommon.ChangeMap(facet, 0)
 end
 
@@ -216,7 +187,7 @@ function MapWindow.ToggleFacetDownOnLButtonUp()
 	end
 
 	RadarApi.setCenterOnPlayer(false)
-	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
 	MapCommon.ChangeMap(facet, 0)
 end
 
@@ -229,7 +200,7 @@ function MapWindow.ToggleAreaUpOnLButtonUp()
 	end
 
 	RadarApi.setCenterOnPlayer(false)
-	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
 	MapCommon.ChangeMap(facet, area)
 end
 
@@ -242,7 +213,7 @@ function MapWindow.ToggleAreaDownOnLButtonUp()
 	end
 
 	RadarApi.setCenterOnPlayer(false)
-	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
 	MapCommon.ChangeMap(facet, area)
 end
 
@@ -263,7 +234,7 @@ function MapWindow.CenterOnPlayerOnLButtonUp()
 end
 
 function MapWindow.MapOnLButtonDown()
-    MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+    MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
 	RadarApi.setCenterOnPlayer(false)
 end
 
@@ -355,7 +326,7 @@ function MapWindow.OnResizeEnd(_)
 	Interface.SaveNumber( "MapWindowBigW" , windowWidth)
 	Interface.SaveNumber( "MapWindowBigH" , windowHeight )
 	
-	WindowSetDimensions("Map", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)
+	WindowSetDimensions("MapWindowMapImageMask", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)
 	local _, topHeight = WindowGetDimensions("MapWindow".."Top")
 	WindowSetDimensions("MapWindow".."Top",windowWidth+10,topHeight)
 	local _, bottomHeight = WindowGetDimensions("MapWindow".."Bottom")

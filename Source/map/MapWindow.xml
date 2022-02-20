@@ -166,7 +166,7 @@
                     </EventHandlers>
                 </Button>
 
-                <MaskWindow name="Map" movable="false" popable="false" layer="background" handleinput="true">
+                <MaskWindow name="MapWindowMapImageMask" movable="false" popable="false" layer="background" handleinput="true">
                     <Size>
                         <AbsPoint x="690" y="665"/>
                     </Size>
@@ -179,8 +179,7 @@
                         <EventHandler event="OnMouseWheel" function="MapWindow.MapOnMouseWheel"/>
                     </EventHandlers>
                     <Windows>
-                        <DynamicImage name="$parentImage" handleinput="true" layer="default" scaleAnchor="center"
-                                      texturescale="20">
+                        <DynamicImage name="MapWindowMapImage" handleinput="true" layer="default" scaleAnchor="center">
                             <Size>
                                 <AbsPoint x="1100" y="1100"/>
                             </Size>
@@ -195,14 +194,15 @@
                                 <EventHandler event="OnMouseOverEnd" function="MapWindow.OnMouseOverEnd"/>
                             </EventHandlers>
                         </DynamicImage>
-                        <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame">
-                            <Anchors>
-                                <Anchor point="topleft" relativePoint="topleft"/>
-                                <Anchor point="bottomright" relativePoint="bottomright"/>
-                            </Anchors>
-                        </FullResizeImage>
                     </Windows>
                 </MaskWindow>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="MapWindowMapImageMask"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="MapWindowMapImageMask"/>
+                    </Anchors>
+                </FullResizeImage>
 
                 <FullResizeImage name="$parentOverlay" texture="TMapOverlay" handleinput="false">
                     <Anchors>
