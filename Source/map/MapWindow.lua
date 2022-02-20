@@ -15,6 +15,7 @@ MapWindow.MAP_HEIGHT_DIFFERENCE = 111
 local NUM_FACETS = 6
 
 local VIEWS = {
+	AREA_COMBO = "MapWindowAreaCombo",
 	FACET_COMBO = "MapWindowFacetCombo",
 	LABEL_CENTER_ON_PLAYER = "MapWindowCenterOnPlayerLabel",
 	LABEL_PLAYER_CORDS = "MapWindowPlayerCoordsText",
@@ -23,6 +24,18 @@ local VIEWS = {
 	IMAGE_COMPASS = "MapCompass",
 	IMAGE_MAP = "MapImage"
 }
+
+local function updateAreaCombo(facet)
+	local areas = {}
+	local targetFacet = facet or RadarApi.getFacet()
+	for i = 0, RadarApi.getAreaCount(targetFacet) - 1 do
+		table.insert(areas, StringFormatter.fromTid(RadarApi.getAreaLabel(
+				targetFacet,
+				i
+		)))
+	end
+	return areas
+end
 
 function MapWindow.Initialize()
 	WindowUtils.RestoreWindowPosition("MapWindow", true)
@@ -58,6 +71,10 @@ function MapWindow.Initialize()
 			VIEWS.FACET_COMBO,
 			facets,
 			RadarApi.getFacet() + 1
+	):addComboBox(
+			VIEWS.AREA_COMBO,
+			updateAreaCombo(),
+			RadarApi.getArea() + 1
 	):addLabel(
 			VIEWS.LABEL_CENTER_ON_PLAYER,
 			1112059
@@ -75,10 +92,7 @@ function MapWindow.Initialize()
 	MapWindow.adapter.views[VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(true)
 	MapWindow.adapter.views[VIEWS.IMAGE_COMPASS]:setRotation(45)
 
-	local map = MapImage:new(
-			VIEWS.IMAGE_MAP,
-			false
-	)
+	local map = MapImage:new(VIEWS.IMAGE_MAP, false)
 	local width, height = map:getDimensions()
 	RadarApi.setWindowSize(width, height, true, true)
 	MapWindow.adapter.views[VIEWS.IMAGE_MAP] = map
