@@ -105,41 +105,6 @@ function MapCommon.Update()
 	end
 end
 
-function MapCommon.AdjustZoom(zoomDelta)
-	
-	if( MapCommon.ActiveView ~= nil) then
-		local step = MapCommon.ZoomLevel[MapCommon.ActiveView].Step
-		if (MapCommon.ZoomLevel[MapCommon.ActiveView].Current < 0.0) then
-			step = 0.2
-		end
-		MapCommon.ZoomLevel[MapCommon.ActiveView].Current = MapCommon.ZoomLevel[MapCommon.ActiveView].Current + ( zoomDelta * step )
-		
-		if (MapCommon.ZoomLevel[MapCommon.ActiveView].Current > MapCommon.ZoomLevel[MapCommon.ActiveView].Max) then
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Current = MapCommon.ZoomLevel[MapCommon.ActiveView].Max
-		end
-		if (MapCommon.ZoomLevel[MapCommon.ActiveView].Current < MapCommon.ZoomLevel[MapCommon.ActiveView].Min) then
-			MapCommon.ZoomLevel[MapCommon.ActiveView].Current = MapCommon.ZoomLevel[MapCommon.ActiveView].Min
-		end
-		UOSetRadarZoom(MapCommon.ZoomLevel[MapCommon.ActiveView].Current)
-
-		Interface.SaveNumber( "MapZoomBig" , MapCommon.ZoomLevel[MapCommon.ActiveView].Current )
-
-		for waypointId, value in pairs(MapCommon.WaypointsIconFacet) do
-			local windowName = "Waypoint"..waypointId..MapCommon.ActiveView
-			if (value ~= facet) then
-				if (DoesWindowNameExist(windowName)) then
-					MapCommon.WaypointViewInfo[MapCommon.ActiveView].Windows[waypointId] = nil
-					if (DoesWindowNameExist(windowName)) then
-						DestroyWindow(windowName)
-					end
-				end
-			end
-		end
-		MapCommon.ForcedUpdate = true
-		MapCommon.WaypointsDirty = true		
-	end
-end
-
 function MapCommon.ChangeMap(facet, area)
 	if not area then
 		return
@@ -539,21 +504,6 @@ function MapCommon.UpdateWaypoints(displayMode)
     end
 end
 
-function MapCommon.SetWaypointsEnabled(displayMode,isEnabled)
-    if( isEnabled ~= MapCommon.WaypointViewInfo[displayMode].WaypointsEnabled ) then
-        for _, windowName in pairs(MapCommon.WaypointViewInfo[displayMode].Windows) do
-            WindowSetShowing(windowName,isEnabled)
-        end
-        
-        if( MapCommon.WaypointViewInfo[displayMode].PlayerVisible ) then
-            windowName = "Waypoint"..MapCommon.WaypointPlayerId..displayMode
-            WindowSetShowing(windowName,isEnabled)
-        end
-        
-        MapCommon.WaypointViewInfo[displayMode].WaypointsEnabled = isEnabled
-    end
-end
-
 function MapCommon.GetSextantCenterByArea( facet, area)
 	if( (facet == 0 and area == MapCommon.sextantFeluccaLostLands) or (facet == 1 and area == MapCommon.sextantTrammelLostLands) ) then
 		return MapCommon.sextantLostLandCenterX, MapCommon.sextantLostLandCenterY
@@ -650,99 +600,6 @@ function MapCommon.GetSextantLocationStrings(x,y,facet)
     local longString = StringToWString( string.format( "%d", (minutesX/60) ) )..L"."..StringToWString( string.format( "%02d", (minutesX%60) ) )
     
     return latString, longString, latDir, longDir
-end
-
-function MapCommon.WaypointMouseOver()
-    if( MapCommon.ActiveView ~= nil ) then
-        if( DoesWindowExist("WaypointInfo") ) then
-            DestroyWindow("WaypointInfo")
-        end
-        
-        MapCommon.WaypointIsMouseOver = true
-        
-        local waypointId = WindowGetId(SystemData.ActiveWindow.name)
-        local waypointWindow = "Waypoint"..waypointId..MapCommon.ActiveView
-        local waypointName
-        local waypointX
-        local waypointY
-		local waypointFacet
-        
-        if( waypointId ~= MapCommon.WaypointPlayerId ) then
-			local wtype, wname, wfacet, wx, wy
-			
-			if (waypointId > 50000 ) then
-				if(TrackingPointer.TrackWaypoints[waypointId]) then
-					wtype = 13
-					wname = GetStringFromTid(1155436)
-					wfacet = TrackingPointer.TrackWaypoints[waypointId].facet
-					wx = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerX)
-					wy = tonumber(TrackingPointer.TrackWaypoints[waypointId].PointerY)
-				else
-					wtype = nil
-				end
-			elseif (waypointId > 10000 ) then
-				local data = Waypoints.UOGetWaypointInfo(waypointId - 10000, UOGetRadarFacet()) 
-				if data then
-					wtype = data.wtype
-					wname = StringToWString(data.wname)
-					wfacet = data.wfacet
-					wx = tonumber(data.wx)
-					wy = tonumber(data.wy)
-				end
-			else
-				wtype, _, wname, wfacet, wx, wy, wz = UOGetWaypointInfo(waypointId)
-				local texto = string.find(WStringToString(wname) , "_ICON_")
-				if (texto) then
-					local strip = string.sub(WStringToString(wname), 1 , texto - 1)
-					wname = StringToWString(strip)
-				end
-			end
-
-            if (wtype == nil) then
-				DestroyWindow(waypointWindow)
-				return
-			end
-
-            waypointName = wname
-            waypointX = wx
-            waypointY = wy
-            waypointFacet = wfacet
-        else
-            waypointName = GetStringFromTid(MapCommon.TID.YourLocation)
-            waypointX = WindowData.PlayerLocation.x
-            waypointY = WindowData.PlayerLocation.y
-            waypointFacet = WindowData.PlayerLocation.facet
-        end
-        
-        CreateWindowFromTemplate("WaypointInfo","WaypointInfoTemplate", "Root")
-        WindowClearAnchors("WaypointInfo")
-        WindowAddAnchor("WaypointInfo","center",waypointWindow,"bottomleft",0,0)
-                
-        LabelSetText("WaypointInfoDetails",waypointName)
-        local latStr, longStr, latDir, longDir = MapCommon.GetSextantLocationStrings(waypointX, waypointY, waypointFacet)
-        LabelSetText("WaypointInfoLocation", latStr..L"'"..latDir..L" "..longStr..L"'"..longDir .. L"\n" .. waypointX .. L", " .. waypointY)
-        
-        if( MapCommon.ActiveView == MapCommon.MAP_MODE_NAME ) then
-        
-			local Sextant = latStr..L"'"..latDir..L" "..longStr..L"'"..longDir .. L"\n" .. waypointX .. L", " .. waypointY
-			LabelSetText("MapWindowCoordsText", Sextant) 			
-        end
-        
-        local w1, h1 = LabelGetTextDimensions("WaypointInfoDetails")
-        local w2, h2 = LabelGetTextDimensions("WaypointInfoLocation")
-        local infoWindowWidth = math.max(w1,w2) + 6
-        local infoWindowHeight = h1 + h2 + 9
-        
-        WindowSetDimensions("WaypointInfo",infoWindowWidth,infoWindowHeight)
-    end
-end
-
-function MapCommon.WaypointMouseOverEnd()
-	MapCommon.WaypointIsMouseOver = false
-	
-    if( DoesWindowExist("WaypointInfo") ) then
-        DestroyWindow("WaypointInfo")
-    end    
 end
 
 MapCommon.CurrentArea = ""
