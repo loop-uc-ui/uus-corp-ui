@@ -172,8 +172,13 @@ function MapImage:update()
     self.drawWaypoints = false
 
     for key, value in pairs(self.adapter.views) do
-        if key ~= "WaypointIconPlayer" then
-           value:update()
+        if key == "WaypointIconPlayer" then
+            value:update(
+                    PlayerLocation.xCord(),
+                    PlayerLocation.yCord()
+            )
+        else
+            value:update()
         end
     end
 end
