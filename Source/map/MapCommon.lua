@@ -97,14 +97,6 @@ MapCommon.RefreshDelta = 0
 -- Functions
 ----------------------------------------------------------------
 
-function MapCommon.Update()
-    if MapCommon.WaypointsDirty == true and MapCommon.ActiveView ~= nil
-			and MapCommon.WaypointViewInfo[MapCommon.MAP_MODE_NAME].WaypointsEnabled == true then
-		MapCommon.UpdateWaypoints(MapCommon.ActiveView)
-		MapCommon.WaypointsDirty = false
-	end
-end
-
 function MapCommon.ChangeMap(facet, area)
 	if not area then
 		return
@@ -201,35 +193,6 @@ function MapCommon.ClearWaypoints(displayMode)
 	MapCommon.WaypointMouseOverEnd()
 end
 
-function MapCommon.DrawPlayer(displayMode, visibleFunc, parentWindow)
-	local physicalFacet = UOGetPhysicalRadarFacet()
-	
-	local windowName = "Waypoint"..MapCommon.WaypointPlayerId..displayMode
-	
-	local playerVisible = WindowData.PlayerLocation.facet == physicalFacet and visibleFunc(MapCommon.WaypointPlayerType,WindowData.PlayerLocation.x,WindowData.PlayerLocation.y)
-    if( playerVisible ~= MapCommon.WaypointViewInfo[displayMode].PlayerVisible ) then
-		if DoesWindowNameExist(windowName) then
-			WindowSetShowing(windowName,playerVisible)
-		end
-        MapCommon.WaypointViewInfo[displayMode].PlayerVisible = playerVisible
-    end
-	
-    if( playerVisible ) then    
-		if (DoesWindowNameExist(windowName)) then 
-			DestroyWindow(windowName)
-		end
-		CreateWindowFromTemplate(windowName, "WaypointIconTemplate", parentWindow)  
-		WindowSetId(windowName,MapCommon.WaypointPlayerId) 
-        WindowClearAnchors(windowName)
-	    local playerX, playerY = UOGetWorldPosToRadar(WindowData.PlayerLocation.x, WindowData.PlayerLocation.y)
-	    WindowAddAnchor(windowName, "topleft", parentWindow, "center", playerX, playerY)
-	    local iconId = WindowData.WaypointDisplay.displayTypes[displayMode][MapCommon.WaypointPlayerType].iconId
-        MapCommon.UpdateWaypointIcon(iconId,windowName,displayMode)
-        CreateWindowFromTemplate(windowName .. "Text", "WPText", windowName)
-		WindowAddAnchor(windowName .. "Text", "top", windowName, "bottom", 0, -5)
-		LabelSetText(windowName .. "Text", GetStringFromTid(1154864))
-    end
-end
 function MapCommon.GetWPDataFromString(wname, wtype, wfacet, facet, area)
 	if (not wname) then
 		return nil
@@ -392,9 +355,6 @@ function MapCommon.UpdateWaypoints(displayMode)
     local visibleFunc = MapCommon.WaypointViewInfo[displayMode].VisibleFunc
     
 	MapCommon.ClearWaypoints(displayMode)
-	
-    MapCommon.DrawPlayer(displayMode, visibleFunc, parentWindow)
-   	
 
     local facet = UOGetRadarFacet()
     local area = UOGetRadarArea()

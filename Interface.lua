@@ -715,9 +715,6 @@ function Interface.Update( timePassed )
 	ok, err = pcall(HotbarSystem.Update, timePassed)	
 	Interface.ErrorTracker(ok, err)
 	
-	ok, err = pcall(MapCommon.Update, timePassed)	
-	Interface.ErrorTracker(ok, err)
-	
 	ok, err = pcall(Interface.MapRefresh, timePassed)	
 	Interface.ErrorTracker(ok, err)
 
