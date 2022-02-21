@@ -32,33 +32,20 @@ local function convertToMinutes(x, y, facet)
     return minutesX, minutesY
 end
 
-function MapImage:new(id, isCircular, facet, area, rotation)
+function MapImage:new(id, mode)
     local this = {
         id = id,
-        isCircular = isCircular,
         texture = "radar_texture",
         centerOnPlayer = true,
-        facet = facet or RadarApi.getFacet(),
-        area = area or RadarApi.getArea(),
-        zoom = MapSettings.getZoom(),
-        rotation = rotation or 45,
         drawWaypoints = true
     }
-
-    if this.isCircular then
-        MapSettings.setMode(MapSettings.MODES.RADAR)
-    else
-        MapSettings.setMode(MapSettings.MODES.ATLAS)
-    end
-
-    this.maxZoom = RadarApi.getMaxZoom(this.facet, this.area)
-
+    MapSettings.setMode(mode)
     self.__index = self
     return setmetatable(this, self)
 end
 
 function MapImage:setTexture(xCord, yCord)
-    if self.isCircular then
+    if MapSettings.isRadar() then
         CircleImageApi.setTexture(
                 self.id,
                 self.texture,
@@ -76,7 +63,7 @@ function MapImage:setTexture(xCord, yCord)
 end
 
 function MapImage:setTextureScale(scale)
-    if self.isCircular then
+    if MapSettings.isRadar() then
         CircleImageApi.setTextureScale(
                 self.id,
                 scale
@@ -90,7 +77,7 @@ function MapImage:setTextureScale(scale)
 end
 
 function MapImage:setRotation(rotation)
-    if self.isCircular then
+    if MapSettings.isRadar() then
         CircleImageApi.setRotation(
                 self.id,
                 rotation
@@ -117,11 +104,12 @@ function MapImage:addWaypoint(id, name, iconId, x, y)
     return waypoint
 end
 
-function MapImage:update()
-    self:setRotation(self.rotation)
+function MapImage:update(facet, area)
+    self:setRotation(45)
     self:setTextureScale(Radar.textureScale())
 
     local width, height = WindowApi.getDimensions(self.id)
+
     if MapSettings.isRadar() then
         width = width / 2
         height = height / 2
@@ -131,13 +119,8 @@ function MapImage:update()
     end
 
     self:setTexture(Radar.textureXCord() + width, Radar.textureYCord() + height)
-
-    local area = RadarApi.getArea()
-    self.area = area
-    local facet = RadarApi.getFacet()
-    self.facet = facet
-    self.zoom = MapSettings.getZoom()
-    self.maxZoom = RadarApi.getMaxZoom(facet, area)
+    area = area or RadarApi.getArea()
+    facet = facet or RadarApi.getFacet()
 
     if self.drawWaypoints and not WindowApi.doesExist("WaypointIconPlayer") then
         self:addWaypoint(
@@ -151,9 +134,9 @@ function MapImage:update()
 
     if self.drawWaypoints then
         for i = 0, #Waypoints.Facet - 1 do
-            if i == self.facet then
+            if i == facet then
                 for _, value in pairs(Waypoints.Facet[i]) do
-                    local id = value.Name.."_"..RadarApi.getFacetLabel(i).."_"..RadarApi.getAreaLabel(i, self.area).."_"..value.Icon
+                    local id = value.Name.."_"..RadarApi.getFacetLabel(i).."_"..RadarApi.getAreaLabel(i, area).."_"..value.Icon
                     if not WindowApi.doesExist(id) then
                         self:addWaypoint(
                                 id,
@@ -183,23 +166,23 @@ function MapImage:update()
     end
 end
 
-function MapImage:onMouseWheel(_, _, delta)
-    local zoom = self.zoom - (delta * 0.2)
+function MapImage:onMouseWheel(delta, facet, area)
+    local zoom = MapSettings.getZoom() - (delta * 0.2)
+    local maxZoom = RadarApi.getMaxZoom(facet or RadarApi.getFacet(), area or RadarApi.getArea())
 
     if zoom < -2 then
         zoom = -2
-    elseif zoom > self.maxZoom then
-        zoom = self.maxZoom
+    elseif zoom > maxZoom then
+        zoom = maxZoom
     end
 
     RadarApi.setZoom(zoom)
     MapSettings.setZoom(zoom)
-    self.zoom = zoom
 end
 
-function MapImage:getFormattedLocation(x, y)
+function MapImage:getFormattedLocation(x, y, facet)
     --Old function
-    local minutesX, minutesY = convertToMinutes(x, y, self.facet)
+    local minutesX, minutesY = convertToMinutes(x, y, facet or RadarApi.getFacet())
     local latDir = L"S"
     local longDir = L"E"
 

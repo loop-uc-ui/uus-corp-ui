@@ -27,7 +27,7 @@ function RadarWindow.Initialize()
 
 	local map = MapImage:new(
 			RadarWindow.MAP_IMAGE,
-			true
+			MapSettings.MODES.RADAR
 	)
 	RadarWindow.adapter.views[map.id] = map
 	local width, height = map:getDimensions()
@@ -79,6 +79,6 @@ function RadarWindow.CloseMap()
 	SystemData.Settings.Interface.mapMode = MapCommon.MAP_HIDDEN
 end
 
-function RadarWindow.RadarOnMouseWheel(x, y, delta)
-	RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]:onMouseWheel(x, y, delta)
+function RadarWindow.RadarOnMouseWheel(_, _, delta)
+	RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]:onMouseWheel(delta)
 end

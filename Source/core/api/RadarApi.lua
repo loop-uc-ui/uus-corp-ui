@@ -33,9 +33,8 @@ function RadarApi.getPhysicalRadarFacet()
     return UOGetPhysicalRadarFacet()
 end
 
-function RadarApi.getAreaDimensions()
-    --TODO determine proper args
-    return UORadarGetAreaDimensions()
+function RadarApi.getAreaDimensions(facet, area)
+    return UORadarGetAreaDimensions(facet, area)
 end
 
 function RadarApi.getFacetLabel(facet)

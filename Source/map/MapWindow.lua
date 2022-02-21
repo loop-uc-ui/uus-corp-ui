@@ -37,6 +37,20 @@ local function updateAreaCombo(facet)
 	return areas
 end
 
+local function changeMap(facet, area)
+	Debug.Print("test")
+	local x1, y1, x2, y2 = RadarApi.getAreaDimensions(facet, area)
+	if not x2 then
+		return
+	end
+	local centerX = ( ( x2 - x1 ) / 2 ) + x1
+	local centerY = ( ( y2 - y1 ) / 2 ) + y1
+	RadarApi.centerOnLocation(centerX, centerY, facet, area, false)
+
+	local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
+	map:update(facet, area)
+end
+
 function MapWindow.Initialize()
 	WindowUtils.RestoreWindowPosition("MapWindow", true)
 
@@ -72,7 +86,7 @@ function MapWindow.Initialize()
 
 	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(true)
 
-	local map = MapImage:new(MapWindow.VIEWS.IMAGE_MAP, false)
+	local map = MapImage:new(MapWindow.VIEWS.IMAGE_MAP, MapSettings.MODES.ATLAS)
 	local width, height = map:getDimensions()
 	RadarApi.setWindowSize(width, height, true, true)
 	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP] = map
@@ -107,8 +121,10 @@ function MapWindow.UpdateMap()
 	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:update()
 end
 
-function MapWindow.MapOnMouseWheel(x, y, delta)
-	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:onMouseWheel(x, y, delta)
+function MapWindow.MapOnMouseWheel(_, _, delta)
+	local area = MapWindow.adapter.views[MapWindow.VIEWS.AREA_COMBO]:getSelectedItem() - 1
+	local facet = MapWindow.adapter.views[MapWindow.VIEWS.FACET_COMBO]:getSelectedItem() - 1
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:onMouseWheel(delta, facet, area)
 end
 
 function MapWindow.MapMouseDrag(_, deltaX, deltaY)
@@ -133,7 +149,7 @@ function MapWindow.ToggleFacetUpOnLButtonUp()
 
 	RadarApi.setCenterOnPlayer(false)
 	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
-	MapCommon.ChangeMap(facet, 0)
+	changeMap(facet, 0)
 end
 
 function MapWindow.ToggleFacetDownOnLButtonUp()
@@ -145,7 +161,7 @@ function MapWindow.ToggleFacetDownOnLButtonUp()
 
 	RadarApi.setCenterOnPlayer(false)
 	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
-	MapCommon.ChangeMap(facet, 0)
+	changeMap(facet, 0)
 end
 
 function MapWindow.ToggleAreaUpOnLButtonUp()
