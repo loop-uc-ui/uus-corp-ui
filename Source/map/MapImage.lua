@@ -35,7 +35,6 @@ end
 function MapImage:new(id, isCircular, facet, area, rotation)
     local this = {
         id = id,
-        mask = id.."Mask",
         isCircular = isCircular,
         texture = "radar_texture",
         centerOnPlayer = true,
@@ -110,9 +109,9 @@ function MapImage:addWaypoint(id, name, iconId, x, y)
             id,
             name,
             iconId,
-            self.mask,
-            x - 6,
-            y + 2
+            self.id,
+            x,
+            y
     )
     self.adapter.views[waypoint.id] = waypoint
     return waypoint
@@ -174,7 +173,7 @@ function MapImage:update()
 
     for key, value in pairs(self.adapter.views) do
         if key ~= "WaypointIconPlayer" then
-           value:update(self.maxZoom)
+           value:update()
         end
     end
 end

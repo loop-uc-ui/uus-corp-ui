@@ -25,7 +25,10 @@ function RadarWindow.Initialize()
 			"RadarWindow.UpdateRadar"
 	)
 
-	local map = MapImage:new(RadarWindow.MAP_IMAGE, true)
+	local map = MapImage:new(
+			RadarWindow.MAP_IMAGE,
+			true
+	)
 	RadarWindow.adapter.views[map.id] = map
 	local width, height = map:getDimensions()
 	RadarApi.setWindowSize(width, height, true, true)

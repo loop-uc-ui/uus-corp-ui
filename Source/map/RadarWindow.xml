@@ -11,7 +11,7 @@
                 <EventHandler event="OnMouseWheel" function="RadarWindow.RadarOnMouseWheel"/>
             </EventHandlers>
             <Windows>
-                <CircleImage name="$parentMap" numsegments="64" texturescale="1.0" layer="default" texture="radar_texture">
+                <MaskWindow name="$parentMapMask" layer="secondary" handleinput="true">
                     <Size>
                         <AbsPoint x="190" y="190"/>
                     </Size>
@@ -20,18 +20,17 @@
                             <AbsPoint x="3" y="1"/>
                         </Anchor>
                     </Anchors>
-                    <TexCoords x="128" y="128"/>
-                </CircleImage>
-
-                <MaskWindow name="$parentMapMask" layer="overlay">
-                    <Size>
-                        <AbsPoint x="160" y="160"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="center" relativePoint="center" relativeTo="$parentRing">
-                            <AbsPoint x="3" y="1"/>
-                        </Anchor>
-                    </Anchors>
+                    <Windows>
+                        <CircleImage name="RadarWindowMap" numsegments="64" texturescale="1.1" layer="overlay" texture="radar_texture" handleinput="true">
+                            <Size>
+                                <AbsPoint x="190" y="190"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="center" relativePoint="center" relativeTo="$parent"/>
+                            </Anchors>
+                            <TexCoords x="128" y="128"/>
+                        </CircleImage>
+                    </Windows>
                 </MaskWindow>
 
                 <Button name="RadarWindowLock" inherits="LockButton" texturescale="1.1" layer="overlay">
@@ -45,8 +44,8 @@
                     </Anchors>
                 </Button>
 
-                <DynamicImage name="$parentRing" texture="hud_image" texturescale="1.1"
-                              layer="secondary">
+                <DynamicImage name="$parentRing" texture="hud_image" texturescale="1.1" handleinput="true"
+                              layer="default">
                     <Size>
                         <AbsPoint x="250" y="250"/>
                     </Size>
