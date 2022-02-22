@@ -32,12 +32,13 @@ local function convertToMinutes(x, y, facet)
     return minutesX, minutesY
 end
 
-function MapImage:new(id, mode)
+function MapImage:new(id, mode, facet, area)
     local this = {
         id = id,
         texture = "radar_texture",
         centerOnPlayer = true,
-        drawWaypoints = true
+        facet = self.facet,
+        area = self.area
     }
     MapSettings.setMode(mode)
     self.__index = self
@@ -105,6 +106,10 @@ function MapImage:addWaypoint(id, name, iconId, x, y)
 end
 
 function MapImage:update(facet, area)
+    if facet == nil or area == nil then
+        return
+    end
+
     self:setRotation(45)
     self:setTextureScale(Radar.textureScale())
 
@@ -118,11 +123,17 @@ function MapImage:update(facet, area)
         height = 0
     end
 
-    self:setTexture(Radar.textureXCord() + width, Radar.textureYCord() + height)
-    area = area or RadarApi.getArea()
-    facet = facet or RadarApi.getFacet()
+    local drawWaypoints = area ~= self.area or facet ~= self.facet or #self.adapter.views == 0
+    self.area = area
+    self.facet = facet
 
-    if self.drawWaypoints and not WindowApi.doesExist("WaypointIconPlayer") then
+    if drawWaypoints then
+        self:clearWaypoints()
+    end
+
+    self:setTexture(Radar.textureXCord() + width, Radar.textureYCord() + height)
+
+    if drawWaypoints and not WindowApi.doesExist("WaypointIconPlayer") and area == RadarApi.getArea() and facet == RadarApi.getFacet() then
         self:addWaypoint(
                 "WaypointIconPlayer",
                 nil,
@@ -132,11 +143,11 @@ function MapImage:update(facet, area)
         )
     end
 
-    if self.drawWaypoints then
+    if drawWaypoints then
         for i = 0, #Waypoints.Facet - 1 do
             if i == facet then
                 for _, value in pairs(Waypoints.Facet[i]) do
-                    local id = value.Name.."_"..RadarApi.getFacetLabel(i).."_"..RadarApi.getAreaLabel(i, area).."_"..value.Icon
+                    local id = "Waypoint"..value.Name.."_"..RadarApi.getFacetLabel(i).."_"..RadarApi.getAreaLabel(i, area).."_"..value.Icon
                     if not WindowApi.doesExist(id) then
                         self:addWaypoint(
                                 id,
@@ -152,8 +163,6 @@ function MapImage:update(facet, area)
         end
     end
 
-    self.drawWaypoints = false
-
     for key, value in pairs(self.adapter.views) do
         if key == "WaypointIconPlayer" then
             value:update(
@@ -166,9 +175,18 @@ function MapImage:update(facet, area)
     end
 end
 
+function MapImage:clearWaypoints()
+    for key, value in pairs(self.adapter.views) do
+        if string.find(key, "Waypoint") and WindowApi.doesExist(key) then
+            value:destroy()
+            self.adapter.views[key] = nil
+        end
+    end
+end
+
 function MapImage:onMouseWheel(delta, facet, area)
     local zoom = MapSettings.getZoom() - (delta * 0.2)
-    local maxZoom = RadarApi.getMaxZoom(facet or RadarApi.getFacet(), area or RadarApi.getArea())
+    local maxZoom = RadarApi.getMaxZoom(facet or self.facet, area or self.area)
 
     if zoom < -2 then
         zoom = -2
@@ -182,7 +200,7 @@ end
 
 function MapImage:getFormattedLocation(x, y, facet)
     --Old function
-    local minutesX, minutesY = convertToMinutes(x, y, facet or RadarApi.getFacet())
+    local minutesX, minutesY = convertToMinutes(x, y, facet or self.facet)
     local latDir = L"S"
     local longDir = L"E"
 

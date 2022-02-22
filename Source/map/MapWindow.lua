@@ -38,7 +38,6 @@ local function updateAreaCombo(facet)
 end
 
 local function changeMap(facet, area)
-	Debug.Print("test")
 	local x1, y1, x2, y2 = RadarApi.getAreaDimensions(facet, area)
 	if not x2 then
 		return
@@ -118,7 +117,7 @@ function MapWindow.OnMouseDrag()
 end
 
 function MapWindow.UpdateMap()
-	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:update()
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:update(RadarApi.getFacet(), RadarApi.getArea())
 end
 
 function MapWindow.MapOnMouseWheel(_, _, delta)
@@ -128,16 +127,14 @@ function MapWindow.MapOnMouseWheel(_, _, delta)
 end
 
 function MapWindow.MapMouseDrag(_, deltaX, deltaY)
-    if deltaX ~= 0 or deltaY ~= 0 then
-		local facet = RadarApi.getFacet()
-		local area = RadarApi.getArea()
-		local mapCenterX, mapCenterY = RadarApi.getCenter()
-		mapCenterX, mapCenterY = RadarApi.worldPosToRadar(mapCenterX, mapCenterY)
-		mapCenterX = mapCenterX - deltaX
-		mapCenterY = mapCenterY - deltaY
-		mapCenterX, mapCenterY = RadarApi.radarPosToWorld(mapCenterX, mapCenterY, false)
-		RadarApi.centerOnLocation(mapCenterX, mapCenterY, facet, area, false)
-    end
+	local facet = RadarApi.getFacet()
+	local area = RadarApi.getArea()
+	local mapCenterX, mapCenterY = RadarApi.getCenter()
+	mapCenterX, mapCenterY = RadarApi.worldPosToRadar(mapCenterX, mapCenterY)
+	mapCenterX = mapCenterX - deltaX
+	mapCenterY = mapCenterY - deltaY
+	mapCenterX, mapCenterY = RadarApi.radarPosToWorld(mapCenterX, mapCenterY, false)
+	RadarApi.centerOnLocation(mapCenterX, mapCenterY, facet, area, false)
 end
 
 function MapWindow.ToggleFacetUpOnLButtonUp()

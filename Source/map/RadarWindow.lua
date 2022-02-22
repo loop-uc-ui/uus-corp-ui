@@ -48,7 +48,7 @@ end
 
 function RadarWindow.UpdateRadar()
 	local map = RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]
-	map:update()
+	map:update(RadarApi.getFacet(), RadarApi.getArea())
 
 	local latStr, longStr, latDir, longDir = map:getFormattedLocation(
 			PlayerLocation.xCord(),
