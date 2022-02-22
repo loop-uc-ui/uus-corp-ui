@@ -37,8 +37,8 @@ function MapImage:new(id, mode, facet, area)
         id = id,
         texture = "radar_texture",
         centerOnPlayer = true,
-        facet = self.facet,
-        area = self.area
+        facet = facet,
+        area = area
     }
     MapSettings.setMode(mode)
     self.__index = self
