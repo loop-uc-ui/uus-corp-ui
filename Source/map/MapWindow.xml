@@ -236,8 +236,8 @@
                         <AbsPoint x="67" y="67"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="topright" relativePoint="topright" relativeTo="$parentPlayerCoordsText">
-                            <AbsPoint/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="MapWindowMapImageMask">
+                            <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
                 </DynamicImage>
@@ -248,7 +248,7 @@
                         <AbsPoint x="200" y="32"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="Map">
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="MapWindowMapImageMask">
                             <AbsPoint x="5" y="5"/>
                         </Anchor>
                     </Anchors>
@@ -260,7 +260,7 @@
                         <AbsPoint x="250" y="50"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="Map">
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="MapWindowMapImageMask">
                             <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
@@ -268,7 +268,7 @@
 
                 <Button name="$parentCenterOnPlayerButton" inherits="UO_Default_Check_Button">
                     <Anchors>
-                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="Map">
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="MapWindowMapImageMask">
                             <AbsPoint x="5" y="-5"/>
                         </Anchor>
                     </Anchors>

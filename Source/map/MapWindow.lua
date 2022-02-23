@@ -84,6 +84,7 @@ function MapWindow.Initialize()
 	)
 
 	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(true)
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_COMPASS]:setRotation(45)
 
 	local map = MapImage:new(MapWindow.VIEWS.IMAGE_MAP, MapSettings.MODES.ATLAS)
 	local width, height = map:getDimensions()
