@@ -471,3 +471,7 @@ end
 function WindowApi.setUpdateFrequency(windowName, frequency)
     WindowSetUpdateFrequency(windowName, frequency)
 end
+
+function WindowApi.getPosition(id)
+    return WindowGetScreenPosition(id)
+end

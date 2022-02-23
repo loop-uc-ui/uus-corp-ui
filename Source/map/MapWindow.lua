@@ -87,7 +87,7 @@ function MapWindow.Initialize()
 	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_COMPASS]:setRotation(45)
 
 	local map = MapImage:new(MapWindow.VIEWS.IMAGE_MAP, MapSettings.MODES.ATLAS)
-	local width, height = map:getDimensions()
+	local width, height = map:dimensions()
 	RadarApi.setWindowSize(width, height, true, true)
 	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP] = map
 
@@ -230,26 +230,19 @@ function MapWindow.SelectFacet()
 end
 
 function MapWindow.OnUpdate(_)
-	if( DoesWindowNameExist("MapWindow") == true and WindowGetShowing("MapWindow") == true and MapWindow.IsMouseOver == true) then
-		local windowX, windowY = WindowGetScreenPosition("MapImage")
-		local mouseX = SystemData.MousePosition.x - windowX
-		local mouseY = SystemData.MousePosition.y - windowY
-	    local useScale = false
-		local scale = WindowGetScale("MapWindow")
-		local x, y = UOGetRadarPosToWorld(mouseX/scale, mouseY/scale, useScale)
+	if MapWindow.IsMouseOver == true then
+		local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
+		local windowX, windowY = WindowApi.getPosition(map.id)
+		local mouseX = MousePosition.x() - windowX
+		local mouseY = MousePosition.y() - windowY
+		local scale = MapWindow:scale()
+		local x, y = RadarApi.radarPosToWorld(mouseX / scale, mouseY / scale, false)
 
-		local facet = UOGetRadarFacet()
-		local area = UOGetRadarArea()
-	    local x1, y1, x2, y2 = UORadarGetAreaDimensions(facet, area)
-		if (x1 < x and y1 < y and x2 > x and y2 > y) then
-			local latStr, longStr, latDir, longDir = MapCommon.GetSextantLocationStrings(x, y, facet)
-			local Sextant = latStr..L"'"..latDir..L" "..longStr..L"'"..longDir .. L"\n" .. x .. L", " .. y
-
-
-			LabelSetText("MapWindowCoordsText", Sextant)
-		else
-			LabelSetText("MapWindowCoordsText", L"")
-		end
+		local latStr, longStr, latDir, longDir = MapCommon.GetSextantLocationStrings(x, y, map.facet)
+		local sextant = latStr..L"'"..latDir..L" "..longStr..L"'"..longDir .. L"\n" .. x .. L", " .. y
+		MapWindow.adapter.views[MapWindow.VIEWS.LABEL_MAP_CORDS]:setText(sextant)
+	else
+		MapWindow.adapter.views[MapWindow.VIEWS.LABEL_MAP_CORDS]:setText("")
 	end
 end
 
