@@ -97,23 +97,6 @@ MapCommon.RefreshDelta = 0
 -- Functions
 ----------------------------------------------------------------
 
-function MapCommon.ChangeMap(facet, area)
-	if not area then
-		return
-	end
-	if not facet then
-		return
-	end
-	local x1, y1, x2, y2 = UORadarGetAreaDimensions(facet, area)
-	if not x2 then
-		return
-	end
-	local centerX = ( ( x2 - x1 ) / 2 ) + x1
-	local centerY = ( ( y2 - y1 ) / 2 ) + y1
-	
-	UOCenterRadarOnLocation(centerX, centerY, facet, area, false)
-end
-
 function MapCommon.GetWaypointScale(displayMode)
 	local iconScale = WindowGetScale("MapWindow")
 	if( displayMode == MapCommon.MAP_MODE_NAME ) then

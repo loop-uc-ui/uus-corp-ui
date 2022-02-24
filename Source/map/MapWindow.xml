@@ -17,6 +17,7 @@
                 <EventHandler event="OnLButtonDown" function="MapWindow.OnMouseDrag"/>
                 <EventHandler event="OnMouseWheel" function="WindowUtils.Scale"/>
                 <EventHandler event="OnRButtonUp" function="UO_DefaultWindow.CloseDialog"/>
+                <EventHandler event="OnShutdown" function="MapWindow.Shutdown"/>
             </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentBg" texture="TMapBG" handleinput="false" layer="background">

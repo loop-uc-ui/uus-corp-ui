@@ -30,7 +30,7 @@ function RadarWindow.Initialize()
 			MapSettings.MODES.RADAR
 	)
 	RadarWindow.adapter.views[map.id] = map
-	local width, height = map:dimensions()
+	local width, height = map:getDimensions()
 	RadarApi.setWindowSize(width, height, true, true)
 end
 

@@ -7,10 +7,10 @@ MapWindow.IsMouseOver = false
 MapWindow.TypeEnabled = {}
 MapWindow.CenterOnPlayer = true
 
-MapWindow.WINDOW_WIDTH_MAX = 716
-MapWindow.WINDOW_HEIGHT_MAX = 776
-MapWindow.MAP_WIDTH_DIFFERENCE = 26
-MapWindow.MAP_HEIGHT_DIFFERENCE = 111
+local WIDTH_SETTING = "MapWindowBigW"
+local HEIGHT_SETTING = "MapWindowBigH"
+local MAP_WIDTH_DIFFERENCE = 26
+local MAP_HEIGHT_DIFFERENCE = 111
 
 local NUM_FACETS = 6
 
@@ -48,9 +48,12 @@ local function changeMap(facet, area)
 end
 
 function MapWindow.Initialize()
-	WindowUtils.RestoreWindowPosition("MapWindow", true)
-
-	MapWindow.OnResizeEnd("MapWindow")
+	WindowUtils.RestoreWindowPosition(MapWindow.id, true)
+	MapWindow:setDimensions(
+			UserInterfaceVariables.LoadNumber(WIDTH_SETTING, 400),
+			UserInterfaceVariables.LoadNumber(HEIGHT_SETTING, 400)
+	)
+	MapWindow.OnResizeEnd()
 
 	local facets = {}
 
@@ -84,7 +87,7 @@ function MapWindow.Initialize()
 	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_COMPASS]:setRotation(45)
 
 	local map = MapImage:new(MapWindow.VIEWS.IMAGE_MAP, MapSettings.MODES.ATLAS)
-	local width, height = map:dimensions()
+	local width, height = map:getDimensions()
 	RadarApi.setWindowSize(width, height, true, true)
 	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP] = map
 
@@ -247,7 +250,7 @@ function MapWindow.OnUpdate(_)
 		local windowX, windowY = WindowApi.getPosition(map.id)
 		local mouseX = MousePosition.x() - windowX
 		local mouseY = MousePosition.y() - windowY
-		local scale = MapWindow:scale()
+		local scale = MapWindow:getScale()
 		local x, y = RadarApi.radarPosToWorld(mouseX / scale, mouseY / scale, false)
 
 		local latStr, longStr, latDir, longDir = MapCommon.GetSextantLocationStrings(x, y, map.facet)
@@ -259,32 +262,20 @@ function MapWindow.OnUpdate(_)
 end
 
 function MapWindow.OnResizeBegin()
-	local windowName = WindowUtils.GetActiveDialog()
-	local widthMin = 400
-	local heightMin = 400
-    WindowUtils.BeginResize( windowName, "topleft", widthMin, heightMin, false, MapWindow.OnResizeEnd)
+    WindowUtils.BeginResize(MapWindow.id, "topleft", 400, 400, true, MapWindow.OnResizeEnd)
 end
 
 function MapWindow.OnResizeEnd(_)
-	local windowWidth, windowHeight = WindowGetDimensions("MapWindow")
+	local windowWidth, windowHeight = MapWindow:getDimensions()
+	WindowApi.setDimensions("MapWindowMapImageMask", windowWidth - MAP_WIDTH_DIFFERENCE, windowHeight - MAP_HEIGHT_DIFFERENCE)
+	local _, topHeight = WindowApi.getDimensions("MapWindowTop")
+	WindowApi.setDimensions("MapWindowTop", windowWidth + 10, topHeight)
+	local _, bottomHeight = WindowApi.getDimensions("MapWindowBottom")
+	WindowApi.setDimensions("MapWindowBottom",windowWidth ,bottomHeight)
+end
 
-	if(windowWidth > MapWindow.WINDOW_WIDTH_MAX) then
-		windowWidth = MapWindow.WINDOW_WIDTH_MAX
-	end
-
-	if(windowHeight > MapWindow.WINDOW_HEIGHT_MAX) then
-		windowHeight = MapWindow.WINDOW_HEIGHT_MAX
-	end
-
-	local legendScale = windowHeight / MapWindow.WINDOW_HEIGHT_MAX
-
-	WindowSetDimensions("MapWindow", windowWidth, windowHeight)
-	Interface.SaveNumber( "MapWindowBigW" , windowWidth)
-	Interface.SaveNumber( "MapWindowBigH" , windowHeight )
-
-	WindowSetDimensions("MapWindowMapImageMask", windowWidth - MapWindow.MAP_WIDTH_DIFFERENCE, windowHeight - MapWindow.MAP_HEIGHT_DIFFERENCE)
-	local _, topHeight = WindowGetDimensions("MapWindow".."Top")
-	WindowSetDimensions("MapWindow".."Top",windowWidth+10,topHeight)
-	local _, bottomHeight = WindowGetDimensions("MapWindow".."Bottom")
-	WindowSetDimensions("MapWindow".."Bottom",windowWidth ,bottomHeight)
+function MapWindow.Shutdown()
+	local width, height = MapWindow:getDimensions()
+	UserInterfaceVariables.SaveNumber(WIDTH_SETTING, width)
+	UserInterfaceVariables.SaveNumber(HEIGHT_SETTING, height)
 end

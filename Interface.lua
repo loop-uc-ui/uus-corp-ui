@@ -714,9 +714,6 @@ function Interface.Update( timePassed )
 	
 	ok, err = pcall(HotbarSystem.Update, timePassed)	
 	Interface.ErrorTracker(ok, err)
-	
-	ok, err = pcall(Interface.MapRefresh, timePassed)	
-	Interface.ErrorTracker(ok, err)
 
 	ok, err = pcall(QuickStats.OnUpdate, timePassed)
 	Interface.ErrorTracker(ok, err)
@@ -1211,27 +1208,6 @@ function Interface.BackpackCheck(timePassed)
 			Interface.OpeningBpk = 0
 		end
 	end
-end
-
-function Interface.MapRefresh(timePassed)
-	if not Interface.NewPlayerMapToggled and (not MapCommon.AreaDescription or MapCommon.AreaDescription == "") and Interface.TimeSinceLogin < 2 then
-		return
-	end
-
-	if(SystemData.Settings.Interface.mapMode == MapCommon.MAP_HIDDEN)then		
-		return
-	end
-
-	if (MapCommon.AreaDescription ~= "New Player Quest Area") or Interface.NewPlayerMapToggle then		
-		if MapCommon.ActiveView ~= nil then
-			MapCommon.RefreshDelta = MapCommon.RefreshDelta + timePassed
-			
-			if (MapCommon.ActiveView and MapCommon.RefreshDelta >= MapCommon.RefreshDelay and MapCommon.WaypointUpdateRequest) then
-				MapCommon.UpdateWaypoints(MapCommon.ActiveView)
-				MapCommon.RefreshDelta = 0
-			end
-		end	
-	end	
 end
 
 function Interface.UpdateHealthbarStatus(_)
