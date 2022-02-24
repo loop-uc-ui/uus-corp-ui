@@ -218,3 +218,8 @@ function MapImage:getFormattedLocation(x, y, facet)
 
     return latString, longString, latDir, longDir
 end
+
+function MapImage:setCenterOnPlayer(isCenter)
+    self.centerOnPlayer = isCenter
+    RadarApi.setCenterOnPlayer(isCenter)
+end

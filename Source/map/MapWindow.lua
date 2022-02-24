@@ -45,9 +45,6 @@ local function changeMap(facet, area)
 	local centerX = ( ( x2 - x1 ) / 2 ) + x1
 	local centerY = ( ( y2 - y1 ) / 2 ) + y1
 	RadarApi.centerOnLocation(centerX, centerY, facet, area, false)
-
-	local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
-	map:update(facet, area)
 end
 
 function MapWindow.Initialize()
@@ -117,8 +114,17 @@ function MapWindow.OnMouseDrag()
 	MapWindow:onLeftClickDown()
 end
 
-function MapWindow.UpdateMap()
-	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:update(RadarApi.getFacet(), RadarApi.getArea())
+function MapWindow.UpdateMap(facet, area)
+	local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
+	map:update(facet or RadarApi.getFacet(), area or RadarApi.getArea())
+
+	local areaCombo = MapWindow.adapter.views[MapWindow.VIEWS.AREA_COMBO]
+	areaCombo:clearItems()
+	areaCombo:setItems(updateAreaCombo(map.facet))
+	areaCombo:setSelectedItem(map.area + 1)
+
+	local facetCombo = MapWindow.adapter.views[MapWindow.VIEWS.FACET_COMBO]
+	facetCombo:setSelectedItem(map.facet + 1)
 end
 
 function MapWindow.MapOnMouseWheel(_, _, delta)
@@ -139,63 +145,64 @@ function MapWindow.MapMouseDrag(_, deltaX, deltaY)
 end
 
 function MapWindow.ToggleFacetUpOnLButtonUp()
-	local facet = RadarApi.getFacet() + 1
+	local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
+	local facet = map.facet + 1
 
 	if (facet >= NUM_FACETS) then
 		facet = 0
 	end
 
-	RadarApi.setCenterOnPlayer(false)
-	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:setCenterOnPlayer(false)
 	changeMap(facet, 0)
 end
 
 function MapWindow.ToggleFacetDownOnLButtonUp()
-	local facet = RadarApi.getFacet() - 1
+	local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
+	local facet = map.facet - 1
 
 	if (facet < 0) then
 		facet = NUM_FACETS - 1
 	end
 
-	RadarApi.setCenterOnPlayer(false)
-	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:setCenterOnPlayer(false)
 	changeMap(facet, 0)
 end
 
 function MapWindow.ToggleAreaUpOnLButtonUp()
-	local facet = RadarApi.getFacet()
-	local area = RadarApi.getArea() + 1
+	local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
+	local facet = map.facet
+	local area = map.area + 1
 
 	if (area >= RadarApi.getAreaCount(facet)) then
 		area = 0
 	end
 
-	RadarApi.setCenterOnPlayer(false)
-	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:setCenterOnPlayer(false)
 	MapCommon.ChangeMap(facet, area)
 end
 
 function MapWindow.ToggleAreaDownOnLButtonUp()
-	local facet = RadarApi.getFacet()
-	local area = RadarApi.getArea() - 1
+	local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
+	local facet = map.facet
+	local area = map.area - 1
 
 	if (area < 0) then
 		area = RadarApi.getAreaCount(facet) - 1
 	end
 
-	RadarApi.setCenterOnPlayer(false)
 	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:setCenterOnPlayer(false)
 	MapCommon.ChangeMap(facet, area)
 end
 
 function MapWindow.CenterOnPlayerOnLButtonUp()
-	MapWindow.CenterOnPlayer = ButtonGetPressedFlag( "MapWindowCenterOnPlayerButton" )
-	UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
+	local isChecked = MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:isChecked()
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:setCenterOnPlayer(isChecked)
 end
 
 function MapWindow.MapOnLButtonDown()
     MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
-	RadarApi.setCenterOnPlayer(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:setCenterOnPlayer(false)
 end
 
 function MapWindow.OnMouseOver()
@@ -207,15 +214,16 @@ function MapWindow.OnMouseOverEnd()
 end
 
 function MapWindow.SelectArea()
-	local facet = UOGetRadarFacet()
-    local area = ( ComboBoxGetSelectedMenuItem( "MapWindowAreaCombo" ) - 1 )
+	local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
+	local facet = map.facet
+    local currentArea = map.area
+	local area = MapWindow.adapter.views[MapWindow.VIEWS.AREA_COMBO]:getSelectedItem() - 1
 
-    if( area ~= UOGetRadarArea() ) then
-		MapWindow.CenterOnPlayer = false
-        ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-        UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
-        MapCommon.ChangeMap(facet, area )
-    end
+	if area ~= currentArea then
+		map:setCenterOnPlayer(false)
+		MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+		MapCommon.ChangeMap(facet, area)
+	end
 end
 
 function MapWindow.SelectFacet()
@@ -246,11 +254,6 @@ function MapWindow.OnUpdate(_)
 	end
 end
 
-function MapWindow.CloseMap()
-	WindowSetShowing("MapWindow", false)
-	MapCommon.ActiveView = nil
-end
-
 function MapWindow.OnResizeBegin()
 	local windowName = WindowUtils.GetActiveDialog()
 	local widthMin = 400
@@ -260,7 +263,6 @@ end
 
 function MapWindow.OnResizeEnd(_)
 	local windowWidth, windowHeight = WindowGetDimensions("MapWindow")
-	--Debug.Print("MapWindow.OnResizeEnd("..curWindow..") width = "..windowWidth.." height = "..windowHeight)
 
 	if(windowWidth > MapWindow.WINDOW_WIDTH_MAX) then
 		windowWidth = MapWindow.WINDOW_WIDTH_MAX
@@ -271,9 +273,6 @@ function MapWindow.OnResizeEnd(_)
 	end
 
 	local legendScale = windowHeight / MapWindow.WINDOW_HEIGHT_MAX
-	if (DoesWindowNameExist("LegendWindow")) then
-		WindowSetScale("LegendWindow", legendScale * InterfaceCore.scale)
-	end
 
 	WindowSetDimensions("MapWindow", windowWidth, windowHeight)
 	Interface.SaveNumber( "MapWindowBigW" , windowWidth)
