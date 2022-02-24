@@ -50,9 +50,10 @@ function RadarWindow.UpdateRadar()
 	local map = RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]
 	map:update(RadarApi.getFacet(), RadarApi.getArea())
 
-	local latStr, longStr, latDir, longDir = map:getFormattedLocation(
+	local latStr, longStr, latDir, longDir = MapCommon.GetSextantLocationStrings(
 			PlayerLocation.xCord(),
-			PlayerLocation.yCord()
+			PlayerLocation.yCord(),
+			map.facet
 	)
 
 	RadarWindow.adapter.views[COORD_LABEL]:setText(
