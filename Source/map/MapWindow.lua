@@ -152,7 +152,8 @@ function MapWindow.ToggleFacetUpOnLButtonUp()
 		facet = 0
 	end
 
-	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:setCenterOnPlayer(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	map:setCenterOnPlayer(false)
 	changeMap(facet, 0)
 end
 
@@ -164,7 +165,8 @@ function MapWindow.ToggleFacetDownOnLButtonUp()
 		facet = NUM_FACETS - 1
 	end
 
-	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:setCenterOnPlayer(false)
+	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	map:setCenterOnPlayer(false)
 	changeMap(facet, 0)
 end
 
@@ -177,8 +179,9 @@ function MapWindow.ToggleAreaUpOnLButtonUp()
 		area = 0
 	end
 
-	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:setCenterOnPlayer(false)
-	MapCommon.ChangeMap(facet, area)
+	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+	map:setCenterOnPlayer(false)
+	changeMap(facet, area)
 end
 
 function MapWindow.ToggleAreaDownOnLButtonUp()
@@ -191,8 +194,8 @@ function MapWindow.ToggleAreaDownOnLButtonUp()
 	end
 
 	MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
-	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]:setCenterOnPlayer(false)
-	MapCommon.ChangeMap(facet, area)
+	map:setCenterOnPlayer(false)
+	changeMap(facet, area)
 end
 
 function MapWindow.CenterOnPlayerOnLButtonUp()
@@ -222,18 +225,19 @@ function MapWindow.SelectArea()
 	if area ~= currentArea then
 		map:setCenterOnPlayer(false)
 		MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
-		MapCommon.ChangeMap(facet, area)
+		changeMap(facet, area)
 	end
 end
 
 function MapWindow.SelectFacet()
-    local facet = ( ComboBoxGetSelectedMenuItem( "MapWindowFacetCombo" ) - 1 )
+	local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
+	local currentFacet = map.facet
+    local facet = MapWindow.adapter.views[MapWindow.VIEWS.FACET_COMBO]:getSelectedItem() - 1
 
-	if( facet ~= UOGetRadarFacet() ) then
-		MapWindow.CenterOnPlayer = false
-        ButtonSetPressedFlag( "MapWindowCenterOnPlayerButton", MapWindow.CenterOnPlayer )
-        UORadarSetCenterOnPlayer(MapWindow.CenterOnPlayer)
-        MapCommon.ChangeMap(facet, 0 )
+	if facet ~= currentFacet then
+		map:setCenterOnPlayer(false)
+		MapWindow.adapter.views[MapWindow.VIEWS.BUTTON_CENTER_ON_PLAYER]:setChecked(false)
+        changeMap(facet, 0)
     end
 end
 
