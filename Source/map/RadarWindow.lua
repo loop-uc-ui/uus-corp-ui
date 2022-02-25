@@ -1,15 +1,12 @@
 RadarWindow = ListWindow:new("RadarWindow", false)
 
 RadarWindow.MAP_IMAGE = "RadarWindowMap"
+
 local COORD_LABEL = "radarSextant"
-local FACET_INFO_LABEL = "RadarWindowFacetInfo"
-local AREA_INFO_LABEL = "RadarWindowAreaInfo"
 
 function RadarWindow.Initialize()
 	WindowUtils.RestoreWindowPosition(RadarWindow.id)
 	RadarWindow.adapter:addLock():addLabel(COORD_LABEL)
-		:addLabel(FACET_INFO_LABEL)
-		:addLabel(AREA_INFO_LABEL)
 
 	RadarWindow:registerData(
 			Radar.type()
@@ -58,14 +55,6 @@ function RadarWindow.UpdateRadar()
 
 	RadarWindow.adapter.views[COORD_LABEL]:setText(
 			latStr..L"'"..latDir..L" "..longStr..L"'"..longDir
-	)
-
-	RadarWindow.adapter.views[FACET_INFO_LABEL]:setText(
-			RadarApi.getFacetLabel(RadarApi.getFacet())
-	)
-
-	RadarWindow.adapter.views[AREA_INFO_LABEL]:setText(
-			RadarApi.getAreaLabel(RadarApi.getFacet(), RadarApi.getArea())
 	)
 end
 
