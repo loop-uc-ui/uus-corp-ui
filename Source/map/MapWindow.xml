@@ -243,7 +243,7 @@
                     </Anchors>
                 </DynamicImage>
 
-                <Label name="$parentCoordsText" font="Arial_Black_Shadow_12" maxchars="64" textalign="left"
+                <Label name="$parentCoordsText" font="caption" maxchars="64" textalign="left"
                        handleinput="false" wordwrap="true">
                     <Size>
                         <AbsPoint x="200" y="32"/>
@@ -252,16 +252,16 @@
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="MapWindowMapImageMask">
                             <AbsPoint x="5" y="5"/>
                         </Anchor>
-                    </Anchors>
+                    </Anchors>F
                 </Label>
 
-                <Label name="$parentPlayerCoordsText" font="Arial_Black_Shadow_12" maxchars="128" textalign="right"
+                <Label name="$parentPlayerCoordsText" font="caption" maxchars="128" textalign="left"
                        handleinput="false" wordwrap="true">
                     <Size>
-                        <AbsPoint x="250" y="50"/>
+                        <AbsPoint x="250" y="36"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="MapWindowMapImageMask">
+                        <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentCenterOnPlayerButton">
                             <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
@@ -277,14 +277,14 @@
                         <EventHandler event="OnLButtonUp" function="MapWindow.CenterOnPlayerOnLButtonUp"/>
                     </EventHandlers>
                 </Button>
-                <Label name="$parentCenterOnPlayerLabel" font="Arial_Black_Shadow_12" inherits="ItemTitle"
+                <Label name="$parentCenterOnPlayerLabel" font="caption" inherits="ItemTitle"
                        autoresizewidth="true" handleinput="false">
                     <Size>
                         <AbsPoint x="200" y="32"/>
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentCenterOnPlayerButton">
-                            <AbsPoint x="5" y="-5"/>
+                            <AbsPoint x="5" y="0"/>
                         </Anchor>
                     </Anchors>
                     <Color r="255" g="255" b="255" a="255"/>

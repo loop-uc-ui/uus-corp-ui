@@ -128,6 +128,16 @@ function MapWindow.UpdateMap(facet, area)
 
 	local facetCombo = MapWindow.adapter.views[MapWindow.VIEWS.FACET_COMBO]
 	facetCombo:setSelectedItem(map.facet + 1)
+
+	local latStr, longStr, latDir, longDir = MapCommon.GetSextantLocationStrings(
+		PlayerLocation.xCord(),
+		PlayerLocation.yCord(),
+		map.facet
+	)
+	local sextant = latStr..L"'"..latDir..L" "..longStr..L"'"..longDir ..
+			L"\n" .. PlayerLocation.xCord() .. L", " .. PlayerLocation.yCord()
+
+	MapWindow.adapter.views[MapWindow.VIEWS.LABEL_PLAYER_CORDS]:setText(sextant)
 end
 
 function MapWindow.MapOnMouseWheel(_, _, delta)
