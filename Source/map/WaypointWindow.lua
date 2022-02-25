@@ -54,13 +54,24 @@ function WaypointWindow.WaypointMouseOver()
     local parent = RadarWindow
 
     if MapSettings.isAtlas() then
-        mapId = MapWindow.MAP_IMAGE
+        mapId = MapWindow.VIEWS.IMAGE_MAP
         parent = MapWindow
     end
 
-    local waypoint = parent.adapter.views[mapId].adapter.views[ActiveWindow.name()]
+    local map = parent.adapter.views[mapId]
+    local waypoint = map.adapter.views[ActiveWindow.name()]
     if waypoint ~= nil and waypoint.name ~= nil then
-        Tooltips.CreateTextOnlyTooltip(ActiveWindow.name(), StringFormatter.toWString(waypoint.name))
+        local text = StringFormatter.toWString(waypoint.name)
+        if MapSettings.isAtlas() then
+            local latStr, longStr, latDir, longDir = MapCommon.GetSextantLocationStrings(
+                    PlayerLocation.xCord(),
+                    PlayerLocation.yCord(),
+                    map.facetm
+            )
+            text = text..L"\n"..latStr..L"'"..latDir..L" "..longStr..L"'"..longDir ..
+                L"\n" .. waypoint.pointX .. L", " .. waypoint.pointY
+        end
+        Tooltips.CreateTextOnlyTooltip(ActiveWindow.name(), text)
         Tooltips.Finalize()
         Tooltips.AnchorTooltip(Tooltips.ANCHOR_WINDOW_TOP)
     end

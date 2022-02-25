@@ -243,7 +243,7 @@
                     </Anchors>
                 </DynamicImage>
 
-                <Label name="$parentCoordsText" font="caption" maxchars="64" textalign="left"
+                <Label name="$parentCoordsText" font="footnote" maxchars="64" textalign="left"
                        handleinput="false" wordwrap="true">
                     <Size>
                         <AbsPoint x="200" y="32"/>
@@ -255,7 +255,7 @@
                     </Anchors>F
                 </Label>
 
-                <Label name="$parentPlayerCoordsText" font="caption" maxchars="128" textalign="left"
+                <Label name="$parentPlayerCoordsText" font="footnote" maxchars="128" textalign="left"
                        handleinput="false" wordwrap="true">
                     <Size>
                         <AbsPoint x="250" y="36"/>
@@ -277,7 +277,7 @@
                         <EventHandler event="OnLButtonUp" function="MapWindow.CenterOnPlayerOnLButtonUp"/>
                     </EventHandlers>
                 </Button>
-                <Label name="$parentCenterOnPlayerLabel" font="caption" inherits="ItemTitle"
+                <Label name="$parentCenterOnPlayerLabel" font="footnote" inherits="ItemTitle"
                        autoresizewidth="true" handleinput="false">
                     <Size>
                         <AbsPoint x="200" y="32"/>
