@@ -1,65 +1,20 @@
 MapImage = ListWindow:new()
 
-local function getSextantCenter(x, y, facet)
-    --Old, hardcoded logic
-    if ((facet == 0 or facet == 1) and (x >= 5120) and (y >= 2304)) then
-        --Lost lands apparently.
-        return 6144, 3112
-    else
-        return 1323, 1624
-    end
-end
-
-local function convertToMinutes(x, y, facet)
-    --Another old, terrible function.
-    local sectCenterX, sectCenterY = getSextantCenter(x,y,facet)
-    local minutesX = 21600 * (x - sectCenterX) / 5120
-    local minutesY = 21600 * (y - sectCenterY) / 4096
-
-    if minutesX > 10800 then
-        minutesX = minutesX - 21600
-    end
-    if minutesX <= -10800 then
-        minutesX = minutesX + 21600
-    end
-    if minutesY > 10800 then
-        minutesY = minutesY - 21600
-    end
-    if minutesY <= -10800 then
-        minutesY = minutesY + 21600
-    end
-
-    return minutesX, minutesY
-end
-
-function MapImage:new(id, isCircular, facet, area, rotation)
+function MapImage:new(id, mode, facet, area)
     local this = {
         id = id,
-        mask = id.."Mask",
-        isCircular = isCircular or true,
         texture = "radar_texture",
         centerOnPlayer = true,
-        facet = facet or RadarApi.getFacet(),
-        area = area or RadarApi.getArea(),
-        zoom = MapSettings.getZoom(),
-        rotation = rotation or 45,
-        drawWaypoints = true
+        facet = facet,
+        area = area
     }
-
-    if this.isCircular then
-        MapSettings.setMode(MapSettings.MODES.RADAR)
-    else
-        MapSettings.setMode(MapSettings.MODES.ATLAS)
-    end
-
-    this.maxZoom = RadarApi.getMaxZoom(this.facet, this.area)
-
+    MapSettings.setMode(mode)
     self.__index = self
     return setmetatable(this, self)
 end
 
 function MapImage:setTexture(xCord, yCord)
-    if self.isCircular then
+    if MapSettings.isRadar() then
         CircleImageApi.setTexture(
                 self.id,
                 self.texture,
@@ -77,7 +32,7 @@ function MapImage:setTexture(xCord, yCord)
 end
 
 function MapImage:setTextureScale(scale)
-    if self.isCircular then
+    if MapSettings.isRadar() then
         CircleImageApi.setTextureScale(
                 self.id,
                 scale
@@ -91,7 +46,7 @@ function MapImage:setTextureScale(scale)
 end
 
 function MapImage:setRotation(rotation)
-    if self.isCircular then
+    if MapSettings.isRadar() then
         CircleImageApi.setRotation(
                 self.id,
                 rotation
@@ -110,28 +65,43 @@ function MapImage:addWaypoint(id, name, iconId, x, y)
             id,
             name,
             iconId,
-            self.mask,
-            x - 6,
-            y + 2
+            self.id,
+            x,
+            y
     )
     self.adapter.views[waypoint.id] = waypoint
     return waypoint
 end
 
-function MapImage:update()
-    self:setRotation(self.rotation)
+function MapImage:update(facet, area)
+    if facet == nil or area == nil then
+        return
+    end
+
+    self:setRotation(45)
     self:setTextureScale(Radar.textureScale())
+
     local width, height = WindowApi.getDimensions(self.id)
-    self:setTexture(Radar.textureXCord() + width / 2, Radar.textureYCord() + height / 2)
 
-    local area = RadarApi.getArea()
+    if MapSettings.isRadar() then
+        width = width / 2
+        height = height / 2
+    else
+        width = 0
+        height = 0
+    end
+
+    local drawWaypoints = area ~= self.area or facet ~= self.facet or #self.adapter.views == 0
     self.area = area
-    local facet = RadarApi.getFacet()
     self.facet = facet
-    self.zoom = MapSettings.getZoom()
-    self.maxZoom = RadarApi.getMaxZoom(facet, area)
 
-    if self.drawWaypoints and not WindowApi.doesExist("WaypointIconPlayer") then
+    if drawWaypoints then
+        self:clearWaypoints()
+    end
+
+    self:setTexture(Radar.textureXCord() + width, Radar.textureYCord() + height)
+
+    if drawWaypoints and not WindowApi.doesExist("WaypointIconPlayer") and area == RadarApi.getArea() and facet == RadarApi.getFacet() then
         self:addWaypoint(
                 "WaypointIconPlayer",
                 nil,
@@ -141,11 +111,11 @@ function MapImage:update()
         )
     end
 
-    if self.drawWaypoints then
+    if drawWaypoints then
         for i = 0, #Waypoints.Facet - 1 do
-            if i == self.facet then
+            if i == facet then
                 for _, value in pairs(Waypoints.Facet[i]) do
-                    local id = value.Name.."_"..RadarApi.getFacetLabel(i).."_"..RadarApi.getAreaLabel(i, self.area).."_"..value.Icon
+                    local id = "Waypoint"..value.Name.."_"..RadarApi.getFacetLabel(i).."_"..RadarApi.getAreaLabel(i, area).."_"..value.Icon
                     if not WindowApi.doesExist(id) then
                         self:addWaypoint(
                                 id,
@@ -161,46 +131,42 @@ function MapImage:update()
         end
     end
 
-    self.drawWaypoints = false
-
     for key, value in pairs(self.adapter.views) do
-        if key ~= "WaypointIconPlayer" then
-           value:update(self.maxZoom)
+        if key == "WaypointIconPlayer" then
+            value:update(
+                    PlayerLocation.xCord(),
+                    PlayerLocation.yCord()
+            )
+        else
+            value:update()
         end
     end
 end
 
-function MapImage:onMouseWheel(_, _, delta)
-    local zoom = self.zoom - (delta * 0.2)
+function MapImage:clearWaypoints()
+    for key, value in pairs(self.adapter.views) do
+        if string.find(key, "Waypoint") and WindowApi.doesExist(key) then
+            value:destroy()
+            self.adapter.views[key] = nil
+        end
+    end
+end
+
+function MapImage:onMouseWheel(delta, facet, area)
+    local zoom = MapSettings.getZoom() - (delta * 0.2)
+    local maxZoom = RadarApi.getMaxZoom(facet or self.facet, area or self.area)
 
     if zoom < -2 then
         zoom = -2
-    elseif zoom > self.maxZoom then
-        zoom = self.maxZoom
+    elseif zoom > maxZoom then
+        zoom = maxZoom
     end
 
     RadarApi.setZoom(zoom)
     MapSettings.setZoom(zoom)
-    self.zoom = zoom
 end
 
-function MapImage:getFormattedLocation(x, y)
-    --Old function
-    local minutesX, minutesY = convertToMinutes(x, y, self.facet)
-    local latDir = L"S"
-    local longDir = L"E"
-
-    if minutesY < 0 then
-        latDir = L"N"
-        minutesY = -minutesY
-    end
-    if minutesX < 0 then
-        longDir = L"W"
-        minutesX = -minutesX
-    end
-
-    local latString = StringFormatter.toWString(string.format( "%d", (minutesY/60)))..L"."..StringFormatter.toWString(string.format( "%02d", (minutesY%60)))
-    local longString = StringFormatter.toWString(string.format( "%d", (minutesX/60)))..L"."..StringFormatter.toWString(string.format( "%02d", (minutesX%60)))
-
-    return latString, longString, latDir, longDir
+function MapImage:setCenterOnPlayer(isCenter)
+    self.centerOnPlayer = isCenter
+    RadarApi.setCenterOnPlayer(isCenter)
 end

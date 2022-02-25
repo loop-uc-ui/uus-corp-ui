@@ -67,11 +67,10 @@ end
 
 function Actions.ToggleMapWindow()
 	if WindowApi.doesExist("RadarWindow") then
-		WindowApi.destroyWindow("RadarWindow")
+		RadarWindow:destroy()
 		WindowApi.createWindow("MapWindow", true)
-		MapWindow.ActivateMap()
 	elseif WindowApi.doesExist("MapWindow") then
-		WindowApi.destroyWindow("MapWindow")
+		MapWindow:destroy()
 	else
 		WindowApi.createWindow("RadarWindow", true)
 	end

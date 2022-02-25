@@ -59,9 +59,15 @@ function BaseWindow:setShowing(doShow)
 end
 
 function BaseWindow:destroy()
+    if self == nil or not WindowApi.doesExist(self.id) then
+        return
+    end
+
     if self.eventRegister ~= nil then
         self.eventRegister:unregisterAllEvents()
     end
+
+    WindowUtils.SaveWindowPosition(self.id)
     WindowApi.destroyWindow(self.id)
     self = nil
     return self
@@ -168,4 +174,8 @@ end
 
 function BaseWindow:getDimensions()
     return WindowApi.getDimensions(self.id)
+end
+
+function BaseWindow:getScale()
+    return WindowApi.getScale(self.id)
 end

@@ -11,7 +11,7 @@
                 <EventHandler event="OnMouseWheel" function="RadarWindow.RadarOnMouseWheel"/>
             </EventHandlers>
             <Windows>
-                <CircleImage name="$parentMap" numsegments="64" texturescale="1.0" layer="default" texture="radar_texture">
+                <MaskWindow name="$parentMapMask" layer="secondary" handleinput="true">
                     <Size>
                         <AbsPoint x="190" y="190"/>
                     </Size>
@@ -20,18 +20,17 @@
                             <AbsPoint x="3" y="1"/>
                         </Anchor>
                     </Anchors>
-                    <TexCoords x="128" y="128"/>
-                </CircleImage>
-
-                <MaskWindow name="$parentMapMask" layer="overlay">
-                    <Size>
-                        <AbsPoint x="160" y="160"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="center" relativePoint="center" relativeTo="$parentRing">
-                            <AbsPoint x="3" y="1"/>
-                        </Anchor>
-                    </Anchors>
+                    <Windows>
+                        <CircleImage name="RadarWindowMap" numsegments="64" texturescale="1.1" layer="overlay" texture="radar_texture" handleinput="true">
+                            <Size>
+                                <AbsPoint x="190" y="190"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="center" relativePoint="center" relativeTo="$parent"/>
+                            </Anchors>
+                            <TexCoords x="128" y="128"/>
+                        </CircleImage>
+                    </Windows>
                 </MaskWindow>
 
                 <Button name="RadarWindowLock" inherits="LockButton" texturescale="1.1" layer="overlay">
@@ -45,8 +44,8 @@
                     </Anchors>
                 </Button>
 
-                <DynamicImage name="$parentRing" texture="hud_image" texturescale="1.1"
-                              layer="secondary">
+                <DynamicImage name="$parentRing" texture="hud_image" texturescale="1.1" handleinput="true"
+                              layer="default">
                     <Size>
                         <AbsPoint x="250" y="250"/>
                     </Size>
@@ -71,50 +70,37 @@
                     </EventHandlers>
                 </Button>
 
-                <FullResizeImage name="$parentSextantBackground" inherits="UO_Simple_Black_Background" layer="background"
+                <FullResizeImage name="$parentAreaBackground" inherits="UO_Simple_Black_Background" layer="background"
                                  alpha="0.75">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentAreaInfo">
-                            <AbsPoint x="0" y="-30"/>
+                            <AbsPoint x="0" y="-10"/>
                         </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="radarSextant">
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentAreaInfo">
                             <AbsPoint x="0" y="10"/>
                         </Anchor>
                     </Anchors>
                 </FullResizeImage>
 
-                <Label name="radarSextant" font="uo_classic_14" maxchars="64" textalign="bottom">
-                    <Size>
-                        <AbsPoint x="150" y="20"/>
-                    </Size>
+                <FullResizeImage name="$parentSextantBackground" inherits="UO_Simple_Black_Background" layer="background"
+                                 alpha="0.75">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="center" relativeTo="$parentFacetInfo"/>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="radarSextant">
+                            <AbsPoint x="0" y="-10"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="radarSextant"/>
                     </Anchors>
-                    <Color r="229" g="229" b="229" a="0"/>
-                </Label>
+                </FullResizeImage>
 
-                <Label name="$parentAreaInfo" font="uo_classic_14" maxchars="64" textalign="top">
+                <Label name="radarSextant" font="footnote" maxchars="64" textalign="center">
                     <Size>
-                        <AbsPoint x="150" y="20"/>
+                        <AbsPoint x="148" y="36"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="center" relativeTo="$parentMap">
-                            <AbsPoint x="0" y="25"/>
+                        <Anchor point="bottom" relativePoint="center" relativeTo="$parentRing">
+                            <AbsPoint x="3" y="-10"/>
                         </Anchor>
                     </Anchors>
-                    <Color r="229" g="229" b="229" a="0"/>
-                </Label>
-
-                <Label name="$parentFacetInfo" font="uo_classic_14" maxchars="64" textalign="top">
-                    <Size>
-                        <AbsPoint x="150" y="20"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="bottom" relativePoint="center" relativeTo="$parentAreaInfo">
-                            <AbsPoint x="0" y="5"/>
-                        </Anchor>
-                    </Anchors>
-                    <Color r="229" g="229" b="229" a="0"/>
                 </Label>
             </Windows>
         </Window>

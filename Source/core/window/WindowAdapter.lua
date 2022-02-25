@@ -42,25 +42,21 @@ function WindowAdapter:addComboBox(
 )
     local comboBox = ComboBoxWindow:new(id)
     comboBox:setItems(items)
-    if selectedItem == nil then
-        comboBox:setSelectedItem(1)
-    end
+    comboBox:setSelectedItem(selectedItem or 1)
     self.views[comboBox.id] = comboBox
     return self
 end
 
 function WindowAdapter:addCheckBox(id, isEnabled)
     local button = CheckBoxWindow:new(id)
-    button:setEnabled(isEnabled == nil or isEnabled)
+    button:setEnabled(isEnabled)
     self.views[button.id] = button
     return self
 end
 
 function WindowAdapter:addSlider(id, position)
     local slider = SliderWindow:new(id)
-    if position == nil then
-        slider:setPosition(0)
-    end
+    slider:setPosition(position or 0)
     self.views[slider.id] = slider
     return self
 end

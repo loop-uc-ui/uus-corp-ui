@@ -24,7 +24,7 @@ function RadarApi.setZoom(zoom)
     UOSetRadarZoom(zoom)
 end
 
-function RadarApi.getCenterOnPlayer(isCenter)
+function RadarApi.setCenterOnPlayer(isCenter)
     UORadarSetCenterOnPlayer(isCenter)
 end
 
@@ -33,9 +33,8 @@ function RadarApi.getPhysicalRadarFacet()
     return UOGetPhysicalRadarFacet()
 end
 
-function RadarApi.getAreaDimensions()
-    --TODO determine proper args
-    return UORadarGetAreaDimensions()
+function RadarApi.getAreaDimensions(facet, area)
+    return UORadarGetAreaDimensions(facet, area)
 end
 
 function RadarApi.getFacetLabel(facet)
@@ -73,4 +72,8 @@ end
 
 function RadarApi.radarPosToWorld(offsetX, offsetY, useScale)
     return UOGetRadarPosToWorld(offsetX, offsetY, useScale)
+end
+
+function RadarApi.getAreaCount(facet)
+    return UORadarGetAreaCount(facet)
 end

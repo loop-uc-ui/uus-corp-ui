@@ -1,23 +1,12 @@
 RadarWindow = ListWindow:new("RadarWindow", false)
 
-RadarWindow.Rotation = 45
-RadarWindow.Tilt = false
-RadarWindow.Size = 0
-RadarWindow.Scale = 1.0
-
-RadarWindow.Locked = false
-
 RadarWindow.MAP_IMAGE = "RadarWindowMap"
+
 local COORD_LABEL = "radarSextant"
-local FACET_INFO_LABEL = "RadarWindowFacetInfo"
-local AREA_INFO_LABEL = "RadarWindowAreaInfo"
 
 function RadarWindow.Initialize()
 	WindowUtils.RestoreWindowPosition(RadarWindow.id)
-	RadarWindow.Scale = WindowGetScale("RadarWindow")
 	RadarWindow.adapter:addLock():addLabel(COORD_LABEL)
-		:addLabel(FACET_INFO_LABEL)
-		:addLabel(AREA_INFO_LABEL)
 
 	RadarWindow:registerData(
 			Radar.type()
@@ -33,7 +22,10 @@ function RadarWindow.Initialize()
 			"RadarWindow.UpdateRadar"
 	)
 
-	local map = MapImage:new(RadarWindow.MAP_IMAGE)
+	local map = MapImage:new(
+			RadarWindow.MAP_IMAGE,
+			MapSettings.MODES.RADAR
+	)
 	RadarWindow.adapter.views[map.id] = map
 	local width, height = map:getDimensions()
 	RadarApi.setWindowSize(width, height, true, true)
@@ -53,23 +45,16 @@ end
 
 function RadarWindow.UpdateRadar()
 	local map = RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]
-	map:update()
+	map:update(RadarApi.getFacet(), RadarApi.getArea())
 
-	local latStr, longStr, latDir, longDir = map:getFormattedLocation(
+	local latStr, longStr, latDir, longDir = MapCommon.GetSextantLocationStrings(
 			PlayerLocation.xCord(),
-			PlayerLocation.yCord()
+			PlayerLocation.yCord(),
+			map.facet
 	)
 
 	RadarWindow.adapter.views[COORD_LABEL]:setText(
 			latStr..L"'"..latDir..L" "..longStr..L"'"..longDir
-	)
-
-	RadarWindow.adapter.views[FACET_INFO_LABEL]:setText(
-			RadarApi.getFacetLabel(RadarApi.getFacet())
-	)
-
-	RadarWindow.adapter.views[AREA_INFO_LABEL]:setText(
-			RadarApi.getAreaLabel(RadarApi.getFacet(), RadarApi.getArea())
 	)
 end
 
@@ -84,6 +69,6 @@ function RadarWindow.CloseMap()
 	SystemData.Settings.Interface.mapMode = MapCommon.MAP_HIDDEN
 end
 
-function RadarWindow.RadarOnMouseWheel(x, y, delta)
-	RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]:onMouseWheel(x, y, delta)
+function RadarWindow.RadarOnMouseWheel(_, _, delta)
+	RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]:onMouseWheel(delta)
 end

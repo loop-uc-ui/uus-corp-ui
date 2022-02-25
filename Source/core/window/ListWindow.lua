@@ -5,7 +5,7 @@ function ListWindow:new(id, isScrollable)
         id = id,
         adapter = WindowAdapter:new(id),
         eventRegister = WindowEventRegister:new(id),
-        isScrollable = isScrollable == nil or isScrollable
+        isScrollable = isScrollable or false
     }
     self.__index = self
     return setmetatable(this, self)
@@ -63,6 +63,7 @@ function ListWindow:destroy()
     for i = 1, #self.adapter.views do
         self.adapter.views[i]:destroy()
     end
+    WindowUtils.SaveWindowPosition(self.id)
     WindowApi.destroyWindow(self.id)
     self = nil
     return self

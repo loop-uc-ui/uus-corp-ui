@@ -1,12 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
 
-        <DynamicImage name="MapCompass" handleinput="true" layer="default" scaleAnchor="center">
-            <Size>
-                <AbsPoint x="134" y="134"/>
-            </Size>
-        </DynamicImage>
-
         <!-- MAP WINDOW -->
         <Window name="MapWindow" movable="true" sticky="true" popable="true">
             <Size>
@@ -19,13 +13,11 @@
             </Anchors>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="MapWindow.Initialize"/>
-                <EventHandler event="OnShutdown" function="MapWindow.Shutdown"/>
-                <EventHandler event="OnShown" function="MapWindow.OnShown"/>
-                <EventHandler event="OnHidden" function="MapWindow.OnHidden"/>
                 <EventHandler event="OnUpdate" function="MapWindow.OnUpdate"/>
                 <EventHandler event="OnLButtonDown" function="MapWindow.OnMouseDrag"/>
                 <EventHandler event="OnMouseWheel" function="WindowUtils.Scale"/>
                 <EventHandler event="OnRButtonUp" function="UO_DefaultWindow.CloseDialog"/>
+                <EventHandler event="OnShutdown" function="MapWindow.Shutdown"/>
             </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentBg" texture="TMapBG" handleinput="false" layer="background">
@@ -83,25 +75,10 @@
                     </TexCoords>
                 </HorizontalResizeImage>
 
-                <Button name="$parentToggleRadarButton" inherits="UO_Default_Spring_Button" layer="overlay">
-                    <Anchors>
-                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
-                            <AbsPoint x="-22" y="5"/>
-                        </Anchor>
-                    </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MapWindow.ToggleRadarOnLButtonUp"/>
-                        <EventHandler event="OnMouseOver" function="MapWindow.ToggleRadarOnMouseOver"/>
-                    </EventHandlers>
-                </Button>
-                <Button name="$parentLock">
+                <Button name="$parentLock" inherits="LockButton">
                     <Size>
                         <AbsPoint x="20" y="20"/>
                     </Size>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MapWindow.Lock"/>
-                        <EventHandler event="OnMouseOver" function="MapWindow.LockTooltip"/>
-                    </EventHandlers>
                 </Button>
                 <Button name="$parentSearch" layer="popup" backgroundtexture="Search" highlighttexture="Search">
                     <Size>
@@ -190,7 +167,7 @@
                     </EventHandlers>
                 </Button>
 
-                <MaskWindow name="Map" movable="false" popable="false" layer="background" handleinput="true">
+                <MaskWindow name="MapWindowMapImageMask" movable="false" popable="false" layer="background" handleinput="true">
                     <Size>
                         <AbsPoint x="690" y="665"/>
                     </Size>
@@ -203,8 +180,7 @@
                         <EventHandler event="OnMouseWheel" function="MapWindow.MapOnMouseWheel"/>
                     </EventHandlers>
                     <Windows>
-                        <DynamicImage name="$parentImage" handleinput="true" layer="default" scaleAnchor="center"
-                                      texturescale="20">
+                        <DynamicImage name="MapWindowMapImage" handleinput="true" layer="default" scaleAnchor="center">
                             <Size>
                                 <AbsPoint x="1100" y="1100"/>
                             </Size>
@@ -213,21 +189,21 @@
                             </Anchors>
                             <EventHandlers>
                                 <EventHandler event="OnLButtonDown" function="MapWindow.MapOnLButtonDown"/>
-                                <EventHandler event="OnLButtonUp" function="MapWindow.MapOnLButtonUp"/>
                                 <EventHandler event="OnLButtonDblClk" function="MapWindow.MapOnLButtonDblClk"/>
                                 <EventHandler event="OnMouseDrag" function="MapWindow.MapMouseDrag"/>
                                 <EventHandler event="OnMouseOver" function="MapWindow.OnMouseOver"/>
                                 <EventHandler event="OnMouseOverEnd" function="MapWindow.OnMouseOverEnd"/>
                             </EventHandlers>
                         </DynamicImage>
-                        <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame">
-                            <Anchors>
-                                <Anchor point="topleft" relativePoint="topleft"/>
-                                <Anchor point="bottomright" relativePoint="bottomright"/>
-                            </Anchors>
-                        </FullResizeImage>
                     </Windows>
                 </MaskWindow>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="MapWindowMapImageMask"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="MapWindowMapImageMask"/>
+                    </Anchors>
+                </FullResizeImage>
 
                 <FullResizeImage name="$parentOverlay" texture="TMapOverlay" handleinput="false">
                     <Anchors>
@@ -256,25 +232,36 @@
                     </TexCoords>
                 </FullResizeImage>
 
-                <Label name="$parentCoordsText" font="Arial_Black_Shadow_12" maxchars="64" textalign="left"
+                <DynamicImage name="MapCompass" handleinput="true" texturescale="0.5" layer="default" texture="CompassTexture">
+                    <Size>
+                        <AbsPoint x="67" y="67"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="MapWindowMapImageMask">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+
+                <Label name="$parentCoordsText" font="footnote" maxchars="64" textalign="left"
                        handleinput="false" wordwrap="true">
                     <Size>
                         <AbsPoint x="200" y="32"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="Map">
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="MapWindowMapImageMask">
                             <AbsPoint x="5" y="5"/>
                         </Anchor>
-                    </Anchors>
+                    </Anchors>F
                 </Label>
 
-                <Label name="$parentPlayerCoordsText" font="Arial_Black_Shadow_12" maxchars="128" textalign="right"
+                <Label name="$parentPlayerCoordsText" font="footnote" maxchars="128" textalign="left"
                        handleinput="false" wordwrap="true">
                     <Size>
-                        <AbsPoint x="250" y="50"/>
+                        <AbsPoint x="250" y="36"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="Map">
+                        <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentCenterOnPlayerButton">
                             <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
@@ -282,7 +269,7 @@
 
                 <Button name="$parentCenterOnPlayerButton" inherits="UO_Default_Check_Button">
                     <Anchors>
-                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="Map">
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="MapWindowMapImageMask">
                             <AbsPoint x="5" y="-5"/>
                         </Anchor>
                     </Anchors>
@@ -290,14 +277,14 @@
                         <EventHandler event="OnLButtonUp" function="MapWindow.CenterOnPlayerOnLButtonUp"/>
                     </EventHandlers>
                 </Button>
-                <Label name="$parentCenterOnPlayerLabel" font="Arial_Black_Shadow_12" inherits="ItemTitle"
+                <Label name="$parentCenterOnPlayerLabel" font="footnote" inherits="ItemTitle"
                        autoresizewidth="true" handleinput="false">
                     <Size>
                         <AbsPoint x="200" y="32"/>
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentCenterOnPlayerButton">
-                            <AbsPoint x="5" y="-5"/>
+                            <AbsPoint x="5" y="0"/>
                         </Anchor>
                     </Anchors>
                     <Color r="255" g="255" b="255" a="255"/>

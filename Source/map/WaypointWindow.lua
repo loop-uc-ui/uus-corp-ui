@@ -43,16 +43,35 @@ function WaypointWindow:new(id, name, iconId, parent, pointX, pointY)
     return table
 end
 
-function WaypointWindow:update()
-    local locX, locY = RadarApi.worldPosToRadar(self.pointX, self.pointY)
+function WaypointWindow:update(x, y)
+    local locX, locY = RadarApi.worldPosToRadar(x or self.pointX, y or self.pointY)
     self:clearAnchors()
     self:addAnchor("topleft", self.parent, "center", locX, locY)
 end
 
 function WaypointWindow.WaypointMouseOver()
-    local waypoint = RadarWindow.adapter.views[RadarWindow.MAP_IMAGE].adapter.views[ActiveWindow.name()]
+    local mapId = RadarWindow.MAP_IMAGE
+    local parent = RadarWindow
+
+    if MapSettings.isAtlas() then
+        mapId = MapWindow.VIEWS.IMAGE_MAP
+        parent = MapWindow
+    end
+
+    local map = parent.adapter.views[mapId]
+    local waypoint = map.adapter.views[ActiveWindow.name()]
     if waypoint ~= nil and waypoint.name ~= nil then
-        Tooltips.CreateTextOnlyTooltip(ActiveWindow.name(), StringFormatter.toWString(waypoint.name))
+        local text = StringFormatter.toWString(waypoint.name)
+        if MapSettings.isAtlas() then
+            local latStr, longStr, latDir, longDir = MapCommon.GetSextantLocationStrings(
+                    PlayerLocation.xCord(),
+                    PlayerLocation.yCord(),
+                    map.facetm
+            )
+            text = text..L"\n"..latStr..L"'"..latDir..L" "..longStr..L"'"..longDir ..
+                L"\n" .. waypoint.pointX .. L", " .. waypoint.pointY
+        end
+        Tooltips.CreateTextOnlyTooltip(ActiveWindow.name(), text)
         Tooltips.Finalize()
         Tooltips.AnchorTooltip(Tooltips.ANCHOR_WINDOW_TOP)
     end
