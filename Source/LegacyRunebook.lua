@@ -330,7 +330,7 @@ LegacyRunebook.CurrentSelection = 0
 
 function LegacyRunebook.OnKeyTab()
 	local windowName = WindowUtils.GetActiveDialog()
-	local buttonNum = buttonNum = LegacyRunebook.CurrentSelection + 1
+	local buttonNum = LegacyRunebook.CurrentSelection + 1
 	 
 	if LegacyRunebook.CurrentSelection < 0 then
 		buttonNum = 1
