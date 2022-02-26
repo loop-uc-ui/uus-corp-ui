@@ -84,7 +84,7 @@ end
 function LegacyRunebook.CreateRuneWindows(data)
 	self = {}
 	self = data
-	local color = 0
+	local color
 	local windowName = self.windowName
 	local flagEmptyStart = false
 
@@ -105,7 +105,7 @@ function LegacyRunebook.CreateRuneWindows(data)
         elseif (color == LegacyRunebook.Hues.tokuno) then
             labelColor = LegacyRunebook.LegacyLabelColors.tokuno            
         elseif(color == LegacyRunebook.Hues.termer) then
-        	labelColor = LegacyRunebook.LegacyLabelColors.termer     
+        	labelColor = LegacyRunebook.LegacyLabelColors.termer
         end
 		
 		
@@ -122,7 +122,6 @@ function LegacyRunebook.CreateRuneWindows(data)
 			end
 			flagEmptyStart = true
 		end
-		color = 2
 	end	
 	WindowAssignFocus(windowName, true)	
 end
@@ -281,8 +280,7 @@ function LegacyRunebook.Shutdown()
 end
 
 function LegacyRunebook.UpdateCoordTextandLoc(runeData)
-	local self = {}
-	self = runeData
+	local self = runeData
 
 	local windowName = self.windowName
 	local selectedRune = LegacyRunebook.selectRuneType[windowName]
@@ -332,9 +330,7 @@ LegacyRunebook.CurrentSelection = 0
 
 function LegacyRunebook.OnKeyTab()
 	local windowName = WindowUtils.GetActiveDialog()
-	local buttonNum = 0
-
-	buttonNum = LegacyRunebook.CurrentSelection + 1
+	local buttonNum = buttonNum = LegacyRunebook.CurrentSelection + 1
 	 
 	if LegacyRunebook.CurrentSelection < 0 then
 		buttonNum = 1
