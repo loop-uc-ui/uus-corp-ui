@@ -93,20 +93,20 @@ function LegacyRunebook.CreateRuneWindows(data)
 		local labelName = windowName.."RuneButton"..tostring(index).."Name"
 		local textString = self.stringData[NUM_ADD_STRING+index]
 		color = self.textHueData[index]
-		LegacyRunebook.CreateRuneButton(windowName, index, color)	
-		
+		LegacyRunebook.CreateRuneButton(windowName, index, color)
+
 		local labelColor = LegacyRunebook.DefaultItemLabel
-        if( color == LegacyRunebook.Hues.trammel) then
-            labelColor = LegacyRunebook.LegacyLabelColors.trammel
-        elseif( color == LegacyRunebook.Hues.felucca) then
-            labelColor = LegacyRunebook.LegacyLabelColors.felucca
-        elseif( color == LegacyRunebook.Hues.malas) then
-            labelColor = LegacyRunebook.LegacyLabelColors.malas
-        elseif (color == LegacyRunebook.Hues.tokuno) then
-            labelColor = LegacyRunebook.LegacyLabelColors.tokuno            
-        elseif(color == LegacyRunebook.Hues.termer) then
-        	labelColor = LegacyRunebook.LegacyLabelColors.termer
-        end
+		if (color == LegacyRunebook.Hues.trammel) then
+			labelColor = LegacyRunebook.LegacyLabelColors.trammel
+		elseif (color == LegacyRunebook.Hues.felucca) then
+			labelColor = LegacyRunebook.LegacyLabelColors.felucca
+		elseif (color == LegacyRunebook.Hues.malas) then
+			labelColor = LegacyRunebook.LegacyLabelColors.malas
+		elseif (color == LegacyRunebook.Hues.tokuno) then
+			labelColor = LegacyRunebook.LegacyLabelColors.tokuno
+		elseif (color == LegacyRunebook.Hues.termer) then
+			labelColor = LegacyRunebook.LegacyLabelColors.termer
+		end
 		
 		
 		LabelSetText( labelName, L""..textString)
