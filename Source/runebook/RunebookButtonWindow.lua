@@ -12,7 +12,8 @@ RunebookButtonWindow.TEMPLATES = {
 function RunebookButtonWindow:new(index, template, labelText)
     local this = {
         index = index,
-        id = LegacyRunebook.id.."RuneButton"..index
+        id = LegacyRunebook.id.."RuneButton"..index,
+        isSelected = false
     }
     this.adapter = WindowAdapter:new(this.id)
     WindowApi.createFromTemplate(this.id, template, LegacyRunebook.id)

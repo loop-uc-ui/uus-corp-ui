@@ -282,6 +282,15 @@ function LegacyRunebook.Initialize()
 	end
 end
 
+function LegacyRunebook.OnRecallSpellClicked()
+	GameData.UseRequests.UseSpellcast = 32
+	Interface.SpellUseRequest()
+	UO_GenericGump.broadcastButtonPress(
+			LegacyRunebook.id.."RecallSpellName",
+			GenericGumpCore.stringData()[29]
+	)
+end
+
 function LegacyRunebook.ResetData(windowName)
 	LegacyRunebook.knownWindows[windowName] = nil
 	LegacyRunebook.selectRuneType[windowName] = nil
@@ -341,20 +350,12 @@ end
 
 function LegacyRunebook.OnRuneClicked()
 	local windowName = WindowUtils.GetActiveDialog()
-	local buttonNum = WindowGetId(SystemData.ActiveWindow.name)
-	local self = LegacyRunebook.knownWindows[windowName]
-	
-	if(self) then
-		if( buttonNum <= LegacyRunebook.NumActiveRunes[windowName] )then
-			LegacyRunebook.ResetRuneDefaultIconText(self)
-			LegacyRunebook.SelectedRuneLocation(self, buttonNum)
-			LegacyRunebook.CurrentSelection = buttonNum
-			LegacyRunebook.UpdateCoordTextandLoc(self)
-			LegacyRunebook.EnableDefaultButtons(windowName)
-			local labelName = windowName.."RuneButton"..tostring(buttonNum).."Name"
-			LabelSetTextColor( labelName, LegacyRunebook.SelectItemLabel.r, LegacyRunebook.SelectItemLabel.g, LegacyRunebook.SelectItemLabel.b )
-		end
-	end
+	local button = LegacyRunebook.adapter.views[ActiveWindow.name()]
+	button.isSelected = true
+	local buttonNum = button.id
+	LegacyRunebook.UpdateCoordTextandLoc(self)
+	local labelName = windowName.."RuneButton"..tostring(buttonNum).."Name"
+	LabelSetTextColor( labelName, LegacyRunebook.SelectItemLabel.r, LegacyRunebook.SelectItemLabel.g, LegacyRunebook.SelectItemLabel.b )
 end
 
 LegacyRunebook.CurrentSelection = 0
