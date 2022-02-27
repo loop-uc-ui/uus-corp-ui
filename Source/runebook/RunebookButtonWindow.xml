@@ -186,7 +186,6 @@
             </Windows>
             <EventHandlers>
                 <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
-                <EventHandler event="OnKeyEnter" function="LegacyRunebook.OnKeyEnter"/>
             </EventHandlers>
         </Window>
 
@@ -205,9 +204,6 @@
                             <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnDefaultClicked"/>
-                    </EventHandlers>
                 </Button>
                 <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
                     <Size>
@@ -218,15 +214,9 @@
                             <AbsPoint x="3" y="1"/>
                         </Anchor>
                     </Anchors>
-                    <TextColors>
-                        <Normal r="243" g="227" b="49" a="255"/>
-                        <Disabled r="33" g="20" b="0" a="255"/>
-                    </TextColors>
+                    <Color r="34" g="34" b="34" a="255"/>
                 </Label>
             </Windows>
-            <EventHandlers>
-                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnDefaultClicked"/>
-            </EventHandlers>
         </Window>
     </Windows>
 </Interface>

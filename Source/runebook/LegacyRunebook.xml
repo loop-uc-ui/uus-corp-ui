@@ -50,11 +50,6 @@
                 <EventHandler event="OnInitialize" function="LegacyRunebook.Initialize"/>
                 <EventHandler event="OnShutdown" function="LegacyRunebook.Shutdown"/>
                 <EventHandler event="OnRButtonUp" function="UO_DefaultWindow.CloseDialog"/>
-
-                <EventHandler event="OnKeyEnter" function="LegacyRunebook.OnKeyEnter"/>
-                <EventHandler event="OnKeyEscape" function="UO_DefaultWindow.CloseDialog"/>
-                <EventHandler event="OnKeyTab" function="LegacyRunebook.OnKeyTab"/>
-
             </EventHandlers>
             <Windows>
                 <HorizontalResizeImage name="$parentBook" texture="Legacy_Gumps_Runebook" handleinput="false"
@@ -194,12 +189,12 @@
                 </Window>
 
                 <Window name="$parentRecall" inherits="LegacyDefaultButtonTemplate" layer="overlay">
-                    <!-- 					<Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDropRune" />
-                    </Anchors>	 -->
                     <Size>
                         <AbsPoint x="150" y="20"/>
                     </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRuneBook.OnRecallChargesClicked"/>
+                    </EventHandlers>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSecond">
                             <AbsPoint x="50" y="0"/>
@@ -211,6 +206,9 @@
                     <Size>
                         <AbsPoint x="150" y="20"/>
                     </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRuneBook.OnRecallSpellClicked"/>
+                    </EventHandlers>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRecall">
                             <AbsPoint x="0" y="4"/>
@@ -222,6 +220,9 @@
                     <Size>
                         <AbsPoint x="150" y="20"/>
                     </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRuneBook.OnGateTravelClicked"/>
+                    </EventHandlers>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRecallSpell">
                             <AbsPoint x="0" y="4"/>
@@ -233,6 +234,9 @@
                     <Size>
                         <AbsPoint x="150" y="20"/>
                     </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRuneBook.OnSacredClicked"/>
+                    </EventHandlers>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentGateTravel">
                             <AbsPoint x="0" y="4"/>

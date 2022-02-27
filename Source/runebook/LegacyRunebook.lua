@@ -32,7 +32,7 @@ LegacyRunebook.DefaultNum.SACRED			= 5
 LegacyRunebook.DefaultNum.SET_DEFAULT		= 6
 
 -- Local Defaults for button matching to data from server
-local NUM_LegacyRunebook_PAGE_END = 16
+local NUM_LegacyRunebook_PAGE_END = 18
 local NUM_ADD_STRING = 2
 local COORDS_START_STRING = 24
 local gumpData = {}
@@ -234,25 +234,51 @@ function LegacyRunebook.Initialize()
 		LegacyRunebook.NumActiveRunes[windowName] = NUM_LegacyRunebook_PAGE_END
 		--LegacyRunebook:ResetDefaultIconText(gumpData)
 
-		local chargesButton = RunebookButtonWindow:new(
-				1,
-				RunebookButtonWindow.TEMPLATES.TRAMMEL,
-				GenericGumpCore.stringData()[1]
+		for i = 3, NUM_LegacyRunebook_PAGE_END do
+			local button = RunebookButtonWindow:new(
+					i - 2,
+					RunebookButtonWindow.TEMPLATES.TRAMMEL,
+					GenericGumpCore.stringData()[i]
+			)
+			button:anchor()
+			LegacyRunebook.adapter.views[button.id] = button
+		end
+
+		LegacyRunebook.adapter:addLabel(
+				LegacyRunebook.id.."RenameBookName",
+				1011299
 		)
 
-		local renameButton = RunebookButtonWindow:new(
-				2,
-				RunebookButtonWindow.TEMPLATES.TRAMMEL,
-				GenericGumpCore.stringData()[2]
+		LegacyRunebook.adapter:addLabel(
+				LegacyRunebook.id.."DropRuneName",
+				1011298
 		)
-		--LegacyRunebook.CreateRuneWindows(gumpData)
-		--
-		--local locWindowName = windowName.."Location"
-		--WindowSetShowing(locWindowName, false)
-		--
-		--WindowSetScale(WindowUtils.GetActiveDialog(), 0.88)
-		--Interface.OnCloseCallBack[windowName] = GGManager.destroyActiveWindow
-		--GGManager.registerWindow(windowName, gumpData)
+
+		LegacyRunebook.adapter:addLabel(
+				LegacyRunebook.id.."SetDefaultName",
+				1011300
+		)
+
+		LegacyRunebook.adapter:addLabel(
+				LegacyRunebook.id.."RecallName",
+				1077594
+		)
+
+		LegacyRunebook.adapter:addLabel(
+				LegacyRunebook.id.."RecallSpellName",
+				1077595
+		)
+
+		LegacyRunebook.adapter:addLabel(
+				LegacyRunebook.id.."GateTravelName",
+				1062723
+		)
+
+		LegacyRunebook.adapter:addLabel(
+				LegacyRunebook.id.."SacredName",
+				1062724
+		)
+
 	end
 end
 
@@ -332,30 +358,6 @@ function LegacyRunebook.OnRuneClicked()
 end
 
 LegacyRunebook.CurrentSelection = 0
-
-function LegacyRunebook.OnKeyTab()
-	local windowName = WindowUtils.GetActiveDialog()
-	local buttonNum = LegacyRunebook.CurrentSelection + 1
-	 
-	if LegacyRunebook.CurrentSelection < 0 then
-		buttonNum = 1
-	end
-
-	if LegacyRunebook.CurrentSelection >= tonumber(LegacyRunebook.NumActiveRunes[windowName])  then
-		buttonNum= 1
-	end
-	LegacyRunebook.CurrentSelection = buttonNum
-	
-	local self = LegacyRunebook.knownWindows[windowName]
-	
-	LegacyRunebook.ResetRuneDefaultIconText(self)
-	LegacyRunebook.SelectedRuneLocation(self, buttonNum)
-	LegacyRunebook.CurrentSelection = buttonNum
-	LegacyRunebook.UpdateCoordTextandLoc(self)
-	LegacyRunebook.EnableDefaultButtons(windowName)
-	local labelName = windowName.."RuneButton"..tostring(buttonNum).."Name"
-	LabelSetTextColor( labelName, LegacyRunebook.SelectItemLabel.r, LegacyRunebook.SelectItemLabel.g, LegacyRunebook.SelectItemLabel.b )
-end
 
 function LegacyRunebook.SendServerButtonInfo(buttonNumber, runeData)
 	--set default buttonId to zero
