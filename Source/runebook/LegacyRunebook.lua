@@ -7,7 +7,7 @@
 ----------------------------------------------------------------
 -- Local Variables
 ----------------------------------------------------------------
-LegacyRunebook ={}
+LegacyRunebook = ListWindow:new("LEGACY_Runebook_GUMP")
 LegacyRunebook.knownWindows = {}
 LegacyRunebook.selectRuneType = {}
 LegacyRunebook.NumActiveRunes = {}
@@ -35,6 +35,7 @@ LegacyRunebook.DefaultNum.SET_DEFAULT		= 6
 local NUM_LegacyRunebook_PAGE_END = 16
 local NUM_ADD_STRING = 2
 local COORDS_START_STRING = 24
+local gumpData = {}
 
 LegacyRunebook.CHARGES_STRING = 19
 LegacyRunebook.MAXCHARGES_STRING = 20
@@ -85,7 +86,7 @@ function LegacyRunebook.CreateRuneWindows(data)
 	self = {}
 	self = data
 	local color
-	local windowName = self.windowName
+	local windowName = LegacyRunebook.id
 	local flagEmptyStart = false
 
 	for index = 1, LegacyRunebook.NumActiveRunes[windowName] do
@@ -151,13 +152,10 @@ end
 
 function LegacyRunebook.EnableDefaultButtons(windowName)
 	buttonName = windowName.."CoordsIcon"
-	ButtonSetDisabledFlag( buttonName, false )
 	
 	for i = 2, LegacyRunebook.NUM_DEFAULT_LABELS do
 		buttonName = windowName..LegacyRunebook.KeymapLabel[i].."Icon"
-		labelName = windowName..LegacyRunebook.KeymapLabel[i]		
-		ButtonSetDisabledFlag( buttonName, false )
-		WindowSetFontAlpha( labelName, LegacyRunebook.EnableAlpha )
+		labelName = windowName..LegacyRunebook.KeymapLabel[i]
 	end
 end
 
@@ -167,14 +165,10 @@ function LegacyRunebook.DisableDefaultButtons(windowName)
 	
 	--Set the Coords Texture to the disabled texture
 	buttonName = windowName.."CoordsIcon"
-	ButtonSetDisabledFlag( buttonName, true )
 	
 	for i = 2, LegacyRunebook.NUM_DEFAULT_LABELS do
 		buttonName = windowName..LegacyRunebook.KeymapLabel[i].."Icon"
 		labelName = windowName..LegacyRunebook.KeymapLabel[i]
-		ButtonSetDisabledFlag( buttonName, true )
-		ButtonSetPressedFlag( buttonName, false )
-		WindowSetFontAlpha( labelName, LegacyRunebook.DisabledAlpha )
 	end
 end
 
@@ -192,62 +186,73 @@ function LegacyRunebook.SelectedRuneLocation(windowData, runeNum)
 end
 
 -- labels for bottom menu and rename LegacyRunebook
-function LegacyRunebook.ResetDefaultIconText(data)
-	--Debug.Print("In LegacyRunebook Reset Default Icon")
-	
-	self = {}
-	self = data
-	local windowName = self.windowName
-
+function LegacyRunebook:ResetDefaultIconText(data)
 	--Name is called differently for charges
-	local labelName = windowName..LegacyRunebook.KeymapLabel[LegacyRunebook.CHARGE_LABEL]
-	local numCharges = self.stringData[LegacyRunebook.CHARGES_STRING]
-	local maxCharges = self.stringData[LegacyRunebook.MAXCHARGES_STRING]
-	LabelSetText( labelName, L""..GetStringFromTid(LegacyRunebook.KeymapTID[LegacyRunebook.CHARGE_LABEL])..numCharges..L"/"..maxCharges)
-	LabelSetTextColor( labelName, LegacyRunebook.DefaultItemLabel.r, LegacyRunebook.DefaultItemLabel.g, LegacyRunebook.DefaultItemLabel.b )
+	local labelName = self.id..LegacyRunebook.KeymapLabel[LegacyRunebook.CHARGE_LABEL]
+	local numCharges = gumpData.stringData[LegacyRunebook.CHARGES_STRING]
+	local maxCharges = gumpData.stringData[LegacyRunebook.MAXCHARGES_STRING]
+
+	self.adapter:addLabel(
+			labelName,
+		L""..GetStringFromTid(LegacyRunebook.KeymapTID[LegacyRunebook.CHARGE_LABEL])..numCharges..L"/"..maxCharges,
+			{
+				r = LegacyRunebook.DefaultItemLabel.r,
+				g = LegacyRunebook.DefaultItemLabel.g,
+				b = LegacyRunebook.DefaultItemLabel.b
+			}
+	)
 
 	for i = 1, LegacyRunebook.NUM_DEFAULT_LABELS do
-		local currButtonName = windowName..LegacyRunebook.KeymapLabel[i]
-		buttonName = windowName..LegacyRunebook.KeymapLabel[i].."Icon"
-		labelName = windowName..LegacyRunebook.KeymapLabel[i].."Name"
-		WindowSetId(currButtonName, i)
-		WindowSetId(buttonName, i)
-		LabelSetText( labelName, L""..GetStringFromTid(LegacyRunebook.KeymapTID[i]))
-		LabelSetTextColor( labelName, LegacyRunebook.DefaultItemLabel.r, LegacyRunebook.DefaultItemLabel.g, LegacyRunebook.DefaultItemLabel.b )
-		LegacyRunebook.DisableDefaultButtons(windowName)
-		--if ((WindowData.SkillDynamicData[HealthBarManager.SpellSchools.MAGERY].TempSkillValue >= 230 or BuffDebuff.ActiveBuffs[1124]) and LegacyRunebook.KeymapLabel[i] == "RecallSpell" ) then
-			WindowSetShowing(windowName..LegacyRunebook.KeymapLabel[i], true)
-		--elseif ((WindowData.SkillDynamicData[HealthBarManager.SpellSchools.MAGERY].TempSkillValue < 230 or BuffDebuff.ActiveBuffs[1124]) and LegacyRunebook.KeymapLabel[i] == "RecallSpell" ) then
-		--	WindowSetShowing(windowName..LegacyRunebook.KeymapLabel[i], false)
-		--end
-		
-		if(tonumber(numCharges) > 0 and LegacyRunebook.KeymapLabel[i] == "Recall" ) then
-			WindowSetShowing(windowName..LegacyRunebook.KeymapLabel[i], true)
-		elseif(tonumber(numCharges) <= 0 and LegacyRunebook.KeymapLabel[i] == "Recall" ) then
-			WindowSetShowing(windowName..LegacyRunebook.KeymapLabel[i], false)
-		end
+		local currButtonName = self.id..LegacyRunebook.KeymapLabel[i]
+		local buttonName = self.id..LegacyRunebook.KeymapLabel[i].."Icon"
+		labelName = self.id..LegacyRunebook.KeymapLabel[i].."Name"
+		self.adapter:addButton(
+				currButtonName..i
+		):addButton(
+				buttonName..i
+		):addLabel(
+				labelName,
+				L""..GetStringFromTid(LegacyRunebook.KeymapTID[i]),
+				{
+					r = LegacyRunebook.DefaultItemLabel.r,
+					g = LegacyRunebook.DefaultItemLabel.g,
+					b = LegacyRunebook.DefaultItemLabel.b
+				}
+		)
+		LegacyRunebook.DisableDefaultButtons(self.id)
 	end
 end
 
 -- OnInitialize Handler
 function LegacyRunebook.Initialize()
-	self = {}
-	if(UO_GenericGump.retrieveWindowData( self )) then	
+	gumpData = GenericGumpCore.data()
+	if(UO_GenericGump.retrieveWindowData(gumpData)) then
 		--Set my LegacyRunebook data to use later
-		LegacyRunebook.knownWindows[self.windowName] = self
-		local windowName = self.windowName
+		Debug.Print(gumpData)
+		local windowName = LegacyRunebook.id
+		LegacyRunebook.knownWindows[windowName] = GenericGumpCore.stringDataCount()
 		LegacyRunebook.NumActiveRunes[windowName] = NUM_LegacyRunebook_PAGE_END
-		LegacyRunebook.ResetDefaultIconText(self)
-		LegacyRunebook.CreateRuneWindows(self)
-		
-		local locWindowName = windowName.."Location"
-		WindowSetShowing(locWindowName, false)
-		
-		WindowSetScale(WindowUtils.GetActiveDialog(), 0.88)
-		Interface.OnCloseCallBack[self.windowName] = GGManager.destroyActiveWindow
-		WindowSetShowing(windowName .. "Chrome", false)
-		GGManager.registerWindow(self.windowName, self)
-		self.broadcastHasBeenSent = false 
+		--LegacyRunebook:ResetDefaultIconText(gumpData)
+
+		local chargesButton = RunebookButtonWindow:new(
+				1,
+				RunebookButtonWindow.TEMPLATES.TRAMMEL,
+				GenericGumpCore.stringData()[1]
+		)
+
+		local renameButton = RunebookButtonWindow:new(
+				2,
+				RunebookButtonWindow.TEMPLATES.TRAMMEL,
+				GenericGumpCore.stringData()[2]
+		)
+		--LegacyRunebook.CreateRuneWindows(gumpData)
+		--
+		--local locWindowName = windowName.."Location"
+		--WindowSetShowing(locWindowName, false)
+		--
+		--WindowSetScale(WindowUtils.GetActiveDialog(), 0.88)
+		--Interface.OnCloseCallBack[windowName] = GGManager.destroyActiveWindow
+		--GGManager.registerWindow(windowName, gumpData)
 	end
 end
 

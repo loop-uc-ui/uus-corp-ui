@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="Source/runebook/RunebookButtonWindow.lua"/>
+    </Scripts>
+    <Windows>
+        <!-- Trammel Template -->
+        <Window name="LegacyPurpleRuneTemplate" layer="overlay">
+            <Size>
+                <AbsPoint x="230" y="20"/>
+            </Size>
+            <Windows>
+                <Button name="$parentIcon" inherits="LegacyPurpleDiamond">
+                    <Size>
+                        <AbsPoint x="17" y="17"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRuneClicked"/>
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                    <Size>
+                        <AbsPoint x="175" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentIcon">
+                            <AbsPoint x="3" y="1"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="73" g="0" b="146" a="255"/>
+                </Label>
+            </Windows>
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
+            </EventHandlers>
+        </Window>
+
+        <!-- Felucca Template -->
+        <Window name="LegacyTorquoiseRuneTemplate" layer="overlay">
+            <Size>
+                <AbsPoint x="230" y="20"/>
+            </Size>
+            <Windows>
+                <Button name="$parentIcon" inherits="LegacyTorquoiseDiamond">
+                    <Size>
+                        <AbsPoint x="17" y="17"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRuneClicked"/>
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                    <Size>
+                        <AbsPoint x="175" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentIcon">
+                            <AbsPoint x="3" y="1"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="10" g="90" b="90" a="255"/>
+                </Label>
+            </Windows>
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
+            </EventHandlers>
+        </Window>
+
+        <!-- Malas Template -->
+        <Window name="LegacyGrayRuneTemplate" layer="overlay">
+            <Size>
+                <AbsPoint x="230" y="20"/>
+            </Size>
+            <Windows>
+                <Button name="$parentIcon" inherits="LegacyGrayDiamond">
+                    <Size>
+                        <AbsPoint x="17" y="17"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRuneClicked"/>
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                    <Size>
+                        <AbsPoint x="175" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentIcon">
+                            <AbsPoint x="3" y="1"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="146" g="73" b="0" a="255"/>
+                </Label>
+            </Windows>
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
+            </EventHandlers>
+        </Window>
+
+        <!-- Tokuno Template -->
+        <Window name="LegacyGreenRuneTemplate" layer="overlay">
+            <Size>
+                <AbsPoint x="230" y="20"/>
+            </Size>
+            <Windows>
+                <Button name="$parentIcon" inherits="LegacyGreenDiamond">
+                    <Size>
+                        <AbsPoint x="17" y="17"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRuneClicked"/>
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                    <Size>
+                        <AbsPoint x="175" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentIcon">
+                            <AbsPoint x="3" y="1"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="0" g="50" b="0" a="255"/>
+                </Label>
+            </Windows>
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
+            </EventHandlers>
+        </Window>
+
+        <!-- Ter Mur (Brown) Template -->
+        <Window name="LegacyBrownRuneTemplate" layer="overlay">
+            <Size>
+                <AbsPoint x="230" y="20"/>
+            </Size>
+            <Windows>
+                <Button name="$parentIcon" inherits="LegacyBrownDiamond">
+                    <Size>
+                        <AbsPoint x="17" y="17"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRuneClicked"/>
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                    <Size>
+                        <AbsPoint x="175" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentIcon">
+                            <AbsPoint x="3" y="1"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="0" g="109" b="219" a="255"/>
+                </Label>
+            </Windows>
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
+                <EventHandler event="OnKeyEnter" function="LegacyRunebook.OnKeyEnter"/>
+            </EventHandlers>
+        </Window>
+
+        <!-- Default (Yellow) Template -->
+        <Window name="LegacyDefaultButtonTemplate" layer="overlay">
+            <Size>
+                <AbsPoint x="230" y="20"/>
+            </Size>
+            <Windows>
+                <Button name="$parentIcon" inherits="LegacyDefaultDiamond">
+                    <Size>
+                        <AbsPoint x="17" y="17"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnDefaultClicked"/>
+                    </EventHandlers>
+                </Button>
+                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                    <Size>
+                        <AbsPoint x="175" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentIcon">
+                            <AbsPoint x="3" y="1"/>
+                        </Anchor>
+                    </Anchors>
+                    <TextColors>
+                        <Normal r="243" g="227" b="49" a="255"/>
+                        <Disabled r="33" g="20" b="0" a="255"/>
+                    </TextColors>
+                </Label>
+            </Windows>
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnDefaultClicked"/>
+            </EventHandlers>
+        </Window>
+    </Windows>
+</Interface>

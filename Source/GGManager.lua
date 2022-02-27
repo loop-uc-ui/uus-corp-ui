@@ -656,9 +656,10 @@ function GGManager.GGArrived()
 
 	if windowName == "RUNEBOOK_GUMP" then
 		windowName = "LEGACY_Runebook_GUMP"
+		LegacyRunebook:create()
+	else
+		CreateWindowFromTemplate( gumpName, windowName, "Root" )
 	end
-
-	CreateWindowFromTemplate( gumpName, windowName, "Root" )
 
 
 	local savePositionGroup = GGManager.WindowPositionGroup[gumpId] or windowName

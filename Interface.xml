@@ -90,7 +90,9 @@
     <Include file="Source/VendorSearch.xml"/>
     <Include file="Source/QuickStats.xml"/>
     <Include file="Source/FontSelector.xml"/>
-    <Include file="Source/LegacyRunebook.xml"/>
+    <Include file="Source/runebook/LegacyRunebook.xml"/>
+    <Include file="Source/runebook/RunebookButtonWindow.xml"/>
+
 
     <!-- Remove this one once all the gumps are fixed -->
     <!--<Include file="Source/Generic/KnownBrokenGump.xml" />-->
@@ -253,7 +255,8 @@
         <Script file="Source/CrystalPortal.lua"/>
         <Script file="Source/VendorSearch.lua"/>
         <Script file="Source/QuickStats.lua"/>
-        <Script file="Source/LegacyRunebook.lua"/>
+        <Script file="Source/runebook/LegacyRunebook.lua"/>
+        <Script file="Source/runebook/RunebookButtonWindow.lua"/>
         <Script file="Source/LegacyRunebookLoader.lua"/>
         <!--<Load Settings Last/>-->
         <Script file="Source/settings/window/SettingsWindow.lua"/>
