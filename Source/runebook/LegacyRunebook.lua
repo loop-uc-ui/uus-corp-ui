@@ -283,27 +283,31 @@ function LegacyRunebook.Initialize()
 	end
 end
 
-local function castSpell(spellId)
+local function castSpell(spellId, buttonIdOffset)
+	if selectedRune == nil then
+		return
+	end
+
 	GameData.UseRequests.UseSpellcast = spellId
 	Interface.SpellUseRequest()
 	UO_GenericGump.broadcastButtonPress(
-			selectedRune.index + 49,
+			selectedRune.index + buttonIdOffset,
 			gumpData
 	)
 	LegacyRunebook:destroy()
 end
 
 function LegacyRunebook.OnRecallSpellClicked()
-	castSpell(32)
+	castSpell(32, 49)
 end
 
 function LegacyRunebook.OnGateTravelClicked()
 	Debug.Print("test")
-	castSpell(52)
+	castSpell(52, 99)
 end
 
 function LegacyRunebook.OnSacredClicked()
-	castSpell(210)
+	castSpell(210, 74)
 end
 
 function LegacyRunebook.ResetData(windowName)
