@@ -27,3 +27,7 @@ function LabelWindow:setTextAlignment(alignment)
     LabelApi.setTextAlignment(self.id, alignment)
     return self
 end
+
+function LabelWindow:getText()
+    return LabelApi.getText(self.id)
+end

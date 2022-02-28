@@ -12,8 +12,7 @@ RunebookButtonWindow.TEMPLATES = {
 function RunebookButtonWindow:new(index, template, labelText)
     local this = {
         index = index,
-        id = LegacyRunebook.id.."RuneButton"..index,
-        isSelected = false
+        id = LegacyRunebook.id.."RuneButton"..index
     }
     this.adapter = WindowAdapter:new(this.id)
     WindowApi.createFromTemplate(this.id, template, LegacyRunebook.id)
@@ -39,4 +38,29 @@ function RunebookButtonWindow:anchor(anchor)
     else
         self:addAnchor("bottomleft", LegacyRunebook.id.."RuneButton"..self.index-1, "topleft", 0, 0)
     end
+end
+
+function RunebookButtonWindow:recallSpellIndex()
+    return self.index + 49
+end
+
+
+function RunebookButtonWindow:recallChargeIndex()
+    return self.index + 9
+end
+
+function RunebookButtonWindow:gateTravelIndex()
+    return self.index + 99
+end
+
+function RunebookButtonWindow:sacredJourneyIndex()
+    return self.index + 74
+end
+
+function RunebookButtonWindow:coords()
+    return StringFormatter:replaceChar(GenericGumpCore.stringData()[self.index + 23], "o ",".")
+end
+
+function RunebookButtonWindow:name()
+    return self.adapter.views[self.id.."Name"]:getText()
 end

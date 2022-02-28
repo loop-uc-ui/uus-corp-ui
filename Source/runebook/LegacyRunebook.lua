@@ -228,12 +228,10 @@ end
 function LegacyRunebook.Initialize()
 	gumpData = GenericGumpCore.data()
 	if(UO_GenericGump.retrieveWindowData(gumpData)) then
-		--Set my LegacyRunebook data to use later
-		Debug.Print(gumpData)
+
 		local windowName = LegacyRunebook.id
 		LegacyRunebook.knownWindows[windowName] = GenericGumpCore.stringDataCount()
 		LegacyRunebook.NumActiveRunes[windowName] = NUM_LegacyRunebook_PAGE_END
-		--LegacyRunebook:ResetDefaultIconText(gumpData)
 
 		for i = 3, NUM_LegacyRunebook_PAGE_END do
 			local button = RunebookButtonWindow:new(
@@ -278,40 +276,47 @@ function LegacyRunebook.Initialize()
 		LegacyRunebook.adapter:addLabel(
 				LegacyRunebook.id.."SacredName",
 				1062724
+		):addLabel(
+				LegacyRunebook.id.."CoordsName"
+		):addLabel(
+				LegacyRunebook.id.."LocationName"
 		)
 
 	end
 end
 
-local function castSpell(spellId, buttonIdOffset)
-	if selectedRune == nil then
-		return
-	end
-
+local function castSpell(spellId, index)
 	GameData.UseRequests.UseSpellcast = spellId
 	Interface.SpellUseRequest()
 	UO_GenericGump.broadcastButtonPress(
-			selectedRune.index + buttonIdOffset,
+			index,
 			gumpData
 	)
 	LegacyRunebook:destroy()
 end
 
 function LegacyRunebook.OnRecallSpellClicked()
-	castSpell(32, 49)
+	if selectedRune ~= nil then
+		castSpell(32, selectedRune:recallSpellIndex())
+	end
 end
 
 function LegacyRunebook.OnRecallChargeClicked()
-	castSpell(32, 9)
+	if selectedRune ~= nil then
+		castSpell(32, selectedRune:recallChargeIndex())
+	end
 end
 
 function LegacyRunebook.OnGateTravelClicked()
-	Debug.Print("test")
-	castSpell(52, 99)
+	if selectedRune ~= nil then
+		castSpell(52, selectedRune:gateTravelIndex())
+	end
 end
 
 function LegacyRunebook.OnSacredClicked()
-	castSpell(210, 74)
+	if selectedRune ~= nil then
+		castSpell(210, selectedRune:sacredJourneyIndex())
+	end
 end
 
 function LegacyRunebook.ResetData(windowName)
@@ -342,33 +347,20 @@ function LegacyRunebook.Shutdown()
 	GGManager.unregisterActiveWindow()
 end
 
-function LegacyRunebook.UpdateCoordTextandLoc(runeData)
-	local self = runeData
-
-	local windowName = self.windowName
-	local selectedRune = LegacyRunebook.selectRuneType[windowName]
-	local coordName = windowName.."CoordsName"
-	local coordsNum 
-	-- If selected Rune is the first rune, do not add two to get the coord data
-	if(selectedRune == 1) then
-		coordsNum = COORDS_START_STRING 
-	else
-		coordsNum = selectedRune + COORDS_START_STRING - 1
+function LegacyRunebook:UpdateCoordTextandLoc(selectedRune)
+	if selectedRune == nil then
+		return
 	end
-	--Debug.Print( tostring(coordsNum))
-	local coordText = self.stringData[coordsNum] -- ..L"\n"..self.stringData[secondCoordNum]
-	LabelSetText(coordName, coordText)
-	LabelSetTextColor( coordName, LegacyRunebook.BlackItemLabel.r, LegacyRunebook.BlackItemLabel.g, LegacyRunebook.BlackItemLabel.b )
-	
-	--Show the text of the selected rune location
-	local locWindowName = windowName.."Location"
-	local locName = locWindowName.."Name"
-	local labelName = windowName.."RuneButton"..tostring(selectedRune).."Name"
-	local locText = LabelGetText(labelName)
-	LabelSetText(locName, locText)
-	LabelSetTextColor( locName, 10, 10, 0)  -- color for selected rune text
-	WindowSetShowing(locWindowName, true)
 
+	local label = self.adapter.views[self.id.."CoordsName"]
+	label:setText(
+			selectedRune:coords()
+	)
+
+	label = self.adapter.views[self.id.."LocationName"]
+	label:setText(
+			selectedRune:name()
+	)
 end
 
 function LegacyRunebook.OnRuneClicked()
@@ -376,7 +368,7 @@ function LegacyRunebook.OnRuneClicked()
 	local button = LegacyRunebook.adapter.views[ActiveWindow.name()]
 	selectedRune = button
 	local buttonNum = button.id
-	LegacyRunebook.UpdateCoordTextandLoc(self)
+	LegacyRunebook:UpdateCoordTextandLoc(selectedRune)
 	local labelName = windowName.."RuneButton"..tostring(buttonNum).."Name"
 	LabelSetTextColor( labelName, LegacyRunebook.SelectItemLabel.r, LegacyRunebook.SelectItemLabel.g, LegacyRunebook.SelectItemLabel.b )
 end
