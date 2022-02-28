@@ -301,6 +301,10 @@ function LegacyRunebook.OnRecallSpellClicked()
 	castSpell(32, 49)
 end
 
+function LegacyRunebook.OnRecallChargeClicked()
+	castSpell(32, 9)
+end
+
 function LegacyRunebook.OnGateTravelClicked()
 	Debug.Print("test")
 	castSpell(52, 99)

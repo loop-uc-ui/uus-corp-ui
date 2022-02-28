@@ -193,7 +193,7 @@
                         <AbsPoint x="150" y="20"/>
                     </Size>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRecallSpellClicked"/>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRecallChargeClicked"/>
                     </EventHandlers>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSecond">
