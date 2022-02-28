@@ -36,6 +36,7 @@ local NUM_LegacyRunebook_PAGE_END = 18
 local NUM_ADD_STRING = 2
 local COORDS_START_STRING = 24
 local gumpData = {}
+local selectedRune
 
 LegacyRunebook.CHARGES_STRING = 19
 LegacyRunebook.MAXCHARGES_STRING = 20
@@ -282,13 +283,27 @@ function LegacyRunebook.Initialize()
 	end
 end
 
-function LegacyRunebook.OnRecallSpellClicked()
-	GameData.UseRequests.UseSpellcast = 32
+local function castSpell(spellId)
+	GameData.UseRequests.UseSpellcast = spellId
 	Interface.SpellUseRequest()
 	UO_GenericGump.broadcastButtonPress(
-			LegacyRunebook.id.."RecallSpellName",
-			GenericGumpCore.stringData()[29]
+			selectedRune.index + 49,
+			gumpData
 	)
+	LegacyRunebook:destroy()
+end
+
+function LegacyRunebook.OnRecallSpellClicked()
+	castSpell(32)
+end
+
+function LegacyRunebook.OnGateTravelClicked()
+	Debug.Print("test")
+	castSpell(52)
+end
+
+function LegacyRunebook.OnSacredClicked()
+	castSpell(210)
 end
 
 function LegacyRunebook.ResetData(windowName)
@@ -351,7 +366,7 @@ end
 function LegacyRunebook.OnRuneClicked()
 	local windowName = WindowUtils.GetActiveDialog()
 	local button = LegacyRunebook.adapter.views[ActiveWindow.name()]
-	button.isSelected = true
+	selectedRune = button
 	local buttonNum = button.id
 	LegacyRunebook.UpdateCoordTextandLoc(self)
 	local labelName = windowName.."RuneButton"..tostring(buttonNum).."Name"

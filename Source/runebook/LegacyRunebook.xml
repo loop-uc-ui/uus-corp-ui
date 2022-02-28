@@ -193,7 +193,7 @@
                         <AbsPoint x="150" y="20"/>
                     </Size>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRecallChargesClicked"/>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRecallSpellClicked"/>
                     </EventHandlers>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSecond">
@@ -221,7 +221,7 @@
                         <AbsPoint x="150" y="20"/>
                     </Size>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="LegacyRuneBook.OnGateTravelClicked"/>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnGateTravelClicked"/>
                     </EventHandlers>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRecallSpell">
@@ -235,7 +235,7 @@
                         <AbsPoint x="150" y="20"/>
                     </Size>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="LegacyRuneBook.OnSacredClicked"/>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnSacredClicked"/>
                     </EventHandlers>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentGateTravel">
