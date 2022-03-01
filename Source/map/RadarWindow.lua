@@ -10,13 +10,6 @@ function RadarWindow.Initialize()
 
 	RadarWindow:registerData(
 			Radar.type()
-	):registerData(
-			WaypointDisplay.type()
-	):registerData(
-			PlayerLocation.type()
-	):registerEventHandler(
-			PlayerLocation.event(),
-			"RadarWindow.UpdateRadar"
 	):registerEventHandler(
 			Radar.event(),
 			"RadarWindow.UpdateRadar"

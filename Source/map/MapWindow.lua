@@ -44,6 +44,7 @@ local function changeMap(facet, area)
 	end
 	local centerX = ( ( x2 - x1 ) / 2 ) + x1
 	local centerY = ( ( y2 - y1 ) / 2 ) + y1
+	MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP].forceUpdate = true
 	RadarApi.centerOnLocation(centerX, centerY, facet, area, false)
 end
 
@@ -119,7 +120,9 @@ end
 
 function MapWindow.UpdateMap(facet, area)
 	local map = MapWindow.adapter.views[MapWindow.VIEWS.IMAGE_MAP]
-	map:update(facet or RadarApi.getFacet(), area or RadarApi.getArea())
+	facet = facet or RadarApi.getFacet()
+	area = area or RadarApi.getArea()
+	map:update(facet, area)
 
 	local areaCombo = MapWindow.adapter.views[MapWindow.VIEWS.AREA_COMBO]
 	areaCombo:clearItems()
