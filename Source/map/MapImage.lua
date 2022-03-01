@@ -6,7 +6,9 @@ function MapImage:new(id, mode, facet, area)
         texture = "radar_texture",
         centerOnPlayer = true,
         facet = facet,
-        area = area
+        area = area,
+        isInitialized = false,
+        forceUpdate = false
     }
     MapSettings.setMode(mode)
     self.__index = self
@@ -91,17 +93,18 @@ function MapImage:update(facet, area)
         height = 0
     end
 
-    local drawWaypoints = area ~= self.area or facet ~= self.facet or #self.adapter.views == 0
+    local forceUpdate = self.forceUpdate or not self.isInitialized
+
     self.area = area
     self.facet = facet
 
-    if drawWaypoints then
+    if forceUpdate then
         self:clearWaypoints()
     end
 
     self:setTexture(Radar.textureXCord() + width, Radar.textureYCord() + height)
 
-    if drawWaypoints and not WindowApi.doesExist("WaypointIconPlayer") and area == RadarApi.getArea() and facet == RadarApi.getFacet() then
+    if not WindowApi.doesExist("WaypointIconPlayer") and area == RadarApi.getArea() and facet == RadarApi.getFacet() then
         self:addWaypoint(
                 "WaypointIconPlayer",
                 nil,
@@ -111,22 +114,17 @@ function MapImage:update(facet, area)
         )
     end
 
-    if drawWaypoints then
-        for i = 0, #Waypoints.Facet - 1 do
-            if i == facet then
-                for _, value in pairs(Waypoints.Facet[i]) do
-                    local id = "Waypoint"..value.Name.."_"..RadarApi.getFacetLabel(i).."_"..RadarApi.getAreaLabel(i, area).."_"..value.Icon
-                    if not WindowApi.doesExist(id) then
-                        self:addWaypoint(
-                                id,
-                                value.Name,
-                                tonumber(value.Icon),
-                                tonumber(value.x),
-                                tonumber(value.y)
-                        )
-                    end
-                end
-                break
+    if forceUpdate and MapSettings.isAtlas() then
+        for _, value in pairs(Waypoints.Facet[facet]) do
+            local id = "Waypoint"..value.Name.."_"..RadarApi.getFacetLabel(facet).."_"..RadarApi.getAreaLabel(facet, area).."_"..value.Icon
+            if not WindowApi.doesExist(id) then
+                self:addWaypoint(
+                        id,
+                        value.Name,
+                        tonumber(value.Icon),
+                        tonumber(value.x),
+                        tonumber(value.y)
+                )
             end
         end
     end
@@ -137,10 +135,13 @@ function MapImage:update(facet, area)
                     PlayerLocation.xCord(),
                     PlayerLocation.yCord()
             )
-        else
+        elseif WindowApi.doesExist(key) then
             value:update()
         end
     end
+
+    self.forceUpdate = false
+    self.isInitialized = true
 end
 
 function MapImage:clearWaypoints()
