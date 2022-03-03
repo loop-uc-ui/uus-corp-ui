@@ -21,14 +21,14 @@
                     </Anchors>
                 </Button>
 
-                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="center" layer="overlay"
+                <Label name="$parentName" font="caption_no_outline" maxchars="64" textalign="center" layer="overlay"
                        wordwrap="true">
                     <Size>
                         <AbsPoint x="80" y="20"/>
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentIcon">
-                            <AbsPoint x="30" y="10"/>
+                            <AbsPoint x="30" y="18"/>
                         </Anchor>
                     </Anchors>
                     <Color r="34" g="34" b="34" a="255"/>
@@ -87,7 +87,7 @@
                 <Window name="$parentRenameBook" inherits="LegacyDefaultButtonTemplate" layer="overlay">
                     <Anchors>
                         <Anchor point="topright" relativePoint="topleft" relativeTo="$parentCharges">
-                            <AbsPoint x="100" y="0"/>
+                            <AbsPoint x="110" y="0"/>
                         </Anchor>
                     </Anchors>
                 </Window>
@@ -142,19 +142,13 @@
                         </Anchor>
                     </Anchors>
                     <Windows>
-                        <!--						<HorizontalResizeImage name="$parentHorRule" inherits="UO_Default_Horizontal_Rule">
-                            <Size>
-                                <AbsPoint x="260" y="4"/>
-                            </Size>
-                        </HorizontalResizeImage> -->
-
-                        <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                        <Label name="$parentName" font="caption_no_outline" maxchars="64" textalign="left">
                             <Size>
                                 <AbsPoint x="260" y="20"/>
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLocation">
-                                    <AbsPoint x="0" y="25"/>
+                                    <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
                             <Color r="34" b="34" g="34" a="255"/>
@@ -193,7 +187,7 @@
                     </EventHandlers>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSecond">
-                            <AbsPoint x="50" y="0"/>
+                            <AbsPoint x="36" y="0"/>
                         </Anchor>
                     </Anchors>
                 </Window>

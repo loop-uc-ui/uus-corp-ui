@@ -36,6 +36,7 @@ local NUM_LegacyRunebook_PAGE_END = 18
 local NUM_ADD_STRING = 2
 local COORDS_START_STRING = 24
 local gumpData = {}
+local hardCodedButtons = {}
 local selectedRune
 
 LegacyRunebook.CHARGES_STRING = 19
@@ -48,85 +49,15 @@ LegacyRunebook.DefaultRuneLabel = { r=250, g=50, b=0, a=255} -- bottom label col
 LegacyRunebook.DisabledAlpha = 0.5
 LegacyRunebook.EnableAlpha = 1
 
-----------------------------------------------------------------
--- LegacyRunebook Functions
-----------------------------------------------------------------
-function LegacyRunebook.CreateRuneButton(parent, number, color)
-	local index = number
-	local runeButtonName = parent.."RuneButton"..tostring(index)
-	local buttonName = parent.."RuneButton"..tostring(index).."Icon"
-	local colorTemplate
-	
-	if( color == LegacyRunebook.Hues.trammel) then
-		colorTemplate = LegacyRunebook.RuneColor.purple
-	elseif( color == LegacyRunebook.Hues.felucca) then
-		colorTemplate = LegacyRunebook.RuneColor.torquoise
-	elseif( color == LegacyRunebook.Hues.malas) then
-		colorTemplate = LegacyRunebook.RuneColor.gray
-	elseif (color == LegacyRunebook.Hues.tokuno) then
-		colorTemplate = LegacyRunebook.RuneColor.green
-	else
-		colorTemplate = LegacyRunebook.RuneColor.brown
-	end
 
-	CreateWindowFromTemplate(runeButtonName, colorTemplate, parent)
-	ButtonSetStayDownFlag(buttonName,true)
-	WindowSetId(buttonName, index)
-	WindowSetId(runeButtonName, index)
-	
-	if ( index == 1 ) then
-		WindowAddAnchor(runeButtonName, "topleft", parent.."First", "topleft", 15, 20)
-	elseif ( index == 9 )then
-		WindowAddAnchor(runeButtonName, "topleft", parent.."Second", "topleft", 15, 20)
-	else
-		WindowAddAnchor(runeButtonName, "bottomleft", parent.."RuneButton"..index-1, "topleft", 0, 0)
+local function toggleHardCodedButtons(isDisabled)
+	for key, value in pairs(LegacyRunebook.adapter.views) do
+		if string.find(key, "Icon") and not string.find(key, "Button") then
+			value:setDisabledFlag(isDisabled)
+		end
 	end
 end
 
-function LegacyRunebook.CreateRuneWindows(data)
-	self = {}
-	self = data
-	local color
-	local windowName = LegacyRunebook.id
-	local flagEmptyStart = false
-
-	for index = 1, LegacyRunebook.NumActiveRunes[windowName] do
-		local buttonName = windowName.."RuneButton"..tostring(index).."Icon"
-		local labelName = windowName.."RuneButton"..tostring(index).."Name"
-		local textString = self.stringData[NUM_ADD_STRING+index]
-		color = self.textHueData[index]
-		LegacyRunebook.CreateRuneButton(windowName, index, color)
-
-		local labelColor = LegacyRunebook.DefaultItemLabel
-		if (color == LegacyRunebook.Hues.trammel) then
-			labelColor = LegacyRunebook.LegacyLabelColors.trammel
-		elseif (color == LegacyRunebook.Hues.felucca) then
-			labelColor = LegacyRunebook.LegacyLabelColors.felucca
-		elseif (color == LegacyRunebook.Hues.malas) then
-			labelColor = LegacyRunebook.LegacyLabelColors.malas
-		elseif (color == LegacyRunebook.Hues.tokuno) then
-			labelColor = LegacyRunebook.LegacyLabelColors.tokuno
-		elseif (color == LegacyRunebook.Hues.termer) then
-			labelColor = LegacyRunebook.LegacyLabelColors.termer
-		end
-		
-		
-		LabelSetText( labelName, L""..textString)
-		LabelSetTextColor( labelName, labelColor.r, labelColor.g, labelColor.b )
-
-		
-		local text = WStringToString(textString)
-		if(text == "Empty") then
-			ButtonSetDisabledFlag( buttonName, true )
-			if(flagEmptyStart == false) then
-
-				LegacyRunebook.NumActiveRunes[windowName] = index - 1
-			end
-			flagEmptyStart = true
-		end
-	end	
-	WindowAssignFocus(windowName, true)	
-end
 
 function LegacyRunebook.ResetRuneDefaultIconText(data)
 	self = {}
@@ -149,41 +80,6 @@ function LegacyRunebook.ResetRuneDefaultIconText(data)
         end
 		LabelSetTextColor( labelName, labelColor.r, labelColor.g, labelColor.b )
 	end
-end
-
-function LegacyRunebook.EnableDefaultButtons(windowName)
-	buttonName = windowName.."CoordsIcon"
-	
-	for i = 2, LegacyRunebook.NUM_DEFAULT_LABELS do
-		buttonName = windowName..LegacyRunebook.KeymapLabel[i].."Icon"
-		labelName = windowName..LegacyRunebook.KeymapLabel[i]
-	end
-end
-
-function LegacyRunebook.DisableDefaultButtons(windowName)
-	buttonName = windowName..LegacyRunebook.KeymapLabel[LegacyRunebook.DefaultNum.RENAME_BOOK].."Icon"
-	ButtonSetPressedFlag( buttonName, false )
-	
-	--Set the Coords Texture to the disabled texture
-	buttonName = windowName.."CoordsIcon"
-	
-	for i = 2, LegacyRunebook.NUM_DEFAULT_LABELS do
-		buttonName = windowName..LegacyRunebook.KeymapLabel[i].."Icon"
-		labelName = windowName..LegacyRunebook.KeymapLabel[i]
-	end
-end
-
-function LegacyRunebook.SelectedRuneLocation(windowData, runeNum)
-	self = {}
-	self = windowData
-	local windowName = self.windowName
-	
-	LegacyRunebook.selectRuneType[windowName] = runeNum
-			
-    for index = 1, NUM_LegacyRunebook_PAGE_END do
-		local buttonName = windowName.."RuneButton"..tostring(index).."Icon"
-        ButtonSetPressedFlag( buttonName, LegacyRunebook.selectRuneType[windowName] == index )
-    end
 end
 
 -- labels for bottom menu and rename LegacyRunebook
@@ -220,7 +116,6 @@ function LegacyRunebook:ResetDefaultIconText(data)
 					b = LegacyRunebook.DefaultItemLabel.b
 				}
 		)
-		LegacyRunebook.DisableDefaultButtons(self.id)
 	end
 end
 
@@ -236,9 +131,10 @@ function LegacyRunebook.Initialize()
 		for i = 3, NUM_LegacyRunebook_PAGE_END do
 			local button = RunebookButtonWindow:new(
 					i - 2,
-					RunebookButtonWindow.TEMPLATES.TRAMMEL,
+					GenericGumpCore.textHueData()[i - 2],
 					GenericGumpCore.stringData()[i]
 			)
+			button:initialize()
 			button:anchor()
 			LegacyRunebook.adapter.views[button.id] = button
 		end
@@ -246,42 +142,43 @@ function LegacyRunebook.Initialize()
 		LegacyRunebook.adapter:addLabel(
 				LegacyRunebook.id.."RenameBookName",
 				1011299
-		)
-
-		LegacyRunebook.adapter:addLabel(
+		):addLabel(
 				LegacyRunebook.id.."DropRuneName",
 				1011298
-		)
-
-		LegacyRunebook.adapter:addLabel(
+		):addLabel(
 				LegacyRunebook.id.."SetDefaultName",
 				1011300
-		)
-
-		LegacyRunebook.adapter:addLabel(
+		):addLabel(
 				LegacyRunebook.id.."RecallName",
 				1077594
-		)
-
-		LegacyRunebook.adapter:addLabel(
+		):addLabel(
 				LegacyRunebook.id.."RecallSpellName",
 				1077595
-		)
-
-		LegacyRunebook.adapter:addLabel(
+		):addLabel(
 				LegacyRunebook.id.."GateTravelName",
 				1062723
-		)
-
-		LegacyRunebook.adapter:addLabel(
+		):addLabel(
 				LegacyRunebook.id.."SacredName",
 				1062724
 		):addLabel(
 				LegacyRunebook.id.."CoordsName"
 		):addLabel(
 				LegacyRunebook.id.."LocationName"
+		):addButton(
+				LegacyRunebook.id.."RecallIcon"
+		):addButton(
+				LegacyRunebook.id.."RecallSpellIcon"
+		):addButton(
+				LegacyRunebook.id.."GateTravelIcon"
+		):addButton(
+				LegacyRunebook.id.."SacredIcon"
+		):addButton(
+				LegacyRunebook.id.."DropRuneIcon"
+		):addButton(
+				LegacyRunebook.id.."SetDefaultIcon"
 		)
 
+		toggleHardCodedButtons(true)
 	end
 end
 
@@ -359,18 +256,20 @@ function LegacyRunebook:UpdateCoordTextandLoc(selectedRune)
 
 	label = self.adapter.views[self.id.."LocationName"]
 	label:setText(
-			selectedRune:name()
+			selectedRune:label():getText()
 	)
 end
 
 function LegacyRunebook.OnRuneClicked()
-	local windowName = WindowUtils.GetActiveDialog()
+	if selectedRune ~= nil then
+		selectedRune:onClick(false)
+	end
+
 	local button = LegacyRunebook.adapter.views[ActiveWindow.name()]
 	selectedRune = button
-	local buttonNum = button.id
+	selectedRune:onClick(true)
+	toggleHardCodedButtons(false)
 	LegacyRunebook:UpdateCoordTextandLoc(selectedRune)
-	local labelName = windowName.."RuneButton"..tostring(buttonNum).."Name"
-	LabelSetTextColor( labelName, LegacyRunebook.SelectItemLabel.r, LegacyRunebook.SelectItemLabel.g, LegacyRunebook.SelectItemLabel.b )
 end
 
 LegacyRunebook.CurrentSelection = 0

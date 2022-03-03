@@ -24,7 +24,7 @@
                     </EventHandlers>
                 </Button>
 
-                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                <Label name="$parentName" font="caption_no_outline" maxchars="64" textalign="left">
                     <Size>
                         <AbsPoint x="175" y="20"/>
                     </Size>
@@ -61,7 +61,7 @@
                     </EventHandlers>
                 </Button>
 
-                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                <Label name="$parentName" font="caption_no_outline" maxchars="64" textalign="left">
                     <Size>
                         <AbsPoint x="175" y="20"/>
                     </Size>
@@ -98,7 +98,7 @@
                     </EventHandlers>
                 </Button>
 
-                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                <Label name="$parentName" font="caption_no_outline" maxchars="64" textalign="left">
                     <Size>
                         <AbsPoint x="175" y="20"/>
                     </Size>
@@ -135,7 +135,7 @@
                     </EventHandlers>
                 </Button>
 
-                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                <Label name="$parentName" font="caption_no_outline" maxchars="64" textalign="left">
                     <Size>
                         <AbsPoint x="175" y="20"/>
                     </Size>
@@ -172,7 +172,7 @@
                     </EventHandlers>
                 </Button>
 
-                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                <Label name="$parentName" font="caption_no_outlinet" maxchars="64" textalign="left">
                     <Size>
                         <AbsPoint x="175" y="20"/>
                     </Size>
@@ -205,7 +205,7 @@
                         </Anchor>
                     </Anchors>
                 </Button>
-                <Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="left">
+                <Label name="$parentName" font="caption_no_outline" maxchars="64" textalign="left">
                     <Size>
                         <AbsPoint x="175" y="20"/>
                     </Size>
