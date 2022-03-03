@@ -137,6 +137,10 @@ function LegacyRunebook.Initialize()
 			button:initialize()
 			button:anchor()
 			LegacyRunebook.adapter.views[button.id] = button
+
+			if i == 3 then
+				selectedRune = button
+			end
 		end
 
 		LegacyRunebook.adapter:addLabel(
@@ -178,7 +182,11 @@ function LegacyRunebook.Initialize()
 				LegacyRunebook.id.."SetDefaultIcon"
 		)
 
-		toggleHardCodedButtons(true)
+		if not selectedRune:icon():isDisabled() then
+			selectedRune:onClick(true)
+			toggleHardCodedButtons(false)
+			LegacyRunebook:UpdateCoordTextandLoc(selectedRune)
+		end
 	end
 end
 

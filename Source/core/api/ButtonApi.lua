@@ -12,6 +12,10 @@ function ButtonApi.setDisabled(id, isDisabled)
     ButtonSetDisabledFlag(id, isDisabled)
 end
 
+function ButtonApi.isDisabled(id)
+    return ButtonGetDisabledFlag(id)
+end
+
 function ButtonApi.setEnabled(id, isEnabled)
     ButtonSetCheckButtonFlag(id, isEnabled)
 end

@@ -138,6 +138,10 @@ function RunebookButtonWindow:label()
     return self.adapter.views[self.id.."Name"]
 end
 
+function RunebookButtonWindow:icon()
+    return self.adapter.views[self.id.."Icon"]
+end
+
 function RunebookButtonWindow:name()
     return self.adapter.views[self.id.."Name"]:getText()
 end

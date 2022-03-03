@@ -25,6 +25,10 @@ function ButtonWindow:setDisabledFlag(flag)
     ButtonApi.setDisabled(self.id, flag)
 end
 
+function ButtonWindow:isDisabled()
+    return ButtonApi.isDisabled(self.id)
+end
+
 function ButtonWindow:setTexture(state, texture, x, y)
     ButtonApi.setTexture(self.id, state, texture, x, y)
     return self
