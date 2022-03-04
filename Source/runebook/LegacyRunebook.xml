@@ -165,16 +165,6 @@
                         </Anchor>
                     </Anchors>
                 </Window>
-                <Window name="$parentSetDefault" inherits="LegacyDefaultButtonTemplate" layer="overlay">
-                    <Size>
-                        <AbsPoint x="100" y="20"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDropRune">
-                            <AbsPoint x="0" y="50"/>
-                        </Anchor>
-                    </Anchors>
-                </Window>
 
                 <Window name="$parentRecall" inherits="LegacyDefaultButtonTemplate" layer="overlay">
                     <Size>

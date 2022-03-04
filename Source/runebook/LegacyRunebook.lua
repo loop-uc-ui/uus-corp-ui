@@ -33,10 +33,6 @@ LegacyRunebook.DefaultNum.SET_DEFAULT		= 6
 
 -- Local Defaults for button matching to data from server
 local NUM_LegacyRunebook_PAGE_END = 18
-local NUM_ADD_STRING = 2
-local COORDS_START_STRING = 24
-local gumpData = {}
-local hardCodedButtons = {}
 local selectedRune
 
 LegacyRunebook.CHARGES_STRING = 19
@@ -58,149 +54,81 @@ local function toggleHardCodedButtons(isDisabled)
 	end
 end
 
-
-function LegacyRunebook.ResetRuneDefaultIconText(data)
-	self = {}
-	self = data
-	
-	local windowName = self.windowName
-	for index = 1, LegacyRunebook.NumActiveRunes[windowName] do
-		local labelName = windowName.."RuneButton"..tostring(index).."Name"
-
-        color = self.textHueData[index]
-		local labelColor = LegacyRunebook.DefaultItemLabel
-        if( color == LegacyRunebook.Hues.trammel) then
-            labelColor = LegacyRunebook.LegacyLabelColors.trammel
-        elseif( color == LegacyRunebook.Hues.felucca) then
-            labelColor = LegacyRunebook.LegacyLabelColors.felucca
-        elseif( color == LegacyRunebook.Hues.malas) then
-            labelColor = LegacyRunebook.LegacyLabelColors.malas
-        elseif (color == LegacyRunebook.Hues.tokuno) then
-            labelColor = LegacyRunebook.LegacyLabelColors.tokuno
-        end
-		LabelSetTextColor( labelName, labelColor.r, labelColor.g, labelColor.b )
-	end
-end
-
--- labels for bottom menu and rename LegacyRunebook
-function LegacyRunebook:ResetDefaultIconText(data)
-	--Name is called differently for charges
-	local labelName = self.id..LegacyRunebook.KeymapLabel[LegacyRunebook.CHARGE_LABEL]
-	local numCharges = gumpData.stringData[LegacyRunebook.CHARGES_STRING]
-	local maxCharges = gumpData.stringData[LegacyRunebook.MAXCHARGES_STRING]
-
-	self.adapter:addLabel(
-			labelName,
-		L""..GetStringFromTid(LegacyRunebook.KeymapTID[LegacyRunebook.CHARGE_LABEL])..numCharges..L"/"..maxCharges,
-			{
-				r = LegacyRunebook.DefaultItemLabel.r,
-				g = LegacyRunebook.DefaultItemLabel.g,
-				b = LegacyRunebook.DefaultItemLabel.b
-			}
-	)
-
-	for i = 1, LegacyRunebook.NUM_DEFAULT_LABELS do
-		local currButtonName = self.id..LegacyRunebook.KeymapLabel[i]
-		local buttonName = self.id..LegacyRunebook.KeymapLabel[i].."Icon"
-		labelName = self.id..LegacyRunebook.KeymapLabel[i].."Name"
-		self.adapter:addButton(
-				currButtonName..i
-		):addButton(
-				buttonName..i
-		):addLabel(
-				labelName,
-				L""..GetStringFromTid(LegacyRunebook.KeymapTID[i]),
-				{
-					r = LegacyRunebook.DefaultItemLabel.r,
-					g = LegacyRunebook.DefaultItemLabel.g,
-					b = LegacyRunebook.DefaultItemLabel.b
-				}
-		)
-	end
-end
-
--- OnInitialize Handler
-function LegacyRunebook.Initialize()
-	gumpData = GenericGumpCore.data()
-	if(UO_GenericGump.retrieveWindowData(gumpData)) then
-
-		local windowName = LegacyRunebook.id
-		LegacyRunebook.knownWindows[windowName] = GenericGumpCore.stringDataCount()
-		LegacyRunebook.NumActiveRunes[windowName] = NUM_LegacyRunebook_PAGE_END
-
-		for i = 3, NUM_LegacyRunebook_PAGE_END do
-			local button = RunebookButtonWindow:new(
-					i - 2,
-					GenericGumpCore.textHueData()[i - 2],
-					GenericGumpCore.stringData()[i]
-			)
-			button:initialize()
-			button:anchor()
-			LegacyRunebook.adapter.views[button.id] = button
-
-			if i == 3 then
-				selectedRune = button
-			end
-		end
-
-		LegacyRunebook.adapter:addLabel(
-				LegacyRunebook.id.."RenameBookName",
-				1011299
-		):addLabel(
-				LegacyRunebook.id.."DropRuneName",
-				1011298
-		):addLabel(
-				LegacyRunebook.id.."SetDefaultName",
-				1011300
-		):addLabel(
-				LegacyRunebook.id.."RecallName",
-				1077594
-		):addLabel(
-				LegacyRunebook.id.."RecallSpellName",
-				1077595
-		):addLabel(
-				LegacyRunebook.id.."GateTravelName",
-				1062723
-		):addLabel(
-				LegacyRunebook.id.."SacredName",
-				1062724
-		):addLabel(
-				LegacyRunebook.id.."CoordsName"
-		):addLabel(
-				LegacyRunebook.id.."LocationName"
-		):addButton(
-				LegacyRunebook.id.."RecallIcon"
-		):addButton(
-				LegacyRunebook.id.."RecallSpellIcon"
-		):addButton(
-				LegacyRunebook.id.."GateTravelIcon"
-		):addButton(
-				LegacyRunebook.id.."SacredIcon"
-		):addButton(
-				LegacyRunebook.id.."DropRuneIcon"
-		):addButton(
-				LegacyRunebook.id.."SetDefaultIcon"
-		):addLabel(
-				LegacyRunebook.id.."Charges",
-				StringFormatter.fromTid(1011296)..GenericGumpCore.stringData()[19]..L"/"..GenericGumpCore.stringData()[20]
-		)
-
-		if not selectedRune:icon():isDisabled() then
-			selectedRune:onClick(true)
-			toggleHardCodedButtons(false)
-			LegacyRunebook:UpdateCoordTextandLoc(selectedRune)
-		end
-	end
-end
-
 local function castSpell(spellId, index)
 	GameData.UseRequests.UseSpellcast = spellId
 	Interface.SpellUseRequest()
 	UO_GenericGump.broadcastButtonPress(
 			index,
-			gumpData
+			GenericGumpCore.data()
 	)
 	LegacyRunebook:destroy()
+end
+
+function LegacyRunebook.Initialize()
+	local windowName = LegacyRunebook.id
+	LegacyRunebook.knownWindows[windowName] = GenericGumpCore.stringDataCount()
+	LegacyRunebook.NumActiveRunes[windowName] = NUM_LegacyRunebook_PAGE_END
+
+	for i = 3, NUM_LegacyRunebook_PAGE_END do
+		local button = RunebookButtonWindow:new(
+				i - 2,
+				GenericGumpCore.textHueData()[i - 2],
+				GenericGumpCore.stringData()[i]
+		)
+		button:initialize()
+		button:anchor()
+		LegacyRunebook.adapter.views[button.id] = button
+
+		if i == 3 then
+			selectedRune = button
+		end
+	end
+
+	LegacyRunebook.adapter:addLabel(
+			LegacyRunebook.id.."RenameBookName",
+			1011299
+	):addLabel(
+			LegacyRunebook.id.."DropRuneName",
+			1011298
+	):addLabel(
+			LegacyRunebook.id.."SetDefaultName",
+			1011300
+	):addLabel(
+			LegacyRunebook.id.."RecallName",
+			1077594
+	):addLabel(
+			LegacyRunebook.id.."RecallSpellName",
+			1077595
+	):addLabel(
+			LegacyRunebook.id.."GateTravelName",
+			1062723
+	):addLabel(
+			LegacyRunebook.id.."SacredName",
+			1062724
+	):addLabel(
+			LegacyRunebook.id.."CoordsName"
+	):addLabel(
+			LegacyRunebook.id.."LocationName"
+	):addButton(
+			LegacyRunebook.id.."RecallIcon"
+	):addButton(
+			LegacyRunebook.id.."RecallSpellIcon"
+	):addButton(
+			LegacyRunebook.id.."GateTravelIcon"
+	):addButton(
+			LegacyRunebook.id.."SacredIcon"
+	):addButton(
+			LegacyRunebook.id.."DropRuneIcon"
+	):addLabel(
+			LegacyRunebook.id.."Charges",
+			StringFormatter.fromTid(1011296)..GenericGumpCore.stringData()[19]..L"/"..GenericGumpCore.stringData()[20]
+	)
+
+	if not selectedRune:icon():isDisabled() then
+		selectedRune:onClick(true)
+		toggleHardCodedButtons(false)
+		LegacyRunebook:UpdateCoordTextandLoc(selectedRune)
+	end
 end
 
 function LegacyRunebook.OnRecallSpellClicked()
@@ -227,14 +155,7 @@ function LegacyRunebook.OnSacredClicked()
 	end
 end
 
-function LegacyRunebook.ResetData(windowName)
-	LegacyRunebook.knownWindows[windowName] = nil
-	LegacyRunebook.selectRuneType[windowName] = nil
-	LegacyRunebook.NumActiveRunes[windowName] = nil
-end
-
 function LegacyRunebook.DestroyWindow(myWindowName)
-	
 	LegacyRunebook.ResetData(myWindowName)
 	GGManager.destroyWindow( myWindowName, GGManager.DONT_DELETE_DATA_YET )
 end
@@ -255,19 +176,19 @@ function LegacyRunebook.Shutdown()
 	GGManager.unregisterActiveWindow()
 end
 
-function LegacyRunebook:UpdateCoordTextandLoc(selectedRune)
-	if selectedRune == nil then
+function LegacyRunebook:UpdateCoordTextandLoc(rune)
+	if rune == nil then
 		return
 	end
 
 	local label = self.adapter.views[self.id.."CoordsName"]
 	label:setText(
-			selectedRune:coords()
+			rune:coords()
 	)
 
 	label = self.adapter.views[self.id.."LocationName"]
 	label:setText(
-			selectedRune:label():getText()
+			rune:label():getText()
 	)
 end
 
@@ -311,42 +232,4 @@ function LegacyRunebook.SendServerButtonInfo(buttonNumber, runeData)
 	self.broadcastHasBeenSent = true
 	
 	LegacyRunebook.DestroyWindow(windowName)
-end
-
-function LegacyRunebook.OnDefaultClicked()
-	local currWindow = WindowUtils.GetActiveDialog()
-	local buttonNum = WindowGetId(SystemData.ActiveWindow.name)
-	local self = LegacyRunebook.knownWindows[currWindow]
-	
-	if(self) then
-		local windowName = self.windowName
-		if((LegacyRunebook.selectRuneType[windowName] ~= nil) or (buttonNum == LegacyRunebook.DefaultNum.RENAME_BOOK)) then
-			LegacyRunebook.ResetDefaultIconText(self)
-			
-			local buttonName = windowName..LegacyRunebook.KeymapLabel[buttonNum].."Icon"
-			local labelName = windowName..LegacyRunebook.KeymapLabel[buttonNum].."Name"
-			ButtonSetPressedFlag( buttonName, true )
-			LabelSetTextColor( labelName, LegacyRunebook.SelectItemLabel.r, LegacyRunebook.SelectItemLabel.g, LegacyRunebook.SelectItemLabel.b )
-				--Drop Rune only when it is ok
-				if (buttonNum == LegacyRunebook.DefaultNum.DROP_RUNE) then
-			    local okayButton = { textTid=UO_StandardDialog.TID_OKAY, callback=function() LegacyRunebook.SendServerButtonInfo(buttonNum, self) end }
-                local cancelButton = { textTid=UO_StandardDialog.TID_CANCEL, callback=function() LegacyRunebook.ResetRuneDefaultIconText(self); LabelSetTextColor( labelName, LegacyRunebook.DefaultItemLabel.r, LegacyRunebook.DefaultItemLabel.g, LegacyRunebook.DefaultItemLabel.b ) end }
-				local DestroyConfirmWindow = 
-				{
-				    windowName = "DropRune"..currWindow,
-					title = GetStringFromTid(1011298),
-					body= GetStringFromTid(1155404),
-					buttons = { okayButton, cancelButton }
-				}
-				UO_StandardDialog.CreateDialog(DestroyConfirmWindow)
-				
-				ButtonSetPressedFlag( buttonName, false )
-				--WindowSetShowing( currWindow, false )
-				else
-				LegacyRunebook.ResetDefaultIconText(self)
-				LegacyRunebook.SendServerButtonInfo(buttonNum, self)
-				end
-		end
-	end
-	
 end
