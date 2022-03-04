@@ -180,6 +180,9 @@ function LegacyRunebook.Initialize()
 				LegacyRunebook.id.."DropRuneIcon"
 		):addButton(
 				LegacyRunebook.id.."SetDefaultIcon"
+		):addLabel(
+				LegacyRunebook.id.."Charges",
+				StringFormatter.fromTid(1011296)..GenericGumpCore.stringData()[19]..L"/"..GenericGumpCore.stringData()[20]
 		)
 
 		if not selectedRune:icon():isDisabled() then
@@ -279,8 +282,6 @@ function LegacyRunebook.OnRuneClicked()
 	toggleHardCodedButtons(false)
 	LegacyRunebook:UpdateCoordTextandLoc(selectedRune)
 end
-
-LegacyRunebook.CurrentSelection = 0
 
 function LegacyRunebook.SendServerButtonInfo(buttonNumber, runeData)
 	--set default buttonId to zero

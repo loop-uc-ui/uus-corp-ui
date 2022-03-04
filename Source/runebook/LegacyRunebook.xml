@@ -69,18 +69,16 @@
                 </HorizontalResizeImage>
 
                 <!-- Charges -->
-                <Label name="$parentCharges" font="UO_DefaultText" maxchars="32" textalign="left" layer="overlay">
+                <Label name="$parentCharges" font="caption_no_outline" maxchars="32" textalign="left" layer="overlay">
                     <Size>
                         <AbsPoint x="200" y="40"/>
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="50" y="20"/>
+                            <AbsPoint x="64" y="24"/>
                         </Anchor>
                     </Anchors>
-                    <TextColors>
-                        <Normal r="0" g="0" b="0" a="255"/>
-                    </TextColors>
+                    <Color r="0" g="0" b="0" a="255"/>
                 </Label>
 
                 <!-- Rename Book -->
