@@ -85,7 +85,7 @@
                 <Window name="$parentRenameBook" inherits="LegacyDefaultButtonTemplate" layer="overlay">
                     <Anchors>
                         <Anchor point="topright" relativePoint="topleft" relativeTo="$parentCharges">
-                            <AbsPoint x="110" y="0"/>
+                            <AbsPoint x="96" y="0"/>
                         </Anchor>
                     </Anchors>
                 </Window>
