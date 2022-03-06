@@ -1,4 +1,7 @@
 changelog:
+  exlude:
+    labels:
+      - ignore
   categories:
     - title: Closed Issues
       labels:
