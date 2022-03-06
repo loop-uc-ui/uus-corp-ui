@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="Source/runebook/LegacyRunebook.lua"/>
+    </Scripts>
+    <Windows>
+        <!-- Coordinates Template -->
+        <Window name="LegacyRuneCoordsTemplate" layer="overlay">
+            <Size>
+                <AbsPoint x="130" y="60"/>
+            </Size>
+            <Windows>
+                <Button name="$parentIcon" texture="">
+                    <Size>
+                        <AbsPoint x="0" y="0"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Button>
+
+                <Label name="$parentName" font="caption_no_outline" maxchars="64" textalign="center" layer="overlay"
+                       wordwrap="true">
+                    <Size>
+                        <AbsPoint x="80" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentIcon">
+                            <AbsPoint x="30" y="18"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="34" g="34" b="34" a="255"/>
+                </Label>
+            </Windows>
+        </Window>
+
+        <!-- Main Window -->
+        <Window name="LEGACY_Runebook_GUMP" movable="true">
+            <Size>
+                <AbsPoint x="635" y="400"/>
+            </Size>
+            <Anchors>
+                <Anchor point="center" relativePoint="center"/>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="LegacyRunebook.Initialize"/>
+                <EventHandler event="OnShutdown" function="LegacyRunebook.Shutdown"/>
+                <EventHandler event="OnRButtonUp" function="LegacyRunebook.Close"/>
+            </EventHandlers>
+            <Windows>
+                <HorizontalResizeImage name="$parentBook" texture="Legacy_Gumps_Runebook" handleinput="false"
+                                       layer="background" popable="false">
+                    <Size>
+                        <AbsPoint x="642" y="405"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="-2" y="-6"/>
+                        </Anchor>
+                    </Anchors>
+                    <Sizes left="642" middle="0" right="0"/>
+                    <TexCoords>
+                        <Left x="0" y="0"/>
+                        <Middle x="500" y="340"/>
+                        <Right x="642" y="412"/>
+                    </TexCoords>
+                </HorizontalResizeImage>
+
+                <!-- Charges -->
+                <Label name="$parentCharges" font="caption_no_outline" maxchars="32" textalign="left" layer="overlay">
+                    <Size>
+                        <AbsPoint x="200" y="40"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="64" y="24"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="0" g="0" b="0" a="255"/>
+                </Label>
+
+                <!-- Rename Book -->
+                <Window name="$parentRenameBook" inherits="LegacyDefaultButtonTemplate" layer="overlay">
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRenameClicked"/>
+                    </EventHandlers>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentCharges">
+                            <AbsPoint x="96" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <!-- Left inner window -->
+                <Window name="$parentFirst" movable="false">
+                    <Size>
+                        <AbsPoint x="240" y="200"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="45" y="40"/>
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+
+                    </Windows>
+                </Window>
+
+                <!-- Right inner window -->
+                <Window name="$parentSecond" movable="false">
+                    <Size>
+                        <AbsPoint x="240" y="200"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentFirst">
+                            <AbsPoint x="60" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+
+                    </Windows>
+                </Window>
+
+                <!-- Coordinates plaque position -->
+                <Window name="$parentCoords" inherits="LegacyRuneCoordsTemplate" layer="overlay">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFirst">
+                            <AbsPoint x="-10" y="15"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <!-- Location name (after a rune is selected) -->
+                <Window name="$parentLocation" layer="overlay">
+                    <Size>
+                        <AbsPoint x="180" y="28"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentCoords">
+                            <AbsPoint x="13" y="28"/>
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+                        <Label name="$parentName" font="caption_no_outline" maxchars="64" textalign="left">
+                            <Size>
+                                <AbsPoint x="260" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLocation">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                            <Color r="34" b="34" g="34" a="255"/>
+                        </Label>
+                    </Windows>
+                </Window>
+
+                <!-- Bottom Buttons -->
+                <Window name="$parentDropRune" inherits="LegacyDefaultButtonTemplate" id="18" layer="overlay">
+                    <Size>
+                        <AbsPoint x="100" y="20"/>
+                    </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnDropRuneClicked"/>
+                    </EventHandlers>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFirst">
+                            <AbsPoint x="135" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentRecall" inherits="LegacyDefaultButtonTemplate" layer="overlay">
+                    <Size>
+                        <AbsPoint x="150" y="20"/>
+                    </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRecallChargeClicked"/>
+                    </EventHandlers>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSecond">
+                            <AbsPoint x="36" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentRecallSpell" inherits="LegacyDefaultButtonTemplate" layer="overlay">
+                    <Size>
+                        <AbsPoint x="150" y="20"/>
+                    </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRecallSpellClicked"/>
+                    </EventHandlers>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRecall">
+                            <AbsPoint x="0" y="4"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentGateTravel" inherits="LegacyDefaultButtonTemplate" layer="overlay">
+                    <Size>
+                        <AbsPoint x="150" y="20"/>
+                    </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnGateTravelClicked"/>
+                    </EventHandlers>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRecallSpell">
+                            <AbsPoint x="0" y="4"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <Window name="$parentSacred" inherits="LegacyDefaultButtonTemplate" layer="overlay">
+                    <Size>
+                        <AbsPoint x="150" y="20"/>
+                    </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnSacredClicked"/>
+                    </EventHandlers>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentGateTravel">
+                            <AbsPoint x="0" y="4"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>
+

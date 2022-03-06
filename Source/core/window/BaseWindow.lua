@@ -179,3 +179,8 @@ end
 function BaseWindow:getScale()
     return WindowApi.getScale(self.id)
 end
+
+function BaseWindow:create(doShow)
+    WindowApi.createWindow(self.id, doShow or true)
+    return self
+end

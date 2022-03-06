@@ -17,11 +17,47 @@ function ButtonWindow:setText(text)
     ButtonApi.setText(self.id, text)
 end
 
+function ButtonWindow:getText()
+    return ButtonApi.getText(self.id)
+end
+
 function ButtonWindow:setDisabledFlag(flag)
     ButtonApi.setDisabled(self.id, flag)
 end
 
+function ButtonWindow:isDisabled()
+    return ButtonApi.isDisabled(self.id)
+end
+
 function ButtonWindow:setTexture(state, texture, x, y)
     ButtonApi.setTexture(self.id, state, texture, x, y)
+    return self
+end
+
+function ButtonWindow:setHighlight(doHighlight)
+    ButtonApi.setHighlight(self.id, doHighlight or true)
+    return self
+end
+
+function ButtonWindow:stayDown(stayDown)
+    ButtonApi.setStayDown(self.id, stayDown or true)
+    return self
+end
+
+function ButtonWindow:isStayDown()
+    return ButtonApi.isStayDown(self.id)
+end
+
+function ButtonWindow:setChecked(isChecked)
+    ButtonApi.setChecked(self.id, isChecked or true)
+    return self
+end
+
+function ButtonWindow:isChecked()
+    return ButtonApi.isChecked(self.id)
+end
+
+function ButtonWindow:setTextColor(color)
+    ButtonApi.setTextColor(self.id, color.r or 255, color.g or 255, color.b or 255, color.a or 255)
     return self
 end

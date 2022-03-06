@@ -11,3 +11,7 @@ end
 function LabelApi.setTextAlignment(id, alignment)
     LabelSetTextAlign(id, alignment)
 end
+
+function LabelApi.getText(id)
+    return LabelGetText(id)
+end
