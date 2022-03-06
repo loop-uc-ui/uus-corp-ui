@@ -655,7 +655,6 @@ function GGManager.GGArrived()
 	local gumpName = GGManager.GumpName[gumpId] or  windowName.."-"..GGManager.NumOfGumps
 
 	if string.find("RUNEBOOK_GUMP", windowName) then
-		windowName = "LEGACY_Runebook_GUMP"
 		LegacyRunebook:create()
 		return
 	else
