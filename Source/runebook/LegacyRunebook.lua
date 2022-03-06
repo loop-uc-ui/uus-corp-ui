@@ -1,41 +1,8 @@
-
-----------------------------------------------------------------
--- Global Variables
-----------------------------------------------------------------
-
-
-----------------------------------------------------------------
--- Local Variables
-----------------------------------------------------------------
 LegacyRunebook = ListWindow:new("LEGACY_Runebook_GUMP")
-LegacyRunebook.knownWindows = {}
-LegacyRunebook.selectRuneType = {}
-LegacyRunebook.NumActiveRunes = {}
 
-LegacyRunebook.ButtonIdLoc = {9, 199, 9, 49, 99, 74, 299}
-LegacyRunebook.Hues = { malas = 1102, trammel = 10, tokuno = 1154, felucca = 81, termer=1645 }
-LegacyRunebook.RuneColor = {purple = "LegacyPurpleRuneTemplate", torquoise = "LegacyTorquoiseRuneTemplate", gray = "LegacyGrayRuneTemplate", green = "LegacyGreenRuneTemplate", brown = "LegacyBrownRuneTemplate"}
-LegacyRunebook.LegacyLabelColors= { malas={ r=146, g=73, b=0 }, trammel={ r=73, g=0, b=146 }, tokuno={ r=0, g=50, b=0 }, felucca={ r=10, g=90, b=90 }, termer={ r=0, g=109, b=219 } }
-
-LegacyRunebook.DefaultNum = {}
-LegacyRunebook.DefaultNum.RENAME_BOOK		= 1
-LegacyRunebook.DefaultNum.DROP_RUNE		= 2
-LegacyRunebook.DefaultNum.RECALL			= 3
-LegacyRunebook.DefaultNum.GATE_TRAVEL		= 4
-LegacyRunebook.DefaultNum.SACRED			= 5
-LegacyRunebook.DefaultNum.SET_DEFAULT		= 6
-
-local NUM_LegacyRunebook_PAGE_END = 18
-local selectedRune
 LegacyRunebook.gumpData = {}
 
-LegacyRunebook.SelectItemLabel = { r=200, g=0, b=0, a=255} -- Orange (Selected rune)
-LegacyRunebook.DefaultItemLabel = { r=50, g=50, b=0, a=255} -- bottom label color
-LegacyRunebook.BlackItemLabel = { r=25, g=25, b=0, a=255} --Black (rune coords color)
-LegacyRunebook.DefaultRuneLabel = { r=250, g=50, b=0, a=255} -- bottom label color
-LegacyRunebook.DisabledAlpha = 0.5
-LegacyRunebook.EnableAlpha = 1
-
+local selectedRune
 
 local function toggleHardCodedButtons(isDisabled)
 	for key, value in pairs(LegacyRunebook.adapter.views) do
@@ -57,15 +24,17 @@ local function castSpell(spellId, index)
 end
 
 function LegacyRunebook.Initialize()
+	WindowUtils.RestoreWindowPosition(LegacyRunebook.id)
 	LegacyRunebook.gumpData = GenericGumpCore:new()
-	Debug.Print(LegacyRunebook.gumpData)
+
+
 	--This call is needed for all buttons to work.
 	--It must do some gump registration behind the scenes.
 	if not UO_GenericGump.retrieveWindowData(LegacyRunebook.gumpData) then
 		return
 	end
 
-	for i = 3, NUM_LegacyRunebook_PAGE_END do
+	for i = 3, 18 do
 		local button = RunebookButtonWindow:new(
 				i - 2,
 				LegacyRunebook.gumpData:getTextHueData()[i - 2],
@@ -86,9 +55,6 @@ function LegacyRunebook.Initialize()
 	):addLabel(
 			LegacyRunebook.id.."DropRuneName",
 			1011298
-	):addLabel(
-			LegacyRunebook.id.."SetDefaultName",
-			1011300
 	):addLabel(
 			LegacyRunebook.id.."RecallName",
 			1077594
@@ -151,24 +117,10 @@ function LegacyRunebook.OnSacredClicked()
 		castSpell(210, selectedRune:sacredJourneyIndex())
 	end
 end
-
-function LegacyRunebook.DestroyWindow(myWindowName)
-	GGManager.destroyWindow( myWindowName, GGManager.DONT_DELETE_DATA_YET )
-end
 	
 function LegacyRunebook.Shutdown()
-	local windowName = SystemData.ActiveWindow.name
-	local self = LegacyRunebook.knownWindows[windowName]
-	
-	if self ~= nil and self.broadcastHasBeenSent == false then
-		--Returns 0 to close the window and do nothing
-		UO_GenericGump.broadcastButtonPress( 0, self )
-		self.broadcastHasBeenSent = true
-	end
-
-	--Save actual Position GG Manger has a bug and is not saving it
-	WindowUtils.SaveWindowPosition(windowName, false, "LEGACY_Runebook_GUMP")
-	GGManager.unregisterActiveWindow()
+	LegacyRunebook.gumpData = {}
+	WindowUtils.SaveWindowPosition(LegacyRunebook.id, false, "LEGACY_Runebook_GUMP")
 end
 
 function LegacyRunebook:UpdateCoordTextandLoc(rune)
@@ -199,35 +151,6 @@ function LegacyRunebook.OnRuneClicked()
 	LegacyRunebook:UpdateCoordTextandLoc(selectedRune)
 end
 
-function LegacyRunebook.SendServerButtonInfo(buttonNumber, runeData)
-	--set default buttonId to zero
-	local LegacyRunebookButtonId = 0
-	
-	if( buttonNumber == LegacyRunebook.DefaultNum.RENAME_BOOK ) then
-		if (LegacyRunebook.ButtonIdLoc[buttonNumber] < runeData.buttonIdDataCount ) then
-			LegacyRunebookButtonId =runeData.buttonIdData[LegacyRunebook.ButtonIdLoc[buttonNumber]]
-		end
-	else
-		LegacyRunebookButtonId = LegacyRunebook.ButtonIdLoc[buttonNumber] + LegacyRunebook.selectRuneType[runeData.windowName]
-	end
-	
-	if buttonNumber == 3 then -- recall (charge)
-		GameData.UseRequests.UseSpellcast = 32
-	elseif buttonNumber == 4 then -- recall
-		GameData.UseRequests.UseSpellcast = 32
-	elseif buttonNumber == 5 then -- gate travel
-		GameData.UseRequests.UseSpellcast = 52
-	elseif buttonNumber == 6 then -- sacred journey
-		GameData.UseRequests.UseSpellcast = 210
-	end
-	Interface.SpellUseRequest()
-	
-	local windowName = runeData.windowName
-	UO_GenericGump.broadcastButtonPress( LegacyRunebookButtonId, runeData )
-	
-	LegacyRunebook.DestroyWindow(windowName)
-end
-
 function LegacyRunebook.OnRenameClicked()
 	UO_GenericGump.broadcastButtonPress(1000, LegacyRunebook.gumpData)
 	LegacyRunebook:destroy()
@@ -237,7 +160,11 @@ function LegacyRunebook.OnDropRuneClicked()
 	if selectedRune == nil then
 		return
 	end
-	
+
 	UO_GenericGump.broadcastButtonPress(199 + selectedRune.index, LegacyRunebook.gumpData)
+	LegacyRunebook:destroy()
+end
+
+function LegacyRunebook.Close()
 	LegacyRunebook:destroy()
 end

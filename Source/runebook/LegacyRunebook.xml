@@ -47,7 +47,7 @@
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="LegacyRunebook.Initialize"/>
                 <EventHandler event="OnShutdown" function="LegacyRunebook.Shutdown"/>
-                <EventHandler event="OnRButtonUp" function="UO_DefaultWindow.CloseDialog"/>
+                <EventHandler event="OnRButtonUp" function="LegacyRunebook.Close"/>
             </EventHandlers>
             <Windows>
                 <HorizontalResizeImage name="$parentBook" texture="Legacy_Gumps_Runebook" handleinput="false"
