@@ -83,6 +83,9 @@
 
                 <!-- Rename Book -->
                 <Window name="$parentRenameBook" inherits="LegacyDefaultButtonTemplate" layer="overlay">
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRenameClicked"/>
+                    </EventHandlers>
                     <Anchors>
                         <Anchor point="topright" relativePoint="topleft" relativeTo="$parentCharges">
                             <AbsPoint x="96" y="0"/>
@@ -159,6 +162,9 @@
                     <Size>
                         <AbsPoint x="100" y="20"/>
                     </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnDropRuneClicked"/>
+                    </EventHandlers>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFirst">
                             <AbsPoint x="135" y="0"/>

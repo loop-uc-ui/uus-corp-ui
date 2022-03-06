@@ -1,90 +1,91 @@
 GenericGumpCore = {}
 
-function GenericGumpCore.data()
-    return WindowData.GG_Core
+function GenericGumpCore:new()
+    self.__index = self
+    return setmetatable(WindowData.GG_Core, self)
 end
 
-function GenericGumpCore.stringPageIndex()
-    return WindowData.GG_Core.stringPageIndex
+function GenericGumpCore:getStringPageIndex()
+    return self.stringPageIndex
 end
 
-function GenericGumpCore.toolTipPageIndex()
-    return WindowData.GG_Core.toolTipPageIndex
+function GenericGumpCore:getToolTipPageIndex()
+    return self.toolTipPageIndex
 end
 
-function GenericGumpCore.localizedDataCount()
-    return WindowData.GG_Core.localizedDataCount
+function GenericGumpCore:getLocalizedDataCount()
+    return self.localizedDataCount
 end
 
-function GenericGumpCore.buttonIdData()
-    return WindowData.GG_Core.buttonIdData
+function GenericGumpCore:getButtonIdData()
+    return self.buttonIdData
 end
 
-function GenericGumpCore.stringDataCount()
-    return WindowData.GG_Core.stringDataCount
+function GenericGumpCore:getStringDataCount()
+    return self.stringDataCount
 end
 
-function GenericGumpCore.buttonIdDataCount()
-    return WindowData.GG_Core.buttonIdDataCount
+function GenericGumpCore:getButtonIdDataCount()
+    return self.buttonIdDataCount
 end
 
-function GenericGumpCore.gumpId()
-    return WindowData.GG_Core.GumpId
+function GenericGumpCore:getGumpId()
+    return self.GumpId
 end
 
-function GenericGumpCore.stringData()
-    return WindowData.GG_Core.stringData
+function GenericGumpCore:getStringData()
+    return self.stringData
 end
 
-function GenericGumpCore.descCount()
-    return WindowData.GG_Core.descCount
+function GenericGumpCore:getDescCount()
+    return self.descCount
 end
 
-function GenericGumpCore.tokenPageIndex()
-    return WindowData.GG_Core.tokenPageIndex
+function GenericGumpCore:getTokenPageIndex()
+    return self.tokenPageIndex
 end
 
-function GenericGumpCore.descPageIndex()
-    return WindowData.GG_Core.descPageIndex
+function GenericGumpCore:getDescPageIndex()
+    return self.descPageIndex
 end
 
-function GenericGumpCore.objectId()
-    return WindowData.GG_Core.ObjectId
+function GenericGumpCore:getObjectId()
+    return self.ObjectId
 end
 
-function GenericGumpCore.desc()
-    return WindowData.GG_Core.desc
+function GenericGumpCore:getDesc()
+    return self.desc
 end
 
-function GenericGumpCore.textHueDataCount()
-    return WindowData.GG_Core.textHueDataCount
+function GenericGumpCore:getTextHueDataCount()
+    return self.textHueDataCount
 end
 
-function GenericGumpCore.textHueData()
-    return WindowData.GG_Core.textHueData
+function GenericGumpCore:getTextHueData()
+    return self.textHueData
 end
 
-function GenericGumpCore.huePageIndex()
-    return WindowData.GG_Core.huePageIndex
+function GenericGumpCore:getHuePageIndex()
+    return self.huePageIndex
 end
 
-function GenericGumpCore.portImgData()
-    return WindowData.GG_Core.portImgData
+function GenericGumpCore:getPortImgData()
+    return self.portImgData
 end
 
-function GenericGumpCore.portPageIndex()
-    return WindowData.GG_Core.portPageIndex
+function GenericGumpCore:getPortPageIndex()
+    return self.portPageIndex
 end
 
-function GenericGumpCore.tilePageIndex()
-    return WindowData.GG_Core.tilePageIndex
+function GenericGumpCore:getTilePageIndex()
+    return self.tilePageIndex
 end
 
-function GenericGumpCore.gumpPicNumDataCount()
-    return WindowData.GG_Core.gumppicNumDataCount
+function GenericGumpCore:getGumpPicNumDataCount()
+    return self.gumppicNumDataCount
 end
 
-function GenericGumpCore.buttonPageIndex()
-    return WindowData.GG_Core.buttonPageIndex
+function GenericGumpCore:getButtonPageIndex()
+    return self.buttonPageIndex
 end
 

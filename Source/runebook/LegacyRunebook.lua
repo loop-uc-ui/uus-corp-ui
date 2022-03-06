@@ -12,12 +12,6 @@ LegacyRunebook.knownWindows = {}
 LegacyRunebook.selectRuneType = {}
 LegacyRunebook.NumActiveRunes = {}
 
-LegacyRunebook.NUM_DEFAULT_LABELS = 7
-LegacyRunebook.CHARGE_LABEL = 8
-LegacyRunebook.KeymapTID = { 1011299, 1011298, 1077594, 1077595, 1062723, 1062724, 1011300, 1011296, }
-LegacyRunebook.TID_LegacyRunebook = 1028901
-LegacyRunebook.KeymapLabel = { "RenameBook", "DropRune", "Recall", "RecallSpell", "GateTravel", "Sacred", "SetDefault", "Charges",}
-
 LegacyRunebook.ButtonIdLoc = {9, 199, 9, 49, 99, 74, 299}
 LegacyRunebook.Hues = { malas = 1102, trammel = 10, tokuno = 1154, felucca = 81, termer=1645 }
 LegacyRunebook.RuneColor = {purple = "LegacyPurpleRuneTemplate", torquoise = "LegacyTorquoiseRuneTemplate", gray = "LegacyGrayRuneTemplate", green = "LegacyGreenRuneTemplate", brown = "LegacyBrownRuneTemplate"}
@@ -31,12 +25,9 @@ LegacyRunebook.DefaultNum.GATE_TRAVEL		= 4
 LegacyRunebook.DefaultNum.SACRED			= 5
 LegacyRunebook.DefaultNum.SET_DEFAULT		= 6
 
--- Local Defaults for button matching to data from server
 local NUM_LegacyRunebook_PAGE_END = 18
 local selectedRune
-
-LegacyRunebook.CHARGES_STRING = 19
-LegacyRunebook.MAXCHARGES_STRING = 20
+LegacyRunebook.gumpData = {}
 
 LegacyRunebook.SelectItemLabel = { r=200, g=0, b=0, a=255} -- Orange (Selected rune)
 LegacyRunebook.DefaultItemLabel = { r=50, g=50, b=0, a=255} -- bottom label color
@@ -57,23 +48,28 @@ end
 local function castSpell(spellId, index)
 	GameData.UseRequests.UseSpellcast = spellId
 	Interface.SpellUseRequest()
+	Debug.Print(LegacyRunebook.gumpData)
 	UO_GenericGump.broadcastButtonPress(
 			index,
-			GenericGumpCore.data()
+			LegacyRunebook.gumpData
 	)
 	LegacyRunebook:destroy()
 end
 
 function LegacyRunebook.Initialize()
-	local windowName = LegacyRunebook.id
-	LegacyRunebook.knownWindows[windowName] = GenericGumpCore.stringDataCount()
-	LegacyRunebook.NumActiveRunes[windowName] = NUM_LegacyRunebook_PAGE_END
+	LegacyRunebook.gumpData = GenericGumpCore:new()
+	Debug.Print(LegacyRunebook.gumpData)
+	--This call is needed for all buttons to work.
+	--It must do some gump registration behind the scenes.
+	if not UO_GenericGump.retrieveWindowData(LegacyRunebook.gumpData) then
+		return
+	end
 
 	for i = 3, NUM_LegacyRunebook_PAGE_END do
 		local button = RunebookButtonWindow:new(
 				i - 2,
-				GenericGumpCore.textHueData()[i - 2],
-				GenericGumpCore.stringData()[i]
+				LegacyRunebook.gumpData:getTextHueData()[i - 2],
+				LegacyRunebook.gumpData:getStringData()[i]
 		)
 		button:initialize()
 		button:anchor()
@@ -121,7 +117,8 @@ function LegacyRunebook.Initialize()
 			LegacyRunebook.id.."DropRuneIcon"
 	):addLabel(
 			LegacyRunebook.id.."Charges",
-			StringFormatter.fromTid(1011296)..GenericGumpCore.stringData()[19]..L"/"..GenericGumpCore.stringData()[20]
+			StringFormatter.fromTid(1011296)..LegacyRunebook.gumpData:getStringData()[19]..
+					L"/"..LegacyRunebook.gumpData:getStringData()[20]
 	)
 
 	if not selectedRune:icon():isDisabled() then
@@ -156,7 +153,6 @@ function LegacyRunebook.OnSacredClicked()
 end
 
 function LegacyRunebook.DestroyWindow(myWindowName)
-	LegacyRunebook.ResetData(myWindowName)
 	GGManager.destroyWindow( myWindowName, GGManager.DONT_DELETE_DATA_YET )
 end
 	
@@ -169,8 +165,7 @@ function LegacyRunebook.Shutdown()
 		UO_GenericGump.broadcastButtonPress( 0, self )
 		self.broadcastHasBeenSent = true
 	end
-	
-	LegacyRunebook.ResetData(windowName)
+
 	--Save actual Position GG Manger has a bug and is not saving it
 	WindowUtils.SaveWindowPosition(windowName, false, "LEGACY_Runebook_GUMP")
 	GGManager.unregisterActiveWindow()
@@ -209,9 +204,9 @@ function LegacyRunebook.SendServerButtonInfo(buttonNumber, runeData)
 	local LegacyRunebookButtonId = 0
 	
 	if( buttonNumber == LegacyRunebook.DefaultNum.RENAME_BOOK ) then
-		if (LegacyRunebook.ButtonIdLoc[buttonNumber] < runeData.buttonCount ) then
-			LegacyRunebookButtonId =runeData.buttonIDs[LegacyRunebook.ButtonIdLoc[buttonNumber]]
-		end  
+		if (LegacyRunebook.ButtonIdLoc[buttonNumber] < runeData.buttonIdDataCount ) then
+			LegacyRunebookButtonId =runeData.buttonIdData[LegacyRunebook.ButtonIdLoc[buttonNumber]]
+		end
 	else
 		LegacyRunebookButtonId = LegacyRunebook.ButtonIdLoc[buttonNumber] + LegacyRunebook.selectRuneType[runeData.windowName]
 	end
@@ -229,7 +224,20 @@ function LegacyRunebook.SendServerButtonInfo(buttonNumber, runeData)
 	
 	local windowName = runeData.windowName
 	UO_GenericGump.broadcastButtonPress( LegacyRunebookButtonId, runeData )
-	self.broadcastHasBeenSent = true
 	
 	LegacyRunebook.DestroyWindow(windowName)
+end
+
+function LegacyRunebook.OnRenameClicked()
+	UO_GenericGump.broadcastButtonPress(1000, LegacyRunebook.gumpData)
+	LegacyRunebook:destroy()
+end
+
+function LegacyRunebook.OnDropRuneClicked()
+	if selectedRune == nil then
+		return
+	end
+	
+	UO_GenericGump.broadcastButtonPress(199 + selectedRune.index, LegacyRunebook.gumpData)
+	LegacyRunebook:destroy()
 end

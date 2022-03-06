@@ -131,7 +131,7 @@ function RunebookButtonWindow:sacredJourneyIndex()
 end
 
 function RunebookButtonWindow:coords()
-    return StringFormatter:replaceChar(GenericGumpCore.stringData()[self.index + 23], "o ",".")
+    return StringFormatter:replaceChar(LegacyRunebook.gumpData:getStringData()[self.index + 23], "o ",".")
 end
 
 function RunebookButtonWindow:label()
