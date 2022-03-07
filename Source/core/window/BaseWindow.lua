@@ -99,11 +99,7 @@ function BaseWindow:setMoving(isMoving)
 end
 
 function BaseWindow:registerEventHandler(event, callback)
-    if self.eventHandlers == nil then
-        self.eventHandlers = {}
-    end
-    WindowApi.registerEventHandler(self.id, event, callback)
-    self.eventHandlers[callback] = event
+    self.eventRegister:registerEventHandler(event, callback)
     return self
 end
 

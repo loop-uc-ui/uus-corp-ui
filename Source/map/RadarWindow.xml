@@ -6,6 +6,7 @@
             </Size>
             <EventHandlers>
                 <EventHandler event="OnLButtonDown" function="RadarWindow.OnMouseDrag"/>
+                <EventHandler event="OnRButtonUp" function="RadarWindow.Close"/>
                 <EventHandler event="OnInitialize" function="RadarWindow.Initialize"/>
                 <EventHandler event="OnShutdown" function="RadarWindow.Shutdown"/>
                 <EventHandler event="OnMouseWheel" function="RadarWindow.RadarOnMouseWheel"/>

@@ -25,7 +25,6 @@ function WindowEventRegister:unregisterEventHandler(event)
 end
 
 function WindowEventRegister:unregisterAllEvents()
-    Debug.Print(self.eventHandlers)
     for key, _ in pairs(self.eventHandlers) do
         WindowApi.unregisterEventHandler(self.id, key)
     end
