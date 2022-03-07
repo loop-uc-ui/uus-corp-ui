@@ -69,3 +69,7 @@ end
 function RadarWindow.RadarOnMouseWheel(_, _, delta)
 	RadarWindow.adapter.views[RadarWindow.MAP_IMAGE]:onMouseWheel(delta)
 end
+
+function RadarWindow.Close()
+	RadarWindow:destroy()
+end
