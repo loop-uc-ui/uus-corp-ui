@@ -237,7 +237,7 @@
                         <AbsPoint x="67" y="67"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="MapWindowMapImageMask">
+                        <Anchor point="topright" relativePoint="topright" relativeTo="MapWindowMapImageMask">
                             <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
@@ -255,14 +255,14 @@
                     </Anchors>F
                 </Label>
 
-                <Label name="$parentPlayerCoordsText" font="footnote" maxchars="128" textalign="left"
+                <Label name="$parentPlayerCoordsText" font="footnote" maxchars="128" textalign="right"
                        handleinput="false" wordwrap="true">
                     <Size>
                         <AbsPoint x="250" y="36"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentCenterOnPlayerButton">
-                            <AbsPoint x="0" y="0"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="MapWindowMapImageMask">
+                            <AbsPoint x="-4" y="4"/>
                         </Anchor>
                     </Anchors>
                 </Label>
