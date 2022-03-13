@@ -159,6 +159,10 @@
         <Script file="Source/core/window/LockWindow.lua"/>
         <Script file="Source/core/window/StatusBarWindow.lua"/>
         <Script file="Source/core/window/WindowAdapter.lua"/>
+        <Script file="Source/core/window/UusCorpView.lua"/>
+        <Script file="Source/core/window/UusCorpWindow.lua"/>
+        <Script file="Source/core/window/UusCorpWindowManager.lua"/>
+        <Script file="Source/core/window/UusCorpLabel.lua"/>
         <Script file="Source/core/util/KeyBinder.lua"/>
         <Script file="Source/core/util/TableFormatter.lua"/>
         <Script file="Source/core/util/StringFormatter.lua"/>

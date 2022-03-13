@@ -1,64 +1,74 @@
-MainMenuWindow = ListWindow:new("MainMenuWindow", false)
 
-function MainMenuWindow.Initialize()
-    MainMenuWindow.adapter:addLabel("MainMenuWindowLogOutItemText", 3000128)
-            :addLabel("MainMenuWindowExitGameItemText", 1077859)
-            :addLabel("MainMenuWindowUserSettingsItemText", L"Settings")
-            :addLabel("MainMenuWindowAgentsSettingsItemText", L"Agents")
-            :addLabel("MainMenuWindowMacrosItemText", 3000172)
-            :addLabel("MainMenuWindowActionsItemText", 1079812)
-            :addLabel("MainMenuWindowHelpItemText", 1061037)
-            :addLabel("MainMenuWindowUOStoreText", L"Store")
-            :addLabel("MainMenuWindowDebugItemText", L"Debug")
+MainMenuWindow = UusCorpWindow.new("MainMenuWindow")
 
-    MainMenuWindow:clearAnchors()
-            :addAnchor("center", "ResizeWindow", "center", 100, 0)
-            :setAlpha(1.00)
+MainMenuWindow.onInitialize = function ()
+    MainMenuWindow:makeButton(
+            "LogOut",
+            3000128,
+            function () 
+                EventApi.broadcast(SystemData.Events.LOG_OUT)
+            end
+        ):addChild(
+            UusCorpLabel.new(MainMenuWindow.name.."ExitGameItemText"):setText(1077859)
+        ):makeButton(
+            "UserSettings",
+            L"Settings",
+            function () 
+                ToggleWindowByName("SettingsWindow", "")
+            end
+        ):makeButton(
+            "AgentsSettings",
+            L"Agents",
+            function () 
+                ToggleWindowByName("OrganizerWindow", "")
+            end
+        ):makeButton(
+            "Macros",
+            3000172,
+            function () 
+                ToggleWindowByName("MacroWindow", "")
+            end
+        ):makeButton(
+            "Actions",
+            1079812,
+            function () 
+                ToggleWindowByName("ActionsWindow", "")
+            end
+        ):makeButton(
+            "Help",
+            1061037,
+            function () 
+                EventApi.broadcast(SystemData.Events.REQUEST_OPEN_HELP_MENU)
+            end
+        ):makeButton(
+            "UOStore",
+            L"Store",
+            function () 
+                EventApi.broadcast(SystemData.Events.UO_STORE_REQUEST)
+            end
+        ):makeButton(
+            "Debug",
+            L"Debug",
+            function () 
+                ToggleWindowByName("DebugWindow", "")
+            end
+        )
 end
 
-function MainMenuWindow.OnLogOut()
-    EventApi.broadcast(SystemData.Events.LOG_OUT)
+MainMenuWindow.onRButtonUp = function ()
+    MainMenuWindow:hide()
 end
 
-function MainMenuWindow.OnOpenUserSettings()
-    ToggleWindowByName("SettingsWindow", "", MainMenuWindow.ToggleSettingsWindow)
-    MainMenuWindow:setShowing(false)
-end
-
-function MainMenuWindow.OnOpenMacros()
-    ToggleWindowByName("MacroWindow", "", MainMenuWindow.OnOpenMacros)
-    MainMenuWindow:setShowing(false)
-end
-
-function MainMenuWindow.OnOpenActions()
-    ToggleWindowByName("ActionsWindow", "", MainMenuWindow.OnOpenActions)
-    MainMenuWindow:setShowing(false)
-end
-
-function MainMenuWindow.OnOpenHelp()
-    EventApi.broadcast(SystemData.Events.REQUEST_OPEN_HELP_MENU)
-    MainMenuWindow:setShowing(false)
-end
-
-function MainMenuWindow.OnOpenUOStore()
-    EventApi.broadcast(SystemData.Events.UO_STORE_REQUEST)
-    MainMenuWindow:setShowing(false)
-end
-
-function MainMenuWindow.OnDebug()
-    ToggleWindowByName("DebugWindow", "", MainMenuWindow.OnDebug)
-    MainMenuWindow:setShowing(false)
-end
-
-function MainMenuWindow.ToggleSettingsWindow()
-    ToggleWindowByName("SettingsWindow", "", MainMenuWindow.ToggleSettingsWindow)
-end
-
-function MainMenuWindow.OnToggleAgentsSettings()
-    ToggleWindowByName("OrganizerWindow", "", MainMenuWindow.OnToggleAgentsSettings)
-    MainMenuWindow:setShowing(false)
-end
-
-function MainMenuWindow.Destroy()
-    MainMenuWindow:setShowing(false)
+function MainMenuWindow:makeButton(button, text, onClick)
+    local view = UusCorpView.new(self.name..button.."Item")
+    view.onLButtonUp = function()
+        onClick()
+        self:hide()
+    end
+    
+    return self:addChild(
+        view
+    ):addChild(
+        UusCorpLabel.new(view.name.."Text"):setText(text)
+    )
 end

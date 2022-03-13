@@ -7,6 +7,9 @@
             <Size>
                 <AbsPoint x="200" y="41"/>
             </Size>
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="UusCorpWindowManager.onLButtonUp"/>
+            </EventHandlers>
             <Windows>
                 <Button name="$parentButton" texturescale="0.9" backgroundtexture="" highlighttexture="Menu_Selection"
                         font="UO_GoldButtonText" layer="default">
@@ -66,8 +69,8 @@
                 </Anchor>
             </Anchors>
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="MainMenuWindow.Initialize"/>
-                <EventHandler event="OnRButtonUp" function="MainMenuWindow.Destroy"/>
+                <EventHandler event="OnInitialize" function="UusCorpWindowManager.onInitialize"/>
+                <EventHandler event="OnRButtonUp" function="UusCorpWindowManager.onRButtonUp"/>
             </EventHandlers>
             <Windows>
                 <FullResizeImage name="main_window_background" texture="TMapBG" handleinput="false">
@@ -134,13 +137,10 @@
                             <AbsPoint x="7" y="35"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnLogOut"/>
-                    </EventHandlers>
                 </Window>
                 <HorizontalResizeImage name="$parentLogOutItemDivider" inherits="MenuSmallDivider">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="MainMenuWindowLogOutItem">
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentLogOutItem">
                             <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
@@ -172,9 +172,6 @@
                             <AbsPoint x="3" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenUserSettings"/>
-                    </EventHandlers>
                 </Window>
 
                 <HorizontalResizeImage name="$parentDivider2" inherits="MenuSmallDivider">
@@ -186,20 +183,17 @@
                 </HorizontalResizeImage>
 
                 <!-- User Settings -->
-                <Window name="$parentUOStore" inherits="MenuItemTemplate">
+                <Window name="$parentUOStoreItem" inherits="MenuItemTemplate">
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider2">
                             <AbsPoint x="3" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenUOStore"/>
-                    </EventHandlers>
                 </Window>
 
                 <HorizontalResizeImage name="$parentDivider3" inherits="MenuSmallDivider">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentUOStore">
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentUOStoreItem">
                             <AbsPoint x="-3" y="0"/>
                         </Anchor>
                     </Anchors>
@@ -212,9 +206,6 @@
                             <AbsPoint x="3" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnToggleAgentsSettings"/>
-                    </EventHandlers>
                 </Window>
 
 
@@ -233,9 +224,6 @@
                             <AbsPoint x="3" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenMacros"/>
-                    </EventHandlers>
                 </Window>
 
                 <HorizontalResizeImage name="$parentDivider4" inherits="MenuSmallDivider">
@@ -253,9 +241,6 @@
                             <AbsPoint x="3" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenActions"/>
-                    </EventHandlers>
                 </Window>
 
                 <HorizontalResizeImage name="$parentDivider5" inherits="MenuSmallDivider">
@@ -273,9 +258,6 @@
                             <AbsPoint x="3" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnOpenHelp"/>
-                    </EventHandlers>
                 </Window>
 
                 <HorizontalResizeImage name="$parentDivider6" inherits="MenuSmallDivider">
@@ -292,9 +274,6 @@
                             <AbsPoint x="3" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.OnDebug"/>
-                    </EventHandlers>
                 </Window>
             </Windows>
         </Window>

@@ -507,7 +507,7 @@ end
 function Interface.CreateWindows()
 	CSVUtilities.initialize()
 	CreateWindow( "ResizeWindow", true )
-	CreateWindow( "MainMenuWindow", false )
+	MainMenuWindow:create():hide()
 	CreateWindow( "SettingsWindow", false )
 	CreateWindow( "CharacterSheet", false )
 	CreateWindow( "CharacterAbilities", false )
