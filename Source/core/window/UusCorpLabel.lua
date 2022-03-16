@@ -1,11 +1,16 @@
-UusCorpLabel = setmetatable({}, { __index = UusCorpView })
+UusCorpLabel = setmetatable({}, {__index = UusCorpView})
 UusCorpLabel.__index = UusCorpLabel
 
-function UusCorpLabel.new(name)
-    return setmetatable(
-        UusCorpView.new(name),
-        UusCorpLabel
-    )
+function UusCorpLabel.new(name, text)
+    local self = UusCorpView.new(name)
+    self.text = text
+    return setmetatable(self, UusCorpLabel)
+end
+
+function UusCorpLabel:create() 
+    if self.text ~= nil then
+        self:setText(self.text)
+    end
 end
 
 function UusCorpLabel:setText(text)
@@ -15,17 +20,14 @@ function UusCorpLabel:setText(text)
         text = StringFormatter.toWString(text)
     end
     LabelApi.setText(self.name, text)
-    return self
 end
 
 function UusCorpLabel:setTextColor(color)
     LabelApi.setTextColor(self.name, color)
-    return self
 end
 
 function UusCorpLabel:setTextAlignment(alignment)
     LabelApi.setTextAlignment(self.name, alignment)
-    return self
 end
 
 function UusCorpLabel:getText()

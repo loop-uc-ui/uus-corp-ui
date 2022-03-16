@@ -4,6 +4,10 @@ function PlayerStatus.id()
     return WindowData.PlayerStatus.PlayerId
 end
 
+function PlayerStatus.type()
+    return WindowData.PlayerStatus.Type
+end
+
 function PlayerStatus.maxStamina()
     return WindowData.PlayerStatus.MaxStamina
 end

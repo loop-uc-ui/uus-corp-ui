@@ -118,6 +118,8 @@
         <Script file="Source/core/data/CurrentTarget.lua"/>
         <Script file="Source/core/data/Cursor.lua"/>
         <Script file="Source/core/data/PlayerStatus.lua"/>
+        <Script file="Source/core/data/MobileName.lua"/>
+        <Script file="Source/core/data/Paperdoll.lua"/>
         <Script file="Source/core/data/Skills.lua"/>
         <Script file="Source/core/data/PlayerLocation.lua"/>
         <Script file="Source/core/data/Radar.lua"/>
@@ -160,9 +162,10 @@
         <Script file="Source/core/window/StatusBarWindow.lua"/>
         <Script file="Source/core/window/WindowAdapter.lua"/>
         <Script file="Source/core/window/UusCorpView.lua"/>
+        <Script file="Source/core/window/UusCorpViewLifeCycle.lua"/>
         <Script file="Source/core/window/UusCorpWindow.lua"/>
-        <Script file="Source/core/window/UusCorpWindowManager.lua"/>
         <Script file="Source/core/window/UusCorpLabel.lua"/>
+        <Script file="Source/core/window/UusCorpStatusBar.lua"/>
         <Script file="Source/core/util/KeyBinder.lua"/>
         <Script file="Source/core/util/TableFormatter.lua"/>
         <Script file="Source/core/util/StringFormatter.lua"/>

@@ -4,46 +4,68 @@ UusCorpWindow.__index = UusCorpWindow
 local ROOT_WINDOW = "Root"
 
 function UusCorpWindow.new(name)
-    local self = setmetatable(
-        UusCorpView.new(name),
-        UusCorpWindow
-    )
+    local self = UusCorpView.new(name)
     self.children = {}
-    return self
+    self.registeredData = {}
+    self.root = ROOT_WINDOW
+    return setmetatable(self, UusCorpWindow)
 end
 
-function UusCorpWindow:create(root, parent, template)
+function UusCorpWindow:create(doShow)
     if self:doesExist() then
         return
     end
 
-    self.template = template or self.name
-
-    local isRootWindow = not parent or parent == ROOT_WINDOW
-
-    if isRootWindow then
-        UusCorpWindowManager.Windows[self.name] = self
-    else
-        UusCorpWindowManager.Windows[root].children[self.name] = self
-    end
-
-    WindowApi.createFromTemplate(
+    UusCorpView.create(self, doShow)
+    
+    WindowApi.createWindow(
         self.name,
-        self.template,
-        parent or ROOT_WINDOW
+        doShow == nil or doShow
     )
 
-    return self
+    for _, value in pairs(self.children) do
+        if value.template == nil then
+            value:create()
+        end
+    end
 end
 
 function UusCorpWindow:addChild(window)
     self.children[window.name] = window
-    return self
 end
 
-function UusCorpWindow:destroy()
-    if self:doesExist() then
-        WindowApi.destroyWindow(self.name)
-        self = nil
+function UusCorpWindow:registerData(type, id)
+    WindowDataApi.registerData(type, id)
+    self.registeredData[type] = id
+end
+
+function UusCorpWindow:unregisterData(type, id)
+    self.registeredData[type] = nil
+    WindowDataApi.unregisterData(type, id)
+end
+
+function UusCorpWindow:registerEventHanlder(event, callback)
+    WindowApi.registerEventHandler(self.name, event, callback)
+end
+
+function UusCorpWindow:onInitialize()
+    if self.root == ROOT_WINDOW then
+        WindowUtils.RestoreWindowPosition(self.name, true)
+    end
+end
+
+function UusCorpWindow:onShutdown()
+    if self.root == ROOT_WINDOW then
+        WindowUtils.SaveWindowPosition(self.id)
+    end
+
+    for key, value in pairs(self.registeredData) do
+        self:unregisterData(key, value)
+    end
+
+    for key, _ in pairs(UusCorpViewLifeCycle.Views) do
+        if string.find(key, self.name) then
+            UusCorpViewLifeCycle.Views[key] = nil
+        end
     end
 end

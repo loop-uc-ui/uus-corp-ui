@@ -2,33 +2,37 @@ UusCorpView = {}
 UusCorpView.__index = UusCorpView
 
 function UusCorpView.new(name)
-    return setmetatable({
+    local self = {
         name = name
-    }, UusCorpView)
+    }
+    return setmetatable(self, UusCorpView)
 end
 
 function UusCorpView:doesExist()
     return WindowApi.doesExist(self.name)
 end
 
-function UusCorpView:hide()
-    WindowApi.setShowing(self.name, false)
-    return self
+function UusCorpView:setShowing(isShowing) 
+    WindowApi.setShowing(self.name, isShowing == nil or isShowing)
 end
 
 ---------- LIFE CYCLE CALLBACKS -------------
 
-function UusCorpView.onInitialize()
+function UusCorpView:create(doShow)
+    UusCorpViewLifeCycle.Views[self.name] = self
 end
 
-function UusCorpView.onShutdown()
+function UusCorpView:onInitialize()
 end
 
-function UusCorpView.onLButtonUp(flags, x, y)
+function UusCorpView:onShutdown()
 end
 
-function UusCorpView.onRButtonUp(flags, x, y)
+function UusCorpView:onLButtonUp(flags, x, y)
 end
 
-function UusCorpView.onRButtonDown(flags, x, y)
+function UusCorpView:onRButtonUp(flags, x, y)
+end
+
+function UusCorpView:onRButtonDown(flags, x, y)
 end
