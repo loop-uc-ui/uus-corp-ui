@@ -1,10 +1,8 @@
-UusCorpLabel = setmetatable({}, {__index = UusCorpView})
-UusCorpLabel.__index = UusCorpLabel
+UusCorpLabel = middleclass.class("UusCorpLabel", UusCorpView)
 
-function UusCorpLabel.new(name, text)
-    local self = UusCorpView.new(name)
+function UusCorpLabel:init(name, text)
+    UusCorpLabel.super.init(self, name)
     self.text = text
-    return setmetatable(self, UusCorpLabel)
 end
 
 function UusCorpLabel:create() 

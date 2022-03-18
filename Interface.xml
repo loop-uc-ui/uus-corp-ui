@@ -107,6 +107,7 @@
 
     <!-- Script Files -->
     <Scripts>
+        <Script file="Source/core/lib/middleclass.lua"/>
         <Script file="Source/core/data/ActiveWindow.lua"/>
         <Script file="Source/core/data/Events.lua"/>
         <Script file="Source/core/data/Skills.lua"/>

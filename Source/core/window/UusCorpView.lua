@@ -1,11 +1,7 @@
-UusCorpView = {}
-UusCorpView.__index = UusCorpView
+UusCorpView = middleclass.class("UusCorpView")
 
-function UusCorpView.new(name)
-    local self = {
-        name = name
-    }
-    return setmetatable(self, UusCorpView)
+function UusCorpView:init(name) 
+    self.name = name
 end
 
 function UusCorpView:doesExist()
@@ -19,7 +15,6 @@ end
 ---------- LIFE CYCLE CALLBACKS -------------
 
 function UusCorpView:create(doShow)
-    UusCorpViewLifeCycle.Views[self.name] = self
 end
 
 function UusCorpView:onInitialize()

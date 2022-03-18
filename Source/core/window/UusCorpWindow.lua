@@ -1,14 +1,10 @@
-UusCorpWindow = setmetatable({}, {__index = UusCorpView})
-UusCorpWindow.__index = UusCorpWindow
+UusCorpWindow = middleclass.class("UusCorpWindow", UusCorpView)
 
-local ROOT_WINDOW = "Root"
-
-function UusCorpWindow.new(name)
-    local self = UusCorpView.new(name)
+function UusCorpWindow:init(name)
+    UusCorpView.init(self, name)
     self.children = {}
     self.registeredData = {}
     self.root = ROOT_WINDOW
-    return setmetatable(self, UusCorpWindow)
 end
 
 function UusCorpWindow:create(doShow)
@@ -16,18 +12,12 @@ function UusCorpWindow:create(doShow)
         return
     end
 
-    UusCorpView.create(self, doShow)
+    UusCorpViewLifeCycle.Windows[self.name] = self
     
     WindowApi.createWindow(
         self.name,
         doShow == nil or doShow
     )
-
-    for _, value in pairs(self.children) do
-        if value.template == nil then
-            value:create()
-        end
-    end
 end
 
 function UusCorpWindow:addChild(window)
@@ -48,13 +38,17 @@ function UusCorpWindow:registerEventHanlder(event, callback)
     WindowApi.registerEventHandler(self.name, event, callback)
 end
 
-function UusCorpWindow:onInitialize()
+function UusCorpWindow:onInitialize(activeWindow)
     if self.root == ROOT_WINDOW then
         WindowUtils.RestoreWindowPosition(self.name, true)
     end
+
+    for _, value in pairs(self.children) do
+        value:create()
+    end
 end
 
-function UusCorpWindow:onShutdown()
+function UusCorpWindow:onShutdown(activeWindow)
     if self.root == ROOT_WINDOW then
         WindowUtils.SaveWindowPosition(self.id)
     end
@@ -62,10 +56,22 @@ function UusCorpWindow:onShutdown()
     for key, value in pairs(self.registeredData) do
         self:unregisterData(key, value)
     end
+end
 
-    for key, _ in pairs(UusCorpViewLifeCycle.Views) do
-        if string.find(key, self.name) then
-            UusCorpViewLifeCycle.Views[key] = nil
-        end
+function UusCorpWindow:onLButtonUp(flags, x, y, activeWindow)
+    if self.children[activeWindow] then
+        self.children[activeWindow]:onLButtonUp(flags, x, y)
+    end
+end
+
+function UusCorpWindow:onRButtonUp(flags, x, y, activeWindow)
+    if self.children[activeWindow] then
+        self.children[activeWindow]:onRButtonUp(flags, x, y)
+    end
+end
+
+function UusCorpWindow:onRButtonDown(flags, x, y, activeWindow)
+    if self.children[activeWindow] then
+        self.children[activeWindow]:onRButtonDown(flags, x, y)
     end
 end
