@@ -1,50 +1,80 @@
-StatusWindow = ListWindow:new("StatusWindow", false)
+StatusWindow = middleclass.class("StatusWindow", UusCorpWindow)
 
-function StatusWindow.Initialize()
-	StatusWindow.adapter:addLock()
-	WindowUtils.RestoreWindowPosition(StatusWindow.id, true)
+local HEALTH_BAR = StatusWindow.name .. "HealthBar"
+local HEALTH_TEXT = StatusWindow.name .. "HealthTooltip"
+
+local MANA_BAR = StatusWindow.name .. "ManaBar"
+local MANA_TEXT = StatusWindow.name .. "ManaTooltip"
+
+local STAMINA_BAR = StatusWindow.name .. "StaminaBar"
+local STAMINA_TEXT = StatusWindow.name .. "StaminaTooltip"
+
+function StatusWindow:init() 
+	UusCorpWindow.init(self, "StatusWindow")
+end
+
+function StatusWindow:onInitialize()
+	local healthBar = UusCorpStatusBar:new(HEALTH_BAR)
+	self:addChild(healthBar)
+	local healthText = UusCorpLabel:new(HEALTH_TEXT)
+	self:addChild(healthText)
+
+	local manaBar = UusCorpStatusBar:new(MANA_BAR)
+	self:addChild(manaBar)
+	local manaText = UusCorpLabel:new(MANA_TEXT)
+	self:addChild(manaText)
+	
+	local staminaBar = UusCorpStatusBar:new(STAMINA_BAR)
+	self:addChild(UusCorpStatusBar:new(STAMINA_BAR))
+	local staminaText = UusCorpStatusBar:new(STAMINA_TEXT)
+	self:addChild(UusCorpStatusBar:new(STAMINA_TEXT))
+
+	self:registerData(PlayerStatus.type())
+	self:registerData(MobileName.type(), PlayerStatus.id())
+	self:registerData(Paperdoll.type(), PlayerStatus.id())
+	self:registerEventHandler(PlayerStatus.event())
+
+	UusCorpWindow.onInitialize(self)
+	self:onEvent()
+end
+
+function StatusWindow:onEvent()
+	if not PlayerStatus.id() then
+		return
+	end
+
+	local healthColor
+
+	if PlayerStatus.isPoisoned() or PlayerStatus.isCursed() then
+		healthColor = Colors.YellowDark
+	else 
+		healthColor = Colors.Red
+	end
+
+	local healthBar = self.children[HEALTH_BAR]
+	healthBar:setCurrentValue(PlayerStatus.currentHealth())
+	healthBar:setMaximumValue(PlayerStatus.maxHealth())
+	--healthBar:setColor(healthColor)
+	local healthText = self.children[HEALTH_TEXT]
+	healthText:setText(L""..PlayerStatus.currentHealth()..L" / "..PlayerStatus.maxHealth())
+
+	local manaBar = self.children[MANA_BAR]
+	manaBar:setCurrentValue(PlayerStatus.currentMana())
+	manaBar:setMaximumValue(PlayerStatus.maxMana())
+	--manaBar:setColor(Colors.Blue)
+	local manaText = self.children[MANA_TEXT]
+	manaText:setText(PlayerStatus.currentMana()..L" / "..PlayerStatus.maxMana())
+
+	local staminaBar = self.children[STAMINA_BAR]
+	staminaBar:setCurrentValue(PlayerStatus.currentStamina())
+	staminaBar:setMaximumValue(PlayerStatus.maxStamina())
+	--staminaBar:setColor(Colors.Green)
+	local staminaText = self.children[STAMINA_TEXT]
+	staminaText:setText(PlayerStatus.currentStamina()..L" / "..PlayerStatus.maxStamina())
 end
 
 function StatusWindow.Shutdown()
 	WindowUtils.SaveWindowPosition(StatusWindow.id)
-end
-
-function StatusWindow.UpdateStatus()
-	if PlayerStatus.id() == 0 then
-		return
-	end
-
-	local health = Colors.Red
-
-	if PlayerStatus.isPoisoned() or PlayerStatus.isCursed() then
-		health = Colors.YellowDark
-	end
-
-	StatusWindow.adapter:addStatusBar(
-			"StatusWindowHealthBar",
-			PlayerStatus.maxHealth(),
-			PlayerStatus.currentHealth(),
-			health
-	):addStatusBar(
-			"StatusWindowManaBar",
-			PlayerStatus.maxMana(),
-			PlayerStatus.currentMana(),
-			Colors.Blue
-	):addStatusBar(
-			"StatusWindowStaminaBar",
-			PlayerStatus.maxStamina(),
-			PlayerStatus.currentStamina(),
-			Colors.Green
-	):addLabel(
-			"StatusWindowHealthTooltip",
-			L""..PlayerStatus.currentHealth()..L" / "..PlayerStatus.maxHealth()
-	):addLabel(
-			"StatusWindowManaTooltip",
-			PlayerStatus.currentMana()..L" / "..PlayerStatus.maxMana()
-	):addLabel(
-			"StatusWindowStaminaTooltip",
-			PlayerStatus.currentStamina()..L" / "..PlayerStatus.maxStamina()
-	)
 end
 
 function StatusWindow.OnRButtonUp(flags)

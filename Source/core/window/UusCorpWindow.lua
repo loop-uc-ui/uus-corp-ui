@@ -1,5 +1,7 @@
 UusCorpWindow = middleclass.class("UusCorpWindow", UusCorpView)
 
+local ROOT_WINDOW = "Root"
+
 function UusCorpWindow:init(name)
     UusCorpView.init(self, name)
     self.children = {}
@@ -34,12 +36,12 @@ function UusCorpWindow:unregisterData(type, id)
     WindowDataApi.unregisterData(type, id)
 end
 
-function UusCorpWindow:registerEventHanlder(event, callback)
-    WindowApi.registerEventHandler(self.name, event, callback)
+function UusCorpWindow:registerEventHandler(event, callback)
+    WindowApi.registerEventHandler(self.name, event, callback or "UusCorpViewLifeCycle.onEvent")
 end
 
 function UusCorpWindow:onInitialize(activeWindow)
-    if self.root == ROOT_WINDOW then
+    if not self.children[activeWindow] then
         WindowUtils.RestoreWindowPosition(self.name, true)
     end
 
@@ -49,7 +51,7 @@ function UusCorpWindow:onInitialize(activeWindow)
 end
 
 function UusCorpWindow:onShutdown(activeWindow)
-    if self.root == ROOT_WINDOW then
+    if not self.children[activeWindow] then
         WindowUtils.SaveWindowPosition(self.id)
     end
 
@@ -73,5 +75,11 @@ end
 function UusCorpWindow:onRButtonDown(flags, x, y, activeWindow)
     if self.children[activeWindow] then
         self.children[activeWindow]:onRButtonDown(flags, x, y)
+    end
+end
+
+function UusCorpWindow:onEvent(activeWindow)
+    if self.children[activeWindow] then
+        self.children[activeWindow]:onEvent()
     end
 end

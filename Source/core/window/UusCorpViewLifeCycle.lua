@@ -1,6 +1,5 @@
 UusCorpViewLifeCycle = {}
 UusCorpViewLifeCycle.Windows = {}
-ROOT_WINDOW = "Root"
 
 local function getActiveView()
     local active = ActiveWindow.name()
@@ -35,4 +34,8 @@ end
 
 function UusCorpViewLifeCycle.onRButtonDown(flags, x, y)
     getActiveView():onRButtonDown(flags, x, y, ActiveWindow.name())
- end
+end
+
+function UusCorpViewLifeCycle.onEvent() 
+    getActiveView():onEvent(ActiveWindow.name())
+end

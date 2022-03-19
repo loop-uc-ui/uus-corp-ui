@@ -12,6 +12,10 @@ function UusCorpView:setShowing(isShowing)
     WindowApi.setShowing(self.name, isShowing == nil or isShowing)
 end
 
+function UusCorpView:setColor(color) 
+    WindowApi.setColor(color)
+end
+
 ---------- LIFE CYCLE CALLBACKS -------------
 
 function UusCorpView:create(doShow)
@@ -30,4 +34,7 @@ function UusCorpView:onRButtonUp(flags, x, y)
 end
 
 function UusCorpView:onRButtonDown(flags, x, y)
+end
+
+function UusCorpView:onEvent() 
 end

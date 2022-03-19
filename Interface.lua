@@ -531,7 +531,7 @@ function Interface.CreateWindows()
 	CreateWindow( "WarShield", UserOptionsSettings.showWarShield())
 	CreateWindow( "CrystalPortal", false)
 	if not UserInterfaceVariables.LoadBoolean("StatusWindowClosed", false) then
-		CreateWindow( "StatusWindow", true)
+		StatusWindow:new():create()
 	end
 	CreateWindow(AdvancedBuff.id, true)
 end

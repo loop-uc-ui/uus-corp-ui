@@ -50,7 +50,7 @@ function HealthBarManager.OnBeginDragHealthBar(id)
 
 	if mobileId == WindowData.PlayerStatus.PlayerId then
 		if not DoesWindowNameExist(StatusWindow.id) then
-			CreateWindow(StatusWindow.id, false)
+			StatusWindow:new():create()
 		end
 		WindowUtils.BeginDrag(
 				function ()
