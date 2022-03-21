@@ -162,6 +162,8 @@
         <Script file="Source/core/window/LockWindow.lua"/>
         <Script file="Source/core/window/StatusBarWindow.lua"/>
         <Script file="Source/core/window/WindowAdapter.lua"/>
+        <Script file="Source/core/window/UusCorpLifeCycle.lua"/>
+        <Script file="Source/core/window/UusCorpRoot.lua"/>
         <Script file="Source/core/window/UusCorpView.lua"/>
         <Script file="Source/core/window/UusCorpViewLifeCycle.lua"/>
         <Script file="Source/core/window/UusCorpWindow.lua"/>

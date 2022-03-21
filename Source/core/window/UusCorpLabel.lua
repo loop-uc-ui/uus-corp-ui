@@ -1,33 +1,30 @@
-UusCorpLabel = middleclass.class("UusCorpLabel", UusCorpView)
+UusCorpLabel = function(name, textValue, textColor, textAlignment)
+    local self = UusCorpView(name)
 
-function UusCorpLabel:init(name, text)
-    UusCorpLabel.super.init(self, name)
-    self.text = text
-end
-
-function UusCorpLabel:create() 
-    if self.text ~= nil then
-        self:setText(self.text)
+    self.setText = function(text)
+        if type(text) == "number" then
+            text = StringFormatter.fromTid(text)
+        elseif type(text) == "string" then
+            text = StringFormatter.toWString(text)
+        end
+        LabelApi.setText(name, text)
     end
-end
 
-function UusCorpLabel:setText(text)
-    if type(text) == "number" then
-        text = StringFormatter.fromTid(text)
-    elseif type(text) == "string" then
-        text = StringFormatter.toWString(text)
+    self.setTextColor = function(color) LabelApi.setTextColor(name, color) end
+
+    self.setTextAlignment = function(alignment)
+        LabelApi.setTextAlignment(name, alignment)
     end
-    LabelApi.setText(self.name, text)
-end
 
-function UusCorpLabel:setTextColor(color)
-    LabelApi.setTextColor(self.name, color)
-end
+    self.getText = function() return LabelApi.getText(name) end
 
-function UusCorpLabel:setTextAlignment(alignment)
-    LabelApi.setTextAlignment(self.name, alignment)
-end
+    self.create = function()
+        if textValue then self.setText(textValue) end
 
-function UusCorpLabel:getText()
-    return LabelApi.getText(self.name)
+        if textColor then self.setTextColor(textColor) end
+
+        if textAlignment then self.setTextAlignment(textAlignment) end
+    end
+
+    return self
 end

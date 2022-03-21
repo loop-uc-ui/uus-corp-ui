@@ -1,27 +1,19 @@
-UusCorpStatusBar = middleclass.class("UusCorpStatusBar", UusCorpView)
+UusCorpStatusBar = function(name, curVal, maxVal)
+    local self = UusCorpView(name)
 
-function UusCorpStatusBar:init(name, curVal, maxVal) 
-    UusCorpView.init(self, name)
-    self.curVal = curVal
-    self.maxVal = maxVal
-end
-
-function UusCorpStatusBar:create() 
-    if self.maxVal then
-        self:setMaximumValue(self.maxVal)
+    self.setMaximumValue = function(value)
+        StatusBarApi.setMaximumValue(name, value)
     end
 
-    if self.maxVal then
-        self:setMaximumValue(self.maxVal)
+    self.setCurrentValue = function(value)
+        StatusBarApi.setCurrentValue(name, value)
     end
-end
 
-function UusCorpStatusBar:setMaximumValue(value)
-    self.maxVal = value
-    StatusBarApi.setMaximumValue(self.name, value)
-end
+    self.create = function()
+        if curVal then self.setCurrentValue(curVal) end
 
-function UusCorpStatusBar:setCurrentValue(value)
-    self.curVal = value
-    StatusBarApi.setCurrentValue(self.name, value)
+        if maxVal then self.setMaximumValue(maxVal) end
+    end
+
+    return self
 end

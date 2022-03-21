@@ -1,40 +1,25 @@
-UusCorpView = middleclass.class("UusCorpView")
+UusCorpView = function(name)
+    local self = {}
+    local lifeCycle = UusCorpLifeCycle()
 
-function UusCorpView:init(name) 
-    self.name = name
-end
+    self.doesExist = function() return WindowApi.doesExist(name) end
 
-function UusCorpView:doesExist()
-    return WindowApi.doesExist(self.name)
-end
+    self.setShowing = function(isShowing)
+        WindowApi.setShowing(name, isShowing == nil or isShowing)
+    end
 
-function UusCorpView:setShowing(isShowing) 
-    WindowApi.setShowing(self.name, isShowing == nil or isShowing)
-end
+    self.setColor = function(color) WindowApi.setColor(name, color) end
 
-function UusCorpView:setColor(color) 
-    WindowApi.setColor(color)
-end
+    ---@diagnostic disable-next-line: unused-local
+    self.create = function(doShow, parent, template) end
 
----------- LIFE CYCLE CALLBACKS -------------
+    self.destroy = function()
+        WindowApi.destroyWindow(name)
+    end
 
-function UusCorpView:create(doShow)
-end
+    self.getName = function() return name end
 
-function UusCorpView:onInitialize()
-end
+    self.getLifeCycle = function() return lifeCycle end
 
-function UusCorpView:onShutdown()
-end
-
-function UusCorpView:onLButtonUp(flags, x, y)
-end
-
-function UusCorpView:onRButtonUp(flags, x, y)
-end
-
-function UusCorpView:onRButtonDown(flags, x, y)
-end
-
-function UusCorpView:onEvent() 
+    return self
 end

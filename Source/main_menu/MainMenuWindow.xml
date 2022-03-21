@@ -8,8 +8,7 @@
                 <AbsPoint x="200" y="41"/>
             </Size>
             <EventHandlers>
-                <EventHandler event="OnLButtonUp" function="UusCorpViewLifeCycle.onLButtonUp"/>
-                <EventHandler event="OnLButtonUp" function="UusCorpViewLifeCycle.onInitialize"/>
+                <EventHandler event="OnLButtonUp" function="UusCorpRoot.onLButtonUp"/>
             </EventHandlers>
             <Windows>
                 <Button name="$parentButton" texturescale="0.9" backgroundtexture="" highlighttexture="Menu_Selection"
@@ -70,8 +69,8 @@
                 </Anchor>
             </Anchors>
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="UusCorpViewLifeCycle.onInitialize"/>
-                <EventHandler event="OnRButtonUp" function="UusCorpViewLifeCycle.onRButtonUp"/>
+                <EventHandler event="OnInitialize" function="UusCorpRoot.onInitialize"/>
+                <EventHandler event="OnRButtonUp" function="UusCorpRoot.onRButtonUp"/>
             </EventHandlers>
             <Windows>
                 <FullResizeImage name="main_window_background" texture="TMapBG" handleinput="false">
