@@ -107,7 +107,6 @@
 
     <!-- Script Files -->
     <Scripts>
-        <Script file="Source/core/lib/middleclass.lua"/>
         <Script file="Source/core/data/ActiveWindow.lua"/>
         <Script file="Source/core/data/Events.lua"/>
         <Script file="Source/core/data/Skills.lua"/>
@@ -165,7 +164,6 @@
         <Script file="Source/core/window/UusCorpLifeCycle.lua"/>
         <Script file="Source/core/window/UusCorpRoot.lua"/>
         <Script file="Source/core/window/UusCorpView.lua"/>
-        <Script file="Source/core/window/UusCorpViewLifeCycle.lua"/>
         <Script file="Source/core/window/UusCorpWindow.lua"/>
         <Script file="Source/core/window/UusCorpLabel.lua"/>
         <Script file="Source/core/window/UusCorpStatusBar.lua"/>

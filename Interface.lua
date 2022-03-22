@@ -512,7 +512,7 @@ function Interface.CreateWindows()
 	CreateWindow( "CharacterAbilities", false )
 	CreateWindow( "ItemProperties", false )
 	CreateWindow( "MacroWindow", false)
-	MainMenuWindow().create(false)
+	MainMenuWindow.init().create(false)
 	Organizer.Initialize()
 	CreateWindow( "ContextMenu", false )
 	CreateWindow( "ActionsWindow", false )
@@ -531,7 +531,7 @@ function Interface.CreateWindows()
 	CreateWindow( "WarShield", UserOptionsSettings.showWarShield())
 	CreateWindow( "CrystalPortal", false)
 	if not UserInterfaceVariables.LoadBoolean("StatusWindowClosed", false) then
-		--StatusWindow:new():create()
+		StatusWindow.init().create()
 	end
 	CreateWindow(AdvancedBuff.id, true)
 end
