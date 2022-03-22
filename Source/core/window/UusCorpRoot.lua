@@ -1,5 +1,7 @@
 UusCorpRoot = UusCorpLifeCycle()
 
+UusCorpRoot.Name = "Root"
+
 UusCorpRoot.Windows = {}
 
 local function getActiveView()

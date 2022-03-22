@@ -2,7 +2,6 @@ MainMenuWindow = {
     Name = "MainMenuWindow",
     init = function()
         local self = UusCorpWindow.init(MainMenuWindow.Name)
-        self.doDestroy = false
 
         local function makeButton(button, text, onClick)
             local view = UusCorpView.init(self.getName() .. button .. "Item")

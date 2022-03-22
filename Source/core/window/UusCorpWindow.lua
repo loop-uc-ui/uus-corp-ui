@@ -4,8 +4,7 @@ UusCorpWindow = {
         local children = {}
         local data = {}
         local events = {}
-
-        self.doDestroy = true
+        local doDestroy = true
 
         self.addChild = function(child) children[child.getName()] = child end
 
@@ -15,12 +14,19 @@ UusCorpWindow = {
             events[event] = callback
         end
 
-        self.create = function(doShow)
+        self.create = function(doShow, parent, template)
             if self.doesExist() then return end
+
+            parent = parent or UusCorpRoot.Name
+
+            template = template or name
+
+            doDestroy = not doShow
 
             UusCorpRoot.Windows[self.getName()] = self
 
-            WindowApi.createWindow(name, doShow == nil or doShow)
+            WindowApi.createFromTemplate(name, template, parent)
+            self.setShowing(doShow == nil or doShow)
         end
 
         self.getLifeCycle().onInitialize =
@@ -74,7 +80,7 @@ UusCorpWindow = {
 
         self.getLifeCycle().onRButtonUp =
             function(flag, x, y, activeWindow)
-                if name == activeWindow and self.doDestroy then
+                if name == activeWindow and doDestroy then
                     self.destroy()
                 elseif name == activeWindow then
                     self.setShowing(false)
