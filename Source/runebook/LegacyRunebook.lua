@@ -108,6 +108,7 @@ LegacyRunebook = {
         local coords = UusCorpLabel.init(self.getName() .. "CoordsName")
 
         self.getChildAdapter().addChild(coords)
+
         local location = UusCorpLabel.init(self.getName() .. "LocationName")
 
         self.getChildAdapter().addChild(location)
@@ -121,6 +122,13 @@ LegacyRunebook = {
                 return
             end
 
+			local charges = UusCorpLabel.init(
+				self.getName() .. "Charges",
+				StringFormatter.fromTid(1011296)..gumpData:getStringData()[19]..
+					L"/"..gumpData:getStringData()[20]
+			)
+			self.getChildAdapter().addChild(charges)
+
             for i = 3, 18 do
 				local button = RunebookButton.init(
 					i - 2,
@@ -128,6 +136,7 @@ LegacyRunebook = {
 					gumpData:getTextHueData()[i -2],
 					gumpData:getStringData()[i]
 				)
+
                 if i == 3 then selectedRune = button end
 
 				button.getLifeCycle().onLButtonDown = function ()
@@ -143,6 +152,7 @@ LegacyRunebook = {
             end
 
             UusCorpWindow.onInitialize(self)
+			selectedRune.onClick(true)
         end
 
         return self
