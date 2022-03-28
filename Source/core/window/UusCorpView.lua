@@ -1,4 +1,4 @@
-UusCorpView = { 
+UusCorpView = {
     init = function(name)
         local self = {}
         local lifeCycle = UusCorpLifeCycle()
@@ -19,6 +19,10 @@ UusCorpView = {
         end
 
         self.getName = function() return name end
+
+        self.addAnchor = function(point, relativeTo, relativePoint, x, y)
+            WindowApi.addAnchor(name, point, relativeTo, relativePoint, x, y)
+        end
 
         self.getLifeCycle = function() return lifeCycle end
 

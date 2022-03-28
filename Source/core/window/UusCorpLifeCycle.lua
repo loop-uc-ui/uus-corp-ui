@@ -16,7 +16,7 @@ UusCorpLifeCycle = function()
 
     self.onLButtonDown = function(flag, x, y) end
 
-    self.onEvent = function() end
-
+    self.onEvent = function () end
+    
     return self
 end

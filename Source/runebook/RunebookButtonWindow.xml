@@ -20,7 +20,7 @@
                         </Anchor>
                     </Anchors>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRuneClicked"/>
+                        <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
                     </EventHandlers>
                 </Button>
 
@@ -37,7 +37,7 @@
                 </Label>
             </Windows>
             <EventHandlers>
-                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
+                <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
             </EventHandlers>
         </Window>
 
@@ -57,7 +57,7 @@
                         </Anchor>
                     </Anchors>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRuneClicked"/>
+                        <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
                     </EventHandlers>
                 </Button>
 
@@ -74,7 +74,7 @@
                 </Label>
             </Windows>
             <EventHandlers>
-                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
+                <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
             </EventHandlers>
         </Window>
 
@@ -94,7 +94,7 @@
                         </Anchor>
                     </Anchors>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRuneClicked"/>
+                        <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
                     </EventHandlers>
                 </Button>
 
@@ -111,7 +111,7 @@
                 </Label>
             </Windows>
             <EventHandlers>
-                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
+                <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
             </EventHandlers>
         </Window>
 
@@ -131,7 +131,7 @@
                         </Anchor>
                     </Anchors>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRuneClicked"/>
+                        <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
                     </EventHandlers>
                 </Button>
 
@@ -148,7 +148,7 @@
                 </Label>
             </Windows>
             <EventHandlers>
-                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
+                <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
             </EventHandlers>
         </Window>
 
@@ -168,7 +168,7 @@
                         </Anchor>
                     </Anchors>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="LegacyRunebook.OnRuneClicked"/>
+                        <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
                     </EventHandlers>
                 </Button>
 
@@ -185,7 +185,7 @@
                 </Label>
             </Windows>
             <EventHandlers>
-                <EventHandler event="OnLButtonDown" function="LegacyRunebook.OnRuneClicked"/>
+                <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
             </EventHandlers>
         </Window>
 
@@ -204,6 +204,9 @@
                             <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
+                    </EventHandlers>
                 </Button>
                 <Label name="$parentName" font="caption_no_outline" maxchars="64" textalign="left">
                     <Size>
@@ -216,6 +219,9 @@
                     </Anchors>
                     <Color r="34" g="34" b="34" a="255"/>
                 </Label>
+                <EventHandlers>
+                    <EventHandler event="OnLButtonDown" function="UusCorpRoot.onLButtonDown"/>
+                </EventHandlers>
             </Windows>
         </Window>
     </Windows>

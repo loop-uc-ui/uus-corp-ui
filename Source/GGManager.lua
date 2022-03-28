@@ -654,8 +654,8 @@ function GGManager.GGArrived()
 	GGManager.NumOfGumps = GGManager.NumOfGumps + 1	
 	local gumpName = GGManager.GumpName[gumpId] or  windowName.."-"..GGManager.NumOfGumps
 
-	if string.find("RUNEBOOK_GUMP", windowName) then
-		LegacyRunebook:create()
+	if string.match(string.lower(windowName), "runebook_gump") then
+		LegacyRunebook.init().create()
 		return
 	else
 		CreateWindowFromTemplate( gumpName, windowName, "Root" )

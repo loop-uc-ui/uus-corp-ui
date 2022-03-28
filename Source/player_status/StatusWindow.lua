@@ -13,25 +13,25 @@ StatusWindow = {
 		local STAMINA_TEXT = self.getName() .. "StaminaTooltip"
 
 		local healthBar = UusCorpStatusBar.init(HEALTH_BAR)
-		self.addChild(healthBar)
+		self.getChildAdapter().addChild(healthBar)
 		local healthText = UusCorpLabel.init(HEALTH_TEXT)
-		self.addChild(healthText)
+		self.getChildAdapter().addChild(healthText)
 
 		local manaBar = UusCorpStatusBar.init(MANA_BAR)
-		self.addChild(manaBar)
+		self.getChildAdapter().addChild(manaBar)
 		local manaText = UusCorpLabel.init(MANA_TEXT)
-		self.addChild(manaText)
+		self.getChildAdapter().addChild(manaText)
 
 		local staminaBar = UusCorpStatusBar.init(STAMINA_BAR)
-		self.addChild(staminaBar)
+		self.getChildAdapter().addChild(staminaBar)
 		local staminaText = UusCorpLabel.init(STAMINA_TEXT)
-		self.addChild(staminaText)
+		self.getChildAdapter().addChild(staminaText)
 
-		self.addData(PlayerStatus.type())
-		self.addData(MobileName.type(), PlayerStatus.id())
-		self.addData(Paperdoll.type(), PlayerStatus.id())
+		self.getDataAdapter().addData(PlayerStatus.type())
+		self.getDataAdapter().addData(MobileName.type(), PlayerStatus.id())
+		self.getDataAdapter().addData(Paperdoll.type(), PlayerStatus.id())
 
-		self.addEvent(PlayerStatus.event(), function()
+		self.getEventAdapter().addEvent(PlayerStatus.event(), function()
 			if not PlayerStatus.id() then return end
 
 			local healthColor

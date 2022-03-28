@@ -10,7 +10,7 @@ UusCorpStatusBar = {
             StatusBarApi.setCurrentValue(name, value)
         end
 
-        self.create = function()
+        self.getLifeCycle().onInitialize = function()
             if curVal then self.setCurrentValue(curVal) end
 
             if maxVal then self.setMaximumValue(maxVal) end

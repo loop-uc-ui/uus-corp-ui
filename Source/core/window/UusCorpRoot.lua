@@ -12,7 +12,8 @@ local function getActiveView()
 end
 
 UusCorpRoot.onInitialize = function()
-    getActiveView().getLifeCycle().onInitialize(ActiveWindow.name())
+    local view = getActiveView()
+    view.getLifeCycle().onInitialize(view)
 end
 
 UusCorpRoot.onShutdown = function()

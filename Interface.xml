@@ -166,6 +166,7 @@
         <Script file="Source/core/window/UusCorpView.lua"/>
         <Script file="Source/core/window/UusCorpWindow.lua"/>
         <Script file="Source/core/window/UusCorpLabel.lua"/>
+        <Script file="Source/core/window/UusCorpButton.lua"/>
         <Script file="Source/core/window/UusCorpStatusBar.lua"/>
         <Script file="Source/core/util/KeyBinder.lua"/>
         <Script file="Source/core/util/TableFormatter.lua"/>
@@ -264,6 +265,7 @@
         <Script file="Source/VendorSearch.lua"/>
         <Script file="Source/QuickStats.lua"/>
         <Script file="Source/runebook/LegacyRunebook.lua"/>
+        <Script file="Source/runebook/RunebookButton.lua"/>
         <Script file="Source/runebook/RunebookButtonWindow.lua"/>
         <Script file="Source/LegacyRunebookLoader.lua"/>
         <!--<Load Settings Last/>-->

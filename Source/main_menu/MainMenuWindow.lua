@@ -12,11 +12,11 @@ MainMenuWindow = {
 
             local textView = UusCorpLabel.init(view.getName() .. "Text", text)
 
-            self.addChild(view)
-            self.addChild(textView)
+            self.getChildAdapter().addChild(view)
+            self.getChildAdapter().addChild(textView)
         end
 
-        self.addChild(UusCorpLabel.init(self.getName() .. "ExitGameItemText", 1077859))
+        self.getChildAdapter().addChild(UusCorpLabel.init(self.getName() .. "ExitGameItemText", 1077859))
 
         makeButton("LogOut", 3000128,
                 function() EventApi.broadcast(SystemData.Events.LOG_OUT) end)

@@ -19,7 +19,7 @@ UusCorpLabel = {
 
         self.getText = function() return LabelApi.getText(name) end
 
-        self.create = function()
+        self.getLifeCycle().onInitialize = function()
             if textValue then self.setText(textValue) end
 
             if textColor then self.setTextColor(textColor) end
