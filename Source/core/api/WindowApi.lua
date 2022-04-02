@@ -370,6 +370,14 @@ function WindowApi.unregisterEventHandler(windowName, event)
     WindowUnregisterEventHandler(windowName, event)
 end
 
+function WindowApi.registerCoreEventHandler(windowName, event, callback)
+    WindowRegisterCoreEventHandler(windowName, event, callback)
+end
+
+function WindowApi.unregisterCoreEventHandler(windowName, event)
+    WindowUnregisterCoreEventHandler(windowName, event)
+end
+
 ---This will remove the window from it’s current parent, and adds it as a child of the specified window.
 ---@param windowName - (string) The name of the window.
 ---@param parentId - (string) The name of the new parent window.

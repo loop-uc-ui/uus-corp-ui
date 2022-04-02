@@ -17,13 +17,6 @@
             <Size>
                 <AbsPoint x="192" y="122" />
             </Size>
-
-            <EventHandlers>
-                <EventHandler event="OnInitialize" function="UusCorpRoot.onInitialize"/>
-                <EventHandler event="OnRButtonUp" function="UusCorpRoot.onRButtonUp"/>
-                <EventHandler event="OnShown" function="UusCorpRoot.onShown"/>
-                <EventHandler event="OnShutdown" function="UusCorpRoot.onShutdown"/>
-            </EventHandlers>
             <Windows>
 
                 <FullResizeImage name="$parentWindowBackground" layer="background" texture="TMapBG" handleinput="false" >

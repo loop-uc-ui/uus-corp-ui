@@ -7,9 +7,6 @@
             <Size>
                 <AbsPoint x="200" y="41"/>
             </Size>
-            <EventHandlers>
-                <EventHandler event="OnLButtonUp" function="UusCorpRoot.onLButtonUp"/>
-            </EventHandlers>
             <Windows>
                 <Button name="$parentButton" texturescale="0.9" backgroundtexture="" highlighttexture="Menu_Selection"
                         font="UO_GoldButtonText" layer="default">
@@ -68,10 +65,6 @@
                     <AbsPoint x="0" y="0"/>
                 </Anchor>
             </Anchors>
-            <EventHandlers>
-                <EventHandler event="OnInitialize" function="UusCorpRoot.onInitialize"/>
-                <EventHandler event="OnRButtonUp" function="UusCorpRoot.onRButtonUp"/>
-            </EventHandlers>
             <Windows>
                 <FullResizeImage name="main_window_background" texture="TMapBG" handleinput="false">
                     <Anchors>
@@ -153,9 +146,6 @@
                             <AbsPoint x="3" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="InterfaceCore.OnExitGame"/>
-                    </EventHandlers>
                 </Window>
                 <HorizontalResizeImage name="$parentDivider1" inherits="MenuSmallDivider">
                     <Anchors>

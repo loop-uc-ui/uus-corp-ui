@@ -1,71 +1,72 @@
-StatusWindow = { 
-	Name = "StatusWindow",
-	init = function()
-		local self = UusCorpWindow.init(StatusWindow.Name)
+StatusWindow = setmetatable({}, {__index = UusCorpWindow})
+StatusWindow.__index = StatusWindow
+StatusWindow.Name = "StatusWindow"
 
-		local HEALTH_BAR = self.getName() .. "HealthBar"
-		local HEALTH_TEXT = self.getName() .. "HealthTooltip"
+function StatusWindow:init()
+	local this = UusCorpWindow.init(self, StatusWindow.Name)
 
-		local MANA_BAR = self.getName() .. "ManaBar"
-		local MANA_TEXT = self.getName() .. "ManaTooltip"
+	local HEALTH_BAR = this.name .. "HealthBar"
+	local HEALTH_TEXT = this.name .. "HealthTooltip"
 
-		local STAMINA_BAR = self.getName() .. "StaminaBar"
-		local STAMINA_TEXT = self.getName() .. "StaminaTooltip"
+	local MANA_BAR = this.name .. "ManaBar"
+	local MANA_TEXT = this.name .. "ManaTooltip"
 
-		local healthBar = UusCorpStatusBar.init(HEALTH_BAR)
-		self.getChildAdapter().addChild(healthBar)
-		local healthText = UusCorpLabel.init(HEALTH_TEXT)
-		self.getChildAdapter().addChild(healthText)
+	local STAMINA_BAR = this.name .. "StaminaBar"
+	local STAMINA_TEXT = this.name .. "StaminaTooltip"
 
-		local manaBar = UusCorpStatusBar.init(MANA_BAR)
-		self.getChildAdapter().addChild(manaBar)
-		local manaText = UusCorpLabel.init(MANA_TEXT)
-		self.getChildAdapter().addChild(manaText)
+	local healthBar = UusCorpStatusBar:init(HEALTH_BAR)
+	this.childAdapter:addChild(healthBar)
+	local healthText = UusCorpLabel:init(HEALTH_TEXT)
+	this.childAdapter:addChild(healthText)
 
-		local staminaBar = UusCorpStatusBar.init(STAMINA_BAR)
-		self.getChildAdapter().addChild(staminaBar)
-		local staminaText = UusCorpLabel.init(STAMINA_TEXT)
-		self.getChildAdapter().addChild(staminaText)
+	local manaBar = UusCorpStatusBar:init(MANA_BAR)
+	this.childAdapter:addChild(manaBar)
+	local manaText = UusCorpLabel:init(MANA_TEXT)
+	this.childAdapter:addChild(manaText)
 
-		self.getDataAdapter().addData(PlayerStatus.type())
-		self.getDataAdapter().addData(MobileName.type(), PlayerStatus.id())
-		self.getDataAdapter().addData(Paperdoll.type(), PlayerStatus.id())
+	local staminaBar = UusCorpStatusBar:init(STAMINA_BAR)
+	this.childAdapter:addChild(staminaBar)
+	local staminaText = UusCorpLabel:init(STAMINA_TEXT)
+	this.childAdapter:addChild(staminaText)
 
-		self.getEventAdapter().addEvent(PlayerStatus.event(), function()
-			if not PlayerStatus.id() then return end
+	this.dataAdapter:addData(PlayerStatus.type())
+	this.dataAdapter:addData(MobileName.type(), PlayerStatus.id())
+	this.dataAdapter:addData(Paperdoll.type(), PlayerStatus.id())
 
-			local healthColor
+	this.eventAdapter:onEvent(PlayerStatus.event(), function()
+		if not PlayerStatus.id() then return end
 
-			if PlayerStatus.isPoisoned() or PlayerStatus.isCursed() then
-				healthColor = Colors.YellowDark
-			else
-				healthColor = Colors.Red
-			end
+		local healthColor
 
-			healthBar.setCurrentValue(PlayerStatus.currentHealth())
-			healthBar.setMaximumValue(PlayerStatus.maxHealth())
-			healthBar.setColor(healthColor)
-			healthText.setText(L"" .. PlayerStatus.currentHealth() .. L" / " ..
-								PlayerStatus.maxHealth())
-
-			manaBar.setCurrentValue(PlayerStatus.currentMana())
-			manaBar.setMaximumValue(PlayerStatus.maxMana())
-			manaBar.setColor(Colors.Blue)
-			manaText.setText(PlayerStatus.currentMana() .. L" / " ..
-								PlayerStatus.maxMana())
-
-			staminaBar.setCurrentValue(PlayerStatus.currentStamina())
-			staminaBar.setMaximumValue(PlayerStatus.maxStamina())
-			staminaBar.setColor(Colors.Green)
-			staminaText.setText(PlayerStatus.currentStamina() .. L" / " ..
-									PlayerStatus.maxStamina())
-		end)
-
-		self.getLifeCycle().onShown = function ()
-			UserInterfaceVariables.SaveBoolean(self.getName().."Closed", false)
-			MobileHealthBar.HandleAnchorWindow(self.getName())
+		if PlayerStatus.isPoisoned() or PlayerStatus.isCursed() then
+			healthColor = Colors.YellowDark
+		else
+			healthColor = Colors.Red
 		end
 
-		return self
-	end 
-}
+		healthBar:setCurrentValue(PlayerStatus.currentHealth())
+		healthBar:setMaximumValue(PlayerStatus.maxHealth())
+		healthBar:setColor(healthColor)
+		healthText:setText(L"" .. PlayerStatus.currentHealth() .. L" / " ..
+							PlayerStatus.maxHealth())
+
+		manaBar:setCurrentValue(PlayerStatus.currentMana())
+		manaBar:setMaximumValue(PlayerStatus.maxMana())
+		manaBar:setColor(Colors.Blue)
+		manaText:setText(PlayerStatus.currentMana() .. L" / " ..
+							PlayerStatus.maxMana())
+
+		staminaBar:setCurrentValue(PlayerStatus.currentStamina())
+		staminaBar:setMaximumValue(PlayerStatus.maxStamina())
+		staminaBar:setColor(Colors.Green)
+		staminaText:setText(PlayerStatus.currentStamina() .. L" / " ..
+								PlayerStatus.maxStamina())
+	end)
+
+	this.eventAdapter:onShown(function ()
+		UserInterfaceVariables.SaveBoolean(this.name.."Closed", false)
+		MobileHealthBar.HandleAnchorWindow(this.name)
+	end)
+
+	return this
+end

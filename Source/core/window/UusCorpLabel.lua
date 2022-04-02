@@ -1,32 +1,37 @@
-UusCorpLabel = { 
-    init = function(name, textValue, textColor, textAlignment)
-        local self = UusCorpView.init(name)
+UusCorpLabel = setmetatable({}, {__index = UusCorpView})
+UusCorpLabel.__index = UusCorpLabel
 
-        self.setText = function(text)
-            if type(text) == "number" then
-                text = StringFormatter.fromTid(text)
-            elseif type(text) == "string" then
-                text = StringFormatter.toWString(text)
-            end
-            LabelApi.setText(name, text)
-        end
+function UusCorpLabel:init(name, textValue,  textColor, textAlignment)
+    local this = setmetatable(UusCorpView.init(self, name), self)
 
-        self.setTextColor = function(color) LabelApi.setTextColor(name, color) end
+    this.eventAdapter:onInitialize(function ()
+        if textValue then this:setText(textValue) end
 
-        self.setTextAlignment = function(alignment)
-            LabelApi.setTextAlignment(name, alignment)
-        end
+        if textColor then this:setTextColor(textColor) end
 
-        self.getText = function() return LabelApi.getText(name) end
+        if textAlignment then this:setTextAlignment(textAlignment) end
+    end)
 
-        self.getLifeCycle().onInitialize = function()
-            if textValue then self.setText(textValue) end
+    return this
+end
 
-            if textColor then self.setTextColor(textColor) end
+function UusCorpLabel:setText(text)
+    if type(text) == "number" then
+        text = StringFormatter.fromTid(text)
+    elseif type(text) == "string" then
+        text = StringFormatter.toWString(text)
+    end
+    LabelApi.setText(self.name, text)
+end
 
-            if textAlignment then self.setTextAlignment(textAlignment) end
-        end
+function UusCorpLabel:setTextColor(color)
+    LabelApi.setTextColor(self.name, color)
+end
 
-        return self
-    end 
-}
+function UusCorpLabel:setTextAlignment(alignment)
+    LabelApi.setTextAlignment(self.name, alignment)
+end
+
+function UusCorpLabel:getText()
+    return LabelApi.getText(self.name)
+end

@@ -51,11 +51,13 @@ function HealthBarManager.OnBeginDragHealthBar(id)
 	if mobileId == WindowData.PlayerStatus.PlayerId then
 		local window = UusCorpRoot.Windows[StatusWindow.Name]
 		if not window then
-			window = StatusWindow.init()
+			window = StatusWindow:init()
+			window:create(false)
 		end
+
 		WindowUtils.BeginDrag(
 				function ()
-					window.create()
+					window:setShowing(true)
 				end,
 				mobileId
 		)

@@ -1,21 +1,22 @@
-UusCorpStatusBar = {
-    init = function(name, curVal, maxVal)
-        local self = UusCorpView.init(name)
+UusCorpStatusBar = setmetatable({}, {__index = UusCorpView})
+UusCorpStatusBar.__index = UusCorpStatusBar
 
-        self.setMaximumValue = function(value)
-            StatusBarApi.setMaximumValue(name, value)
-        end
+function UusCorpStatusBar:init(name, curVal, maxVal)
+    local this = setmetatable(UusCorpView.init(self, name), self)
 
-        self.setCurrentValue = function(value)
-            StatusBarApi.setCurrentValue(name, value)
-        end
+    this.eventAdapter:onInitialize(function ()
+        if curVal then this:setCurrentValue(curVal) end
 
-        self.getLifeCycle().onInitialize = function()
-            if curVal then self.setCurrentValue(curVal) end
+        if maxVal then this:setMaximumValue(maxVal) end
+    end)
 
-            if maxVal then self.setMaximumValue(maxVal) end
-        end
+    return this
+end
 
-        return self
-    end
-}
+function UusCorpStatusBar:setCurrentValue(value)
+    StatusBarApi.setCurrentValue(self.name, value)
+end
+
+function UusCorpStatusBar:setMaximumValue(value)
+    StatusBarApi.setMaximumValue(self.name, value)
+end

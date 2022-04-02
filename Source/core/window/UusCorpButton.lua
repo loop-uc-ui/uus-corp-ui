@@ -1,26 +1,28 @@
-UusCorpButton = {
-    init = function(name, text)
-        local self = UusCorpView.init(name)
+UusCorpButton = UusCorpView:init()
 
-        self.setText = function(buttonText)
-            if type(buttonText) == "number" then
-                buttonText = StringFormatter.fromTid(text)
-            elseif type(buttonText) == "string" then
-                buttonText = StringFormatter.toWString(text)
-            end
-            ButtonApi.setText(name, text)
+function UusCorpButton:init(name, text)
+    setmetatable(UusCorpView.init(name), self)
+
+    self.__index = self
+
+    self.eventAdapter:onInitialize(function ()
+        if text then
+            self:setText(text)
         end
+    end)
 
-        self.setDisabled = function(isDisabled)
-            ButtonApi.setDisabled(name, isDisabled)
-        end
+    return self
+end
 
-        self.getLifeCycle().onInitialize = function ()
-            if text then
-                self.setText(text)
-            end
-        end
-
-        return self
+function UusCorpButton:setText(text)
+    if type(text) == "number" then
+        text = StringFormatter.fromTid(text)
+    elseif type(text) == "string" then
+        text = StringFormatter.toWString(text)
     end
-}
+    ButtonApi.setText(self.namename, text)
+end
+
+function UusCorpButton:setDisabled(isDisabled)
+    ButtonApi.setDisabled(self.name, isDisabled)
+end

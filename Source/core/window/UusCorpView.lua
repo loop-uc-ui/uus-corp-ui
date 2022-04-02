@@ -1,31 +1,22 @@
-UusCorpView = {
-    init = function(name)
-        local self = {}
-        local lifeCycle = UusCorpLifeCycle()
+---@diagnostic disable: unused-local
+UusCorpView = {}
+UusCorpView.__index = UusCorpView
 
-        self.doesExist = function() return WindowApi.doesExist(name) end
+function UusCorpView:init(name)
+    local this = setmetatable({}, self)
+    this.name = name
+    this.eventAdapter = UusCorpEventAdapter:init(name)
+    return this
+end
 
-        self.setShowing = function(isShowing)
-            WindowApi.setShowing(name, isShowing == nil or isShowing)
-        end
+function UusCorpView:doesExist() return WindowApi.doesExist(self.name) end
 
-        self.setColor = function(color) WindowApi.setColor(name, color) end
+function UusCorpView:setShowing(isShowing)
+    WindowApi.setShowing(self.name, isShowing == nil or isShowing)
+end
 
-        ---@diagnostic disable-next-line: unused-local
-        self.create = function(doShow, parent, template) end
+function UusCorpView:setColor(color) WindowApi.setColor(self.name, color) end
 
-        self.destroy = function()
-            WindowApi.destroyWindow(name)
-        end
-
-        self.getName = function() return name end
-
-        self.addAnchor = function(point, relativeTo, relativePoint, x, y)
-            WindowApi.addAnchor(name, point, relativeTo, relativePoint, x, y)
-        end
-
-        self.getLifeCycle = function() return lifeCycle end
-
-        return self
-    end 
-}
+function UusCorpView:addAnchor(point, relativeTo, relativePoint, x, y)
+    WindowApi.addAnchor(self.name, point, relativeTo, relativePoint, x, y)
+end
