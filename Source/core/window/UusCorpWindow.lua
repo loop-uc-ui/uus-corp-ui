@@ -107,15 +107,6 @@ function UusCorpWindow:show(doShow)
     return self
 end
 
-function UusCorpWindow:onRButtonUp(flag, x, y)
-    if self.doDestroy then
-        self:destroy()
-    else
-        self:show(false)
-    end
-    return self, flag, x, y
-end
-
 function UusCorpWindow:addChild(view)
     table.insert(self.children, view)
     UusCorpViewActionManager.Views[view.name] = view
