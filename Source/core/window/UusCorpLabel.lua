@@ -1,37 +1,32 @@
-UusCorpLabel = setmetatable({}, {__index = UusCorpView})
+
+UusCorpLabel = setmetatable({}, UusCorpActionable)
 UusCorpLabel.__index = UusCorpLabel
 
-function UusCorpLabel:init(name, textValue,  textColor, textAlignment)
-    local this = setmetatable(UusCorpView.init(self, name), self)
-
-    this.eventAdapter:onInitialize(function ()
-        if textValue then this:setText(textValue) end
-
-        if textColor then this:setTextColor(textColor) end
-
-        if textAlignment then this:setTextAlignment(textAlignment) end
-    end)
-
-    return this
+function UusCorpLabel:addAction(action)
+    UusCorpActionable.addAction(self, action)
+    return self
 end
 
-function UusCorpLabel:setText(text)
-    if type(text) == "number" then
-        text = StringFormatter.fromTid(text)
-    elseif type(text) == "string" then
-        text = StringFormatter.toWString(text)
+function UusCorpLabel:setText(labelText)
+    if labelText == nil then
+        return
+    elseif type(labelText) == "number" then
+        labelText = StringFormatter.fromTid(labelText)
+    elseif type(labelText) == "string" then
+        labelText = StringFormatter.toWString(labelText)
     end
-    LabelApi.setText(self.name, text)
+
+    LabelApi.setText(self.name, labelText)
+
+    return self
 end
 
 function UusCorpLabel:setTextColor(color)
     LabelApi.setTextColor(self.name, color)
+    return self
 end
 
 function UusCorpLabel:setTextAlignment(alignment)
     LabelApi.setTextAlignment(self.name, alignment)
-end
-
-function UusCorpLabel:getText()
-    return LabelApi.getText(self.name)
+    return self
 end

@@ -1,28 +1,26 @@
-UusCorpButton = UusCorpView:init()
+UusCorpButton = setmetatable({}, UusCorpActionable)
+UusCorpButton.__index = UusCorpButton
 
-function UusCorpButton:init(name, text)
-    setmetatable(UusCorpView.init(name), self)
-
-    self.__index = self
-
-    self.eventAdapter:onInitialize(function ()
-        if text then
-            self:setText(text)
-        end
-    end)
-
+function UusCorpButton:addAction(action)
+    UusCorpActionable.addAction(self, action)
     return self
 end
 
 function UusCorpButton:setText(text)
-    if type(text) == "number" then
+    if text == nil then
+        return
+    elseif type(text) == "number" then
         text = StringFormatter.fromTid(text)
     elseif type(text) == "string" then
         text = StringFormatter.toWString(text)
     end
-    ButtonApi.setText(self.namename, text)
+
+    ButtonApi.setText(self.name, text)
+
+    return self
 end
 
 function UusCorpButton:setDisabled(isDisabled)
-    ButtonApi.setDisabled(self.name, isDisabled)
+    ButtonApi.setDisabled(name, isDisabled ~= nil and isDisabled)
+    return self
 end

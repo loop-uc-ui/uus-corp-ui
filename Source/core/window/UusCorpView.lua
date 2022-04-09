@@ -1,22 +1,44 @@
----@diagnostic disable: unused-local
 UusCorpView = {}
 UusCorpView.__index = UusCorpView
 
-function UusCorpView:init(name)
-    local this = setmetatable({}, self)
-    this.name = name
-    this.eventAdapter = UusCorpEventAdapter:init(name)
-    return this
+function UusCorpView:asStatusBar()
+    return setmetatable({
+        name = self.name
+    }, UusCorpStatusBar)
 end
 
-function UusCorpView:doesExist() return WindowApi.doesExist(self.name) end
-
-function UusCorpView:setShowing(isShowing)
-    WindowApi.setShowing(self.name, isShowing == nil or isShowing)
+function UusCorpView:asLabel()
+    return setmetatable({
+        name = self.name
+    }, UusCorpLabel)
 end
 
-function UusCorpView:setColor(color) WindowApi.setColor(self.name, color) end
+function UusCorpView:asButton()
+    return setmetatable({
+        name = self.name
+    }, UusCorpButton)
+end
 
-function UusCorpView:addAnchor(point, relativeTo, relativePoint, x, y)
-    WindowApi.addAnchor(self.name, point, relativeTo, relativePoint, x, y)
+function UusCorpView:asWindow(parent, template)
+    local window = setmetatable({
+        name = self.name,
+        parent = parent or "Root",
+        template = template or self.name,
+        doDestroy = true,
+        children = {},
+        actions = {},
+        event = {}
+    }, UusCorpWindow)
+
+    return window:addAction(
+        UusCorpViewAction:onRButtonUp(function ()
+            if window.doDestroy then
+                window:destroy()
+            else
+                window:show(false)
+            end
+
+            return window
+        end)
+    )
 end

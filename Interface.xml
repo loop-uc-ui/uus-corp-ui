@@ -161,6 +161,10 @@
         <Script file="Source/core/window/LockWindow.lua"/>
         <Script file="Source/core/window/StatusBarWindow.lua"/>
         <Script file="Source/core/window/WindowAdapter.lua"/>
+        <Script file="Source/core/window/UusCorpActionable.lua"/>
+        <Script file="Source/core/window/UusCorpViewAction.lua"/>
+        <Script file="Source/core/window/UusCorpViewActionManager.lua"/>
+        <Script file="Source/core/window/UusCorpComposable.lua"/>
         <Script file="Source/core/window/UusCorpWindowDataAdapter.lua"/>
         <Script file="Source/core/window/UusCorpChildAdapter.lua"/>
         <Script file="Source/core/window/UusCorpEventAdapter.lua"/>
