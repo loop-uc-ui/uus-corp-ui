@@ -1095,7 +1095,7 @@ function Interface.ChatFixer(_)
 			local x, _ = WindowGetDimensions( "ChatWindowContainerChannelLabel" )
 			WindowAddAnchor("ChatWindowContainerTextInput", "bottomleft", "ChatWindowContainerChannelLabel", "bottomleft", x + 5, -4)
 			WindowAddAnchor("ChatWindowContainerTextInput", "bottomright", "ChatWindowContainer", "bottomright", 0, 0)
-			WindowSetLayer("ChatWindowContainerTextInput", UusCorpWindow.Layers.BACKGROUND	)
+			WindowSetLayer("ChatWindowContainerTextInput", Window.Layers.BACKGROUND	)
 		end
 	elseif (WindowGetShowing("NewChatWindow")) then
 		WindowClearAnchors("NewChatWindowInputTextButton")
@@ -1110,7 +1110,7 @@ function Interface.ChatFixer(_)
 			local x, _ = WindowGetDimensions( "ChatWindowContainerChannelLabel" )
 			WindowAddAnchor("ChatWindowContainerTextInput", "bottomleft", "ChatWindowContainerChannelLabel", "bottomleft", x + 5, -4)
 			WindowAddAnchor("ChatWindowContainerTextInput", "bottomright", "ChatWindowContainer", "bottomright", 0, 0)
-			WindowSetLayer("ChatWindowContainerTextInput", UusCorpWindow.Layers.BACKGROUND	)
+			WindowSetLayer("ChatWindowContainerTextInput", Window.Layers.BACKGROUND	)
 		end
 	end
 	Interface.chatFixed = true
