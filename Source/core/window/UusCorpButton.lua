@@ -21,6 +21,6 @@ function UusCorpButton:setText(text)
 end
 
 function UusCorpButton:setDisabled(isDisabled)
-    ButtonApi.setDisabled(name, isDisabled ~= nil and isDisabled)
+    ButtonApi.setDisabled(self.name, isDisabled ~= nil and isDisabled)
     return self
 end

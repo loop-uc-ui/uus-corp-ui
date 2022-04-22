@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Interface.xsd">
+
+	<!-- Assets -->
+	<Include file="Textures/Textures.xml"/>
+    <Include file="Textures/uus_corp_ui/UusCorpTextures.xml"/>
+    <Include file="Fonts/Fonts.xml"/>
+    <Include file="Icons/Icons.xml"/>
+	
+	<!-- Windows -->
+	<Include file="Source/ResizeWindow.xml"/>
+	<Include file="Source/main_menu/MainMenuWindow.xml"/>
+
+
+	<!-- Remove this one once all the gumps are fixed -->
+	<!--<Include file="Source/Generic/KnownBrokenGump.xml" />-->
+	
+
+	<!-- Script Files -->
+	<Scripts>
+        <Script file="Source/core/api/ButtonApi.lua"/>
+        <Script file="Source/core/api/CircleImageApi.lua"/>
+        <Script file="Source/core/api/ComboBoxApi.lua"/>
+        <Script file="Source/core/api/ContextMenuApi.lua"/>
+        <Script file="Source/core/api/CSVApi.lua"/>
+        <Script file="Source/core/api/DragApi.lua"/>
+        <Script file="Source/core/api/DynamicImageApi.lua"/>
+        <Script file="Source/core/api/EventApi.lua"/>
+        <Script file="Source/core/api/IconApi.lua"/>
+        <Script file="Source/core/api/LabelApi.lua"/>
+        <Script file="Source/core/api/RadarApi.lua"/>
+        <Script file="Source/core/api/ScrollWindowApi.lua"/>
+        <Script file="Source/core/api/SliderApi.lua"/>
+        <Script file="Source/core/api/StatusBarApi.lua"/>
+        <Script file="Source/core/api/StringApi.lua"/>
+        <Script file="Source/core/api/TargetApi.lua"/>
+        <Script file="Source/core/api/TimeApi.lua"/>
+        <Script file="Source/core/api/UserActionApi.lua"/>
+        <Script file="Source/core/api/WaypointApi.lua"/>
+        <Script file="Source/core/api/WindowApi.lua"/>
+        <Script file="Source/core/api/WindowDataApi.lua"/>
+
+        <Script file="Source/core/util/CSVUtilities.lua"/>
+        <Script file="Source/core/util/StringFormatter.lua"/>
+        <Script file="Source/core/util/TableFormatter.lua"/>
+
+        <Script file="Source/core/data/ActiveWindow.lua"/>
+        <Script file="Source/core/data/Buffs.lua"/>
+        <Script file="Source/core/data/ButtonFlags.lua"/>
+        <Script file="Source/core/data/CurrentTarget.lua"/>
+        <Script file="Source/core/data/Cursor.lua"/>
+        <Script file="Source/core/data/Drag.lua"/>
+        <Script file="Source/core/data/Events.lua"/>
+        <Script file="Source/core/data/GenericGumpCore.lua"/>
+        <Script file="Source/core/data/MapSettings.lua"/>
+        <Script file="Source/core/data/MobileName.lua"/>
+        <Script file="Source/core/data/MousePosition.lua"/>
+        <Script file="Source/core/data/Paperdoll.lua"/>
+        <Script file="Source/core/data/PlayerLocation.lua"/>
+        <Script file="Source/core/data/PlayerStatus.lua"/>
+        <Script file="Source/core/data/Radar.lua"/>
+        <Script file="Source/core/data/Skills.lua"/>
+        <Script file="Source/core/data/UserAction.lua"/>
+        <Script file="Source/core/data/UserContainerSettings.lua"/>
+        <Script file="Source/core/data/UserControlSettings.lua"/>
+        <Script file="Source/core/data/UserGraphicSettings.lua"/>
+        <Script file="Source/core/data/UserHealthBarsSettings.lua"/>
+        <Script file="Source/core/data/UserInterfaceVariables.lua"/>
+        <Script file="Source/core/data/UserOptionsSettings.lua"/>
+        <Script file="Source/core/data/UserOverheadTextSettings.lua"/>
+        <Script file="Source/core/data/UserSoundSettings.lua"/>
+        <Script file="Source/core/data/WaypointDisplay.lua"/>
+        <Script file="Source/core/data/WaypointList.lua"/>
+
+        <Script file="Source/core/resources/Colors.lua"/>
+        <Script file="Source/core/resources/TextIds.lua"/>
+
+        <Script file="Source/core/window/UusCorpActionable.lua"/>
+		<Script file="Source/core/window/UusCorpComposable.lua"/>
+		<Script file="Source/core/window/UusCorpViewAction.lua"/>
+		<Script file="Source/core/window/UusCorpViewActionManager.lua"/>
+		<Script file="Source/core/window/UusCorpView.lua"/>
+        <Script file="Source/core/window/UusCorpButton.lua"/>
+        <Script file="Source/core/window/UusCorpLabel.lua"/>
+        <Script file="Source/core/window/UusCorpStatusBar.lua"/>
+        <Script file="Source/core/window/UusCorpWindow.lua"/>
+
+		<Script file="Interface.lua" />
+		<Script file="Source/ResizeWindow.lua"/>
+		<Script file="Source/main_menu/MainMenuWindow.lua"/>
+
+	</Scripts>
+
+</Interface>
