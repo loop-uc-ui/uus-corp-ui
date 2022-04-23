@@ -54,7 +54,7 @@ function UusCorpWindow:onShutdown()
 
     for i = 1, #self.children do
         local child = self.children[i]
-        
+
         if child.destroy then
             child:destroy()
         elseif child.actions then
@@ -89,7 +89,7 @@ end
 
 function UusCorpWindow:show(doShow)
     doShow = doShow == nil or doShow
-    
+
     if doShow == WindowApi.isShowing(self.name) then
         return
     end
@@ -101,7 +101,7 @@ function UusCorpWindow:show(doShow)
     else
         self:onHidden()
     end
-    
+
     return self
 end
 
