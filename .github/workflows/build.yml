@@ -29,4 +29,4 @@ jobs:
         # uses: nebularg/actions-luacheck@86af42dcf465915896671903fcdec3e01a492e87
         uses: nebularg/actions-luacheck@v1.1.0
         with:
-          args: --ignore 111 112 113 142 143 611 612 614 631 --exclude-files '.install/*' # optional
+          args: --exclude-files '.install/*' # optional
