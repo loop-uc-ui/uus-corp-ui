@@ -9,7 +9,7 @@
             </Size>
             <Windows>
                 <Button name="$parentButton" texturescale="0.9" backgroundtexture="" highlighttexture="Menu_Selection"
-                        font="UO_GoldButtonText" layer="default">
+                        font="uo_classic_20" layer="default">
                     <Size>
                         <AbsPoint x="195" y="45"/>
                     </Size>
@@ -22,17 +22,10 @@
                         <NormalHighlit x="10" y="10"/>
                         <PressedHighlit x="10" y="10"/>
                     </TexCoords>
+                    <TextColors>
+                        <Normal r="206" g="217" b="242" a="255"/>
+                    </TextColors>
                 </Button>
-                <Label name="$parentText" inherits="UO_Default_Label_Color" font="uo_classic_20" maxchars="64" textalign="center" handleinput="false">
-                    <Size>
-                        <AbsPoint x="200" y="20"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="left" relativePoint="left">
-                            <AbsPoint x="0" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </Label>
             </Windows>
         </Window>
 
@@ -48,11 +41,6 @@
             <Size>
                 <AbsPoint x="214" y="440"/>
             </Size>
-            <Anchors>
-                <Anchor point="center" relativePoint="center" relativeTo="">
-                    <AbsPoint x="0" y="0"/>
-                </Anchor>
-            </Anchors>
             <Windows>
                 <!-- Body background -->
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
