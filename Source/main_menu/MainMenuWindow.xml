@@ -23,7 +23,7 @@
                         <PressedHighlit x="10" y="10"/>
                     </TexCoords>
                 </Button>
-                <Label name="$parentText" font="uo_classic_20" maxchars="64" textalign="center" handleinput="false">
+                <Label name="$parentText" inherits="UO_Default_Label_Color" font="uo_classic_20" maxchars="64" textalign="center" handleinput="false">
                     <Size>
                         <AbsPoint x="200" y="20"/>
                     </Size>
@@ -32,18 +32,6 @@
                             <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <Color r="34" g="34" b="34" a="0"/>
-                </Label>
-                <Label name="$parentHotkey" font="UO_DefaultText" maxchars="64" textalign="right" handleinput="false">
-                    <Size>
-                        <AbsPoint x="100" y="18"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="right" relativePoint="right">
-                            <AbsPoint x="-10" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                    <Color r="255" g="255" b="255" a="255"/>
                 </Label>
             </Windows>
         </Window>
@@ -66,62 +54,22 @@
                 </Anchor>
             </Anchors>
             <Windows>
-                <FullResizeImage name="main_window_background" texture="TMapBG" handleinput="false">
+                <!-- Body background -->
+                <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft"/>
                         <Anchor point="bottomright" relativePoint="bottomright"/>
                     </Anchors>
-                    <Sizes>
-                        <TopLeft x="70" y="70" />
-                        <BottomRight x="70" y="70" />
-                        <Middle x="70" y="70" />
-                    </Sizes>
-                    <TexCoords>
-                        <TopLeft x="0" y="0" />
-                        <TopCenter x="70" y="0" />
-                        <TopRight x="140" y="0" />
-                        <MiddleLeft x="0" y="70" />
-                        <MiddleCenter x="70" y="70" />
-                        <MiddleRight x="140" y="70" />
-                        <BottomLeft x="0" y="140" />
-                        <BottomCenter x="70" y="140" />
-                        <BottomRight x="140" y="140" />
-                    </TexCoords>
                 </FullResizeImage>
 
-                <HorizontalResizeImage texture="TMapOverlay" handleinput="false">
-                    <Size>
-                        <AbsPoint x="250" y="43" />
-                    </Size>
+                <!-- Inner Frame Boilerplate -->
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" >
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="main_window_background">
-                            <AbsPoint x="-10" y="-2" />
-                        </Anchor>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
                     </Anchors>
-                    <Sizes left="60" middle="60" right="60"/>
-                    <TexCoords>
-                        <Left x="0" y="213" />
-                        <Middle x="70" y="213" />
-                        <Right x="179" y="215" />
-                    </TexCoords>
-                </HorizontalResizeImage>
-
-                <HorizontalResizeImage name="$parentBottom" texture="TMapBG" handleinput="false">
-                    <Size>
-                        <AbsPoint x="218" y="18" />
-                    </Size>
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="main_window_background">
-                            <AbsPoint x="2" y="4" />
-                        </Anchor>
-                    </Anchors>
-                    <Sizes left="40" middle="40" right="40"/>
-                    <TexCoords>
-                        <Left x="0" y="212" />
-                        <Middle x="70" y="212" />
-                        <Right x="176" y="210" />
-                    </TexCoords>
-                </HorizontalResizeImage>
+                </FullResizeImage>
+                <!-- End of Inner Frame Boilerplate -->
 
                 <!-- Log Out -->
                 <Window name="$parentLogOutItem" inherits="MenuItemTemplate">
