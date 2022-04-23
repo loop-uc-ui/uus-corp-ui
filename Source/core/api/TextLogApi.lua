@@ -5,7 +5,7 @@ function TextLogApi.createTextLog(name, num)
 end
 
 function TextLogApi.enableLog(name, isEnable)
-    TextLogSetEnabled(name, isEnable)
+    TextLogSetEnabled(name, isEnable == nil or isEnable)
 end
 
 function TextLogApi.clearLog(name)

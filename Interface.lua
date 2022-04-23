@@ -4,7 +4,7 @@ function Interface.CreatePlayWindowSet()
     CreateWindow("ResizeWindow", true)
     MainMenuWindow:create(true)
     DestroyWindow("DebugWindow")
-    CreateWindow("UusCorpDebugWindow", true)
+    UusCorpDebugWindow:create(true)
 end
 
 function Interface.debug()

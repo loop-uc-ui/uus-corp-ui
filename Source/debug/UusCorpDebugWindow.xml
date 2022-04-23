@@ -16,9 +16,6 @@
 			<Size>
 				<AbsPoint x="800" y="500" />
 			</Size>
-			<EventHandlers>
-				<EventHandler event="OnInitialize" function="UusCorpDebugWindow.Initialize" />
-			</EventHandlers>
 			<Windows>			
 				<!-- Default chrome. Alter this at your own peril. --> 
 				<Window name="$parentChrome" inherits="UO_DefaultWindow" frameonly="false"> 

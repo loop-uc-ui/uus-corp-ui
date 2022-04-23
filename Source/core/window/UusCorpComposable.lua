@@ -2,8 +2,7 @@ UusCorpComposable = {}
 UusCorpComposable.__index = UusCorpComposable
 
 function UusCorpComposable:asView(name)
-    self = setmetatable({
+    return setmetatable({
         name = name
     }, UusCorpView)
-    return self
 end

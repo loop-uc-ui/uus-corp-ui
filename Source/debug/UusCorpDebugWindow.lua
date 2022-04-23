@@ -1,4 +1,4 @@
-UusCorpDebugWindow = {}
+UusCorpDebugWindow = UusCorpComposable:asView("UusCorpDebugWindow"):asWindow()
 
 local LuaLog = {}
 LuaLog.SYSTEM = 1
@@ -6,44 +6,35 @@ LuaLog.ERROR = 2
 LuaLog.DEBUG = 3
 LuaLog.FUNCTION = 4
 
-UusCorpDebugWindow.logging = false
+function UusCorpDebugWindow:onInitialize()
+    local debugPrint = "DebugPrint"
+    TextLogApi.createTextLog(debugPrint, 1)
+    TextLogApi.enableLog(debugPrint)
+    TextLogApi.clearLog(debugPrint)
 
--- OnInitialize Handler
-function UusCorpDebugWindow.Initialize()
-    TextLogCreate("DebugPrint", 1)
-    TextLogSetEnabled("DebugPrint", true)
-    TextLogClear("DebugPrint")
+    local text = self.name .. "Text"
+    LogApi.showTimestamp(text)
+    LogApi.showLogName(text)
+    LogApi.showFilterName(text)
 
-    -- Display Settings
-    LogDisplaySetShowTimestamp("UusCorpDebugWindowText", true)
-    LogDisplaySetShowLogName("UusCorpDebugWindowText", true)
-    LogDisplaySetShowFilterName("UusCorpDebugWindowText", true)
+    local uiLog = "UiLog"
+    LogApi.addLog(text, uiLog)
 
-    -- Add the Lua Log
-    LogDisplayAddLog("UusCorpDebugWindowText", "UiLog", true)
+    LogApi.setFilterColor(text, uiLog, LuaLog.SYSTEM, { r = 255, g = 0, b = 255 }) -- Magenta
+    LogApi.setFilterColor(text, uiLog, LuaLog.ERROR, { r = 255, g = 0, b = 0}) -- Red
+    LogApi.setFilterColor(text, uiLog, LuaLog.DEBUG, { r = 255, g = 255, b = 0}) -- Yellow
+    LogApi.setFilterColor(text, uiLog, LuaLog.FUNCTION, { r = 0, g = 175, b = 50}) -- Green
+    LogApi.setFilterColor(text, uiLog, LuaLog.WARNING, { r = 0, g = 175, b = 50}) -- Green
 
-    LogDisplaySetFilterColor("UusCorpDebugWindowText", "UiLog", LuaLog.SYSTEM, 255, 0,
-                             255) -- Magenta
-    LogDisplaySetFilterColor("UusCorpDebugWindowText", "UiLog", LuaLog.ERROR, 255, 0, 0) -- Red
-    LogDisplaySetFilterColor("UusCorpDebugWindowText", "UiLog", LuaLog.DEBUG, 255, 255,
-                             0) -- Yellow
-    LogDisplaySetFilterColor("UusCorpDebugWindowText", "UiLog", LuaLog.FUNCTION, 0,
-                             175, 50) -- Green
-    LogDisplaySetFilterColor("UusCorpDebugWindowText", "UiLog", LuaLog.WARNING, 0, 175,
-                             50) -- Green
+    TextLogApi.enableLog(uiLog)
 
-    ButtonSetText("UusCorpDebugWindowReloadUi", L "Reload UI")
-
-    TextLogSetEnabled("UiLog", true)
-
-    for index = 1, 5 do
+    for index = 1, #DevData.DebugWindow.luaFilters do
         LogDisplaySetFilterState("UusCorpDebugWindowText", "UiLog", index,
-                                 DevData.DebugWindow.luaFilters[index])
+                                 true)
     end
 
-    WindowSetShowing("UusCorpDebugWindowOptionsChrome_UO_WindowCloseButton", false)
-    WindowSetShowing("UusCorpDebugWindowOptionsChrome_UO_TitleBar", false)
-
+    Debug.Print(DevData.DebugWindow.luaFilters)
+    UusCorpWindow.onInitialize(self)
 end
 
 function UusCorpDebugWindow.OnResizeBegin()
