@@ -85,6 +85,8 @@ function UusCorpWindow:destroy()
     self:onShutdown()
     WindowApi.destroyWindow(self.name)
     UusCorpViewActionManager.Views[self.name] = nil
+    self = nil
+    return self
 end
 
 function UusCorpWindow:show(doShow)

@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Scripts>
-		<Script file="Source/DebugWindow.lua" />
+		<Script file="Source/UusCorpDebugWindow.lua" />
 	</Scripts>	
 	<Windows>
-		<Window name="LogFilterButton" inherits="LabelCheckButton" id="1">
-			<EventHandlers>
-				<EventHandler event="OnLButtonUp" function="DebugWindow.UpdateDisplayFilter" />
-			</EventHandlers>
-		</Window>
 	
 		<VerticalScrollbar name="DebugVertScroll" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter" >
 			<Size>
@@ -17,13 +12,12 @@
 			<ThumbOffset x="1" y="1" />
 		</VerticalScrollbar>
 		
-		<Window name="DebugWindow" movable="true" layer="popup">
+		<Window name="UusCorpDebugWindow" movable="true" layer="popup">
 			<Size>
 				<AbsPoint x="800" y="500" />
 			</Size>
 			<EventHandlers>
-				<EventHandler event="OnInitialize" function="DebugWindow.Initialize" />
-				<EventHandler event="OnShutdown" function="DebugWindow.Shutdown" />
+				<EventHandler event="OnInitialize" function="UusCorpDebugWindow.Initialize" />
 			</EventHandlers>
 			<Windows>			
 				<!-- Default chrome. Alter this at your own peril. --> 
@@ -63,7 +57,7 @@
 					</Anchors>
 					<EventHandlers>
 						<EventHandler event="OnLButtonUp" function="InterfaceCore.ReloadUI"/>
-						<EventHandler event="OnMouseOver" function="DebugWindow.ReloadUIHover"/>
+						<EventHandler event="OnMouseOver" function="UusCorpDebugWindow.ReloadUIHover"/>
 					</EventHandlers>
 				</Button>
 
@@ -74,7 +68,7 @@
                         </Anchor>
                     </Anchors>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonDown" function="DebugWindow.OnResizeBegin" />
+                        <EventHandler event="OnLButtonDown" function="UusCorpDebugWindow.OnResizeBegin" />
                     </EventHandlers>
                 </Button>
 			</Windows>

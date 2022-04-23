@@ -9,7 +9,7 @@
 
 	<!-- Windows -->
 	<Include file="Source/ResizeWindow.xml"/>
-	<Include file="Source/debug/DebugWindow.xml"/>
+	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
 
 
@@ -90,7 +90,7 @@
 
 		<Script file="Interface.lua" />
 		<Script file="Source/ResizeWindow.lua"/>
-		<Script file="Source/debug/DebugWindow.lua"/>
+		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
 
 	</Scripts>
