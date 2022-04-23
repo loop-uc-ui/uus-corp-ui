@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Scripts>
+		<Script file="Source/DebugWindow.lua" />
+	</Scripts>	
+	<Windows>
+		<Window name="LogFilterButton" inherits="LabelCheckButton" id="1">
+			<EventHandlers>
+				<EventHandler event="OnLButtonUp" function="DebugWindow.UpdateDisplayFilter" />
+			</EventHandlers>
+		</Window>
+	
+		<VerticalScrollbar name="DebugVertScroll" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter" >
+			<Size>
+				<AbsPoint x="20" y="0" />
+			</Size>
+			<ThumbOffset x="1" y="1" />
+		</VerticalScrollbar>
+		
+		<Window name="DebugWindow" movable="true" layer="popup">
+			<Size>
+				<AbsPoint x="800" y="500" />
+			</Size>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="DebugWindow.Initialize" />
+				<EventHandler event="OnShutdown" function="DebugWindow.Shutdown" />
+			</EventHandlers>
+			<Windows>			
+				<!-- Default chrome. Alter this at your own peril. --> 
+				<Window name="$parentChrome" inherits="UO_DefaultWindow" frameonly="false"> 
+					<Anchors> 
+						<Anchor point="topleft" relativePoint="topleft" /> 
+						<Anchor point="bottomright" relativePoint="bottomright"/> 
+					</Anchors> 
+				</Window>
+						
+				<LogDisplay name="$parentText" font="UO_DefaultText_15pt" scrollbar="$parentScrollbar" scrollbarPosition="right" background="fullresize_black_chat_background"  maxchars="4096" maxentries="4096" wordwrap="true">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft">
+							<AbsPoint x="20" y="40" />
+						</Anchor>
+						<Anchor point="bottomright" relativePoint="bottomright">
+							<AbsPoint x="-15" y="-20" />
+						</Anchor>
+					</Anchors>
+                    <Windows>
+                        <VerticalScrollbar name="$parentScrollbar" inherits="DebugVertScroll">
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topleft">
+                                    <AbsPoint x="-10" y="0" />
+                                </Anchor>
+                                <Anchor point="bottomright" relativePoint="bottomright" />
+                            </Anchors>
+                        </VerticalScrollbar>
+                    </Windows>
+				</LogDisplay>
+
+				<Button name="$parentReloadUi" inherits="UO_Default_Spring_Button" layer="overlay">
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+							<AbsPoint x="-22" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="InterfaceCore.ReloadUI"/>
+						<EventHandler event="OnMouseOver" function="DebugWindow.ReloadUIHover"/>
+					</EventHandlers>
+				</Button>
+
+                <Button name="$parentResizeButton" inherits="CoreWindowResizeButtonBottomRight" layer="popup" >
+                    <Anchors>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="" >
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonDown" function="DebugWindow.OnResizeBegin" />
+                    </EventHandlers>
+                </Button>
+			</Windows>
+		</Window>
+	</Windows>
+</Interface>

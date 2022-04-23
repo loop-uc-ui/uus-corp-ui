@@ -3,7 +3,8 @@ Interface = {}
 function Interface.CreatePlayWindowSet()
     CreateWindow("ResizeWindow", true)
     MainMenuWindow:create(true)
-    WindowSetShowing("DebugWindow", true)
+    DestroyWindow("DebugWindow")
+    CreateWindow("DebugWindow", true)
 end
 
 function Interface.debug()
