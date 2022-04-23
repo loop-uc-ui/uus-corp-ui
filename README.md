@@ -13,9 +13,9 @@ As I have determined that I cannot simply tweak the existing code and must rewri
 
 | Feature          | Description                      | Status      |
 |------------------|----------------------------------|-------------|
-| Resize Window    | Resizes the game window          | In Progress |
-| Debug Window     | Logs debug output                | In Progress |
+| Debug Window     | Logs debug output        | In Progress |
 | Main Menu Window | Presents menu options via escape | In Progress |
+| Resize Window  | Resizes the game window | In Progress |
 
 **Disclaimer:**
 
