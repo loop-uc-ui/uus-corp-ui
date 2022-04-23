@@ -1,5 +1,5 @@
 MobileName = {}
 
-function MobileName.type() 
+function MobileName.type()
     return WindowData.MobileName.Type
 end

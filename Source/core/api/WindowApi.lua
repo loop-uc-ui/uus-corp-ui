@@ -149,7 +149,18 @@ function WindowApi.startScaleAnimation(
         delay,
         numLoop
 )
-    WindowStartScaleAnimation(windowName, animType, startX, startY, endX, endY, duration, setStartBeforeDelay, delay, numLoop)
+    WindowStartScaleAnimation(
+        windowName,
+        animType,
+        startX,
+        startY,
+        endX,
+        endY,
+        duration,
+        setStartBeforeDelay,
+        delay,
+        numLoop
+    )
 end
 
 function WindowApi.stopPositionAnimation(windowName)
