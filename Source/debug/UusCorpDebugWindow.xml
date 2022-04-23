@@ -55,18 +55,6 @@
                     </Windows>
 				</LogDisplay>
 
-				<Button name="$parentReloadUi" inherits="UO_Default_Spring_Button" layer="overlay">
-					<Anchors>
-						<Anchor point="topright" relativePoint="topright" relativeTo="$parent">
-							<AbsPoint x="-22" y="0" />
-						</Anchor>
-					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="InterfaceCore.ReloadUI"/>
-						<EventHandler event="OnMouseOver" function="UusCorpDebugWindow.ReloadUIHover"/>
-					</EventHandlers>
-				</Button>
-
                 <Button name="$parentResizeButton" inherits="CoreWindowResizeButtonBottomRight" layer="popup" >
                     <Anchors>
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="" >

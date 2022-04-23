@@ -33,17 +33,9 @@ function UusCorpDebugWindow:onInitialize()
                                  true)
     end
 
-    Debug.Print(DevData.DebugWindow.luaFilters)
     UusCorpWindow.onInitialize(self)
 end
 
 function UusCorpDebugWindow.OnResizeBegin()
     WindowUtils.BeginResize("UusCorpDebugWindow", "topleft", 300, 200, false, nil)
-end
-
-function UusCorpDebugWindow.ReloadUIHover()
-    Tooltips.CreateTextOnlyTooltip("UusCorpDebugWindowReloadUi",
-                                   StringToWString("Reload UI"))
-    Tooltips.Finalize()
-    Tooltips.AnchorTooltip(Tooltips.ANCHOR_WINDOW_TOP)
 end

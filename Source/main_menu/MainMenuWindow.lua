@@ -4,7 +4,7 @@ function MainMenuWindow:onInitialize()
     self:addChild(
         UusCorpComposable:asView(self.name .. "DebugItemButton"):asButton():setText(L"Debug"):addAction(
             UusCorpViewAction:onLButtonUp(function ()
-                ToggleWindowByName("DebugWindow", "")
+                UusCorpDebugWindow:create(true)
                 self:show(false)
             end)
         )
