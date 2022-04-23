@@ -10,11 +10,10 @@ function UusCorpWindow:create(doShow)
         return
     end
 
-    self.doDestroy = doShow
     UusCorpViewActionManager.Views[self.name] = self
     WindowApi.createFromTemplate(self.name, self.template, self.parent)
     self:onInitialize()
-    self:show(self.doDestroy)
+    self:show(doShow == nil or doShow)
 end
 
 function UusCorpWindow:onInitialize()

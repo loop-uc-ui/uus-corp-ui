@@ -64,143 +64,63 @@
                 <Window name="$parentLogOutItem" inherits="MenuItemTemplate">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="7" y="32"/>
+                            <AbsPoint x="12" y="32"/>
                         </Anchor>
                     </Anchors>
                 </Window>
-
-                <FullResizeImage name="$parentLogOutItemDivider" inherits="MenuSmallDivider">
-                    <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentLogOutItem">
-                            <AbsPoint x="0" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </FullResizeImage>
 
                 <!-- Exit Game -->
                 <Window name="$parentExitGameItem" inherits="MenuItemTemplate">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentLogOutItemDivider">
-                            <AbsPoint x="3" y="0"/>
-                        </Anchor>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentLogOutItem"/>
                     </Anchors>
                 </Window>
-
-                <FullResizeImage name="$parentDivider1" inherits="MenuSmallDivider">
-                    <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentExitGameItem">
-                            <AbsPoint x="-3" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </FullResizeImage>
 
                 <!-- User Settings -->
                 <Window name="$parentUserSettingsItem" inherits="MenuItemTemplate">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider1">
-                            <AbsPoint x="3" y="0"/>
-                        </Anchor>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentExitGameItem"/>
                     </Anchors>
                 </Window>
-
-                <FullResizeImage name="$parentDivider2" inherits="MenuSmallDivider">
-                    <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentUserSettingsItem">
-                            <AbsPoint x="-3" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </FullResizeImage>
 
                 <!-- User Settings -->
                 <Window name="$parentUOStoreItem" inherits="MenuItemTemplate">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider2">
-                            <AbsPoint x="3" y="0"/>
-                        </Anchor>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentUserSettingsItem"/>
                     </Anchors>
                 </Window>
-
-                <FullResizeImage name="$parentDivider3" inherits="MenuSmallDivider">
-                    <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentUOStoreItem">
-                            <AbsPoint x="-3" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </FullResizeImage>
 
                 <!-- Agents Settings -->
                 <Window name="$parentAgentsSettingsItem" inherits="MenuItemTemplate">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider3">
-                            <AbsPoint x="3" y="0"/>
-                        </Anchor>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentUOStoreItem"/>
                     </Anchors>
                 </Window>
-
-                <FullResizeImage name="$parentDivider8" inherits="MenuSmallDivider">
-                    <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentAgentsSettingsItem">
-                            <AbsPoint x="-3" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </FullResizeImage>
 
                 <!-- Macros -->
                 <Window name="$parentMacrosItem" inherits="MenuItemTemplate">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider8">
-                            <AbsPoint x="3" y="0"/>
-                        </Anchor>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentAgentsSettingsItem"/>
                     </Anchors>
                 </Window>
-
-                <FullResizeImage name="$parentDivider4" inherits="MenuSmallDivider">
-                    <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentMacrosItem">
-                            <AbsPoint x="-3" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </FullResizeImage>
 
                 <!-- Actions -->
                 <Window name="$parentActionsItem" inherits="MenuItemTemplate">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider4">
-                            <AbsPoint x="3" y="0"/>
-                        </Anchor>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentMacrosItem"/>
                     </Anchors>
                 </Window>
-
-                <FullResizeImage name="$parentDivider5" inherits="MenuSmallDivider">
-                    <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentActionsItem">
-                            <AbsPoint x="-3" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </FullResizeImage>
 
                 <!-- Help Menu -->
                 <Window name="$parentHelpItem" inherits="MenuItemTemplate">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider5">
-                            <AbsPoint x="3" y="0"/>
-                        </Anchor>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentActionsItem"/>
                     </Anchors>
                 </Window>
 
-                <FullResizeImage name="$parentDivider6" inherits="MenuSmallDivider">
-                    <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentHelpItem">
-                            <AbsPoint x="-3" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </FullResizeImage>
-
                 <Window name="$parentDebugItem" inherits="MenuItemTemplate">
                     <Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentDivider6">
-                            <AbsPoint x="3" y="0"/>
-                        </Anchor>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentHelpItem"/>
                     </Anchors>
                 </Window>
             </Windows>

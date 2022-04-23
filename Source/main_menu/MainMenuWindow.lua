@@ -1,4 +1,8 @@
-MainMenuWindow = UusCorpComposable:asView("MainMenuWindow"):asWindow()
+MainMenuWindow = UusCorpComposable:asView("MainMenuWindow"):asWindow():addAction(
+    UusCorpViewAction:onRButtonUp(function ()
+        MainMenuWindow:show(false)
+    end)
+)
 
 function MainMenuWindow:onInitialize()
     self:addChild(

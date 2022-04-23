@@ -24,7 +24,6 @@ function UusCorpView:asWindow(parent, template)
         name = self.name,
         parent = parent or "Root",
         template = template or self.name,
-        doDestroy = true,
         children = {},
         actions = {},
         event = {}
@@ -32,12 +31,7 @@ function UusCorpView:asWindow(parent, template)
 
     return window:addAction(
         UusCorpViewAction:onRButtonUp(function ()
-            if window.doDestroy then
-                window:destroy()
-            else
-                window:show(false)
-            end
-
+            window:destroy()
             return window
         end)
     )
