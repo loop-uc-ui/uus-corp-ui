@@ -63,7 +63,7 @@
                 <Window name="$parentLogOutItem" inherits="MenuItemTemplate">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="7" y="35"/>
+                            <AbsPoint x="7" y="32"/>
                         </Anchor>
                     </Anchors>
                 </Window>

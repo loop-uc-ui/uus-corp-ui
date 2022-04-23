@@ -5,11 +5,11 @@
 	</Scripts>	
 	<Windows>
 	
-		<VerticalScrollbar name="DebugVertScroll" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter" >
+		<VerticalScrollbar name="DebugVertScroll" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb">
 			<Size>
 				<AbsPoint x="20" y="0" />
 			</Size>
-			<ThumbOffset x="1" y="1" />
+			<ThumbOffset x="0" y="0" />
 		</VerticalScrollbar>
 		
 		<Window name="UusCorpDebugWindow" movable="true" layer="popup">
@@ -17,15 +17,24 @@
 				<AbsPoint x="800" y="500" />
 			</Size>
 			<Windows>			
-				<!-- Default chrome. Alter this at your own peril. --> 
-				<Window name="$parentChrome" inherits="UO_DefaultWindow" frameonly="false"> 
-					<Anchors> 
-						<Anchor point="topleft" relativePoint="topleft" /> 
-						<Anchor point="bottomright" relativePoint="bottomright"/> 
-					</Anchors> 
-				</Window>
+				<!-- Body background -->
+                <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <!-- Inner Frame Boilerplate -->
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+                <!-- End of Inner Frame Boilerplate -->
 						
-				<LogDisplay name="$parentText" font="UO_DefaultText_15pt" scrollbar="$parentScrollbar" scrollbarPosition="right" background="fullresize_black_chat_background"  maxchars="4096" maxentries="4096" wordwrap="true">
+				<LogDisplay name="$parentText" font="UO_DefaultText_15pt" scrollbar="$parentScrollbar" scrollbarPosition="right" maxchars="4096" maxentries="4096" wordwrap="true">
 					<Anchors>
 						<Anchor point="topleft" relativePoint="topleft">
 							<AbsPoint x="20" y="40" />
