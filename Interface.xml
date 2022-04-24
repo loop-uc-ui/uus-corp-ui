@@ -1,274 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="Interface.xsd">
 
-    <!-- Assets -->
-    <Include file="Textures/Textures.xml"/>
+	<!-- Assets -->
+	<Include file="Textures/Textures.xml"/>
     <Include file="Textures/uus_corp_ui/UusCorpTextures.xml"/>
     <Include file="Fonts/Fonts.xml"/>
     <Include file="Icons/Icons.xml"/>
 
-    <!-- Templates -->
-    <Include file="Source/VerticalScrollBarTemplates.xml"/>
-    <Include file="Source/HorizontalScrollBarTemplates.xml"/>
-    <Include file="Source/WindowFrameTemplates.xml"/>
-    <Include file="Source/legacy-ui-templates.xml"/>
-    <Include file="Source/StatusBarTemplates.xml"/>
-    <Include file="Source/UO_Housing_Templates.xml"/>
-    <Include file="Source/Cooldown.xml"/>
-
-    <!-- Windows -->
-    <Include file="Source/core/window/LockWindow.xml"/>
-    <Include file="Source/map/MapCommon.xml"/>
-    <Include file="Source/MobileHealthBar.xml"/>
-    <Include file="Source/Organizer.xml"/>
-    <Include file="Source/ResizeWindow.xml"/>
-    <Include file="Source/Hotbar.xml"/>
-    <Include file="Source/main_menu/MainMenuWindow.xml"/>
-    <Include file="Source/settings/window/SettingsGraphicsWindow.xml"/>
-    <Include file="Source/settings/window/SettingsKeyBindingsWindow.xml"/>
-    <Include file="Source/settings/window/SettingsSoundWindow.xml"/>
-    <Include file="Source/settings/window/SettingsOptionsWindow.xml"/>
-    <Include file="Source/settings/window/SettingsProfanityWindow.xml"/>
-    <Include file="Source/settings/window/SettingsHealthBarsWindow.xml"/>
-    <Include file="Source/settings/window/SettingsContainersWindow.xml"/>
-    <Include file="Source/settings/view/SettingsColorButton.xml"/>
-    <Include file="Source/settings/window/SettingsOverheadTextWindow.xml"/>
-    <Include file="Source/settings/window/SettingsWindow.xml"/>
-    <Include file="Source/Spellbook.xml"/>
-    <Include file="Source/player_status/StatusWindow.xml"/>
-    <Include file="Source/ContainerWindow.xml"/>
-    <Include file="Source/ContextMenu.xml"/>
-    <Include file="Source/CourseMapWindow.xml"/>
-    <Include file="Source/DamageWindow.xml"/>
-    <Include file="Source/skills/SkillsLockButtonWindow.xml"/>
-    <Include file="Source/skills/SkillsListItemWindow.xml"/>
-    <Include file="Source/skills/SkillsWindow.xml"/>
-    <Include file="Source/PaperdollWindow.xml"/>
-    <Include file="Source/CharacterSheet.xml"/>
-    <Include file="Source/CharacterAbilities.xml"/>
-    <Include file="Source/ItemProperties.xml"/>
-    <Include file="Source/buff_debuff/BuffDebuffIcon.xml"/>
-    <Include file="Source/GenericQuantity.xml"/>
-    <Include file="Source/Shopkeeper.xml"/>
-    <Include file="Source/NewPlayerGuide.xml"/>
-    <Include file="Source/TradeWindow.xml"/>
-    <Include file="Source/HuePickerWindow.xml"/>
-    <Include file="Source/PartyHealthBar.xml"/>
-    <Include file="Source/ObjectHandle.xml"/>
-    <Include file="Source/CustomizeHouseWindow.xml"/>
-    <Include file="Source/MacroWindow.xml"/>
-    <Include file="Source/ActionsWindow.xml"/>
-    <Include file="Source/ActionEditWindow.xml"/>
-    <Include file="Source/MacroEditWindow.xml"/>
-    <Include file="Source/MacroPickerWindow.xml"/>
-    <Include file="Source/map/WaypointWindow.xml"/>
-    <Include file="Source/map/MapWindow.xml"/>
-    <Include file="Source/map/RadarWindow.xml"/>
-    <Include file="Source/BookTemplate.xml"/>
-    <Include file="Source/RaceChange.xml"/>
-    <Include file="Source/TrackingPointer.xml"/>
-    <Include file="Source/FaceSelectionWindow.xml"/>
-    <Include file="Source/StaticTextWindow.xml"/>
-    <Include file="Source/DragWindow.xml"/>
-    <Include file="Source/OverheadText.xml"/>
-    <Include file="Source/ChannelWindow.xml"/>
-    <Include file="Source/GChatRoster.xml"/>
-    <Include file="Source/settings/window/IgnoreWindow.xml"/>
-    <Include file="Source/PartyInviteWindow.xml"/>
-    <Include file="Source/ContainerSearch.xml"/>
-    <Include file="Source/buff_debuff/AdvancedBuff.xml"/>
-    <Script file="Source/CreaturesDB.lua"/>
-    <Script file="Source/SpellsInfo.lua"/>
-    <Script file="Source/AbilitiesInfo.lua"/>
-    <Script file="Source/map/Waypoints.lua"/>
-    <Script file="Source/KnownAreas.lua"/>
-    <Include file="Source/GenericGump.xml"/>
-    <Include file="Source/RenameWindow.xml"/>
-    <Include file="Source/map/MapFind.xml"/>
-    <Include file="Source/WarShield.xml"/>
-    <Include file="Source/CrystalPortal.xml"/>
-    <Include file="Source/VendorSearch.xml"/>
-    <Include file="Source/QuickStats.xml"/>
-    <Include file="Source/FontSelector.xml"/>
-    <Include file="Source/runebook/LegacyRunebook.xml"/>
-    <Include file="Source/runebook/RunebookButtonWindow.xml"/>
+	<!-- Windows -->
+	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
+	<Include file="Source/main_menu/MainMenuWindow.xml"/>
 
 
-    <!-- Remove this one once all the gumps are fixed -->
-    <!--<Include file="Source/Generic/KnownBrokenGump.xml" />-->
+	<!-- Remove this one once all the gumps are fixed -->
+	<!--<Include file="Source/Generic/KnownBrokenGump.xml" />-->
+	
 
-    <!-- Generic Gumps -->
-    <Include file="Source/Generic/SingleLineTextEntry.xml"/>
-    <Include file="Source/Generic/NewPlayerInstruction.xml"/>
-    <Include file="Source/Generic/TwoButtonDialog.xml"/>
-
-    <!-- Client created Gump Windows  -->
-    <Include file="Source/HighlightEffect.xml"/>
-
-    <!-- Script Files -->
-    <Scripts>
-        <Script file="Source/core/data/ActiveWindow.lua"/>
-        <Script file="Source/core/data/Events.lua"/>
-        <Script file="Source/core/data/Skills.lua"/>
-        <Script file="Source/core/data/Buffs.lua"/>
-        <Script file="Source/core/data/Drag.lua"/>
-        <Script file="Source/core/data/UserAction.lua"/>
-        <Script file="Source/core/data/ButtonFlags.lua"/>
-        <Script file="Source/core/resources/Colors.lua"/>
-        <Script file="Source/core/data/CurrentTarget.lua"/>
-        <Script file="Source/core/data/Cursor.lua"/>
-        <Script file="Source/core/data/PlayerStatus.lua"/>
-        <Script file="Source/core/data/Skills.lua"/>
-        <Script file="Source/core/data/PlayerLocation.lua"/>
-        <Script file="Source/core/data/Radar.lua"/>
-        <Script file="Source/core/data/WaypointList.lua"/>
-        <Script file="Source/core/data/WaypointDisplay.lua"/>
-        <Script file="Source/core/data/MousePosition.lua"/>
-        <Script file="Source/core/data/GenericGumpCore.lua"/>
-        <Script file="Source/core/api/IconApi.lua"/>
-        <Script file="Source/core/api/TimeApi.lua"/>
-        <Script file="Source/core/api/CSVApi.lua"/>
-        <Script file="Source/core/api/CircleImageApi.lua"/>
-        <Script file="Source/core/api/RadarApi.lua"/>
-        <Script file="Source/core/api/DynamicImageApi.lua"/>
-        <Script file="Source/core/api/DragApi.lua"/>
-        <Script file="Source/core/api/TargetApi.lua"/>
-        <Script file="Source/core/api/UserActionApi.lua"/>
+	<!-- Script Files -->
+	<Scripts>
         <Script file="Source/core/api/ButtonApi.lua"/>
+        <Script file="Source/core/api/CircleImageApi.lua"/>
         <Script file="Source/core/api/ComboBoxApi.lua"/>
+        <Script file="Source/core/api/ContextMenuApi.lua"/>
+        <Script file="Source/core/api/CSVApi.lua"/>
+        <Script file="Source/core/api/DragApi.lua"/>
+        <Script file="Source/core/api/DynamicImageApi.lua"/>
         <Script file="Source/core/api/EventApi.lua"/>
+        <Script file="Source/core/api/IconApi.lua"/>
+        <Script file="Source/core/api/LabelApi.lua"/>
+		<Script file="Source/core/api/LogApi.lua"/>
+        <Script file="Source/core/api/RadarApi.lua"/>
+        <Script file="Source/core/api/ScrollWindowApi.lua"/>
+        <Script file="Source/core/api/SliderApi.lua"/>
+        <Script file="Source/core/api/StatusBarApi.lua"/>
+        <Script file="Source/core/api/StringApi.lua"/>
+        <Script file="Source/core/api/TargetApi.lua"/>
+		<Script file="Source/core/api/TextLogApi.lua"/>
+        <Script file="Source/core/api/TimeApi.lua"/>
+        <Script file="Source/core/api/UserActionApi.lua"/>
+        <Script file="Source/core/api/ViewportApi.lua"/>
+        <Script file="Source/core/api/WaypointApi.lua"/>
         <Script file="Source/core/api/WindowApi.lua"/>
         <Script file="Source/core/api/WindowDataApi.lua"/>
-        <Script file="Source/core/api/LabelApi.lua"/>
-        <Script file="Source/core/api/SliderApi.lua"/>
-        <Script file="Source/core/api/StringApi.lua"/>
-        <Script file="Source/core/api/ScrollWindowApi.lua"/>
-        <Script file="Source/core/api/ContextMenuApi.lua"/>
-        <Script file="Source/core/api/StatusBarApi.lua"/>
-        <Script file="Source/core/api/WaypointApi.lua"/>
-        <Script file="Source/core/resources/TextIds.lua"/>
-        <Script file="Source/core/window/WindowEventRegister.lua"/>
-        <Script file="Source/core/window/BaseWindow.lua"/>
-        <Script file="Source/core/window/DynamicImageWindow.lua"/>
-        <Script file="Source/core/window/ListWindow.lua"/>
-        <Script file="Source/core/window/LabelWindow.lua"/>
-        <Script file="Source/core/window/SliderWindow.lua"/>
-        <Script file="Source/core/window/CheckBoxWindow.lua"/>
-        <Script file="Source/core/window/ButtonWindow.lua"/>
-        <Script file="Source/core/window/ComboBoxWindow.lua"/>
-        <Script file="Source/core/window/LockWindow.lua"/>
-        <Script file="Source/core/window/StatusBarWindow.lua"/>
-        <Script file="Source/core/window/WindowAdapter.lua"/>
-        <Script file="Source/core/util/KeyBinder.lua"/>
-        <Script file="Source/core/util/TableFormatter.lua"/>
+
+        <Script file="Source/core/util/CSVUtilities.lua"/>
         <Script file="Source/core/util/StringFormatter.lua"/>
-        <Script file="Source/core/data/UserInterfaceVariables.lua"/>
-        <Script file="Source/core/data/UserHealthBarsSettings.lua"/>
-        <Script file="Source/core/data/UserOverheadTextSettings.lua"/>
-        <Script file="Source/core/data/UserContainerSettings.lua"/>
-        <Script file="Source/core/data/UserOptionsSettings.lua"/>
-        <Script file="Source/core/data/UserSoundSettings.lua"/>
-        <Script file="Source/core/data/UserControlSettings.lua"/>
-        <Script file="Source/core/data/UserGraphicsSettings.lua"/>
+        <Script file="Source/core/util/TableFormatter.lua"/>
+
+        <Script file="Source/core/data/ActiveWindow.lua"/>
+        <Script file="Source/core/data/Buffs.lua"/>
+        <Script file="Source/core/data/ButtonFlags.lua"/>
+        <Script file="Source/core/data/CurrentTarget.lua"/>
+        <Script file="Source/core/data/Cursor.lua"/>
+        <Script file="Source/core/data/Drag.lua"/>
+        <Script file="Source/core/data/Events.lua"/>
+        <Script file="Source/core/data/GenericGumpCore.lua"/>
         <Script file="Source/core/data/MapSettings.lua"/>
-        <Script file="Interface.lua"/>
-        <Script file="Source/Cooldown.lua"/>
-        <Script file="Source/TextParsing.lua"/>
-        <Script file="Source/GGManager.lua"/>
-        <Script file="Source/Generic/UO_GenericGump.lua"/>
-        <Script file="Source/player_status/StatusWindow.lua"/>
-        <Script file="Source/MobileHealthBar.lua"/>
-        <Script file="Source/PartyHealthBar.lua"/>
-        <Script file="Source/ContainerWindow.lua"/>
-        <Script file="Source/ActionEditWindow.lua"/>
-        <Script file="Source/ActionsWindow.lua"/>
-        <Script file="Source/MacroEditWindow.lua"/>
-        <Script file="Source/MacroPickerWindow.lua"/>
-        <Script file="Source/MacroWindow.lua"/>
-        <Script file="Source/buff_debuff/BuffDebuffSettings.lua"/>
-        <Script file="Source/buff_debuff/BuffDebuffIcon.lua"/>
-        <Script file="Source/buff_debuff/AdvancedBuff.lua"/>
-        <Script file="Source/DamageWindow.lua"/>
-        <Script file="Source/HotbarSystem.lua"/>
-        <Script file="Source/Hotbar.lua"/>
-        <Script file="Source/OverheadText.lua"/>
-        <Script file="Source/ObjectHandle.lua"/>
-        <Script file="Source/MiniTextuePack.lua"/>
-        <Script file="Source/HealthBarColor.lua"/>
-        <Script file="Source/NameColor.lua"/>
-        <Script file="Source/StaticTextWindow.lua"/>
-        <Script file="Source/HealthBarManager.lua"/>
-        <Script file="Source/OrganizerMain.lua"/>
-        <Script file="Source/Organizer.lua"/>
-        <Script file="Source/ContainerSearch.lua"/>
-        <Script file="Source/TextParsing.lua"/>
-        <Script file="Source/CreaturesDB.lua"/>
-        <Script file="Source/SpellsInfo.lua"/>
-        <Script file="Source/AbilitiesInfo.lua"/>
-        <Script file="Source/Waypoints.lua"/>
-        <Script file="Source/KnownAreas.lua"/>
-        <Script file="Source/map/MapImage.lua"/>
-        <Script file="Source/map/MapFind.lua"/>
-        <Script file="Source/Actions.lua"/>
-        <Script file="Source/PaperdollWindow.lua"/>
-        <Script file="Source/ItemsInfo.lua"/>
-        <Script file="Source/ContainersInfo.lua"/>
-        <Script file="Source/HuesInfo.lua"/>
-        <Script file="Source/ItemPropertiesInfo.lua"/>
-        <Script file="Source/map/WaypointWindow.lua"/>
-        <Script file="Source/map/MapCommon.lua"/>
-        <Script file="Source/map/MapWindow.lua"/>
-        <Script file="Source/map/RadarWindow.lua"/>
-        <Script file="Source/skills/SkillsLockButtonWindow.lua"/>
-        <Script file="Source/skills/SkillsListItemWindow.lua"/>
-        <Script file="Source/skills/SkillsWindow.lua"/>
-        <Script file="Source/GenericGump.lua"/>
-        <Script file="Source/ChannelWindow.lua"/>
-        <Script file="Source/GChatRoster.lua"/>
-        <Script file="Source/CharacterAbilities.lua"/>
-        <Script file="Source/CharacterSheet.lua"/>
-        <Script file="Source/ContextMenu.lua"/>
-        <Script file="Source/Shopkeeper.lua"/>
-        <Script file="Source/RaceChange.lua"/>
-        <Script file="Source/CustomizeHouseWindow.lua"/>
-        <Script file="Source/CourseMapWindow.lua"/>
-        <Script file="Source/FaceSelectionWindow.lua"/>
-        <Script file="Source/ItemProperties.lua"/>
-        <Script file="Source/PartyInviteWindow.lua"/>
-        <Script file="Source/DragWindow.lua"/>
-        <Script file="Source/RenameWindow.lua"/>
-        <Script file="Source/TradeWindow.lua"/>
-        <Script file="Source/TrackingPointer.lua"/>
-        <Script file="Source/GenericQuantity.lua"/>
-        <Script file="Source/ResizeWindow.lua"/>
-        <Script file="Source/main_menu/MainMenuWindow.lua"/>
-        <Script file="Source/HighlightEffect.lua"/>
-        <Script file="Source/NewPlayerGuide.lua"/>
-        <Script file="Source/ObjectHandle.lua"/>
-        <Script file="Source/Spellbook.lua"/>
-        <Script file="Source/BookTemplate.lua"/>
-        <Script file="Source/HuePickerWindow.lua"/>
-        <Script file="Source/OverheadText.lua"/>
-        <Script file="Source/settings/window/IgnoreWindow.lua"/>
-        <Script file="Source/WarShield.lua"/>
-        <Script file="Source/GumpsParsing.lua"/>
-        <Script file="Source/CrystalPortal.lua"/>
-        <Script file="Source/VendorSearch.lua"/>
-        <Script file="Source/QuickStats.lua"/>
-        <Script file="Source/runebook/LegacyRunebook.lua"/>
-        <Script file="Source/runebook/RunebookButtonWindow.lua"/>
-        <Script file="Source/LegacyRunebookLoader.lua"/>
-        <!--<Load Settings Last/>-->
-        <Script file="Source/settings/window/SettingsWindow.lua"/>
-        <Script file="Source/settings/window/SettingsGraphicsWindow.lua"/>
-        <Script file="Source/settings/window/SettingsKeyBindingsWindow.lua"/>
-        <Script file="Source/settings/window/SettingsSoundWindow.lua"/>
-        <Script file="Source/settings/view/SettingsColorButton.lua"/>
-        <Script file="Source/settings/window/SettingsOverheadTextWindow.lua"/>
-        <Script file="Source/settings/window/SettingsProfanityWindow.lua"/>
-        <Script file="Source/settings/window/SettingsContainersWindow.lua"/>
-        <Script file="Source/settings/window/SettingsHealthBarsWindow.lua"/>
-        <Script file="Source/settings/window/SettingsOptionsWindow.lua"/>
-    </Scripts>
+        <Script file="Source/core/data/MobileName.lua"/>
+        <Script file="Source/core/data/MousePosition.lua"/>
+        <Script file="Source/core/data/Paperdoll.lua"/>
+        <Script file="Source/core/data/PlayerLocation.lua"/>
+        <Script file="Source/core/data/PlayerStatus.lua"/>
+        <Script file="Source/core/data/Radar.lua"/>
+        <Script file="Source/core/data/ScreenResolution.lua"/>
+        <Script file="Source/core/data/Skills.lua"/>
+        <Script file="Source/core/data/UserAction.lua"/>
+        <Script file="Source/core/data/UserContainerSettings.lua"/>
+        <Script file="Source/core/data/UserControlSettings.lua"/>
+        <Script file="Source/core/data/UserGraphicSettings.lua"/>
+        <Script file="Source/core/data/UserHealthBarsSettings.lua"/>
+        <Script file="Source/core/data/UserInterfaceVariables.lua"/>
+        <Script file="Source/core/data/UserOptionsSettings.lua"/>
+        <Script file="Source/core/data/UserOverheadTextSettings.lua"/>
+        <Script file="Source/core/data/UserSoundSettings.lua"/>
+        <Script file="Source/core/data/WaypointDisplay.lua"/>
+        <Script file="Source/core/data/WaypointList.lua"/>
+
+        <Script file="Source/core/resources/Colors.lua"/>
+        <Script file="Source/core/resources/TextIds.lua"/>
+
+        <Script file="Source/core/window/UusCorpActionable.lua"/>
+		<Script file="Source/core/window/UusCorpComposable.lua"/>
+		<Script file="Source/core/window/UusCorpViewAction.lua"/>
+		<Script file="Source/core/window/UusCorpViewActionManager.lua"/>
+		<Script file="Source/core/window/UusCorpView.lua"/>
+        <Script file="Source/core/window/UusCorpButton.lua"/>
+        <Script file="Source/core/window/UusCorpLabel.lua"/>
+        <Script file="Source/core/window/UusCorpStatusBar.lua"/>
+        <Script file="Source/core/window/UusCorpWindow.lua"/>
+
+		<Script file="Interface.lua" />
+        <Script file="Source/viewport/Viewport.lua"/>
+		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
+		<Script file="Source/main_menu/MainMenuWindow.lua"/>
+
+	</Scripts>
 
 </Interface>

@@ -1,26 +1,26 @@
 # uus corp ui
- 
-Uus Corp UI is a mod for Ultima Online's Enhanced Client. Its goals are:
 
-* Refactor all UI to follow a more object-oriented design pattern.
-* Remove all bloated, bug-ridden features from the default UI.
-* Remove all ugly UI components.
-* Re-design the UI to fit the fantasy theme.
+Uus Corp UI is a rewrite of the Default UI for Ultima Online's Enhanced Client. Its goals are to make the UI easier to mode and look more like UO.
 
-The mod's guiding principles are:
+**Status:**
 
-* Make the UI easier to mod.
-* Make the UI look more like UO.
-* Make the UI intuitive.
+The UI is not ready to be used. I am still grappling with the core dysfunction of the existing UI and laying foundations.
 
-Current phase: The mod is still in early phases. 
-I am currently refactoring all modules and cleaning up code.
+Below is a table that descibes each functional area's status. If a feature from the Default UI is not listed, it has not been reckoned with.
 
-[Release Status](https://github.com/loop-uc-ui/uus-corp-ui/projects)
-[Milestones](https://github.com/loop-uc-ui/uus-corp-ui/milestones)
+As I have determined that I cannot simply tweak the existing code and must rewrite everything, if a feature is not listed here, then that feature simply does not exist in the UI yet and will not function.
 
-Disclaimer: I'm not a fan of the Enhanced Client or the Lua language. I don't trust the client or the default UI codebase. To that end, I'm basing what I'd like to see from the client more on Classic Client re-implementations than on the Enhanced Client itself, so you're going to see a lot of things removed. Wherever I've removed things, I've asked the following questions:
 
-* Is it buggy?
-* Does it really add value, or does it just add noise?
-* If not having it was good enough for the Classic Client, do we really need it?
+| Feature          | Description                      | Status      |
+|------------------|----------------------------------|-------------|
+|   Backpack    |   |   |
+|   Chat    |   Chat window with channels   |   |
+|   Debug | Logs debug output        | Done |
+|   Main Menu | Presents menu options via escape | Done |
+|   Paperdoll   |   |   |
+|   Player Status | Show player hp, mp, stam  |   |
+|   Vendor Search   |   |   |
+
+**Disclaimer:**
+
+I am not a fan of the Enhanced Client. I am not a fan of Lua. I do not trust anything about the Default UI. If you want to have the best experience in UO, you should use one of the many third-party applications that extend the capabilities of the Classic Client.
