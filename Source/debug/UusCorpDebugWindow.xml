@@ -12,7 +12,7 @@
 			<ThumbOffset x="0" y="0" />
 		</VerticalScrollbar>
 		
-		<Window name="UusCorpDebugWindow" movable="true" layer="popup">
+		<Window name="UusCorpDebugWindow" movable="true">
 			<Size>
 				<AbsPoint x="800" y="500" />
 			</Size>

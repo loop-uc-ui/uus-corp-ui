@@ -39,7 +39,9 @@ end
 
 function UusCorpDebugWindow:onShutdown()
     TextLogApi.enableLog(debugPrint, false)
+    TextLogApi.destroyTextLog(debugPrint)
     TextLogApi.enableLog(uiLog, false)
+    TextLogApi.destroyTextLog(uiLog)
     UusCorpWindow.onShutdown(self)
 end
 

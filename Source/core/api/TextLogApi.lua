@@ -4,6 +4,10 @@ function TextLogApi.createTextLog(name, num)
     TextLogCreate(name, num)
 end
 
+function TextLogApi.destroyTextLog(name)
+    TextLogDestroy(name)
+end
+
 function TextLogApi.enableLog(name, isEnable)
     TextLogSetEnabled(name, isEnable == nil or isEnable)
 end
