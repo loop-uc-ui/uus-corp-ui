@@ -8,7 +8,7 @@
     <Include file="Icons/Icons.xml"/>
 
 	<!-- Windows -->
-	<Include file="Source/ResizeWindow.xml"/>
+	<Include file="Source/resize/ResizeWindow.xml"/>
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
 
@@ -89,7 +89,7 @@
         <Script file="Source/core/window/UusCorpWindow.lua"/>
 
 		<Script file="Interface.lua" />
-		<Script file="Source/ResizeWindow.lua"/>
+		<Script file="Source/resize/ResizeWindow.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
 
