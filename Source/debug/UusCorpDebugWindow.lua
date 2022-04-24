@@ -6,8 +6,10 @@ LuaLog.ERROR = 2
 LuaLog.DEBUG = 3
 LuaLog.FUNCTION = 4
 
+local debugPrint = "DebugPrint"
+local uiLog = "UiLog"
+
 function UusCorpDebugWindow:onInitialize()
-    local debugPrint = "DebugPrint"
     TextLogApi.createTextLog(debugPrint, 1)
     TextLogApi.enableLog(debugPrint)
     TextLogApi.clearLog(debugPrint)
@@ -17,7 +19,6 @@ function UusCorpDebugWindow:onInitialize()
     LogApi.showLogName(text)
     LogApi.showFilterName(text)
 
-    local uiLog = "UiLog"
     LogApi.addLog(text, uiLog)
 
     LogApi.setFilterColor(text, uiLog, LuaLog.SYSTEM, { r = 255, g = 0, b = 255 }) -- Magenta
@@ -34,6 +35,12 @@ function UusCorpDebugWindow:onInitialize()
     end
 
     UusCorpWindow.onInitialize(self)
+end
+
+function UusCorpDebugWindow:onShutdown()
+    TextLogApi.enableLog(debugPrint, false)
+    TextLogApi.enableLog(uiLog, false)
+    UusCorpWindow.onShutdown(self)
 end
 
 function UusCorpDebugWindow.OnResizeBegin()

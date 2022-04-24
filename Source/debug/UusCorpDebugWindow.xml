@@ -37,7 +37,7 @@
 				<LogDisplay name="$parentText" font="UO_DefaultText_15pt" scrollbar="$parentScrollbar" scrollbarPosition="right" maxchars="4096" maxentries="4096" wordwrap="true">
 					<Anchors>
 						<Anchor point="topleft" relativePoint="topleft">
-							<AbsPoint x="20" y="40" />
+							<AbsPoint x="20" y="16" />
 						</Anchor>
 						<Anchor point="bottomright" relativePoint="bottomright">
 							<AbsPoint x="-15" y="-20" />

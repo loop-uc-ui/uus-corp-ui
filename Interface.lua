@@ -1,12 +1,10 @@
 Interface = {}
 
 function Interface.CreatePlayWindowSet()
-    CreateWindow("ResizeWindow", true)
-    MainMenuWindow:create(true)
+    --Destroy the default Debug Window
+    --created by Interface Core
     DestroyWindow("DebugWindow")
-    UusCorpDebugWindow:create(true)
-end
 
-function Interface.debug()
-    CreateWindow("DebugWindow", true)
+    CreateWindow("ResizeWindow", true)
+    MainMenuWindow:create(false)
 end
