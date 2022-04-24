@@ -18,18 +18,18 @@ local function action(name, func)
     }, UusCorpViewAction)
 end
 
-function UusCorpViewAction:onRButtonUp(func)
+function UusCorpViewAction.onRButtonUp(func)
     return action(UusCorpViewAction.Names.OnRButtonUp, func)
 end
 
-function UusCorpViewAction:onRButtonDown(func)
+function UusCorpViewAction.onRButtonDown(func)
     return action(UusCorpViewAction.Names.OnRButtonDown, func)
 end
 
-function UusCorpViewAction:onLButtonUp(func)
+function UusCorpViewAction.onLButtonUp(func)
     return action(UusCorpViewAction.Names.OnLButtonUp, func)
 end
 
-function UusCorpViewAction:onLButtonDown(func)
+function UusCorpViewAction.onLButtonDown(func)
     return action(UusCorpViewAction.Names.OnLButtonDown, func)
 end

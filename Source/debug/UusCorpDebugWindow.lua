@@ -1,4 +1,4 @@
-UusCorpDebugWindow = UusCorpComposable:asView("UusCorpDebugWindow"):asWindow()
+UusCorpDebugWindow = UusCorpComposable.asView("UusCorpDebugWindow"):asWindow()
 
 local LuaLog = {}
 LuaLog.SYSTEM = 1
