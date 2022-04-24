@@ -8,7 +8,6 @@
     <Include file="Icons/Icons.xml"/>
 
 	<!-- Windows -->
-	<Include file="Source/resize/ResizeWindow.xml"/>
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
 
@@ -39,6 +38,7 @@
 		<Script file="Source/core/api/TextLogApi.lua"/>
         <Script file="Source/core/api/TimeApi.lua"/>
         <Script file="Source/core/api/UserActionApi.lua"/>
+        <Script file="Source/core/api/ViewportApi.lua"/>
         <Script file="Source/core/api/WaypointApi.lua"/>
         <Script file="Source/core/api/WindowApi.lua"/>
         <Script file="Source/core/api/WindowDataApi.lua"/>
@@ -62,6 +62,7 @@
         <Script file="Source/core/data/PlayerLocation.lua"/>
         <Script file="Source/core/data/PlayerStatus.lua"/>
         <Script file="Source/core/data/Radar.lua"/>
+        <Script file="Source/core/data/ScreenResolution.lua"/>
         <Script file="Source/core/data/Skills.lua"/>
         <Script file="Source/core/data/UserAction.lua"/>
         <Script file="Source/core/data/UserContainerSettings.lua"/>
@@ -89,7 +90,7 @@
         <Script file="Source/core/window/UusCorpWindow.lua"/>
 
 		<Script file="Interface.lua" />
-		<Script file="Source/resize/ResizeWindow.lua"/>
+        <Script file="Source/viewport/Viewport.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
 

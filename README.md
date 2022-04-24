@@ -13,9 +13,14 @@ As I have determined that I cannot simply tweak the existing code and must rewri
 
 | Feature          | Description                      | Status      |
 |------------------|----------------------------------|-------------|
-| Debug Window     | Logs debug output        | In Progress |
-| Main Menu Window | Presents menu options via escape | In Progress |
-| Resize Window  | Resizes the game window | In Progress |
+|   Backpack    |   |   |
+|   Chat    |   Chat window with channels   |   |
+|   Debug Window     | Logs debug output        | Done |
+|   Main Menu Window | Presents menu options via escape | Done |
+|   Paperdoll   |   |   |
+|   Player Status | Show player hp, mp, stam  |   |
+|   Resize Window  | Resizes the game window | Removed |
+|   Vendor Search   |   |   |
 
 **Disclaimer:**
 
