@@ -1,5 +1,5 @@
 
-UusCorpStatusBar = setmetatable({}, UusCorpActionable)
+UusCorpStatusBar = setmetatable({}, { __index = UusCorpActionable})
 UusCorpStatusBar.__index = UusCorpStatusBar
 
 function UusCorpStatusBar:setCurrentValue(value)

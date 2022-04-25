@@ -1,4 +1,4 @@
-UusCorpButton = setmetatable({}, UusCorpActionable)
+UusCorpButton = setmetatable({}, { __index = UusCorpActionable })
 UusCorpButton.__index = UusCorpButton
 
 function UusCorpButton:addAction(action)

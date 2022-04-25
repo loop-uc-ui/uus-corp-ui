@@ -10,6 +10,7 @@
 	<!-- Windows -->
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
+    <Include file="Source/health_bar/MobileHealthBar.xml"/>
 
 
 	<!-- Remove this one once all the gumps are fixed -->
@@ -56,7 +57,7 @@
         <Script file="Source/core/data/Events.lua"/>
         <Script file="Source/core/data/GenericGumpCore.lua"/>
         <Script file="Source/core/data/MapSettings.lua"/>
-        <Script file="Source/core/data/MobileName.lua"/>
+        <Script file="Source/core/data/MobileData.lua"/>
         <Script file="Source/core/data/MousePosition.lua"/>
         <Script file="Source/core/data/Paperdoll.lua"/>
         <Script file="Source/core/data/PlayerLocation.lua"/>
@@ -90,9 +91,12 @@
         <Script file="Source/core/window/UusCorpWindow.lua"/>
 
 		<Script file="Interface.lua" />
-        <Script file="Source/viewport/Viewport.lua"/>
+        <Script file="Source/root/RootWindow.lua"/>
+        <Script file="Source/root/RootEventManager.lua"/>
+        <Script file="Source/root/RootHealthBarManager.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
+        <Script file="Source/health_bar/MobileHealthBar.lua"/>
 
 	</Scripts>
 

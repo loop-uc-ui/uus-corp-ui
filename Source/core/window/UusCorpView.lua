@@ -26,6 +26,7 @@ function UusCorpView:asWindow(parent, template)
         template = template or self.name,
         children = {},
         actions = {},
+        data = {},
         event = {}
     }, UusCorpWindow)
 

@@ -1,4 +1,4 @@
-UusCorpWindow = setmetatable({}, UusCorpActionable)
+UusCorpWindow = setmetatable({}, { __index = UusCorpActionable})
 UusCorpWindow.__index = UusCorpWindow
 
 function UusCorpWindow:doesExist()
@@ -11,7 +11,7 @@ function UusCorpWindow:create(doShow)
     end
 
     UusCorpViewActionManager.Views[self.name] = self
-    WindowApi.createFromTemplate(self.name, self.template, self.parent)
+    WindowApi.createFromTemplate(self.name, self.template or self.name, self.parent)
     self:onInitialize()
     self:show(doShow == nil or doShow)
 end
@@ -19,6 +19,10 @@ end
 function UusCorpWindow:onInitialize()
     if self.parent == "Root" then
         WindowUtils.RestoreWindowPosition(self.name, true)
+    end
+
+    for key, value in pairs(self.data) do
+        WindowDataApi.registerData(value, key)
     end
 
     for _, value in pairs(self.actions) do
@@ -45,6 +49,10 @@ end
 function UusCorpWindow:onShutdown()
     if self.parent == "Root" then
         WindowUtils.SaveWindowPosition(self.name, true)
+    end
+
+    for key, value in pairs(self.data) do
+        WindowDataApi.unregisterData(value, key)
     end
 
     for _, value in pairs(self.actions) do
@@ -114,5 +122,12 @@ end
 
 function UusCorpWindow:addAction(action)
     UusCorpActionable.addAction(self, action)
+    return self
+end
+
+function UusCorpWindow:addData(type, id)
+    Debug.Print(type)
+    Debug.Print(id)
+    self.data[id] = type
     return self
 end

@@ -1,5 +1,5 @@
 
-UusCorpLabel = setmetatable({}, UusCorpActionable)
+UusCorpLabel = setmetatable({}, { __index = UusCorpActionable })
 UusCorpLabel.__index = UusCorpLabel
 
 function UusCorpLabel:addAction(action)
