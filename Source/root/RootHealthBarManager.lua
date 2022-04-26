@@ -1,6 +1,8 @@
 RootHealthBarManager = setmetatable({ name = "RootHealthBarManager", events = {}, data = {}}, { __index = RootEventManager })
 RootHealthBarManager.__index = RootHealthBarManager
 
+local mousePosX, mousePosY
+
 function RootHealthBarManager:initialize()
     self:registerEvent(
         Events.beginHealthBarDrag(),
@@ -14,13 +16,18 @@ function RootHealthBarManager:initialize()
 end
 
 function RootHealthBarManager.onBeginHealthBarDrag()
-    local id = SystemData.ActiveMobile.Id
-
-    if id then
-        MobileHealthBar:new(id):create()
-    end
+    mousePosX = MousePosition.x()
+    mousePosY = MousePosition.y()
 end
 
 function RootHealthBarManager.onEndHealthBarDrag()
+    local id = SystemData.ActiveMobile.Id
 
+    if not id then
+        return
+    end
+
+    if mousePosX ~= MousePosition.x() and mousePosY ~= MousePosition.y() then
+        MobileHealthBar:new(id):create()
+    end
 end

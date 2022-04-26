@@ -11,7 +11,14 @@ function UusCorpWindow:create(doShow)
     end
 
     UusCorpViewActionManager.Views[self.name] = self
+
+    for key, value in pairs(self.data) do
+        WindowDataApi.registerData(key, value)
+    end
+
+    self:registerData()
     WindowApi.createFromTemplate(self.name, self.template or self.name, self.parent)
+
     self:onInitialize()
     self:show(doShow == nil or doShow)
 end
@@ -19,10 +26,6 @@ end
 function UusCorpWindow:onInitialize()
     if self.parent == "Root" then
         WindowUtils.RestoreWindowPosition(self.name, true)
-    end
-
-    for key, value in pairs(self.data) do
-        WindowDataApi.registerData(value, key)
     end
 
     for _, value in pairs(self.actions) do
@@ -52,7 +55,7 @@ function UusCorpWindow:onShutdown()
     end
 
     for key, value in pairs(self.data) do
-        WindowDataApi.unregisterData(value, key)
+        WindowDataApi.unregisterData(key, value)
     end
 
     for _, value in pairs(self.actions) do
@@ -125,9 +128,19 @@ function UusCorpWindow:addAction(action)
     return self
 end
 
+function UusCorpWindow:registerData()
+    return self
+end
+
+function UusCorpWindow:unregisterData()
+    return self
+end
+
 function UusCorpWindow:addData(type, id)
-    Debug.Print(type)
-    Debug.Print(id)
-    self.data[id] = type
+    if not self.data then
+        self.data = {}
+    end
+
+    self.data[type] = id
     return self
 end

@@ -8,7 +8,17 @@ function UusCorpStatusBar:setCurrentValue(value)
 end
 
 function UusCorpStatusBar:setMaximumValue(value)
-    UusCorpStatusBar.setMaximumValue(self.name, value or 0)
+    StatusBarApi.setMaximumValue(self.name, value or 0)
+    return self
+end
+
+function UusCorpStatusBar:setForegroundTint(color)
+    StatusBarApi.setForegroundTint(self.name, color)
+    return self
+end
+
+function UusCorpStatusBar:setBackgroundTint(color)
+    StatusBarApi.setBackgroundTint(self.name, color)
     return self
 end
 
