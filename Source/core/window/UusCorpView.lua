@@ -31,7 +31,7 @@ function UusCorpView:asWindow(parent, template)
     }, UusCorpWindow)
 
     return window:addAction(
-        UusCorpViewAction.onRButtonUp(function ()
+        UusCorpViewEvent.onRButtonUp(function ()
             window:destroy()
             return window
         end)

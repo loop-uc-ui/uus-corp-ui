@@ -12,6 +12,8 @@ function UusCorpWindow:create(doShow)
 
     UusCorpViewActionManager.Views[self.name] = self
 
+    self.__data = self:data()
+
     for key, value in pairs(self.data) do
         WindowDataApi.registerData(key, value)
     end
@@ -28,12 +30,25 @@ function UusCorpWindow:onInitialize()
         WindowUtils.RestoreWindowPosition(self.name, true)
     end
 
+    self.__coreEvents = self:coreEvents()
+
+    table.insert(
+        self.__coreEvents,
+        UusCorpViewEvent.onRButtonUp(function ()
+                self:destroy()
+                return self
+            end
+        )
+    )
+
     for _, value in pairs(self.actions) do
         WindowApi.registerCoreEventHandler(self.name, value.name, value.callback)
     end
 
-    for i = 1, #self.children do
-        local child = self.children[i]
+    self.__children = self.children()
+
+    for i = 1, #self.__children do
+        local child = self.__children[i]
 
         if child.create then
             child:create()
@@ -143,4 +158,25 @@ function UusCorpWindow:addData(type, id)
 
     self.data[type] = id
     return self
+end
+
+function UusCorpWindow:children()
+    return {}
+end
+
+function UusCorpWindow:data()
+    return {}
+end
+
+function UusCorpWindow:coreEvents()
+    return {
+        UusCorpViewEvent.onRButtonUp(function ()
+            self:destroy()
+            return self
+        end)
+    }
+end
+
+function UusCorpWindow:events()
+    return {}
 end

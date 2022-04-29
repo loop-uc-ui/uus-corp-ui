@@ -26,6 +26,23 @@ function MobileHealthBar:new(mobileId)
     return this
 end
 
+function MobileHealthBar:data()
+    return {
+        UusCorpWindowData.new(
+            MobileData.statusType(),
+            self.mobileId
+        ),
+        UusCorpWindowData.new(
+            MobileData.nameType(),
+            self.mobileId
+        ),
+        UusCorpWindowData.new(
+            MobileData.healthBarColorType(),
+            self.mobileId
+        )
+    }
+end
+
 function MobileHealthBar:onInitialize()
     self:addChild(
         UusCorpComposable.asView(self.name .. "Name"):asLabel():setText(
@@ -38,6 +55,8 @@ function MobileHealthBar:onInitialize()
             MobileData.status(self.mobileId).MaxHealth
         ):setForegroundTint(
             Colors.Red
+        ):setBackgroundTint(
+            Colors.DarkRed
         )
     ):addChild(
         UusCorpComposable.asView(self.name .. "HealthBarPerc"):asLabel():setText(
