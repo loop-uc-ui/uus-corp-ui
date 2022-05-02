@@ -61,7 +61,7 @@
                     </Size>
                     <Anchors>
                         <Anchor point="topcenter" relativePoint="topcenter" relativeTo="$parentHealthBar">
-                            <AbsPoint x="5" y="4" />
+                            <AbsPoint x="5" y="2" />
                         </Anchor>
                     </Anchors>
                     <Color r="255" g="255" b="255" a="255" />
