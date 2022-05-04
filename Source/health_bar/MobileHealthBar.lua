@@ -12,26 +12,32 @@ function MobileHealthBar:new(mobileId)
 
     this.mobileId = mobileId
 
-    this:addData(
-        MobileData.statusType(),
-        mobileId
-    ):addData(
-        MobileData.nameType(),
-        mobileId
-    ):addData(
-        MobileData.healthBarColorType(),
-        mobileId
+    this:datum(
+        UusCorpWindowData.new(
+            MobileData.statusType(),
+            mobileId
+        )
+    ):datum(
+        UusCorpWindowData.new(
+            MobileData.nameType(),
+            mobileId
+        )
+    ):datum(
+        UusCorpWindowData.new(
+            MobileData.healthBarColorType(),
+            mobileId
+        )
     )
 
     return this
 end
 
 function MobileHealthBar:onInitialize()
-    self:addChild(
+    self:child(
         UusCorpComposable.asView(self.name .. "Name"):asLabel():setText(
             MobileData.status(self.mobileId).MobName
         )
-    ):addChild(
+    ):child(
         UusCorpComposable.asView(self.name .. "HealthBar"):asStatusBar():setCurrentValue(
             MobileData.status(self.mobileId).CurrentHealth
         ):setMaximumValue(
@@ -39,7 +45,7 @@ function MobileHealthBar:onInitialize()
         ):setForegroundTint(
             Colors.Red
         )
-    ):addChild(
+    ):child(
         UusCorpComposable.asView(self.name .. "HealthBarPerc"):asLabel():setText(
             tostring(
                 (MobileData.status(self.mobileId).CurrentHealth / MobileData.status(self.mobileId).MaxHealth) * 100
@@ -48,4 +54,3 @@ function MobileHealthBar:onInitialize()
     )
     UusCorpWindow.onInitialize(self)
 end
-

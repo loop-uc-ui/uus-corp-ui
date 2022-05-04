@@ -1,11 +1,6 @@
 
-UusCorpLabel = setmetatable({}, { __index = UusCorpActionable })
+UusCorpLabel = setmetatable({}, { __index = UusCorpViewable })
 UusCorpLabel.__index = UusCorpLabel
-
-function UusCorpLabel:addAction(action)
-    UusCorpActionable.addAction(self, action)
-    return self
-end
 
 function UusCorpLabel:setText(labelText)
     if labelText == nil then
@@ -28,5 +23,15 @@ end
 
 function UusCorpLabel:setTextAlignment(alignment)
     LabelApi.setTextAlignment(self.name, alignment)
+    return self
+end
+
+function UusCorpLabel:coreEvent(event)
+    UusCorpViewable.coreEvent(self, event)
+    return self
+end
+
+function UusCorpLabel:event(event)
+    UusCorpViewable.event(self, event)
     return self
 end

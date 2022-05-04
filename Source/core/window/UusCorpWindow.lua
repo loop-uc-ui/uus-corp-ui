@@ -1,4 +1,4 @@
-UusCorpWindow = setmetatable({}, { __index = UusCorpActionable})
+UusCorpWindow = UusCorpViewable.new("")
 UusCorpWindow.__index = UusCorpWindow
 
 function UusCorpWindow:doesExist()
@@ -9,8 +9,6 @@ function UusCorpWindow:create(doShow)
     if self:doesExist() then
         return
     end
-
-    UusCorpViewActionManager.Views[self.name] = self
 
     for key, value in pairs(self.data) do
         WindowDataApi.registerData(key, value)
@@ -28,23 +26,17 @@ function UusCorpWindow:onInitialize()
         WindowUtils.RestoreWindowPosition(self.name, true)
     end
 
-    for _, value in pairs(self.actions) do
-        WindowApi.registerCoreEventHandler(self.name, value.name, value.callback)
-    end
+    self:registerCoreEvents()
+    self:registerEvents()
 
     for i = 1, #self.children do
         local child = self.children[i]
 
         if child.create then
             child:create()
-        elseif child.actions then
-            for _, value in pairs(child.actions) do
-                WindowApi.registerCoreEventHandler(
-                    child.name,
-                    value.name,
-                    value.callback
-                )
-            end
+        else
+            child:registerCoreEvents()
+            child:registerEvents()
         end
     end
 end
@@ -54,27 +46,18 @@ function UusCorpWindow:onShutdown()
         WindowUtils.SaveWindowPosition(self.name, true)
     end
 
-    for key, value in pairs(self.data) do
-        WindowDataApi.unregisterData(key, value)
-    end
-
-    for _, value in pairs(self.actions) do
-        WindowApi.unregisterCoreEventHandler(self.name, value.name)
-    end
+    self:unregisterData()
+    self:unregisterCoreEvents()
+    self:unregisterEvents()
 
     for i = 1, #self.children do
         local child = self.children[i]
 
         if child.destroy then
             child:destroy()
-        elseif child.actions then
-            for _, value in pairs(child.actions) do
-                WindowApi.unregisterCoreEventHandler(
-                    child.name,
-                    value.name
-                )
-            end
-            UusCorpViewActionManager.Views[child.name] = nil
+        else
+            child:unregisterCoreEvents()
+            child:unregisterEvents()
         end
     end
 end
@@ -94,7 +77,6 @@ function UusCorpWindow:destroy()
 
     self:onShutdown()
     WindowApi.destroyWindow(self.name)
-    UusCorpViewActionManager.Views[self.name] = nil
     self = nil
     return self
 end
@@ -117,30 +99,35 @@ function UusCorpWindow:show(doShow)
     return self
 end
 
-function UusCorpWindow:addChild(view)
-    table.insert(self.children, view)
-    UusCorpViewActionManager.Views[view.name] = view
-    return self
-end
-
-function UusCorpWindow:addAction(action)
-    UusCorpActionable.addAction(self, action)
+function UusCorpWindow:datum(datum)
+    self.data[datum.type] = datum.id
     return self
 end
 
 function UusCorpWindow:registerData()
-    return self
+    for k, v in pairs(self.data) do
+        WindowDataApi.registerData(k, v)
+    end
 end
 
 function UusCorpWindow:unregisterData()
+    for k, v in pairs(self.data) do
+        WindowDataApi.unregisterData(k, v)
+        self.data[k] = nil
+    end
+end
+
+function UusCorpWindow:child(child)
+    table.insert(self.children, child)
     return self
 end
 
-function UusCorpWindow:addData(type, id)
-    if not self.data then
-        self.data = {}
-    end
+function UusCorpWindow:coreEvent(event)
+    UusCorpViewable.coreEvent(self, event)
+    return self
+end
 
-    self.data[type] = id
+function UusCorpWindow:event(event)
+    UusCorpViewable.event(self, event)
     return self
 end

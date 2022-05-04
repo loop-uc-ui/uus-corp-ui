@@ -80,9 +80,10 @@
         <Script file="Source/core/resources/Colors.lua"/>
         <Script file="Source/core/resources/TextIds.lua"/>
 
-        <Script file="Source/core/window/UusCorpActionable.lua"/>
+        <Script file="Source/core/window/UusCorpWindowData.lua"/>
+        <Script file="Source/core/window/UusCorpViewable.lua"/>
 		<Script file="Source/core/window/UusCorpComposable.lua"/>
-		<Script file="Source/core/window/UusCorpViewAction.lua"/>
+		<Script file="Source/core/window/UusCorpViewEvent.lua"/>
 		<Script file="Source/core/window/UusCorpViewActionManager.lua"/>
 		<Script file="Source/core/window/UusCorpView.lua"/>
         <Script file="Source/core/window/UusCorpButton.lua"/>

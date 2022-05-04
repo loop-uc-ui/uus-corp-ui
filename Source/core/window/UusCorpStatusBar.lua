@@ -1,5 +1,5 @@
 
-UusCorpStatusBar = setmetatable({}, { __index = UusCorpActionable})
+UusCorpStatusBar = setmetatable({}, { __index = UusCorpViewable})
 UusCorpStatusBar.__index = UusCorpStatusBar
 
 function UusCorpStatusBar:setCurrentValue(value)
@@ -22,7 +22,12 @@ function UusCorpStatusBar:setBackgroundTint(color)
     return self
 end
 
-function UusCorpStatusBar:addAction(action)
-    UusCorpActionable.addAction(self, action)
+function UusCorpStatusBar:coreEvent(event)
+    UusCorpViewable.coreEvent(self, event)
+    return self
+end
+
+function UusCorpStatusBar:event(event)
+    UusCorpViewable.event(self, event)
     return self
 end

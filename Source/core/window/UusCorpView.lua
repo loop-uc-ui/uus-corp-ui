@@ -2,36 +2,39 @@ UusCorpView = {}
 UusCorpView.__index = UusCorpView
 
 function UusCorpView:asStatusBar()
-    return setmetatable({
-        name = self.name
-    }, UusCorpStatusBar)
+    return setmetatable(
+        UusCorpViewable.new(self.name),
+        UusCorpStatusBar
+    )
 end
 
 function UusCorpView:asLabel()
-    return setmetatable({
-        name = self.name
-    }, UusCorpLabel)
+    return setmetatable(
+        UusCorpViewable.new(self.name),
+        UusCorpLabel
+    )
 end
 
 function UusCorpView:asButton()
-    return setmetatable({
-        name = self.name
-    }, UusCorpButton)
+    return setmetatable(
+        UusCorpViewable.new(self.name),
+        UusCorpButton
+    )
 end
 
 function UusCorpView:asWindow(parent, template)
-    local window = setmetatable({
-        name = self.name,
-        parent = parent or "Root",
-        template = template or self.name,
-        children = {},
-        actions = {},
-        data = {},
-        event = {}
-    }, UusCorpWindow)
+    local window = setmetatable(
+        UusCorpViewable.new(self.name),
+        UusCorpWindow
+    )
 
-    return window:addAction(
-        UusCorpViewAction.onRButtonUp(function ()
+    window.parent = parent or "Root"
+    window.template = template or self.name
+    window.children = {}
+    window.data = {}
+
+    return window:coreEvent(
+        UusCorpViewEvent.onRButtonUp(function ()
             window:destroy()
             return window
         end)

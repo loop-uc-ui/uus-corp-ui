@@ -1,10 +1,5 @@
-UusCorpButton = setmetatable({}, { __index = UusCorpActionable })
+UusCorpButton = setmetatable({}, { __index = UusCorpViewable })
 UusCorpButton.__index = UusCorpButton
-
-function UusCorpButton:addAction(action)
-    UusCorpActionable.addAction(self, action)
-    return self
-end
 
 function UusCorpButton:setText(text)
     if text == nil then
@@ -22,5 +17,15 @@ end
 
 function UusCorpButton:setDisabled(isDisabled)
     ButtonApi.setDisabled(self.name, isDisabled ~= nil and isDisabled)
+    return self
+end
+
+function UusCorpButton:coreEvent(event)
+    UusCorpViewable.coreEvent(self, event)
+    return self
+end
+
+function UusCorpButton:event(event)
+    UusCorpViewable.event(self, event)
     return self
 end
