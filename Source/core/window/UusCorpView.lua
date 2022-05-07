@@ -1,42 +1,85 @@
-UusCorpView = {}
+
+UusCorpView = {
+    name = nil,
+    coreEvents = {},
+    events = {},
+    observer = {}
+}
+
 UusCorpView.__index = UusCorpView
 
-function UusCorpView:asStatusBar()
-    return setmetatable(
-        UusCorpViewable.new(self.name),
-        UusCorpStatusBar
-    )
+UusCorpGlobalEvents = {}
+UusCorpGlobalCoreEvents = {}
+
+function UusCorpView.new(name)
+    return setmetatable({
+        name = name,
+        coreEvents = {},
+        events = {},
+        observer = {}
+    }, UusCorpView)
 end
 
-function UusCorpView:asLabel()
-    return setmetatable(
-        UusCorpViewable.new(self.name),
-        UusCorpLabel
-    )
+function UusCorpView:coreEvent(event)
+    self.coreEvents[event.name] = event.func
+    UusCorpGlobalCoreEvents[self.name .. event.name] = event.func
+    return self
 end
 
-function UusCorpView:asButton()
-    return setmetatable(
-        UusCorpViewable.new(self.name),
-        UusCorpButton
-    )
+function UusCorpView:registerCoreEvents()
+    for k, _ in pairs(self.coreEvents) do
+        WindowApi.registerCoreEventHandler(
+            self.name,
+            k,
+            "UusCorpGlobalCoreEvents" .. "." .. self.name .. k
+        )
+    end
 end
 
-function UusCorpView:asWindow(parent, template)
-    local window = setmetatable(
-        UusCorpViewable.new(self.name),
-        UusCorpWindow
-    )
+function UusCorpView:unregisterCoreEvents()
+    for k, _ in pairs(self.coreEvents) do
+        WindowApi.unregisterCoreEventHandler(
+            self.name,
+            k
+        )
+        self.coreEvents[k] = nil
+        UusCorpGlobalCoreEvents[self.name .. k] = nil
+    end
+end
 
-    window.parent = parent or "Root"
-    window.template = template or self.name
-    window.children = {}
-    window.data = {}
+function UusCorpView:event(event)
+    self.events[event.name] = event
+    UusCorpGlobalEvents[self.name .. event.name] = event.func or function ()
+        self:update()
+    end
+    return self
+end
 
-    return window:coreEvent(
-        UusCorpViewEvent.onRButtonUp(function ()
-            window:destroy()
-            return window
-        end)
-    )
+function UusCorpView:registerEvents()
+    for k, _ in pairs(self.events) do
+        WindowApi.registerEventHandler(
+            self.name,
+            k,
+            "UusCorpGlobalEvents" .. "." .. self.name .. k
+        )
+    end
+end
+
+function UusCorpView:unregisterEvents()
+    for k, _ in pairs(self.events) do
+        WindowApi.unregisterEventHandler(
+            self.name,
+            k
+        )
+        self.events[k] = nil
+        UusCorpGlobalEvents[self.name .. k] = nil
+    end
+end
+
+function UusCorpView:update(...)
+    for _, v in pairs(self.observer) do
+        if type(v) == "function" then
+            v(...)
+        end
+    end
 end

@@ -1,33 +1,48 @@
 
-UusCorpStatusBar = setmetatable({}, { __index = UusCorpViewable})
+UusCorpStatusBar = setmetatable({}, { __index = UusCorpView})
 UusCorpStatusBar.__index = UusCorpStatusBar
 
+function UusCorpStatusBar.new(name)
+    return setmetatable(
+        UusCorpView.new(name),
+        UusCorpStatusBar
+    )
+end
+
 function UusCorpStatusBar:setCurrentValue(value)
-    StatusBarApi.setCurrentValue(self.name, value or 0)
+    self.observer.onSetCurrentValue = function ()
+        StatusBarApi.setCurrentValue(self.name, value or 0)
+    end
     return self
 end
 
 function UusCorpStatusBar:setMaximumValue(value)
-    StatusBarApi.setMaximumValue(self.name, value or 0)
+    self.observer.onSetMaximumValue = function ()
+        StatusBarApi.setMaximumValue(self.name, value or 0)
+    end
     return self
 end
 
 function UusCorpStatusBar:setForegroundTint(color)
-    StatusBarApi.setForegroundTint(self.name, color)
+    self.observer.onSetForgroundTint = function ()
+        StatusBarApi.setForegroundTint(self.name, color)
+    end
     return self
 end
 
 function UusCorpStatusBar:setBackgroundTint(color)
-    StatusBarApi.setBackgroundTint(self.name, color)
+    self.observer.onSetBackgroundTint = function ()
+        StatusBarApi.setBackgroundTint(self.name, color)
+    end
     return self
 end
 
 function UusCorpStatusBar:coreEvent(event)
-    UusCorpViewable.coreEvent(self, event)
+    UusCorpView.coreEvent(self, event)
     return self
 end
 
 function UusCorpStatusBar:event(event)
-    UusCorpViewable.event(self, event)
+    UusCorpView.event(self, event)
     return self
 end

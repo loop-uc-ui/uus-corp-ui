@@ -1,6 +1,12 @@
 MobileHealthBar = setmetatable(UusCorpComposable.asView("MobileHealthBar"):asWindow(), {__index = UusCorpWindow})
 MobileHealthBar.__index = MobileHealthBar
 
+local function healthText(mobileId)
+    return tostring(
+        (MobileData.status(mobileId).CurrentHealth / MobileData.status(mobileId).MaxHealth) * 100
+    ) .. "%"
+end
+
 function MobileHealthBar:new(mobileId)
     local this = setmetatable(
         UusCorpComposable.asView(self.name .. mobileId):asWindow(
@@ -33,6 +39,12 @@ function MobileHealthBar:new(mobileId)
 end
 
 function MobileHealthBar:onInitialize()
+    local health = UusCorpComposable.asView(self.name .. "HealthBarPerc"):asLabel()
+
+    health:event(UusCorpViewEvent.new(WindowData.MobileStatus.Event, function ()
+        health:setText(healthText(self.mobileId))
+    end))
+
     self:child(
         UusCorpComposable.asView(self.name .. "Name"):asLabel():setText(
             MobileData.status(self.mobileId).MobName
@@ -46,11 +58,7 @@ function MobileHealthBar:onInitialize()
             Colors.Red
         )
     ):child(
-        UusCorpComposable.asView(self.name .. "HealthBarPerc"):asLabel():setText(
-            tostring(
-                (MobileData.status(self.mobileId).CurrentHealth / MobileData.status(self.mobileId).MaxHealth) * 100
-            ) .. "%"
-        )
+        health
     )
     UusCorpWindow.onInitialize(self)
 end

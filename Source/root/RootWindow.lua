@@ -10,7 +10,7 @@ function RootWindow.initalize()
         ScreenResolution.y()
     )
 
-    RootHealthBarManager:initialize()
+    -- RootHealthBarManager:initialize()
 end
 
 function RootWindow.shutdown()

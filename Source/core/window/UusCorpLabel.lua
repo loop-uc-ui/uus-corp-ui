@@ -1,37 +1,49 @@
 
-UusCorpLabel = setmetatable({}, { __index = UusCorpViewable })
+UusCorpLabel = setmetatable({}, { __index = UusCorpView })
 UusCorpLabel.__index = UusCorpLabel
 
+function UusCorpLabel.new(name)
+    return setmetatable(
+        UusCorpView.new(name),
+        UusCorpLabel
+    )
+end
+
 function UusCorpLabel:setText(labelText)
-    if labelText == nil then
-        return
-    elseif type(labelText) == "number" then
-        labelText = StringFormatter.fromTid(labelText)
-    elseif type(labelText) == "string" then
-        labelText = StringFormatter.toWString(labelText)
+    self.observer.onSetText = function()
+        if labelText == nil then
+            return
+        elseif type(labelText) == "number" then
+            labelText = StringFormatter.fromTid(labelText)
+        elseif type(labelText) == "string" then
+            labelText = StringFormatter.toWString(labelText)
+        end
+
+        LabelApi.setText(self.name, labelText)
     end
-
-    LabelApi.setText(self.name, labelText)
-
     return self
 end
 
 function UusCorpLabel:setTextColor(color)
-    LabelApi.setTextColor(self.name, color)
+    self.observer.onSetColor = function()
+        LabelApi.setTextColor(self.name, color)
+    end
     return self
 end
 
 function UusCorpLabel:setTextAlignment(alignment)
-    LabelApi.setTextAlignment(self.name, alignment)
+    self.observer.onSetTextAlignment = function()
+        LabelApi.setTextAlignment(self.name, alignment)
+    end
     return self
 end
 
 function UusCorpLabel:coreEvent(event)
-    UusCorpViewable.coreEvent(self, event)
+    UusCorpView.coreEvent(self, event)
     return self
 end
 
 function UusCorpLabel:event(event)
-    UusCorpViewable.event(self, event)
+    UusCorpView.event(self, event)
     return self
 end
