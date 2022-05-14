@@ -18,6 +18,10 @@ function MobileHealthBar:new(mobileId)
         end
     )
 
+    local isInactive = function ()
+        return MobileData.status(mobileId) == nil or MobileData.currentHealth(mobileId) == 0
+    end
+
     local mobileName = UusCorpLabel.new(name .. "Name"):setText(
         function ()
             return MobileData.name(mobileId)
@@ -42,11 +46,23 @@ function MobileHealthBar:new(mobileId)
         end
     )
 
-    return UusCorpWindow.new(
+    local window = UusCorpWindow.new(
         name,
         nil,
         MobileHealthBar.Name
-    ):data(
+    )
+
+    local updateWindow = function ()
+        if isInactive() then
+            window:destroy()
+        else
+            healthBar:update()
+            mobileName:update()
+            healthLabel:update()
+        end
+    end
+
+    return window:data(
         MobileData.statusType(),
         mobileId
     ):data(
@@ -64,10 +80,18 @@ function MobileHealthBar:new(mobileId)
     ):event(
         UusCorpViewEvent.new(
             MobileData.statusEvent(),
+            updateWindow
+        )
+    ):event(
+        UusCorpViewEvent.new(
+            Events.enableHealthBar(),
+            updateWindow
+        )
+    ):event(
+        UusCorpViewEvent.new(
+            Events.disableHealthBar(),
             function ()
-                healthBar:update()
-                mobileName:update()
-                healthLabel:update()
+                window:destroy()
             end
         )
     )

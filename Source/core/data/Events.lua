@@ -11,3 +11,11 @@ end
 function Events.endHealthBarDrag()
     return SystemData.Events.END_DRAG_HEALTHBAR_WINDOW
 end
+
+function Events.enableHealthBar()
+    return SystemData.Events.ENABLE_HEALTHBAR_WINDOW
+end
+
+function Events.disableHealthBar()
+    return SystemData.Events.DISABLE_HEALTHBAR_WINDOW
+end

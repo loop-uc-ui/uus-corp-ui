@@ -35,3 +35,7 @@ end
 function MobileData.maxHealth(id)
     return MobileData.status(id).MaxHealth
 end
+
+function MobileData.isDead(id)
+    return MobileData.status(id).IsDead
+end

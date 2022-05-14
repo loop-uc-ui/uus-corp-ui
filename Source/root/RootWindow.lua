@@ -13,16 +13,14 @@ RootWindow = UusCorpWindow.new("Root"):event(
         Events.endHealthBarDrag(),
         function ()
             local id = SystemData.ActiveMobile.Id
-            Debug.Print(id)
-            if not id then
-                return
-            end
-            Debug.Print(mousePosX)
-            if mousePosX ~= MousePosition.x() and mousePosY ~= MousePosition.y() then
+
+            if id and mousePosX ~= MousePosition.x() and mousePosY ~= MousePosition.y() then
                 MobileHealthBar:new(id):create()
             end
         end
     )
+):coreEvent(
+    UusCorpViewEvent.onRButtonUp(nil)
 )
 
 function RootWindow:create()
