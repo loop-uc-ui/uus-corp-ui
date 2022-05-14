@@ -1,7 +1,7 @@
 Interface = {}
 
 function Interface.CreatePlayWindowSet()
-    RootWindow.initalize()
+    RootWindow:create()
 
     --Destroy the default Debug Window
     --created by Interface Core

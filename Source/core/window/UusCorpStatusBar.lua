@@ -11,28 +11,60 @@ end
 
 function UusCorpStatusBar:setCurrentValue(value)
     self.observer.onSetCurrentValue = function ()
-        StatusBarApi.setCurrentValue(self.name, value or 0)
+        local _value
+
+        if type(value) == "function" then
+            _value = value()
+        else
+            _value = value
+        end
+
+        StatusBarApi.setCurrentValue(self.name, _value or 0)
     end
     return self
 end
 
 function UusCorpStatusBar:setMaximumValue(value)
     self.observer.onSetMaximumValue = function ()
-        StatusBarApi.setMaximumValue(self.name, value or 0)
+        local _value
+
+        if type(value) == "function" then
+            _value = value()
+        else
+            _value = value
+        end
+
+        StatusBarApi.setMaximumValue(self.name, _value or 0)
     end
     return self
 end
 
 function UusCorpStatusBar:setForegroundTint(color)
     self.observer.onSetForgroundTint = function ()
-        StatusBarApi.setForegroundTint(self.name, color)
+        local _color
+
+        if type(color) == "function" then
+            _color = color()
+        else
+            _color = color
+        end
+
+        StatusBarApi.setForegroundTint(self.name, _color)
     end
     return self
 end
 
 function UusCorpStatusBar:setBackgroundTint(color)
     self.observer.onSetBackgroundTint = function ()
-        StatusBarApi.setBackgroundTint(self.name, color)
+        local _color
+
+        if type(color) == "function" then
+            _color = color()
+        else
+            _color = color
+        end
+
+        StatusBarApi.setBackgroundTint(self.name, _color)
     end
     return self
 end

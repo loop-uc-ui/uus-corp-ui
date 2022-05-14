@@ -33,9 +33,7 @@ function UusCorpWindow:create(doShow)
         return
     end
 
-    for k, v in pairs(self._data) do
-        WindowDataApi.registerData(k, v)
-    end
+    self:registerData()
 
     WindowApi.createFromTemplate(self.name, self.template or self.name, self.parent)
 
@@ -69,11 +67,7 @@ function UusCorpWindow:onShutdown()
         WindowUtils.SaveWindowPosition(self.name, true)
     end
 
-    for k, v in pairs(self._data) do
-        WindowDataApi.unregisterData(k, v)
-        self._data[k] = nil
-    end
-
+    self:unregisterData()
     self:unregisterCoreEvents()
     self:unregisterEvents()
 
@@ -144,4 +138,17 @@ end
 function UusCorpWindow:event(event)
     UusCorpView.event(self, event)
     return self
+end
+
+function UusCorpWindow:registerData()
+    for k, v in pairs(self._data) do
+        WindowDataApi.registerData(k, v)
+    end
+end
+
+function UusCorpWindow:unregisterData()
+    for k, v in pairs(self._data) do
+        WindowDataApi.unregisterData(k, v)
+        self._data[k] = nil
+    end
 end

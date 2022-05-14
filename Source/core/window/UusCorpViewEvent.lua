@@ -8,13 +8,18 @@ UusCorpViewEvent.Names = {
     OnLButtonDown = "OnLButtonDown"
 }
 
-function UusCorpViewEvent.new(name, func)
-    return setmetatable({
-        name = name,
-        func = function (...)
-            func(...)
-        end
+function UusCorpViewEvent.new(name, onUpdate)
+    local this = setmetatable({
+        name = name
     }, UusCorpViewEvent)
+
+    if onUpdate then
+        this.func = function (...)
+            onUpdate(...)
+        end
+    end
+
+    return this
 end
 
 function UusCorpViewEvent.onRButtonUp(func)

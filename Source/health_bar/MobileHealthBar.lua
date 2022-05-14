@@ -1,64 +1,74 @@
-MobileHealthBar = setmetatable(UusCorpComposable.asView("MobileHealthBar"):asWindow(), {__index = UusCorpWindow})
-MobileHealthBar.__index = MobileHealthBar
+MobileHealthBar = {}
+MobileHealthBar.Name = "MobileHealthBar"
 
 local function healthText(mobileId)
     return tostring(
-        (MobileData.status(mobileId).CurrentHealth / MobileData.status(mobileId).MaxHealth) * 100
+        math.floor(
+            (MobileData.status(mobileId).CurrentHealth / MobileData.status(mobileId).MaxHealth) * 100
+        )
     ) .. "%"
 end
 
 function MobileHealthBar:new(mobileId)
-    local this = setmetatable(
-        UusCorpComposable.asView(self.name .. mobileId):asWindow(
-            nil,
-            self.name
-        ),
-        MobileHealthBar
+    local name = MobileHealthBar.Name .. mobileId
+
+    local healthLabel =  UusCorpLabel.new(name .. "HealthBarPerc"):setText(
+        function ()
+            return healthText(mobileId)
+        end
     )
 
-    this.mobileId = mobileId
-
-    this:datum(
-        UusCorpWindowData.new(
-            MobileData.statusType(),
-            mobileId
-        )
-    ):datum(
-        UusCorpWindowData.new(
-            MobileData.nameType(),
-            mobileId
-        )
-    ):datum(
-        UusCorpWindowData.new(
-            MobileData.healthBarColorType(),
-            mobileId
+    local mobileName = UusCorpLabel.new(name .. "Name"):setText(
+        function ()
+            return MobileData.name(mobileId)
+        end
+    ):event(
+        UusCorpViewEvent.new(
+            MobileData.nameEvent()
         )
     )
 
-    return this
-end
+    local healthBar = UusCorpStatusBar.new(name .. "HealthBar"):setCurrentValue(
+        function ()
+            return MobileData.currentHealth(mobileId)
+        end
+    ):setMaximumValue(
+        function ()
+            return MobileData.maxHealth(mobileId)
+        end
+    ):setForegroundTint(
+        function ()
+            return Colors.Red
+        end
+    )
 
-function MobileHealthBar:onInitialize()
-    local health = UusCorpComposable.asView(self.name .. "HealthBarPerc"):asLabel()
-
-    health:event(UusCorpViewEvent.new(WindowData.MobileStatus.Event, function ()
-        health:setText(healthText(self.mobileId))
-    end))
-
-    self:child(
-        UusCorpComposable.asView(self.name .. "Name"):asLabel():setText(
-            MobileData.status(self.mobileId).MobName
-        )
+    return UusCorpWindow.new(
+        name,
+        nil,
+        MobileHealthBar.Name
+    ):data(
+        MobileData.statusType(),
+        mobileId
+    ):data(
+       MobileData.nameType(),
+       mobileId
+    ):data(
+        MobileData.healthBarColorType(),
+        mobileId
     ):child(
-        UusCorpComposable.asView(self.name .. "HealthBar"):asStatusBar():setCurrentValue(
-            MobileData.status(self.mobileId).CurrentHealth
-        ):setMaximumValue(
-            MobileData.status(self.mobileId).MaxHealth
-        ):setForegroundTint(
-            Colors.Red
-        )
+        healthLabel
     ):child(
-        health
+        mobileName
+    ):child(
+        healthBar
+    ):event(
+        UusCorpViewEvent.new(
+            MobileData.statusEvent(),
+            function ()
+                healthBar:update()
+                mobileName:update()
+                healthLabel:update()
+            end
+        )
     )
-    UusCorpWindow.onInitialize(self)
 end

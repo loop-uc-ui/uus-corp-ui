@@ -89,8 +89,6 @@
 
 		<Script file="Interface.lua" />
         <Script file="Source/root/RootWindow.lua"/>
-        <Script file="Source/root/RootEventManager.lua"/>
-        <Script file="Source/root/RootHealthBarManager.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
         <Script file="Source/health_bar/MobileHealthBar.lua"/>

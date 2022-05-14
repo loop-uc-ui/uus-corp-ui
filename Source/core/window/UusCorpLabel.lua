@@ -8,9 +8,14 @@ function UusCorpLabel.new(name)
         UusCorpLabel
     )
 end
-
-function UusCorpLabel:setText(labelText)
+function UusCorpLabel:setText(text)
     self.observer.onSetText = function()
+        local labelText
+
+        if type(text) == "function" then
+            labelText = text()
+        end
+
         if labelText == nil then
             return
         elseif type(labelText) == "number" then
