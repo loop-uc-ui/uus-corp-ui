@@ -23,7 +23,7 @@ RootWindow = UusCorpWindow.new("Root"):event(
             local healthBar = MobileHealthBar.name .. Active.mobile()
             local isDragged = mousePosX ~= MousePosition.x() and mousePosY ~= MousePosition.y()
 
-            if WindowApi.doesExist(healthBar) and isDragged then
+            if WindowApi.doesExist(healthBar) and not WindowApi.isShowing(healthBar) and isDragged then
                 WindowApi.setShowing(healthBar, true)
                 WindowApi.setOffsetFromParent(
                     healthBar,
