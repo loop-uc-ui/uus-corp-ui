@@ -1,6 +1,14 @@
 MobileHealthBar = setmetatable(UusCorpWindow.new("MobileHealthBar"), {__index = UusCorpWindow})
 MobileHealthBar.__index = MobileHealthBar
 
+function MobileHealthBar.offset(mobileId)
+    WindowApi.setOffsetFromParent(
+        MobileHealthBar.name .. mobileId,
+        MousePosition.x() - 30,
+        MousePosition.y() - 15
+    )
+end
+
 function MobileHealthBar:new(mobileId)
     local this = setmetatable(
         UusCorpWindow.new(
