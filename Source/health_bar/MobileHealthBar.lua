@@ -17,6 +17,15 @@ function MobileHealthBar:new(mobileId)
             self.name
         ),
         MobileHealthBar
+    ):data(
+        MobileData.statusType(),
+        mobileId
+    ):data(
+        MobileData.nameType(),
+        mobileId
+    ):data(
+        MobileData.healthBarColorType(),
+        mobileId
     )
 
     this.mobileId = mobileId
@@ -33,16 +42,7 @@ function MobileHealthBar:create(doShow)
         return self
     end
 
-    self:data(
-        MobileData.statusType(),
-        self.mobileId
-    ):data(
-       MobileData.nameType(),
-       self.mobileId
-    ):data(
-        MobileData.healthBarColorType(),
-        self.mobileId
-    ):child(
+    self:child(
         self:healthLabel()
     ):child(
         self:statusBar()

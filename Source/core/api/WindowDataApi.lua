@@ -1,11 +1,9 @@
 WindowDataApi = {}
 
 function WindowDataApi.registerData(data, id)
-    id = id or 0
-    RegisterWindowData(data, id)
+    RegisterWindowData(data, id or 0)
 end
 
 function WindowDataApi.unregisterData(data, id)
-    id = id or 0
-    UnregisterWindowData(data, id)
+    UnregisterWindowData(data, id or 0)
 end
