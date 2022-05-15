@@ -12,6 +12,12 @@ Colors.Red = {
     b = 32
 }
 
+Colors.DarkRed = {
+    r = 139,
+    g = 32,
+    b = 32
+}
+
 Colors.Green = {
     r = 32,
     g = 164,

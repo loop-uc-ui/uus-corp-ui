@@ -1,0 +1,72 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <HorizontalResizeImage name="StatusBar" texture="StatusBar" texturescale="1" alpha="0.75">
+            <Size>
+                <AbsPoint x="158" y="20"/>
+            </Size>
+            <Sizes left="0" middle="79" right="159"/>
+            <TexCoords>
+                <Left x="2" y="20"/>
+                <Middle x="79" y="20"/>
+                <Right x="158" y="20"/>
+            </TexCoords>
+        </HorizontalResizeImage>
+
+        <Window name="MobileHealthBar" movable="true" draganddrop="true">
+            <Size>
+                <AbsPoint x="190" y="50" />
+            </Size>
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" alpha="0.2">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Label name="$parentName" font="uo_classic_18" maxchars="18" textalign="center" handleinput="false" wordwrap="false" popable="false">
+                    <Size>
+                        <AbsPoint x="190" y="12" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="center" relativeTo="$parent">
+                            <AbsPoint x="0" y="8" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255" />
+                </Label>
+
+                <StatusBar name="$parentHealthBar" foreground="StatusBar" handleinput="false" alpha="0.5">
+                    <Size>
+                        <AbsPoint x="136" y="24"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentName">
+                            <AbsPoint x="0" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                </StatusBar>
+
+
+                <Label name="$parentHealthBarPerc" font="uo_classic_14" maxchars="50" textalign="center" handleinput="false" wordwrap="false" linespacing="18" popable="false" layer="overlay">
+                    <Size>
+                        <AbsPoint x="130" y="10" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topcenter" relativePoint="topcenter" relativeTo="$parentHealthBar">
+                            <AbsPoint x="5" y="2" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255" />
+                </Label>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

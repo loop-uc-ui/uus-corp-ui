@@ -1,4 +1,4 @@
-UusCorpDebugWindow = UusCorpComposable.asView("UusCorpDebugWindow"):asWindow()
+UusCorpDebugWindow = UusCorpWindow.new("UusCorpDebugWindow")
 
 local LuaLog = {}
 LuaLog.SYSTEM = 1
@@ -30,8 +30,12 @@ function UusCorpDebugWindow:onInitialize()
     TextLogApi.enableLog(uiLog)
 
     for index = 1, #DevData.DebugWindow.luaFilters do
-        LogDisplaySetFilterState("UusCorpDebugWindowText", "UiLog", index,
-                                 true)
+        LogDisplaySetFilterState(
+            text,
+            uiLog,
+            index,
+            true
+        )
     end
 
     UusCorpWindow.onInitialize(self)
@@ -46,5 +50,5 @@ function UusCorpDebugWindow:onShutdown()
 end
 
 function UusCorpDebugWindow.OnResizeBegin()
-    WindowUtils.BeginResize("UusCorpDebugWindow", "topleft", 300, 200, false, nil)
+    WindowUtils.BeginResize(UusCorpDebugWindow.name, "topleft", 300, 200, false, nil)
 end

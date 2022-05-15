@@ -10,6 +10,7 @@
 	<!-- Windows -->
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
+    <Include file="Source/health_bar/MobileHealthBar.xml"/>
 
 
 	<!-- Remove this one once all the gumps are fixed -->
@@ -47,7 +48,7 @@
         <Script file="Source/core/util/StringFormatter.lua"/>
         <Script file="Source/core/util/TableFormatter.lua"/>
 
-        <Script file="Source/core/data/ActiveWindow.lua"/>
+        <Script file="Source/core/data/Active.lua"/>
         <Script file="Source/core/data/Buffs.lua"/>
         <Script file="Source/core/data/ButtonFlags.lua"/>
         <Script file="Source/core/data/CurrentTarget.lua"/>
@@ -56,7 +57,7 @@
         <Script file="Source/core/data/Events.lua"/>
         <Script file="Source/core/data/GenericGumpCore.lua"/>
         <Script file="Source/core/data/MapSettings.lua"/>
-        <Script file="Source/core/data/MobileName.lua"/>
+        <Script file="Source/core/data/MobileData.lua"/>
         <Script file="Source/core/data/MousePosition.lua"/>
         <Script file="Source/core/data/Paperdoll.lua"/>
         <Script file="Source/core/data/PlayerLocation.lua"/>
@@ -79,10 +80,7 @@
         <Script file="Source/core/resources/Colors.lua"/>
         <Script file="Source/core/resources/TextIds.lua"/>
 
-        <Script file="Source/core/window/UusCorpActionable.lua"/>
-		<Script file="Source/core/window/UusCorpComposable.lua"/>
-		<Script file="Source/core/window/UusCorpViewAction.lua"/>
-		<Script file="Source/core/window/UusCorpViewActionManager.lua"/>
+		<Script file="Source/core/window/UusCorpViewEvent.lua"/>
 		<Script file="Source/core/window/UusCorpView.lua"/>
         <Script file="Source/core/window/UusCorpButton.lua"/>
         <Script file="Source/core/window/UusCorpLabel.lua"/>
@@ -90,9 +88,10 @@
         <Script file="Source/core/window/UusCorpWindow.lua"/>
 
 		<Script file="Interface.lua" />
-        <Script file="Source/viewport/Viewport.lua"/>
+        <Script file="Source/root/RootWindow.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
+        <Script file="Source/health_bar/MobileHealthBar.lua"/>
 
 	</Scripts>
 
