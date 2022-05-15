@@ -126,7 +126,7 @@ function UusCorpWindow:show(doShow)
 end
 
 function UusCorpWindow:data(type, id)
-    self._data[type] = id
+    self._data[type] = id or 0
     return self
 end
 
