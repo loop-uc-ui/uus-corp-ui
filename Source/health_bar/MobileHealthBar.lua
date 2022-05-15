@@ -24,7 +24,9 @@ function MobileHealthBar:new(mobileId)
     return this
 end
 
-function MobileHealthBar:loadPosition() end
+function MobileHealthBar:loadPosition()
+    return self
+end
 
 function MobileHealthBar:create(doShow)
     if self:doesExist() then
