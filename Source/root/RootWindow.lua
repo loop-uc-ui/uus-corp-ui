@@ -4,18 +4,32 @@ RootWindow = UusCorpWindow.new("Root"):event(
     UusCorpViewEvent.new(
         Events.beginHealthBarDrag(),
         function ()
+            local id = SystemData.ActiveMobile.Id
+
+            if not id then
+                return
+            end
+
             mousePosX = MousePosition.x()
             mousePosY = MousePosition.y()
+
+            MobileHealthBar:new(id):create(false)
         end
     )
 ):event(
     UusCorpViewEvent.new(
         Events.endHealthBarDrag(),
         function ()
-            local id = SystemData.ActiveMobile.Id
+            local healthBar = MobileHealthBar.name .. Active.mobile()
+            local isDragged = mousePosX ~= MousePosition.x() and mousePosY ~= MousePosition.y()
 
-            if id and mousePosX ~= MousePosition.x() and mousePosY ~= MousePosition.y() then
-                MobileHealthBar:new(id):create()
+            if WindowApi.doesExist(healthBar) and isDragged then
+                WindowApi.setShowing(healthBar, true)
+                WindowApi.setOffsetFromParent(
+                    healthBar,
+                    MousePosition.x() - 30,
+                    MousePosition.y() - 15
+                )
             end
         end
     )

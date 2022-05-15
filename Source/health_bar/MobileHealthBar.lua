@@ -1,98 +1,99 @@
-MobileHealthBar = {}
-MobileHealthBar.Name = "MobileHealthBar"
-
-local function healthText(mobileId)
-    return tostring(
-        math.floor(
-            (MobileData.status(mobileId).CurrentHealth / MobileData.status(mobileId).MaxHealth) * 100
-        )
-    ) .. "%"
-end
+MobileHealthBar = setmetatable(UusCorpWindow.new("MobileHealthBar"), {__index = UusCorpWindow})
+MobileHealthBar.__index = MobileHealthBar
 
 function MobileHealthBar:new(mobileId)
-    local name = MobileHealthBar.Name .. mobileId
-
-    local healthLabel =  UusCorpLabel.new(name .. "HealthBarPerc"):setText(
-        function ()
-            return healthText(mobileId)
-        end
+    local this = setmetatable(
+        UusCorpWindow.new(
+            self.name .. mobileId,
+            nil,
+            self.name
+        ),
+        MobileHealthBar
     )
 
-    local isInactive = function ()
-        return MobileData.status(mobileId) == nil or MobileData.currentHealth(mobileId) == 0
+    this.mobileId = mobileId
+
+    return this
+end
+
+function MobileHealthBar:loadPosition() end
+
+function MobileHealthBar:create(doShow)
+    if self:doesExist() then
+        return self
     end
 
-    local mobileName = UusCorpLabel.new(name .. "Name"):setText(
+    self:data(
+        MobileData.statusType(),
+        self.mobileId
+    ):data(
+       MobileData.nameType(),
+       self.mobileId
+    ):data(
+        MobileData.healthBarColorType(),
+        self.mobileId
+    ):child(
+        self:healthLabel()
+    ):child(
+        self:statusBar()
+    ):child(
+        self:nameLabel()
+    ):event(
+        UusCorpViewEvent.new(
+            MobileData.statusEvent()
+        )
+    ):event(
+        UusCorpViewEvent.new(
+            Events.enableHealthBar()
+        )
+    ):event(
+        UusCorpViewEvent.new(
+            Events.disableHealthBar(),
+            function ()
+                self:destroy()
+            end
+        )
+    )
+    UusCorpWindow.create(self, doShow)
+    return self
+end
+
+function MobileHealthBar:healthLabel()
+    return UusCorpLabel.new(self.name .. "HealthBarPerc"):setText(
         function ()
-            return MobileData.name(mobileId)
+            return tostring(
+                math.floor(
+                    (MobileData.currentHealth(self.mobileId) / MobileData.maxHealth(self.mobileId) * 100
+                )
+            ) .. "%")
+        end
+    )
+end
+
+function MobileHealthBar:nameLabel()
+    return UusCorpLabel.new(self.name .. "Name"):setText(
+        function ()
+            return MobileData.name(self.mobileId)
         end
     ):event(
         UusCorpViewEvent.new(
             MobileData.nameEvent()
         )
     )
+end
 
-    local healthBar = UusCorpStatusBar.new(name .. "HealthBar"):setCurrentValue(
+function MobileHealthBar:statusBar()
+    return UusCorpStatusBar.new(self.name .. "HealthBar"):setCurrentValue(
         function ()
-            return MobileData.currentHealth(mobileId)
+            return MobileData.currentHealth(self.mobileId)
         end
     ):setMaximumValue(
         function ()
-            return MobileData.maxHealth(mobileId)
+            return MobileData.maxHealth(self.mobileId)
         end
     ):setForegroundTint(
         function ()
             return Colors.Red
         end
-    )
-
-    local window = UusCorpWindow.new(
-        name,
-        nil,
-        MobileHealthBar.Name
-    )
-
-    local updateWindow = function ()
-        if isInactive() then
-            window:destroy()
-        else
-            healthBar:update()
-            mobileName:update()
-            healthLabel:update()
-        end
-    end
-
-    return window:data(
-        MobileData.statusType(),
-        mobileId
-    ):data(
-       MobileData.nameType(),
-       mobileId
-    ):data(
-        MobileData.healthBarColorType(),
-        mobileId
-    ):child(
-        healthLabel
-    ):child(
-        mobileName
-    ):child(
-        healthBar
-    ):event(
-        UusCorpViewEvent.new(
-            MobileData.statusEvent(),
-            updateWindow
-        )
-    ):event(
-        UusCorpViewEvent.new(
-            Events.enableHealthBar(),
-            updateWindow
-        )
-    ):event(
-        UusCorpViewEvent.new(
-            Events.disableHealthBar(),
-            function ()
-                window:destroy()
-            end
-        )
     )
 end

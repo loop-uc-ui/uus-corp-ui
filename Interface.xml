@@ -48,7 +48,7 @@
         <Script file="Source/core/util/StringFormatter.lua"/>
         <Script file="Source/core/util/TableFormatter.lua"/>
 
-        <Script file="Source/core/data/ActiveWindow.lua"/>
+        <Script file="Source/core/data/Active.lua"/>
         <Script file="Source/core/data/Buffs.lua"/>
         <Script file="Source/core/data/ButtonFlags.lua"/>
         <Script file="Source/core/data/CurrentTarget.lua"/>

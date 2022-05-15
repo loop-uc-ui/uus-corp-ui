@@ -19,3 +19,7 @@ end
 function Events.disableHealthBar()
     return SystemData.Events.DISABLE_HEALTHBAR_WINDOW
 end
+
+function Events.onLButtonUp()
+    return SystemData.Events.L_BUTTON_UP_PROCESSED
+end

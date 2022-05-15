@@ -39,13 +39,18 @@ function UusCorpWindow:create(doShow)
 
     self:onInitialize()
     self:show(doShow == nil or doShow)
+    WindowApi.clearAnchors(self.name)
+    return self
 end
 
-function UusCorpWindow:onInitialize()
+function UusCorpWindow:loadPosition()
     if self.parent == "Root" then
         WindowUtils.RestoreWindowPosition(self.name, true)
     end
+end
 
+function UusCorpWindow:onInitialize()
+    self:loadPosition()
     self:registerCoreEvents()
     self:registerEvents()
 
@@ -151,4 +156,20 @@ function UusCorpWindow:unregisterData()
         WindowDataApi.unregisterData(k, v)
         self._data[k] = nil
     end
+end
+
+function UusCorpWindow:update()
+    UusCorpView.update(self)
+    for i = 1, #self._children do
+        self._children[i]:update()
+    end
+end
+
+function UusCorpWindow:setOffsetFromParent(x, y)
+    WindowApi.setOffsetFromParent(self.name, x, y)
+    return self
+end
+
+function UusCorpWindow:setMoving(isMoving)
+    WindowApi.setMoving(self.name, isMoving == nil or isMoving)
 end
