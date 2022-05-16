@@ -23,12 +23,6 @@ function PlayerHealthBar.new()
             end
         )
     ):child(
-        UusCorpLabel.new(PlayerHealthBar.name .. "Name"):setText(
-            function ()
-                return MobileData.name(PlayerStatus.id())
-            end
-        )
-    ):child(
         UusCorpStatusBar.new(PlayerHealthBar.name .. "HealthBar"):setCurrentValue(
             function ()
                 return PlayerStatus.currentHealth()
