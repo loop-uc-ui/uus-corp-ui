@@ -30,7 +30,7 @@ function MainMenuWindow.onButtonClick()
     local window = Active.window()
 
     if window == MainMenuWindow.Buttons.Debug then
-        UusCorpDebugWindow:create(true)
+        WindowApi.createWindow(UusCorpDebugWindow.Name, true)
     elseif window == MainMenuWindow.Buttons.ExitGame then
         InterfaceCore.OnExitGame()
         return
