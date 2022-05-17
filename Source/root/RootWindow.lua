@@ -80,6 +80,16 @@ function RootWindow:create()
     self:registerData()
     self:registerEvents()
     self:registerCoreEvents()
+    WindowDataApi.registerData(Paperdoll.type(), PlayerStatus.id())
+    WindowRegisterEventHandler("Root", SystemData.Events.TOGGLE_PAPERDOLL_CHARACTER_WINDOW, "RootWindow.Test")
+end
+
+function RootWindow.Test()
+    WindowApi.createFromTemplate(
+        "PaperdollWindow" .. PlayerStatus.id(),
+        "PaperdollWindow",
+        "Root"
+    )
 end
 
 function RootWindow:destroy()

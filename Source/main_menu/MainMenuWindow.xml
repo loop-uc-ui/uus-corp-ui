@@ -25,6 +25,9 @@
                     <TextColors>
                         <Normal r="206" g="217" b="242" a="255"/>
                     </TextColors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="MainMenuWindow.onButtonClick"/>
+                    </EventHandlers>
                 </Button>
             </Windows>
         </Window>
@@ -41,6 +44,10 @@
             <Size>
                 <AbsPoint x="214" y="440"/>
             </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="MainMenuWindow.onInitialize"/>
+                <EventHandler event="OnRButtonUp" function="MainMenuWIndow.onRightClick"/>
+            </EventHandlers>
             <Windows>
                 <!-- Body background -->
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">

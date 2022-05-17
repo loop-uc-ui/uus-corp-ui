@@ -1,68 +1,59 @@
-local NAME = "MainMenuWindow"
+MainMenuWindow = {}
 
-MainMenuWindow = UusCorpWindow.new(NAME):child(
-    UusCorpButton.new(NAME.. "DebugItemButton"):setText(L"Debug"):coreEvent(
-        UusCorpViewEvent.onLButtonUp(function ()
-            UusCorpDebugWindow:create(true)
-            MainMenuWindow:show(false)
-        end)
-    )
-):child(
-    UusCorpButton.new(NAME .. "ExitGameItemButton"):setText(1077859):coreEvent(
-        UusCorpViewEvent.onLButtonUp(function ()
-             InterfaceCore.OnExitGame()
-        end)
-    )
-):child(
-    UusCorpButton.new(NAME .. "LogOutItemButton"):setText(3000128):coreEvent(
-        UusCorpViewEvent.onLButtonUp(function ()
-            EventApi.broadcast(SystemData.Events.LOG_OUT)
-        end)
-    )
-):child(
-    UusCorpButton.new(NAME .. "AgentsSettingsItemButton"):setText(L"Agents"):coreEvent(
-        UusCorpViewEvent.onLButtonUp(function ()
-            ToggleWindowByName("OrganizerWindow", "")
-            MainMenuWindow:show(false)
-        end)
-    )
-):child(
-    UusCorpButton.new(NAME .. "MacrosItemButton"):setText(3000172):coreEvent(
-        UusCorpViewEvent.onLButtonUp(function ()
-            ToggleWindowByName("MacroWindow", "")
-            MainMenuWindow:show(false)
-        end)
-    )
-):child(
-    UusCorpButton.new(NAME .. "ActionsItemButton"):setText(1079812):coreEvent(
-        UusCorpViewEvent.onLButtonUp(function ()
-            ToggleWindowByName("ActionsWindow", "")
-            MainMenuWindow:show(false)
-        end)
-    )
-):child(
-    UusCorpButton.new(NAME .. "HelpItemButton"):setText(1061037):coreEvent(
-        UusCorpViewEvent.onLButtonUp(function ()
-            EventApi.broadcast(SystemData.Events.REQUEST_OPEN_HELP_MENU)
-            MainMenuWindow:show(false)
-        end)
-    )
-):child(
-    UusCorpButton.new(NAME.. "UOStoreItemButton"):setText(L"Store"):coreEvent(
-        UusCorpViewEvent.onLButtonUp(function ()
-            EventApi.broadcast(SystemData.Events.UO_STORE_REQUEST)
-            MainMenuWindow:show(false)
-        end)
-    )
-):child(
-    UusCorpButton.new(NAME .. "UserSettingsItemButton"):setText(L"Settings"):coreEvent(
-        UusCorpViewEvent.onLButtonUp(function ()
-            ToggleWindowByName("SettingsWindow", "")
-            MainMenuWindow:show(false)
-        end)
-    )
-):coreEvent(
-    UusCorpViewEvent.onRButtonUp(function ()
-        MainMenuWindow:show(false)
-    end)
-)
+MainMenuWindow.Name = "MainMenuWindow"
+
+MainMenuWindow.Buttons = {
+    Debug = MainMenuWindow.Name .. "DebugItemButton",
+    ExitGame = MainMenuWindow.Name .. "ExitGameItemButton",
+    LogOut = MainMenuWindow.Name .. "LogOutItemButton",
+    Agents = MainMenuWindow.Name .. "AgentsSettingsItemButton",
+    Macros = MainMenuWindow.Name .. "MacrosItemButton",
+    Actions = MainMenuWindow.Name .. "ActionsItemButton",
+    Help = MainMenuWindow.Name .. "HelpItemButton",
+    Store = MainMenuWindow.Name .. "UOStoreItemButton",
+    Settings = MainMenuWindow.Name .. "UserSettingsItemButton"
+}
+
+function MainMenuWindow.onInitialize()
+    ButtonApi.setText(MainMenuWindow.Buttons.Debug, L"Debug")
+    ButtonApi.setText(MainMenuWindow.Buttons.ExitGame, 1077859)
+    ButtonApi.setText(MainMenuWindow.Buttons.LogOut, 3000128)
+    ButtonApi.setText(MainMenuWindow.Buttons.Agents, L"Agents")
+    ButtonApi.setText(MainMenuWindow.Buttons.Macros, 3000172)
+    ButtonApi.setText(MainMenuWindow.Buttons.Actions, 1079812)
+    ButtonApi.setText(MainMenuWindow.Buttons.Help, 1061037)
+    ButtonApi.setText(MainMenuWindow.Buttons.Store, L"Store")
+    ButtonApi.setText(MainMenuWindow.Buttons.Settings, L"Settings")
+end
+
+function MainMenuWindow.onButtonClick()
+    local window = Active.window()
+
+    if window == MainMenuWindow.Buttons.Debug then
+        UusCorpDebugWindow:create(true)
+    elseif window == MainMenuWindow.Buttons.ExitGame then
+        InterfaceCore.OnExitGame()
+        return
+    elseif window == MainMenuWindow.Buttons.LogOut then
+        EventApi.broadcast(Events.logOut())
+        return
+    elseif window == MainMenuWindow.Buttons.Agents then
+        ToggleWindowByName("OrganizerWindow", "")
+    elseif window == MainMenuWindow.Buttons.Macros then
+        ToggleWindowByName("MacroWindow", "")
+    elseif window == MainMenuWindow.Buttons.Actions then
+        ToggleWindowByName("ActionsWindow", "")
+    elseif window == MainMenuWindow.Buttons.Help then
+        EventApi.broadcast(Events.help())
+    elseif window == MainMenuWindow.Buttons.Store then
+        EventApi.broadcast(Events.store())
+    elseif window == MainMenuWindow.Buttons.Settings then
+        ToggleWindowByName("SettingsWindow", "")
+    end
+
+    WindowApi.setShowing(MainMenuWindow.Name, false)
+end
+
+function MainMenuWindow.onRightClick()
+    WindowApi.setShowing(MainMenuWindow.Name, false)
+end

@@ -12,6 +12,7 @@
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
     <Include file="Source/health_bar/MobileHealthBar.xml"/>
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
+    <Include file="Source/paperdoll/PaperdollWindow.xml"/>
 
 
 	<!-- Remove this one once all the gumps are fixed -->
@@ -94,6 +95,8 @@
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
         <Script file="Source/health_bar/MobileHealthBar.lua"/>
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>
+        <Script file="Source/paperdoll/PaperdollWindow.lua"/>
+
 
 	</Scripts>
 

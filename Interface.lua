@@ -6,8 +6,7 @@ function Interface.CreatePlayWindowSet()
     --Destroy the default Debug Window
     --created by Interface Core
     WindowApi.destroyWindow("DebugWindow")
-
-    MainMenuWindow:create(false)
+    WindowApi.createWindow(MainMenuWindow.Name, false)
 end
 
 
