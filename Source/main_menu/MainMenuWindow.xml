@@ -46,8 +46,13 @@
             </Size>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="MainMenuWindow.onInitialize"/>
-                <EventHandler event="OnRButtonUp" function="MainMenuWIndow.onRightClick"/>
+                <EventHandler event="OnRButtonUp" function="MainMenuWindow.onRightClick"/>
             </EventHandlers>
+            <Anchors>
+                <Anchor point="center" relativePoint="center" relativeTo="Root">
+                    <AbsPoint x="0" y="0"/>
+                </Anchor>
+            </Anchors>
             <Windows>
                 <!-- Body background -->
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
