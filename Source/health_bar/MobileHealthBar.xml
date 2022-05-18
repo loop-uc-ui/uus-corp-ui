@@ -16,6 +16,11 @@
             <Size>
                 <AbsPoint x="190" y="50" />
             </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="MobileHealthBar.onInitialize"/>
+                <EventHandler event="OnShutdown" function="MobileHealthBar.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="MobileHealthBar.onRightClick"/>
+            </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" alpha="0.2">
                     <Anchors>

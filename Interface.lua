@@ -9,7 +9,6 @@ function Interface.CreatePlayWindowSet()
     WindowApi.createWindow(MainMenuWindow.Name, false)
 end
 
-
-function Interface.onShutdown()
+function Interface.OnShutdown()
     RootWindow.shutdown()
 end
