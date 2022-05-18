@@ -11,6 +11,7 @@ function RootWindow.create()
         ScreenResolution.y()
     )
 
+    WindowDataApi.registerData(PlayerStatus.type())
     WindowApi.registerEventHandler(RootWindow.Name, Events.beginHealthBarDrag(), "RootWindow.onHealthBarDrag")
     WindowApi.registerEventHandler(RootWindow.Name, Events.endHealthBarDrag(), "RootWindow.onEndHealthBarDrag")
 end
@@ -74,6 +75,7 @@ function RootWindow.onEndHealthBarDrag()
 end
 
 function RootWindow.shutdown()
+    WindowDataApi.unregisterData(PlayerStatus.type())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.beginHealthBarDrag())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.endHealthBarDrag())
 end

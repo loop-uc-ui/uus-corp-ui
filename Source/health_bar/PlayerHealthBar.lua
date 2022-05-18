@@ -2,17 +2,20 @@ PlayerHealthBar = {}
 PlayerHealthBar.Name = "PlayerHealthBar"
 
 function PlayerHealthBar.onInitialize()
-    WindowDataApi.registerData(PlayerStatus.type())
+    WindowDataApi.registerData(MobileData.nameType(), PlayerStatus.id())
+    WindowDataApi.registerData(MobileData.healthBarColorType(), PlayerStatus.id())
     WindowApi.registerEventHandler(PlayerHealthBar.Name, PlayerStatus.event(), "PlayerHealthBar.update")
     PlayerHealthBar.update()
 end
 
 function PlayerHealthBar.onShutdown()
+    WindowDataApi.unregisterData(MobileData.healthBarColorType(), PlayerStatus.id())
     WindowDataApi.unregisterData(PlayerStatus.type())
     WindowApi.unregisterEventHandler(PlayerHealthBar.Name, PlayerStatus.event())
 end
 
 function PlayerHealthBar.update()
+    LabelApi.setText(PlayerHealthBar.Name .. "Name", MobileData.name(PlayerStatus.id()))
     LabelApi.setText(PlayerHealthBar.Name .. "HealthBarPerc", PlayerStatus.currentHealth() .. " / " .. PlayerStatus.maxHealth())
     LabelApi.setText(PlayerHealthBar.Name .. "ManaBarPerc", PlayerStatus.currentMana() .. " / " .. PlayerStatus.maxMana())
     LabelApi.setText(PlayerHealthBar.Name .. "StaminaBarPerc", PlayerStatus.currentStamina() .. " / " .. PlayerStatus.maxStamina())
