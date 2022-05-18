@@ -82,13 +82,6 @@
         <Script file="Source/core/resources/Colors.lua"/>
         <Script file="Source/core/resources/TextIds.lua"/>
 
-		<Script file="Source/core/window/UusCorpViewEvent.lua"/>
-		<Script file="Source/core/window/UusCorpView.lua"/>
-        <Script file="Source/core/window/UusCorpButton.lua"/>
-        <Script file="Source/core/window/UusCorpLabel.lua"/>
-        <Script file="Source/core/window/UusCorpStatusBar.lua"/>
-        <Script file="Source/core/window/UusCorpWindow.lua"/>
-
 		<Script file="Interface.lua" />
         <Script file="Source/root/RootWindow.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
