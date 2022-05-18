@@ -11,7 +11,6 @@ function RootWindow.create()
         ScreenResolution.y()
     )
 
-    WindowDataApi.registerData(PlayerStatus.type())
     WindowApi.registerEventHandler(RootWindow.Name, Events.beginHealthBarDrag(), "RootWindow.onHealthBarDrag")
     WindowApi.registerEventHandler(RootWindow.Name, Events.endHealthBarDrag(), "RootWindow.onEndHealthBarDrag")
 end
@@ -27,7 +26,7 @@ function RootWindow.onHealthBarDrag()
     local window
 
     if mobile == PlayerStatus.id() then
-        window = PlayerHealthBar.name
+        window = PlayerHealthBar.Name
     else
         window = MobileHealthBar.Name .. mobile
     end
@@ -43,7 +42,7 @@ function RootWindow.onHealthBarDrag()
         end
         WindowApi.setMoving(window, true)
     elseif isPlayer then
-        PlayerHealthBar.new():create(false)
+        WindowApi.createWindow(PlayerHealthBar.Name, false)
     else
         WindowApi.createFromTemplate(window, MobileHealthBar.Name, RootWindow.Name)
         WindowApi.setShowing(window, false)
@@ -56,7 +55,7 @@ function RootWindow.onEndHealthBarDrag()
     local window
 
     if isPlayer then
-        window = PlayerHealthBar.name
+        window = PlayerHealthBar.Name
     else
         window = MobileHealthBar.Name .. mobile
     end
@@ -75,7 +74,6 @@ function RootWindow.onEndHealthBarDrag()
 end
 
 function RootWindow.shutdown()
-    WindowDataApi.unregisterData(PlayerStatus.type())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.beginHealthBarDrag())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.endHealthBarDrag())
 end

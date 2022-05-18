@@ -4,6 +4,11 @@
             <Size>
                 <AbsPoint x="190" y="90" />
             </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="PlayerHealthBar.onInitialize"/>
+                <EventHandler event="OnShutdown" function="PlayerHealthBar.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="PlayerHealthBar.onRightClick"/>
+            </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>
