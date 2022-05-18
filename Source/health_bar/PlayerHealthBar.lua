@@ -9,8 +9,8 @@ function PlayerHealthBar.onInitialize()
 end
 
 function PlayerHealthBar.onShutdown()
+    WindowDataApi.unregisterData(MobileData.nameType(), PlayerStatus.id())
     WindowDataApi.unregisterData(MobileData.healthBarColorType(), PlayerStatus.id())
-    WindowDataApi.unregisterData(PlayerStatus.type())
     WindowApi.unregisterEventHandler(PlayerHealthBar.Name, PlayerStatus.event())
 end
 
