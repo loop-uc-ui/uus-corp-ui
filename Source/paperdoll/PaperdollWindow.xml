@@ -6,7 +6,7 @@
 				<AbsPoint x="48" y="48" />
 			</Size>
 			<Windows>							
-				<DynamicImage name="$parentSquareIcon" texturescale="1.0" handleinput="false" layer="overlay">
+				<DynamicImage name="$parentSquareIcon" texturescale="1.0" handleinput="false" layer="overlay" >
 					<Size>
 						<AbsPoint x="48" y="48" />
 					</Size>
@@ -16,52 +16,6 @@
 						</Anchor>
 					</Anchors>
 				</DynamicImage>
-				<DynamicImage name="$parentSquareDamage" texture="square_damage" texturescale="1.0" handleinput="false">
-					<Size>
-						<AbsPoint x="48" y="48" />
-					</Size>
-					<Anchors>
-						<Anchor point="center" relativePoint="center" relativeTo="">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords x="0" y="0" />
-				</DynamicImage>
-
-				<CircleImage name="$parentRoundDamage" texture="round_damage" numsegments="16" texturescale="1.0" handleinput="false">
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
-					<Anchors>
-						<Anchor point="center" relativePoint="center" relativeTo="">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords x="16" y="16" />
-				</CircleImage>
-
-				<DynamicImage name="$parentSquareBroken" texture="square_broken" texturescale="1.0" handleinput="false">
-					<Size>
-						<AbsPoint x="48" y="48" />
-					</Size>
-					<Anchors>
-						<Anchor point="center" relativePoint="center" relativeTo="">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords x="0" y="0" />
-				</DynamicImage>
-				<CircleImage name="$parentRoundBroken" texture="round_broken" numsegments="16" texturescale="1.0" handleinput="false">
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
-					<Anchors>
-						<Anchor point="center" relativePoint="center" relativeTo="">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords x="16" y="16" />
-				</CircleImage>
 			</Windows>
 			<EventHandlers>
 				<EventHandler event="OnLButtonDown" function="PaperdollWindow.SlotLButtonDown" />
@@ -75,7 +29,7 @@
 
 		<Window name="PaperdollWindow" movable="true" sticky="true" popable="true" layer="default">
 			<Size>
-				<AbsPoint x="440" y="732" />
+				<AbsPoint x="240" y="360" />
 			</Size>
 			<Anchors>
 				<Anchor point="topleft" relativePoint="topleft">
@@ -87,87 +41,29 @@
 				<EventHandler event="OnShutdown" function="PaperdollWindow.onShutdown" />
 				<EventHandler event="OnLButtonDown" function="PaperdollWindow.OnMouseDrag" />
 				<EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
-				<EventHandler event="OnRButtonUp" function="PaperdollWindow.CloseWindow" />
+				<EventHandler event="OnRButtonUp" function="PaperdollWindow.onRightClick" />
 			</EventHandlers>
 			<Windows>
-				<DynamicImage name="$parentBGBG" texture="blackBG"  handleinput="false" layer="background" scaleAnchor="center" textureScale="1.15">
-					<Size>
-						<AbsPoint x="440" y="732" />
-					</Size>
-					<Anchors>
-						<Anchor point="center" relativePoint="center" relativeTo="$parentBG">
-							<AbsPoint x="20" y="-4" />
-						</Anchor>
-					</Anchors>
-				</DynamicImage>
-				<!--Image of the paperdoll -->
-				<DynamicImage name="$parentTexture" texture="" filtering="true" texturescale="1.0" handleinput="true" sticky="false" draganddrop="true" popable="false" layer="secondary"  >
-					<Size>
-						<AbsPoint x="0" y="0" />
-					</Size>
-					<Anchors>
-						<Anchor point="bottom" relativePoint="center">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords x="0" y="0" />
-					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="PaperdollWindow.OnPaperdollTextureLButtonDown" />
-						<EventHandler event="OnLButtonUp" function="PaperdollWindow.OnPaperdollTextureLButtonUp" />
-						<EventHandler event="OnLButtonDblClk" function="PaperdollWindow.OnPaperdollTextureLButtonDblClk" />
-						<EventHandler event="OnRButtonDown" function="PaperdollWindow.OnPaperdollTextureRButtonDown" />
-						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnPaperdollTextureMouseOver" />
-						<EventHandler event="OnMouseOverEnd" function="PaperdollWindow.OnPaperdollTextureMouseEnd" />
-					</EventHandlers>
-				</DynamicImage>
-				<!-- DEBUG FRAME 
-
-				<FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTexture"/>
-						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTexture"/>
-					</Anchors>
-				</FullResizeImage>
--->
-				<DynamicImage name="$parentLegacyTexture" texture="" filtering="false" texturescale="2" handleinput="true" sticky="false" draganddrop="true" popable="false" layer="secondary" >
-					<Size>
-						<AbsPoint x="0" y="0" />
-					</Size>
-					<Anchors>
-						<Anchor point="center" relativePoint="center">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords x="0" y="0" />
-					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="PaperdollWindow.OnPaperdollTextureLButtonDown" />
-						<EventHandler event="OnLButtonUp" function="PaperdollWindow.OnPaperdollTextureLButtonUp" />
-						<EventHandler event="OnLButtonDblClk" function="PaperdollWindow.OnPaperdollTextureLButtonDblClk" />
-						<EventHandler event="OnRButtonDown" function="PaperdollWindow.OnPaperdollTextureRButtonDown" />
-						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnPaperdollTextureMouseOver" />
-						<EventHandler event="OnMouseOverEnd" function="PaperdollWindow.OnPaperdollTextureMouseEnd" />
-					</EventHandlers>
-				</DynamicImage>
 
 
-				<DynamicImage name="$parentBG" texture="paperdollBG"  handleinput="false" layer="secondary">
-					<Size>
-						<AbsPoint x="440" y="732" />
-					</Size>
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
-							<AbsPoint x="0" y="20" />
-						</Anchor>
-					</Anchors>
-				</DynamicImage>
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" alpha="0.2">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
 
-
-
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
 
 				<Button name="$parentItemSlotButton1" inherits="ItemSlotButtonDef" id="1" >
 					<Anchors>
 						<Anchor point="topleft" relativePoint="topleft">
-							<AbsPoint x="27" y="122" />
+							<AbsPoint x="24" y="24" />
 						</Anchor>
 					</Anchors>
 					<TexCoords>
@@ -178,9 +74,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton2" inherits="ItemSlotButtonDef" id="2" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton1" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton1"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_2" x="0" y="0" />
@@ -190,9 +84,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton3" inherits="ItemSlotButtonDef" id="3" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton17" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton2" />
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_3" x="0" y="0" />
@@ -202,9 +94,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton4" inherits="ItemSlotButtonDef" id="4" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton14" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton3"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_4" x="0" y="0" />
@@ -214,9 +104,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton5" inherits="ItemSlotButtonDef" id="5" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton4" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton1"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_5" x="0" y="0" />
@@ -226,9 +114,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton6" inherits="ItemSlotButtonDef" id="6" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton15" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton5"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_6" x="0" y="0" />
@@ -238,9 +124,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton7" inherits="ItemSlotButtonDef" id="7" >
 					<Anchors>
-						<Anchor point="topright" relativePoint="topright">
-							<AbsPoint x="-29" y="122" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton6"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_7" x="0" y="0" />
@@ -250,9 +134,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton8" inherits="ItemSlotButtonDef" id="8" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton18">
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton7"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_8" x="0" y="0" />
@@ -262,9 +144,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton9" inherits="ItemSlotButtonDef" id="9" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton16" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton5"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_9" x="0" y="0" />
@@ -274,9 +154,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton10" inherits="ItemSlotButtonDef" id="10" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton9" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton9" />
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_10" x="0" y="0" />
@@ -286,9 +164,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton11" inherits="ItemSlotButtonDef" id="11" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton10" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton10"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_11" x="0" y="0" />
@@ -296,14 +172,9 @@
 						<Disabled texture="slot_11" x="0" y="0" />
 					</TexCoords>
 				</Button>
-				<Button name="$parentItemSlotButton12" inherits="ItemSlotButtonDef" id="12" >
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
+				<Button name="$parentItemSlotButton12" inherits="ItemSlotButtonDef" id="12" textureScale="1.5">
 					<Anchors>
-						<Anchor point="top" relativePoint="center" >
-							<AbsPoint x="0" y="55" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton11"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_12" x="0" y="0" />
@@ -313,9 +184,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton13" inherits="ItemSlotButtonDef" id="13" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton19">
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton9"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_13" x="0" y="0" />
@@ -325,9 +194,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton14" inherits="ItemSlotButtonDef" id="14" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton3" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton13"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_14" x="0" y="0" />
@@ -337,9 +204,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton15" inherits="ItemSlotButtonDef" id="15" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton5" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton14" />
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_15" x="0" y="0" />
@@ -349,9 +214,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton16" inherits="ItemSlotButtonDef" id="16" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton8" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton15"/>
 
 					</Anchors>
 					<TexCoords>
@@ -362,9 +225,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton17" inherits="ItemSlotButtonDef" id="17" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton2">
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton13"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_17" x="0" y="0" />
@@ -374,9 +235,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton18" inherits="ItemSlotButtonDef" id="18" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton7" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton17"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_18" x="0" y="0" />
@@ -386,9 +245,7 @@
 				</Button>
 				<Button name="$parentItemSlotButton19" inherits="ItemSlotButtonDef" id="19" >
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton11" >
-							<AbsPoint x="0" y="2" />
-						</Anchor>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton18"/>
 					</Anchors>
 					<TexCoords>
 						<Normal texture="slot_19" x="0" y="0" />
@@ -398,13 +255,13 @@
 				</Button>
 
 
-				<Button name="$parentToggleInventory" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false" draganddrop="true" >
+				<Button name="$parentToggleInventory" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false" draganddrop="true" >
 					<Size>
-						<AbsPoint x="63" y="63" />
+						<AbsPoint x="48" y="48" />
 					</Size>
 					<Anchors>
-						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
-							<AbsPoint x="-44" y="-95" />
+						<Anchor point="right" relativePoint="left" relativeTo="$parentToggleCharacterSheet">
+							<AbsPoint x="24" y="-4" />
 						</Anchor>
 					</Anchors>
 					<TexCoords>
@@ -422,11 +279,11 @@
 
 				<Button name="$parentToggleCharacterSheet" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false">
 					<Size>
-						<AbsPoint x="50" y="50" />
+						<AbsPoint x="48" y="48" />
 					</Size>
 					<Anchors>
-						<Anchor point="top" relativePoint="center">
-							<AbsPoint x="85" y="83" />
+						<Anchor point="right" relativePoint="left" relativeTo="$parentToggleCharacterAbilities">
+							<AbsPoint x="24" y="0" />
 						</Anchor>
 					</Anchors>
 					<TexCoords>
@@ -444,11 +301,11 @@
 
 				<Button name="$parentToggleCharacterAbilities" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false">
 					<Size>
-						<AbsPoint x="50" y="50" />
+						<AbsPoint x="48" y="48" />
 					</Size>
 					<Anchors>
-						<Anchor point="top" relativePoint="center" >
-							<AbsPoint x="-85" y="85" />
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton17">
+							<AbsPoint x="0" y="24" />
 						</Anchor>
 					</Anchors>
 					<TexCoords>
@@ -463,7 +320,7 @@
 						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnMouseOverToggleCharacterAbilities" />
 					</EventHandlers>
 				</Button>
-                
+
 				<Window name="$parentTitle" movable="false" layer="secondary">
 					<Size>
 						<AbsPoint x="347" y="70"/>
