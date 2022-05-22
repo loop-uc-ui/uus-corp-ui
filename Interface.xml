@@ -14,7 +14,6 @@
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
     <Include file="Source/paperdoll/PaperdollWindow.xml"/>
 
-
 	<!-- Remove this one once all the gumps are fixed -->
 	<!--<Include file="Source/Generic/KnownBrokenGump.xml" />-->
 	

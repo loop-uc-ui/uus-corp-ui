@@ -5,14 +5,21 @@
 			<Size>
 				<AbsPoint x="48" y="48" />
 			</Size>
-			<Windows>							
+			<Windows>			
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+                				
 				<DynamicImage name="$parentSquareIcon" texturescale="1.0" handleinput="false" layer="overlay" >
 					<Size>
 						<AbsPoint x="48" y="48" />
 					</Size>
 					<Anchors>
 						<Anchor point="center" relativePoint="center" relativeTo="$parent">
-							<AbsPoint x="0" y="0" />
+							<AbsPoint x="0" y="5" />
 						</Anchor>
 					</Anchors>
 				</DynamicImage>
@@ -59,6 +66,18 @@
                         <Anchor point="bottomright" relativePoint="bottomright" />
                     </Anchors>
                 </FullResizeImage>
+
+                <Label name="$parentName" font="UO_GoldButtonText" maxchars="128" textalign="center" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="327" y="70"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" >
+                            <AbsPoint x="0" y="-5"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="50" g="41" b="5" a="255" />
+                </Label>
 
 				<Button name="$parentItemSlotButton1" inherits="ItemSlotButtonDef" id="1" >
 					<Anchors>
@@ -320,38 +339,6 @@
 						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnMouseOverToggleCharacterAbilities" />
 					</EventHandlers>
 				</Button>
-
-				<Window name="$parentTitle" movable="false" layer="secondary">
-					<Size>
-						<AbsPoint x="347" y="70"/>
-					</Size>
-					<Anchors>
-						<Anchor point="bottom" relativePoint="bottom" >
-							<AbsPoint x="0" y="-15"/>
-						</Anchor>
-					</Anchors>
-					<Windows>
-						<DynamicImage name="$parentBg"  handleinput="false">
-							<Size>
-								<AbsPoint x="327" y="70"/>
-							</Size>
-							<Anchors>
-								<Anchor point="center" relativePoint="center" />
-							</Anchors>
-						</DynamicImage>
-						<Label name="$parentName" font="UO_GoldButtonText" maxchars="128" textalign="center" wordwrap="true">
-							<Size>
-								<AbsPoint x="327" y="70"/>
-							</Size>
-							<Anchors>
-								<Anchor point="center" relativePoint="center" >
-									<AbsPoint x="0" y="-5"/>
-								</Anchor>
-							</Anchors>
-							<Color r="50" g="41" b="5" a="255" />
-						</Label>
-					</Windows>
-				</Window>
 			</Windows>
 		</Window>
 	</Windows>
