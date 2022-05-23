@@ -37,12 +37,14 @@ function PaperdollWindow.update()
         local data = Paperdoll.slotData(id, i)
 
         if data ~= nil and data.newWidth ~= nil and data.newHeight ~= nil and data.iconName ~= nil then
+            WindowApi.setDimensions(icon, data.newWidth, data.newHeight)
             DynamicImageApi.setTextureDimensions(icon, data.newWidth, data.newHeight)
             DynamicImageApi.setTexture(icon, data.iconName, 0, 0)
             DynamicImageApi.setCustomShader(icon, "UOSpriteUIShader", {
                 data.hueId,
                 data.objectType
             })
+            DynamicImageApi.setTextureScale(icon, data.iconScale)
             toggleSlotTexture(icon, true)
         else
             toggleSlotTexture(icon, false)
