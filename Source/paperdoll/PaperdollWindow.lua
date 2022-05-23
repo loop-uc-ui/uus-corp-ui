@@ -30,6 +30,8 @@ function PaperdollWindow.update()
     local window = Active.window()
     local id = WindowApi.getId(window)
 
+    LabelApi.setText(window .. "Name", Paperdoll.name())
+
     for i = 1, Paperdoll.numSlots(id) do
         local icon = window .. "ItemSlotButton" .. i .. "SquareIcon"
         local data = Paperdoll.slotData(id, i)

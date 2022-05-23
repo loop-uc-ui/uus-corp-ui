@@ -11,6 +11,10 @@ function Paperdoll.type()
     return WindowData.Paperdoll.Type
 end
 
+function Paperdoll.name()
+    return SystemData.Paperdoll.Name
+end
+
 function Paperdoll.id()
     return SystemData.Paperdoll.Id
 end
