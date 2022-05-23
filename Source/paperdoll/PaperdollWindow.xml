@@ -13,7 +13,7 @@
                     </Anchors>
                 </FullResizeImage>
                 				
-				<DynamicImage name="$parentSquareIcon" texturescale="1.0" handleinput="false" layer="overlay" >
+				<DynamicImage name="$parentSquareIcon" texturescale="1.0" handleinput="false" layer="overlay">
 					<Size>
 						<AbsPoint x="48" y="48" />
 					</Size>

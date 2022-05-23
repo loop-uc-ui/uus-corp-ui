@@ -1,23 +1,6 @@
 PaperdollWindow = {}
 PaperdollWindow.Name = "PaperdollWindow"
 
-local SLOTS = 18
-
-local function toggleSlotTexture(icon, hasGear)
-    local slot = WindowApi.getParent(icon)
-    local id = WindowApi.getId(slot)
-    local texture = ""
-
-    if not hasGear then
-        texture = "slot_" .. id
-    end
-
-    ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_NORMAL, texture, 0, 0)
-    ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 0, 0)
-    ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_PRESSED, texture, 0, 0)
-    ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_DISABLED, texture, 0, 0)
-end
-
 function PaperdollWindow.onInitialize()
     local pId = Paperdoll.id()
     local window = PaperdollWindow.Name .. pId
@@ -25,6 +8,16 @@ function PaperdollWindow.onInitialize()
     WindowApi.setId(window, pId)
     WindowDataApi.registerData(Paperdoll.type(), pId)
     WindowApi.registerEventHandler(window, Paperdoll.event(), "PaperdollWindow.update")
+
+    for i = 1, Paperdoll.numSlots(pId) do
+        local slot = window .. "ItemSlotButton" .. i
+        local texture = "Menu_Selection"
+        ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_NORMAL, texture, 50, 25)
+        ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 50, 25)
+        ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_PRESSED, texture, 50, 25)
+        ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_DISABLED, texture, 50, 25)
+    end
+
     PaperdollWindow.update()
 end
 
@@ -45,9 +38,6 @@ function PaperdollWindow.update()
                 data.objectType
             })
             DynamicImageApi.setTextureScale(icon, data.iconScale)
-            toggleSlotTexture(icon, true)
-        else
-            toggleSlotTexture(icon, false)
         end
     end
 end

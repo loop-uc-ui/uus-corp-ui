@@ -32,25 +32,24 @@ function RootWindow.onHealthBarDrag()
         window = MobileHealthBar.Name .. mobile
     end
 
-    mousePosX = MousePosition.x()
-    mousePosY = MousePosition.y()
-
     if WindowApi.doesExist(window) then
-        if isPlayer then
-            PlayerHealthBar.offset()
-        else
-            MobileHealthBar.offset(mobile)
-        end
-        WindowApi.setMoving(window, true)
+        return
     elseif isPlayer then
         WindowApi.createWindow(PlayerHealthBar.Name, false)
     else
         WindowApi.createFromTemplate(window, MobileHealthBar.Name, RootWindow.Name)
         WindowApi.setShowing(window, false)
     end
+
+    mousePosX = MousePosition.x()
+    mousePosY = MousePosition.y()
 end
 
 function RootWindow.onEndHealthBarDrag()
+    if mousePosX == MousePosition.x() and mousePosY == MousePosition.y() then
+        return
+    end
+
     local mobile = Active.mobile()
     local isPlayer = mobile == PlayerStatus.id()
     local window
@@ -61,9 +60,7 @@ function RootWindow.onEndHealthBarDrag()
         window = MobileHealthBar.Name .. mobile
     end
 
-    local isDragged = mousePosX ~= MousePosition.x() and mousePosY ~= MousePosition.y()
-
-    if WindowApi.doesExist(window) and not WindowApi.isShowing(window) and isDragged then
+    if WindowApi.doesExist(window) and not WindowApi.isShowing(window) then
         WindowApi.setShowing(window, true)
 
         if isPlayer then
