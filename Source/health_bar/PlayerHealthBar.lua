@@ -15,10 +15,22 @@ function PlayerHealthBar.onShutdown()
 end
 
 function PlayerHealthBar.update()
-    LabelApi.setText(PlayerHealthBar.Name .. "Name", MobileData.name(PlayerStatus.id()))
-    LabelApi.setText(PlayerHealthBar.Name .. "HealthBarPerc", PlayerStatus.currentHealth() .. " / " .. PlayerStatus.maxHealth())
-    LabelApi.setText(PlayerHealthBar.Name .. "ManaBarPerc", PlayerStatus.currentMana() .. " / " .. PlayerStatus.maxMana())
-    LabelApi.setText(PlayerHealthBar.Name .. "StaminaBarPerc", PlayerStatus.currentStamina() .. " / " .. PlayerStatus.maxStamina())
+    LabelApi.setText(
+        PlayerHealthBar.Name .. "Name",
+        MobileData.name(PlayerStatus.id())
+    )
+    LabelApi.setText(
+        PlayerHealthBar.Name .. "HealthBarPerc",
+        PlayerStatus.currentHealth() .. " / " .. PlayerStatus.maxHealth()
+    )
+    LabelApi.setText(
+        PlayerHealthBar.Name .. "ManaBarPerc",
+        PlayerStatus.currentMana() .. " / " .. PlayerStatus.maxMana()
+    )
+    LabelApi.setText(
+        PlayerHealthBar.Name .. "StaminaBarPerc",
+        PlayerStatus.currentStamina() .. " / " .. PlayerStatus.maxStamina()
+    )
 
     local bar = PlayerHealthBar.Name .. "HealthBar"
     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentHealth())
