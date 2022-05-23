@@ -4,14 +4,11 @@ MobileHealthBar.StatusBar = "HealthBar"
 MobileHealthBar.HealthLabel = "HealthBarPerc"
 MobileHealthBar.NameLabel = "Name"
 
-local function mobile(window)
-    return tonumber(string.gsub(window, MobileHealthBar.Name, ""), 10)
-end
-
 function MobileHealthBar.onInitialize()
     local window = Active.window()
-    local id = mobile(window)
+    local id = Active.mobile()
 
+    WindowApi.setId(window, id)
     WindowDataApi.registerData(MobileData.nameType(), id)
     WindowDataApi.registerData(MobileData.statusType(), id)
     WindowDataApi.registerData(MobileData.healthBarColorType(), id)
@@ -27,7 +24,7 @@ end
 
 function MobileHealthBar.onShutdown()
     local window = Active.window()
-    local id = mobile(window)
+    local id = WindowApi.getId(window)
 
     WindowDataApi.unregisterData(MobileData.nameType(), id)
     WindowDataApi.unregisterData(MobileData.statusType, id)
@@ -41,7 +38,7 @@ end
 
 function MobileHealthBar.update()
     local window = Active.window()
-    local id = mobile(window)
+    local id = WindowApi.getId(window)
 
     local statusBar = window .. MobileHealthBar.StatusBar
     StatusBarApi.setCurrentValue(statusBar, MobileData.currentHealth(id))
