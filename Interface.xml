@@ -12,7 +12,7 @@
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
     <Include file="Source/health_bar/MobileHealthBar.xml"/>
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
-
+    <Include file="Source/paperdoll/PaperdollWindow.xml"/>
 
 	<!-- Remove this one once all the gumps are fixed -->
 	<!--<Include file="Source/Generic/KnownBrokenGump.xml" />-->
@@ -81,19 +81,14 @@
         <Script file="Source/core/resources/Colors.lua"/>
         <Script file="Source/core/resources/TextIds.lua"/>
 
-		<Script file="Source/core/window/UusCorpViewEvent.lua"/>
-		<Script file="Source/core/window/UusCorpView.lua"/>
-        <Script file="Source/core/window/UusCorpButton.lua"/>
-        <Script file="Source/core/window/UusCorpLabel.lua"/>
-        <Script file="Source/core/window/UusCorpStatusBar.lua"/>
-        <Script file="Source/core/window/UusCorpWindow.lua"/>
-
 		<Script file="Interface.lua" />
         <Script file="Source/root/RootWindow.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
         <Script file="Source/health_bar/MobileHealthBar.lua"/>
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>
+        <Script file="Source/paperdoll/PaperdollWindow.lua"/>
+
 
 	</Scripts>
 

@@ -1,4 +1,5 @@
-UusCorpDebugWindow = UusCorpWindow.new("UusCorpDebugWindow")
+UusCorpDebugWindow = {}
+UusCorpDebugWindow.Name = "UusCorpDebugWindow"
 
 local LuaLog = {}
 LuaLog.SYSTEM = 1
@@ -9,12 +10,12 @@ LuaLog.FUNCTION = 4
 local debugPrint = "DebugPrint"
 local uiLog = "UiLog"
 
-function UusCorpDebugWindow:onInitialize()
+function UusCorpDebugWindow.onInitialize()
     TextLogApi.createTextLog(debugPrint, 1)
     TextLogApi.enableLog(debugPrint)
     TextLogApi.clearLog(debugPrint)
 
-    local text = self.name .. "Text"
+    local text = UusCorpDebugWindow.Name .. "Text"
     LogApi.showTimestamp(text)
     LogApi.showLogName(text)
     LogApi.showFilterName(text)
@@ -37,18 +38,21 @@ function UusCorpDebugWindow:onInitialize()
             true
         )
     end
-
-    UusCorpWindow.onInitialize(self)
 end
 
-function UusCorpDebugWindow:onShutdown()
+function UusCorpDebugWindow.onShutdown()
     TextLogApi.enableLog(debugPrint, false)
     TextLogApi.destroyTextLog(debugPrint)
     TextLogApi.enableLog(uiLog, false)
     TextLogApi.destroyTextLog(uiLog)
-    UusCorpWindow.onShutdown(self)
 end
 
 function UusCorpDebugWindow.OnResizeBegin()
-    WindowUtils.BeginResize(UusCorpDebugWindow.name, "topleft", 300, 200, false, nil)
+    WindowUtils.BeginResize(UusCorpDebugWindow.Name, "topleft", 300, 200, false, function ()
+        WindowApi.forceProcessAnchors(UusCorpDebugWindow.Name)
+    end)
+end
+
+function UusCorpDebugWindow.onRightClick()
+    WindowApi.destroyWindow(UusCorpDebugWindow.Name)
 end

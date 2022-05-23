@@ -23,3 +23,15 @@ end
 function Events.onLButtonUp()
     return SystemData.Events.L_BUTTON_UP_PROCESSED
 end
+
+function Events.logOut()
+    return SystemData.Events.LOG_OUT
+end
+
+function Events.help()
+    return SystemData.Events.REQUEST_OPEN_HELP_MENU
+end
+
+function Events.store()
+    return SystemData.Events.UO_STORE_REQUEST
+end

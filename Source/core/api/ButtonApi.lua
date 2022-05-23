@@ -1,6 +1,14 @@
 ButtonApi = {}
 
 function ButtonApi.setText(id, text)
+    if text == nil then
+        return
+    elseif type(text) == "number" then
+        text = StringFormatter.fromTid(text)
+    elseif type(text) == "string" then
+        text = StringFormatter.toWString(text)
+    end
+
     ButtonSetText(id, text)
 end
 

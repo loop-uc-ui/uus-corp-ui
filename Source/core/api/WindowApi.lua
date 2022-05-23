@@ -87,6 +87,10 @@ function WindowApi.forceProcessAnchors(windowName)
     WindowForceProcessAnchors(windowName)
 end
 
+function WindowApi.forceProcessAnchors(windowName)
+    WindowForceProcessAnchors(windowName)
+end
+
 function WindowApi.assignFocus(windowName, doFocus)
     return WindowAssignFocus(windowName, doFocus)
 end

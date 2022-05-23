@@ -4,6 +4,11 @@
             <Size>
                 <AbsPoint x="190" y="90" />
             </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="PlayerHealthBar.onInitialize"/>
+                <EventHandler event="OnShutdown" function="PlayerHealthBar.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="PlayerHealthBar.onRightClick"/>
+            </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>
@@ -23,12 +28,24 @@
                 </FullResizeImage>
                 <!-- End of Inner Frame Boilerplate -->
 
+                <Label name="$parentName" font="uo_classic_18" maxchars="18" textalign="center" handleinput="false" wordwrap="false" popable="false">
+                    <Size>
+                        <AbsPoint x="190" y="12" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="center" relativeTo="$parent">
+                            <AbsPoint x="0" y="8" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255" />
+                </Label>
+
                 <StatusBar name="$parentHealthBar" foreground="StatusBar" handleinput="false" alpha="0.5">
                     <Size>
                         <AbsPoint x="136" y="24"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="top" relativePoint="top" relativeTo="$parent">
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentName">
                             <AbsPoint x="0" y="8"/>
                         </Anchor>
                     </Anchors>

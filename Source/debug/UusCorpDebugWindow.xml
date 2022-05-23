@@ -16,6 +16,11 @@
 			<Size>
 				<AbsPoint x="800" y="500" />
 			</Size>
+            <EventHandlers>
+                <EventHandler event="OnShutdown" function="UusCorpDebugWindow.onShutdown"/>
+                <EventHandler event="OnInitialize" function="UusCorpDebugWindow.onInitialize"/>
+                <EventHandler event="OnRButtonUp" function="UusCorpDebugWindow.onRightClick"/>
+            </EventHandlers>
 			<Windows>			
 				<!-- Body background -->
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">

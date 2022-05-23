@@ -27,3 +27,7 @@ end
 function DynamicImageApi.hasTexture(dynamicImageName)
     return DynamicImageHasTexture(dynamicImageName)
 end
+
+function DynamicImageApi.setCustomShader(dynamicImageName, shader, hue)
+    DynamicImageSetCustomShader(dynamicImageName, shader, hue)
+end
