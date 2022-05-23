@@ -18,6 +18,11 @@ function PaperdollWindow.onInitialize()
         ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_DISABLED, texture, 50, 25)
     end
 
+    WindowApi.setOffsetFromParent(
+        window,
+        MousePosition.x() - 50,
+        MousePosition.y() - 100
+    )
     PaperdollWindow.update()
 end
 

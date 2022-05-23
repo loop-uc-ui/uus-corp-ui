@@ -38,11 +38,6 @@
 			<Size>
 				<AbsPoint x="240" y="360" />
 			</Size>
-			<Anchors>
-				<Anchor point="topleft" relativePoint="topleft">
-					<AbsPoint x="-1000" y="-1000" />
-				</Anchor>
-			</Anchors>
 			<EventHandlers>
 				<EventHandler event="OnInitialize" function="PaperdollWindow.onInitialize" />
 				<EventHandler event="OnShutdown" function="PaperdollWindow.onShutdown" />
