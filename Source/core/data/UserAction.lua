@@ -7,3 +7,7 @@ end
 function UserAction.typeSkill()
     return SystemData.UserAction.TYPE_SKILL
 end
+
+function UserAction.useItem(id, flag)
+    UserActionUseItem(id, flag)
+end

@@ -23,6 +23,10 @@ function Paperdoll.event()
     return WindowData.Paperdoll.Event
 end
 
+function Paperdoll.backpack(id)
+    return WindowData.Paperdoll[toNum(id)].backpackId
+end
+
 function Paperdoll.numSlots(id)
     return WindowData.Paperdoll[toNum(id)].numSlots
 end

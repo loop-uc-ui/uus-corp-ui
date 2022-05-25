@@ -60,3 +60,9 @@ end
 function PaperdollWindow.onRightClick()
     WindowApi.destroyWindow(Active.window())
 end
+
+function PaperdollWindow.ToggleInventoryWindow()
+    local id = WindowApi.getId(WindowApi.getParent(Active.window()))
+    local backpack = Paperdoll.backpack(id)
+    UserAction.useItem(backpack, false)
+end
