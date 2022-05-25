@@ -190,138 +190,26 @@
 				<EventHandler event="OnInitialize" function="ContainerWindow.Initialize" />
 				<EventHandler event="OnShutdown" function="ContainerWindow.Shutdown" />
 				<EventHandler event="OnSetMoving" function="ContainerWindow.OnSetMoving" />
-				<EventHandler event="OnRButtonUp" function="UO_DefaultWindow.CloseDialog" />				
+				<EventHandler event="OnRButtonUp" function="ContainerWindow.onRightClick" />				
 				<EventHandler event="OnLButtonUp" function="ContainerWindow.OnItemRelease" />
 				<EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
 			</EventHandlers>
 			<Windows>
-				<!-- Default chrome. Alter this at your own peril. -->
-				<Window name="$parentChrome" inherits="UO_DefaultWindow">
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft"/>
-						<Anchor point="bottomright" relativePoint="bottomright"/>
-					</Anchors>
-				</Window>
 
-				<!-- End of default chrome boilerplate code -->
-				<DynamicImage name="$parentLegacyContainerArt" layer="default" popable="false" handleinput="false" draganddrop="true" />
 
-				<Button name="$parentViewButton" inherits="UO_Default_Spring_Button">
-					<Anchors>
-						<Anchor point="topright" relativePoint="topright" relativeTo="$parent">
-							<AbsPoint x="-22" y="0" />
-						</Anchor>
-					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="ContainerWindow.ToggleView" />
-						<EventHandler event="OnMouseOver" function="ContainerWindow.ViewButtonMouseOver" />
-						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
-					</EventHandlers>
-				</Button>
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background" alpha="0.75">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
 
-				<Label name="$parentContent" font="UO_DefaultText" maxchars="100" textalign="center" autoresize="true" autoresizewidth="true" wordwrap="false" layer="overlay" handleinput="false">
-					<Size>
-						<AbsPoint x="150" y="30" />
-					</Size>
-					<Anchors>
-						<Anchor point="bottom" relativePoint="top" relativeTo="$parent">
-							<AbsPoint x="5" y="5" />
-						</Anchor>
-					</Anchors>
-					<Color r="255" g="255" b="255" a="30" />
-				</Label>
-
-				<Button name="$parentLock" layer="popup" backgroundtexture="UO_Core" highlighttexture="UO_Core" texturescale="2">
-					<Size>
-						<AbsPoint x="40" y="40" />
-					</Size>
-					<TexCoords>
-						<Normal x="0" y="0" />
-						<NormalHighlit x="0" y="0" />
-						<Pressed x="0" y="0"  />
-						<PressedHighlit x="0" y="0" />
-					</TexCoords>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="ContainerWindow.Lock" />
-						<EventHandler event="OnMouseOver" function="ContainerWindow.LockTooltip" />
-					</EventHandlers>
-				</Button>
-				<Button name="$parentOrganize" layer="popup" backgroundtexture="Organizer" highlighttexture="Organizer" texturescale="1">
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
-					<TexCoords>
-						<Normal x="0" y="0" />
-						<NormalHighlit x="0" y="0" />
-						<Pressed x="0" y="0"  />
-						<PressedHighlit x="0" y="0" />
-					</TexCoords>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="ContainerWindow.Organizes" />
-						<EventHandler event="OnRButtonUp" function="ContainerWindow.OrganizerContext" />
-						<EventHandler event="OnMouseOver" function="ContainerWindow.OrganizeTooltip" />
-					</EventHandlers>
-				</Button>
-				<Button name="$parentRestock" layer="popup" backgroundtexture="Restock" highlighttexture="Restock" texturescale="1">
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
-					<TexCoords>
-						<Normal x="0" y="0" />
-						<NormalHighlit x="0" y="0" />
-						<Pressed x="0" y="0"  />
-						<PressedHighlit x="0" y="0" />
-					</TexCoords>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="ContainerWindow.Restocks" />
-						<EventHandler event="OnRButtonUp" function="ContainerWindow.RestockContext" />
-						<EventHandler event="OnMouseOver" function="ContainerWindow.RestockTooltip" />
-					</EventHandlers>
-				</Button>
-
-				<Button name="$parentLootAll" layer="popup" backgroundtexture="Loot_ALL" highlighttexture="Loot_ALL">
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topright" relativeTo="$parentRestock">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords>
-						<Normal  x="0" y="0" />
-						<NormalHighlit x="0" y="0" />
-						<Pressed x="0" y="0" />
-						<PressedHighlit x="0" y="0" />
-						<Disabled x="0" y="0" />
-					</TexCoords>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="ContainerWindow.LootAllBtn" />
-						<EventHandler event="OnMouseOver" function="ContainerWindow.LootAllTooltip" />
-					</EventHandlers>
-				</Button>
-
-				<Button name="$parentSearch" layer="popup" backgroundtexture="Search" highlighttexture="Search">
-					<Size>
-						<AbsPoint x="32" y="32" />
-					</Size>
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topright" relativeTo="$parentLootAll">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<TexCoords>
-						<Normal  x="0" y="0" />
-						<NormalHighlit x="0" y="0" />
-						<Pressed x="0" y="0" />
-						<PressedHighlit x="0" y="0" />
-						<Disabled x="0" y="0" />
-					</TexCoords>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="ContainerWindow.SearchItem" />
-						<EventHandler event="OnMouseOver" function="ContainerWindow.SearchAllTooltip" />
-					</EventHandlers>
-				</Button>
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground" />
+                    </Anchors>
+                </FullResizeImage>
 
 				<Label name="$parentTitle" inherits="UO_Default_Label_Color" font="UO_Title" maxchars="256" textalign="center" handleinput="false" layer="popup" autoresizewidth="false">
 					<Size>
