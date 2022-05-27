@@ -47,9 +47,9 @@
 
 		<!-- For grid view -->
 
-		<Button name="GridViewSocketBaseTemplate" texturescale="1.125">
+		<Button name="GridViewSocketBaseTemplate" texturescale="1.0">
 			<Size>
-				<AbsPoint x="56" y="56" />
+				<AbsPoint x="48" y="48" />
 				<!-- if changed, ContainerWindow.lua must be updated -->
 			</Size>
 			<TexCoords>
@@ -63,17 +63,15 @@
 
 		<Button name="GridViewSocketTemplate" inherits="GridViewSocketBaseTemplate" draganddrop="true">
 			<Windows>
-				<DynamicImage name="$parentIcon" texturescale="1.125" handleinput="false" layer="default">
+				<DynamicImage name="$parentIcon" texturescale="1.0" handleinput="false" layer="default">
 					<Size>
 						<AbsPoint x="48" y="48" />
 					</Size>
 					<Anchors>
-						<Anchor point="center" relativePoint="center" relativeTo="">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
+						<Anchor point="center" relativePoint="center" relativeTo="$parent"/>
 					</Anchors>
 				</DynamicImage>
-				<DynamicImage name="$parentIconMulti" texturescale="1.125" handleinput="false" layer="secondary">
+				<DynamicImage name="$parentIconMulti" texturescale="1.0" handleinput="false" layer="secondary">
 					<Size>
 						<AbsPoint x="48" y="48" />
 					</Size>
@@ -96,11 +94,11 @@
 				</Label>
 			</Windows>
 			<TexCoords>
-				<Normal texture="hud_image" x="0" y="754" />
-				<NormalHighlit texture="hud_image" x="50" y="754" />
-				<Disabled texture="hud_image" x="0" y="754" />
-				<Pressed texture="hud_image" x="0" y="754" />
-				<PressedHighlit texture="hud_image" x="50" y="754" />
+				<Normal texture="hud_image" x="412" y="971" />
+				<NormalHighlit texture="hud_image" x="462" y="971" />
+				<Disabled texture="hud_image" x="412" y="971" />
+				<Pressed texture="hud_image" x="412" y="971" />
+				<PressedHighlit texture="hud_image" x="462" y="971" />
 			</TexCoords>
 			<EventHandlers>
 				<EventHandler event="OnLButtonDown" function="ContainerWindow.OnItemClicked" />
@@ -222,35 +220,8 @@
 					</Anchors>
 				</Label>
 
-				<!-- LIST VIEW -->
-				<ScrollWindow name="$parentListView" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="60"  draganddrop="true" autoHideScrollBar="true" popable="false " layer="default" >
-					<Size>
-						<AbsPoint x="299" y="250" />
-					</Size>
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft">
-							<AbsPoint x="0" y="50" />
-						</Anchor>
-					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="ContainerWindow.OnContainerRelease" />
-					</EventHandlers>
-					<Windows>
-						<Window name ="$parentScrollChild" popable="false" draganddrop="true">
-							<Size>
-								<AbsPoint x="285" y="60"/>
-							</Size>
-						</Window>
-						<VerticalScrollbar name="$parentScrollbar" inherits="StandardVertScroll" >
-							<EventHandlers>
-								<EventHandler event="OnScrollPosChanged" function="ContainerWindow.Scrolling" />
-							</EventHandlers>
-						</VerticalScrollbar>
-					</Windows>
-				</ScrollWindow>
-
 				<!-- Grid view -->
-				<ScrollWindow name="$parentGridView" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="true" autoHideScrollBar="true" popable="false">
+				<ScrollWindow name="$parentGridView" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="true" autoHideScrollBar="false" popable="false">
 					<Size>
 						<AbsPoint x="289" y="250" />
 					</Size>

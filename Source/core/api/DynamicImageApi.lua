@@ -1,7 +1,7 @@
 DynamicImageApi = {}
 
 function DynamicImageApi.setTexture(dynamicImageName, texture, x, y)
-    DynamicImageSetTexture(dynamicImageName, texture, x, y)
+    DynamicImageSetTexture(dynamicImageName, texture or "", x or 0, y or 0)
 end
 
 function DynamicImageApi.setTextureScale(dynamicImageName, textureScale)
