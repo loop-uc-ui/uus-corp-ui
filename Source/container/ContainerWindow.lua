@@ -31,7 +31,7 @@ function ContainerWindow.updateContainer()
         local slotName = window .. "Slot" .. tostring(i)
         WindowApi.createFromTemplate(
             slotName,
-            "GridViewSocketTemplate",
+            "ItemGridSocketTemplate",
             window
         )
 

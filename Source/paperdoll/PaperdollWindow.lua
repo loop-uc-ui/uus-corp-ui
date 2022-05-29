@@ -9,15 +9,6 @@ function PaperdollWindow.onInitialize()
     WindowDataApi.registerData(Paperdoll.type(), pId)
     WindowApi.registerEventHandler(window, Paperdoll.event(), "PaperdollWindow.update")
 
-    for i = 1, Paperdoll.numSlots(pId) do
-        local slot = window .. "ItemSlotButton" .. i
-        local texture = "Menu_Selection"
-        ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_NORMAL, texture, 50, 25)
-        ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE, texture, 50, 25)
-        ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_PRESSED, texture, 50, 25)
-        ButtonApi.setTexture(slot, InterfaceCore.ButtonStates.STATE_DISABLED, texture, 50, 25)
-    end
-
     WindowApi.setOffsetFromParent(
         window,
         MousePosition.x() - 50,

@@ -8,6 +8,8 @@
     <Include file="Icons/Icons.xml"/>
 
 	<!-- Windows -->
+
+    <Include file="Source/core/template/ItemGridSocketTemplate.xml"/>
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
     <Include file="Source/health_bar/MobileHealthBar.xml"/>
