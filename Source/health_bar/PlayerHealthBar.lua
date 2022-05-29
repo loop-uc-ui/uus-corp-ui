@@ -59,3 +59,7 @@ end
 function PlayerHealthBar.onRightClick()
     WindowApi.destroyWindow(PlayerHealthBar.Name)
 end
+
+function PlayerHealthBar.onDoubleClick()
+    UserAction.useItem(PlayerStatus.id(), false)
+end
