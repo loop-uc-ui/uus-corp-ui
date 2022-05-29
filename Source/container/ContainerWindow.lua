@@ -14,7 +14,6 @@ end
 function ContainerWindow.updateContainer()
     local id = Active.updateId()
 
-
     LabelApi.setText(ContainerWindow.Name .. id .. "Title", Container.name(id))
 
     local slots = ContainerWindow.MaxSlots
@@ -36,7 +35,7 @@ function ContainerWindow.updateContainer()
             window
         )
 
-        local slotX, slotY =  WindowApi.getDimensions(slotName)
+        local slotX, _ =  WindowApi.getDimensions(slotName)
         local rowSize = sizeMultiplier * slotX
 
         if i ~= 1 then
@@ -115,4 +114,20 @@ end
 
 function ContainerWindow.onRightClick()
     WindowApi.destroyWindow(Active.window())
+end
+
+function ContainerWindow.Shutdown()
+    local window = Active.window()
+    local id = WindowApi.getId(window)
+
+    WindowApi.unregisterEventHandler(window, Container.event())
+    WindowApi.unregisterEventHandler(window, ObjectInfo.event())
+
+    for i = 1, Container.itemCount(id) do
+        local item = Container.items(id)[i]
+        local object = item.objectId
+        WindowDataApi.unregisterData(ObjectInfo.type(), object)
+    end
+
+    WindowDataApi.unregisterData(Container.type(), id)
 end

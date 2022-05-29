@@ -1,50 +1,5 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Windows>
-		<!-- For list view -->
-		<Window name="ContainerItemTemplate"  draganddrop="true">
-			<Size>
-				<AbsPoint x="250" y="60" />
-			</Size>
-			<EventHandlers>
-				<EventHandler event="OnLButtonDown" function="ContainerWindow.OnItemClicked" />
-				<EventHandler event="OnLButtonDblClk" function="ContainerWindow.OnItemDblClicked" />
-				<EventHandler event="OnLButtonUp" function="ContainerWindow.OnItemRelease" />
-				<EventHandler event="OnRButtonDown" function="ContainerWindow.OnItemGet" />
-				<EventHandler event="OnRButtonUp" function="ContainerWindow.OnItemRButtonUp" />
-			</EventHandlers>
-			<Windows>
-				<DynamicImage name="$parentIcon" texture=""  texturescale="2.0" draganddrop="true">
-					<Size>
-						<AbsPoint x="45" y="45" />
-					</Size>
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft">
-							<AbsPoint x="15" y="0" />
-						</Anchor>
-					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnMouseOver" function="ContainerWindow.ItemMouseOver"/>
-						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
-					</EventHandlers>
-				</DynamicImage>
-
-				<Label name="$parentName" font="Arial_Black_Shadow_12" maxchars="64" textalign="left" draganddrop="true">
-					<Size>
-						<AbsPoint x="190" y="32" />
-					</Size>
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft">
-							<AbsPoint x="70" y="10" />
-						</Anchor>
-						<Anchor point="topright" relativePoint="topright" relativeTo="$parent">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
-					<Color r="255" g="255" b="255" a="255" />
-				</Label>
-			</Windows>
-		</Window>
-
 		<!-- For grid view -->
 
 		<Button name="GridViewSocketBaseTemplate" texturescale="1.0">
@@ -184,7 +139,7 @@
                             </Size>
                             <Anchors>
                                 <Anchor point="topright" relativePoint="topright">
-                                    <AbsPoint x="-12" y="0"/>
+                                    <AbsPoint x="-14" y="0"/>
                                 </Anchor>
                             </Anchors>
                             <ThumbOffset x="0" y="0" />
