@@ -13,9 +13,13 @@ end
 
 function ContainerWindow.updateContainer()
     local id = Active.updateId()
+
+
+    LabelApi.setText(ContainerWindow.Name .. id .. "Title", Container.name(id))
+
     local slots = ContainerWindow.MaxSlots
     local window = ContainerWindow.Name .. id .. "GridViewScrollChild"
-    local x, y = WindowApi.getDimensions(window)
+    local x, _ = WindowApi.getDimensions(window)
 
     --Public corpses may have more than the max count
     if Container.itemCount(id) > slots then
@@ -54,6 +58,8 @@ function ContainerWindow.updateContainer()
                 sizeMultiplier = 1
             end
         end
+
+        WindowApi.setId(slotName, i)
     end
 
     for i = 1, Container.itemCount(id) do
@@ -62,7 +68,7 @@ function ContainerWindow.updateContainer()
         WindowDataApi.registerData(ObjectInfo.type(), object)
 
         local image = window .. "Slot" .. tostring(item.gridIndex) .. "Icon"
-        
+
         DynamicImageApi.setTexture(
             image,
             ObjectInfo.iconName(object)
@@ -93,6 +99,10 @@ function ContainerWindow.updateContainer()
         WindowApi.setAlpha(
             image,
             ObjectInfo.hue(object).a / 255
+        )
+        WindowApi.setId(
+            WindowApi.getParent(image),
+            object
         )
     end
 

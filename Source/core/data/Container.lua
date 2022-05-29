@@ -23,3 +23,7 @@ end
 function Container.slots(id)
     return Container.data(id).numCreatedSlots or 1
 end
+
+function Container.name(id)
+    return Container.data(id).containerName
+end

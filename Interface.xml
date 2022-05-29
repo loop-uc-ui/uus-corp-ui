@@ -85,6 +85,7 @@
         <Script file="Source/core/resources/TextIds.lua"/>
 
 		<Script file="Interface.lua" />
+        <Script file="Source/ItemProperties.lua"/>
         <Script file="Source/root/RootWindow.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
