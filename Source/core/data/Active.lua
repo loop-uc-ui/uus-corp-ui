@@ -11,3 +11,7 @@ end
 function Active.updateId()
     return WindowData.UpdateInstanceId
 end
+
+function Active.dynamicWindowId()
+    return SystemData.DynamicWindowId
+end

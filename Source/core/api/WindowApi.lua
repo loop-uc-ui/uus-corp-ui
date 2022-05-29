@@ -72,7 +72,7 @@ function WindowApi.addAnchor(
         pointX,
         pointY
 )
-    WindowAddAnchor(windowName, anchorPoint, relativeTo, relativePoint, pointX, pointY)
+    WindowAddAnchor(windowName, anchorPoint, relativeTo, relativePoint, pointX or 0, pointY or 0)
 end
 
 function WindowApi.getAnchor(windowName, anchorId)

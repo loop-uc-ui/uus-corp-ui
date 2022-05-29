@@ -8,10 +8,13 @@
     <Include file="Icons/Icons.xml"/>
 
 	<!-- Windows -->
+
+    <Include file="Source/core/template/ItemGridSocketTemplate.xml"/>
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
     <Include file="Source/health_bar/MobileHealthBar.xml"/>
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
+    <Include file="Source/container/ContainerWindow.xml"/>
     <Include file="Source/paperdoll/PaperdollWindow.xml"/>
 
 	<!-- Remove this one once all the gumps are fixed -->
@@ -52,6 +55,7 @@
         <Script file="Source/core/data/Active.lua"/>
         <Script file="Source/core/data/Buffs.lua"/>
         <Script file="Source/core/data/ButtonFlags.lua"/>
+        <Script file="Source/core/data/Container.lua"/>
         <Script file="Source/core/data/CurrentTarget.lua"/>
         <Script file="Source/core/data/Cursor.lua"/>
         <Script file="Source/core/data/Drag.lua"/>
@@ -60,6 +64,7 @@
         <Script file="Source/core/data/MapSettings.lua"/>
         <Script file="Source/core/data/MobileData.lua"/>
         <Script file="Source/core/data/MousePosition.lua"/>
+        <Script file="Source/core/data/ObjectInfo.lua"/>
         <Script file="Source/core/data/Paperdoll.lua"/>
         <Script file="Source/core/data/PlayerLocation.lua"/>
         <Script file="Source/core/data/PlayerStatus.lua"/>
@@ -82,13 +87,14 @@
         <Script file="Source/core/resources/TextIds.lua"/>
 
 		<Script file="Interface.lua" />
+        <Script file="Source/ItemProperties.lua"/>
         <Script file="Source/root/RootWindow.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
         <Script file="Source/health_bar/MobileHealthBar.lua"/>
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>
+        <Script file="Source/container/ContainerWindow.lua"/>
         <Script file="Source/paperdoll/PaperdollWindow.lua"/>
-
 
 	</Scripts>
 
