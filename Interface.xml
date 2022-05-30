@@ -11,6 +11,7 @@
 
     <Include file="Source/core/template/ItemGridSocketTemplate.xml"/>
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
+    <Include file="Source/drag/DragWindow.xml"/>
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
     <Include file="Source/health_bar/MobileHealthBar.xml"/>
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
@@ -91,6 +92,7 @@
         <Script file="Source/ItemProperties.lua"/>
         <Script file="Source/root/RootWindow.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
+        <Script file="Source/drag/DragWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
         <Script file="Source/health_bar/MobileHealthBar.lua"/>
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>

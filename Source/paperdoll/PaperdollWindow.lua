@@ -2,6 +2,16 @@ PaperdollWindow = {}
 PaperdollWindow.Name = "PaperdollWindow"
 PaperdollWindow.NumSlots = 19
 
+local function activeSlot()
+    local id = WindowApi.getId(Active.window())
+    local paperdollId = WindowApi.getId(WindowApi.getParent(Active.window()))
+    local object = Paperdoll.slotData(paperdollId, id)
+    return {
+        objectId = object.slotId,
+        paperdollId = paperdollId
+    }
+end
+
 function PaperdollWindow.onInitialize()
     local pId = Paperdoll.id()
     local window = PaperdollWindow.Name .. pId
@@ -90,8 +100,25 @@ function PaperdollWindow.ToggleView()
 end
 
 function PaperdollWindow.onSlotDoubleClick()
-    local id = WindowApi.getId(Active.window())
-    local paperdollId = WindowApi.getId(WindowApi.getParent(Active.window()))
-    local object = Paperdoll.slotData(paperdollId, id)
-    UserAction.useItem(object.slotId, false)
+    UserAction.useItem(activeSlot().objectId, false)
+end
+
+function PaperdollWindow.onSlotSingleClick()
+    local object = activeSlot()
+
+    if Cursor.hasTarget() and object.objectId ~= 0 then
+        TargetApi.clickTarget(object.objectId)
+    else
+        DragApi.setObjectMouseClickData(object.objectId, Drag.sourcePaperdoll())
+    end
+end
+
+function PaperdollWindow.onSlotSingleClickUp()
+    local object = activeSlot()
+
+    if Drag.isItem() and object.objectId ~= 0 then
+        DragApi.dropEquipmentOnPaperdoll(object.objectId)
+    elseif Drag.isItem() then
+        DragApi.dropObjectOnPaperdoll(object.paperdollId)
+    end
 end
