@@ -47,11 +47,10 @@ function PaperdollWindow.update()
     --We don't support non-legacy textures.
     --Users on first launch may have non-legacy textures set
     --since it requires a restart to take effect.
-    if texture.IsLegacy then
+    if texture.IsLegacy == 1 then
         WindowApi.setShowing(window .. "ToggleView", true)
         local textureName = "paperdoll_texture" .. id
         local backgroundWindow = window .. "LegacyTexture"
-        Debug.Print(texture)
         DynamicImageApi.setTextureDimensions(backgroundWindow, texture.Width, texture.Height)
         DynamicImageApi.setTexture(backgroundWindow, textureName)
         WindowApi.setDimensions(backgroundWindow, texture.Width, texture.Height)
@@ -88,4 +87,11 @@ function PaperdollWindow.ToggleView()
 
     local background = paperdoll .. "LegacyTexture"
     WindowApi.setShowing(background, not WindowApi.isShowing(background))
+end
+
+function PaperdollWindow.onSlotDoubleClick()
+    local id = WindowApi.getId(Active.window())
+    local paperdollId = WindowApi.getId(WindowApi.getParent(Active.window()))
+    local object = Paperdoll.slotData(paperdollId, id)
+    UserAction.useItem(object.slotId, false)
 end
