@@ -4,6 +4,8 @@
 		<Button name="PaperdollSlotTemplate" inherits="ItemGridSocketTemplate">
 			<EventHandlers>
 				<EventHandler event="OnLButtonDblClk" function="PaperdollWindow.onSlotDoubleClick"/>
+				<EventHandler event="OnLButtonDown" function="PaperdollWindow.onSlotSingleClick"/>
+				<EventHandler event="OnLButtonUp" function="PaperdollWindow.onSlotSingleClickUp"/>
 			</EventHandlers>
 		</Button>
 

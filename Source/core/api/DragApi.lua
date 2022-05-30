@@ -11,3 +11,15 @@ function DragApi.setActionMouseClickData(userAction, actionId, iconId)
             iconId
     )
 end
+
+function DragApi.setObjectMouseClickData(objectId, dragSource)
+    DragSlotSetObjectMouseClickData(objectId, dragSource)
+end
+
+function DragApi.dropEquipmentOnPaperdoll(objectId)
+    DragSlotDropObjectToPaperdollEquipment(objectId)
+end
+
+function DragApi.dropObjectOnPaperdoll(paperdollId)
+    DragSlotDropObjectToPaperdoll(paperdollId)
+end

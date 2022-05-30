@@ -1,9 +1,9 @@
 Cursor = {}
 
-function Cursor.exists()
-    return WindowData.Cursor ~= nil
+function Cursor.cursor()
+    return WindowData.Cursor
 end
 
-function Cursor.target()
-    return WindowData.Cursor.target
+function Cursor.hasTarget()
+    return Cursor.cursor() ~= nil and Cursor.cursor().target == true
 end

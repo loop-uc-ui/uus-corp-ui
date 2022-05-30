@@ -1,0 +1,48 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+      <Script file="Source/DragWindow.lua" />
+    </Scripts>
+    <Windows>
+      <Window name="DragWindowTemplate" layer="popup" handleinput="false">
+        <Size>
+          <AbsPoint x="0" y="0" />
+        </Size>
+        <Windows>
+          <DynamicImage name="$parentItem" texturescale="1.0" handleinput="false" layer="default">
+            <Anchors>
+              <Anchor point="topleft" relativePoint="topleft" relativeTo=""/>
+              <Anchor point="bottomright" relativePoint="bottomright" relativeTo=""/>
+            </Anchors>
+          </DynamicImage>
+          <DynamicImage name="$parentIconMulti" texturescale="1.125" handleinput="false" layer="secondary">
+            <Size>
+              <AbsPoint x="48" y="48" />
+            </Size>
+            <Anchors>
+              <Anchor point="center" relativePoint="center" relativeTo="$parentItem">
+                <AbsPoint x="6" y="6" />
+              </Anchor>
+            </Anchors>
+          </DynamicImage>
+          <Label name="$parentQuantity" font="UO_GoldButtonText" maxchars="6" textalign="left" autoresize="true" wordwrap="false" layer="popup" handleinput="false">
+            <Size>
+              <AbsPoint x="100" y="20" />
+            </Size>
+            <Anchors>
+              <Anchor point="right" relativePoint="left" relativeTo="$parent" >
+                <AbsPoint x="0" y="0" />
+              </Anchor>
+            </Anchors>
+            <Color r="255" g="255" b="255" a="255" />
+          </Label>
+        </Windows>
+  
+        <EventHandlers>
+          <EventHandler event="OnInitialize" function="DragWindow.Initialize" />
+          <EventHandler event="OnShutdown" function="DragWindow.Shutdown" />
+          <EventHandler event="OnUpdate" function="DragWindow.Update" />
+        </EventHandlers>
+      </Window>
+    </Windows>
+  </Interface>
+  

@@ -1,6 +1,17 @@
+--Paperdolls are not created explicitly by the UI.
+--They are created by the client whenever a mobile is double clicked.
 PaperdollWindow = {}
 PaperdollWindow.Name = "PaperdollWindow"
-PaperdollWindow.NumSlots = 19
+
+local function activeSlot()
+    local id = WindowApi.getId(Active.window())
+    local paperdollId = WindowApi.getId(WindowApi.getParent(Active.window()))
+    local object = Paperdoll.slotData(paperdollId, id)
+    return {
+        objectId = object.slotId,
+        paperdollId = paperdollId
+    }
+end
 
 function PaperdollWindow.onInitialize()
     local pId = Paperdoll.id()
@@ -34,7 +45,7 @@ function PaperdollWindow.update()
             WindowApi.setDimensions(icon, data.newWidth, data.newHeight)
             DynamicImageApi.setTextureDimensions(icon, data.newWidth, data.newHeight)
             DynamicImageApi.setTexture(icon, data.iconName, 0, 0)
-            DynamicImageApi.setCustomShader(icon, "UOSpriteUIShader", {
+            DynamicImageApi.setCustomShader(icon, DynamicImageApi.Shaders.Sprite, {
                 data.hueId,
                 data.objectType
             })
@@ -79,8 +90,10 @@ function PaperdollWindow.ToggleInventoryWindow()
 end
 
 function PaperdollWindow.ToggleView()
-    local paperdoll = string.gsub(Active.window(), "ToggleView", "")
-    for i = 1, PaperdollWindow.NumSlots do
+    local paperdoll = WindowApi.getParent(Active.window())
+    local paperdollId = WindowApi.getId(paperdoll)
+
+    for i = 1, Paperdoll.numSlots(paperdollId) do
         local slot = paperdoll .. "ItemSlotButton" .. tostring(i)
         WindowApi.setShowing(slot, not WindowApi.isShowing(slot))
     end
@@ -90,8 +103,25 @@ function PaperdollWindow.ToggleView()
 end
 
 function PaperdollWindow.onSlotDoubleClick()
-    local id = WindowApi.getId(Active.window())
-    local paperdollId = WindowApi.getId(WindowApi.getParent(Active.window()))
-    local object = Paperdoll.slotData(paperdollId, id)
-    UserAction.useItem(object.slotId, false)
+    UserAction.useItem(activeSlot().objectId, false)
+end
+
+function PaperdollWindow.onSlotSingleClick()
+    local object = activeSlot()
+
+    if Cursor.hasTarget() and object.objectId ~= 0 then
+        TargetApi.clickTarget(object.objectId)
+    else
+        DragApi.setObjectMouseClickData(object.objectId, Drag.sourcePaperdoll())
+    end
+end
+
+function PaperdollWindow.onSlotSingleClickUp()
+    local object = activeSlot()
+
+    if Drag.isItem() and object.objectId ~= 0 then
+        DragApi.dropEquipmentOnPaperdoll(object.objectId)
+    elseif Drag.isItem() then
+        DragApi.dropObjectOnPaperdoll(object.paperdollId)
+    end
 end
