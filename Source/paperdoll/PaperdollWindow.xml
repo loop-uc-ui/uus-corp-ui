@@ -17,7 +17,7 @@
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft"/>
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentToggleInventory">
-                            <AbsPoint x="16" y="12"/>
+                            <AbsPoint x="16" y="16"/>
                         </Anchor>
                     </Anchors>
                 </FullResizeImage>
@@ -31,15 +31,30 @@
 
                 <Label name="$parentName" font="uo_classic_18" maxchars="64" textalign="center" wordwrap="true" autoresize="true">
                     <Size>
-                        <AbsPoint x="192" y="70"/>
+                        <AbsPoint x="208" y="70"/>
                     </Size>
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="12" y="12" />
+                        <Anchor point="top" relativePoint="top">
+                            <AbsPoint x="0" y="12" />
 						</Anchor>
                     </Anchors>
                     <Color r="206" g="217" b="242" a="255"/>
                 </Label>
+
+				<DynamicImage name="$parentLegacyTexture" texture="" filtering="false" texturescale="1.0" handleinput="true" sticky="false" draganddrop="true" popable="false" layer="secondary" >
+					<Size>
+						<AbsPoint x="0" y="0" />
+					</Size>
+					<TexCoords x="0" y="0" />
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="PaperdollWindow.OnPaperdollTextureLButtonDown" />
+						<EventHandler event="OnLButtonUp" function="PaperdollWindow.OnPaperdollTextureLButtonUp" />
+						<EventHandler event="OnLButtonDblClk" function="PaperdollWindow.OnPaperdollTextureLButtonDblClk" />
+						<EventHandler event="OnRButtonDown" function="PaperdollWindow.OnPaperdollTextureRButtonDown" />
+						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnPaperdollTextureMouseOver" />
+						<EventHandler event="OnMouseOverEnd" function="PaperdollWindow.OnPaperdollTextureMouseEnd" />
+					</EventHandlers>
+				</DynamicImage>
 
 				<Button name="$parentItemSlotButton1" inherits="ItemGridSocketTemplate" id="1" >
 					<Anchors>
@@ -139,6 +154,16 @@
 					</Anchors>
 				</Button>
 
+				<Button name="$parentToggleView" inherits="UO_Default_Spring_Button" layer="overlay">
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton19">
+							<AbsPoint x="15" y="0"/>
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="PaperdollWindow.ToggleView"/>
+					</EventHandlers>
+				</Button>
 
 				<Button name="$parentToggleInventory" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false" draganddrop="true" >
 					<Size>

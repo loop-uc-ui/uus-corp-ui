@@ -58,3 +58,11 @@ end
 function Paperdoll.textureData(id)
     return SystemData.PaperdollTexture[toNum(id)]
 end
+
+function Paperdoll.isLegacyEnabled()
+    return SystemData.Settings.Interface.LegacyPaperdolls
+end
+
+function Paperdoll.useLegacy(useLegacy)
+    SystemData.Settings.Interface.LegacyPaperdolls = useLegacy
+end
