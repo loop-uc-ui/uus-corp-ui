@@ -1,6 +1,13 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Windows>
-		<Window name="PaperdollWindow" movable="true" sticky="true" popable="true" layer="default">
+
+		<Button name="PaperdollSlotTemplate" inherits="ItemGridSocketTemplate">
+			<EventHandlers>
+				<EventHandler event="OnLButtonDblClk" function="PaperdollWindow.onSlotDoubleClick"/>
+			</EventHandlers>
+		</Button>
+
+		<Window name="PaperdollWindow" movable="true" sticky="true" popable="true" layer="default" handleinput="true">
 			<Size>
 				<AbsPoint x="240" y="372" />
 			</Size>
@@ -56,99 +63,99 @@
 					</EventHandlers>
 				</DynamicImage>
 
-				<Button name="$parentItemSlotButton1" inherits="ItemGridSocketTemplate" id="1" >
+				<Button name="$parentItemSlotButton1" inherits="PaperdollSlotTemplate" id="1" >
 					<Anchors>
 						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentName">
 							<AbsPoint x="0" y="12" />
 						</Anchor>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton2" inherits="ItemGridSocketTemplate" id="2" >
+				<Button name="$parentItemSlotButton2" inherits="PaperdollSlotTemplate" id="2" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton1"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton3" inherits="ItemGridSocketTemplate" id="3" >
+				<Button name="$parentItemSlotButton3" inherits="PaperdollSlotTemplate" id="3" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton2" />
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton4" inherits="ItemGridSocketTemplate" id="4" >
+				<Button name="$parentItemSlotButton4" inherits="PaperdollSlotTemplate" id="4" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton3"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton5" inherits="ItemGridSocketTemplate" id="5" >
+				<Button name="$parentItemSlotButton5" inherits="PaperdollSlotTemplate" id="5" >
 					<Anchors>
 						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton1"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton6" inherits="ItemGridSocketTemplate" id="6" >
+				<Button name="$parentItemSlotButton6" inherits="PaperdollSlotTemplate" id="6" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton5"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton7" inherits="ItemGridSocketTemplate" id="7" >
+				<Button name="$parentItemSlotButton7" inherits="PaperdollSlotTemplate" id="7" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton6"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton8" inherits="ItemGridSocketTemplate" id="8" >
+				<Button name="$parentItemSlotButton8" inherits="PaperdollSlotTemplate" id="8" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton7"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton9" inherits="ItemGridSocketTemplate" id="9" >
+				<Button name="$parentItemSlotButton9" inherits="PaperdollSlotTemplate" id="9" >
 					<Anchors>
 						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton5"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton10" inherits="ItemGridSocketTemplate" id="10" >
+				<Button name="$parentItemSlotButton10" inherits="PaperdollSlotTemplate" id="10" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton9" />
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton11" inherits="ItemGridSocketTemplate" id="11" >
+				<Button name="$parentItemSlotButton11" inherits="PaperdollSlotTemplate" id="11" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton10"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton12" inherits="ItemGridSocketTemplate" id="12">
+				<Button name="$parentItemSlotButton12" inherits="PaperdollSlotTemplate" id="12">
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton11"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton13" inherits="ItemGridSocketTemplate" id="13" >
+				<Button name="$parentItemSlotButton13" inherits="PaperdollSlotTemplate" id="13" >
 					<Anchors>
 						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton9"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton14" inherits="ItemGridSocketTemplate" id="14" >
+				<Button name="$parentItemSlotButton14" inherits="PaperdollSlotTemplate" id="14" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton13"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton15" inherits="ItemGridSocketTemplate" id="15" >
+				<Button name="$parentItemSlotButton15" inherits="PaperdollSlotTemplate" id="15" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton14" />
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton16" inherits="ItemGridSocketTemplate" id="16" >
+				<Button name="$parentItemSlotButton16" inherits="PaperdollSlotTemplate" id="16" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton15"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton17" inherits="ItemGridSocketTemplate" id="17" >
+				<Button name="$parentItemSlotButton17" inherits="PaperdollSlotTemplate" id="17" >
 					<Anchors>
 						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton13"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton18" inherits="ItemGridSocketTemplate" id="18" >
+				<Button name="$parentItemSlotButton18" inherits="PaperdollSlotTemplate" id="18" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton17"/>
 					</Anchors>
 				</Button>
-				<Button name="$parentItemSlotButton19" inherits="ItemGridSocketTemplate" id="19" >
+				<Button name="$parentItemSlotButton19" inherits="PaperdollSlotTemplate" id="19" >
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton18"/>
 					</Anchors>

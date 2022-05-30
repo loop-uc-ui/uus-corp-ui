@@ -130,7 +130,6 @@
             <xs:enumeration value="OnShutdown"/>
             <xs:enumeration value="OnLButtonUp"/>
             <xs:enumeration value="OnLButtonDown"/>
-            <xs:enumeration value="OnLButtonDblClick"/>
             <xs:enumeration value="OnHyperLinkClicked"/>
             <xs:enumeration value="OnMouseWheel"/>
             <xs:enumeration value="OnShown"/>
