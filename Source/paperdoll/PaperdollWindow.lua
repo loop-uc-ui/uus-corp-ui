@@ -1,6 +1,7 @@
+--Paperdolls are not created explicitly by the UI.
+--They are created by the client whenever a mobile is double clicked.
 PaperdollWindow = {}
 PaperdollWindow.Name = "PaperdollWindow"
-PaperdollWindow.NumSlots = 19
 
 local function activeSlot()
     local id = WindowApi.getId(Active.window())
@@ -44,7 +45,7 @@ function PaperdollWindow.update()
             WindowApi.setDimensions(icon, data.newWidth, data.newHeight)
             DynamicImageApi.setTextureDimensions(icon, data.newWidth, data.newHeight)
             DynamicImageApi.setTexture(icon, data.iconName, 0, 0)
-            DynamicImageApi.setCustomShader(icon, "UOSpriteUIShader", {
+            DynamicImageApi.setCustomShader(icon, DynamicImageApi.Shaders.Sprite, {
                 data.hueId,
                 data.objectType
             })
@@ -89,8 +90,10 @@ function PaperdollWindow.ToggleInventoryWindow()
 end
 
 function PaperdollWindow.ToggleView()
-    local paperdoll = string.gsub(Active.window(), "ToggleView", "")
-    for i = 1, PaperdollWindow.NumSlots do
+    local paperdoll = WindowApi.getParent(Active.window())
+    local paperdollId = WindowApi.getId(paperdoll)
+
+    for i = 1, Paperdoll.numSlots(paperdollId) do
         local slot = paperdoll .. "ItemSlotButton" .. tostring(i)
         WindowApi.setShowing(slot, not WindowApi.isShowing(slot))
     end

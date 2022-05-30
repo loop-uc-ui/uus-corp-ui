@@ -48,6 +48,10 @@ function Drag.itemHue()
     return Drag.item().itemHue
 end
 
+function Drag.itemType()
+    return Drag.item().itemType
+end
+
 function Drag.itemAmount()
     return Drag.item().DragAmount
 end
