@@ -23,6 +23,7 @@
 
 	<!-- Script Files -->
 	<Scripts>
+        <Script file="Source/core/api/AnimatedImageApi.lua"/>
         <Script file="Source/core/api/ButtonApi.lua"/>
         <Script file="Source/core/api/CircleImageApi.lua"/>
         <Script file="Source/core/api/ComboBoxApi.lua"/>
