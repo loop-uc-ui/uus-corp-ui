@@ -1,6 +1,7 @@
 Interface = {}
 
 function Interface.CreatePlayWindowSet()
+    Paperdoll.useLegacy(true)
     RootWindow:create()
 
     --Destroy the default Debug Window
