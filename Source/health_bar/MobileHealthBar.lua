@@ -27,13 +27,14 @@ function MobileHealthBar.onShutdown()
     local id = WindowApi.getId(window)
 
     WindowDataApi.unregisterData(MobileData.nameType(), id)
-    WindowDataApi.unregisterData(MobileData.statusType, id)
+    WindowDataApi.unregisterData(MobileData.statusType(), id)
     WindowDataApi.unregisterData(MobileData.healthBarColorType(), id)
 
     WindowApi.unregisterEventHandler(window, MobileData.statusEvent())
     WindowApi.unregisterEventHandler(window, MobileData.nameEvent())
     WindowApi.unregisterEventHandler(window, Events.disableHealthBar())
     WindowApi.unregisterEventHandler(window, Events.enableHealthBar())
+    MobileHealthBar.onMouseOverEnd()
 end
 
 function MobileHealthBar.update()
@@ -63,4 +64,22 @@ end
 
 function MobileHealthBar.onRightClick()
     WindowApi.destroyWindow(Active.window())
+end
+
+function MobileHealthBar.onMouseOver()
+    local arrow = "MobileArrow"
+
+    if WindowApi.doesExist(arrow) then
+        return
+    end
+
+    WindowApi.createWindow(arrow, false)
+    WindowApi.setScale(arrow, 0.33)
+    WindowApi.attachWIndowToWorldObject(WindowApi.getId(Active.window()), arrow)
+    WindowApi.setShowing(arrow, true)
+    AnimatedImageApi.startAnimation("MobileArrowAnim", 1, true, false, 0.0)
+end
+
+function MobileHealthBar.onMouseOverEnd()
+    WindowApi.destroyWindow("MobileArrow")
 end

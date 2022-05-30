@@ -1,7 +1,9 @@
 WindowApi = {}
 
 function WindowApi.destroyWindow(windowName)
-    DestroyWindow(windowName)
+    if WindowApi.doesExist(windowName) then
+        DestroyWindow(windowName)
+    end
 end
 
 function WindowApi.setShowing(windowName, show)
@@ -192,7 +194,9 @@ function WindowApi.createFromTemplate(windowName, template, parent)
 end
 
 function WindowApi.createWindow(windowName, doShow)
-    CreateWindow(windowName, doShow)
+    if not WindowApi.doesExist(windowName) then
+        CreateWindow(windowName, doShow)
+    end
 end
 
 function WindowApi.setId(windowName, newId)
@@ -293,4 +297,12 @@ end
 
 function WindowApi.getPosition(id)
     return WindowGetScreenPosition(id)
+end
+
+function WindowApi.attachWIndowToWorldObject(objectId, window)
+    AttachWindowToWorldObject(objectId, window)
+end
+
+function WindowApi.detachWindowFromWorldObject(objectId, window)
+    DetachWindowFromWorldObject(objectId, window)
 end
