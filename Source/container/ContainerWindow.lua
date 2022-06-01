@@ -106,6 +106,7 @@ function ContainerWindow.updateContainer()
             end
         end
 
+        DynamicImageApi.setTexture(slotName .. "Icon", "")
         WindowApi.setId(slotName, i)
     end
 
@@ -184,7 +185,6 @@ function ContainerWindow.onSlotSingleClick()
     else
         DragApi.setObjectMouseClickData(slot.objectId, Drag.sourceContainer())
         WindowDataApi.unregisterData(ObjectInfo.type(), slot.objectId)
-        DynamicImageApi.setTexture(Active.window() .. "Icon", "")
     end
 end
 
@@ -192,5 +192,12 @@ function ContainerWindow.onSlotSingleClickUp()
     if Drag.isItem() then
         local slot = activeSlot()
         DragApi.dragObjectToContainer(slot.containerId, slot.gridIndex or slot.slotNum)
+    end
+end
+
+function ContainerWindow.onSlotDoubleClick()
+    local slot = activeSlot()
+    if slot.objectId ~= nil then
+        UserAction.useItem(slot.objectId, false)
     end
 end
