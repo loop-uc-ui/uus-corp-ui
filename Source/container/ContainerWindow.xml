@@ -1,6 +1,13 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Windows>
 		<!-- Main container window -->
+        <Button name="ContainerSlotTemplate" inherits="ItemGridSocketTemplate">
+            <EventHandlers>
+				<EventHandler event="OnLButtonDown" function="ContainerWindow.onSlotSingleClick"/>
+				<EventHandler event="OnLButtonUp" function="ContainerWindow.onSlotSingleClickUp"/>
+			</EventHandlers>
+        </Button>
+
 		<Window name="ContainerWindow" movable="true" draganddrop="true" >
 			<Size>
 				<AbsPoint x="348" y="340" />
@@ -14,8 +21,7 @@
 				<EventHandler event="OnInitialize" function="ContainerWindow.Initialize" />
 				<EventHandler event="OnShutdown" function="ContainerWindow.Shutdown" />
 				<EventHandler event="OnSetMoving" function="ContainerWindow.OnSetMoving" />
-				<EventHandler event="OnRButtonUp" function="ContainerWindow.onRightClick" />				
-				<EventHandler event="OnLButtonUp" function="ContainerWindow.OnItemRelease" />
+				<EventHandler event="OnRButtonUp" function="ContainerWindow.onRightClick" />
 				<EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
 			</EventHandlers>
 			<Windows>
@@ -58,9 +64,6 @@
                                 <AbsPoint x="0" y="-8"/>
                             </Anchor>
 					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="ContainerWindow.OnContainerRelease" />
-					</EventHandlers>
 					<Windows>
 						<Window name ="$parentScrollChild" popable="false">
 							<Size>

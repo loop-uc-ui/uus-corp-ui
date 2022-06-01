@@ -20,6 +20,10 @@ function Drag.sourcePaperdoll()
     return Drag.source().SOURCETYPE_PAPERDOLL
 end
 
+function Drag.sourceContainer()
+    return Drag.source().SOURCETYPE_CONTAINER
+end
+
 function Drag.item()
     return SystemData.DragItem
 end

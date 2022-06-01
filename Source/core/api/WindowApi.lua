@@ -190,7 +190,9 @@ function WindowApi.doesExist(windowName)
 end
 
 function WindowApi.createFromTemplate(windowName, template, parent)
-    CreateWindowFromTemplate(windowName, template, parent)
+    if not WindowApi.doesExist(windowName) then
+        CreateWindowFromTemplate(windowName, template, parent)
+    end
 end
 
 function WindowApi.createWindow(windowName, doShow)
