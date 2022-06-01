@@ -29,10 +29,22 @@ local function activeSlot()
         end
     end
 
+    local objectId = nil
+
+    if item ~= nil then
+        objectId = item.objectId
+    end
+
+    local gridIndex = nil
+
+    if item ~= nil then
+        gridIndex = item.gridIndex
+    end
+
     return {
         containerId = container,
-        objectId = item.objectId or nil,
-        gridIndex = item.gridIndex or nil,
+        objectId = objectId,
+        gridIndex = gridIndex,
         slotNum = slotNum
     }
 end
@@ -177,9 +189,8 @@ function ContainerWindow.onSlotSingleClick()
 end
 
 function ContainerWindow.onSlotSingleClickUp()
-    -- if Drag.isItem() then
-    --     local object = WindowApi.getId(Active.window())
-    --     local container = WindowApi.getId(WindowApi.getParent(Active.window()))
-    --     DragApi.dragObjectToContainer(container, )
-    -- end
+    if Drag.isItem() then
+        local slot = activeSlot()
+        DragApi.dragObjectToContainer(slot.containerId, slot.gridIndex or slot.slotNum)
+    end
 end
