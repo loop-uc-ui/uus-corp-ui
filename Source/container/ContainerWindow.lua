@@ -1,6 +1,41 @@
+--Container windows are not create explicitly by the UI.
+--They are create by client when containers are clicked.
 ContainerWindow = {}
 ContainerWindow.Name = "ContainerWindow_"
 ContainerWindow.MaxSlots = 125
+
+local function activeSlot()
+    local slotNum = WindowApi.getId(Active.window())
+
+    local container = tonumber(
+        string.gsub(
+            WindowApi.getParent(Active.window()),
+            ContainerWindow.Name,
+            ""
+        ):gsub(
+            "GridViewScrollChild",
+            ""
+        ),
+        10
+    )
+
+    local item = nil
+
+    for i = 1, Container.itemCount(container) do
+        local thisItem = Container.items(container)[i]
+        if thisItem.gridIndex == slotNum then
+            item = thisItem
+            break
+        end
+    end
+
+    return {
+        containerId = container,
+        objectId = item.objectId or nil,
+        gridIndex = item.gridIndex or nil,
+        slotNum = slotNum
+    }
+end
 
 function ContainerWindow.Initialize()
     local id = Active.dynamicWindowId()
@@ -31,7 +66,7 @@ function ContainerWindow.updateContainer()
         local slotName = window .. "Slot" .. tostring(i)
         WindowApi.createFromTemplate(
             slotName,
-            "ItemGridSocketTemplate",
+            "ContainerSlotTemplate",
             window
         )
 
@@ -39,6 +74,7 @@ function ContainerWindow.updateContainer()
         local rowSize = sizeMultiplier * slotX
 
         if i ~= 1 then
+            WindowApi.clearAnchors(slotName)
             if rowSize < x then
                 WindowApi.addAnchor(
                     slotName,
@@ -76,7 +112,7 @@ function ContainerWindow.updateContainer()
             image,
             ObjectInfo.iconScale(object)
         )
-        DynamicImageApi.setCustomShader(image, "UOSpriteUIShader", {
+        DynamicImageApi.setCustomShader(image, DynamicImageApi.Shaders.Sprite, {
             ObjectInfo.hueId(object),
             ObjectInfo.objectType(object)
         })
@@ -98,10 +134,6 @@ function ContainerWindow.updateContainer()
         WindowApi.setAlpha(
             image,
             ObjectInfo.hue(object).a / 255
-        )
-        WindowApi.setId(
-            WindowApi.getParent(image),
-            object
         )
     end
 
@@ -130,4 +162,24 @@ function ContainerWindow.Shutdown()
     end
 
     WindowDataApi.unregisterData(Container.type(), id)
+end
+
+function ContainerWindow.onSlotSingleClick()
+    local slot = activeSlot()
+
+    if Cursor.hasTarget() then
+        TargetApi.clickTarget(slot.objectId)
+    else
+        DragApi.setObjectMouseClickData(slot.objectId, Drag.sourceContainer())
+        WindowDataApi.unregisterData(ObjectInfo.type(), slot.objectId)
+        DynamicImageApi.setTexture(Active.window() .. "Icon", "")
+    end
+end
+
+function ContainerWindow.onSlotSingleClickUp()
+    -- if Drag.isItem() then
+    --     local object = WindowApi.getId(Active.window())
+    --     local container = WindowApi.getId(WindowApi.getParent(Active.window()))
+    --     DragApi.dragObjectToContainer(container, )
+    -- end
 end

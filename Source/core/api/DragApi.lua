@@ -23,3 +23,11 @@ end
 function DragApi.dropObjectOnPaperdoll(paperdollId)
     DragSlotDropObjectToPaperdoll(paperdollId)
 end
+
+function DragApi.dragObjectToObjectAtIndex(objectId, gridIndex)
+    DragSlotDropObjectToObjectAtIndex(objectId, gridIndex)
+end
+
+function DragApi.dragObjectToContainer(containerId, gridIndex)
+    DragSlotDropObjectToContainer(containerId, gridIndex)
+end
