@@ -1,0 +1,362 @@
+
+----------------------------------------------------------------
+-- Global Variables
+----------------------------------------------------------------
+
+InterfaceCore = {}
+
+InterfaceCore.scale = 1.0
+InterfaceCore.IsInGame = false
+InterfaceCore.diagNum = 0
+-- Todo: Rename these variables to InterfaceCore
+Interface = {}
+Interface.DestroyWindowOnClose = {}
+Interface.OnCloseCallBack = {}
+
+InterfaceCore.TID = {}
+InterfaceCore.TID.LABEL_CONNECTION_FAILED = 3000016   -- Couldn't connect to Ultima Online. Please try again in a few moments.
+InterfaceCore.TID.LABEL_CONNECTION_LOST = 3000004     -- Connection lost
+InterfaceCore.TID.LABEL_NETWORK_ERROR = 1077864       -- Network Error
+InterfaceCore.TID.LABEL_WARNING = 1111873             -- Warning
+InterfaceCore.TID.LABEL_IDLEWARN_ERROR = 3000005      -- You have been idle for too long.  If you do not do anything in the next minute, you will be logged out.
+InterfaceCore.TID.LABEL_CHARTRANSFER_LOGOUT = 1062848 -- You have been logged out so that the character transfer process can be completed...
+
+InterfaceCore.ButtonStates= {}
+InterfaceCore.ButtonStates.STATE_NORMAL = 0
+InterfaceCore.ButtonStates.STATE_PRESSED = 1
+InterfaceCore.ButtonStates.STATE_DISABLED = 2
+InterfaceCore.ButtonStates.STATE_NORMAL_HIGHLITE = 3
+InterfaceCore.ButtonStates.STATE_PRESSED_HIGHLITE = 4
+InterfaceCore.ButtonStates.STATE_DISABLED_PRESSED = 5
+
+----------------------------------------------------------------
+-- Local Variables
+----------------------------------------------------------------
+
+local coreInitialized = false
+
+----------------------------------------------------------------
+-- Interface Core Functions
+----------------------------------------------------------------
+
+function InterfaceCore.Initialize()
+    -- Load the proper font XML definitions based on the language
+    if( SystemData.Settings.Language.type == SystemData.Settings.Language.LANGUAGE_JPN ) then
+        LoadResources( "Data/Interface/InterfaceCore", "", "Fonts/FontsJPN.xml" )
+    elseif( SystemData.Settings.Language.type == SystemData.Settings.Language.LANGUAGE_CHINESE_TRADITIONAL ) then
+        LoadResources( "Data/Interface/InterfaceCore", "", "Fonts/FontsCHT.xml" )       
+    elseif( SystemData.Settings.Language.type == SystemData.Settings.Language.LANGUAGE_KOR ) then
+        LoadResources( "Data/Interface/InterfaceCore", "", "Fonts/FontsKOR.xml" )           
+    else
+        LoadResources( "Data/Interface/InterfaceCore", "", "Fonts/FontsENU.xml" )
+    end
+
+    -- Register the Window Sets
+    RegisterWindowSet(0, "InterfaceCore.CreateTitleInterface", "InterfaceCore.DummyWindowSetShutdown" )
+    RegisterWindowSet(1, "InterfaceCore.CreateLoginInterface", "InterfaceCore.DummyWindowSetShutdown" )
+    RegisterWindowSet(2, "InterfaceCore.CreatePlayInterface", "InterfaceCore.DummyWindowSetShutdown" )  
+    
+    coreInitialized = true
+end
+
+function InterfaceCore.DummyWindowSetShutdown()
+end
+
+function InterfaceCore.RegisterRootWindowEventHandler()
+    -- Register root window event handler. Root window gets destroyed when it is initialized, so this needs to be called every time we reset root window.
+    WindowRegisterEventHandler("Root", SystemData.Events.GAMESERVER_CONNECT_FAILED, "InterfaceCore.HandleGameserverConnectFailed")
+    WindowRegisterEventHandler("Root", SystemData.Events.GAMESERVER_CONNECT_LOST, "InterfaceCore.HandleGameserverConnectLost")          
+    -- This message may be sent to logout the player after login is complete, so it is needed here. (YDA)
+    WindowRegisterEventHandler("Root", SystemData.Events.LOGIN_REJECT, "InterfaceCore.HandleLoginRejected")
+    WindowRegisterEventHandler("Root", SystemData.Events.QUERY_EXIT_GAME, "InterfaceCore.OnExitGame")
+end
+
+function InterfaceCore.Update( timePassed )
+    if (WindowUtils and WindowUtils.Update) ~= nil then
+        WindowUtils.Update( timePassed )
+    end
+    
+    if (Tooltips and Tooltips.Update) ~= nil then
+        Tooltips.Update( timePassed )
+    end
+
+    if( Interface ~= nil and Interface.Update ~= nil ) then
+        Interface.Update( timePassed )
+    end
+
+    if( InterfaceLogin ~= nil and InterfaceLogin.Update ~= nil ) then
+        InterfaceLogin.Update( timePassed )
+    end
+end
+
+function InterfaceCore.Shutdown()
+    if( Interface ~= nil and Interface.Shutdown ~= nil ) then
+        Interface.Shutdown()
+    end
+    coreInitialized = false
+end
+
+function InterfaceCore.OnExitGame()
+    local quitButtonName = SystemData.ActiveWindow.name
+    local okayButton = { textTid=UO_StandardDialog.TID_OKAY, callback=function() BroadcastEvent( SystemData.Events.EXIT_GAME ); end }
+    local cancelButton = { textTid=UO_StandardDialog.TID_CANCEL, callback=function() ButtonSetPressedFlag(quitButtonName, false); end }
+    local QuitConfirmWindow = 
+    {
+        windowName = "QuitConfirmWindow",
+        titleTid = 3000000,
+        bodyTid = 3000000,
+        buttons = { okayButton, cancelButton }
+    }
+            
+    UO_StandardDialog.CreateDialog(QuitConfirmWindow)
+    
+    ButtonSetPressedFlag(quitButtonName, true)
+end
+
+----------------------------------------------------------------
+-- Window Set Callbacks
+----------------------------------------------------------------
+function InterfaceCore.WindowSetCommon()
+    WindowUtils.Initialize()
+    Tooltips.Initialize()
+    
+    CreateWindow( "DebugWindow", false )
+end
+
+
+function InterfaceCore.CreateTitleInterface()
+    --InterfaceCore.WindowSetCommon()
+end
+
+function InterfaceCore.CreateLoginInterface()
+    -- Load the Core Window Definitions
+    LoadResources( "Data/Interface/InterfaceCore", "", "InterfaceCore.xml" )
+
+    InterfaceCore.WindowSetCommon()
+    InterfaceCore.UpdateScale(true)
+
+    WindowRegisterEventHandler( "Root", SystemData.Events.RESOLUTION_CHANGED, "InterfaceCore.UpdateScale")
+
+    -- Load the Login Interface Resources from the specified interface directory
+    LoadResources( "Data/Interface/Login", "", "InterfaceLogin.xml" )
+    
+    InterfaceLogin.CreateLoginWindowSet()
+end
+
+function InterfaceCore.CreatePlayInterface()
+    local customUiPath = ""
+    if( SystemData.Settings.Interface.customUiName ~= "" ) then
+        customUiPath = SystemData.Directories.Interface .. "/" .. SystemData.Settings.Interface.customUiName
+    end
+
+    -- Load the In-Game Font Definitions
+    LoadResources( "Data/Interface/Default/Fonts", customUiPath, "Fonts.xml" )
+
+    -- Load the Core Window Definitions
+    LoadResources( "Data/Interface/InterfaceCore", customUiPath, "InterfaceCore.xml" )
+
+    InterfaceCore.IsInGame = true
+    --Debug.Print("IsInGame in create play interface")
+
+    InterfaceCore.WindowSetCommon()
+    InterfaceCore.UpdateScale(false)
+    
+    -- Load the In-Game Interface Resources from the specified interface directory
+    LoadResources( "Data/Interface/Default", customUiPath, "Interface.xml" )
+    
+    if( SystemData.Settings.Interface.customUiName ~= "" ) then
+        ModulesLoadFromDirectory( customUiPath, L"Custom UI Mods" )
+    end
+        
+    ModulesLoadFromListFile( "Data/Interface/DefaultModules.txt", L"EA Default", IsInternalBuild() )
+
+    WindowRegisterEventHandler( "Root", SystemData.Events.RESOLUTION_CHANGED, "InterfaceCore.UpdateScale")  
+    
+    Interface.CreatePlayWindowSet()
+
+    ModulesInitializeAllEnabled()
+    
+    ForceProcessAllWindowAnchors()
+    
+    if (SystemData.PlayState.isConnected == false) then
+        InterfaceCore.HandleGameserverConnectLost()
+    end
+end
+
+
+function InterfaceCore.ReloadUI()
+    BroadcastEvent( SystemData.Events.RELOAD_INTERFACE )
+end
+
+function InterfaceCore.UpdateScale(bIgnoreCustomScale)
+    -- Set the scale of the interface according to the resolution
+    local multiplier = 1.0
+    if( bIgnoreCustomScale ~= true ) then
+        multiplier = SystemData.Settings.Interface.customUiScale
+    end
+    
+    -- Default Scaling
+    if( SystemData.screenResolution.y < 1024 ) then
+        InterfaceCore.scale = (SystemData.screenResolution.y / 1024) * multiplier
+    else
+        InterfaceCore.scale = multiplier
+    end
+    
+    -- clamp the ui scale to 0.5 (bad things happen when it gets any smaller)
+    if( InterfaceCore.scale < 0.5 ) then
+        InterfaceCore.scale = 0.5
+    end
+    
+    ScaleInterface( InterfaceCore.scale )
+
+end
+
+----------------------------------------------------------------
+-- Network Error Handlers
+----------------------------------------------------------------
+
+function InterfaceCore.ShowPopupMessage(titleTextTid,bodyText,focusOnClose,callback)
+    local okayButton = { textTid=UO_StandardDialog.TID_OKAY, callback=callback }
+    local windowData = 
+    {
+        windowName = "Root"..InterfaceCore.diagNum,
+        titleTid = titleTextTid,
+        body = bodyText,
+        focusOnClose = focusOnClose,
+        buttons = { okayButton }
+    }
+    InterfaceCore.diagNum = InterfaceCore.diagNum + 1
+    Interface.OnCloseCallBack["RootDialog"] = callback
+    UO_StandardDialog.CreateDialog(windowData)
+end
+
+function InterfaceCore.HandleGameserverConnectFailed()
+    local callback = nil
+    local focusOnClose = nil
+    if( InterfaceCore.IsInGame == true ) then
+        callback = function () BroadcastEvent( SystemData.Events.LOG_OUT ) end
+    else
+        callback = function () Login.SetStage(Login.STAGE_ACCOUNTPASSWORD) end
+        focusOnClose = "Username"
+        ButtonSetDisabledFlag("LoginWindowLoginButton", false)
+    end
+    
+    InterfaceCore.ShowPopupMessage(InterfaceCore.TID.LABEL_NETWORK_ERROR,GetStringFromTid(InterfaceCore.TID.LABEL_CONNECTION_FAILED),focusOnClose,callback)
+end
+
+function InterfaceCore.HandleGameserverConnectLost()
+    --if(InterfaceCore.IsInGame == true) then
+    --    Debug.Print("IsInGame in connect lost: true")
+    --else
+    --    Debug.Print("IsInGame in connect lost: false")
+    --end
+        
+    local callback = nil
+    local focusOnClose = nil
+    if( InterfaceCore.IsInGame == true ) then
+        callback = function () BroadcastEvent( SystemData.Events.LOG_OUT ) end
+    else
+        callback = function () Login.SetStage(Login.STAGE_ACCOUNTPASSWORD) end
+        focusOnClose = "Username"
+        ButtonSetDisabledFlag("LoginWindowLoginButton", false)
+    end
+    
+    InterfaceCore.ShowPopupMessage(InterfaceCore.TID.LABEL_NETWORK_ERROR,GetStringFromTid(InterfaceCore.TID.LABEL_CONNECTION_LOST),focusOnClose,callback)
+end
+
+----------------------------------------------------------------
+-- Window State Functions
+----------------------------------------------------------------
+
+function WindowGetState( windowName )
+    local globalTable = _G
+    local windowTable = globalTable[ windowName ]
+    
+    if ( windowTable ~= nil ) then
+        local stateTable = windowTable[ "STATE" ]
+            
+        if ( stateTable ~= nil ) then
+            return stateTable
+        end
+    end
+    
+    --DEBUG(L"WindowGetState( "..StringToWString(windowName)..L" ) == NIL" )
+    return nil
+end
+
+function WindowGetShowing( windowName )
+    local state = WindowGetState( windowName )
+    
+    if ( state ~= nil ) then
+        return state[ "SHOWING" ]
+    else
+        return _WindowGetShowing( windowName )
+    end
+end
+
+function WindowGetDimensions( windowName )
+    local state = WindowGetState( windowName )
+    
+    if ( state ~= nil ) then
+        return state[ "DIMENSION_X" ], state[ "DIMENSION_Y" ]
+    else    
+        return _WindowGetDimensions( windowName )
+    end
+end
+
+function LabelGetTextColor( windowName )
+    local state = WindowGetState( windowName )
+    
+    if ( state ~= nil ) then
+        return state[ "LABEL_TEXTCOLOR_R" ], state[ "LABEL_TEXTCOLOR_G" ], state[ "LABEL_TEXTCOLOR_B" ]
+    else
+        return _LabelGetTextColor( windowName )
+    end
+end
+
+function LabelGetLinkColor( windowName )
+    return LabelGetTextColor( windowName )
+end
+
+function LabelGetTextDimensions( windowName )
+    local state = WindowGetState( windowName )
+    
+    if ( state ~= nil ) then
+        return state[ "LABEL_TEXTDIMS_X" ], state[ "LABEL_TEXTDIMS_Y" ]
+    else
+        return _LabelGetTextDimensions( windowName )
+    end
+end
+
+function LabelGetText( windowName )
+    local state = WindowGetState( windowName )
+    
+    if ( state ~= nil ) then
+        return state[ "LABEL_TEXT" ]
+    else
+        return _LabelGetText( windowName )
+    end
+end
+
+----------------------------------------------------------------
+-- Misc
+----------------------------------------------------------------
+
+function InterfaceCore.BreakPoint( parm1, parm2, parm3, parm4 )
+    local msg = "[" .. parm1 .. "] [" .. parm2 .. "] [" .. parm3 .. "] [ " .. parm4 .. "]"
+    
+    WindowBreakPoint( msg )
+end
+
+function InterfaceCore.HandleLoginRejected()
+    if (SystemData.Login.statusCode == 7) then
+        InterfaceCore.ShowPopupMessage(InterfaceCore.TID.LABEL_WARNING,GetStringFromTid(InterfaceCore.TID.LABEL_IDLEWARN_ERROR),nil,nil)
+    elseif (SystemData.Login.statusCode == 9) then
+        if( InterfaceCore.IsInGame == true ) then
+            local callback = nil
+            local focusOnClose = nil
+            callback = function () BroadcastEvent( SystemData.Events.LOG_OUT ) end
+            InterfaceCore.ShowPopupMessage(InterfaceCore.TID.LABEL_NETWORK_ERROR,GetStringFromTid(InterfaceCore.TID.LABEL_CHARTRANSFER_LOGOUT),focusOnClose,callback)
+        end
+    end
+end

@@ -31,7 +31,7 @@ function UusCorpDebugWindow.onInitialize()
     TextLogApi.enableLog(uiLog)
 
     for index = 1, #DevData.DebugWindow.luaFilters do
-        LogDisplaySetFilterState(
+        LogApi.setFilterState(
             text,
             uiLog,
             index,

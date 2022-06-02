@@ -1,0 +1,59 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+        <Script file="Source/ChatWindow.lua" />
+    </Scripts>
+    <Windows>
+        <Window name="ChatWindow" movable="true">
+            <Size>
+                <AbsPoint x="200" y="200" />
+            </Size>
+            <Windows>
+                <LogDisplay name="$parentLog">
+                    <Size>
+                        <AbsPoint x="200" y="165" />
+                    </Size>
+                </LogDisplay>
+
+                <!-- Body background -->
+                <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <!-- Inner Frame Boilerplate -->
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+                <!-- End of Inner Frame Boilerplate -->
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTextInput"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTextInput" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <EditBox name="$parentTextInput" maxchars="256" scrolling="horz" font="UO_ChatText" history="15" layer="popup" sticky="false">
+                    <TextOffset x="4" y="4" />
+                    <Size>
+                        <AbsPoint x="300" y="35" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLog"/>
+                        <Anchor point="bottomright" relativePoint="topright"  relativeTo="$parentLog"/>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="ChatWindow.Test" />
+                        <EventHandler event="OnKeyEnter" function="ChatWindow.sendChat"/>
+                    </EventHandlers>
+                </EditBox>
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>
