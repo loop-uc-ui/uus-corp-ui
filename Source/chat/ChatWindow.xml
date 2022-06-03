@@ -5,13 +5,35 @@
     <Windows>
         <Window name="ChatWindow" movable="true">
             <Size>
-                <AbsPoint x="200" y="200" />
+                <AbsPoint x="640" y="480" />
             </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="bottomleft"/>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="ChatWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="ChatWindow.onShutdown"/>
+            </EventHandlers>
             <Windows>
-                <LogDisplay name="$parentLog">
+                <LogDisplay name="$parentLog" font="UO_DefaultText_15pt" scrollbar="$parentScrollbar" textFadeTime="10" scrollbarPosition="right" maxchars="4096" maxentries="4096" wordwrap="true">
                     <Size>
-                        <AbsPoint x="200" y="165" />
+                        <AbsPoint x="640" y="445" />
                     </Size>
+                    <TextOffset x="4" y="4" />
+                    <Windows>
+                        <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb">
+                            <Size>
+                                <AbsPoint x="20" y="0" />
+                            </Size>
+                            <ThumbOffset x="0" y="0" />
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topleft">
+                                    <AbsPoint x="-10" y="0" />
+                                </Anchor>
+                                <Anchor point="bottomright" relativePoint="bottomright" />
+                            </Anchors>
+                        </VerticalScrollbar>
+                    </Windows>
                 </LogDisplay>
 
                 <!-- Body background -->
@@ -48,7 +70,6 @@
                         <Anchor point="bottomright" relativePoint="topright"  relativeTo="$parentLog"/>
                     </Anchors>
                     <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="ChatWindow.Test" />
                         <EventHandler event="OnKeyEnter" function="ChatWindow.sendChat"/>
                     </EventHandlers>
                 </EditBox>

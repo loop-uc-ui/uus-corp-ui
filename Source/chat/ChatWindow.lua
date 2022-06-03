@@ -1,7 +1,11 @@
 ChatWindow = {}
 ChatWindow.Name = "ChatWindow"
 
-function ChatWindow.Initialize()
+local LOG = "Chat"
+
+local LOG_DISPLAY = ChatWindow.Name .. "Log"
+
+function ChatWindow.onInitialize()
     WindowApi.registerEventHandler(
         ChatWindow.Name,
         Events.chatEnterStart(),
@@ -26,16 +30,23 @@ function ChatWindow.Initialize()
         "ChatWindow.onGChatRosterUpdate"
     )
 
+    TextLogApi.enableLog(LOG_DISPLAY)
+
+    LogDisplayApi.addLog(LOG_DISPLAY, LOG)
+
     for _, v in pairs(Chat.filters()) do
-        LogApi.setFilterState(
-            ChatWindow.Name .. "Log",
-            "Chat",
+        LogDisplayApi.setFilterState(
+            LOG_DISPLAY,
+            LOG,
             v,
             true
         )
     end
 
-    ChatApi.send("/say", "test")
+end
+
+function ChatWindow.onShutdown()
+    TextLogApi.clearLog(LOG_DISPLAY)
 end
 
 function ChatWindow.onEnterChatText()
@@ -55,6 +66,6 @@ function ChatWindow.onGChatRosterUpdate()
 end
 
 function ChatWindow.sendChat()
-    ChatApi.send("/say", EditTextBoxApi.getText(Active.window()))
+    ChatApi.send(L"/say", EditTextBoxApi.getText(Active.window()))
     EditTextBoxApi.setText(Active.window())
 end
