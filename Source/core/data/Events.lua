@@ -20,8 +20,16 @@ function Events.disableHealthBar()
     return SystemData.Events.DISABLE_HEALTHBAR_WINDOW
 end
 
+function Events.onLButtonDown()
+    return SystemData.Events.L_BUTTON_DOWN_PROCESSED
+end
+
 function Events.onLButtonUp()
     return SystemData.Events.L_BUTTON_UP_PROCESSED
+end
+
+function Events.onRButtonDown()
+    return SystemData.Events.R_BUTTON_DOWN_PROCESSED
 end
 
 function Events.logOut()
@@ -34,4 +42,24 @@ end
 
 function Events.store()
     return SystemData.Events.UO_STORE_REQUEST
+end
+
+function Events.exitGame()
+    return SystemData.Events.EXIT_GAME
+end
+
+function Events.chatEnterStart()
+    return SystemData.Events.CHAT_ENTER_START
+end
+
+function Events.textArrived()
+    return SystemData.Events.TEXT_ARRIVED
+end
+
+function Events.userSettingsUpdated()
+    return SystemData.Events.USER_SETTINGS_UPDATED
+end
+
+function Events.gChatRosterUpdate()
+    return SystemData.Events.GHAT_ROSTER_UPDATE
 end

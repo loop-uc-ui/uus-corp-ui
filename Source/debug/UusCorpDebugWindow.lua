@@ -16,22 +16,22 @@ function UusCorpDebugWindow.onInitialize()
     TextLogApi.clearLog(debugPrint)
 
     local text = UusCorpDebugWindow.Name .. "Text"
-    LogApi.showTimestamp(text)
-    LogApi.showLogName(text)
-    LogApi.showFilterName(text)
+    LogDisplayApi.showTimestamp(text)
+    LogDisplayApi.showLogName(text)
+    LogDisplayApi.showFilterName(text)
 
-    LogApi.addLog(text, uiLog)
+    LogDisplayApi.addLog(text, uiLog)
 
-    LogApi.setFilterColor(text, uiLog, LuaLog.SYSTEM, { r = 255, g = 0, b = 255 }) -- Magenta
-    LogApi.setFilterColor(text, uiLog, LuaLog.ERROR, { r = 255, g = 0, b = 0}) -- Red
-    LogApi.setFilterColor(text, uiLog, LuaLog.DEBUG, { r = 255, g = 255, b = 0}) -- Yellow
-    LogApi.setFilterColor(text, uiLog, LuaLog.FUNCTION, { r = 0, g = 175, b = 50}) -- Green
-    LogApi.setFilterColor(text, uiLog, LuaLog.WARNING, { r = 0, g = 175, b = 50}) -- Green
+    LogDisplayApi.setFilterColor(text, uiLog, LuaLog.SYSTEM, { r = 255, g = 0, b = 255 }) -- Magenta
+    LogDisplayApi.setFilterColor(text, uiLog, LuaLog.ERROR, { r = 255, g = 0, b = 0}) -- Red
+    LogDisplayApi.setFilterColor(text, uiLog, LuaLog.DEBUG, { r = 255, g = 255, b = 0}) -- Yellow
+    LogDisplayApi.setFilterColor(text, uiLog, LuaLog.FUNCTION, { r = 0, g = 175, b = 50}) -- Green
+    LogDisplayApi.setFilterColor(text, uiLog, LuaLog.WARNING, { r = 0, g = 175, b = 50}) -- Green
 
     TextLogApi.enableLog(uiLog)
 
     for index = 1, #DevData.DebugWindow.luaFilters do
-        LogDisplaySetFilterState(
+        LogDisplayApi.setFilterState(
             text,
             uiLog,
             index,

@@ -10,6 +10,7 @@
 	<!-- Windows -->
 
     <Include file="Source/core/template/ItemGridSocketTemplate.xml"/>
+    <Include file="Source/chat/ChatWindow.xml"/>
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
     <Include file="Source/drag/DragWindow.xml"/>
     <Include file="Source/drag/GenericQuantityWindow.xml"/>
@@ -27,16 +28,19 @@
 	<Scripts>
         <Script file="Source/core/api/AnimatedImageApi.lua"/>
         <Script file="Source/core/api/ButtonApi.lua"/>
+        <Script file="Source/core/api/ChatApi.lua"/>
         <Script file="Source/core/api/CircleImageApi.lua"/>
         <Script file="Source/core/api/ComboBoxApi.lua"/>
         <Script file="Source/core/api/ContextMenuApi.lua"/>
         <Script file="Source/core/api/CSVApi.lua"/>
         <Script file="Source/core/api/DragApi.lua"/>
         <Script file="Source/core/api/DynamicImageApi.lua"/>
+        <Script file="Source/core/api/EditTextBoxApi.lua"/>
         <Script file="Source/core/api/EventApi.lua"/>
         <Script file="Source/core/api/IconApi.lua"/>
         <Script file="Source/core/api/LabelApi.lua"/>
-		<Script file="Source/core/api/LogApi.lua"/>
+		<Script file="Source/core/api/LogDisplayApi.lua"/>
+        <Script file="Source/core/api/ModuleApi.lua"/>
         <Script file="Source/core/api/RadarApi.lua"/>
         <Script file="Source/core/api/ScrollWindowApi.lua"/>
         <Script file="Source/core/api/SliderApi.lua"/>
@@ -58,6 +62,7 @@
         <Script file="Source/core/data/Active.lua"/>
         <Script file="Source/core/data/Buffs.lua"/>
         <Script file="Source/core/data/ButtonFlags.lua"/>
+        <Script file="Source/core/data/Chat.lua"/>
         <Script file="Source/core/data/Container.lua"/>
         <Script file="Source/core/data/CurrentTarget.lua"/>
         <Script file="Source/core/data/Cursor.lua"/>
@@ -88,10 +93,12 @@
 
         <Script file="Source/core/resources/Colors.lua"/>
         <Script file="Source/core/resources/TextIds.lua"/>
-
+        
+        <Script file="InterfaceCoreOverrides.lua"/>
 		<Script file="Interface.lua" />
         <Script file="Source/ItemProperties.lua"/>
         <Script file="Source/root/RootWindow.lua"/>
+        <Script file="Source/chat/ChatWindow.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
         <Script file="Source/drag/DragWindow.lua"/>
         <Script file="Source/drag/GenericQuantityWindow.lua"/>
