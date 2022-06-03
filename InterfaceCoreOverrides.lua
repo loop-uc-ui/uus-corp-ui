@@ -11,7 +11,7 @@ function InterfaceCore.OnExitGame()
     EventApi.broadcast(Events.exitGame())
 end
 
----@diagnostic disable-next-line: unused-local
 function ModulesLoadFromListFile(listPath, setName, allowRaw)
     --Stub to prevent loading of default Chat and Context Menu mods
+    return listPath, setName, allowRaw
 end
