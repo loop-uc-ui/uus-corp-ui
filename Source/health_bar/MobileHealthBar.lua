@@ -47,6 +47,8 @@ function MobileHealthBar.update()
     StatusBarApi.setForegroundTint(statusBar, Colors.Red)
 
     LabelApi.setText(window .. MobileHealthBar.NameLabel, MobileData.name(id))
+    local notoriety = MobileData.notoriety(id)
+    LabelApi.setTextColor(window .. MobileHealthBar.NameLabel, Colors.Notoriety[notoriety])
     LabelApi.setText(window .. MobileHealthBar.HealthLabel, tostring(
         math.floor(
             MobileData.currentHealth(id) / MobileData.maxHealth(id) * 100
