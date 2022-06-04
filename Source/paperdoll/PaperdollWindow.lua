@@ -19,6 +19,8 @@ function PaperdollWindow.onInitialize()
 
     WindowApi.setId(window, pId)
     WindowDataApi.registerData(Paperdoll.type(), pId)
+    WindowDataApi.registerData(MobileData.nameType(), pId)
+    WindowApi.registerEventHandler(window, MobileData.nameEvent(), "PaperdollWindow.updateName")
     WindowApi.registerEventHandler(window, Paperdoll.event(), "PaperdollWindow.update")
 
     WindowApi.setOffsetFromParent(
@@ -31,11 +33,18 @@ function PaperdollWindow.onInitialize()
     PaperdollWindow.update()
 end
 
+function PaperdollWindow.updateName()
+    local id = WindowApi.getId(Active.window())
+    LabelApi.setText(Active.window() .. "Name", MobileData.name(id))
+    local notoriety = MobileData.notoriety(id)
+    LabelApi.setTextColor(Active.window() .. "Name", Colors.Notoriety[notoriety])
+end
+
 function PaperdollWindow.update()
     local window = Active.window()
     local id = WindowApi.getId(window)
 
-    LabelApi.setText(window .. "Name", MobileData.name(id))
+    PaperdollWindow.updateName()
 
     for i = 1, Paperdoll.numSlots(id) do
         local icon = window .. "ItemSlotButton" .. i .. "Icon"
@@ -76,7 +85,9 @@ end
 
 function PaperdollWindow.onShutdown()
     WindowDataApi.unregisterData(Paperdoll.type(), WindowApi.getId(Active.window()))
+    WindowDataApi.unregisterData(MobileData.nameType(), WindowApi.getId(Active.window()))
     WindowApi.unregisterEventHandler(Active.window(), Paperdoll.event())
+    WindowApi.unregisterEventHandler(Active.window(), MobileData.nameEvent())
 end
 
 function PaperdollWindow.onRightClick()

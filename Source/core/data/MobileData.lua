@@ -24,6 +24,10 @@ function MobileData.status(id)
     return WindowData.MobileStatus[id]
 end
 
+function MobileData.notoriety(id)
+    return WindowData.MobileName[id].Notoriety
+end
+
 function MobileData.name(id)
     return WindowData.MobileName[id].MobName
 end
