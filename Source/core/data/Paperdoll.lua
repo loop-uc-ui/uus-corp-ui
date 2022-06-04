@@ -43,18 +43,6 @@ function Paperdoll.slotTextureName(id, slotIndex)
     return Paperdoll.slotData(id, slotIndex).slotTextureName
 end
 
-function Paperdoll.durability(id, slotIndex)
-    return Paperdoll.slotData(id, slotIndex).Durability
-end
-
-function Paperdoll.maxDurability(id, slotIndex)
-    return Paperdoll.durability(id, slotIndex).Max
-end
-
-function Paperdoll.currentDurability(id, slotIndex)
-    return Paperdoll.durability(id, slotIndex).Current
-end
-
 function Paperdoll.textureData(id)
     return SystemData.PaperdollTexture[toNum(id)]
 end
