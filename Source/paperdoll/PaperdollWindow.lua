@@ -2,6 +2,8 @@
 --They are created by the client whenever a mobile is double clicked.
 PaperdollWindow = {}
 PaperdollWindow.Name = "PaperdollWindow"
+PaperdollWindow.NameLabel = "Name"
+PaperdollWindow.SlotButton = "ItemSlotButton"
 
 local function activeSlot()
     local id = WindowApi.getId(Active.window())
@@ -22,6 +24,7 @@ function PaperdollWindow.onInitialize()
     WindowDataApi.registerData(MobileData.nameType(), pId)
     WindowApi.registerEventHandler(window, MobileData.nameEvent(), "PaperdollWindow.updateName")
     WindowApi.registerEventHandler(window, Paperdoll.event(), "PaperdollWindow.update")
+    WindowApi.registerEventHandler(window, ItemProperties.event(), "PaperdollWindow.update")
 
     WindowApi.setOffsetFromParent(
         window,
@@ -35,9 +38,11 @@ end
 
 function PaperdollWindow.updateName()
     local id = WindowApi.getId(Active.window())
-    LabelApi.setText(Active.window() .. "Name", MobileData.name(id))
+    local label = Active.window() .. PaperdollWindow.NameLabel
+    LabelApi.setText(label, MobileData.name(id))
     local notoriety = MobileData.notoriety(id)
-    LabelApi.setTextColor(Active.window() .. "Name", Colors.Notoriety[notoriety])
+    LabelApi.setTextColor(label, Colors.Notoriety[notoriety])
+    WindowApi.forceProcessAnchors(label)
 end
 
 function PaperdollWindow.update()
@@ -47,7 +52,8 @@ function PaperdollWindow.update()
     PaperdollWindow.updateName()
 
     for i = 1, Paperdoll.numSlots(id) do
-        local icon = window .. "ItemSlotButton" .. i .. "Icon"
+        local slot = window .. PaperdollWindow.SlotButton .. i
+        local icon = slot .. "Icon"
         local data = Paperdoll.slotData(id, i)
 
         if data ~= nil and data.newWidth ~= nil and data.newHeight ~= nil and data.iconName ~= nil then
@@ -59,6 +65,27 @@ function PaperdollWindow.update()
                 data.objectType
             })
             DynamicImageApi.setTextureScale(icon, data.iconScale)
+
+            if data.slotId ~= nil then
+                WindowDataApi.registerData(ItemProperties.type(), data.slotId)
+
+                local currentDurability = ItemProperties.currentDurability(data.slotId)
+                local maxDurability = ItemProperties.maxDurability(data.slotId)
+
+                if currentDurability ~= nil and maxDurability ~= nil then
+                    local percentage = currentDurability / maxDurability
+
+                    if percentage <= 0.25 then
+                        WindowApi.setColor(slot, Colors.Red)
+                    else
+                        WindowApi.setColor(slot, {
+                            r = 255,
+                            g = 255,
+                            b = 255
+                        })
+                    end
+                end
+            end
         end
     end
 
@@ -84,8 +111,17 @@ function PaperdollWindow.ItemMouseOver()
 end
 
 function PaperdollWindow.onShutdown()
-    WindowDataApi.unregisterData(Paperdoll.type(), WindowApi.getId(Active.window()))
-    WindowDataApi.unregisterData(MobileData.nameType(), WindowApi.getId(Active.window()))
+    local id = WindowApi.getId(Active.window())
+
+    for i = 1, Paperdoll.numSlots(id) do
+        local data = Paperdoll.slotData(id, i)
+        if data ~= nil and data.slotId ~= nil then
+            WindowDataApi.unregisterData(ItemProperties.type(), data.slotId)
+        end
+    end
+
+    WindowDataApi.unregisterData(MobileData.nameType(), id)
+    WindowDataApi.unregisterData(Paperdoll.type(), id)
     WindowApi.unregisterEventHandler(Active.window(), Paperdoll.event())
     WindowApi.unregisterEventHandler(Active.window(), MobileData.nameEvent())
 end

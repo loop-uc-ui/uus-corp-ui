@@ -69,6 +69,7 @@
         <Script file="Source/core/data/Drag.lua"/>
         <Script file="Source/core/data/Events.lua"/>
         <Script file="Source/core/data/GenericGumpCore.lua"/>
+        <Script file="Source/core/data/ItemProperties.lua"/>
         <Script file="Source/core/data/MapSettings.lua"/>
         <Script file="Source/core/data/MobileData.lua"/>
         <Script file="Source/core/data/MousePosition.lua"/>
@@ -96,7 +97,6 @@
         
         <Script file="InterfaceCoreOverrides.lua"/>
 		<Script file="Interface.lua" />
-        <Script file="Source/ItemProperties.lua"/>
         <Script file="Source/root/RootWindow.lua"/>
         <Script file="Source/chat/ChatWindow.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
