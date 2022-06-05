@@ -5,7 +5,7 @@
     <Windows>
         <Window name="ChatWindow" movable="true">
             <Size>
-                <AbsPoint x="640" y="480" />
+                <AbsPoint x="480" y="360" />
             </Size>
             <Anchors>
                 <Anchor point="bottomleft" relativePoint="bottomleft"/>
@@ -17,7 +17,7 @@
             <Windows>
                 <LogDisplay name="$parentLog" font="UO_DefaultText_15pt" scrollbar="$parentScrollbar" textFadeTime="10" scrollbarPosition="right" maxchars="4096" maxentries="4096" wordwrap="true">
                     <Size>
-                        <AbsPoint x="640" y="445" />
+                        <AbsPoint x="480" y="325" />
                     </Size>
                     <TextOffset x="4" y="4" />
                     <Windows>
@@ -59,6 +59,8 @@
                             <AbsPoint x="-8" y="0"/>
                         </Anchor>
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTextInput">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
                     </Anchors>
                 </FullResizeImage>
 
