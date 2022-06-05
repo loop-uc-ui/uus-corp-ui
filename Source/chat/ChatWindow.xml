@@ -55,10 +55,23 @@
 
                 <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTextInput"/>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTextInput" />
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentChannelLabel">
+                            <AbsPoint x="-8" y="0"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTextInput">
                     </Anchors>
                 </FullResizeImage>
+
+                <LabeL name="$parentChannelLabel" font="UO_ChatText" textAlign="center" autoresizewidth="true" layer="popup">
+                    <Size>
+                        <AbsPoint x="70" y="35" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLog">
+                            <AbsPoint x="8" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </LabeL>
 
                 <EditBox name="$parentTextInput" maxchars="256" scrolling="horz" font="UO_ChatText" history="15" layer="popup" sticky="false">
                     <TextOffset x="4" y="4" />
@@ -66,7 +79,7 @@
                         <AbsPoint x="300" y="35" />
                     </Size>
                     <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLog"/>
+                        <Anchor point="bottomright" relativePoint="bottomleft" relativeTo="$parentChannelLabel"/>
                         <Anchor point="bottomright" relativePoint="topright"  relativeTo="$parentLog"/>
                     </Anchors>
                     <EventHandlers>

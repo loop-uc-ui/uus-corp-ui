@@ -1,6 +1,9 @@
 EditTextBoxApi = {}
 
 function EditTextBoxApi.setText(editBoxName, text)
+    if type(text) == "string" then
+        text = StringFormatter.toWString(text)
+    end
     TextEditBoxSetText(editBoxName, text or L"")
 end
 

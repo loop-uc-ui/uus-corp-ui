@@ -1,5 +1,7 @@
 ChatWindow = {}
 ChatWindow.Name = "ChatWindow"
+ChatWindow.CurrentChannel = Chat.Channels.Say
+ChatWindow.ChannelLabel = ChatWindow.Name .. "ChannelLabel"
 
 local LOG = "Chat"
 
@@ -43,6 +45,7 @@ function ChatWindow.onInitialize()
         )
     end
 
+    LabelApi.setText(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.display .. ":")
 end
 
 function ChatWindow.onShutdown()
@@ -66,6 +69,6 @@ function ChatWindow.onGChatRosterUpdate()
 end
 
 function ChatWindow.sendChat()
-    ChatApi.send(L"/say", EditTextBoxApi.getText(Active.window()))
+    ChatApi.send(ChatWindow.CurrentChannel.command, EditTextBoxApi.getText(Active.window()))
     EditTextBoxApi.setText(Active.window())
 end

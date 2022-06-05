@@ -1,22 +1,32 @@
+local function channel(filter, display, prefix, command)
+    return {
+        filter = filter,
+        display = display,
+        prefix = prefix,
+        command = command
+    }
+
+end
+
 Chat = {}
 
 function Chat.filters()
     return SystemData.ChatLogFilters
 end
 
-function Chat.filterCustom()
+function Chat.filtersCustom()
     return Chat.filters().CUSTOM
 end
 
-function Chat.fitlerGuild()
+function Chat.filtersGuild()
     return Chat.filters().GUILD
 end
 
-function Chat.filterEmote()
+function Chat.filtersEmote()
     return Chat.filters().EMOTE
 end
 
-function Chat.filterGameMaster()
+function Chat.filtersGameMaster()
     return Chat.filters().GM
 end
 
@@ -55,3 +65,66 @@ end
 function Chat.filtersSystem()
     return Chat.filters().SYSTEM
 end
+
+Chat.Channels = {
+    Say = channel(
+        Chat.filtersSay(),
+        "Say",
+        "/s",
+        "/say"
+    ),
+    Whisper = channel(
+        Chat.filtersWhisper(),
+        "Whisper",
+        "/w",
+        "/whisper"
+    ),
+    Party = channel(
+        Chat.filtersParty(),
+        "Party",
+        "/p",
+        "/party"
+    ),
+    Guild = channel(
+        Chat.filtersGuild(),
+        "Guild",
+        "/g",
+        "/guild"
+    ),
+    Alliance = channel(
+        Chat.filtersAlliance(),
+        "Alliance",
+        "/a",
+        "/alliance"
+    ),
+    Emote = channel(
+        Chat.filtersEmote(),
+        "Emote",
+        "/e",
+        "/emote"
+    ),
+    Yell = channel(
+        Chat.filtersYell(),
+        "Yell",
+        "/y",
+        "/yell"
+    ),
+    GameMaster = channel(
+        Chat.filtersGameMaster(),
+        "Game Master",
+        "/gm",
+        "/gm"
+    ),
+    Custom = channel(
+        Chat.filtersCustom(),
+        "Custom",
+        "/c",
+        "/chat"
+    ),
+    Chat = channel(
+        Chat.filtersGlobal(),
+        "Chat",
+        "/x",
+        "/x"
+    )
+}
