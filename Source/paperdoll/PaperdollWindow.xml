@@ -55,6 +55,9 @@
 						<AbsPoint x="0" y="0" />
 					</Size>
 					<TexCoords x="0" y="0" />
+					<Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentName"/>
+                    </Anchors>
 					<EventHandlers>
 						<EventHandler event="OnLButtonDown" function="PaperdollWindow.OnPaperdollTextureLButtonDown" />
 						<EventHandler event="OnLButtonUp" function="PaperdollWindow.OnPaperdollTextureLButtonUp" />
@@ -68,7 +71,7 @@
 				<Button name="$parentItemSlotButton1" inherits="PaperdollSlotTemplate" id="1" >
 					<Anchors>
 						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentName">
-							<AbsPoint x="0" y="12" />
+							<AbsPoint x="8" y="12" />
 						</Anchor>
 					</Anchors>
 				</Button>
@@ -175,25 +178,45 @@
 					</EventHandlers>
 				</Button>
 
-				<Button name="$parentToggleInventory" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false" draganddrop="true" >
+				<Button name="$parentWarButton" movable="false" backgroundtexture="hud_image" highlighttexture="hud_image" texturescale="0.65">
+					<Size>
+						<AbsPoint x="40" y="48" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottom" relativePoint="top" relativeTo="$parentItemSlotButton17">
+							<AbsPoint x="-12" y="12" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="PaperdollWindow.toggleWarMode" />
+					</EventHandlers>
+					<TexCoords>
+						<Normal x="204" y="277" />
+						<NormalHighlit x="266" y="277" />
+						<Pressed x="204" y="355" />
+						<PressedHighlit x="266" y="355" />
+					</TexCoords>
+        		</Button>
+
+				<Button name="$parentToggleCharacterAbilities" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false">
 					<Size>
 						<AbsPoint x="48" y="48" />
 					</Size>
 					<Anchors>
-						<Anchor point="right" relativePoint="left" relativeTo="$parentToggleCharacterSheet">
-							<AbsPoint x="28" y="-4" />
+						<Anchor point="right" relativePoint="left" relativeTo="$parentWarButton">
+							<AbsPoint x="12" y="4" />
 						</Anchor>
 					</Anchors>
 					<TexCoords>
-						 <Normal x="330" y="383" />
-						 <NormalHighlit x="392" y="383" />
-						 <Pressed x="392" y="383" />
-						 <PressedHighlit x="392" y="383" />
+						<Normal         x="115" y="749" />
+						<NormalHighlit  x="115" y="567" />
+						<Pressed        x="115" y="567" />
+						<PressedHighlit x="115" y="567" />
+						<Disabled       x="115" y="749" />
 					</TexCoords>
 					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="PaperdollWindow.ToggleInventoryWindow" />
-						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnMouseOverToggleInventory" />
-						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
+						<EventHandler event="OnLButtonUp" function="PaperdollWindow.ToggleCharacterAbilities" />
+						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnMouseOverToggleCharacterAbilities" />
 					</EventHandlers>
 				</Button>
 
@@ -203,7 +226,7 @@
 					</Size>
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentToggleCharacterAbilities">
-							<AbsPoint x="28" y="0" />
+							<AbsPoint x="12" y="0" />
 						</Anchor>
 					</Anchors>
 					<TexCoords>
@@ -219,25 +242,25 @@
 					</EventHandlers>
 				</Button>
 
-				<Button name="$parentToggleCharacterAbilities" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false">
+				<Button name="$parentToggleInventory" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false" draganddrop="true" >
 					<Size>
 						<AbsPoint x="48" y="48" />
 					</Size>
 					<Anchors>
-						<Anchor point="bottom" relativePoint="top" relativeTo="$parentItemSlotButton17">
-							<AbsPoint x="0" y="12" />
+						<Anchor point="right" relativePoint="left" relativeTo="$parentToggleCharacterSheet">
+							<AbsPoint x="8" y="-4" />
 						</Anchor>
 					</Anchors>
 					<TexCoords>
-						<Normal         x="115" y="749" />
-						<NormalHighlit  x="115" y="567" />
-						<Pressed        x="115" y="567" />
-						<PressedHighlit x="115" y="567" />
-						<Disabled       x="115" y="749" />
+						 <Normal x="330" y="383" />
+						 <NormalHighlit x="392" y="383" />
+						 <Pressed x="392" y="383" />
+						 <PressedHighlit x="392" y="383" />
 					</TexCoords>
 					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="PaperdollWindow.ToggleCharacterAbilities" />
-						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnMouseOverToggleCharacterAbilities" />
+						<EventHandler event="OnLButtonUp" function="PaperdollWindow.ToggleInventoryWindow" />
+						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnMouseOverToggleInventory" />
+						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
 					</EventHandlers>
 				</Button>
 			</Windows>

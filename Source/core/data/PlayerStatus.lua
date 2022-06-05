@@ -48,3 +48,7 @@ function PlayerStatus.event()
     return WindowData.PlayerStatus.Event
 end
 
+function PlayerStatus.inWarMode()
+    return WindowData.PlayerStatus.InWarMode
+end
+
