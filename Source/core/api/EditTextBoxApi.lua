@@ -19,8 +19,8 @@ function EditTextBoxApi.insertText(editBoxName, text)
     TextEditBoxInsertText(editBoxName, text)
 end
 
-function EditTextBoxApi.setTextColor(editBoxName, r, g, b)
-    TextEditBoxSetTextColor(editBoxName, r, g, b)
+function EditTextBoxApi.setTextColor(editBoxName, color)
+    TextEditBoxSetTextColor(editBoxName, color.r, color.g, color.b)
 end
 
 function EditTextBoxApi.getTextColor(editBoxName)
