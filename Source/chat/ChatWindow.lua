@@ -2,10 +2,8 @@ ChatWindow = {}
 ChatWindow.Name = "ChatWindow"
 ChatWindow.CurrentChannel = Chat.Channels.Say
 ChatWindow.ChannelLabel = ChatWindow.Name .. "ChannelLabel"
-
-local LOG = "Chat"
-
-local LOG_DISPLAY = ChatWindow.Name .. "Log"
+ChatWindow.TextInput = ChatWindow.Name .. "TextInput"
+ChatWindow.LogDisplay = ChatWindow.Name .. "Log"
 
 function ChatWindow.onInitialize()
     WindowApi.registerEventHandler(
@@ -32,24 +30,33 @@ function ChatWindow.onInitialize()
         "ChatWindow.onGChatRosterUpdate"
     )
 
-    TextLogApi.enableLog(LOG_DISPLAY)
+    TextLogApi.enableLog(ChatWindow.LogDisplay)
 
-    LogDisplayApi.addLog(LOG_DISPLAY, LOG)
+    LogDisplayApi.addLog(ChatWindow.LogDisplay, Chat.Log)
 
-    for _, v in pairs(Chat.filters()) do
+    for _, v in pairs(Chat.Channels) do
         LogDisplayApi.setFilterState(
-            LOG_DISPLAY,
-            LOG,
-            v,
+            ChatWindow.LogDisplay,
+            Chat.Log,
+            v.filter,
             true
+        )
+
+        LogDisplayApi.setFilterColor(
+            ChatWindow.LogDisplay,
+            Chat.Log,
+            v.filter,
+            v.color
         )
     end
 
     LabelApi.setText(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.display .. ":")
+    LabelApi.setTextColor(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.color)
+    EditTextBoxApi.setTextColor(ChatWindow.TextInput, ChatWindow.CurrentChannel.color)
 end
 
 function ChatWindow.onShutdown()
-    TextLogApi.clearLog(LOG_DISPLAY)
+    TextLogApi.clearLog(ChatWindow.LogDisplay)
 end
 
 function ChatWindow.onEnterChatText()
@@ -69,23 +76,37 @@ function ChatWindow.onGChatRosterUpdate()
 end
 
 function ChatWindow.sendChat()
+    local text = tostring(EditTextBoxApi.getText(Active.window()))
+
+    if text == nil or #text == 0 then
+        return
+    end
+
     ChatApi.send(ChatWindow.CurrentChannel.command, EditTextBoxApi.getText(Active.window()))
     EditTextBoxApi.setText(Active.window())
 end
 
 function ChatWindow.onTextChanged(text)
     local words = tostring(text)
-    for k, v in pairs(Chat.Channels) do
-        local prefix = words:sub(1, #v.prefix)
 
-        if prefix == v.prefix then
-            if ChatWindow.CurrentChannel.filter ~= v.filter then
-                Debug.Print(k)
-                ChatWindow.CurrentChannel = Chat.Channels[k]
-                LabelApi.setText(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.display .. ":")
-                EditTextBoxApi.setText(Active.window(), words:sub(#v.prefix + 1, #words))
+    if words == nil or #words == 0 then
+        return
+    end
+
+    for k, v in pairs(Chat.Channels) do
+        if v.prefix ~= nil and v.command ~= nil then
+            local prefix = words:sub(1, #v.prefix)
+
+            if prefix == v.prefix then
+                if ChatWindow.CurrentChannel.filter ~= v.filter then
+                    ChatWindow.CurrentChannel = Chat.Channels[k]
+                    LabelApi.setText(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.display .. ":")
+                    LabelApi.setTextColor(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.color)
+                    EditTextBoxApi.setText(Active.window(), words:sub(#v.prefix + 1, #words))
+                    EditTextBoxApi.setTextColor(Active.window(), ChatWindow.CurrentChannel.color)
+                end
+                break
             end
-            break
         end
     end
 end

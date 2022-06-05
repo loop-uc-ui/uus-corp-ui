@@ -1,14 +1,17 @@
-local function channel(filter, display, prefix, command)
+local function channel(filter, display, prefix, command, color)
     return {
         filter = filter,
         display = display,
         prefix = prefix,
-        command = command
+        command = command,
+        color = color
     }
 
 end
 
 Chat = {}
+
+Chat.Log = "Chat"
 
 function Chat.filters()
     return SystemData.ChatLogFilters
@@ -71,60 +74,143 @@ Chat.Channels = {
         Chat.filtersSay(),
         "Say",
         "/s",
-        "/say"
+        "/say",
+        {
+            r = 215,
+            g = 215,
+            b = 1
+        }
     ),
     Whisper = channel(
         Chat.filtersWhisper(),
         "Whisper",
         "/w",
-        "/whisper"
+        "/tell",
+        {
+            r = 215,
+            g = 215,
+            b = 1
+        }
     ),
     Party = channel(
         Chat.filtersParty(),
         "Party",
         "/p",
-        "/party"
+        "/party",
+        {
+            r = 56,
+            g = 191,
+            b = 40
+        }
     ),
     Guild = channel(
         Chat.filtersGuild(),
         "Guild",
         "/g",
-        "/guild"
+        "/guild",
+        {
+            r = 96,
+            g = 231,
+            b = 0
+        }
     ),
     Alliance = channel(
         Chat.filtersAlliance(),
         "Alliance",
         "/a",
-        "/alliance"
+        "/alliance",
+        {
+            r = 48,
+            g = 215,
+            b = 231
+        }
     ),
     Emote = channel(
         Chat.filtersEmote(),
         "Emote",
         "/e",
-        "/emote"
+        "/emote",
+        {
+            r = 215,
+            g = 215,
+            b = 1
+        }
     ),
     Yell = channel(
         Chat.filtersYell(),
         "Yell",
         "/y",
-        "/yell"
+        "/yell",
+        {
+            r = 215,
+            g = 215,
+            b = 1
+        }
     ),
     GameMaster = channel(
         Chat.filtersGameMaster(),
         "Game Master",
         "/gm",
-        "/gm"
-    ),
-    Custom = channel(
-        Chat.filtersCustom(),
-        "Custom",
-        "/c",
-        "/chat"
+        "/gm",
+        {
+            r = 232,
+            g = 48,
+            b = 88
+        }
     ),
     Chat = channel(
-        Chat.filtersGlobal(),
+        Chat.filtersCustom(),
         "Chat",
+        "/c",
+        "/chat",
+        {
+            r = 75,
+            g = 120,
+            b = 230
+        }
+    ),
+    Global = channel(
+        Chat.filtersGlobal(),
+        "Global",
         "/x",
-        "/x"
+        "/x",
+        {
+            r = 75,
+            g = 120,
+            b = 230
+        }
+    ),
+    System = channel(
+        Chat.filtersSystem(),
+        "System",
+        nil,
+        nil,
+        {
+            r = 255,
+            g = 255,
+            b = 255
+        }
+    ),
+    Private = channel(
+        Chat.filtersParty(),
+        "Private",
+        nil,
+        nil,
+        {
+            r = 2-7,
+            g = 56,
+            b = 223
+        }
+    ),
+    Gesture = channel(
+        Chat.filtersGesture(),
+        "Gesture",
+        nil,
+        nil,
+        {
+            r = 215,
+            g = 215,
+            b = 1
+        }
     )
 }
