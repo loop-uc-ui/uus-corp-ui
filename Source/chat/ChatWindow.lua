@@ -72,3 +72,20 @@ function ChatWindow.sendChat()
     ChatApi.send(ChatWindow.CurrentChannel.command, EditTextBoxApi.getText(Active.window()))
     EditTextBoxApi.setText(Active.window())
 end
+
+function ChatWindow.onTextChanged(text)
+    local words = tostring(text)
+    for k, v in pairs(Chat.Channels) do
+        local prefix = words:sub(1, #v.prefix)
+
+        if prefix == v.prefix then
+            if ChatWindow.CurrentChannel.filter ~= v.filter then
+                Debug.Print(k)
+                ChatWindow.CurrentChannel = Chat.Channels[k]
+                LabelApi.setText(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.display .. ":")
+                EditTextBoxApi.setText(Active.window(), words:sub(#v.prefix + 1, #words))
+            end
+            break
+        end
+    end
+end
