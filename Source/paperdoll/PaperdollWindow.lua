@@ -4,6 +4,10 @@ PaperdollWindow = {}
 PaperdollWindow.Name = "PaperdollWindow"
 PaperdollWindow.NameLabel = "Name"
 PaperdollWindow.SlotButton = "ItemSlotButton"
+PaperdollWindow.WarButton = "WarButton"
+PaperdollWindow.CharacterAbilities = "ToggleCharacterAbilities"
+PaperdollWindow.LegacyTexture = "LegacyTexture"
+PaperdollWindow.CharacterSheet = "ToggleCharacterSheet"
 
 local function activeSlot()
     local id = WindowApi.getId(Active.window())
@@ -32,7 +36,15 @@ function PaperdollWindow.onInitialize()
         MousePosition.y() - 100
     )
 
-    WindowApi.setShowing(window .. "LegacyTexture", false)
+    local isPlayer = pId == PlayerStatus.id()
+    WindowApi.setShowing(window .. PaperdollWindow.LegacyTexture, false)
+    WindowApi.setShowing(window .. PaperdollWindow.WarButton, isPlayer)
+    WindowApi.setShowing(window .. PaperdollWindow.CharacterSheet, isPlayer)
+    WindowApi.setShowing(window .. PaperdollWindow.CharacterAbilities, isPlayer)
+    ButtonApi.setChecked(
+        window .. PaperdollWindow.WarButton,
+        isPlayer and PlayerStatus.inWarMode()
+    )
     PaperdollWindow.update()
 end
 
@@ -97,11 +109,11 @@ function PaperdollWindow.update()
     if texture.IsLegacy == 1 then
         WindowApi.setShowing(window .. "ToggleView", true)
         local textureName = "paperdoll_texture" .. id
-        local backgroundWindow = window .. "LegacyTexture"
+        local backgroundWindow = window .. PaperdollWindow.LegacyTexture
         DynamicImageApi.setTextureDimensions(backgroundWindow, texture.Width, texture.Height)
         DynamicImageApi.setTexture(backgroundWindow, textureName)
         WindowApi.setDimensions(backgroundWindow, texture.Width, texture.Height)
-        WindowApi.setScale(backgroundWindow, 1.25)
+        WindowApi.setScale(backgroundWindow, 1.0)
     else
         WindowApi.setShowing(window .. "ToggleView", false)
     end
@@ -171,4 +183,9 @@ function PaperdollWindow.onSlotSingleClickUp()
     elseif Drag.isItem() then
         DragApi.dropObjectOnPaperdoll(object.paperdollId)
     end
+end
+
+function PaperdollWindow.toggleWarMode()
+    UserActionApi.toggleWarMode()
+    ButtonApi.setChecked(Active.window(), not PlayerStatus.inWarMode())
 end
