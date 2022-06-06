@@ -60,7 +60,7 @@ function ChatWindow.onShutdown()
 end
 
 function ChatWindow.onEnterChatText()
-
+    WindowApi.assignFocus(ChatWindow.TextInput, true)
 end
 
 function ChatWindow.onTextArrived()
@@ -79,6 +79,7 @@ function ChatWindow.sendChat()
     local text = tostring(EditTextBoxApi.getText(Active.window()))
 
     if text == nil or #text == 0 then
+        ChatWindow.clearFocus()
         return
     end
 
@@ -109,4 +110,8 @@ function ChatWindow.onTextChanged(text)
             end
         end
     end
+end
+
+function ChatWindow.clearFocus()
+    WindowApi.assignFocus(ChatWindow.TextInput, false)
 end
