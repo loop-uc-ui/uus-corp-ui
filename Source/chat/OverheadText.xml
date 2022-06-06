@@ -1,0 +1,56 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+      <Label name="OverheadChatTemplate" font="UO_Overhead_Chat" maxchars="1024" wordwrap="true" autoresize="true" textalign="center" handleinput="false" layer="background" ignoreFormattingTags="true">
+        <Size>
+          <AbsPoint x="400" y="1" />
+        </Size>
+        <EventHandlers>
+          <EventHandler event="OnShutdown" function="OverheadText.OnOverheadChatShutdown" />
+        </EventHandlers>
+        <Color r="255" g="255" b="255" a="255" />
+      </Label>
+  
+      <Window name="OverheadTextWindow" layer="background" autoresize="true" handleinput="true">
+        <Size>
+          <AbsPoint x="300" y="50" />
+        </Size>
+        <EventHandlers>
+          <EventHandler event="OnInitialize" function="OverheadText.Initialize" />
+          <EventHandler event="OnShutdown" function="OverheadText.Shutdown" />
+        </EventHandlers>
+        <Windows>
+          <Label name="$parentName" sticky="false" font="UO_Overhead_Name" maxchars="1024" textalign="center" autoresize="true" wordwrap="true" handleinput="true" linespacing="20" layer="background" draganddrop="true">
+            <Size>
+              <AbsPoint x="300" y="30" />
+            </Size>
+            <Anchors>
+              <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent" />
+            </Anchors>
+            <EventHandlers>
+              <EventHandler event="OnLButtonDown" function="OverheadText.NameOnLClick" />
+              <EventHandler event="OnLButtonUp" function="OverheadText.OnLButtonUp" />
+              <EventHandler event="OnLButtonDblClk" function="OverheadText.NameOnDblClick" />
+              <EventHandler event="OnMouseOver" function="OverheadText.NameOnMouseOver" />
+              <EventHandler event="OnMouseOverEnd" function="OverheadText.NameOnMouseOverEnd" />
+            </EventHandlers>
+          </Label>
+          <Label name="$parentChat1" inherits="OverheadChatTemplate">
+            <Anchors>
+              <Anchor point="bottom" relativePoint="bottom" relativeTo="$parentName" />
+            </Anchors>
+          </Label>
+          <Label name="$parentChat2" inherits="OverheadChatTemplate">
+            <Anchors>
+              <Anchor point="top" relativePoint="bottom" relativeTo="$parentChat1" />
+            </Anchors>
+          </Label>
+          <Label name="$parentChat3" inherits="OverheadChatTemplate">
+            <Anchors>
+              <Anchor point="top" relativePoint="bottom" relativeTo="$parentChat2" />
+            </Anchors>
+          </Label>
+        </Windows>
+      </Window>
+    </Windows>
+  </Interface>
+  

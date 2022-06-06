@@ -79,3 +79,11 @@ end
 function Events.gumpReady()
     return SystemData.Events.GG_DATA_READY
 end
+
+function Events.showNamesUpdated()
+    return SystemData.Events.SHOWNAMES_UPDATED
+end
+
+function Events.showNamesFlashTemp()
+    return SystemData.Events.SHOWNAMES_FLASH_TEMP
+end

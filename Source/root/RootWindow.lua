@@ -14,6 +14,8 @@ function RootWindow.create()
     WindowDataApi.registerData(PlayerStatus.type())
     WindowApi.registerEventHandler(RootWindow.Name, Events.beginHealthBarDrag(), "RootWindow.onHealthBarDrag")
     WindowApi.registerEventHandler(RootWindow.Name, Events.endHealthBarDrag(), "RootWindow.onEndHealthBarDrag")
+    WindowApi.registerEventHandler(RootWindow.Name, Events.showNamesUpdated(), "RootWindow.onShowNamesUpdated")
+    WindowApi.registerEventHandler(RootWindow.Name, Events.showNamesFlashTemp(), "RootWindow.onShowNamesFlashTemp")
 end
 
 function RootWindow.onHealthBarDrag()
@@ -75,4 +77,14 @@ function RootWindow.shutdown()
     WindowDataApi.unregisterData(PlayerStatus.type())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.beginHealthBarDrag())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.endHealthBarDrag())
+    WindowApi.unregisterEventHandler(RootWindow.Name, Events.showNamesUpdated())
+    WindowApi.unregisterEventHandler(RootWindow.Name, Events.showNamesFlashTemp())
+end
+
+function RootWindow.onShowNamesUpdated()
+
+end
+
+function RootWindow.onShowNamesFlashTemp()
+
 end
