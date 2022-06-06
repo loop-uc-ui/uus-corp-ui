@@ -86,6 +86,7 @@
                     </Anchors>
                     <EventHandlers>
                         <EventHandler event="OnKeyEnter" function="ChatWindow.sendChat"/>
+                        <EventHandler event="OnKeyEscape" function="ChatWindow.clearFocus"/>
                         <EventHandler event="OnTextChanged" function="ChatWindow.onTextChanged"/>
                     </EventHandlers>
                 </EditBox>

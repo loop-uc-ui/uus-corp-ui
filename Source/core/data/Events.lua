@@ -24,6 +24,10 @@ function Events.onLButtonDown()
     return SystemData.Events.L_BUTTON_DOWN_PROCESSED
 end
 
+function Events.onEscape()
+    return SystemData.Events.ESCAPE_KEY_PROCESSED
+end
+
 function Events.onLButtonUp()
     return SystemData.Events.L_BUTTON_UP_PROCESSED
 end
