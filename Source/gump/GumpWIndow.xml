@@ -1,0 +1,75 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Scripts>
+      <Script file="Source/gump/GumpWindow.lua" />
+    </Scripts>
+    <Windows>
+      <EditBox name="GenericGumpTextEntryTemplate" font="UO_CondensedText_15pt" maxchars="1024">
+      </EditBox>
+  
+      <Button name="GenericGumpButtonTemplate" layer="popup" handleinput="true">
+        <EventHandlers>
+          <EventHandler event="OnLButtonUp" function="GumpWindow.OnClicked" />
+          
+        </EventHandlers>
+      </Button>
+      
+      <ScrollWindow name="GenericGumpScrolledLabelTemplate" childscrollwindow="$parentChild" scrollbar="$parentScrollbar" lineheight="18" handleinput="true" autoHideScrollBar="true" >
+        <Size>
+          <AbsPoint x="100" y="100" />
+        </Size>
+        <Windows>
+          <VerticalScrollbar name="$parentScrollbar" inherits="StandardVertScroll" />
+  
+          <Window name="$parentChild" handleinput="true" >
+            <Windows>
+              <Label name="$parentLabel" font="UO_CondensedText_15pt" layer="default" autoresize="true" handleinput="true" wordwrap="true" maxchars="3072">
+                <Size>
+                  <AbsPoint x="0" y="20"/>
+                </Size>
+                <EventHandlers>
+                  <EventHandler event="OnHyperLinkLButtonUp" function="GumpWindow.OnHyperLinkClicked"/>
+                </EventHandlers>
+              </Label>
+            </Windows>
+          </Window>
+        </Windows>
+      </ScrollWindow>
+  
+      <Label name="GenericGumpLabelTemplate" font="UO_CondensedText_15pt" layer="default" autoresize="true" handleinput="false" wordwrap="true" maxchars="2048">
+        <Size>
+          <AbsPoint x="0" y="20"/>
+        </Size>
+      </Label>
+      
+      <Label name="GenericGumpLabelFixedTemplate" font="UO_CondensedText_15pt" layer="default" handleinput="true" wordwrap="true" maxchars="2048">
+        <Size>
+          <AbsPoint x="0" y="20"/>
+        </Size>
+        <EventHandlers>
+          <EventHandler event="OnHyperLinkLButtonUp" function="GumpWindow.OnHyperLinkClicked"/>
+        </EventHandlers>
+      </Label>
+      
+      <Label name="GenericGumpLabelResizeTemplate" font="UO_CondensedText_15pt" layer="default" autoresize="true" autoresizewidth="true" handleinput="true" wordwrap="true" maxchars="2048">
+        <Size>
+          <AbsPoint x="0" y="20"/>
+        </Size>
+      </Label>
+      
+      <DynamicImage name="GenericGumpImageTemplate" layer="default" popable="false">
+        <EventHandlers>
+          <EventHandler event="OnLButtonDblClk" function="GumpWindow.OnDoubleClicked" />
+        </EventHandlers>
+      </DynamicImage>
+      
+      <Window name="GenericGumpTemplate" layer="default" handleinput="true" movable="true" sticky="true">
+        <Anchors>
+          <Anchor point="center" relativePoint="center" relativeTo=""/>
+        </Anchors>
+        <EventHandlers>
+          <EventHandler event="OnRButtonUp" function="GumpWindow.OnRClicked" />
+          <EventHandler event="OnInitialize" function="GumpWindow.Initialize"/>
+        </EventHandlers>
+      </Window>
+    </Windows>
+  </Interface>

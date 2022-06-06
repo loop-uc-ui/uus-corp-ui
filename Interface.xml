@@ -14,6 +14,7 @@
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
     <Include file="Source/drag/DragWindow.xml"/>
     <Include file="Source/drag/GenericQuantityWindow.xml"/>
+    <Include file="Source/gump/GumpWindow.xml"/>
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
     <Include file="Source/health_bar/MobileHealthBar.xml"/>
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
@@ -37,6 +38,7 @@
         <Script file="Source/core/api/DynamicImageApi.lua"/>
         <Script file="Source/core/api/EditTextBoxApi.lua"/>
         <Script file="Source/core/api/EventApi.lua"/>
+        <Script file="Source/core/api/GumpApi.lua"/>
         <Script file="Source/core/api/IconApi.lua"/>
         <Script file="Source/core/api/LabelApi.lua"/>
 		<Script file="Source/core/api/LogDisplayApi.lua"/>
@@ -68,7 +70,7 @@
         <Script file="Source/core/data/Cursor.lua"/>
         <Script file="Source/core/data/Drag.lua"/>
         <Script file="Source/core/data/Events.lua"/>
-        <Script file="Source/core/data/GenericGumpCore.lua"/>
+        <Script file="Source/core/data/Gump.lua"/>
         <Script file="Source/core/data/ItemProperties.lua"/>
         <Script file="Source/core/data/MapSettings.lua"/>
         <Script file="Source/core/data/MobileData.lua"/>
@@ -102,6 +104,7 @@
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
         <Script file="Source/drag/DragWindow.lua"/>
         <Script file="Source/drag/GenericQuantityWindow.lua"/>
+        <Script file="Source/gump/GumpWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
         <Script file="Source/health_bar/MobileHealthBar.lua"/>
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>
