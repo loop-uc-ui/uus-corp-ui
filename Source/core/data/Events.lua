@@ -63,3 +63,15 @@ end
 function Events.gChatRosterUpdate()
     return SystemData.Events.GHAT_ROSTER_UPDATE
 end
+
+function Events.gumpArrived()
+    return SystemData.Events.GG_ARRIVED
+end
+
+function Events.gumpClosed()
+    return SystemData.Events.GG_CLOSE
+end
+
+function Events.gumpReady()
+    return SystemData.Events.GG_DATA_READY
+end
