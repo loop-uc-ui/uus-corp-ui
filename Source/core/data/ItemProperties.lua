@@ -19,3 +19,7 @@ end
 function ItemProperties.maxDurability(id)
     return ItemProperties.propertiesTidsParams(id)[17]
 end
+
+function ItemProperties.propertiesList(id)
+    return WindowData.ItemProperties[id].PropertiesList
+end
