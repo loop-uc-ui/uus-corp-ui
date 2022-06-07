@@ -30,7 +30,7 @@ function ChatWindow.onInitialize()
         "ChatWindow.onGChatRosterUpdate"
     )
 
-    TextLogApi.enableLog(ChatWindow.LogDisplay)
+    TextLogApi.enableLog(Chat.Log)
 
     LogDisplayApi.addLog(ChatWindow.LogDisplay, Chat.Log)
 

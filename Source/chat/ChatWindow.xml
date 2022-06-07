@@ -53,7 +53,7 @@
                 </FullResizeImage>
                 <!-- End of Inner Frame Boilerplate -->
 
-                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                <FullResizeImage name="$parentInputFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentChannelLabel">
                             <AbsPoint x="-8" y="0"/>
