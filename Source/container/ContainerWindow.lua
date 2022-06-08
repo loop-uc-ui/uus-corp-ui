@@ -216,6 +216,10 @@ function ContainerWindow.onSlotMouseOver()
         return
     end
 
+    if ItemProperties.properties(slot.objectId) == nil then
+        return
+    end
+
     local data = {}
     local properties = ItemProperties.propertiesList(slot.objectId)
 

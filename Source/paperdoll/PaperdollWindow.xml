@@ -6,6 +6,8 @@
 				<EventHandler event="OnLButtonDblClk" function="PaperdollWindow.onSlotDoubleClick"/>
 				<EventHandler event="OnLButtonDown" function="PaperdollWindow.onSlotSingleClick"/>
 				<EventHandler event="OnLButtonUp" function="PaperdollWindow.onSlotSingleClickUp"/>
+				<EventHandler event="OnMouseOver" function="PaperdollWindow.onSlotMouseOver"/>
+				<EventHandler event="OnMouseOverEnd" function="PaperdollWindow.onSlotMouseOverEnd"/>
 			</EventHandlers>
 		</Button>
 
