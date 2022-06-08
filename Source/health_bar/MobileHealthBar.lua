@@ -3,6 +3,7 @@ MobileHealthBar.Name = "MobileHealthBar"
 MobileHealthBar.StatusBar = "HealthBar"
 MobileHealthBar.HealthLabel = "HealthBarPerc"
 MobileHealthBar.NameLabel = "Name"
+MobileHealthBar.Arrow = "MobileArrow"
 
 function MobileHealthBar.onInitialize()
     local window = Active.window()
@@ -69,19 +70,22 @@ function MobileHealthBar.onRightClick()
 end
 
 function MobileHealthBar.onMouseOver()
-    local arrow = "MobileArrow"
-
-    if WindowApi.doesExist(arrow) then
+    if WindowApi.doesExist(MobileHealthBar.Arrow) then
         return
     end
 
-    WindowApi.createWindow(arrow, false)
-    WindowApi.setScale(arrow, 0.33)
-    WindowApi.attachWIndowToWorldObject(WindowApi.getId(Active.window()), arrow)
-    WindowApi.setShowing(arrow, true)
-    AnimatedImageApi.startAnimation("MobileArrowAnim", 1, true, false, 0.0)
+    local notoriety = MobileData.notoriety(WindowApi.getId(
+        Active.window()
+    ))
+
+    WindowApi.createWindow(MobileHealthBar.Arrow, false)
+    WindowApi.setScale(MobileHealthBar.Arrow, 0.33)
+    WindowApi.setColor(MobileHealthBar.Arrow, Colors.Notoriety[notoriety])
+    WindowApi.attachWIndowToWorldObject(WindowApi.getId(Active.window()), MobileHealthBar.Arrow)
+    WindowApi.setShowing(MobileHealthBar.Arrow, true)
+    AnimatedImageApi.startAnimation(AnimatedImageApi.Animations.MobileArrow, 1, true, false, 0.0)
 end
 
 function MobileHealthBar.onMouseOverEnd()
-    WindowApi.destroyWindow("MobileArrow")
+    WindowApi.destroyWindow(MobileHealthBar.Arrow)
 end
