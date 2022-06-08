@@ -164,6 +164,8 @@ function ContainerWindow.onRightClick()
 end
 
 function ContainerWindow.Shutdown()
+    ContainerWindow.onSlotMouseOverEnd()
+
     local window = Active.window()
     local id = WindowApi.getId(window)
 
@@ -209,24 +211,23 @@ end
 
 function ContainerWindow.onSlotMouseOver()
     local slot = activeSlot()
-    WindowApi.createFromTemplate(
-        "TooltipWindow",
-        "TooltipWindow",
-        "Root"
-    )
 
-    local text = ""
+    if slot.objectId == nil then
+        return
+    end
+
+    local data = {}
     local properties = ItemProperties.propertiesList(slot.objectId)
 
     if properties ~= nil then
         for i = 1, #properties do
-            text = text .. tostring(properties[i]) .. "<BR>"
+            local text = tostring(properties[i])
+            table.insert(data, text)
         end
+        TooltipWindow.create(data)
     end
-
-    LabelApi.setText("TooltipWindowText", text)
 end
 
 function ContainerWindow.onSlotMouseOverEnd()
-
+    TooltipWindow.destroy()
 end

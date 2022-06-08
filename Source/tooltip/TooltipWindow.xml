@@ -1,40 +1,33 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-        <Window name="TooltipWindow" movable="true" handleinput="true" popable="false" autoresize="true">
+        <Label name="TooltipLabelTemplate" font="uo_classic_16" autoresizewidth="true" wordwrap="false" textalign="left">
             <Size>
-                <AbsPoint x="190" y="300" />
+                <AbsPoint x="0" y="16"/>
+            </Size>
+        </Label>
+
+        <Window name="TooltipWindow" movable="true" handleinput="true" popable="false" layer="overlay">
+            <Size>
+                <AbsPoint x="16" y="16"/>
             </Size>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="TooltipWindow.onInitialize"/>
-                <EventHandler event="OnShutdown" function="TooltipWindow.onShutdown"/>
-                <EventHandler event="OnShown" function="TooltipWindow.onShown"/>
+                <EventHandler event="OnUpdate" function="TooltipWindow.onUpdate"/>
             </EventHandlers>
             <Windows>
-                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" alpha="0.2">
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft"/>
-                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
                     </Anchors>
                 </FullResizeImage>
 
                 <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" />
-                        <Anchor point="bottomright" relativePoint="bottomright" />
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
                     </Anchors>
                 </FullResizeImage>
-
-                <Label name="$parentText" font="uo_classic_18" textalign="left" handleinput="true" wordwrap="true" popable="false" autoresize="true">
-                    <Size>
-                        <AbsPoint x="190" y="300" />
-                    </Size>
-                    <Anchors>
-                        <Anchor point="top" relativePoint="top" relativeTo="$parent">
-                            <AbsPoint x="0" y="8" />
-                        </Anchor>
-                    </Anchors>
-                    <Color r="206" g="217" b="242" a="255" />
-                </Label>
             </Windows>
         </Window>
     </Windows>

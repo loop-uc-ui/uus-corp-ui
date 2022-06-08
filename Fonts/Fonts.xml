@@ -8,7 +8,7 @@
 		<Font name="avatar" face="Avatar" file="fonts/Avatar.ttf" height="16" texsize="512" antialias="true" hinting="false" autohinting="true" outline="false" shadow="false"/>
 		<Font name="diablo_light" face="Diablo Light" file="fonts/diablo_l.ttf" height="16" texsize="512" antialias="true" hinting="false" autohinting="true" outline="false" shadow="false"/>
 		<Font name="diablo_heavy" face="Diablo Heavy" file="fonts/diablo_h.ttf" height="16" texsize="512" antialias="true" hinting="false" autohinting="true" outline="false" shadow="false"/>
-
+		<Font name="uo_classic_12" face="UO Classic" file="fonts/UOClassic.ttf" height="12" texsize="512" antialias="true" hinting="false" autohinting="true" outline="true" shadow="false"/>
 		<Font name="uo_classic_14" face="UO Classic" file="fonts/UOClassic.ttf" height="14" texsize="512" antialias="true" hinting="false" autohinting="true" outline="true" shadow="false"/>
 		<Font name="uo_classic_16" face="UO Classic" file="fonts/UOClassic.ttf" height="16" texsize="512" antialias="true" hinting="false" autohinting="true" outline="true" shadow="false"/>
 		<Font name="footnote" face="UO Classic" file="fonts/UOClassic.ttf" height="14" texsize="512" antialias="true" hinting="false" autohinting="true" outline="true" shadow="false"/>
