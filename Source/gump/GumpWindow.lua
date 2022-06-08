@@ -20,6 +20,7 @@ end
 
 function GumpWindow.OnRClicked()
     GumpApi.onRClick(WindowApi.getId(Active.window()))
+    WindowApi.destroyWindow(Active.window())
 end
 
 function GumpWindow.OnHyperLinkClicked(link)
