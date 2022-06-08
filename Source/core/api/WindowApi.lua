@@ -50,6 +50,10 @@ function WindowApi.setOffsetFromParent(windowName, xOffset, yOffset)
     WindowSetOffsetFromParent(windowName, xOffset, yOffset)
 end
 
+function WindowApi.getOffsetFromParent(windowName)
+    return WindowGetOffsetFromParent(windowName)
+end
+
 function WindowApi.setDimensions(windowName, xOffset, yOffset)
     WindowSetDimensions(windowName, xOffset, yOffset)
 end

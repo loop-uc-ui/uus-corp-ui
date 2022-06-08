@@ -55,6 +55,7 @@ function ContainerWindow.Initialize()
     WindowApi.setId(window, id)
     WindowApi.registerEventHandler(window, Container.event(), "ContainerWindow.updateContainer")
     WindowApi.registerEventHandler(window, ObjectInfo.event(), "ContainerWindow.updateObject")
+    WindowApi.registerEventHandler(window, ItemProperties.event(), "ContainerWindow.updateObject")
     WindowDataApi.registerData(Container.type(), id)
 end
 
@@ -114,6 +115,7 @@ function ContainerWindow.updateContainer()
         local item = Container.items(id)[i]
         local object = item.objectId
         WindowDataApi.registerData(ObjectInfo.type(), object)
+        WindowDataApi.registerData(ItemProperties.type(), object)
 
         local image = window .. "Slot" .. tostring(item.gridIndex) .. "Icon"
 
@@ -162,16 +164,20 @@ function ContainerWindow.onRightClick()
 end
 
 function ContainerWindow.Shutdown()
+    ContainerWindow.onSlotMouseOverEnd()
+
     local window = Active.window()
     local id = WindowApi.getId(window)
 
     WindowApi.unregisterEventHandler(window, Container.event())
     WindowApi.unregisterEventHandler(window, ObjectInfo.event())
+    WindowApi.unregisterEventHandler(window, ItemProperties.event())
 
     for i = 1, Container.itemCount(id) do
         local item = Container.items(id)[i]
         local object = item.objectId
         WindowDataApi.unregisterData(ObjectInfo.type(), object)
+        WindowDataApi.unregisterData(ItemProperties.type(), object)
     end
 
     WindowDataApi.unregisterData(Container.type(), id)
@@ -185,6 +191,7 @@ function ContainerWindow.onSlotSingleClick()
     else
         DragApi.setObjectMouseClickData(slot.objectId, Drag.sourceContainer())
         WindowDataApi.unregisterData(ObjectInfo.type(), slot.objectId)
+        WindowDataApi.unregisterData(ItemProperties.type(), slot.objectId)
     end
 end
 
@@ -200,4 +207,27 @@ function ContainerWindow.onSlotDoubleClick()
     if slot.objectId ~= nil then
         UserAction.useItem(slot.objectId, false)
     end
+end
+
+function ContainerWindow.onSlotMouseOver()
+    local slot = activeSlot()
+
+    if slot.objectId == nil then
+        return
+    end
+
+    local data = {}
+    local properties = ItemProperties.propertiesList(slot.objectId)
+
+    if properties ~= nil then
+        for i = 1, #properties do
+            local text = tostring(properties[i])
+            table.insert(data, text)
+        end
+        TooltipWindow.create(data)
+    end
+end
+
+function ContainerWindow.onSlotMouseOverEnd()
+    TooltipWindow.destroy()
 end

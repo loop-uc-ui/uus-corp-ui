@@ -21,6 +21,7 @@
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
     <Include file="Source/container/ContainerWindow.xml"/>
     <Include file="Source/paperdoll/PaperdollWindow.xml"/>
+    <Include file="Source/tooltip/TooltipWindow.xml"/>
 
 	<!-- Remove this one once all the gumps are fixed -->
 	<!--<Include file="Source/Generic/KnownBrokenGump.xml" />-->
@@ -112,6 +113,7 @@
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>
         <Script file="Source/container/ContainerWindow.lua"/>
         <Script file="Source/paperdoll/PaperdollWindow.lua"/>
+        <Script file="Source/tooltip/TooltipWindow.lua"/>
 
 	</Scripts>
 
