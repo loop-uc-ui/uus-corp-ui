@@ -1,5 +1,9 @@
 AnimatedImageApi = {}
 
+AnimatedImageApi.Animations = {
+    MobileArrow = "MobileArrowAnim"
+}
+
 function AnimatedImageApi.setTexture(imageName, texture)
     AnimatedImageSetTexture(imageName, texture)
 end
