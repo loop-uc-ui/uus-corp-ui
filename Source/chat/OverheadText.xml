@@ -27,8 +27,6 @@
               <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent" />
             </Anchors>
             <EventHandlers>
-              <EventHandler event="OnLButtonDown" function="OverheadText.NameOnLClick" />
-              <EventHandler event="OnLButtonUp" function="OverheadText.OnLButtonUp" />
               <EventHandler event="OnLButtonDblClk" function="OverheadText.NameOnDblClick" />
               <EventHandler event="OnMouseOver" function="OverheadText.NameOnMouseOver" />
               <EventHandler event="OnMouseOverEnd" function="OverheadText.NameOnMouseOverEnd" />

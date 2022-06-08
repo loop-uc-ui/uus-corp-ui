@@ -23,6 +23,18 @@ function OverheadText.OnOverheadChatShutdown()
 
 end
 
+function OverheadText.NameOnDblClick()
+    local id = WindowApi.getId(
+        WindowApi.getParent(
+            Active.window()
+        )
+    )
+    UserAction.useItem(
+        id,
+        false
+    )
+end
+
 function OverheadText.update(window)
     local id = WindowApi.getId(window)
     local name = MobileData.name(id)
