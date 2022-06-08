@@ -53,7 +53,6 @@ function TooltipWindow.create(data)
         height + 16
     )
 
-    WindowApi.setId(TooltipWindow.Name, #data)
     WindowApi.setShowing(TooltipWindow.Name, true)
 end
 
@@ -66,11 +65,11 @@ function TooltipWindow.onInitialize()
 end
 
 function TooltipWindow.onUpdate()
-    local id = WindowApi.getId(Active.window())
+    local _, y = WindowApi.getDimensions(Active.window())
 
     WindowApi.setOffsetFromParent(
         TooltipWindow.Name,
         MousePosition.x() + 8,
-        MousePosition.y() - (id * 16) - 24
+        MousePosition.y() - y - 8
     )
 end
