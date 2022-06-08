@@ -13,8 +13,15 @@ local function activeSlot()
     local id = WindowApi.getId(Active.window())
     local paperdollId = WindowApi.getId(WindowApi.getParent(Active.window()))
     local object = Paperdoll.slotData(paperdollId, id)
+
+    local slotId
+
+    if object ~= nil then
+        slotId = object.slotId
+    end
+
     return {
-        objectId = object.slotId,
+        objectId = slotId,
         paperdollId = paperdollId
     }
 end
@@ -123,6 +130,7 @@ function PaperdollWindow.ItemMouseOver()
 end
 
 function PaperdollWindow.onShutdown()
+    TooltipWindow.destroy()
     local id = WindowApi.getId(Active.window())
 
     for i = 1, Paperdoll.numSlots(id) do
@@ -183,6 +191,33 @@ function PaperdollWindow.onSlotSingleClickUp()
     elseif Drag.isItem() then
         DragApi.dropObjectOnPaperdoll(object.paperdollId)
     end
+end
+
+function PaperdollWindow.onSlotMouseOver()
+    local slot = activeSlot()
+
+    if slot.objectId == nil then
+        return
+    end
+
+    if ItemProperties.properties(slot.objectId) == nil then
+        return
+    end
+
+    local data = {}
+    local properties = ItemProperties.propertiesList(slot.objectId)
+
+    if properties ~= nil then
+        for i = 1, #properties do
+            local text = tostring(properties[i])
+            table.insert(data, text)
+        end
+        TooltipWindow.create(data)
+    end
+end
+
+function PaperdollWindow.onSlotMouseOverEnd()
+    TooltipWindow.destroy()
 end
 
 function PaperdollWindow.toggleWarMode()

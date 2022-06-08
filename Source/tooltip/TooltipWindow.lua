@@ -71,6 +71,6 @@ function TooltipWindow.onUpdate()
     WindowApi.setOffsetFromParent(
         TooltipWindow.Name,
         MousePosition.x() + 8,
-        MousePosition.y() - (id * 16) - 16
+        MousePosition.y() - (id * 16) - 24
     )
 end

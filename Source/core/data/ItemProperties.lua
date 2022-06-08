@@ -8,8 +8,12 @@ function ItemProperties.event()
     return WindowData.ItemProperties.Event
 end
 
+function ItemProperties.properties(id)
+    return WindowData.ItemProperties[id]
+end
+
 function ItemProperties.propertiesTidsParams(id)
-    return WindowData.ItemProperties[id].PropertiesTidsParams
+    return ItemProperties.properties(id).PropertiesTidsParams
 end
 
 function ItemProperties.currentDurability(id)
@@ -21,5 +25,5 @@ function ItemProperties.maxDurability(id)
 end
 
 function ItemProperties.propertiesList(id)
-    return WindowData.ItemProperties[id].PropertiesList
+    return ItemProperties.properties(id).PropertiesList
 end
