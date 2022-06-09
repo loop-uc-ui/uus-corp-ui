@@ -3,6 +3,10 @@ RootWindow.Name = "Root"
 
 local mousePosX, mousePosY
 
+local function registerEvent(eventName, func)
+    WindowApi.registerEventHandler(RootWindow.Name, eventName, RootWindow.Name .. "Window." .. func)
+end
+
 function RootWindow.create()
     ViewportApi.update(
         ScreenResolution.x(),
@@ -12,10 +16,11 @@ function RootWindow.create()
     )
 
     WindowDataApi.registerData(PlayerStatus.type())
-    WindowApi.registerEventHandler(RootWindow.Name, Events.beginHealthBarDrag(), "RootWindow.onHealthBarDrag")
-    WindowApi.registerEventHandler(RootWindow.Name, Events.endHealthBarDrag(), "RootWindow.onEndHealthBarDrag")
-    WindowApi.registerEventHandler(RootWindow.Name, Events.showNamesUpdated(), "RootWindow.onShowNamesUpdated")
-    WindowApi.registerEventHandler(RootWindow.Name, Events.showNamesFlashTemp(), "RootWindow.onShowNamesFlashTemp")
+    registerEvent(Events.beginHealthBarDrag(), "onHealthBarDrag")
+    registerEvent(Events.endHealthBarDrag(), "onEndHealthBarDrag")
+    registerEvent(Events.showNamesUpdated(), "onShowNamesUpdated")
+    registerEvent(Events.showNamesFlashTemp(),"onShowNamesFlashTemp")
+    registerEvent(Events.togglePaperdoll(), "togglePaperdoll")
 end
 
 function RootWindow.onHealthBarDrag()
@@ -79,6 +84,7 @@ function RootWindow.shutdown()
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.endHealthBarDrag())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.showNamesUpdated())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.showNamesFlashTemp())
+    WindowApi.unregisterEventHandler(RootWindow.Name, Events.togglePaperdoll())
 end
 
 function RootWindow.onShowNamesUpdated()
@@ -87,4 +93,18 @@ end
 
 function RootWindow.onShowNamesFlashTemp()
 
+end
+
+function RootWindow.togglePaperdoll()
+    local paperdoll = PaperdollWindow.Name .. PlayerStatus.id()
+
+    if WindowApi.doesExist(paperdoll) then
+        WindowApi.destroyWindow(paperdoll)
+    else
+        WindowApi.createFromTemplate(
+            paperdoll,
+            PaperdollWindow.Name,
+            RootWindow.Name
+        )
+    end
 end

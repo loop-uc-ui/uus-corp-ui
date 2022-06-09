@@ -87,3 +87,7 @@ end
 function Events.showNamesFlashTemp()
     return SystemData.Events.SHOWNAMES_FLASH_TEMP
 end
+
+function Events.togglePaperdoll()
+    return SystemData.Events.TOGGLE_PAPERDOLL_CHARACTER_WINDOW
+end
