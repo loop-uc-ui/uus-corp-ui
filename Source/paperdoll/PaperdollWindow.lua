@@ -86,22 +86,25 @@ function PaperdollWindow.update()
             DynamicImageApi.setTextureScale(icon, data.iconScale)
 
             if data.slotId ~= nil then
-                WindowDataApi.registerData(ItemProperties.type(), data.slotId)
+                if ItemProperties.properties(data.slotId) == nil then
+                    WindowDataApi.unregisterData(ItemProperties.type(), data.slotId)
+                else
+                    WindowDataApi.registerData(ItemProperties.type(), data.slotId)
+                    local currentDurability = ItemProperties.currentDurability(data.slotId)
+                    local maxDurability = ItemProperties.maxDurability(data.slotId)
 
-                local currentDurability = ItemProperties.currentDurability(data.slotId)
-                local maxDurability = ItemProperties.maxDurability(data.slotId)
+                    if currentDurability ~= nil and maxDurability ~= nil then
+                        local percentage = currentDurability / maxDurability
 
-                if currentDurability ~= nil and maxDurability ~= nil then
-                    local percentage = currentDurability / maxDurability
-
-                    if percentage <= 0.25 then
-                        WindowApi.setColor(slot, Colors.Red)
-                    else
-                        WindowApi.setColor(slot, {
-                            r = 255,
-                            g = 255,
-                            b = 255
-                        })
+                        if percentage <= 0.25 then
+                            WindowApi.setColor(slot, Colors.Red)
+                        else
+                            WindowApi.setColor(slot, {
+                                r = 255,
+                                g = 255,
+                                b = 255
+                            })
+                        end
                     end
                 end
             end
