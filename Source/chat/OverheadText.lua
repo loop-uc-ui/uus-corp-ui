@@ -13,6 +13,17 @@ function OverheadText.Initialize()
     WindowApi.setShowing(window .. OverheadText.ChatTwo, false)
     WindowApi.setShowing(window .. OverheadText.ChatThree, false)
     OverheadText.update(window)
+
+    WindowApi.startAlphaAnimation(
+        window .. OverheadText.Name,
+        Animation.singleNoReset(),
+        1.0,
+        0,
+        1,
+        true,
+        10,
+        0
+    )
 end
 
 function OverheadText.Shutdown()
