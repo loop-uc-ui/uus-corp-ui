@@ -73,7 +73,7 @@ Chat.Channels = {
     Say = channel(
         Chat.filtersSay(),
         "Say",
-        "/s",
+        "/s ",
         "/say",
         {
             r = 215,
@@ -84,7 +84,7 @@ Chat.Channels = {
     Whisper = channel(
         Chat.filtersWhisper(),
         "Whisper",
-        "/w",
+        "/w ",
         "/tell",
         {
             r = 215,
@@ -95,7 +95,7 @@ Chat.Channels = {
     Party = channel(
         Chat.filtersParty(),
         "Party",
-        "/p",
+        "/p ",
         "/party",
         {
             r = 56,
@@ -106,7 +106,7 @@ Chat.Channels = {
     Guild = channel(
         Chat.filtersGuild(),
         "Guild",
-        "/g",
+        "/g ",
         "/guild",
         {
             r = 96,
@@ -117,7 +117,7 @@ Chat.Channels = {
     Alliance = channel(
         Chat.filtersAlliance(),
         "Alliance",
-        "/a",
+        "/a ",
         "/alliance",
         {
             r = 48,
@@ -128,7 +128,7 @@ Chat.Channels = {
     Emote = channel(
         Chat.filtersEmote(),
         "Emote",
-        "/e",
+        "/e ",
         "/emote",
         {
             r = 215,
@@ -139,7 +139,7 @@ Chat.Channels = {
     Yell = channel(
         Chat.filtersYell(),
         "Yell",
-        "/y",
+        "/y ",
         "/yell",
         {
             r = 215,
@@ -150,7 +150,7 @@ Chat.Channels = {
     GameMaster = channel(
         Chat.filtersGameMaster(),
         "Game Master",
-        "/gm",
+        "/gm ",
         "/gm",
         {
             r = 232,
@@ -161,7 +161,7 @@ Chat.Channels = {
     Chat = channel(
         Chat.filtersCustom(),
         "Chat",
-        "/c",
+        "/c ",
         "/chat",
         {
             r = 75,
@@ -172,7 +172,7 @@ Chat.Channels = {
     Global = channel(
         Chat.filtersGlobal(),
         "Global",
-        "/x",
+        "/x ",
         "/x",
         {
             r = 75,
