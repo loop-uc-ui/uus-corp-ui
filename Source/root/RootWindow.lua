@@ -16,11 +16,13 @@ function RootWindow.create()
     )
 
     WindowDataApi.registerData(PlayerStatus.type())
+    WindowDataApi.registerData(PlayerEquipment.type(), PlayerEquipment.Slots.Backpack)
     registerEvent(Events.beginHealthBarDrag(), "onHealthBarDrag")
     registerEvent(Events.endHealthBarDrag(), "onEndHealthBarDrag")
     registerEvent(Events.showNamesUpdated(), "onShowNamesUpdated")
     registerEvent(Events.showNamesFlashTemp(),"onShowNamesFlashTemp")
     registerEvent(Events.togglePaperdoll(), "togglePaperdoll")
+    registerEvent(Events.toggleBackpack(), "toggleBackpack")
 end
 
 function RootWindow.onHealthBarDrag()
@@ -80,6 +82,8 @@ end
 
 function RootWindow.shutdown()
     WindowDataApi.unregisterData(PlayerStatus.type())
+    WindowDataApi.unregisterData(Paperdoll.type(), PlayerStatus.id())
+    WindowDataApi.unregisterData(PlayerEquipment.type(), PlayerEquipment.Slots.Backpack)
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.beginHealthBarDrag())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.endHealthBarDrag())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.showNamesUpdated())
@@ -104,6 +108,20 @@ function RootWindow.togglePaperdoll()
         WindowApi.createFromTemplate(
             paperdoll,
             PaperdollWindow.Name,
+            RootWindow.Name
+        )
+    end
+end
+
+function RootWindow.toggleBackpack()
+    local window = ContainerWindow.Name .. PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack)
+
+    if WindowApi.doesExist(window) then
+        WindowApi.destroyWindow(window)
+    else
+        WindowApi.createFromTemplate(
+            ContainerWindow.Name .. PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack),
+            ContainerWindow.Template,
             RootWindow.Name
         )
     end

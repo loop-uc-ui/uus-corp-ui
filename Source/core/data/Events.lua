@@ -91,3 +91,7 @@ end
 function Events.togglePaperdoll()
     return SystemData.Events.TOGGLE_PAPERDOLL_CHARACTER_WINDOW
 end
+
+function Events.toggleBackpack()
+    return SystemData.Events.TOGGLE_BACKPACK_WINDOW
+end

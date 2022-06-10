@@ -1,7 +1,8 @@
 --Container windows are not create explicitly by the UI.
 --They are create by client when containers are clicked.
 ContainerWindow = {}
-ContainerWindow.Name = "ContainerWindow_"
+ContainerWindow.Template = "ContainerWindow"
+ContainerWindow.Name = ContainerWindow.Template .. "_"
 ContainerWindow.MaxSlots = 125
 
 local function activeSlot()
@@ -50,17 +51,17 @@ local function activeSlot()
 end
 
 function ContainerWindow.Initialize()
-    local id = Active.dynamicWindowId()
-    local window = ContainerWindow.Name .. id
-    WindowApi.setId(window, id)
-    WindowApi.registerEventHandler(window, Container.event(), "ContainerWindow.updateContainer")
-    WindowApi.registerEventHandler(window, ObjectInfo.event(), "ContainerWindow.updateObject")
-    WindowApi.registerEventHandler(window, ItemProperties.event(), "ContainerWindow.updateObject")
+    local id = tonumber(string.gsub(Active.window(), ContainerWindow.Name, ""), 10)
+    WindowApi.setId(Active.window(), id)
+    WindowApi.registerEventHandler(Active.window(), Container.event(), "ContainerWindow.updateContainer")
+    WindowApi.registerEventHandler(Active.window(), ObjectInfo.event(), "ContainerWindow.updateObject")
+    WindowApi.registerEventHandler(Active.window(), ItemProperties.event(), "ContainerWindow.updateObject")
     WindowDataApi.registerData(Container.type(), id)
+    ContainerWindow.updateContainer()
 end
 
 function ContainerWindow.updateContainer()
-    local id = Active.updateId()
+    local id = WindowApi.getId(Active.window())
 
     LabelApi.setText(ContainerWindow.Name .. id .. "Title", Container.name(id))
 
