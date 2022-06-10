@@ -44,6 +44,7 @@
         <Script file="Source/core/api/GumpApi.lua"/>
         <Script file="Source/core/api/IconApi.lua"/>
         <Script file="Source/core/api/LabelApi.lua"/>
+        <Script file="Source/core/api/ListBoxApi.lua"/>
 		<Script file="Source/core/api/LogDisplayApi.lua"/>
         <Script file="Source/core/api/ModuleApi.lua"/>
         <Script file="Source/core/api/RadarApi.lua"/>
