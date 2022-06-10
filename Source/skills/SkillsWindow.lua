@@ -22,10 +22,10 @@ function SkillsWindow.Initialize()
             SkillsWindow.Skills,
             {
                 skillName = skill.skillName,
-                tempValue = data.TempSkillValue,
+                tempValue = tostring(data.TempSkillValue),
                 state = data.SkillState,
                 realValue = tostring(data.RealSkillValue),
-                cap = data.SkillCap,
+                cap = tostring(data.SkillCap),
             }
         )
 
@@ -65,5 +65,7 @@ function SkillsWindow.Populate(data)
     for k, v in ipairs(data) do
         LabelApi.setText("SkillsWindowListRow" .. k .. "ItemName", SkillsWindow.Skills[v].skillName)
         LabelApi.setText("SkillsWindowListRow" .. k .. "ItemRealValue", SkillsWindow.Skills[v].realValue)
+        LabelApi.setText("SkillsWindowListRow" .. k .. "ItemTempValue", SkillsWindow.Skills[v].tempValue)
+        LabelApi.setText("SkillsWindowListRow" .. k .. "ItemCap", SkillsWindow.Skills[v].cap)
     end
 end
