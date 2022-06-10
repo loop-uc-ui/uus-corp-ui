@@ -80,6 +80,7 @@
         <Script file="Source/core/data/MousePosition.lua"/>
         <Script file="Source/core/data/ObjectInfo.lua"/>
         <Script file="Source/core/data/Paperdoll.lua"/>
+        <Script file="Source/core/data/PlayerEquipment.lua"/>
         <Script file="Source/core/data/PlayerLocation.lua"/>
         <Script file="Source/core/data/PlayerStatus.lua"/>
         <Script file="Source/core/data/Radar.lua"/>
