@@ -15,6 +15,7 @@ function RootWindow.create()
         ScreenResolution.y()
     )
 
+    CSVUtilities.initialize()
     WindowDataApi.registerData(PlayerStatus.type())
     WindowDataApi.registerData(PlayerEquipment.type(), PlayerEquipment.Slots.Backpack)
     registerEvent(Events.beginHealthBarDrag(), "onHealthBarDrag")
@@ -82,6 +83,7 @@ function RootWindow.onEndHealthBarDrag()
 end
 
 function RootWindow.shutdown()
+    CSVUtilities.shutdown()
     WindowDataApi.unregisterData(PlayerStatus.type())
     WindowDataApi.unregisterData(Paperdoll.type(), PlayerStatus.id())
     WindowDataApi.unregisterData(PlayerEquipment.type(), PlayerEquipment.Slots.Backpack)
