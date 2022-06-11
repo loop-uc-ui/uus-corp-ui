@@ -1,7 +1,13 @@
 SkillsWindow = {}
 SkillsWindow.Name = "SkillsWindow"
+SkillsWindow.ItemName = "ItemName"
+SkillsWindow.ItemRealValue = "ItemRealValue"
+SkillsWindow.ItemTempValue = "ItemTempValue"
+SkillsWindow.ItemCap = "ItemCap"
+SkillsWindow.List = SkillsWindow.Name .. "List"
+SkillsWindow.ListRow = SkillsWindow.List .. "Row"
 SkillsWindow.Skills = {}
-SkillsWindow.NumSkills = 57
+
 function SkillsWindow.Initialize()
     WindowDataApi.registerData(
         Skills.listDataType()
@@ -38,7 +44,7 @@ function SkillsWindow.Initialize()
         "SkillsWindow.UpdateSkills"
     )
 
-    ListBoxSetDisplayOrder("SkillsWindowList", order)
+    ListBoxSetDisplayOrder(SkillsWindow.List, order)
 end
 
 function SkillsWindow.Shutdown()
@@ -46,7 +52,7 @@ function SkillsWindow.Shutdown()
         Skills.listDataType()
     )
 
-    for i = 1, SkillsWindow.NumSkills - 1 do
+    for i = 1, #Skills.list()- 1 do
         WindowDataApi.unregisterData(
             Skills.dynamicDataType(),
             i
@@ -63,9 +69,9 @@ end
 
 function SkillsWindow.Populate(data)
     for k, v in ipairs(data) do
-        LabelApi.setText("SkillsWindowListRow" .. k .. "ItemName", SkillsWindow.Skills[v].skillName)
-        LabelApi.setText("SkillsWindowListRow" .. k .. "ItemRealValue", SkillsWindow.Skills[v].realValue)
-        LabelApi.setText("SkillsWindowListRow" .. k .. "ItemTempValue", SkillsWindow.Skills[v].tempValue)
-        LabelApi.setText("SkillsWindowListRow" .. k .. "ItemCap", SkillsWindow.Skills[v].cap)
+        LabelApi.setText(SkillsWindow.ListRow .. k .. SkillsWindow.ItemName, SkillsWindow.Skills[v].skillName)
+        LabelApi.setText(SkillsWindow.ListRow .. k .. SkillsWindow.ItemRealValue, SkillsWindow.Skills[v].realValue)
+        LabelApi.setText(SkillsWindow.ListRow .. k .. SkillsWindow.ItemTempValue, SkillsWindow.Skills[v].tempValue)
+        LabelApi.setText(SkillsWindow.ListRow .. k .. SkillsWindow.ItemCap, SkillsWindow.Skills[v].cap)
     end
 end
