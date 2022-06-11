@@ -23,6 +23,7 @@ function RootWindow.create()
     registerEvent(Events.showNamesFlashTemp(),"onShowNamesFlashTemp")
     registerEvent(Events.togglePaperdoll(), "togglePaperdoll")
     registerEvent(Events.toggleBackpack(), "toggleBackpack")
+    registerEvent(Events.toggleSkills(), "toggleSkills")
 end
 
 function RootWindow.onHealthBarDrag()
@@ -89,6 +90,7 @@ function RootWindow.shutdown()
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.showNamesUpdated())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.showNamesFlashTemp())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.togglePaperdoll())
+    WindowApi.unregisterEventHandler(RootWindow.Name, Events.toggleSkills())
 end
 
 function RootWindow.onShowNamesUpdated()
@@ -124,5 +126,13 @@ function RootWindow.toggleBackpack()
             ContainerWindow.Template,
             RootWindow.Name
         )
+    end
+end
+
+function RootWindow.toggleSkills()
+    if WindowApi.doesExist(SkillsWindow.Name) then
+        WindowApi.destroyWindow(SkillsWindow.Name)
+    else
+        WindowApi.createWindow(SkillsWindow.Name, true)
     end
 end

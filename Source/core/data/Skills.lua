@@ -16,40 +16,40 @@ function Skills.dynamicData()
     return WindowData.SkillDynamicData
 end
 
-function Skills:csvId(index)
-    return self:list()[index].CSVId
+function Skills.csvId(index)
+    return Skills.list()[index].CSVId
 end
 
-function Skills:iconId(index)
-    return self:list()[index].iconId
+function Skills.iconId(index)
+    return Skills.list()[index].iconId
 end
 
-function Skills:hasEntitlement(index)
-    return self:list()[index].hasEntitlement
+function Skills.hasEntitlement(index)
+    return Skills.list()[index].hasEntitlement
 end
 
-function Skills:name(index)
-    return self:list()[index].skillName
+function Skills.name(index)
+    return Skills.list()[index].skillName
 end
 
-function Skills:description(index)
-    return self:list()[index].skillDescription
+function Skills.description(index)
+    return Skills.list()[index].skillDescription
 end
 
-function Skills:tempValue(index)
-    return self:dynamicData()[index].TempSkillValue
+function Skills.tempValue(index)
+    return Skills.dynamicData()[index].TempSkillValue
 end
 
-function Skills:state(index)
-    return self:dynamicData()[index].SkillState
+function Skills.state(index)
+    return Skills.dynamicData()[index].SkillState
 end
 
-function Skills:realValue(index)
-    return self:dynamicData()[index].RealSkillValue
+function Skills.realValue(index)
+    return Skills.dynamicData()[index].RealSkillValue
 end
 
-function Skills:cap(index)
-    return self:dynamicData()[index].SkillCap
+function Skills.cap(index)
+    return Skills.dynamicData()[index].SkillCap
 end
 
 function Skills.icon(index)

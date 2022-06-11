@@ -95,3 +95,7 @@ end
 function Events.toggleBackpack()
     return SystemData.Events.TOGGLE_BACKPACK_WINDOW
 end
+
+function Events.toggleSkills()
+    return SystemData.Events.TOGGLE_SKILLS_WINDOW
+end
