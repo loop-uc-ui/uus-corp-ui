@@ -8,6 +8,10 @@ SkillsWindow.List = SkillsWindow.Name .. "List"
 SkillsWindow.ListRow = SkillsWindow.List .. "Row"
 SkillsWindow.Skills = {}
 
+local function formatValue(skillLevel)
+    return string.format("%2.1f", skillLevel / 10)
+end
+
 function SkillsWindow.Initialize()
     WindowDataApi.registerData(
         Skills.listDataType()
@@ -28,10 +32,10 @@ function SkillsWindow.Initialize()
             SkillsWindow.Skills,
             {
                 skillName = skill.skillName,
-                tempValue = tostring(data.TempSkillValue),
+                tempValue = formatValue(data.TempSkillValue),
                 state = data.SkillState,
-                realValue = tostring(data.RealSkillValue),
-                cap = tostring(data.SkillCap),
+                realValue = formatValue(data.RealSkillValue),
+                cap = formatValue(data.SkillCap),
             }
         )
 
