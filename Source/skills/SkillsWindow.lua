@@ -27,7 +27,6 @@ function SkillsWindow.Initialize()
 
         local skill = Skills.list()[i]
         local data = Skills.dynamicData()[i]
-
         table.insert(
             SkillsWindow.Skills,
             {
@@ -38,7 +37,6 @@ function SkillsWindow.Initialize()
                 cap = formatValue(data.SkillCap),
             }
         )
-
         table.insert(order, i)
     end
 
@@ -48,7 +46,7 @@ function SkillsWindow.Initialize()
         "SkillsWindow.UpdateSkills"
     )
 
-    ListBoxSetDisplayOrder(SkillsWindow.List, order)
+    ListBoxApi.setDisplayOrder(SkillsWindow.List, order)
 end
 
 function SkillsWindow.Shutdown()
@@ -73,9 +71,15 @@ end
 
 function SkillsWindow.Populate(data)
     for k, v in ipairs(data) do
+        WindowApi.setId(SkillsWindow.ListRow .. k, v)
         LabelApi.setText(SkillsWindow.ListRow .. k .. SkillsWindow.ItemName, SkillsWindow.Skills[v].skillName)
         LabelApi.setText(SkillsWindow.ListRow .. k .. SkillsWindow.ItemRealValue, SkillsWindow.Skills[v].realValue)
         LabelApi.setText(SkillsWindow.ListRow .. k .. SkillsWindow.ItemTempValue, SkillsWindow.Skills[v].tempValue)
         LabelApi.setText(SkillsWindow.ListRow .. k .. SkillsWindow.ItemCap, SkillsWindow.Skills[v].cap)
     end
+end
+
+function SkillsWindow.onSkillDoubleClick()
+    local index = tonumber(string.match(WindowApi.getId(Active.window()), "%d+"))
+    UserAction.useSkill(Skills.serverId(Skills.csvId(index)))
 end

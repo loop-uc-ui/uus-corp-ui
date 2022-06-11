@@ -8,6 +8,9 @@
                 <NormalHighlit x="12" y="12"/>
                 <PressedHighlit x="12" y="12"/>
             </TexCoords>
+            <EventHandlers>
+                <EventHandler event="OnLButtonDblClk" function="SkillsWindow.onSkillDoubleClick"/>
+            </EventHandlers>
             <Windows>
                 <Label name="$parentItemName" font="uo_classic_18" textalign="leftcenter">
                     <Size>
