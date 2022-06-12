@@ -3,7 +3,9 @@ ChatWindow.Name = "ChatWindow"
 ChatWindow.CurrentChannel = Chat.Channels.Say
 ChatWindow.ChannelLabel = ChatWindow.Name .. "ChannelLabel"
 ChatWindow.TextInput = ChatWindow.Name .. "TextInput"
+ChatWindow.InputBackground = ChatWindow.TextInput .. "Background"
 ChatWindow.LogDisplay = ChatWindow.Name .. "Log"
+ChatWindow.Row = ChatWindow.Name .. "Row"
 
 function ChatWindow.onInitialize()
     WindowApi.registerEventHandler(
@@ -32,39 +34,69 @@ function ChatWindow.onInitialize()
 
     TextLogApi.enableLog(Chat.Log)
 
-    LogDisplayApi.addLog(ChatWindow.LogDisplay, Chat.Log)
-
-    for _, v in pairs(Chat.Channels) do
-        LogDisplayApi.setFilterState(
-            ChatWindow.LogDisplay,
-            Chat.Log,
-            v.filter,
-            true
-        )
-
-        LogDisplayApi.setFilterColor(
-            ChatWindow.LogDisplay,
-            Chat.Log,
-            v.filter,
-            v.color
-        )
-    end
-
     LabelApi.setText(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.display .. ":")
     LabelApi.setTextColor(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.color)
+    ChatWindow.clearFocus()
     EditTextBoxApi.setTextColor(ChatWindow.TextInput, ChatWindow.CurrentChannel.color)
 end
 
 function ChatWindow.onShutdown()
-    TextLogApi.clearLog(ChatWindow.LogDisplay)
+    TextLogApi.clearLog(Chat.Log)
 end
 
 function ChatWindow.onEnterChatText()
+    WindowApi.setShowing(ChatWindow.ChannelLabel, true)
+    WindowApi.setShowing(ChatWindow.TextInput, true)
+    WindowApi.setShowing(ChatWindow.InputBackground, true)
     WindowApi.assignFocus(ChatWindow.TextInput, true)
 end
 
 function ChatWindow.onTextArrived()
+    WindowApi.createFromTemplate(
+        ChatWindow.Row .. TextLogApi.getNumEntries(Chat.Log) - 1,
+        "ChatRowTemplate",
+        ChatWindow.LogDisplay
+    )
+end
 
+function ChatWindow.onRowInitialize()
+    local numEntries = TextLogApi.getNumEntries(Chat.Log) - 1
+
+    local _, _, text = TextLogApi.getEntry(Chat.Log, numEntries)
+
+    WindowApi.setId(Active.window(), numEntries)
+
+    WindowApi.startAlphaAnimation(
+        Active.window(),
+        Animation.singleNoReset(),
+        1.0,
+        0,
+        3,
+        false,
+        15,
+        0
+    )
+
+    WindowApi.clearAnchors(Active.window())
+
+    if numEntries >= 1 then
+        WindowApi.addAnchor(
+            ChatWindow.Row .. numEntries - 1,
+            "topleft",
+            Active.window(),
+            "bottomleft",
+            0,
+            0
+        )
+    end
+
+    LabelApi.setText(Active.window() .. "ItemText", text)
+end
+
+function ChatWindow.onRowUpdate()
+    if (WindowApi.getAlpha(Active.window()) <= 0) then
+        WindowApi.destroyWindow(Active.window())
+    end
 end
 
 function ChatWindow.onUserSettingsUpdated()
@@ -85,6 +117,7 @@ function ChatWindow.sendChat()
 
     ChatApi.send(ChatWindow.CurrentChannel.command, EditTextBoxApi.getText(Active.window()))
     EditTextBoxApi.setText(Active.window())
+    ChatWindow.clearFocus()
 end
 
 function ChatWindow.onTextChanged(text)
@@ -113,5 +146,8 @@ function ChatWindow.onTextChanged(text)
 end
 
 function ChatWindow.clearFocus()
+    WindowApi.setShowing(ChatWindow.ChannelLabel, false)
+    WindowApi.setShowing(ChatWindow.TextInput, false)
+    WindowApi.setShowing(ChatWindow.InputBackground, false)
     WindowApi.assignFocus(ChatWindow.TextInput, false)
 end
