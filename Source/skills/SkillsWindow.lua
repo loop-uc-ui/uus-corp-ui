@@ -37,7 +37,20 @@ function SkillsWindow.Initialize()
                 cap = formatValue(data.SkillCap),
             }
         )
-        table.insert(order, i)
+    end
+
+    table.sort(
+        SkillsWindow.Skills,
+        function (a, b)
+            return a.skillName < b.skillName
+        end
+    )
+
+    for k, _ in pairs(SkillsWindow.Skills) do
+        table.insert(
+            order,
+            k
+        )
     end
 
     WindowApi.registerEventHandler(
