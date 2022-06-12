@@ -23,3 +23,7 @@ end
 function LabelApi.getText(id)
     return LabelGetText(id)
 end
+
+function LabelApi.setWordWrap(id, wordWrap)
+    LabelSetWordWrap(id, wordWrap)
+end

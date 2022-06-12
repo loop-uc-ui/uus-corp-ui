@@ -3,9 +3,45 @@
         <Script file="Source/ChatWindow.lua" />
     </Scripts>
     <Windows>
-        <Window name="ChatWindow" movable="true">
+        <Button name="ChatRowTemplate">
             <Size>
-                <AbsPoint x="480" y="360" />
+                <AbsPoint x="240" y="28" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnUpdate" function="ChatWindow.onRowUpdate"/>
+                <EventHandler event="OnInitialize" function="ChatWindow.onRowInitialize"/>
+            </EventHandlers>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="bottomleft"/>
+            </Anchors>
+            <Windows>
+                <Label name="$parentItemText" font="uo_classic_18" textalign="leftcenter" autoresizewidth="true">
+                    <Size>
+                        <AbsPoint x="240" y="28" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left">
+                            <AbsPoint x="8" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background" alpha="0.5">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentItemText">
+                            <AbsPoint x="-8" y="0"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentItemText">
+                            <AbsPoint x="8" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Button>
+
+        <Window name="ChatWindow" movable="false">
+            <Size>
+                <AbsPoint x="240" y="360" />
             </Size>
             <Anchors>
                 <Anchor point="bottomleft" relativePoint="bottomleft"/>
@@ -15,74 +51,45 @@
                 <EventHandler event="OnShutdown" function="ChatWindow.onShutdown"/>
             </EventHandlers>
             <Windows>
-                <LogDisplay name="$parentLog" font="UO_DefaultText_15pt" scrollbar="$parentScrollbar" textFadeTime="10" scrollbarPosition="right" maxchars="4096" maxentries="4096" wordwrap="true">
+                <Window name="$parentLog" autoresize="true">
                     <Size>
-                        <AbsPoint x="480" y="325" />
+                        <AbsPoint x="0" y="0" />
                     </Size>
-                    <TextOffset x="4" y="4" />
-                    <Windows>
-                        <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb">
-                            <Size>
-                                <AbsPoint x="20" y="0" />
-                            </Size>
-                            <ThumbOffset x="0" y="0" />
-                            <Anchors>
-                                <Anchor point="topright" relativePoint="topleft">
-                                    <AbsPoint x="-10" y="0" />
-                                </Anchor>
-                                <Anchor point="bottomright" relativePoint="bottomright" />
-                            </Anchors>
-                        </VerticalScrollbar>
-                    </Windows>
-                </LogDisplay>
-
-                <!-- Body background -->
-                <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" />
-                        <Anchor point="bottomright" relativePoint="bottomright" />
-                    </Anchors>
-                </FullResizeImage>
-
-                <!-- Inner Frame Boilerplate -->
-                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
-                    </Anchors>
-                </FullResizeImage>
-                <!-- End of Inner Frame Boilerplate -->
-
-                <FullResizeImage name="$parentInputFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentChannelLabel">
-                            <AbsPoint x="-8" y="0"/>
-                        </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTextInput">
-                            <AbsPoint x="0" y="0"/>
+                        <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentTextInputBackground">
+                            <AbsPoint x="0" y="-28"/>
                         </Anchor>
                     </Anchors>
+                </Window>
+
+                <FullResizeImage name="$parentTextInputBackground" inherits="UO_Simple_Black_Background" layer="background" alpha="0.5">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft">
+                            <AbsPoint x="-2" y="0"/>
+                        </Anchor>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parentTextInput"/>
+                    </Anchors>
                 </FullResizeImage>
 
-                <LabeL name="$parentChannelLabel" font="UO_ChatText" textAlign="center" autoresizewidth="true" layer="popup">
+                <LabeL name="$parentChannelLabel" font="uo_classic_18" textAlign="center" autoresizewidth="true" layer="popup">
                     <Size>
                         <AbsPoint x="70" y="35" />
                     </Size>
                     <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLog">
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parent">
                             <AbsPoint x="8" y="0"/>
                         </Anchor>
                     </Anchors>
                 </LabeL>
 
-                <EditBox name="$parentTextInput" maxchars="256" scrolling="horz" font="UO_ChatText" history="15" layer="popup" sticky="false">
+                <EditBox name="$parentTextInput" maxchars="256" scrolling="horz" font="uo_classic_18" history="15" layer="popup" sticky="false">
                     <TextOffset x="4" y="4" />
                     <Size>
                         <AbsPoint x="300" y="35" />
                     </Size>
                     <Anchors>
                         <Anchor point="bottomright" relativePoint="bottomleft" relativeTo="$parentChannelLabel"/>
-                        <Anchor point="bottomright" relativePoint="topright"  relativeTo="$parentLog"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="Root"/>
                     </Anchors>
                     <EventHandlers>
                         <EventHandler event="OnKeyEnter" function="ChatWindow.sendChat"/>

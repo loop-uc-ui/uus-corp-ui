@@ -23,3 +23,11 @@ end
 function TextLogApi.getEnabled(name)
     return TextLogGetEnabled(name)
 end
+
+function TextLogApi.getNumEntries(name)
+    return TextLogGetNumEntries(name)
+end
+
+function TextLogApi.getEntry(name, index)
+    return TextLogGetEntry(name, index)
+end
