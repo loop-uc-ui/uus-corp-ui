@@ -25,6 +25,7 @@ function RootWindow.create()
     registerEvent(Events.togglePaperdoll(), "togglePaperdoll")
     registerEvent(Events.toggleBackpack(), "toggleBackpack")
     registerEvent(Events.toggleSkills(), "toggleSkills")
+    registerEvent(Events.textArrived(), "onTextArrived")
 end
 
 function RootWindow.onHealthBarDrag()
@@ -93,6 +94,7 @@ function RootWindow.shutdown()
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.showNamesFlashTemp())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.togglePaperdoll())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.toggleSkills())
+    WindowApi.unregisterEventHandler(RootWindow.Name, Events.textArrived())
 end
 
 function RootWindow.onShowNamesUpdated()
@@ -136,5 +138,39 @@ function RootWindow.toggleSkills()
         WindowApi.destroyWindow(SkillsWindow.Name)
     else
         WindowApi.createWindow(SkillsWindow.Name, true)
+    end
+end
+
+function RootWindow.onTextArrived()
+    if not Chat.isOverhead(Chat.chatChannel()) or Chat.sourceId() == 0 then
+        return
+    end
+
+    OverheadChatWindow.create()
+
+    local window = OverheadChatWindow.Name .. Chat.sourceId()
+
+    local rows = {
+        window .. OverheadChatWindow.ChatOne,
+        window .. OverheadChatWindow.ChatTwo,
+        window .. OverheadChatWindow.ChatThree
+    }
+
+    if WindowApi.doesExist(rows[3]) and WindowApi.doesExist(rows[1]) then
+        LabelApi.setText(rows[1], LabelApi.getText(rows[2]))
+        LabelApi.setText(rows[2], LabelApi.getText(rows[3]))
+        LabelApi.setText(rows[3], Chat.chatText())
+        OverheadChatWindow.restartAnimation(rows[3])
+    end
+
+    for _, v in ipairs(rows) do
+        if not WindowApi.doesExist(v) then
+            WindowApi.createFromTemplate(
+                v,
+                "OverheadChatTemplate",
+                window
+            )
+            break
+        end
     end
 end

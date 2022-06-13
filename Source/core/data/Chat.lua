@@ -69,6 +69,26 @@ function Chat.filtersSystem()
     return Chat.filters().SYSTEM
 end
 
+function Chat.sourceId()
+    return SystemData.TextSourceID
+end
+
+function Chat.chatText()
+    return SystemData.Text
+end
+
+function Chat.chatChannel()
+    return SystemData.TextChannelID
+end
+
+function Chat.isOverhead(channelId)
+    return channelId == Chat.Channels.Say.filter
+        or channelId == Chat.Channels.Emote.filter
+        or channelId == Chat.Channels.Gesture.filter
+        or channelId == Chat.Channels.Whisper.filter
+        or channelId == Chat.Channels.Yell.filter
+end
+
 Chat.Channels = {
     Say = channel(
         Chat.filtersSay(),

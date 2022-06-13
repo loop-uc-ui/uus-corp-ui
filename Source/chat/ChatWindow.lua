@@ -52,11 +52,13 @@ function ChatWindow.onEnterChatText()
 end
 
 function ChatWindow.onTextArrived()
-    WindowApi.createFromTemplate(
-        ChatWindow.Row .. TextLogApi.getNumEntries(Chat.Log) - 1,
-        "ChatRowTemplate",
-        ChatWindow.LogDisplay
-    )
+    if not Chat.isOverhead(Chat.chatChannel()) then
+        WindowApi.createFromTemplate(
+            ChatWindow.Row .. TextLogApi.getNumEntries(Chat.Log) - 1,
+            "ChatRowTemplate",
+            ChatWindow.LogDisplay
+        )
+    end
 end
 
 function ChatWindow.onRowInitialize()
