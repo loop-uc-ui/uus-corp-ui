@@ -111,10 +111,9 @@ function RootWindow.togglePaperdoll()
     if WindowApi.doesExist(paperdoll) then
         WindowApi.destroyWindow(paperdoll)
     else
-        WindowApi.createFromTemplate(
-            paperdoll,
-            PaperdollWindow.Name,
-            RootWindow.Name
+        UserAction.useItem(
+            PlayerStatus.id(),
+            false
         )
     end
 end
