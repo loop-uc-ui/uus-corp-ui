@@ -58,8 +58,6 @@ function ChatWindow.onTextArrived()
             "ChatRowTemplate",
             ChatWindow.LogDisplay
         )
-    else
-        OverheadChatWindow.create()
     end
 end
 
