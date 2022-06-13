@@ -1,0 +1,29 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+      <Label name="OverheadChatTemplate" font="uo_classic_18" maxchars="1024" wordwrap="true" autoresize="true" textalign="center" handleinput="true" layer="background" ignoreFormattingTags="true">
+        <Size>
+          <AbsPoint x="300" y="1" />
+        </Size>
+        <Color r="255" g="255" b="255" a="255" />
+        <EventHandlers>
+          <EventHandler event="OnInitialize" function="OverheadChatWindow.onTextInitialize" />
+          <EventHandler event="OnUpdate" function="OverheadChatWindow.onTextUpdate" />
+        </EventHandlers>
+        <Anchors>
+          <Anchor point="bottom" relativePoint="bottom"/>
+        </Anchors>
+      </Label>
+  
+      <Window name="OverheadChatWindow" layer="background" autoresize="true" handleinput="true">
+        <Size>
+          <AbsPoint x="300" y="50" />
+        </Size>
+        <EventHandlers>
+          <EventHandler event="OnInitialize" function="OverheadChatWindow.onInitialize" />
+          <EventHandler event="OnShutdown" function="OverheadChatWindow.onShutdown" />
+          <EventHandler event="OnUpdate" function="OverheadChatWindow.onWindowUpdate" />
+        </EventHandlers>
+      </Window>
+    </Windows>
+  </Interface>
+  

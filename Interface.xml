@@ -12,6 +12,7 @@
     <Include file="Source/core/template/ItemGridSocketTemplate.xml"/>
     <Include file="Source/chat/OverheadText.xml"/>
     <Include file="Source/chat/ChatWindow.xml"/>
+    <Include file="Source/chat/OverheadChatWindow.xml"/>
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
     <Include file="Source/drag/DragWindow.xml"/>
     <Include file="Source/drag/GenericQuantityWindow.xml"/>
@@ -107,6 +108,7 @@
 		<Script file="Interface.lua" />
         <Script file="Source/root/RootWindow.lua"/>
         <Script file="Source/chat/ChatWindow.lua"/>
+        <Script file="Source/chat/OverheadChatWindow.lua"/>
         <Script file="Source/chat/OverheadText.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
         <Script file="Source/drag/DragWindow.lua"/>
