@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Windows>
-        <Button name="SkillsRowTemplate" font="uo_classic_18"  highlighttexture="Menu_Selection" texturescale="2.0">
+        <Button name="SkillsRowTemplate" font="uo_classic_18" highlighttexture="Menu_Selection" texturescale="2.0">
             <Size>
 				<AbsPoint x="476" y="24" />
 			</Size>
@@ -10,12 +10,16 @@
             </TexCoords>
             <EventHandlers>
                 <EventHandler event="OnLButtonDblClk" function="SkillsWindow.onSkillDoubleClick"/>
+                <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
             </EventHandlers>
             <Windows>
                 <Label name="$parentItemName" font="uo_classic_18" textalign="leftcenter">
                     <Size>
                         <AbsPoint x="200" y="24" />
                     </Size>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
+                    </EventHandlers>
                 </Label>
 
                 <Label name="$parentItemRealValue" font="uo_classic_18" textalign="leftcenter">
@@ -25,6 +29,9 @@
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemName"/>
                     </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
+                    </EventHandlers>
                 </Label>
 
                 <Label name="$parentItemTempValue" font="uo_classic_18" textalign="leftcenter">
@@ -34,6 +41,9 @@
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemRealValue" textalign="leftcenter"/>
                     </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
+                    </EventHandlers>
                 </Label>
 
                 <Label name="$parentItemCap" font="uo_classic_18" textalign="leftcenter">
@@ -43,7 +53,16 @@
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemTempValue"/>
                     </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
+                    </EventHandlers>
                 </Label>
+
+                <DynamicImage name="$parentItemIcon" texturescale="1.0">
+                    <Size>
+						<AbsPoint x="64" y="64" />
+					</Size>
+                </DynamicImage>
             </Windows>
         </Button>
 
@@ -86,9 +105,10 @@
                     <ListData table="SkillsWindow.Skills" populationfunction="SkillsWindow.Populate">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="skillName" format="wstring"/>
-                             <ListColumn windowname="ItemRealValue" variable="realValue" format="string"/>
-                             <ListColumn windowname="ItemTempValue" variable="realValue" format="string"/>
-                             <ListColumn windowname="ItemCap" variable="realValue" format="string"/>
+                             <ListColumn windowname="ItemRealValue" variable="realValue" format="wstring"/>
+                             <ListColumn windowname="ItemTempValue" variable="tempValue" format="wstring"/>
+                             <ListColumn windowname="ItemCap" variable="cap" format="wstring"/>
+                             <ListColumn windowname="ItemIcon" variable="icon" format="icon"/>
                         </ListColumns>
                          <Windows>
                             <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
