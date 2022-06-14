@@ -1,5 +1,18 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
+        <Button name="SettingsTabTemplate" backgroundtexture="" highlighttexture="Menu_Selection" font="uo_classic_20" layer="default">
+            <Size>
+                <AbsPoint x="100" y="35"/>
+            </Size>
+            <TexCoords>
+                <NormalHighlit x="10" y="10"/>
+                <PressedHighlit x="10" y="10"/>
+            </TexCoords>
+            <TextColors>
+                <Normal r="206" g="217" b="242" a="255"/>
+            </TextColors>
+        </Button>
+
         <Window name="SettingsWindow" movable="true" layer="default">
             <Size>
                 <AbsPoint x="800" y="600" />
@@ -27,6 +40,24 @@
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground" />
                     </Anchors>
                 </FullResizeImage>
+
+                <Button name="$parentGraphicsTab" inherits="SettingsTabTemplate">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                    </Anchors>
+                </Button>
+
+                <Button name="$parentSoundTab" inherits="SettingsTabTemplate">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentGraphicsTab"/>
+                    </Anchors>
+                </Button>
+
+                <Button name="$parentChatTab" inherits="SettingsTabTemplate">
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSoundTab"/>
+                    </Anchors>
+                </Button>
             </Windows>
         </Window>
 
