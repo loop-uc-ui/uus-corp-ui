@@ -8,6 +8,7 @@
         <EventHandlers>
           <EventHandler event="OnInitialize" function="OverheadChatWindow.onTextInitialize" />
           <EventHandler event="OnUpdate" function="OverheadChatWindow.onTextUpdate" />
+          <EventHandler event="OnLButtonDblClk" function="OverheadChatWindow.onTextDoubleClick"/>
         </EventHandlers>
         <Anchors>
           <Anchor point="bottom" relativePoint="bottom"/>
