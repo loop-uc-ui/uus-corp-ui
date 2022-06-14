@@ -1,0 +1,34 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="SettingsWindow" movable="true" layer="default">
+            <Size>
+                <AbsPoint x="800" y="600" />
+            </Size>
+
+            <Anchors>
+                <Anchor point="center" relativePoint="center"/>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="SettingsWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="SettingsWindow.onShutdown"/>
+            </EventHandlers>
+
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+    
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground" />
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>
