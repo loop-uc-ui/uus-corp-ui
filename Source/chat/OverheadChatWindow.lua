@@ -47,6 +47,7 @@ end
 
 function OverheadChatWindow.onTextInitialize()
     local window = Active.window()
+    WindowApi.setId(window, WindowApi.getId(WindowApi.getParent(window)))
     WindowApi.clearAnchors(window)
     OverheadChatWindow.restartAnimation(window)
     LabelApi.setText(Active.window(), Chat.chatText())
@@ -94,4 +95,11 @@ function OverheadChatWindow.onWindowUpdate()
     if destroy then
         WindowApi.destroyWindow(window)
     end
+end
+
+function OverheadChatWindow.onTextDoubleClick()
+    UserAction.useItem(
+        WindowApi.getId(Active.window()),
+        false
+    )
 end
