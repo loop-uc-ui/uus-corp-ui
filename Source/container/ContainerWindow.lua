@@ -182,6 +182,7 @@ function ContainerWindow.Shutdown()
     end
 
     WindowDataApi.unregisterData(Container.type(), id)
+    GumpApi.onCloseContainer(id)
 end
 
 function ContainerWindow.onSlotSingleClick()
