@@ -2,6 +2,9 @@ SkillsWindow = {}
 SkillsWindow.Name = "SkillsWindow"
 SkillsWindow.List = SkillsWindow.Name .. "List"
 SkillsWindow.Icon = "ItemIcon"
+SkillsWindow.Lock = "ItemLock"
+SkillsWindow.ArrowUp = "ItemArrowUp"
+SkillsWindow.ArrowDown = "ItemArrowDown"
 SkillsWindow.ListRow = SkillsWindow.List .. "Row"
 SkillsWindow.Skills = {}
 
@@ -86,8 +89,13 @@ end
 
 function SkillsWindow.Populate(data)
     for k, v in ipairs(data) do
-        WindowApi.setId(SkillsWindow.ListRow .. k, SkillsWindow.Skills[v].id)
-        WindowApi.setShowing(SkillsWindow.ListRow .. k .. SkillsWindow.Icon, false)
+        local item = SkillsWindow.ListRow .. k
+        local state = SkillsWindow.Skills[v].state
+        WindowApi.setId(item, SkillsWindow.Skills[v].id)
+        WindowApi.setShowing(item .. SkillsWindow.Icon, false)
+        WindowApi.setShowing(item .. SkillsWindow.Lock, state == 2)
+        WindowApi.setShowing(item .. SkillsWindow.ArrowUp, state == 0)
+        WindowApi.setShowing(item .. SkillsWindow.ArrowDown, state == 1)
     end
 end
 
@@ -123,5 +131,29 @@ function SkillsWindow.onSkillDrag()
         Skills.iconId(
             id
         )
+    )
+end
+
+function SkillsWindow.onClickArrowUp()
+    WindowApi.setShowing(Active.window(), false)
+    WindowApi.setShowing(
+        WindowApi.getParent(Active.window()) .. SkillsWindow.ArrowDown,
+        true
+    )
+end
+
+function SkillsWindow.onClickArrowDown()
+    WindowApi.setShowing(Active.window(), false)
+    WindowApi.setShowing(
+        WindowApi.getParent(Active.window()) .. SkillsWindow.Lock,
+        true
+    )
+end
+
+function SkillsWindow.onClickLock()
+    WindowApi.setShowing(Active.window(), false)
+    WindowApi.setShowing(
+        WindowApi.getParent(Active.window()) .. SkillsWindow.ArrowUp,
+        true
     )
 end
