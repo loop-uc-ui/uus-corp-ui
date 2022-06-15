@@ -35,6 +35,8 @@ function SettingsWindow.onInitialize()
             v.name,
             v.text
         )
+        WindowApi.setShowing(v.page, SettingsWindow.SelectedTab == v)
+        ButtonApi.setChecked(v.name, SettingsWindow.SelectedTab == v)
     end
 end
 
@@ -43,4 +45,24 @@ end
 
 function SettingsWindow.onRightClick()
     WindowApi.destroyWindow(SettingsWindow.Name)
+end
+
+function SettingsWindow.onTabClick()
+    local window = Active.window()
+
+    if window == SettingsWindow.SelectedTab.name then
+        return
+    end
+
+    for _, v in pairs(SettingsWindow.Tabs) do
+        if v.name == window then
+            SettingsWindow.SelectedTab = v
+            break
+        end
+    end
+
+    for _, v in pairs(SettingsWindow.Tabs) do
+        WindowApi.setShowing(v.page, SettingsWindow.SelectedTab == v)
+        ButtonApi.setChecked(v.name, SettingsWindow.SelectedTab == v)
+    end
 end
