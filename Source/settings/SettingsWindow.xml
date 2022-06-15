@@ -25,7 +25,7 @@
             </Size>
             <TexCoords>
                 <NormalHighlit x="20" y="10"/>
-                <PressedHighlit x="10" y="10"/>
+                <PressedHighlit x="20" y="10"/>
             </TexCoords>
             <TextColors>
                 <Normal r="206" g="217" b="242" a="255"/>
@@ -34,6 +34,13 @@
                 <EventHandler event="OnLButtonUp" function="SettingsWindow.onTabClick"/>
             </EventHandlers>
         </Button>
+
+        <Label name="SettingsLabelTemplate" autoresize="true" font="uo_classic_18">
+            <Size>
+                <AbsPoint x="100" y="18"/>
+            </Size>
+            <Color r="206" g="217" b="242" a="255"/>
+        </Label>
 
         <Window name="SettingsWindow" movable="true" layer="default">
             <Size>
@@ -75,11 +82,12 @@
                     </Anchors>
                 </VerticalResizeImage>
 
-                <Window name="$parentGraphicsPage" layer="default" inherits="SettingsPageTemplate"/>
-                <Window name="$parentSoundPage" inherits="SettingsPageTemplate"></Window>
-                <Window name="$parentChatPage" inherits="SettingsPageTemplate"></Window>
-                <Window name="$parentControlsPage" inherits="SettingsPageTemplate"></Window>
-                
+                <Window name="$parentGraphicsPage" inherits="SettingsPageTemplate"/>
+                <Window name="$parentSoundPage" inherits="SettingsPageTemplate"/>
+                <Window name="$parentChatPage" inherits="SettingsPageTemplate"/>
+                <Window name="$parentControlsPage" inherits="SettingsPageTemplate"/>
+                <Window name="$parentInterfacePage" inherits="InterfaceSettingsWindow"/>
+
                 <Window name="$parentTabContainer">
                     <Size>
                         <AbsPoint x="146" y="600"/>
@@ -108,6 +116,12 @@
                         <Button name="$parentControlsTab" inherits="SettingsTabTemplate">
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentChatTab"/>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentInterfaceTab" inherits="SettingsTabTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentControlsTab"/>
                             </Anchors>
                         </Button>
                     </Windows>
