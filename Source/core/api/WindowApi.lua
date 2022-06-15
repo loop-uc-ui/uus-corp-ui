@@ -3,7 +3,10 @@ WindowApi = {}
 function WindowApi.destroyWindow(windowName)
     if WindowApi.doesExist(windowName) then
         DestroyWindow(windowName)
+        return true
     end
+
+    return false
 end
 
 function WindowApi.setShowing(windowName, show)
@@ -196,13 +199,27 @@ end
 function WindowApi.createFromTemplate(windowName, template, parent)
     if not WindowApi.doesExist(windowName) then
         CreateWindowFromTemplate(windowName, template, parent)
+        return true
     end
+
+    return false
 end
 
 function WindowApi.createWindow(windowName, doShow)
     if not WindowApi.doesExist(windowName) then
         CreateWindow(windowName, doShow)
+        return true
     end
+
+    return false
+end
+
+function WindowApi.toggleWindow(windowName)
+    if not WindowApi.destroyWindow(windowName) then
+        return WindowApi.createWindow(windowName, true)
+    end
+
+    return true
 end
 
 function WindowApi.setId(windowName, newId)

@@ -22,6 +22,7 @@
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
     <Include file="Source/container/ContainerWindow.xml"/>
     <Include file="Source/paperdoll/PaperdollWindow.xml"/>
+    <Include file="Source/settings/SettingsWindow.xml"/>
     <Include file="Source/skills/SkillsWindow.xml"/>
     <Include file="Source/tooltip/TooltipWindow.xml"/>
 
@@ -119,6 +120,7 @@
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>
         <Script file="Source/container/ContainerWindow.lua"/>
         <Script file="Source/paperdoll/PaperdollWindow.lua"/>
+        <Script file="Source/settings/SettingsWindow.lua"/>
         <Script file="Source/skills/SkillsWindow.lua"/>
         <Script file="Source/tooltip/TooltipWindow.lua"/>
 

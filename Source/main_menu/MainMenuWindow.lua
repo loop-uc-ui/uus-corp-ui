@@ -48,7 +48,7 @@ function MainMenuWindow.onButtonClick()
     elseif window == MainMenuWindow.Buttons.Store then
         EventApi.broadcast(Events.store())
     elseif window == MainMenuWindow.Buttons.Settings then
-        ToggleWindowByName("SettingsWindow", "")
+        WindowApi.toggleWindow(SettingsWindow.Name)
     end
 
     WindowApi.setShowing(MainMenuWindow.Name, false)
