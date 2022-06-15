@@ -6,10 +6,9 @@ function Interface.CreatePlayWindowSet()
 
     --Destroy the default Debug Window
     --created by Interface Core
-    WindowApi.destroyWindow("DebugWindow")
     WindowApi.createWindow(MainMenuWindow.Name, false)
     WindowApi.createWindow("ChatWindow", true)
-    WindowApi.createWindow("UusCorpDebugWindow", true)
+    WindowApi.setShowing("DebugWindow", true)
 end
 
 --Called by client's InterfaceCore script

@@ -1,11 +1,20 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-        <Button name="SettingsTabTemplate" backgroundtexture="" highlighttexture="Menu_Selection" font="uo_classic_20" layer="default">
+        <Window name="SettingsPageTemplate" layer="default">
             <Size>
-                <AbsPoint x="100" y="35"/>
+                <AbsPoint x="654" y="576"/>
+            </Size>
+            <Anchors>
+                <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTabDivider"/>
+            </Anchors>
+        </Window>
+
+        <Button name="SettingsTabTemplate" backgroundtexture="" highlighttexture="Menu_Selection" font="uo_classic_20" layer="default" textalign="center" texturescale="0.66">
+            <Size>
+                <AbsPoint x="128" y="36"/>
             </Size>
             <TexCoords>
-                <NormalHighlit x="10" y="10"/>
+                <NormalHighlit x="20" y="10"/>
                 <PressedHighlit x="10" y="10"/>
             </TexCoords>
             <TextColors>
@@ -24,6 +33,7 @@
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="SettingsWindow.onInitialize"/>
                 <EventHandler event="OnShutdown" function="SettingsWindow.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="SettingsWindow.onRightClick"/>
             </EventHandlers>
 
             <Windows>
@@ -41,23 +51,55 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Button name="$parentGraphicsTab" inherits="SettingsTabTemplate">
+                <VerticalResizeImage name="$parentTabDivider" inherits="UO_Default_Vertical_Rule">
+                    <Size>
+                        <AbsPoint x="5" y="576" />
+                    </Size>
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTabContainer">
+                            <AbsPoint x="18" y="12"/>
+                        </Anchor>
                     </Anchors>
-                </Button>
+                </VerticalResizeImage>
 
-                <Button name="$parentSoundTab" inherits="SettingsTabTemplate">
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentGraphicsTab"/>
-                    </Anchors>
-                </Button>
+                <Window name="$parentGraphicsPage" inherits="SettingsPageTemplate">
+                </Window>
+                <Window name="$parentSoundPage" inherits="SettingsPageTemplate"></Window>
+                <Window name="$parentChatPage" inherits="SettingsPageTemplate"></Window>
+                <Window name="$parentControlsPage" inherits="SettingsPageTemplate"></Window>
+                
+                <Window name="$parentTabContainer">
+                    <Size>
+                        <AbsPoint x="146" y="600"/>
+                    </Size>
+                    <Windows>
+                        <Button name="$parentGraphicsTab" inherits="SettingsTabTemplate">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft">
+                                    <AbsPoint x="18" y="36"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+        
+                        <Button name="$parentSoundTab" inherits="SettingsTabTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentGraphicsTab"/>
+                            </Anchors>
+                        </Button>
+        
+                        <Button name="$parentChatTab" inherits="SettingsTabTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSoundTab"/>
+                            </Anchors>
+                        </Button>
 
-                <Button name="$parentChatTab" inherits="SettingsTabTemplate">
-                    <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSoundTab"/>
-                    </Anchors>
-                </Button>
+                        <Button name="$parentControlsTab" inherits="SettingsTabTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentChatTab"/>
+                            </Anchors>
+                        </Button>
+                    </Windows>
+                </Window>
             </Windows>
         </Window>
 
