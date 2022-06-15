@@ -24,6 +24,11 @@ SettingsWindow.Tabs = {
         text = "Controls",
         name = SettingsWindow.TabContainer .. "ControlsTab",
         page = SettingsWindow.Name .. "ControlsPage"
+    },
+    Interface = {
+        text = "Interface",
+        name = SettingsWindow.TabContainer .. "InterfaceTab",
+        page = SettingsWindow.Name .. "InterfacePage"
     }
 }
 

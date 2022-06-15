@@ -38,8 +38,6 @@ UserOptionsSettings.ObjectHandleFilters = {
     }
 }
 
-UserOptionsSettings.CustomUI = SystemData.CustomUIList
-
 function UserOptionsSettings.useEnglishNames(newValue)
     if newValue ~= nil then
         SystemData.Settings.Language.englishNames = newValue
@@ -219,5 +217,9 @@ function UserOptionsSettings.customUI(newValue)
         SystemData.Settings.Interface.customUiName = newValue
     end
     return SystemData.Settings.Interface.customUiName
+end
+
+function UserOptionsSettings.customUiList()
+    return SystemData.CustomUIList
 end
 
