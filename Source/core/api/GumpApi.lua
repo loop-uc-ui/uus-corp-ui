@@ -19,3 +19,7 @@ end
 function GumpApi.openWebBrowser(link)
     OpenWebBrowser(tostring(link))
 end
+
+function GumpApi.onCloseContainer(id)
+    GumpManagerOnCloseContainer(id)
+end
