@@ -43,9 +43,19 @@ function SettingsWindow.onInitialize()
         WindowApi.setShowing(v.page, SettingsWindow.SelectedTab == v)
         ButtonApi.setChecked(v.name, SettingsWindow.SelectedTab == v)
     end
+
+    WindowApi.registerEventHandler(
+        SettingsWindow.Name,
+        Events.userSettingsUpdated(),
+        "SettingsWindow.onSettingsUpdate"
+    )
 end
 
 function SettingsWindow.onShutdown()
+    WindowApi.unregisterEventHandler(
+        SettingsWindow.Name,
+        Events.userSettingsUpdated()
+    )
 end
 
 function SettingsWindow.onRightClick()
@@ -69,5 +79,11 @@ function SettingsWindow.onTabClick()
     for _, v in pairs(SettingsWindow.Tabs) do
         WindowApi.setShowing(v.page, SettingsWindow.SelectedTab == v)
         ButtonApi.setChecked(v.name, SettingsWindow.SelectedTab == v)
+    end
+end
+
+function SettingsWindow.onSettingsUpdate()
+    if SettingsApi.settingsChanged() then
+        InterfaceCore.ReloadUI()
     end
 end

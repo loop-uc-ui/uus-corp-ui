@@ -1,9 +1,11 @@
 UserGraphicsSettings = {}
 
-UserGraphicsSettings.Resolutions = {
-    widths = SystemData.AvailableResolutions.widths,
-    heights = SystemData.AvailableResolutions.heights
-}
+function UserGraphicsSettings.availableResolutions()
+    return {
+        widths = SystemData.AvailableResolutions.widths,
+        heights = SystemData.AvailableResolutions.heights
+    }
+end
 
 function UserGraphicsSettings.resolution(newValue)
     if newValue ~= nil then

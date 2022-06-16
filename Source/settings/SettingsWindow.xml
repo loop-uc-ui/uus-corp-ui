@@ -82,7 +82,7 @@
                     </Anchors>
                 </VerticalResizeImage>
 
-                <Window name="$parentGraphicsPage" inherits="SettingsPageTemplate"/>
+                <Window name="$parentGraphicsPage" inherits="GraphicsSettingsWindow"/>
                 <Window name="$parentSoundPage" inherits="SettingsPageTemplate"/>
                 <Window name="$parentChatPage" inherits="SettingsPageTemplate"/>
                 <Window name="$parentControlsPage" inherits="SettingsPageTemplate"/>

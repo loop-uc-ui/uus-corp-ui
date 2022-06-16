@@ -23,6 +23,7 @@
     <Include file="Source/container/ContainerWindow.xml"/>
     <Include file="Source/paperdoll/PaperdollWindow.xml"/>
     <Include file="Source/settings/SettingsWindow.xml"/>
+    <Include file="Source/settings/GraphicsSetttingsWindow.xml"/>
     <Include file="Source/settings/InterfaceSettingsWindow.xml"/>
     <Include file="Source/skills/SkillsWindow.xml"/>
     <Include file="Source/tooltip/TooltipWindow.xml"/>
@@ -52,6 +53,7 @@
         <Script file="Source/core/api/ModuleApi.lua"/>
         <Script file="Source/core/api/RadarApi.lua"/>
         <Script file="Source/core/api/ScrollWindowApi.lua"/>
+        <Script file="Source/core/api/SettingsApi.lua"/>
         <Script file="Source/core/api/SliderApi.lua"/>
         <Script file="Source/core/api/StatusBarApi.lua"/>
         <Script file="Source/core/api/StringApi.lua"/>
@@ -94,7 +96,7 @@
         <Script file="Source/core/data/UserAction.lua"/>
         <Script file="Source/core/data/UserContainerSettings.lua"/>
         <Script file="Source/core/data/UserControlSettings.lua"/>
-        <Script file="Source/core/data/UserGraphicSettings.lua"/>
+        <Script file="Source/core/data/UserGraphicsSettings.lua"/>
         <Script file="Source/core/data/UserHealthBarsSettings.lua"/>
         <Script file="Source/core/data/UserInterfaceVariables.lua"/>
         <Script file="Source/core/data/UserOptionsSettings.lua"/>
@@ -122,6 +124,7 @@
         <Script file="Source/container/ContainerWindow.lua"/>
         <Script file="Source/paperdoll/PaperdollWindow.lua"/>
         <Script file="Source/settings/SettingsWindow.lua"/>
+        <Script file="Source/settings/GraphicsSettingsWindow.lua"/>
         <Script file="Source/settings/InterfaceSettingsWindow.lua"/>
         <Script file="Source/skills/SkillsWindow.lua"/>
         <Script file="Source/tooltip/TooltipWindow.lua"/>
