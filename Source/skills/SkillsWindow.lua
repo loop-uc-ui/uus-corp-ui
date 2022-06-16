@@ -200,3 +200,7 @@ function SkillsWindow.onClickLock()
         true
     )
 end
+
+function SkillsWindow.onRightClick()
+    WindowApi.destroyWindow(SkillsWindow.Name)
+end
