@@ -45,5 +45,5 @@ end
 
 function InterfaceSettingsWindow.onModChanged(index)
     UserOptionsSettings.customUI(index)
-    InterfaceCore.ReloadUI()
+    EventApi.broadcast(Events.userSettingsUpdated())
 end
