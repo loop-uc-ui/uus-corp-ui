@@ -20,8 +20,6 @@ function SkillsWindow.Initialize()
         Skills.listDataType()
     )
 
-    local order = {}
-
     for i = 1, #Skills.list() - 1 do
         WindowDataApi.registerData(
             Skills.dynamicDataType(),
