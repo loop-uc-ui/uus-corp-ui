@@ -7,6 +7,7 @@ SkillsWindow.ArrowUp = "ItemArrowUp"
 SkillsWindow.ArrowDown = "ItemArrowDown"
 SkillsWindow.ListRow = SkillsWindow.List .. "Row"
 SkillsWindow.Skills = {}
+SkillsWindow.SortOrder = {}
 
 local function formatValue(skillLevel)
     return StringFormatter.toWString(
@@ -53,7 +54,7 @@ function SkillsWindow.Initialize()
 
     for k, _ in pairs(SkillsWindow.Skills) do
         table.insert(
-            order,
+            SkillsWindow.SortOrder,
             k
         )
     end
@@ -64,7 +65,51 @@ function SkillsWindow.Initialize()
         "SkillsWindow.UpdateSkills"
     )
 
-    ListBoxApi.setDisplayOrder(SkillsWindow.List, order)
+    ListBoxApi.setDisplayOrder(SkillsWindow.List, SkillsWindow.SortOrder)
+end
+
+function SkillsWindow.UpdateSkills()
+    local id = Active.updateId()
+    local skill = Skills.list()[id]
+    local data = Skills.dynamicData()[id]
+    local index = 0
+
+    for k, v in ipairs(SkillsWindow.Skills) do
+        if v.id == id then
+            index = k
+            SkillsWindow.Skills[k] = {
+                id = id,
+                icon = skill.iconId,
+                skillName = skill.skillName,
+                tempValue = formatValue(data.TempSkillValue),
+                state = data.SkillState,
+                realValue = formatValue(data.RealSkillValue),
+                cap = formatValue(data.SkillCap)
+            }
+            break
+        end
+    end
+
+    local item = SkillsWindow.ListRow .. index
+
+    if not WindowApi.doesExist(item) then
+        return
+    end
+
+    LabelApi.setText(
+        item .. "ItemRealValue",
+        SkillsWindow.Skills[index].realValue
+    )
+
+    LabelApi.setText(
+        item .. "ItemTempValue",
+        SkillsWindow.Skills[index].tempValue
+    )
+
+    LabelApi.setText(
+        item .. "ItemCap",
+        SkillsWindow.Skills[index].cap
+    )
 end
 
 function SkillsWindow.Shutdown()
