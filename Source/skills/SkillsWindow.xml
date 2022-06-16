@@ -129,6 +129,7 @@
 			</Anchors>
 			<EventHandlers>
 				<EventHandler event="OnInitialize" function="SkillsWindow.Initialize" />
+                <EventHandler event="OnRButtonUp" function="SkillsWindow.onRightClick" />
 				<EventHandler event="OnShutdown" function="SkillsWindow.Shutdown" />
 			</EventHandlers>
 			<Windows>
