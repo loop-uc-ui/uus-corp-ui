@@ -53,7 +53,11 @@ UserControlSettings.Keybindings[35] = { name = "TargetG9", tid = 1079150, type =
 UserControlSettings.Keybindings[36] = { name = "CursorTargetCurrent", tid = 1115345, type = "CURSOR_TARGET_CURRENT" }
 UserControlSettings.Keybindings[37] = { name = "CursorTargetLast", tid = 1115346, type = "CURSOR_TARGET_LAST" }
 UserControlSettings.Keybindings[38] = { name = "CursorTargetSelf", tid = 1115347, type = "CURSOR_TARGET_SELF" }
-UserControlSettings.Keybindings[39] = { name = "CycleLastCursorTarget", tid = 1115348, type = "CYCLE_LAST_CURSOR_TARGET" }
+UserControlSettings.Keybindings[39] = { 
+    name = "CycleLastCursorTarget",
+    tid = 1115348,
+    type = "CYCLE_LAST_CURSOR_TARGET"
+}
 UserControlSettings.Keybindings[40] = { name = "ClearTargetQueue", tid = 1115349, type = "CLEAR_TARGET_QUEUE" }
 
 UserControlSettings.Keybindings[41] = { name = "CharacterWin", tid = 1077795, type = "PAPERDOLL_CHARACTER_WINDOW" }
