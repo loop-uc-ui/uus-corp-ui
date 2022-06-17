@@ -1,0 +1,78 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="ControlsSettingsWindow" inherits="SettingsPageTemplate">
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="ControlsSettingsWindow.onInitialize"/>
+            </EventHandlers>
+            <Windows>
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Window name="$parentContainer" layer="default">
+                    <Size>
+                        <AbsPoint x="580" y="540"/>
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame">
+                            <AbsPoint x="18" y="36"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame">
+                            <AbsPoint x="-36" y="36"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <Windows>
+                        <Label name="$parentScrollUpLabel" inherits="SettingsLabelTemplate">
+                            <Size>
+                                <AbsPoint x="170" y="35"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft">
+                                    <AbsPoint x="0" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+
+                        <ComboBox name="$parentScrollUpCombo" inherits="UO_Default_LongComboBox">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentScrollUpLabel">
+                                    <AbsPoint x="36" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnSelChanged" function="ControlsSettingsWindow.onScrollChanged"/>
+                            </EventHandlers>
+                        </ComboBox>
+
+                        <Label name="$parentScrollDownLabel" inherits="SettingsLabelTemplate">
+                            <Size>
+                                <AbsPoint x="170" y="35"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentScrollUpLabel">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+
+                        <ComboBox name="$parentScrollDownCombo" inherits="UO_Default_LongComboBox">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentScrollDownLabel">
+                                    <AbsPoint x="36" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnSelChanged" function="ControlsSettingsWindow.onScrollChanged"/>
+                            </EventHandlers>
+                        </ComboBox>
+                    </Windows>
+                </Window>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>
