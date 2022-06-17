@@ -1,8 +1,30 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
+        <Button name="KeybindingRowTemplate">
+            <Windows>
+                <Label name="$parentItemLabel" inherits="SettingsLabelTemplate" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="250" y="35"/>
+                    </Size>
+                </Label>
+
+                <Label name="$parentItemValue" inherits="SettingsLabelTemplate" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="250" y="35"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemLabel">
+                            <AbsPoint x="36" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+        </Button>
+
         <Window name="ControlsSettingsWindow" inherits="SettingsPageTemplate">
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="ControlsSettingsWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="ControlsSettingsWindow.onShutdown"/>
             </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
@@ -14,7 +36,7 @@
 
                 <Window name="$parentContainer" layer="default">
                     <Size>
-                        <AbsPoint x="580" y="540"/>
+                        <AbsPoint x="580" y="500"/>
                     </Size>
 
                     <Anchors>
@@ -70,6 +92,29 @@
                                 <EventHandler event="OnSelChanged" function="ControlsSettingsWindow.onScrollChanged"/>
                             </EventHandlers>
                         </ComboBox>
+
+                        <ListBox name="$parentList" rowdef="KeybindingRowTemplate" visiblerows="18" rowcount="57" rowspacing="24" scrollbar="$parentScrollbar">
+                            <Size>
+                                <AbsPoint x="500" y="440" />
+                            </Size>
+        
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentScrollDownLabel">
+                                    <AbsPoint x="0" y="24"/>
+                                </Anchor>
+                            </Anchors>
+                            <ListData table="ControlsSettingsWindow.Keybindings">
+                                <ListColumns>
+                                     <ListColumn windowname="ItemLabel" variable="label" format="wstring"/>
+                                     <ListColumn windowname="ItemValue" variable="value" format="wstring"/>
+                                </ListColumns>
+                             </ListData>
+                             <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb">
+                                 <Anchors>
+                                     <Anchor point="bottomright" relativePoint="bottomright"/>
+                                 </Anchors>
+                            </VerticalScrollbar>
+                        </ListBox>
                     </Windows>
                 </Window>
             </Windows>

@@ -4,6 +4,8 @@ ControlsSettingsWindow.Name = SettingsWindow.Name .. "ControlsPage"
 
 ControlsSettingsWindow.Container = ControlsSettingsWindow.Name .. "Container"
 
+ControlsSettingsWindow.List = ControlsSettingsWindow.Container .. "List"
+
 ControlsSettingsWindow.Labels = {
     ScrollWheelUp = ControlsSettingsWindow.Container .. "ScrollUpLabel",
     ScrollWheelDown = ControlsSettingsWindow.Container .. "ScrollDownLabel"
@@ -19,7 +21,38 @@ ControlsSettingsWindow.TextIds = {
     ScrollWheelDown = 1111945
 }
 
+ControlsSettingsWindow.Keybindings = {}
+
 function ControlsSettingsWindow.onInitialize()
+    local order = {}
+
+    for i = 1, #UserControlSettings.Keybindings do
+        local item = UserControlSettings.Keybindings[i]
+
+        if item.type ~= nil then
+            table.insert(
+                ControlsSettingsWindow.Keybindings,
+                i,
+                {
+                    label = StringFormatter.fromTid(item.tid),
+                    value = StringFormatter.toWString(
+                        UserControlSettings.updateKeyBindings()[item.type]
+                    )
+                }
+            )
+
+            table.insert(
+                order,
+                i
+            )
+        end
+    end
+
+    ListBoxApi.setDisplayOrder(
+        ControlsSettingsWindow.List,
+        order
+    )
+
     LabelApi.setText(
         ControlsSettingsWindow.Labels.ScrollWheelUp,
         ControlsSettingsWindow.TextIds.ScrollWheelUp
@@ -58,6 +91,10 @@ function ControlsSettingsWindow.onInitialize()
             )
         end
     end
+end
+
+function ControlsSettingsWindow.onShutdown()
+    ControlsSettingsWindow.Keybindings = {}
 end
 
 function ControlsSettingsWindow.onScrollChanged(index)
