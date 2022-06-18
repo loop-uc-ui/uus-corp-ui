@@ -40,3 +40,10 @@ end
 function ObjectHandleWindow.onRightClick()
     WindowApi.destroyWindow(Active.window())
 end
+
+function ObjectHandleWindow.onDoubleClick()
+    UserActionApi.useItem(
+        WindowApi.getId(Active.window()),
+        false
+    )
+end
