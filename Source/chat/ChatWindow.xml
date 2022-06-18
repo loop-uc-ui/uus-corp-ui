@@ -15,7 +15,7 @@
                 <Anchor point="bottomleft" relativePoint="bottomleft"/>
             </Anchors>
             <Windows>
-                <Label name="$parentItemText" font="uo_classic_18" textalign="leftcenter" autoresizewidth="true">
+                <Label name="$parentItemText" font="inter_medium_18" textalign="leftcenter" autoresizewidth="true">
                     <Size>
                         <AbsPoint x="240" y="28" />
                     </Size>
@@ -71,7 +71,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <LabeL name="$parentChannelLabel" font="uo_classic_18" textAlign="center" autoresizewidth="true" layer="popup">
+                <LabeL name="$parentChannelLabel" font="inter_medium_18" textAlign="center" autoresizewidth="true" layer="popup">
                     <Size>
                         <AbsPoint x="70" y="35" />
                     </Size>
@@ -82,7 +82,7 @@
                     </Anchors>
                 </LabeL>
 
-                <EditBox name="$parentTextInput" maxchars="256" scrolling="horz" font="uo_classic_18" history="15" layer="popup" sticky="false">
+                <EditBox name="$parentTextInput" maxchars="256" scrolling="horz" font="inter_medium_18" history="15" layer="popup" sticky="false">
                     <TextOffset x="4" y="4" />
                     <Size>
                         <AbsPoint x="300" y="35" />

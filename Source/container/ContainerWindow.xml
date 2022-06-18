@@ -43,7 +43,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-				<Label name="$parentTitle" font="uo_classic_18" maxchars="256" handleinput="false" layer="popup" autoresizewidth="true">
+				<Label name="$parentTitle" font="inter_medium_18" maxchars="256" handleinput="false" layer="popup" autoresizewidth="true">
 					<Size>
 						<AbsPoint x="215" y="18"/>
 					</Size>

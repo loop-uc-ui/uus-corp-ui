@@ -19,7 +19,7 @@
             </Windows>
         </Window>
 
-        <Button name="SettingsTabTemplate" backgroundtexture="" highlighttexture="Menu_Selection" font="uo_classic_20" layer="default" textalign="center" texturescale="0.66">
+        <Button name="SettingsTabTemplate" backgroundtexture="" highlighttexture="Menu_Selection" font="inter_medium_20" layer="default" textalign="center" texturescale="0.66">
             <Size>
                 <AbsPoint x="128" y="36"/>
             </Size>
@@ -35,7 +35,7 @@
             </EventHandlers>
         </Button>
 
-        <Label name="SettingsLabelTemplate" autoresize="true" font="uo_classic_18">
+        <Label name="SettingsLabelTemplate" autoresize="true" font="inter_medium_16">
             <Size>
                 <AbsPoint x="100" y="18"/>
             </Size>

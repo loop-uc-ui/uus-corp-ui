@@ -4,17 +4,17 @@
             <Windows>
                 <Label name="$parentItemLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                     <Size>
-                        <AbsPoint x="250" y="35"/>
+                        <AbsPoint x="270" y="35"/>
                     </Size>
                 </Label>
 
                 <Label name="$parentItemValue" inherits="SettingsLabelTemplate" wordwrap="true">
                     <Size>
-                        <AbsPoint x="250" y="35"/>
+                        <AbsPoint x="218" y="35"/>
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemLabel">
-                            <AbsPoint x="36" y="0"/>
+                            <AbsPoint x="12" y="0"/>
                         </Anchor>
                     </Anchors>
                 </Label>
@@ -36,7 +36,7 @@
 
                 <Window name="$parentContainer" layer="default">
                     <Size>
-                        <AbsPoint x="580" y="500"/>
+                        <AbsPoint x="500" y="500"/>
                     </Size>
 
                     <Anchors>
