@@ -26,3 +26,7 @@ function ObjectHandleWindow.onInitialize()
         window
     )
 end
+
+function ObjectHandleWindow.onRightClick()
+    WindowApi.destroyWindow(Active.window())
+end
