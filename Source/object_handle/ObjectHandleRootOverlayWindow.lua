@@ -38,6 +38,10 @@ function ObjectHandleRootOverlayWindow.createObjectHandles()
         local id = ObjectHandles.objectId()[i]
 
         if ObjectApi.isValid(id) then
+            WindowApi.destroyWindow(
+                OverheadText.Name .. id
+            )
+
             WindowApi.createFromTemplate(
                 ObjectHandleWindow.Name .. id,
                 ObjectHandleWindow.Name,
