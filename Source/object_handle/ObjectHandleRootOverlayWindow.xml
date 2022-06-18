@@ -1,0 +1,17 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+		<Window name="ObjectHandleRootOverlayWindow" movable="false" layer="background">
+			<Size>
+				<AbsPoint x="128" y="36" />
+			</Size>
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="ObjectHandleRootOverlayWindow.onInitialize" />
+                <EventHandler event="OnShutdown" function="ObjectHandleRootOverlayWindow.onShutdown" />
+            </EventHandlers>
+		</Window>
+	</Windows>
+</Interface>
