@@ -52,13 +52,15 @@
                     <Color r="206" g="217" b="242" a="255"/>
                 </Label>
 
-				<DynamicImage name="$parentLegacyTexture" texture="" filtering="false" texturescale="1.0" handleinput="true" sticky="false" draganddrop="true" popable="false" layer="secondary" >
+				<DynamicImage name="$parentModelTexture" texture="" filtering="false" texturescale="1.0" handleinput="true" sticky="false" draganddrop="true" popable="false" layer="secondary" >
 					<Size>
 						<AbsPoint x="0" y="0" />
 					</Size>
 					<TexCoords x="0" y="0" />
 					<Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentName"/>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentName">
+							<AbsPoint x="16" y="16"/>
+						</Anchor>
                     </Anchors>
 					<EventHandlers>
 						<EventHandler event="OnLButtonDown" function="PaperdollWindow.OnPaperdollTextureLButtonDown" />
