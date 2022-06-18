@@ -6,7 +6,7 @@ PaperdollWindow.NameLabel = "Name"
 PaperdollWindow.SlotButton = "ItemSlotButton"
 PaperdollWindow.WarButton = "WarButton"
 PaperdollWindow.CharacterAbilities = "ToggleCharacterAbilities"
-PaperdollWindow.LegacyTexture = "LegacyTexture"
+PaperdollWindow.Model = "ModelTexture"
 PaperdollWindow.CharacterSheet = "ToggleCharacterSheet"
 
 local function activeSlot()
@@ -44,7 +44,7 @@ function PaperdollWindow.onInitialize()
     )
 
     local isPlayer = pId == PlayerStatus.id()
-    WindowApi.setShowing(window .. PaperdollWindow.LegacyTexture, false)
+    WindowApi.setShowing(window .. PaperdollWindow.Model, false)
     WindowApi.setShowing(window .. PaperdollWindow.WarButton, isPlayer)
     WindowApi.setShowing(window .. PaperdollWindow.CharacterSheet, isPlayer)
     WindowApi.setShowing(window .. PaperdollWindow.CharacterAbilities, isPlayer)
@@ -113,17 +113,17 @@ function PaperdollWindow.update()
 
     local texture = Paperdoll.textureData(id)
 
-    --We don't support non-legacy textures.
-    --Users on first launch may have non-legacy textures set
-    --since it requires a restart to take effect.
-    if texture.IsLegacy == 1 then
-        WindowApi.setShowing(window .. "ToggleView", true)
+    --Unfortunately, we can't support legacy textures
+    --because they're horrendously buggy. We ONLY support
+    --enhanced textures. If the user had legacy textures enabled
+    --in the default UI, they will be required to restart.
+    if texture.IsLegacy == 0 then
+        WindowApi.setShowing(window .. "ToggleView", true) --TODO disable and add a tooltip
         local textureName = "paperdoll_texture" .. id
-        local backgroundWindow = window .. PaperdollWindow.LegacyTexture
+        local backgroundWindow = window .. PaperdollWindow.Model
         DynamicImageApi.setTextureDimensions(backgroundWindow, texture.Width, texture.Height)
         DynamicImageApi.setTexture(backgroundWindow, textureName)
-        WindowApi.setDimensions(backgroundWindow, texture.Width, texture.Height)
-        WindowApi.setScale(backgroundWindow, 1.0)
+        WindowApi.setDimensions(backgroundWindow, texture.Width / 1.75, texture.Height / 1.75)
     else
         WindowApi.setShowing(window .. "ToggleView", false)
     end
@@ -168,7 +168,7 @@ function PaperdollWindow.ToggleView()
         WindowApi.setShowing(slot, not WindowApi.isShowing(slot))
     end
 
-    local background = paperdoll .. "LegacyTexture"
+    local background = paperdoll .. PaperdollWindow.Model
     WindowApi.setShowing(background, not WindowApi.isShowing(background))
 end
 
