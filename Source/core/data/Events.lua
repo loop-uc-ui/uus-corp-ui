@@ -99,3 +99,11 @@ end
 function Events.toggleSkills()
     return SystemData.Events.TOGGLE_SKILLS_WINDOW
 end
+
+function Events.createObjectHandles()
+    return SystemData.Events.CREATE_OBJECT_HANDLES
+end
+
+function Events.destroyObjectHandles()
+    return SystemData.Events.DESTROY_OBJECT_HANDLES
+end
