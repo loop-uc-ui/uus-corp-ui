@@ -25,4 +25,18 @@ function ObjectHandleWindow.onInitialize()
         id,
         window
     )
+
+    local x, y = WindowApi.getDimensions(
+        window .. "Name"
+    )
+
+    WindowApi.setDimensions(
+        window,
+        x,
+        y
+    )
+end
+
+function ObjectHandleWindow.onRightClick()
+    WindowApi.destroyWindow(Active.window())
 end
