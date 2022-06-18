@@ -12,6 +12,7 @@ function ObjectHandleWindow.onInitialize()
         local objectId = ObjectHandles.objectId()[i]
         if objectId == id then
             index = i
+            break
         end
     end
 
