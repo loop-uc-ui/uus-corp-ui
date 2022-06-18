@@ -21,6 +21,7 @@
     <Include file="Source/health_bar/MobileHealthBar.xml"/>
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
     <Include file="Source/container/ContainerWindow.xml"/>
+    <Include file="Source/object_handle/ObjectHandleWindow.xml"/>
     <Include file="Source/paperdoll/PaperdollWindow.xml"/>
     <Include file="Source/settings/SettingsWindow.xml"/>
     <Include file="Source/settings/ControlsSettingsWindow.xml"/>
@@ -86,6 +87,7 @@
         <Script file="Source/core/data/MapSettings.lua"/>
         <Script file="Source/core/data/MobileData.lua"/>
         <Script file="Source/core/data/MousePosition.lua"/>
+        <Script file="Source/core/data/ObjectHandles.lua"/>
         <Script file="Source/core/data/ObjectInfo.lua"/>
         <Script file="Source/core/data/Paperdoll.lua"/>
         <Script file="Source/core/data/PlayerEquipment.lua"/>
@@ -123,6 +125,7 @@
         <Script file="Source/health_bar/MobileHealthBar.lua"/>
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>
         <Script file="Source/container/ContainerWindow.lua"/>
+        <Script file="Source/object_handle/ObjectHandleWindow.lua"/>
         <Script file="Source/paperdoll/PaperdollWindow.lua"/>
         <Script file="Source/settings/SettingsWindow.lua"/>
         <Script file="Source/settings/ControlsSettingsWindow.lua"/>
