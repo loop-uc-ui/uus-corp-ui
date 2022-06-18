@@ -1,12 +1,13 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Windows>
-		<Window name="ObjectHandleWindow" movable="false">
+		<Window name="ObjectHandleWindow" movable="false" layer="background">
 			<Size>
 				<AbsPoint x="128" y="36" />
 			</Size>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="ObjectHandleWindow.onInitialize" />
                 <EventHandler event="OnRButtonUp" function="ObjectHandleWindow.onRightClick" />
+                <EventHandler event="OnLButtonDblClk" function="ObjectHandleWindow.onDoubleClick"/>
             </EventHandlers>
 			<Windows>
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background" alpha="0.75">
@@ -16,7 +17,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Label name="$parentName" font="inter_medium_18" maxchars="64" textalign="center" handleinput="false" poppable="false" layer="popup" autoresizewidth="true">
+                <Label name="$parentName" font="inter_medium_18" maxchars="64" textalign="center" handleinput="false" poppable="false" autoresizewidth="true">
                     <Size>
                         <AbsPoint x="128" y="36" />
                     </Size>
