@@ -47,3 +47,10 @@ function ObjectHandleWindow.onDoubleClick()
         false
     )
 end
+
+function ObjectHandleWindow.onShutdown()
+    WindowApi.detachWindowFromWorldObject(
+        WindowApi.getId(Active.window()),
+        Active.window()
+    )
+end

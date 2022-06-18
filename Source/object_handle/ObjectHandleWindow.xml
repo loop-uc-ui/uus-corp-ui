@@ -6,6 +6,7 @@
 			</Size>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="ObjectHandleWindow.onInitialize" />
+                <EventHandler event="OnShutdown" function="ObjectHandleWindow.onShutdown" />
                 <EventHandler event="OnRButtonUp" function="ObjectHandleWindow.onRightClick" />
                 <EventHandler event="OnLButtonDblClk" function="ObjectHandleWindow.onDoubleClick"/>
             </EventHandlers>

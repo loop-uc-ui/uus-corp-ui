@@ -26,8 +26,7 @@ function RootWindow.create()
     registerEvent(Events.toggleBackpack(), "toggleBackpack")
     registerEvent(Events.toggleSkills(), "toggleSkills")
     registerEvent(Events.textArrived(), "onTextArrived")
-    registerEvent(Events.createObjectHandles(), "createObjectHandles")
-    registerEvent(Events.destroyObjectHandles(), "destroyObjectHandles")
+    WindowApi.createWindow(ObjectHandleRootOverlayWindow.Name, true)
 end
 
 function RootWindow.onHealthBarDrag()
@@ -97,8 +96,7 @@ function RootWindow.shutdown()
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.togglePaperdoll())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.toggleSkills())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.textArrived())
-    WindowApi.unregisterEventHandler(RootWindow.Name, Events.createObjectHandles())
-    WindowApi.unregisterEventHandler(RootWindow.Name, Events.destroyObjectHandles())
+    WindowApi.destroyWindow(ObjectHandleRootOverlayWindow.Name)
 end
 
 function RootWindow.onShowNamesUpdated()
@@ -175,23 +173,5 @@ function RootWindow.onTextArrived()
             )
             break
         end
-    end
-end
-
-function RootWindow.createObjectHandles()
-    for i = 1, #ObjectHandles.objectId() do
-        WindowApi.createFromTemplate(
-            ObjectHandleWindow.Name .. ObjectHandles.objectId()[i],
-            ObjectHandleWindow.Name,
-            RootWindow.Name
-        )
-    end
-end
-
-function RootWindow.destroyObjectHandles()
-    for i = 1, #ObjectHandles.objectId() do
-        WindowApi.destroyWindow(
-            ObjectHandleWindow.Name .. ObjectHandles.objectId()[i]
-        )
     end
 end
