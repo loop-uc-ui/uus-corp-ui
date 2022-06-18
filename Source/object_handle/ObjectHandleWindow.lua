@@ -1,5 +1,6 @@
 ObjectHandleWindow = {}
 ObjectHandleWindow.Name = "ObjectHandleWindow"
+ObjectHandleWindow.Label = "Name"
 
 function ObjectHandleWindow.onInitialize()
     local window = Active.window()
@@ -17,8 +18,15 @@ function ObjectHandleWindow.onInitialize()
     end
 
     LabelApi.setText(
-        window .. "Name",
+        window .. ObjectHandleWindow.Label,
         ObjectHandles.names()[index]
+    )
+
+    local notoriety = Colors.Notoriety[ObjectHandles.notoriety()[index]]
+
+    LabelApi.setTextColor(
+        window .. ObjectHandleWindow.Label,
+        notoriety or Colors.OffWhite
     )
 
     WindowApi.attachWIndowToWorldObject(
@@ -27,7 +35,7 @@ function ObjectHandleWindow.onInitialize()
     )
 
     local x, y = WindowApi.getDimensions(
-        window .. "Name"
+        window .. ObjectHandleWindow.Label
     )
 
     WindowApi.setDimensions(
