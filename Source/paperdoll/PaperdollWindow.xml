@@ -40,7 +40,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Label name="$parentName" font="uo_classic_18" maxchars="64" textalign="center" wordwrap="true" autoresize="true">
+                <Label name="$parentName" font="inter_medium_16" maxchars="64" textalign="center" wordwrap="true" autoresize="true">
                     <Size>
                         <AbsPoint x="208" y="70"/>
                     </Size>

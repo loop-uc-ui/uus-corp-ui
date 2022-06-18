@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Windows>
-        <Button name="SkillsRowTemplate" font="uo_classic_18" highlighttexture="Menu_Selection" texturescale="2.0">
+        <Button name="SkillsRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
             <Size>
 				<AbsPoint x="500" y="24" />
 			</Size>
@@ -13,7 +13,7 @@
                 <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
             </EventHandlers>
             <Windows>
-                <Label name="$parentItemName" font="uo_classic_18" textalign="leftcenter">
+                <Label name="$parentItemName" font="inter_medium_16" textalign="leftcenter">
                     <Size>
                         <AbsPoint x="200" y="24" />
                     </Size>
@@ -22,7 +22,7 @@
                     </EventHandlers>
                 </Label>
 
-                <Label name="$parentItemRealValue" font="uo_classic_18" textalign="leftcenter">
+                <Label name="$parentItemRealValue" font="inter_medium_16" textalign="leftcenter">
                     <Size>
                         <AbsPoint x="100" y="24" />
                     </Size>
@@ -34,7 +34,7 @@
                     </EventHandlers>
                 </Label>
 
-                <Label name="$parentItemTempValue" font="uo_classic_18" textalign="leftcenter">
+                <Label name="$parentItemTempValue" font="inter_medium_16" textalign="leftcenter">
                     <Size>
                         <AbsPoint x="100" y="24" />
                     </Size>
@@ -46,7 +46,7 @@
                     </EventHandlers>
                 </Label>
 
-                <Label name="$parentItemCap" font="uo_classic_18" textalign="leftcenter">
+                <Label name="$parentItemCap" font="inter_medium_16" textalign="leftcenter">
                     <Size>
                         <AbsPoint x="75" y="24" />
                     </Size>

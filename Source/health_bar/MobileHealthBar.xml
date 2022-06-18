@@ -24,7 +24,7 @@
                 <EventHandler event="OnMouseOverEnd" function="MobileHealthBar.onMouseOverEnd"/>
             </EventHandlers>
             <Windows>
-                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" alpha="0.2">
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft"/>
                         <Anchor point="bottomright" relativePoint="bottomright"/>
@@ -38,7 +38,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Label name="$parentName" font="uo_classic_18" maxchars="18" textalign="center" handleinput="false" wordwrap="false" popable="false">
+                <Label name="$parentName" font="inter_medium_16" maxchars="18" textalign="center" handleinput="false" wordwrap="false" popable="false">
                     <Size>
                         <AbsPoint x="190" y="12" />
                     </Size>
@@ -62,7 +62,7 @@
                 </StatusBar>
 
 
-                <Label name="$parentHealthBarPerc" font="uo_classic_14" maxchars="50" textalign="center" handleinput="false" wordwrap="false" linespacing="18" popable="false" layer="overlay">
+                <Label name="$parentHealthBarPerc" font="inter_medium_12" maxchars="50" textalign="center" handleinput="false" wordwrap="false" linespacing="18" popable="false" layer="overlay">
                     <Size>
                         <AbsPoint x="130" y="10" />
                     </Size>

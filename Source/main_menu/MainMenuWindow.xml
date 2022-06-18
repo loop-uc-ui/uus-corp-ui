@@ -9,7 +9,7 @@
             </Size>
             <Windows>
                 <Button name="$parentButton" texturescale="0.9" backgroundtexture="" highlighttexture="Menu_Selection"
-                        font="uo_classic_20" layer="default">
+                        font="inter_medium_20" layer="default">
                     <Size>
                         <AbsPoint x="195" y="45"/>
                     </Size>
