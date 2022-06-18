@@ -62,3 +62,8 @@ function ObjectHandleWindow.onShutdown()
         Active.window()
     )
 end
+
+function ObjectHandleWindow.onMouseDrag()
+    Active.setMobile(WindowApi.getId(Active.window()))
+    EventApi.broadcast(Events.beginHealthBarDrag())
+end

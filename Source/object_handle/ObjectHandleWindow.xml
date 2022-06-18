@@ -9,6 +9,7 @@
                 <EventHandler event="OnShutdown" function="ObjectHandleWindow.onShutdown" />
                 <EventHandler event="OnRButtonUp" function="ObjectHandleWindow.onRightClick" />
                 <EventHandler event="OnLButtonDblClk" function="ObjectHandleWindow.onDoubleClick"/>
+                <EventHandler event="OnMouseDrag" function="ObjectHandleWindow.onMouseDrag"/>
             </EventHandlers>
 			<Windows>
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background" alpha="0.75">

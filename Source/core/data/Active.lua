@@ -8,6 +8,10 @@ function Active.mobile()
     return SystemData.ActiveMobile.Id
 end
 
+function Active.setMobile(mobile)
+    SystemData.ActiveMobile.Id = mobile
+end
+
 function Active.updateId()
     return WindowData.UpdateInstanceId
 end
