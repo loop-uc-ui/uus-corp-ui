@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-      <Label name="OverheadChatTemplate" font="inter_medium_16" maxchars="1024" wordwrap="true" autoresize="true" textalign="center" handleinput="true" layer="background" ignoreFormattingTags="true">
+      <Label name="OverheadChatTemplate" font="inter_medium_18" maxchars="1024" wordwrap="true" autoresize="true" textalign="center" handleinput="true" layer="background" ignoreFormattingTags="true">
         <Size>
           <AbsPoint x="300" y="1" />
         </Size>

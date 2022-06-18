@@ -12,7 +12,7 @@
             </TexCoords>
         </HorizontalResizeImage>
 
-        <Window name="MobileHealthBar" movable="true" draganddrop="true">
+        <Window name="MobileHealthBar" movable="true" draganddrop="true" autoresize="true">
             <Size>
                 <AbsPoint x="190" y="50" />
             </Size>
@@ -38,13 +38,13 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Label name="$parentName" font="inter_medium_16" maxchars="18" textalign="center" handleinput="false" wordwrap="false" popable="false">
+                <Label name="$parentName" font="inter_medium_18" maxchars="16" textalign="center" handleinput="false" wordwrap="false" popable="false">
                     <Size>
                         <AbsPoint x="190" y="12" />
                     </Size>
                     <Anchors>
-                        <Anchor point="top" relativePoint="center" relativeTo="$parent">
-                            <AbsPoint x="0" y="8" />
+                        <Anchor point="top" relativePoint="top" relativeTo="$parent">
+                            <AbsPoint x="0" y="0" />
                         </Anchor>
                     </Anchors>
                     <Color r="206" g="217" b="242" a="255" />
@@ -52,23 +52,23 @@
 
                 <StatusBar name="$parentHealthBar" foreground="StatusBar" handleinput="false" alpha="0.5">
                     <Size>
-                        <AbsPoint x="136" y="24"/>
+                        <AbsPoint x="136" y="16"/>
                     </Size>
                     <Anchors>
                         <Anchor point="bottom" relativePoint="top" relativeTo="$parentName">
-                            <AbsPoint x="0" y="8"/>
+                            <AbsPoint x="0" y="12"/>
                         </Anchor>
                     </Anchors>
                 </StatusBar>
 
 
-                <Label name="$parentHealthBarPerc" font="inter_medium_12" maxchars="50" textalign="center" handleinput="false" wordwrap="false" linespacing="18" popable="false" layer="overlay">
+                <Label name="$parentHealthBarPerc" font="inter_medium_16" maxchars="50" textalign="center" handleinput="false" wordwrap="false" linespacing="18" popable="false" layer="overlay">
                     <Size>
-                        <AbsPoint x="130" y="10" />
+                        <AbsPoint x="130" y="16" />
                     </Size>
                     <Anchors>
-                        <Anchor point="topcenter" relativePoint="topcenter" relativeTo="$parentHealthBar">
-                            <AbsPoint x="5" y="2" />
+                        <Anchor point="top" relativePoint="top" relativeTo="$parentHealthBar">
+                            <AbsPoint x="5" y="0" />
                         </Anchor>
                     </Anchors>
                     <Color r="255" g="255" b="255" a="255" />

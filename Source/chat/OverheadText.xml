@@ -9,7 +9,7 @@
           <EventHandler event="OnShutdown" function="OverheadText.Shutdown" />
         </EventHandlers>
         <Windows>
-          <Label name="$parentName" sticky="false" font="UO_Overhead_Name" maxchars="1024" textalign="center" autoresize="true" wordwrap="true" handleinput="true" linespacing="20" layer="background" draganddrop="true">
+          <Label name="$parentName" sticky="false" font="inter_medium_18" maxchars="1024" textalign="center" autoresize="true" wordwrap="true" handleinput="true" linespacing="20" layer="background" draganddrop="true">
             <Size>
               <AbsPoint x="300" y="30" />
             </Size>
