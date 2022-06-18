@@ -70,13 +70,15 @@ function MobileHealthBar.onRightClick()
 end
 
 function MobileHealthBar.onMouseOver()
-    if WindowApi.doesExist(MobileHealthBar.Arrow) then
+    local id = WindowApi.getId(
+        Active.window()
+    )
+
+    if WindowApi.doesExist(MobileHealthBar.Arrow) or not ObjectApi.isValid(id) then
         return
     end
 
-    local notoriety = MobileData.notoriety(WindowApi.getId(
-        Active.window()
-    ))
+    local notoriety = MobileData.notoriety(id)
 
     WindowApi.createWindow(MobileHealthBar.Arrow, false)
     WindowApi.setScale(MobileHealthBar.Arrow, 0.33)
