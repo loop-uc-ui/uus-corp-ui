@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Windows>
-		<Window name="ObjectHandleRootOverlayWindow" movable="false" layer="background" skipinput="true">
+		<Window name="HealthBarRootOverlayWindow" movable="false" layer="background" skipinput="true">
 			<Size>
 				<AbsPoint x="128" y="36" />
 			</Size>
@@ -9,8 +9,8 @@
                 <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
             </Anchors>
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="ObjectHandleRootOverlayWindow.onInitialize" />
-                <EventHandler event="OnShutdown" function="ObjectHandleRootOverlayWindow.onShutdown" />
+                <EventHandler event="OnInitialize" function="HealthBarRootOverlayWindow.onInitialize" />
+                <EventHandler event="OnShutdown" function="HealthBarRootOverlayWindow.onShutdown" />
             </EventHandlers>
 		</Window>
 	</Windows>
