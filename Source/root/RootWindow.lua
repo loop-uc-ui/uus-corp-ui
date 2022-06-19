@@ -24,6 +24,7 @@ function RootWindow.create()
     registerEvent(Events.textArrived(), "onTextArrived")
     WindowApi.createWindow(ObjectHandleRootOverlayWindow.Name, true)
     WindowApi.createWindow(HealthBarRootOverlayWindow.Name, true)
+    WindowApi.createWindow(ContextMenuRootOverlayWindow.Name, true)
 end
 
 function RootWindow.shutdown()
@@ -38,6 +39,7 @@ function RootWindow.shutdown()
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.textArrived())
     WindowApi.destroyWindow(ObjectHandleRootOverlayWindow.Name)
     WindowApi.destroyWindow(HealthBarRootOverlayWindow.Name)
+    WindowApi.destroyWindow(ContextMenuRootOverlayWindow.Name)
 end
 
 function RootWindow.onShowNamesUpdated()
