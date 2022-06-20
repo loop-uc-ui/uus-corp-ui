@@ -107,3 +107,7 @@ end
 function Events.destroyObjectHandles()
     return SystemData.Events.DESTROY_OBJECT_HANDLES
 end
+
+function Events.contextMenuSelected()
+    return SystemData.Events.CONTEXT_MENU_SELECTED
+end

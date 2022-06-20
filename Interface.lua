@@ -2,6 +2,11 @@ Interface = {}
 
 function Interface.CreatePlayWindowSet()
     Paperdoll.useLegacy(false)
+    WindowApi.unregisterEventHandler(
+        "ResizingWindowFrame",
+        Events.onLButtonUp()
+    )
+
     RootWindow:create()
 
     --Destroy the default Debug Window

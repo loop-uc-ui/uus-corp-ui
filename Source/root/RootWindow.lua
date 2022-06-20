@@ -24,6 +24,7 @@ function RootWindow.create()
     registerEvent(Events.textArrived(), "onTextArrived")
     WindowApi.createWindow(ObjectHandleRootOverlayWindow.Name, true)
     WindowApi.createWindow(HealthBarRootOverlayWindow.Name, true)
+    WindowApi.createWindow(ContextMenuWindow.Name, false)
 end
 
 function RootWindow.shutdown()

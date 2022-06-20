@@ -1,0 +1,83 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+		<Button name="ContextMenuItemTemplate" texturescale="1.1" backgroundtexture="blackBg" font="UO_DefaultText" textalign="left" highlighttexture="blackBg">
+	        <Size>
+				<AbsPoint x="267" y="25" />
+	        </Size>
+
+			<TexCoords>
+		        <NormalHighlit x="0" y="0" />
+		        <PressedHighlit x="0" y="0" />
+	        </TexCoords>
+	        <TextColors>
+	        	<Normal r="255" g="255" b="255" a="255"/>
+	        	<NormalHighlit r="243" g="227" b="49" a="255"/>
+	        	<Pressed r="255" g="0" b="0" a="255"/>
+	        	<PressedHighlit r="255" g="0" b="0" a="255"/>
+	        	<Disabled r="128" g="128" b="128" a="128"/>
+	        </TextColors>
+	        <TextOffset x="7" y="4" />
+			
+			<EventHandlers>
+	        	<EventHandler event="OnLButtonDown" function="ContextMenuWindow.onItemClick"/>
+			</EventHandlers>
+			<Windows>
+				<Label name="$parentItemText" font="UO_DefaultText">
+					<Size>
+						<AbsPoint x="267" y="25" />
+					</Size>
+					<Anchors>
+						<Anchor point="left" relativePoint="left">
+							<AbsPoint x="8" y="0"/>
+						</Anchor>
+					</Anchors>
+				</Label>
+			</Windows>
+        </Button>	
+		
+		<Window name="ContextMenu" movable="true" layer="popup" handleinput="true">
+			<Size>
+				<AbsPoint x="275" y="200" />
+			</Size>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="ContextMenuWindow.onInitialize" />
+				<EventHandler event="OnShown" function="ContextMenuWindow.onShown"/>
+				<EventHandler event="OnHidden" function="ContextMenuWindow.onHidden"/>
+			</EventHandlers>
+			<Windows>
+				<!-- Body background -->
+				<FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft"/>
+						<Anchor point="bottomright" relativePoint="bottomright"/>
+					</Anchors>
+				</FullResizeImage>
+
+				<FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+
+				<ListBox name="$parentList" rowdef="ContextMenuItemTemplate" visiblerows="12" rowcount="12" rowspacing="0">
+                    <Size>
+						<AbsPoint x="275" y="0" />
+					</Size>
+
+                    <Anchors>
+                        <Anchors>
+							<Anchor point="topleft" relativePoint="topleft"/>
+							<Anchor point="bottomright" relativePoint="bottomright" />
+						</Anchors>
+                    </Anchors>
+                    <ListData table="ContextMenuWindow.Data" populationfunction="ContextMenuWindow.populate">
+                        <ListColumns>
+                             <ListColumn windowname="ItemText" variable="text" format="wstring"/>
+                        </ListColumns>
+                     </ListData>
+                </ListBox>
+			</Windows>
+		</Window>
+	</Windows>
+</Interface>

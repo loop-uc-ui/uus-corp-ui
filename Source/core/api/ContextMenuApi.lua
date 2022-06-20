@@ -1,5 +1,5 @@
 ContextMenuApi = {}
 
-function ContextMenuApi.requestMenu(id, isVisible)
-    RequestContextMenu(id, isVisible)
+function ContextMenuApi.requestMenu(id)
+    RequestContextMenu(id)
 end
