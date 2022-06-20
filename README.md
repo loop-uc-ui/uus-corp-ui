@@ -23,7 +23,7 @@ Pre-Alpha: Working towards [Alpha](https://github.com/loop-uc-ui/uus-corp-ui/mil
 | [Organizer](https://github.com/loop-uc-ui/uus-corp-ui/projects/26) |
 | [Overhead Text](https://github.com/loop-uc-ui/uus-corp-ui/projects/21) |
 | [Paperdoll](https://github.com/loop-uc-ui/uus-corp-ui/projects/11) |
-| [PLayer Status](https://github.com/loop-uc-ui/uus-corp-ui/projects/13) |
+| [Player Status](https://github.com/loop-uc-ui/uus-corp-ui/projects/13) |
 | [Settings](https://github.com/loop-uc-ui/uus-corp-ui/projects/23) |
 | [Skills](https://github.com/loop-uc-ui/uus-corp-ui/projects/22) |
 | [Spellbooks](https://github.com/loop-uc-ui/uus-corp-ui/projects/31) |
