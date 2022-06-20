@@ -30,77 +30,77 @@ function HealthBarRootOverlayWindow.onShutdown()
 end
 
 function HealthBarRootOverlayWindow.beginHealthBarDrag()
-    -- local mobile = Active.mobile()
+    local mobile = Active.mobile()
 
-    -- if mobile == nil or mobile == 0 then
-    --     return
-    -- end
+    if mobile == nil or mobile == 0 then
+        return
+    end
 
-    -- local isPlayer = mobile == PlayerStatus.id()
-    -- local window = MobileHealthBar.Name .. mobile
+    local isPlayer = mobile == PlayerStatus.id()
+    local window = MobileHealthBar.Name .. mobile
 
-    -- if isPlayer then
-    --     window = PlayerHealthBar.Name
-    -- end
+    if isPlayer then
+        window = PlayerHealthBar.Name
+    end
 
-    -- if isPlayer then
-    --     WindowApi.createFromTemplate(
-    --         window,
-    --         PlayerHealthBar.Name,
-    --         HealthBarRootOverlayWindow.Name
-    --     )
-    -- else
-    --     WindowApi.createFromTemplate(
-    --         window,
-    --         MobileHealthBar.Name,
-    --         HealthBarRootOverlayWindow.Name
-    --     )
-    -- end
+    if isPlayer then
+        WindowApi.createFromTemplate(
+            window,
+            PlayerHealthBar.Name,
+            HealthBarRootOverlayWindow.Name
+        )
+    else
+        WindowApi.createFromTemplate(
+            window,
+            MobileHealthBar.Name,
+            HealthBarRootOverlayWindow.Name
+        )
+    end
 
-    -- local x, y = WindowApi.getDimensions(
-    --     window
-    -- )
+    local x, y = WindowApi.getDimensions(
+        window
+    )
 
-    -- WindowApi.setOffsetFromParent(
-    --     window,
-    --     MousePosition.x() - x / 2,
-    --     MousePosition.y() - y / 2
-    -- )
+    WindowApi.setOffsetFromParent(
+        window,
+        MousePosition.x() - x / 2,
+        MousePosition.y() - y / 2
+    )
 
-    -- WindowApi.setMoving(
-    --     window,
-    --     true
-    -- )
+    WindowApi.setMoving(
+        window,
+        true
+    )
 end
 
 function HealthBarRootOverlayWindow.endHealthBarDrag()
-    -- local mobile = Active.mobile()
+    local mobile = Active.mobile()
 
-    -- if mobile == nil or mobile == 0 then
-    --     return
-    -- end
+    if mobile == nil or mobile == 0 then
+        return
+    end
 
-    -- local isPlayer = mobile == PlayerStatus.id()
-    -- local window = MobileHealthBar.Name .. mobile
+    local isPlayer = mobile == PlayerStatus.id()
+    local window = MobileHealthBar.Name .. mobile
 
-    -- if isPlayer then
-    --     window = PlayerHealthBar.Name
-    -- end
+    if isPlayer then
+        window = PlayerHealthBar.Name
+    end
 
-    -- local x, y = WindowApi.getDimensions(
-    --     window
-    -- )
+    local x, y = WindowApi.getDimensions(
+        window
+    )
 
-    -- WindowApi.setOffsetFromParent(
-    --     window,
-    --     MousePosition.x() - x / 2,
-    --     MousePosition.y() - y / 2
-    -- )
+    WindowApi.setOffsetFromParent(
+        window,
+        MousePosition.x() - x / 2,
+        MousePosition.y() - y / 2
+    )
 
-    -- WindowApi.setMoving(
-    --     window,
-    --     false
-    -- )
+    WindowApi.setMoving(
+        window,
+        false
+    )
 
-    -- Active.setMobile(nil)
+    Active.setMobile(nil)
 end
