@@ -31,3 +31,11 @@ end
 function ContextMenu.itemTextId(index)
     return ContextMenu.items()[index].tid
 end
+
+function ContextMenu.itemReturnCode(index)
+    return ContextMenu.items()[index].returnCode
+end
+
+function ContextMenu.setReturnCode(returnCode)
+    WindowData.ContextMenu.returnCode = returnCode
+end

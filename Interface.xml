@@ -14,7 +14,6 @@
     <Include file="Source/chat/ChatWindow.xml"/>
     <Include file="Source/chat/OverheadChatWindow.xml"/>
     <Include file="Source/context_menu/ContextMenuWindow.xml"/>
-    <Include file="Source/context_menu/ContextMenuRootOverlayWindow.xml"/>
 	<Include file="Source/debug/UusCorpDebugWindow.xml"/>
     <Include file="Source/drag/DragWindow.xml"/>
     <Include file="Source/drag/GenericQuantityWindow.xml"/>
@@ -124,7 +123,6 @@
         <Script file="Source/chat/OverheadChatWindow.lua"/>
         <Script file="Source/chat/OverheadText.lua"/>
         <Script file="Source/context_menu/ContextMenuWindow.lua"/>
-        <Script file="Source/context_menu/ContextMenuRootOverlayWindow.lua"/>
 		<Script file="Source/debug/UusCorpDebugWindow.lua"/>
         <Script file="Source/drag/DragWindow.lua"/>
         <Script file="Source/drag/GenericQuantityWindow.lua"/>
