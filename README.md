@@ -1,26 +1,29 @@
 # uus corp ui
 
-Uus Corp UI is a rewrite of the Default UI for Ultima Online's Enhanced Client. Its goals are to make the UI easier to mode and look more like UO.
+Uus Corp UI is a rewrite of the Default UI for Ultima Online's Enhanced Client. Its goals are to make the UI easier to mod and to reanimate the dead.
 
 **Status:**
 
-The UI is not ready to be used. I am still grappling with the core dysfunction of the existing UI and laying foundations.
+Pre-Alpha: Working towards [Alpha](https://github.com/loop-uc-ui/uus-corp-ui/milestone/20). The goal is to achieve parity with the Default UI, more or less, with some design and functional updates.
 
-Below is a table that descibes each functional area's status. If a feature from the Default UI is not listed, it has not been reckoned with.
-
-As I have determined that I cannot simply tweak the existing code and must rewrite everything, if a feature is not listed here, then that feature simply does not exist in the UI yet and will not function.
-
-
-| Feature          | Description                      | Status      |
-|------------------|----------------------------------|-------------|
-|   Backpack    |   |   |
-|   Chat    |   Chat window with channels   |   |
-|   Debug | Logs debug output        | Done |
-|   Main Menu | Presents menu options via escape | Done |
-|   Paperdoll   |   |   |
-|   Player Status | Show player hp, mp, stam  |   |
-|   Vendor Search   |   |   |
-
-**Disclaimer:**
-
-I am not a fan of the Enhanced Client. I am not a fan of Lua. I do not trust anything about the Default UI. If you want to have the best experience in UO, you should use one of the many third-party applications that extend the capabilities of the Classic Client.
+| Feature          |
+|------------------|
+| [Buffs](https://github.com/loop-uc-ui/uus-corp-ui/projects/18) |
+| [Character Abilities](https://github.com/loop-uc-ui/uus-corp-ui/projects/20) |
+| [Character Sheet](https://github.com/loop-uc-ui/uus-corp-ui/projects/19) |
+| [Chat](https://github.com/loop-uc-ui/uus-corp-ui/projects/16) |
+| [Containers](https://github.com/loop-uc-ui/uus-corp-ui/projects/12) |
+| [Context Menu](https://github.com/loop-uc-ui/uus-corp-ui/projects/25) |
+| [Debug](https://github.com/loop-uc-ui/uus-corp-ui/projects/15) |
+| [Gumps](https://github.com/loop-uc-ui/uus-corp-ui/projects/17) |
+| [Macros](https://github.com/loop-uc-ui/uus-corp-ui/projects/27) |
+| [Healthbars](https://github.com/loop-uc-ui/uus-corp-ui/projects/14) |
+| [Hotbars](https://github.com/loop-uc-ui/uus-corp-ui/projects/28) |
+| [Object Handles](https://github.com/loop-uc-ui/uus-corp-ui/projects/24) |
+| [Organizer](https://github.com/loop-uc-ui/uus-corp-ui/projects/26) |
+| [Overhead Text](https://github.com/loop-uc-ui/uus-corp-ui/projects/21) |
+| [Paperdoll](https://github.com/loop-uc-ui/uus-corp-ui/projects/11) |
+| [PLayer Status](https://github.com/loop-uc-ui/uus-corp-ui/projects/13) |
+| [Settings](https://github.com/loop-uc-ui/uus-corp-ui/projects/23) |
+| [Skills](https://github.com/loop-uc-ui/uus-corp-ui/projects/22) |
+| [Spellbooks](https://github.com/loop-uc-ui/uus-corp-ui/projects/31) |
