@@ -16,7 +16,7 @@ function Active.updateId()
     return WindowData.UpdateInstanceId
 end
 function Active.mouseOverWindow()
-    return SystemData.MouseOverWindow.nam
+    return SystemData.MouseOverWindow.name
 end
 
 function Active.dynamicWindowId()
