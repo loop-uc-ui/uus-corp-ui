@@ -25,17 +25,6 @@
                         </Anchor>
                     </Anchors>
                 </Label>
-
-                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background" alpha="0.5">
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentItemText">
-                            <AbsPoint x="-8" y="0"/>
-                        </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentItemText">
-                            <AbsPoint x="8" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </FullResizeImage>
             </Windows>
         </Button>
 
@@ -88,7 +77,9 @@
                         <AbsPoint x="300" y="35" />
                     </Size>
                     <Anchors>
-                        <Anchor point="bottomright" relativePoint="bottomleft" relativeTo="$parentChannelLabel"/>
+                        <Anchor point="bottomright" relativePoint="bottomleft" relativeTo="$parentChannelLabel">
+                            <AbsPoint x="0" y="2"/>
+                        </Anchor>
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="Root"/>
                     </Anchors>
                     <EventHandlers>
