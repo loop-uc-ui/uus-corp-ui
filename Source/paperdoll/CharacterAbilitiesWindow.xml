@@ -54,7 +54,7 @@
                             <AbsPoint x="8" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="CharacterAbilitiesWindow.RacialAbilities" populationfunction="CharacterAbilitiesWindow.onRacialPopulate">
+                    <ListData table="CharacterAbilitiesWindow.RacialAbilities">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>
@@ -71,10 +71,30 @@
                             <AbsPoint x="0" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="CharacterAbilitiesWindow.ActiveAbilities" populationfunction="CharacterAbilitiesWindow.onActivePopulate">
+                    <ListData table="CharacterAbilitiesWindow.ActiveAbilities">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>
+                     </ListData>
+                </ListBox>
+
+                <ListBox name="$parentInactiveList" rowdef="CharacterAbilitiesRowTemplate" visiblerows="10" rowcount="31" rowspacing="0" scrollbar="$parentScrollbar">>
+                    <Size>
+                        <AbsPoint x="500" y="254" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentActiveList">
+                            <AbsPoint x="0" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                    <ListData table="CharacterAbilitiesWindow.InactiveAbilities">
+                        <ListColumns>
+                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
+                        </ListColumns>
+                        <Windows>
+                            <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
+                         </Windows>
                      </ListData>
                 </ListBox>
 			</Windows>

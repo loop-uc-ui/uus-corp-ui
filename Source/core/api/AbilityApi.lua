@@ -1,7 +1,10 @@
 AbilityApi = {}
 
 AbilityApi.RacialAbilityOffset = 3000
+
 AbilityApi.WeaponAbilityOffset = 1000
+
+AbilityApi.WeaponAbilitiesCount = 31
 
 function AbilityApi.getMaxRacialAbilities()
     return GetMaxRacialAbilities()

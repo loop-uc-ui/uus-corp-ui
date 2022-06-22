@@ -1,9 +1,18 @@
 CharacterAbilitiesWindow = {}
+
 CharacterAbilitiesWindow.Name = "CharacterAbilitiesWindow"
+
 CharacterAbilitiesWindow.RacialList = CharacterAbilitiesWindow.Name .. "RacialList"
+
 CharacterAbilitiesWindow.ActiveList = CharacterAbilitiesWindow.Name .. "ActiveList"
+
+CharacterAbilitiesWindow.InactiveList = CharacterAbilitiesWindow.Name .. "InactiveList"
+
 CharacterAbilitiesWindow.RacialAbilities = {}
+
 CharacterAbilitiesWindow.ActiveAbilities = {}
+
+CharacterAbilitiesWindow.InactiveAbilities = {}
 
 function CharacterAbilitiesWindow.onInitialize()
     WindowApi.registerEventHandler(
@@ -26,10 +35,28 @@ function CharacterAbilitiesWindow.onInitialize()
 
     CharacterAbilitiesWindow.onUpdateRacialAbilities()
     CharacterAbilitiesWindow.onDisplayActiveAbilities()
+    CharacterAbilitiesWindow.onResetAbilities()
 end
 
 function CharacterAbilitiesWindow.onShutdown()
     CharacterAbilitiesWindow.RacialAbilities = {}
+    CharacterAbilitiesWindow.ActiveAbilities = {}
+    CharacterAbilitiesWindow.InactiveAbilities = {}
+
+    WindowApi.unregisterEventHandler(
+        CharacterAbilitiesWindow.Name,
+        PlayerStatus.event()
+    )
+
+    WindowApi.unregisterEventHandler(
+        CharacterAbilitiesWindow.Name,
+        Events.displayActiveAbilities()
+    )
+
+    WindowApi.unregisterEventHandler(
+        CharacterAbilitiesWindow.Name,
+        Events.resetAbilities()
+    )
 end
 
 function CharacterAbilitiesWindow.onRightClick()
@@ -40,7 +67,7 @@ function CharacterAbilitiesWindow.onUpdateRacialAbilities()
     local order = {}
 
     for i = 1, AbilityApi.getMaxRacialAbilities() do
-        local icon, server, tid  = AbilityApi.getAbilityData(
+        local _, _, tid  = AbilityApi.getAbilityData(
             AbilityApi.getRacialAbilityId(i)
         )
 
@@ -64,16 +91,8 @@ function CharacterAbilitiesWindow.onUpdateRacialAbilities()
     )
 end
 
-function CharacterAbilitiesWindow.onRacialPopulate()
-
-end
-
-function CharacterAbilitiesWindow.onActivePopulate()
-
-end
-
 function CharacterAbilitiesWindow.onDisplayActiveAbilities()
-    local icon, server, tid = AbilityApi.getAbilityData(
+    local _, _, tid = AbilityApi.getAbilityData(
         AbilityApi.getWeaponAbilityId(
             Equipment.WEAPONABILITY_PRIMARY
         )
@@ -86,7 +105,7 @@ function CharacterAbilitiesWindow.onDisplayActiveAbilities()
         }
     )
 
-    icon, server, tid = AbilityApi.getAbilityData(
+    _, _, tid = AbilityApi.getAbilityData(
         AbilityApi.getWeaponAbilityId(
             Equipment.WEAPONABILITY_SECONDARY
         )
@@ -110,5 +129,29 @@ function CharacterAbilitiesWindow.onDisplayActiveAbilities()
 end
 
 function CharacterAbilitiesWindow.onResetAbilities()
+    local order = {}
 
+    for i = 1, AbilityApi.WeaponAbilitiesCount do
+        local _, _, tid = AbilityApi.getAbilityData(
+            i + AbilityApi.WeaponAbilityOffset
+        )
+
+        table.insert(
+            CharacterAbilitiesWindow.InactiveAbilities,
+            i,
+            {
+                text = StringFormatter.fromTid(tid)
+            }
+        )
+
+        table.insert(
+            order,
+            i
+        )
+    end
+
+    ListBoxApi.setDisplayOrder(
+        CharacterAbilitiesWindow.InactiveList,
+        order
+    )
 end
