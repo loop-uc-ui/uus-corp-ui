@@ -46,7 +46,7 @@
                 
                 <ListBox name="$parentRacialList" rowdef="CharacterAbilitiesRowTemplate" visiblerows="5" rowcount="5" rowspacing="0">
                     <Size>
-                        <AbsPoint x="500" y="500" />
+                        <AbsPoint x="500" y="150" />
                     </Size>
 
                     <Anchors>
@@ -63,12 +63,12 @@
 
                 <ListBox name="$parentActiveList" rowdef="CharacterAbilitiesRowTemplate" visiblerows="5" rowcount="5" rowspacing="0">
                     <Size>
-                        <AbsPoint x="500" y="500" />
+                        <AbsPoint x="500" y="70" />
                     </Size>
 
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="8" y="8"/>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRacialList">
+                            <AbsPoint x="0" y="8"/>
                         </Anchor>
                     </Anchors>
                     <ListData table="CharacterAbilitiesWindow.ActiveAbilities" populationfunction="CharacterAbilitiesWindow.onActivePopulate">

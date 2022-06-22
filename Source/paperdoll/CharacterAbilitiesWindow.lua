@@ -1,6 +1,7 @@
 CharacterAbilitiesWindow = {}
 CharacterAbilitiesWindow.Name = "CharacterAbilitiesWindow"
 CharacterAbilitiesWindow.RacialList = CharacterAbilitiesWindow.Name .. "RacialList"
+CharacterAbilitiesWindow.ActiveList = CharacterAbilitiesWindow.Name .. "ActiveList"
 CharacterAbilitiesWindow.RacialAbilities = {}
 CharacterAbilitiesWindow.ActiveAbilities = {}
 
@@ -24,6 +25,7 @@ function CharacterAbilitiesWindow.onInitialize()
     )
 
     CharacterAbilitiesWindow.onUpdateRacialAbilities()
+    CharacterAbilitiesWindow.onDisplayActiveAbilities()
 end
 
 function CharacterAbilitiesWindow.onShutdown()
@@ -62,18 +64,49 @@ function CharacterAbilitiesWindow.onUpdateRacialAbilities()
     )
 end
 
+function CharacterAbilitiesWindow.onRacialPopulate()
+
+end
+
+function CharacterAbilitiesWindow.onActivePopulate()
+
+end
+
 function CharacterAbilitiesWindow.onDisplayActiveAbilities()
+    local icon, server, tid = AbilityApi.getAbilityData(
+        AbilityApi.getWeaponAbilityId(
+            Equipment.WEAPONABILITY_PRIMARY
+        )
+    )
+
+    table.insert(
+        CharacterAbilitiesWindow.ActiveAbilities,
+        {
+            text = StringFormatter.fromTid(tid)
+        }
+    )
+
+    icon, server, tid = AbilityApi.getAbilityData(
+        AbilityApi.getWeaponAbilityId(
+            Equipment.WEAPONABILITY_SECONDARY
+        )
+    )
+
+    table.insert(
+        CharacterAbilitiesWindow.ActiveAbilities,
+        {
+            text = StringFormatter.fromTid(tid)
+        }
+    )
+
     local order = {}
+    order[1] = 1
+    order[2] = 2
 
-    
-end
-
-function CharacterAbilitiesWindow.onPopulateRacialAbilities()
-
-end
-
-function CharacterAbilitiesWindow.onDisplayActiveAbilities()
-
+    ListBoxApi.setDisplayOrder(
+        CharacterAbilitiesWindow.ActiveList,
+        order
+    )
 end
 
 function CharacterAbilitiesWindow.onResetAbilities()
