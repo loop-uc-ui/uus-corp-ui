@@ -220,7 +220,6 @@
 					</TexCoords>
 					<EventHandlers>
 						<EventHandler event="OnLButtonUp" function="PaperdollWindow.ToggleCharacterAbilities" />
-						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnMouseOverToggleCharacterAbilities" />
 					</EventHandlers>
 				</Button>
 
