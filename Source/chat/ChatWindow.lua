@@ -33,6 +33,16 @@ function ChatWindow.onInitialize()
     )
 
     TextLogApi.enableLog(Chat.Log)
+    LogDisplayApi.addLog(ChatWindow.LogDisplay, Chat.Log)
+
+    for _, v in pairs(Chat.Channels) do
+        LogDisplayApi.setFilterState(
+            ChatWindow.LogDisplay,
+            Chat.Log,
+            v.filter,
+            not Chat.isOverhead(v.filter)
+        )
+    end
 
     LabelApi.setText(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.display .. ":")
     LabelApi.setTextColor(ChatWindow.ChannelLabel, ChatWindow.CurrentChannel.color)
@@ -53,51 +63,16 @@ end
 
 function ChatWindow.onTextArrived()
     if not Chat.isOverhead(Chat.chatChannel()) then
-        WindowApi.createFromTemplate(
-            ChatWindow.Row .. TextLogApi.getNumEntries(Chat.Log) - 1,
-            "ChatRowTemplate",
-            ChatWindow.LogDisplay
-        )
-    end
-end
-
-function ChatWindow.onRowInitialize()
-    local numEntries = TextLogApi.getNumEntries(Chat.Log) - 1
-
-    local _, _, text = TextLogApi.getEntry(Chat.Log, numEntries)
-
-    WindowApi.setId(Active.window(), numEntries)
-
-    WindowApi.startAlphaAnimation(
-        Active.window(),
-        Animation.singleNoReset(),
-        1.0,
-        0,
-        3,
-        false,
-        15,
-        0
-    )
-
-    WindowApi.clearAnchors(Active.window())
-
-    if numEntries >= 1 then
-        WindowApi.addAnchor(
-            ChatWindow.Row .. numEntries - 1,
-            "topleft",
-            Active.window(),
-            "bottomleft",
+        WindowApi.startAlphaAnimation(
+            ChatWindow.LogDisplay,
+            Animation.singleNoReset(),
+            1.0,
             0,
+            1,
+            false,
+            15,
             0
         )
-    end
-
-    LabelApi.setText(Active.window() .. "ItemText", text)
-end
-
-function ChatWindow.onRowUpdate()
-    if (WindowApi.getAlpha(Active.window()) <= 0) then
-        WindowApi.destroyWindow(Active.window())
     end
 end
 

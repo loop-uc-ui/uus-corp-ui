@@ -3,34 +3,9 @@
         <Script file="Source/ChatWindow.lua" />
     </Scripts>
     <Windows>
-        <Button name="ChatRowTemplate">
-            <Size>
-                <AbsPoint x="240" y="28" />
-            </Size>
-            <EventHandlers>
-                <EventHandler event="OnUpdate" function="ChatWindow.onRowUpdate"/>
-                <EventHandler event="OnInitialize" function="ChatWindow.onRowInitialize"/>
-            </EventHandlers>
-            <Anchors>
-                <Anchor point="bottomleft" relativePoint="bottomleft"/>
-            </Anchors>
-            <Windows>
-                <Label name="$parentItemText" font="inter_medium_18" textalign="leftcenter" autoresizewidth="true">
-                    <Size>
-                        <AbsPoint x="240" y="28" />
-                    </Size>
-                    <Anchors>
-                        <Anchor point="left" relativePoint="left">
-                            <AbsPoint x="8" y="0"/>
-                        </Anchor>
-                    </Anchors>
-                </Label>
-            </Windows>
-        </Button>
-
         <Window name="ChatWindow" movable="false">
             <Size>
-                <AbsPoint x="240" y="360" />
+                <AbsPoint x="520" y="500" />
             </Size>
             <Anchors>
                 <Anchor point="bottomleft" relativePoint="bottomleft"/>
@@ -40,16 +15,16 @@
                 <EventHandler event="OnShutdown" function="ChatWindow.onShutdown"/>
             </EventHandlers>
             <Windows>
-                <Window name="$parentLog" autoresize="true">
-                    <Size>
-                        <AbsPoint x="0" y="0" />
-                    </Size>
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="bottomleft" relativeTo="$parentTextInputBackground">
-                            <AbsPoint x="0" y="-28"/>
-                        </Anchor>
-                    </Anchors>
-                </Window>
+                <LogDisplay name="$parentLog" font="inter_medium_18" maxchars="4096" maxentries="12" wordwrap="true">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft">
+							<AbsPoint x="8" y="0"/>
+						</Anchor>
+						<Anchor point="bottomright" relativePoint="bottomright">
+							<AbsPoint x="-15" y="-20" />
+						</Anchor>
+					</Anchors>
+				</LogDisplay>
 
                 <FullResizeImage name="$parentTextInputBackground" inherits="UO_Simple_Black_Background" layer="background" alpha="0.5">
                     <Anchors>
