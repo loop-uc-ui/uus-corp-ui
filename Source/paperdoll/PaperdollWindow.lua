@@ -227,3 +227,7 @@ function PaperdollWindow.toggleWarMode()
     UserActionApi.toggleWarMode()
     ButtonApi.setChecked(Active.window(), not PlayerStatus.inWarMode())
 end
+
+function PaperdollWindow.ToggleCharacterAbilities()
+    WindowApi.toggleWindow(CharacterAbilitiesWindow.Name)
+end

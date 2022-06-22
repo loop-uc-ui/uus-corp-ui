@@ -25,6 +25,7 @@
     <Include file="Source/container/ContainerWindow.xml"/>
     <Include file="Source/object_handle/ObjectHandleWindow.xml"/>
     <Include file="Source/object_handle/ObjectHandleRootOverlayWindow.xml"/>
+    <Include file="Source/paperdoll/CharacterAbilitiesWindow.xml"/>
     <Include file="Source/paperdoll/PaperdollWindow.xml"/>
     <Include file="Source/settings/SettingsWindow.xml"/>
     <Include file="Source/settings/ControlsSettingsWindow.xml"/>
@@ -39,6 +40,7 @@
 
 	<!-- Script Files -->
 	<Scripts>
+        <Script file="Source/core/api/AbilityApi.lua"/>
         <Script file="Source/core/api/AnimatedImageApi.lua"/>
         <Script file="Source/core/api/ButtonApi.lua"/>
         <Script file="Source/core/api/ChatApi.lua"/>
@@ -86,6 +88,7 @@
         <Script file="Source/core/data/CurrentTarget.lua"/>
         <Script file="Source/core/data/Cursor.lua"/>
         <Script file="Source/core/data/Drag.lua"/>
+        <Script file="Source/core/data/Equipment.lua"/>
         <Script file="Source/core/data/Events.lua"/>
         <Script file="Source/core/data/Gump.lua"/>
         <Script file="Source/core/data/ItemProperties.lua"/>
@@ -134,6 +137,7 @@
         <Script file="Source/container/ContainerWindow.lua"/>
         <Script file="Source/object_handle/ObjectHandleWindow.lua"/>
         <Script file="Source/object_handle/ObjectHandleRootOverlayWindow.lua"/>
+        <Script file="Source/paperdoll/CharacterAbilitiesWindow.lua"/>
         <Script file="Source/paperdoll/PaperdollWindow.lua"/>
         <Script file="Source/settings/SettingsWindow.lua"/>
         <Script file="Source/settings/ControlsSettingsWindow.lua"/>

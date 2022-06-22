@@ -111,3 +111,11 @@ end
 function Events.contextMenuSelected()
     return SystemData.Events.CONTEXT_MENU_SELECTED
 end
+
+function Events.displayActiveAbilities()
+    return SystemData.Events.ABILITY_DISPLAY_ACTIVE
+end
+
+function Events.resetAbilities()
+    return SystemData.Events.ABILITY_RESET
+end
