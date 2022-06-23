@@ -241,7 +241,6 @@
 					</TexCoords>
 					<EventHandlers>
 						<EventHandler event="OnLButtonUp" function="PaperdollWindow.ToggleCharacterSheet" />
-						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnMouseOverToggleCharacterSheet" />
 					</EventHandlers>
 				</Button>
 
@@ -262,8 +261,6 @@
 					</TexCoords>
 					<EventHandlers>
 						<EventHandler event="OnLButtonUp" function="PaperdollWindow.ToggleInventoryWindow" />
-						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnMouseOverToggleInventory" />
-						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
 					</EventHandlers>
 				</Button>
 			</Windows>

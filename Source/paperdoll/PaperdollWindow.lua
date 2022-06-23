@@ -156,7 +156,14 @@ end
 function PaperdollWindow.ToggleInventoryWindow()
     local id = WindowApi.getId(WindowApi.getParent(Active.window()))
     local backpack = Paperdoll.backpack(id)
-    UserAction.useItem(backpack, false)
+
+    if Drag.isNone() and not WindowApi.doesExist(ContainerWindow.Name .. backpack) then
+        UserAction.useItem(backpack, false)
+    elseif Drag.isNone() then
+        WindowApi.destroyWindow(ContainerWindow.Name .. backpack)
+    elseif Drag.isItem() and id == PlayerStatus.id() then
+        DragApi.dragObjectToContainer(backpack, 0)
+    end
 end
 
 function PaperdollWindow.ToggleView()
