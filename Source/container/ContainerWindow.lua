@@ -8,16 +8,14 @@ ContainerWindow.MaxSlots = 125
 local function activeSlot()
     local slotNum = WindowApi.getId(Active.window())
 
-    local container = tonumber(
-        string.gsub(
-            WindowApi.getParent(Active.window()),
-            ContainerWindow.Name,
-            ""
-        ):gsub(
-            "GridViewScrollChild",
-            ""
-        ),
-        10
+    local container = WindowApi.getId(
+        WindowApi.getParent(
+            WindowApi.getParent(
+                WindowApi.getParent(
+                    Active.window()
+                )
+            )
+        )
     )
 
     local item = nil
@@ -200,7 +198,7 @@ end
 function ContainerWindow.onSlotSingleClickUp()
     if Drag.isItem() then
         local slot = activeSlot()
-        DragApi.dragObjectToContainer(slot.containerId, slot.gridIndex or slot.slotNum)
+        DragApi.dragObjectToContainer(slot.containerId, 0)
     end
 end
 
