@@ -2,7 +2,8 @@ Spells = {}
 
 Spells.Books = {
     Magery = 3834,
-    Necro = 8787
+    Necro = 8787,
+    Ninja = 9120
 }
 
 function Spells.bookDataType()
@@ -27,4 +28,8 @@ end
 
 function Spells.isMagery(bookId)
     return Spells.bookData(bookId).objType == Spells.Books.Magery
+end
+
+function Spells.isNinjitsu(bookId)
+    return Spells.bookData(bookId).objType == Spells.Books.Ninja
 end
