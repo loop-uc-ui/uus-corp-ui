@@ -1,9 +1,15 @@
 --Another case where the UI creates this automatically
 --when we click a spellbook.
 SpellbookWindow = {}
+
 SpellbookWindow.Name = "Spellbook_"
-SpellbookWindow.List = "List"
+
 SpellbookWindow.Spells = {}
+
+SpellbookWindow.Lists = {
+    Magery = "MageryList",
+    Necro = "NecroList"
+}
 
 function SpellbookWindow.onInitialize()
     local id = Active.dynamicWindowId()
@@ -24,30 +30,46 @@ end
 function SpellbookWindow.onUpdateSpells()
     local id = WindowApi.getId(Active.window())
     local data = Spells.bookData(id)
-
+    Debug.Print(data)
     local order = {}
 
-    for k, _ in ipairs(data.spells) do
-        local spell = k + data.firstSpellNum - 1
-        local _, _, tid, _, _, _ = AbilityApi.getAbilityData(spell)
+    for k, v in ipairs(data.spells) do
+        if v == 1 then
+            local spell = k + data.firstSpellNum - 1
+            local _, _, tid, _, _, _ = AbilityApi.getAbilityData(spell)
 
-        table.insert(
-            SpellbookWindow.Spells,
-            k,
-            {
-                id = k,
-                text = StringFormatter.fromTid(tid)
-            }
-        )
+            table.insert(
+                SpellbookWindow.Spells,
+                k,
+                {
+                    id = k,
+                    text = StringFormatter.fromTid(tid)
+                }
+            )
 
-        table.insert(
-            order,
-            k
-        )
+            table.insert(
+                order,
+                k
+            )
+        end
+    end
+
+    local list = SpellbookWindow.Lists.Magery
+
+    if Spells.isNecro(id) then
+        list = SpellbookWindow.Lists.Necro
+    end
+
+    for _, v in pairs(SpellbookWindow.Lists) do
+        if v ~= list then
+            WindowApi.destroyWindow(
+                SpellbookWindow.Name .. id .. v
+            )
+        end
     end
 
     ListBoxApi.setDisplayOrder(
-        SpellbookWindow.Name .. id .. SpellbookWindow.List,
+        SpellbookWindow.Name .. id .. list,
         order
     )
 end
