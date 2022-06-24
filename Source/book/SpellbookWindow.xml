@@ -48,7 +48,7 @@
                     </Anchors>
                 </FullResizeImage>
                 
-                <ListBox name="$parentList" rowdef="SpellbookRowTemplate" visiblerows="20" rowcount="64" rowspacing="0" scrollbar="$parentScrollbar">
+                <ListBox name="$parentMageryList" rowdef="SpellbookRowTemplate" visiblerows="20" rowcount="64" rowspacing="0" scrollbar="$parentScrollbar">
                     <Size>
                         <AbsPoint x="500" y="500" />
                     </Size>
@@ -62,9 +62,26 @@
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>
-                         <Windows>
+                        <Windows>
                             <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
                          </Windows>
+                     </ListData>
+                </ListBox>
+
+                <ListBox name="$parentNecroList" rowdef="SpellbookRowTemplate" visiblerows="17" rowcount="17" rowspacing="0">
+                    <Size>
+                        <AbsPoint x="500" y="500" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="8" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                    <ListData table="SpellbookWindow.Spells">
+                        <ListColumns>
+                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
+                        </ListColumns>
                      </ListData>
                 </ListBox>
 			</Windows>
