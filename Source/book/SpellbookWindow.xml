@@ -84,6 +84,23 @@
                         </ListColumns>
                      </ListData>
                 </ListBox>
+
+                <ListBox name="$parentNinjaList" rowdef="SpellbookRowTemplate" visiblerows="8" rowcount="8" rowspacing="0">
+                    <Size>
+                        <AbsPoint x="500" y="500" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="8" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                    <ListData table="SpellbookWindow.Spells">
+                        <ListColumns>
+                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
+                        </ListColumns>
+                     </ListData>
+                </ListBox>
 			</Windows>
 		</Window>
 		
