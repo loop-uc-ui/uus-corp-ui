@@ -59,7 +59,7 @@ function SpellbookWindow.onUpdateSpells()
 
     if Spells.isNecro(id) then
         list = SpellbookWindow.Lists.Necro
-    elseif Spells.isNinjitsu(id) then 
+    elseif Spells.isNinjitsu(id) then
         list = SpellbookWindow.Lists.Ninja
     end
 
