@@ -10,6 +10,7 @@
 	<!-- Windows -->
 
     <Include file="Source/core/template/ItemGridSocketTemplate.xml"/>
+    <Include file="Source/book/SpellbookWindow.xml"/>
     <Include file="Source/chat/OverheadText.xml"/>
     <Include file="Source/chat/ChatWindow.xml"/>
     <Include file="Source/chat/OverheadChatWindow.xml"/>
@@ -104,6 +105,7 @@
         <Script file="Source/core/data/Radar.lua"/>
         <Script file="Source/core/data/ScreenResolution.lua"/>
         <Script file="Source/core/data/Skills.lua"/>
+        <Script file="Source/core/data/Spells.lua"/>
         <Script file="Source/core/data/UserAction.lua"/>
         <Script file="Source/core/data/UserContainerSettings.lua"/>
         <Script file="Source/core/data/UserControlSettings.lua"/>
@@ -122,6 +124,7 @@
         <Script file="InterfaceCoreOverrides.lua"/>
 		<Script file="Interface.lua" />
         <Script file="Source/root/RootWindow.lua"/>
+        <Script file="Source/book/SpellbookWindow.lua"/>
         <Script file="Source/chat/ChatWindow.lua"/>
         <Script file="Source/chat/OverheadChatWindow.lua"/>
         <Script file="Source/chat/OverheadText.lua"/>

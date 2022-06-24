@@ -1,0 +1,74 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Scripts>
+		<Script file="Source/spellbook.lua"/>
+    </Scripts>
+	<Windows>
+		<Button name="SpellbookRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
+            <Size>
+				<AbsPoint x="500" y="24" />
+			</Size>
+            <TexCoords>
+                <NormalHighlit x="12" y="12"/>
+                <PressedHighlit x="12" y="12"/>
+            </TexCoords>
+
+            <Windows>
+                <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="24" />
+                    </Size>
+                </Label>
+            </Windows>
+        </Button>
+		
+		<Window name="Spellbook" movable="true" handleinput="true">
+			<Size>
+				<AbsPoint x="548" y="512" />
+			</Size>
+			<Anchors>
+				<Anchor point="center" relativePoint="center" />
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="SpellbookWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="SpellbookWindow.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="SpellbookWindow.onRightClick"/>
+			</EventHandlers>
+			<Windows>
+				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+                
+                <ListBox name="$parentList" rowdef="SpellbookRowTemplate" visiblerows="20" rowcount="64" rowspacing="0" scrollbar="$parentScrollbar">
+                    <Size>
+                        <AbsPoint x="500" y="500" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="8" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                    <ListData table="SpellbookWindow.Spells">
+                        <ListColumns>
+                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
+                        </ListColumns>
+                         <Windows>
+                            <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
+                         </Windows>
+                     </ListData>
+                </ListBox>
+			</Windows>
+		</Window>
+		
+	</Windows>
+</Interface>
