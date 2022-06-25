@@ -169,6 +169,26 @@
                         </ListColumns>
                      </ListData>
                 </ListBox>
+
+                <ListBox name="$parentMasteriesList" rowdef="SpellbookRowTemplate" visiblerows="20" rowcount="45" rowspacing="0" scrollbar="$parentScrollbar">
+                    <Size>
+                        <AbsPoint x="500" y="500" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="8" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                    <ListData table="SpellbookWindow.Spells">
+                        <ListColumns>
+                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
+                        </ListColumns>
+                        <Windows>
+                            <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
+                         </Windows>
+                     </ListData>
+                </ListBox>
 			</Windows>
 		</Window>
 		
