@@ -4,7 +4,8 @@ Spells.Books = {
     Magery = 3834,
     Necro = 8787,
     Ninja = 9120,
-    Spellweaving = 11600
+    Spellweaving = 11600,
+    Chivalry = 8786
 }
 
 function Spells.bookDataType()
@@ -37,4 +38,8 @@ end
 
 function Spells.isSpellweaving(bookId)
     return Spells.bookData(bookId).objType == Spells.Books.Spellweaving
+end
+
+function Spells.isChivalry(bookId)
+    return Spells.bookData(bookId).objType == Spells.Books.Chivalry
 end

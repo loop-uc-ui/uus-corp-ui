@@ -118,6 +118,23 @@
                         </ListColumns>
                      </ListData>
                 </ListBox>
+
+                <ListBox name="$parentChivalryList" rowdef="SpellbookRowTemplate" visiblerows="10" rowcount="10" rowspacing="0">
+                    <Size>
+                        <AbsPoint x="500" y="500" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="8" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                    <ListData table="SpellbookWindow.Spells">
+                        <ListColumns>
+                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
+                        </ListColumns>
+                     </ListData>
+                </ListBox>
 			</Windows>
 		</Window>
 		
