@@ -84,27 +84,22 @@ function PaperdollWindow.update()
                 data.objectType
             })
             DynamicImageApi.setTextureScale(icon, data.iconScale)
+            if data.slotId ~= nil and data.slotId ~= 0 then
+                WindowDataApi.registerData(ItemProperties.type(), data.slotId)
+                local currentDurability = ItemProperties.currentDurability(data.slotId)
+                local maxDurability = ItemProperties.maxDurability(data.slotId)
 
-            if data.slotId ~= nil then
-                if ItemProperties.properties(data.slotId) == nil then
-                    WindowDataApi.unregisterData(ItemProperties.type(), data.slotId)
-                else
-                    WindowDataApi.registerData(ItemProperties.type(), data.slotId)
-                    local currentDurability = ItemProperties.currentDurability(data.slotId)
-                    local maxDurability = ItemProperties.maxDurability(data.slotId)
+                if currentDurability ~= nil and maxDurability ~= nil then
+                    local percentage = currentDurability / maxDurability
 
-                    if currentDurability ~= nil and maxDurability ~= nil then
-                        local percentage = currentDurability / maxDurability
-
-                        if percentage <= 0.25 then
-                            WindowApi.setColor(slot, Colors.Red)
-                        else
-                            WindowApi.setColor(slot, {
-                                r = 255,
-                                g = 255,
-                                b = 255
-                            })
-                        end
+                    if percentage <= 0.25 then
+                        WindowApi.setColor(slot, Colors.Red)
+                    else
+                        WindowApi.setColor(slot, {
+                            r = 255,
+                            g = 255,
+                            b = 255
+                        })
                     end
                 end
             end
@@ -189,6 +184,7 @@ function PaperdollWindow.onSlotSingleClick()
     if Cursor.hasTarget() and object.objectId ~= 0 then
         TargetApi.clickTarget(object.objectId)
     else
+        WindowDataApi.unregisterData(ItemProperties.type(), object.objectId)
         DragApi.setObjectMouseClickData(object.objectId, Drag.sourcePaperdoll())
     end
 end
