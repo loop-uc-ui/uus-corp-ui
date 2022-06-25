@@ -11,7 +11,8 @@ SpellbookWindow.Lists = {
     Necro = "NecroList",
     Ninja = "NinjaList",
     Spellweaving = "SpellweavingList",
-    Chivalry = "ChivalryList"
+    Chivalry = "ChivalryList",
+    Bushido = "BushidoList"
 }
 
 function SpellbookWindow.onInitialize()
@@ -67,6 +68,8 @@ function SpellbookWindow.onUpdateSpells()
         list = SpellbookWindow.Lists.Spellweaving
     elseif Spells.isChivalry(id) then
         list = SpellbookWindow.Lists.Chivalry
+    elseif Spells.isBushido(id) then
+        list = SpellbookWindow.Lists.Bushido
     end
 
     for _, v in pairs(SpellbookWindow.Lists) do
