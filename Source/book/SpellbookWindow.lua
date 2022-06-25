@@ -17,6 +17,8 @@ SpellbookWindow.Lists = {
     Masteries = "MasteriesList"
 }
 
+SpellbookWindow.List = SpellbookWindow.Lists.Magery
+
 function SpellbookWindow.onInitialize()
     local id = Active.dynamicWindowId()
     WindowApi.setId(Active.window(), id)
@@ -41,13 +43,13 @@ function SpellbookWindow.onUpdateSpells()
     for k, v in ipairs(data.spells) do
         if v == 1 then
             local spell = k + data.firstSpellNum - 1
-            local _, _, tid, _, _, _ = AbilityApi.getAbilityData(spell)
+            local _, serverId, tid, _, _, _ = AbilityApi.getAbilityData(spell)
 
             table.insert(
                 SpellbookWindow.Spells,
                 k,
                 {
-                    id = k,
+                    id = serverId,
                     text = StringFormatter.fromTid(tid)
                 }
             )
@@ -59,26 +61,24 @@ function SpellbookWindow.onUpdateSpells()
         end
     end
 
-    local list = SpellbookWindow.Lists.Magery
-
     if Spells.isNecro(id) then
-        list = SpellbookWindow.Lists.Necro
+        SpellbookWindow.List = SpellbookWindow.Lists.Necro
     elseif Spells.isNinjitsu(id) then
-        list = SpellbookWindow.Lists.Ninja
+        SpellbookWindow.List = SpellbookWindow.Lists.Ninja
     elseif Spells.isSpellweaving(id) then
-        list = SpellbookWindow.Lists.Spellweaving
+        SpellbookWindow.List = SpellbookWindow.Lists.Spellweaving
     elseif Spells.isChivalry(id) then
-        list = SpellbookWindow.Lists.Chivalry
+        SpellbookWindow.List = SpellbookWindow.Lists.Chivalry
     elseif Spells.isBushido(id) then
-        list = SpellbookWindow.Lists.Bushido
+        SpellbookWindow.List = SpellbookWindow.Lists.Bushido
     elseif Spells.isMysticism(id) then
-        list = SpellbookWindow.Lists.Mysticism
+        SpellbookWindow.List = SpellbookWindow.Lists.Mysticism
     elseif Spells.isMasteries(id) then
-        list = SpellbookWindow.Lists.Masteries
+        SpellbookWindow.List = SpellbookWindow.Lists.Masteries
     end
 
     for _, v in pairs(SpellbookWindow.Lists) do
-        if v ~= list then
+        if v ~= SpellbookWindow.List then
             WindowApi.destroyWindow(
                 SpellbookWindow.Name .. id .. v
             )
@@ -86,7 +86,7 @@ function SpellbookWindow.onUpdateSpells()
     end
 
     ListBoxApi.setDisplayOrder(
-        SpellbookWindow.Name .. id .. list,
+        SpellbookWindow.Name .. id .. SpellbookWindow.List,
         order
     )
 end
@@ -105,4 +105,15 @@ end
 
 function SpellbookWindow.onRightClick()
     WindowApi.destroyWindow(Active.window())
+end
+
+function SpellbookWindow.onPopulate(data)
+    for i = 1, #data do
+        local row = Active.window() .. SpellbookWindow.List .. "Row" .. i
+        WindowApi.setId(row, SpellbookWindow.Spells[i].id)
+    end
+end
+
+function SpellbookWindow.onDoubleClick()
+    UserAction.castSpell(WindowApi.getId(Active.window()))
 end
