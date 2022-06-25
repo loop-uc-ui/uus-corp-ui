@@ -6,7 +6,8 @@ Spells.Books = {
     Ninja = 9120,
     Spellweaving = 11600,
     Chivalry = 8786,
-    Bushido = 9100
+    Bushido = 9100,
+    Mysticism = 11677
 }
 
 function Spells.bookDataType()
@@ -47,4 +48,8 @@ end
 
 function Spells.isBushido(bookId)
     return Spells.bookData(bookId).objType == Spells.Books.Bushido
+end
+
+function Spells.isMysticism(bookId)
+    return Spells.bookData(bookId).objType == Spells.Books.Mysticism
 end
