@@ -12,6 +12,9 @@
                 <PressedHighlit x="12" y="12"/>
             </TexCoords>
 
+            <EventHandlers>
+                <EventHandler event="OnLButtonDblClk" function="SpellbookWindow.onDoubleClick"/>
+            </EventHandlers>
             <Windows>
                 <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
                     <Size>
@@ -58,7 +61,7 @@
                             <AbsPoint x="8" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="SpellbookWindow.Spells">
+                    <ListData table="SpellbookWindow.Spells" populationfunction="SpellbookWindow.onPopulate">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>
@@ -78,7 +81,7 @@
                             <AbsPoint x="8" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="SpellbookWindow.Spells">
+                    <ListData table="SpellbookWindow.Spells" populationfunction="SpellbookWindow.onPopulate">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>
@@ -95,7 +98,7 @@
                             <AbsPoint x="8" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="SpellbookWindow.Spells">
+                    <ListData table="SpellbookWindow.Spells" populationfunction="SpellbookWindow.onPopulate">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>
@@ -112,7 +115,7 @@
                             <AbsPoint x="8" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="SpellbookWindow.Spells">
+                    <ListData table="SpellbookWindow.Spells" populationfunction="SpellbookWindow.onPopulate">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>
@@ -129,7 +132,7 @@
                             <AbsPoint x="8" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="SpellbookWindow.Spells">
+                    <ListData table="SpellbookWindow.Spells" populationfunction="SpellbookWindow.onPopulate">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>
@@ -146,7 +149,7 @@
                             <AbsPoint x="8" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="SpellbookWindow.Spells">
+                    <ListData table="SpellbookWindow.Spells" populationfunction="SpellbookWindow.onPopulate">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>
@@ -163,7 +166,7 @@
                             <AbsPoint x="8" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="SpellbookWindow.Spells">
+                    <ListData table="SpellbookWindow.Spells" populationfunction="SpellbookWindow.onPopulate">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>
@@ -180,7 +183,7 @@
                             <AbsPoint x="8" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="SpellbookWindow.Spells">
+                    <ListData table="SpellbookWindow.Spells" populationfunction="SpellbookWindow.onPopulate">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
                         </ListColumns>

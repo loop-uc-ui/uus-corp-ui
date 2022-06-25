@@ -11,3 +11,7 @@ end
 function UserAction.useItem(id, flag)
     UserActionUseItem(id, flag)
 end
+
+function UserAction.castSpell(serverId)
+    UserActionCastSpell(serverId)
+end
