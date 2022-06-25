@@ -9,7 +9,8 @@ SpellbookWindow.Spells = {}
 SpellbookWindow.Lists = {
     Magery = "MageryList",
     Necro = "NecroList",
-    Ninja = "NinjaList"
+    Ninja = "NinjaList",
+    Spellweaving = "SpellweavingList"
 }
 
 function SpellbookWindow.onInitialize()
@@ -61,6 +62,8 @@ function SpellbookWindow.onUpdateSpells()
         list = SpellbookWindow.Lists.Necro
     elseif Spells.isNinjitsu(id) then
         list = SpellbookWindow.Lists.Ninja
+    elseif Spells.isSpellweaving(id) then
+        list = SpellbookWindow.Lists.Spellweaving
     end
 
     for _, v in pairs(SpellbookWindow.Lists) do
