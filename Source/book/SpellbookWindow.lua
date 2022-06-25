@@ -13,7 +13,8 @@ SpellbookWindow.Lists = {
     Spellweaving = "SpellweavingList",
     Chivalry = "ChivalryList",
     Bushido = "BushidoList",
-    Mysticism = "MysticList"
+    Mysticism = "MysticList",
+    Masteries = "MasteriesList"
 }
 
 function SpellbookWindow.onInitialize()
@@ -35,7 +36,6 @@ end
 function SpellbookWindow.onUpdateSpells()
     local id = WindowApi.getId(Active.window())
     local data = Spells.bookData(id)
-    Debug.Print(data)
     local order = {}
 
     for k, v in ipairs(data.spells) do
@@ -73,6 +73,8 @@ function SpellbookWindow.onUpdateSpells()
         list = SpellbookWindow.Lists.Bushido
     elseif Spells.isMysticism(id) then
         list = SpellbookWindow.Lists.Mysticism
+    elseif Spells.isMasteries(id) then
+        list = SpellbookWindow.Lists.Masteries
     end
 
     for _, v in pairs(SpellbookWindow.Lists) do
