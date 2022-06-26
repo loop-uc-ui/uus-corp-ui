@@ -17,7 +17,7 @@
 			</Size>
 			<Anchors>
 				<Anchor point="bottomright" relativePoint="bottomright" >
-					<AbsPoint x="0" y="-60"/>
+					<AbsPoint x="0" y="0"/>
 				</Anchor>
 			</Anchors>
 			<EventHandlers>
@@ -43,7 +43,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-				<Label name="$parentTitle" font="inter_medium_18" maxchars="256" handleinput="false" layer="popup" autoresizewidth="true">
+				<Label name="$parentTitle" font="inter_medium_18" maxchars="16" handleinput="false" layer="popup" autoresizewidth="true">
 					<Size>
 						<AbsPoint x="215" y="18"/>
 					</Size>
@@ -100,6 +100,30 @@
 					</EventHandlers>
 				</Button>
 
+				<DynamicImage name="$parentFreeformView" layer="default" popable="false" handleinput="true" draganddrop="true">
+					<Size>
+						<AbsPoint x="262" y="262" />
+					</Size>
+					<TexCoords x="0" y="0"/>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft"/>
+					</Anchors>
+				</DynamicImage>
+
+				<DynamicImage name="$parentFreeformBackground" inherits="ItemGridSocketTemplate" layer="background" texture="hud_image">
+					<Size>
+						<AbsPoint x="51" y="51" />
+					</Size>
+					<Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
+							<AbsPoint x="-8" y="8"/>
+						</Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright">
+							<AbsPoint x="-8" y="-8"/>
+						</Anchor>
+                    </Anchors>
+					<TexCoords x="412" y="971" />
+				</DynamicImage>
 			</Windows>
 		</Window>
 	</Windows>

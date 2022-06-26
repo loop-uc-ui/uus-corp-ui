@@ -2,6 +2,7 @@ Interface = {}
 
 function Interface.CreatePlayWindowSet()
     Paperdoll.useLegacy(false)
+    SystemData.Settings.Interface.LegacyContainers = true
     WindowApi.unregisterEventHandler(
         "ResizingWindowFrame",
         Events.onLButtonUp()
