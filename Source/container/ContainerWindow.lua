@@ -11,7 +11,8 @@ ContainerWindow.Views = {
 }
 
 ContainerWindow.Gumps = {
-    Backpack = 60
+    Backpack = 60,
+    Corpse = 9
 }
 
 local function activeSlot()
@@ -76,7 +77,7 @@ function ContainerWindow.Initialize()
     )
 
     WindowApi.setShowing(
-        ContainerWindow.Name .. id .. "FreeformContainer",
+        ContainerWindow.Name .. id .. "FreeformBackground",
         UserContainerSettings.legacyContainers()
     )
 
@@ -138,14 +139,24 @@ function ContainerWindow.updateContainer()
         )
 
         if gump == ContainerWindow.Gumps.Backpack then
-            WindowApi.clearAnchors(this .. "FreeformView")
+            WindowApi.clearAnchors(this .. ContainerWindow.Views.Freeform)
             WindowApi.addAnchor(
-                this .. "FreeformView",
+                this .. ContainerWindow.Views.Freeform,
                 "topleft",
                 this,
                 "topleft",
                 -40,
                 0
+            )
+        elseif gump == ContainerWindow.Gumps.Corpse then
+            WindowApi.clearAnchors(this .. ContainerWindow.Views.Freeform)
+            WindowApi.addAnchor(
+                this .. ContainerWindow.Views.Freeform,
+                "topleft",
+                this,
+                "topleft",
+                0,
+                -40
             )
         end
     else
