@@ -62,6 +62,7 @@ function ContainerWindow.Initialize()
     local id = tonumber(string.gsub(Active.window(), ContainerWindow.Name, ""), 10)
     WindowApi.setId(Active.window(), id)
     WindowApi.registerEventHandler(Active.window(), Container.event(), "ContainerWindow.updateContainer")
+    WindowApi.registerEventHandler(Active.window(), Events.userSettingsUpdated(), "ContainerWindow.reopenContainer")
     WindowApi.registerEventHandler(Active.window(), ObjectInfo.event(), "ContainerWindow.updateObject")
     WindowApi.registerEventHandler(Active.window(), ItemProperties.event(), "ContainerWindow.updateObject")
     WindowDataApi.registerData(Container.type(), id)
@@ -80,8 +81,6 @@ function ContainerWindow.Initialize()
         ContainerWindow.Name .. id .. "FreeformBackground",
         UserContainerSettings.legacyContainers()
     )
-
-    ContainerWindow.updateContainer()
 end
 
 function ContainerWindow.updateContainer()
@@ -339,4 +338,17 @@ function ContainerWindow.onSlotMouseOverEnd()
 end
 
 function ContainerWindow.onToggleView()
+    UserContainerSettings.legacyContainers(
+        not UserContainerSettings.legacyContainers()
+    )
+    ContainerWindow.reopenContainer(WindowApi.getParent(Active.window()))
+end
+
+function ContainerWindow.reopenContainer(container)
+    container = container or Active.window()
+    WindowApi.destroyWindow(container)
+    UserAction.useItem(
+        WindowApi.getId(container),
+        false
+    )
 end
