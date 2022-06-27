@@ -43,6 +43,17 @@
                     </Anchors>
                 </FullResizeImage>
 
+				<Button name="$parentToggleView" inherits="UO_Default_Spring_Button" layer="overlay">
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright" relativeTo="$parentFrame">
+							<AbsPoint x="-6" y="6"/>
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="ContainerWindow.onToggleView"/>
+					</EventHandlers>
+				</Button>
+
 				<Label name="$parentTitle" font="inter_medium_18" maxchars="16" handleinput="false" layer="popup" autoresizewidth="true">
 					<Size>
 						<AbsPoint x="215" y="18"/>
@@ -110,7 +121,7 @@
 					</Anchors>
 				</DynamicImage>
 
-				<DynamicImage name="$parentFreeformBackground" inherits="ItemGridSocketTemplate" layer="background" texture="hud_image">
+				<DynamicImage name="$parentFreeformBackground" layer="background" texture="hud_image">
 					<Size>
 						<AbsPoint x="51" y="51" />
 					</Size>

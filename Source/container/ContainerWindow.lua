@@ -337,3 +337,6 @@ end
 function ContainerWindow.onSlotMouseOverEnd()
     TooltipWindow.destroy()
 end
+
+function ContainerWindow.onToggleView()
+end
