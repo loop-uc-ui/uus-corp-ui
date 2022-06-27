@@ -16,6 +16,7 @@ function RootWindow.create()
     CSVUtilities.initialize()
     WindowDataApi.registerData(PlayerStatus.type())
     WindowDataApi.registerData(PlayerEquipment.type(), PlayerEquipment.Slots.Backpack)
+    WindowDataApi.registerData(Paperdoll.type(), PlayerStatus.id())
     registerEvent(Events.showNamesUpdated(), "onShowNamesUpdated")
     registerEvent(Events.showNamesFlashTemp(),"onShowNamesFlashTemp")
     registerEvent(Events.togglePaperdoll(), "togglePaperdoll")
@@ -63,15 +64,13 @@ function RootWindow.togglePaperdoll()
 end
 
 function RootWindow.toggleBackpack()
-    local window = ContainerWindow.Name .. PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack)
+    local backpack = Paperdoll.backpack(PlayerStatus.id())
+    local window = ContainerWindow.Name .. backpack
 
-    if WindowApi.doesExist(window) then
-        WindowApi.destroyWindow(window)
-    else
-        WindowApi.createFromTemplate(
-            ContainerWindow.Name .. PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack),
-            ContainerWindow.Template,
-            RootWindow.Name
+    if not WindowApi.destroyWindow(window) then
+        UserAction.useItem(
+            backpack,
+            false
         )
     end
 end
