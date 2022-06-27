@@ -6,6 +6,7 @@
                 <EventHandler event="OnLButtonDblClk" function="ContainerWindow.onSlotDoubleClick"/>
 				<EventHandler event="OnLButtonDown" function="ContainerWindow.onSlotSingleClick"/>
 				<EventHandler event="OnLButtonUp" function="ContainerWindow.onSlotSingleClickUp"/>
+				<EventHandler event="OnRButtonUp" function="ContainerWindow.onSlotRightClick"/>
 				<EventHandler event="OnMouseOver" function="ContainerWindow.onSlotMouseOver"/>
 				<EventHandler event="OnMouseOverEnd" function="ContainerWindow.onSlotMouseOverEnd"/>
 			</EventHandlers>
