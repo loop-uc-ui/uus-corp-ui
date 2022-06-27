@@ -65,6 +65,7 @@ function ContainerWindow.Initialize()
     WindowApi.registerEventHandler(Active.window(), Events.userSettingsUpdated(), "ContainerWindow.reopenContainer")
     WindowApi.registerEventHandler(Active.window(), ObjectInfo.event(), "ContainerWindow.updateObject")
     WindowApi.registerEventHandler(Active.window(), ItemProperties.event(), "ContainerWindow.updateObject")
+
     WindowDataApi.registerData(Container.type(), id)
 
     WindowApi.setShowing(
@@ -307,6 +308,16 @@ function ContainerWindow.onSlotDoubleClick()
     local slot = activeSlot()
     if slot.objectId ~= nil then
         UserAction.useItem(slot.objectId, false)
+    end
+end
+
+function ContainerWindow.onSlotRightClick()
+    local slot = activeSlot()
+
+    if slot.containerId ~= PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack) then
+        DragApi.autoPickUpObject(
+            slot.objectId
+        )
     end
 end
 

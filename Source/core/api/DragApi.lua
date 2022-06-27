@@ -31,3 +31,7 @@ end
 function DragApi.dragObjectToContainer(containerId, gridIndex)
     DragSlotDropObjectToContainer(containerId, gridIndex)
 end
+
+function DragApi.autoPickUpObject(objectId)
+    DragSlotAutoPickupObject(objectId)
+end
