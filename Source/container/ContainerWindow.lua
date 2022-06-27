@@ -5,6 +5,16 @@ ContainerWindow.Template = "ContainerWindow"
 ContainerWindow.Name = ContainerWindow.Template .. "_"
 ContainerWindow.MaxSlots = 125
 
+ContainerWindow.Views = {
+    Grid = "GridView",
+    Freeform = "FreeformView"
+}
+
+ContainerWindow.Gumps = {
+    Backpack = 60,
+    Corpse = 9
+}
+
 local function activeSlot()
     local slotNum = WindowApi.getId(Active.window())
 
@@ -52,62 +62,149 @@ function ContainerWindow.Initialize()
     local id = tonumber(string.gsub(Active.window(), ContainerWindow.Name, ""), 10)
     WindowApi.setId(Active.window(), id)
     WindowApi.registerEventHandler(Active.window(), Container.event(), "ContainerWindow.updateContainer")
+    WindowApi.registerEventHandler(Active.window(), Events.userSettingsUpdated(), "ContainerWindow.reopenContainer")
     WindowApi.registerEventHandler(Active.window(), ObjectInfo.event(), "ContainerWindow.updateObject")
     WindowApi.registerEventHandler(Active.window(), ItemProperties.event(), "ContainerWindow.updateObject")
     WindowDataApi.registerData(Container.type(), id)
-    ContainerWindow.updateContainer()
+
+    WindowApi.setShowing(
+        ContainerWindow.Name .. id .. ContainerWindow.Views.Grid,
+        not UserContainerSettings.legacyContainers()
+    )
+
+    WindowApi.setShowing(
+        ContainerWindow.Name .. id .. ContainerWindow.Views.Freeform,
+        UserContainerSettings.legacyContainers()
+    )
+
+    WindowApi.setShowing(
+        ContainerWindow.Name .. id .. "FreeformBackground",
+        UserContainerSettings.legacyContainers()
+    )
 end
 
 function ContainerWindow.updateContainer()
-    local id = WindowApi.getId(Active.window())
+    local this = Active.window()
+    local id = WindowApi.getId(this)
+    local isGrid = not WindowApi.isShowing(this .. ContainerWindow.Views.Freeform)
+    local name = StringFormatter.fromWString(Container.name(id))
 
-    LabelApi.setText(ContainerWindow.Name .. id .. "Title", Container.name(id))
-
-    local slots = ContainerWindow.MaxSlots
-    local window = ContainerWindow.Name .. id .. "GridViewScrollChild"
-    local x, _ = WindowApi.getDimensions(window)
-
-    --Public corpses may have more than the max count
-    if Container.itemCount(id) > slots then
-        slots = Container.itemCount(id)
+    if #name > 12 then
+        name = string.sub(name, 1, 13) .. "..."
     end
 
-    local sizeMultiplier = 1
+    LabelApi.setText(this .. "Title", name)
 
-    for i = 1, slots do
-        local slotName = window .. "Slot" .. tostring(i)
-        WindowApi.createFromTemplate(
-            slotName,
-            "ContainerSlotTemplate",
-            window
-        )
+    if not isGrid then
+        local gump = Container.gumpNum(id)
 
-        local slotX, _ =  WindowApi.getDimensions(slotName)
-        local rowSize = sizeMultiplier * slotX
+        local scale = Container.freeFormScale()
+        local _, xSize, ySize, _ = RequestGumpArt(gump)
 
-        if i ~= 1 then
-            WindowApi.clearAnchors(slotName)
-            if rowSize < x then
-                WindowApi.addAnchor(
-                    slotName,
-                    "right",
-                    window .. "Slot" .. tostring(i - 1),
-                    "left"
-                )
-                sizeMultiplier = sizeMultiplier + 1
-            else
-                WindowApi.addAnchor(
-                    slotName,
-                    "bottomleft",
-                    window .. "Slot" .. tostring(i - sizeMultiplier),
-                    "topleft"
-                )
-                sizeMultiplier = 1
-            end
+        local textureSize = xSize
+
+        if textureSize < ySize then
+            textureSize = ySize
         end
 
-        DynamicImageApi.setTexture(slotName .. "Icon", "")
-        WindowApi.setId(slotName, i)
+        WindowApi.setDimensions(
+            this,
+            textureSize,
+            textureSize
+        )
+
+        DynamicImageApi.setTextureDimensions(
+            this .. ContainerWindow.Views.Freeform,
+            textureSize,
+            textureSize
+        )
+
+        WindowApi.setDimensions(
+            this .. ContainerWindow.Views.Freeform,
+            textureSize,
+            textureSize
+        )
+
+        DynamicImageApi.setTexture(
+            this .. ContainerWindow.Views.Freeform,
+            "freeformcontainer_texture" .. id,
+            0,
+            0
+        )
+
+        DynamicImageApi.setTextureScale(
+            this .. ContainerWindow.Views.Freeform,
+            scale
+        )
+
+        if gump == ContainerWindow.Gumps.Backpack then
+            WindowApi.clearAnchors(this .. ContainerWindow.Views.Freeform)
+            WindowApi.addAnchor(
+                this .. ContainerWindow.Views.Freeform,
+                "topleft",
+                this,
+                "topleft",
+                -40,
+                0
+            )
+        elseif gump == ContainerWindow.Gumps.Corpse then
+            WindowApi.clearAnchors(this .. ContainerWindow.Views.Freeform)
+            WindowApi.addAnchor(
+                this .. ContainerWindow.Views.Freeform,
+                "topleft",
+                this,
+                "topleft",
+                0,
+                -40
+            )
+        end
+    else
+        local slots = ContainerWindow.MaxSlots
+        local window = ContainerWindow.Name .. id .. "GridViewScrollChild"
+        local x, _ = WindowApi.getDimensions(window)
+
+        --Public corpses may have more than the max count
+        if Container.itemCount(id) > slots then
+            slots = Container.itemCount(id)
+        end
+
+        local sizeMultiplier = 1
+
+        for i = 1, slots do
+            local slotName = window .. "Slot" .. tostring(i)
+            WindowApi.createFromTemplate(
+                slotName,
+                "ContainerSlotTemplate",
+                window
+            )
+
+            local slotX, _ =  WindowApi.getDimensions(slotName)
+            local rowSize = sizeMultiplier * slotX
+
+            if i ~= 1 then
+                WindowApi.clearAnchors(slotName)
+                if rowSize < x then
+                    WindowApi.addAnchor(
+                        slotName,
+                        "right",
+                        window .. "Slot" .. tostring(i - 1),
+                        "left"
+                    )
+                    sizeMultiplier = sizeMultiplier + 1
+                else
+                    WindowApi.addAnchor(
+                        slotName,
+                        "bottomleft",
+                        window .. "Slot" .. tostring(i - sizeMultiplier),
+                        "topleft"
+                    )
+                    sizeMultiplier = 1
+                end
+            end
+
+            DynamicImageApi.setTexture(slotName .. "Icon", "")
+            WindowApi.setId(slotName, i)
+        end
     end
 
     for i = 1, Container.itemCount(id) do
@@ -116,42 +213,46 @@ function ContainerWindow.updateContainer()
         WindowDataApi.registerData(ObjectInfo.type(), object)
         WindowDataApi.registerData(ItemProperties.type(), object)
 
-        local image = window .. "Slot" .. tostring(item.gridIndex) .. "Icon"
+        if isGrid then
+            local window = ContainerWindow.Name .. id .. "GridViewScrollChild"
 
-        DynamicImageApi.setTexture(
-            image,
-            ObjectInfo.iconName(object)
-        )
-        DynamicImageApi.setTextureScale(
-            image,
-            ObjectInfo.iconScale(object)
-        )
-        DynamicImageApi.setCustomShader(image, DynamicImageApi.Shaders.Sprite, {
-            ObjectInfo.hueId(object),
-            ObjectInfo.objectType(object)
-        })
-        DynamicImageApi.setTextureDimensions(
-            image,
-            ObjectInfo.newWidth(object),
-            ObjectInfo.newHeight(object)
-        )
+            local image = window .. "Slot" .. tostring(item.gridIndex) .. "Icon"
 
-        WindowApi.setDimensions(
-            image,
-            ObjectInfo.newWidth(object),
-            ObjectInfo.newHeight(object)
-        )
-        WindowApi.setColor(
-            image,
-            ObjectInfo.hue(object)
-        )
-        WindowApi.setAlpha(
-            image,
-            ObjectInfo.hue(object).a / 255
-        )
+            DynamicImageApi.setTexture(
+                image,
+                ObjectInfo.iconName(object)
+            )
+            DynamicImageApi.setTextureScale(
+                image,
+                ObjectInfo.iconScale(object)
+            )
+            DynamicImageApi.setCustomShader(image, DynamicImageApi.Shaders.Sprite, {
+                ObjectInfo.hueId(object),
+                ObjectInfo.objectType(object)
+            })
+            DynamicImageApi.setTextureDimensions(
+                image,
+                ObjectInfo.newWidth(object),
+                ObjectInfo.newHeight(object)
+            )
+
+            WindowApi.setDimensions(
+                image,
+                ObjectInfo.newWidth(object),
+                ObjectInfo.newHeight(object)
+            )
+            WindowApi.setColor(
+                image,
+                ObjectInfo.hue(object)
+            )
+            WindowApi.setAlpha(
+                image,
+                ObjectInfo.hue(object).a / 255
+            )
+        end
     end
 
-    ScrollWindowApi.updateScrollRect(WindowApi.getParent(window))
+    ScrollWindowApi.updateScrollRect(this .. ContainerWindow.Views.Grid)
 end
 
 function ContainerWindow.updateObject()
@@ -234,4 +335,20 @@ end
 
 function ContainerWindow.onSlotMouseOverEnd()
     TooltipWindow.destroy()
+end
+
+function ContainerWindow.onToggleView()
+    UserContainerSettings.legacyContainers(
+        not UserContainerSettings.legacyContainers()
+    )
+    ContainerWindow.reopenContainer(WindowApi.getParent(Active.window()))
+end
+
+function ContainerWindow.reopenContainer(container)
+    container = container or Active.window()
+    WindowApi.destroyWindow(container)
+    UserAction.useItem(
+        WindowApi.getId(container),
+        false
+    )
 end

@@ -19,7 +19,7 @@
 
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame">
-                            <AbsPoint x="36" y="36"/>
+                            <AbsPoint x="18" y="36"/>
                         </Anchor>
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame">
                             <AbsPoint x="-36" y="36"/>
@@ -28,9 +28,12 @@
 
                     <Windows>
                         <Label name="$parentModLabel" inherits="SettingsLabelTemplate">
+                            <Size>
+                                <AbsPoint x="150" y="0" />
+                            </Size>
                             <Anchors>
                                 <Anchor point="topleft" relativePoint="topleft">
-                                    <AbsPoint x="72" y="0"/>
+                                    <AbsPoint x="0" y="0"/>
                                 </Anchor>
                             </Anchors>
                         </Label>
@@ -45,6 +48,26 @@
                                 <EventHandler event="OnSelChanged" function="InterfaceSettingsWindow.onModChanged"/>
                             </EventHandlers>
                         </ComboBox>
+
+                        <Label name="$parentLegacyContainersLabel" inherits="SettingsLabelTemplate" wordwrap="true">
+                            <Size>
+                                <AbsPoint x="200" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentModLabel">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+                        
+                        <Button name="$parentLegacyContainersCheckBox" inherits="UO_Default_Check_Button">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentLegacyContainersLabel"/>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="InterfaceSettingsWindow.onLegacyContainersCheck"/>
+                            </EventHandlers>
+                        </Button>
                     </Windows>
                 </Window>
             </Windows>

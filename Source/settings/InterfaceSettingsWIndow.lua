@@ -4,9 +4,16 @@ InterfaceSettingsWindow.Name = SettingsWindow.Name .. "InterfacePage"
 
 InterfaceSettingsWindow.Container = InterfaceSettingsWindow.Name .. "Container"
 
-InterfaceSettingsWindow.ModLabel = InterfaceSettingsWindow.Container .. "ModLabel"
-
 InterfaceSettingsWindow.ModCombo = InterfaceSettingsWindow.Container .. "ModCombo"
+
+InterfaceSettingsWindow.Labels = {
+    Mod = InterfaceSettingsWindow.Container .. "ModLabel",
+    LegacyContainers = InterfaceSettingsWindow.Container .. "LegacyContainersLabel"
+}
+
+InterfaceSettingsWindow.CheckBoxes = {
+    LegacyContainers = InterfaceSettingsWindow.Container .. "LegacyContainersCheckBox"
+}
 
 InterfaceSettingsWindow.TextIds = {
     UseCustom = 1079523,
@@ -15,7 +22,7 @@ InterfaceSettingsWindow.TextIds = {
 
 function InterfaceSettingsWindow.onInitialize()
     LabelApi.setText(
-        InterfaceSettingsWindow.ModLabel,
+        InterfaceSettingsWindow.Labels.Mod,
         InterfaceSettingsWindow.TextIds.UseCustom
     )
 
@@ -41,9 +48,35 @@ function InterfaceSettingsWindow.onInitialize()
             )
         end
     end
+
+    LabelApi.setText(
+        InterfaceSettingsWindow.Labels.LegacyContainers,
+        "Default to Legacy Containers"
+    )
+
+    ButtonApi.setChecked(
+        InterfaceSettingsWindow.CheckBoxes.LegacyContainers,
+        UserContainerSettings.legacyContainers()
+    )
+
+    ButtonApi.setStayDown(
+        InterfaceSettingsWindow.CheckBoxes.LegacyContainers,
+        true
+    )
 end
 
 function InterfaceSettingsWindow.onModChanged(index)
     UserOptionsSettings.customUI(index)
+    EventApi.broadcast(Events.userSettingsUpdated())
+end
+
+function InterfaceSettingsWindow.onLegacyContainersCheck()
+    UserContainerSettings.legacyContainers(not UserContainerSettings.legacyContainers())
+
+    ButtonApi.setChecked(
+        InterfaceSettingsWindow.CheckBoxes.LegacyContainers,
+        UserContainerSettings.legacyContainers()
+    )
+
     EventApi.broadcast(Events.userSettingsUpdated())
 end

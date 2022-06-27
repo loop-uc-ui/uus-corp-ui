@@ -27,3 +27,11 @@ end
 function Container.name(id)
     return Container.data(id).containerName
 end
+
+function Container.gumpNum(id)
+    return Container.data(id).gumpNum
+end
+
+function Container.freeFormScale()
+    return SystemData.FreeformInventory.Scale
+end
