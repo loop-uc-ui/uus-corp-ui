@@ -1,0 +1,288 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+		<Window name ="MapLegendItemTemplate">
+			<Size>
+				<AbsPoint x="250" y="60" />
+			</Size>
+			<EventHandlers>
+				<EventHandler event="OnLButtonUp" function="MapWindow.LegendIconOnLButtonUp" />
+			</EventHandlers>
+			<Windows>
+				<DynamicImage name="$parentIcon">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="center" relativeTo="">
+							<AbsPoint x="25" y="30" />
+						</Anchor>
+					</Anchors>
+				</DynamicImage>
+				<Label name="$parentText" font="UO_DefaultText" linespacing="20" maxchars="30" textalign="left" autoresize="true" handleinput="false" wordwrap="true" >
+					<Size>
+						<AbsPoint x="150" y="10" />
+					</Size>
+					<Anchors>
+						<Anchor point="left" relativePoint="left" relativeTo="">
+							<AbsPoint x="60" y="0" />
+						</Anchor>
+					</Anchors>
+					<Color r="255" g="255" b="255" a="255" />
+				</Label>
+			</Windows>
+		</Window>
+
+		<!-- MAP WINDOW -->
+		<Window name="MapWindow" movable="true"  sticky="true" popable="true" >
+			<Size>
+				<AbsPoint x="400" y="400" />
+			</Size>
+			<Anchors>
+				<Anchor point="topright" relativePoint="topright" relativeTo="ResizeWindow">
+					<AbsPoint x="400" y="0" />
+				</Anchor>
+			</Anchors>
+			<EventHandlers>
+                <EventHandler event="OnInitialize" function="MapWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="MapWindow.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="MapWindow.onRightClick"/>
+			</EventHandlers>
+			<Windows>
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+
+				<Button name="$parentToggleBigButton" inherits="UO_Default_Spring_Button" layer="overlay">
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+							<AbsPoint x="-32" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="MapWindow.BigToggle" />
+						<EventHandler event="OnMouseOver" function="MapWindow.BigOnMouseOver" />
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentSearch" layer="popup" backgroundtexture="Search" highlighttexture="Search">
+					<Size>
+						<AbsPoint x="32" y="32" />
+					</Size>
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+							<AbsPoint x="-54" y="-5" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal  x="0" y="0" />
+						<NormalHighlit x="0" y="0" />
+						<Pressed x="0" y="0" />
+						<PressedHighlit x="0" y="0" />
+						<Disabled x="0" y="0" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="MapFind.Toggle" />
+						<EventHandler event="OnMouseOver" function="MapFind.MagnifyTooltip" />
+					</EventHandlers>
+				</Button>
+				<ComboBox name="$parentFacetCombo" inherits="UO_Default_LongComboBox" layer="overlay">
+					<Anchors>
+						<Anchor point="top" relativePoint="top" relativeTo="">
+							<AbsPoint x="0" y="33" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnSelChanged" function="MapWindow.SelectFacet" />
+					</EventHandlers>
+				</ComboBox>
+
+				<Button name="$parentFacetNextButton" inherits="UO_Default_SmallNextButton" layer="overlay" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentFacetCombo">
+							<AbsPoint x="10" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="MapWindow.ToggleFacetUpOnLButtonUp" />
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentFacetPrevButton" inherits="UO_Default_SmallPreviousButton" layer="overlay" >
+					<Anchors>
+						<Anchor point="left" relativePoint="right" relativeTo="$parentFacetCombo">
+							<AbsPoint x="-10" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="MapWindow.ToggleFacetDownOnLButtonUp" />
+					</EventHandlers>
+				</Button>
+
+				<ComboBox name="$parentAreaCombo" inherits="UO_Default_LongComboBox" layer="overlay">
+					<Anchors>
+						<Anchor point="bottom" relativePoint="top" relativeTo="$parentFacetCombo">
+							<AbsPoint x="0" y="3" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnSelChanged" function="MapWindow.SelectArea" />
+					</EventHandlers>
+				</ComboBox>
+
+				<Button name="$parentAreaNextButton" inherits="UO_Default_SmallNextButton" layer="overlay" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentAreaCombo">
+							<AbsPoint x="10" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="MapWindow.ToggleAreaUpOnLButtonUp" />
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentAreaPrevButton" inherits="UO_Default_SmallPreviousButton" layer="overlay" >
+					<Anchors>
+						<Anchor point="left" relativePoint="right" relativeTo="$parentAreaCombo">
+							<AbsPoint x="-10" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="MapWindow.ToggleAreaDownOnLButtonUp" />
+					</EventHandlers>
+				</Button>
+
+				<MaskWindow name="$parentMap" movable="false" popable="false" layer="background" handleinput="true">
+					<Size>
+						<!--AbsPoint x="690" y="665" /-->
+						<AbsPoint x="690" y="665" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottom" relativePoint="top" relativeTo="$parentAreaCombo">
+							<AbsPoint x="0" y="3" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnMouseWheel" function="MapWindow.MapOnMouseWheel" />
+					</EventHandlers>
+					<Windows>
+						<DynamicImage name="$parentImage" handleinput="true" layer="default" scaleAnchor="center" texturescale ="20">
+							<Size>
+								<AbsPoint x="1100" y="1100" />
+							</Size>
+							<Anchors>
+								<Anchor point="center" relativePoint="center"/>
+							</Anchors>
+							<EventHandlers>
+								<EventHandler event="OnLButtonDown" function="MapWindow.MapOnLButtonDown" />
+								<EventHandler event="OnLButtonUp" function="MapWindow.MapOnLButtonUp" />
+								<EventHandler event="OnRButtonUp" function="MapWindow.MapOnRButtonUp" />
+								<EventHandler event="OnLButtonDblClk" function="MapWindow.MapOnLButtonDblClk" />
+								<EventHandler event="OnMouseDrag" function="MapWindow.MapMouseDrag" />
+								<EventHandler event="OnMouseOver" function="MapWindow.OnMouseOver" />
+								<EventHandler event="OnMouseOverEnd" function="MapWindow.OnMouseOverEnd" />
+							</EventHandlers>
+						</DynamicImage>
+						<FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" >
+							<Anchors>
+								<Anchor point="topleft" relativePoint="topleft" />
+								<Anchor point="bottomright" relativePoint="bottomright" />
+							</Anchors>
+						</FullResizeImage>
+					</Windows>
+				</MaskWindow>
+
+				<FullResizeImage name="$parentOverlay" texture="TMapOverlay" handleinput="false">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="Map">
+							<AbsPoint x="-8" y="-8" />
+						</Anchor>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="Map">
+							<AbsPoint x="8" y="8" />
+						</Anchor>
+					</Anchors>
+					<Sizes>
+						<TopLeft x="70" y="70" />
+						<BottomRight x="70" y="70" />
+						<Middle x="70" y="70" />
+					</Sizes>
+					<TexCoords>
+						<TopLeft x="0" y="0" />
+						<TopCenter x="70" y="0" />
+						<TopRight x="140" y="0" />
+						<MiddleLeft x="0" y="70" />
+						<MiddleCenter x="70" y="70" />
+						<MiddleRight x="140" y="70" />
+						<BottomLeft x="0" y="140" />
+						<BottomCenter x="70" y="140" />
+						<BottomRight x="140" y="140" />
+					</TexCoords>
+				</FullResizeImage>
+
+				<Label name="$parentCoordsText" font="Arial_Black_Shadow_12" maxchars="64" textalign="left" handleinput="false" wordwrap ="true">
+					<Size>
+						<AbsPoint x="200" y="32" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="Map">
+							<AbsPoint x="5" y="5" />
+						</Anchor>
+					</Anchors>
+				</Label>
+
+				<Label name="$parentPlayerCoordsText" font="Arial_Black_Shadow_12" maxchars="128" textalign="right" handleinput="false" wordwrap ="true">
+					<Size>
+						<AbsPoint x="250" y="50" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="Map">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+				</Label>
+
+				<Button name="$parentCenterOnPlayerButton" inherits="UO_Default_Check_Button">
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="Map">
+							<AbsPoint x="5" y="-5" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="MapWindow.CenterOnPlayerOnLButtonUp" />
+					</EventHandlers>
+				</Button>
+            
+				<Label name="$parentCenterOnPlayerLabel" font="Arial_Black_Shadow_12" inherits="ItemTitle" autoresizewidth="true" handleinput="false">
+					<Size>
+						<AbsPoint x="200" y="32" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentCenterOnPlayerButton">
+							<AbsPoint x="5" y="-5" />
+						</Anchor>
+					</Anchors>
+					<Color r="255" g="255" b="255" a="255" />
+				</Label>
+
+				<Button name="$parentResizeButton" inherits="CoreWindowResizeButtonBottomRight" layer="popup" >
+					<Anchors>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="" >
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="MapWindow.OnResizeBegin" />
+					</EventHandlers>
+				</Button>
+
+			</Windows>
+		</Window>
+
+	</Windows>
+</Interface>

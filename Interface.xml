@@ -20,6 +20,7 @@
     <Include file="Source/drag/GenericQuantityWindow.xml"/>
     <Include file="Source/gump/GumpWindow.xml"/>
 	<Include file="Source/main_menu/MainMenuWindow.xml"/>
+    <Include file="Source/map/MapWindow.xml"/>
     <Include file="Source/health_bar/HealthBarRootOverlayWindow.xml"/>
     <Include file="Source/health_bar/MobileHealthBar.xml"/>
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
@@ -134,6 +135,7 @@
         <Script file="Source/drag/GenericQuantityWindow.lua"/>
         <Script file="Source/gump/GumpWindow.lua"/>
 		<Script file="Source/main_menu/MainMenuWindow.lua"/>
+        <Script file="Source/map/MapWindow.lua"/>
         <Script file="Source/health_bar/HealthBarRootOverlayWindow.lua"/>
         <Script file="Source/health_bar/MobileHealthBar.lua"/>
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>
