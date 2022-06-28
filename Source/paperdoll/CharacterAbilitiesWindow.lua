@@ -33,9 +33,14 @@ function CharacterAbilitiesWindow.onInitialize()
         "CharacterAbilitiesWindow.onResetAbilities"
     )
 
+    WindowApi.registerEventHandler(
+        CharacterAbilitiesWindow.Name,
+        PlayerEquipment.event(),
+        "CharacterAbilitiesWindow.onUpdateAbilities"
+    )
+
     CharacterAbilitiesWindow.onUpdateRacialAbilities()
-    CharacterAbilitiesWindow.onDisplayActiveAbilities()
-    CharacterAbilitiesWindow.onResetAbilities()
+    CharacterAbilitiesWindow.onUpdateAbilities()
 end
 
 function CharacterAbilitiesWindow.onShutdown()
@@ -57,13 +62,24 @@ function CharacterAbilitiesWindow.onShutdown()
         CharacterAbilitiesWindow.Name,
         Events.resetAbilities()
     )
+
+    WindowApi.unregisterEventHandler(
+        CharacterAbilitiesWindow.Name,
+        PlayerEquipment.event()
+    )
 end
 
 function CharacterAbilitiesWindow.onRightClick()
     WindowApi.destroyWindow(Active.window())
 end
 
+function CharacterAbilitiesWindow.onUpdateAbilities()
+    CharacterAbilitiesWindow.onDisplayActiveAbilities()
+    CharacterAbilitiesWindow.onResetAbilities()
+end
+
 function CharacterAbilitiesWindow.onUpdateRacialAbilities()
+    CharacterAbilitiesWindow.RacialAbilities = {}
     local order = {}
 
     for i = 1, AbilityApi.getMaxRacialAbilities() do
@@ -92,6 +108,8 @@ function CharacterAbilitiesWindow.onUpdateRacialAbilities()
 end
 
 function CharacterAbilitiesWindow.onDisplayActiveAbilities()
+    CharacterAbilitiesWindow.ActiveAbilities = {}
+
     local _, _, tid = AbilityApi.getAbilityData(
         AbilityApi.getWeaponAbilityId(
             Equipment.WEAPONABILITY_PRIMARY
@@ -129,6 +147,7 @@ function CharacterAbilitiesWindow.onDisplayActiveAbilities()
 end
 
 function CharacterAbilitiesWindow.onResetAbilities()
+    CharacterAbilitiesWindow.InactiveAbilities = {}
     local order = {}
 
     for i = 1, AbilityApi.WeaponAbilitiesCount do
