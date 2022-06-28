@@ -186,7 +186,6 @@ function PaperdollWindow.onSlotSingleClick()
     else
         WindowDataApi.unregisterData(ItemProperties.type(), object.objectId)
         DragApi.setObjectMouseClickData(object.objectId, Drag.sourcePaperdoll())
-        EventApi.broadcast(PlayerEquipment.event())
     end
 end
 

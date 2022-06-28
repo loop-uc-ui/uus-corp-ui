@@ -15,6 +15,16 @@ CharacterAbilitiesWindow.ActiveAbilities = {}
 CharacterAbilitiesWindow.InactiveAbilities = {}
 
 function CharacterAbilitiesWindow.onInitialize()
+    WindowDataApi.registerData(
+        PlayerEquipment.type(),
+        PlayerEquipment.Slots.RightHand
+    )
+
+    WindowDataApi.registerData(
+        PlayerEquipment.type(),
+        PlayerEquipment.Slots.LeftHand
+    )
+
     WindowApi.registerEventHandler(
         CharacterAbilitiesWindow.Name,
         PlayerStatus.event(),
@@ -47,6 +57,16 @@ function CharacterAbilitiesWindow.onShutdown()
     CharacterAbilitiesWindow.RacialAbilities = {}
     CharacterAbilitiesWindow.ActiveAbilities = {}
     CharacterAbilitiesWindow.InactiveAbilities = {}
+
+    WindowDataApi.unregisterData(
+        PlayerEquipment.type(),
+        PlayerEquipment.Slots.RightHand
+    )
+
+    WindowDataApi.unregisterData(
+        PlayerEquipment.type(),
+        PlayerEquipment.Slots.LeftHand
+    )
 
     WindowApi.unregisterEventHandler(
         CharacterAbilitiesWindow.Name,
@@ -94,7 +114,16 @@ function CharacterAbilitiesWindow.onUpdateRacialAbilities()
                 text = StringFormatter.fromTid(tid)
             }
         )
+    end
 
+    table.sort(
+        CharacterAbilitiesWindow.RacialAbilities,
+        function (a, b)
+            return a.text < b.text
+        end
+    )
+
+    for i = 1, #CharacterAbilitiesWindow.RacialAbilities do
         table.insert(
             order,
             i
@@ -162,7 +191,35 @@ function CharacterAbilitiesWindow.onResetAbilities()
                 text = StringFormatter.fromTid(tid)
             }
         )
+    end
 
+    --Remove active abilities
+    for i = 1, #CharacterAbilitiesWindow.InactiveAbilities do
+        local ability = CharacterAbilitiesWindow.InactiveAbilities[i]
+
+        if ability ~= nil then --May be nil since we're modifying the table concurrently
+            local text = ability.text
+
+            for j = 1, #CharacterAbilitiesWindow.ActiveAbilities do
+                if text == CharacterAbilitiesWindow.ActiveAbilities[j].text then
+                    table.remove(
+                        CharacterAbilitiesWindow.InactiveAbilities,
+                        i
+                    )
+                    break
+                end
+            end
+        end
+    end
+
+    table.sort(
+        CharacterAbilitiesWindow.InactiveAbilities,
+        function (a, b)
+            return a.text < b.text
+        end
+    )
+
+    for i = 1, #CharacterAbilitiesWindow.InactiveAbilities do
         table.insert(
             order,
             i
