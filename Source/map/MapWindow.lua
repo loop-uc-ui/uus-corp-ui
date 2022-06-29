@@ -47,8 +47,10 @@ function MapWindow.onInitialize()
 
     MapSettings.setMode(MapSettings.MODES.ATLAS)
 
-    local facet = RadarApi.getFacet()
-    local area = RadarApi.getArea()
+    DynamicImageApi.setRotation(
+        MapWindow.MapImage,
+        Radar.textureRotation()
+    )
 
     MapWindow.onUpdateMap()
 end
