@@ -1,0 +1,170 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+		<Window name ="MapLegendItemTemplate">
+			<Size>
+				<AbsPoint x="250" y="60" />
+			</Size>
+			<EventHandlers>
+				<EventHandler event="OnLButtonUp" function="MapWindow.LegendIconOnLButtonUp" />
+			</EventHandlers>
+			<Windows>
+				<DynamicImage name="$parentIcon">
+					<Anchors>
+						<Anchor point="topleft" relativePoint="center" relativeTo="">
+							<AbsPoint x="25" y="30" />
+						</Anchor>
+					</Anchors>
+				</DynamicImage>
+				<Label name="$parentText" font="UO_DefaultText" linespacing="20" maxchars="30" textalign="left" autoresize="true" handleinput="false" wordwrap="true" >
+					<Size>
+						<AbsPoint x="150" y="10" />
+					</Size>
+					<Anchors>
+						<Anchor point="left" relativePoint="left" relativeTo="">
+							<AbsPoint x="60" y="0" />
+						</Anchor>
+					</Anchors>
+					<Color r="255" g="255" b="255" a="255" />
+				</Label>
+			</Windows>
+		</Window>
+
+		<!-- MAP WINDOW -->
+		<Window name="MapWindow" movable="true"  sticky="true" popable="true" >
+			<Size>
+				<AbsPoint x="320" y="320" />
+			</Size>
+			<Anchors>
+				<Anchor point="topright" relativePoint="topright" relativeTo="ResizeWindow">
+					<AbsPoint x="400" y="0" />
+				</Anchor>
+			</Anchors>
+			<EventHandlers>
+                <EventHandler event="OnInitialize" function="MapWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="MapWindow.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="MapWindow.onRightClick"/>
+			</EventHandlers>
+			<Windows>
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+
+
+				<Button name="$parentSearch" layer="popup" backgroundtexture="Search" highlighttexture="Search">
+					<Size>
+						<AbsPoint x="32" y="32" />
+					</Size>
+					<Anchors>
+						<Anchor point="topright" relativePoint="topright" relativeTo="$parentMap">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal  x="0" y="0" />
+						<NormalHighlit x="0" y="0" />
+						<Pressed x="0" y="0" />
+						<PressedHighlit x="0" y="0" />
+						<Disabled x="0" y="0" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="MapFind.Toggle" />
+						<EventHandler event="OnMouseOver" function="MapFind.MagnifyTooltip" />
+					</EventHandlers>
+				</Button>
+
+				<MaskWindow name="$parentMap" movable="false" popable="false" layer="background" handleinput="true">
+					<Size>
+						<AbsPoint x="296" y="296" />
+					</Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame">
+                            <AbsPoint x="8" y="8"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame">
+                            <AbsPoint x="-8" y="-8"/>
+                        </Anchor>
+                    </Anchors>
+					<EventHandlers>
+						<EventHandler event="OnMouseWheel" function="MapWindow.onMouseWheel" />
+					</EventHandlers>
+					<Windows>
+						<DynamicImage name="$parentImage" handleinput="true" layer="default" scaleAnchor="center">
+							<Size>
+								<AbsPoint x="1100" y="1100" />
+							</Size>
+							<Anchors>
+								<Anchor point="center" relativePoint="center"/>
+							</Anchors>
+							<EventHandlers>
+								<EventHandler event="OnLButtonDown" function="MapWindow.MapOnLButtonDown" />
+								<EventHandler event="OnLButtonUp" function="MapWindow.MapOnLButtonUp" />
+								<EventHandler event="OnRButtonUp" function="MapWindow.MapOnRButtonUp" />
+								<EventHandler event="OnLButtonDblClk" function="MapWindow.MapOnLButtonDblClk" />
+								<EventHandler event="OnMouseDrag" function="MapWindow.MapMouseDrag" />
+								<EventHandler event="OnMouseOver" function="MapWindow.OnMouseOver" />
+								<EventHandler event="OnMouseOverEnd" function="MapWindow.OnMouseOverEnd" />
+							</EventHandlers>
+						</DynamicImage>
+					</Windows>
+				</MaskWindow>
+
+				<Label name="$parentCoordsText" font="Arial_Black_Shadow_12" maxchars="64" textalign="left" handleinput="false" wordwrap ="true">
+					<Size>
+						<AbsPoint x="200" y="32" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parentMap">
+							<AbsPoint x="5" y="5" />
+						</Anchor>
+					</Anchors>
+				</Label>
+
+				<Label name="$parentPlayerCoordsText" font="Arial_Black_Shadow_12" maxchars="128" textalign="right" handleinput="false" wordwrap ="true">
+					<Size>
+						<AbsPoint x="250" y="50" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentMap">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+				</Label>
+
+				<Button name="$parentCenterOnPlayerButton" inherits="UO_Default_Check_Button">
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentMap">
+							<AbsPoint x="5" y="-5" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="MapWindow.CenterOnPlayerOnLButtonUp" />
+					</EventHandlers>
+				</Button>
+            
+				<Label name="$parentCenterOnPlayerLabel" font="Arial_Black_Shadow_12" inherits="ItemTitle" autoresizewidth="true" handleinput="false">
+					<Size>
+						<AbsPoint x="200" y="32" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentCenterOnPlayerButton">
+							<AbsPoint x="5" y="-5" />
+						</Anchor>
+					</Anchors>
+					<Color r="255" g="255" b="255" a="255" />
+				</Label>
+
+			</Windows>
+		</Window>
+
+	</Windows>
+</Interface>

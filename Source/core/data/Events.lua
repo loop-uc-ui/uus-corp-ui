@@ -119,3 +119,7 @@ end
 function Events.resetAbilities()
     return SystemData.Events.ABILITY_RESET
 end
+
+function Events.toggleMap()
+    return SystemData.Events.TOGGLE_WORLD_MAP_WINDOW
+end

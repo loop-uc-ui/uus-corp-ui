@@ -23,6 +23,7 @@ function RootWindow.create()
     registerEvent(Events.toggleBackpack(), "toggleBackpack")
     registerEvent(Events.toggleSkills(), "toggleSkills")
     registerEvent(Events.textArrived(), "onTextArrived")
+    registerEvent(Events.toggleMap(), "toggleMap")
     WindowApi.createWindow(ObjectHandleRootOverlayWindow.Name, true)
     WindowApi.createWindow(HealthBarRootOverlayWindow.Name, true)
     WindowApi.createWindow(ContextMenuWindow.Name, false)
@@ -38,6 +39,7 @@ function RootWindow.shutdown()
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.togglePaperdoll())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.toggleSkills())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.textArrived())
+    WindowApi.unregisterEventHandler(RootWindow.Name, Events.toggleMap())
     WindowApi.destroyWindow(ObjectHandleRootOverlayWindow.Name)
     WindowApi.destroyWindow(HealthBarRootOverlayWindow.Name)
 end
@@ -114,4 +116,8 @@ function RootWindow.onTextArrived()
             break
         end
     end
+end
+
+function RootWindow.toggleMap()
+    WindowApi.toggleWindow(MapWindow.Name)
 end

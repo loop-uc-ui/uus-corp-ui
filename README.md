@@ -17,6 +17,7 @@ Pre-Alpha: Working towards [Alpha](https://github.com/loop-uc-ui/uus-corp-ui/mil
 | [Debug](https://github.com/loop-uc-ui/uus-corp-ui/projects/15) |
 | [Gumps](https://github.com/loop-uc-ui/uus-corp-ui/projects/17) |
 | [Macros](https://github.com/loop-uc-ui/uus-corp-ui/projects/27) |
+| [Map](https://github.com/loop-uc-ui/uus-corp-ui/projects/32) |
 | [Healthbars](https://github.com/loop-uc-ui/uus-corp-ui/projects/14) |
 | [Hotbars](https://github.com/loop-uc-ui/uus-corp-ui/projects/28) |
 | [Object Handles](https://github.com/loop-uc-ui/uus-corp-ui/projects/24) |
