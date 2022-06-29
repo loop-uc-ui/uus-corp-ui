@@ -169,7 +169,7 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnMouseWheel" function="MapWindow.MapOnMouseWheel" />
+						<EventHandler event="OnMouseWheel" function="MapWindow.onMouseWheel" />
 					</EventHandlers>
 					<Windows>
 						<DynamicImage name="$parentImage" handleinput="true" layer="default" scaleAnchor="center" texturescale ="20">
@@ -198,39 +198,12 @@
 					</Windows>
 				</MaskWindow>
 
-				<FullResizeImage name="$parentOverlay" texture="TMapOverlay" handleinput="false">
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft" relativeTo="Map">
-							<AbsPoint x="-8" y="-8" />
-						</Anchor>
-						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="Map">
-							<AbsPoint x="8" y="8" />
-						</Anchor>
-					</Anchors>
-					<Sizes>
-						<TopLeft x="70" y="70" />
-						<BottomRight x="70" y="70" />
-						<Middle x="70" y="70" />
-					</Sizes>
-					<TexCoords>
-						<TopLeft x="0" y="0" />
-						<TopCenter x="70" y="0" />
-						<TopRight x="140" y="0" />
-						<MiddleLeft x="0" y="70" />
-						<MiddleCenter x="70" y="70" />
-						<MiddleRight x="140" y="70" />
-						<BottomLeft x="0" y="140" />
-						<BottomCenter x="70" y="140" />
-						<BottomRight x="140" y="140" />
-					</TexCoords>
-				</FullResizeImage>
-
 				<Label name="$parentCoordsText" font="Arial_Black_Shadow_12" maxchars="64" textalign="left" handleinput="false" wordwrap ="true">
 					<Size>
 						<AbsPoint x="200" y="32" />
 					</Size>
 					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft" relativeTo="Map">
+						<Anchor point="topleft" relativePoint="topleft" relativeTo="$parentMap">
 							<AbsPoint x="5" y="5" />
 						</Anchor>
 					</Anchors>
@@ -241,7 +214,7 @@
 						<AbsPoint x="250" y="50" />
 					</Size>
 					<Anchors>
-						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="Map">
+						<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentMap">
 							<AbsPoint x="0" y="0" />
 						</Anchor>
 					</Anchors>
@@ -249,7 +222,7 @@
 
 				<Button name="$parentCenterOnPlayerButton" inherits="UO_Default_Check_Button">
 					<Anchors>
-						<Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="Map">
+						<Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentMap">
 							<AbsPoint x="5" y="-5" />
 						</Anchor>
 					</Anchors>
