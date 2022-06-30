@@ -74,6 +74,10 @@ function RadarApi.radarPosToWorld(offsetX, offsetY, useScale)
     return UOGetRadarPosToWorld(offsetX, offsetY, useScale)
 end
 
+function Radar.worldPosToRadar(x, y)
+    return UOGetWorldPosToRadar(x, y)
+end
+
 function RadarApi.getAreaCount(facet)
     return UORadarGetAreaCount(facet)
 end
