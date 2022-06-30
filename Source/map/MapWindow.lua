@@ -97,3 +97,32 @@ function MapWindow.onMouseWheel(_, _, delta)
     RadarApi.setZoom(zoom)
     MapSettings.setZoom(zoom)
 end
+
+function MapWindow.onMapMouseDrag(_, deltaX, deltaY)
+    if deltaX == 0 or deltaY == 0 then
+        return
+    end
+
+    local area = RadarApi.getArea()
+    local facet = RadarApi.getFacet()
+    local centerX, centerY = RadarApi.getCenter()
+    local worldPosX, worldPosY = RadarApi.worldPosToRadar(centerX, centerY)
+
+    centerX, centerY = RadarApi.radarPosToWorld(
+        worldPosX - deltaX,
+        worldPosY - deltaY,
+        false
+    )
+
+    RadarApi.centerOnLocation(
+        centerX,
+        centerY,
+        facet,
+        area,
+        false
+    )
+end
+
+function MapWindow.onLButtonDown()
+    --Stubbed, needed for dragging
+end

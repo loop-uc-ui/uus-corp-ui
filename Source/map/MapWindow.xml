@@ -30,7 +30,7 @@
 		</Window>
 
 		<!-- MAP WINDOW -->
-		<Window name="MapWindow" movable="true"  sticky="true" popable="true" >
+		<Window name="MapWindow" movable="true" sticky="true" popable="true" >
 			<Size>
 				<AbsPoint x="320" y="320" />
 			</Size>
@@ -106,13 +106,8 @@
 								<Anchor point="center" relativePoint="center"/>
 							</Anchors>
 							<EventHandlers>
-								<EventHandler event="OnLButtonDown" function="MapWindow.MapOnLButtonDown" />
-								<EventHandler event="OnLButtonUp" function="MapWindow.MapOnLButtonUp" />
-								<EventHandler event="OnRButtonUp" function="MapWindow.MapOnRButtonUp" />
-								<EventHandler event="OnLButtonDblClk" function="MapWindow.MapOnLButtonDblClk" />
-								<EventHandler event="OnMouseDrag" function="MapWindow.MapMouseDrag" />
-								<EventHandler event="OnMouseOver" function="MapWindow.OnMouseOver" />
-								<EventHandler event="OnMouseOverEnd" function="MapWindow.OnMouseOverEnd" />
+								<EventHandler event="OnMouseDrag" function="MapWindow.onMapMouseDrag" />
+								<EventHandler event="OnLButtonDown" function="MapWindow.onLButtonDown"/>
 							</EventHandlers>
 						</DynamicImage>
 					</Windows>
