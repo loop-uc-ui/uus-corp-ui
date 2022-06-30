@@ -45,6 +45,8 @@ function MapWindow.onInitialize()
 
     RadarApi.setOffset(0, 0)
 
+    RadarApi.setCenterOnPlayer(true)
+
     MapSettings.setMode(MapSettings.MODES.ATLAS)
 
     DynamicImageApi.setRotation(
@@ -103,6 +105,8 @@ function MapWindow.onMapMouseDrag(_, deltaX, deltaY)
         return
     end
 
+    RadarApi.setCenterOnPlayer(false)
+
     local area = RadarApi.getArea()
     local facet = RadarApi.getFacet()
     local centerX, centerY = RadarApi.getCenter()
@@ -123,6 +127,10 @@ function MapWindow.onMapMouseDrag(_, deltaX, deltaY)
     )
 end
 
-function MapWindow.onLButtonDown()
+function MapWindow.onMapLButtonDown()
     --Stubbed, needed for dragging
+end
+
+function MapWindow.onMapDoubleClick()
+    RadarApi.setCenterOnPlayer(true)
 end

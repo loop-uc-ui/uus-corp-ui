@@ -74,7 +74,7 @@ function RadarApi.radarPosToWorld(offsetX, offsetY, useScale)
     return UOGetRadarPosToWorld(offsetX, offsetY, useScale)
 end
 
-function Radar.worldPosToRadar(x, y)
+function RadarApi.worldPosToRadar(x, y)
     return UOGetWorldPosToRadar(x, y)
 end
 
