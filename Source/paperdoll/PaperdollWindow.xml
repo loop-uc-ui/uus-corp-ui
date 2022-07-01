@@ -63,12 +63,9 @@
 						</Anchor>
                     </Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="PaperdollWindow.OnPaperdollTextureLButtonDown" />
-						<EventHandler event="OnLButtonUp" function="PaperdollWindow.OnPaperdollTextureLButtonUp" />
-						<EventHandler event="OnLButtonDblClk" function="PaperdollWindow.OnPaperdollTextureLButtonDblClk" />
-						<EventHandler event="OnRButtonDown" function="PaperdollWindow.OnPaperdollTextureRButtonDown" />
-						<EventHandler event="OnMouseOver" function="PaperdollWindow.OnPaperdollTextureMouseOver" />
-						<EventHandler event="OnMouseOverEnd" function="PaperdollWindow.OnPaperdollTextureMouseEnd" />
+						<EventHandler event="OnLButtonDown" function="PaperdollWindow.onModelLeftClickDown" />
+						<EventHandler event="OnLButtonUp" function="PaperdollWindow.onModelLeftClickUp" />
+						<EventHandler event="OnLButtonDblClk" function="PaperdollWindow.onModelDoubleClick" />
 					</EventHandlers>
 				</DynamicImage>
 
