@@ -8,6 +8,7 @@ PaperdollWindow.WarButton = "WarButton"
 PaperdollWindow.CharacterAbilities = "ToggleCharacterAbilities"
 PaperdollWindow.Model = "ModelTexture"
 PaperdollWindow.CharacterSheet = "ToggleCharacterSheet"
+PaperdollWindow.ModelOffset = 1.75
 
 local function activeSlot()
     local id = WindowApi.getId(Active.window())
@@ -24,6 +25,21 @@ local function activeSlot()
         objectId = slotId,
         paperdollId = paperdollId
     }
+end
+
+local function activeModelTexture()
+    local paperdollId = WindowApi.getId(
+        WindowApi.getParent(
+            Active.window()
+        )
+    )
+
+    local slotId = ObjectApi.fromPaperdoll(
+        paperdollId,
+        WindowApi.getScale(Active.window()) / PaperdollWindow.ModelOffset
+    )
+
+    return paperdollId, slotId
 end
 
 function PaperdollWindow.onInitialize()
@@ -118,7 +134,10 @@ function PaperdollWindow.update()
         local backgroundWindow = window .. PaperdollWindow.Model
         DynamicImageApi.setTextureDimensions(backgroundWindow, texture.Width, texture.Height)
         DynamicImageApi.setTexture(backgroundWindow, textureName)
-        WindowApi.setDimensions(backgroundWindow, texture.Width / 1.75, texture.Height / 1.75)
+        WindowApi.setDimensions(
+            backgroundWindow, texture.Width / PaperdollWindow.ModelOffset,
+            texture.Height / PaperdollWindow.ModelOffset
+        )
     else
         WindowApi.setShowing(window .. "ToggleView", false)
     end
@@ -233,4 +252,35 @@ end
 
 function PaperdollWindow.ToggleCharacterAbilities()
     WindowApi.toggleWindow(CharacterAbilitiesWindow.Name)
+end
+
+function PaperdollWindow.onModelLeftClickDown()
+    local _, slotId = activeModelTexture()
+
+    if Cursor ~= nil and Cursor.hasTarget() and slotId ~= 0 then
+        WindowDataApi.registerData(
+            ObjectInfo.type(),
+            slotId
+        )
+        TargetApi.clickTarget(slotId)
+        WindowDataApi.unregisterData(
+            ObjectInfo.type(),
+            slotId
+        )
+    elseif slotId ~= 0 then
+        DragApi.setObjectMouseClickData(
+            slotId,
+            Drag.sourcePaperdoll()
+        )
+    end
+end
+
+function PaperdollWindow.onModelLeftClickUp()
+    local paperdollId, slotId = activeModelTexture()
+
+    if Drag.isItem() and slotId ~= 0 then
+        DragApi.dropEquipmentOnPaperdoll(slotId)
+    elseif Drag.isItem() then
+        DragApi.dropObjectOnPaperdoll(paperdollId)
+    end
 end
