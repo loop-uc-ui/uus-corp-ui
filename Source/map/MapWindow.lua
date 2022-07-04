@@ -6,18 +6,19 @@ MapWindow.MapImage = MapWindow.Name .. "MapImage"
 
 function MapWindow.onInitialize()
     WindowDataApi.registerData(
-        Radar.type(),
-        0
+        PlayerLocation.type()
     )
 
     WindowDataApi.registerData(
-        WaypointDisplay.type(),
-        0
+        Radar.type()
     )
 
     WindowDataApi.registerData(
-        WaypointList.type(),
-        0
+        WaypointDisplay.type()
+    )
+
+    WindowDataApi.registerData(
+        WaypointList.type()
     )
 
     WindowApi.registerEventHandler(
@@ -76,7 +77,31 @@ function MapWindow.onUpdateWaypoints()
 end
 
 function MapWindow.onShutdown()
+    WindowDataApi.unregisterData(
+        PlayerLocation.type()
+    )
 
+    WindowDataApi.unregisterData(
+        Radar.type()
+    )
+
+    WindowDataApi.unregisterData(
+        WaypointDisplay.type()
+    )
+
+    WindowDataApi.registerData(
+        WaypointList.type()
+    )
+
+    WindowApi.unregisterEventHandler(
+        MapWindow.Name,
+        Radar.event()
+    )
+
+    WindowApi.unregisterEventHandler(
+        MapWindow.Name,
+        WaypointList.event()
+    )
 end
 
 function MapWindow.onRightClick()
