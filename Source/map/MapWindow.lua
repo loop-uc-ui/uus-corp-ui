@@ -54,8 +54,6 @@ function MapWindow.onInitialize()
         MapWindow.MapImage,
         Radar.textureRotation()
     )
-
-    MapWindow.onUpdateMap()
 end
 
 function MapWindow.onUpdateMap()
@@ -70,10 +68,59 @@ function MapWindow.onUpdateMap()
         Radar.textureXCord(),
         Radar.textureYCord()
     )
+
+    MapWindow.onUpdateWaypoints()
 end
 
 function MapWindow.onUpdateWaypoints()
+    WindowApi.createFromTemplate(
+        "WaypointInfoPlayer",
+        "WaypointIconTemplate",
+        MapWindow.Name .. "Map"
+    )
 
+    local iconTexture, x, y = IconApi.getIconData(
+        WaypointDisplay.getTypeIconId(
+            MapSettings.MODES.ATLAS,
+            WaypointDisplay.TYPE_PLAYER
+        )
+    )
+
+    local width, height = IconApi.getTextureSize(
+        "icon" .. WaypointDisplay.getTypeIconId(
+            MapSettings.MODES.ATLAS,
+            WaypointDisplay.TYPE_PLAYER
+        )
+    )
+
+    DynamicImageApi.setTexture(
+        "WaypointInfoPlayer",
+        iconTexture,
+        x,
+        y
+    )
+
+    WindowApi.setScale(
+        "WaypointInfoPlayer",
+        0.5
+    )
+
+    WindowApi.setDimensions(
+        "WaypointInfoPlayer",
+        width,
+        height
+    )
+
+    WindowApi.clearAnchors("WaypointInfoPlayer")
+
+    WindowApi.addAnchor(
+        "WaypointInfoPlayer",
+        "center",
+        MapWindow.Name .. "Map",
+        "center",
+        0,
+        0
+    )
 end
 
 function MapWindow.onShutdown()
