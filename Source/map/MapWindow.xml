@@ -17,6 +17,7 @@
                 <EventHandler event="OnMouseOver" function="MapCommon.WaypointMouseOver" />
                 <EventHandler event="OnMouseOverEnd" function="MapCommon.WaypointMouseOverEnd" />
                 <EventHandler event="OnRButtonUp" function="MapCommon.WaypointOnRButtonUp" />
+				<EventHandler event="OnInitialize" function="MapWindow.onWaypointInitialize"/>
             </EventHandlers>
         </DynamicImage>
 
@@ -96,7 +97,7 @@
 		</Window>
 
 		<!-- MAP WINDOW -->
-		<Window name="MapWindow" movable="true" sticky="true" popable="true" >
+		<Window name="MapWindow" movable="true" sticky="true" popable="true" handleinput="true">
 			<Size>
 				<AbsPoint x="320" y="320" />
 			</Size>
@@ -150,7 +151,7 @@
 
 				<MaskWindow name="$parentMap" movable="false" popable="false" layer="background" handleinput="true">
 					<Size>
-						<AbsPoint x="296" y="296" />
+						<AbsPoint x="300" y="300" />
 					</Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame">
@@ -166,7 +167,7 @@
 					<Windows>
 						<DynamicImage name="$parentImage" handleinput="true" layer="default" scaleAnchor="center">
 							<Size>
-								<AbsPoint x="1100" y="1100" />
+								<AbsPoint x="1200" y="1200" />
 							</Size>
 							<Anchors>
 								<Anchor point="center" relativePoint="center"/>

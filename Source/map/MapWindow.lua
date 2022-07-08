@@ -54,9 +54,7 @@ function MapWindow.onInitialize()
         MapWindow.MapImage,
         Radar.textureRotation()
     )
-end
 
-function MapWindow.onUpdateMap()
     DynamicImageApi.setTextureScale(
         MapWindow.MapImage,
         Radar.textureScale()
@@ -69,6 +67,84 @@ function MapWindow.onUpdateMap()
         Radar.textureYCord()
     )
 
+    local waypoints = WaypointList.Waypoints.Facet[RadarApi.getFacet()]
+
+    for i = 1, #waypoints do
+        WindowApi.createFromTemplate(
+            "Waypoint" .. i,
+            "WaypointIconTemplate",
+            MapWindow.Name .. "Map"
+        )
+    end
+end
+
+function MapWindow.onWaypointInitialize()
+    local window = Active.window()
+    local waypoint = string.gsub(
+        window,
+        "Waypoint",
+        ""
+    )
+
+    waypoint = WaypointList.Waypoints.Facet[RadarApi.getFacet()][tonumber(waypoint)]
+
+    local iconTexture, xIcon, yIcon = IconApi.getIconData(
+        tonumber(waypoint.Icon)
+    )
+
+    local width, height = IconApi.getTextureSize(
+        "icon" .. waypoint.Icon
+    )
+
+    DynamicImageApi.setTexture(
+        window,
+        iconTexture,
+        xIcon,
+        yIcon
+    )
+
+    WindowApi.setScale(
+        window,
+        0.3
+    )
+
+    WindowApi.setDimensions(
+        window,
+        width,
+        height
+    )
+
+    WindowApi.clearAnchors(window)
+
+    local xCord, yCord = RadarApi.worldPosToRadar(
+        tonumber(waypoint.x),
+        tonumber(waypoint.y)
+    )
+
+    local centerX, centerY = RadarApi.getCenter()
+
+    centerX, centerY = RadarApi.worldPosToRadar(
+        centerX,
+        centerY
+    )
+
+    WindowApi.addAnchor(
+        window,
+        "center",
+        MapWindow.Name .. "Map",
+        "center",
+        xCord - centerX,
+        yCord - centerY
+    )
+end
+
+function MapWindow.onUpdateMap()
+    DynamicImageApi.setTexture(
+        MapWindow.MapImage,
+        "radar_texture",
+        Radar.textureXCord(),
+        Radar.textureYCord()
+    )
     MapWindow.onUpdateWaypoints()
 end
 
@@ -113,13 +189,18 @@ function MapWindow.onUpdateWaypoints()
 
     WindowApi.clearAnchors("WaypointInfoPlayer")
 
+    local xCord, yCord = RadarApi.worldPosToRadar(
+        PlayerLocation.xCord(),
+        PlayerLocation.yCord()
+    )
+
     WindowApi.addAnchor(
         "WaypointInfoPlayer",
-        "center",
+        "topleft",
         MapWindow.Name .. "Map",
         "center",
-        0,
-        0
+        xCord / 4,
+        yCord / 4
     )
 end
 
