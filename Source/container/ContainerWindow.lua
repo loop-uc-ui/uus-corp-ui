@@ -135,7 +135,7 @@ function ContainerWindow.updateContainer()
 
         DynamicImageApi.setTextureScale(
             this .. ContainerWindow.Views.Freeform,
-            scale
+            scale * InterfaceCore.scale
         )
 
         if gump == ContainerWindow.Gumps.Backpack then
