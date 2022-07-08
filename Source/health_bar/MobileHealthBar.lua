@@ -91,3 +91,10 @@ end
 function MobileHealthBar.onMouseOverEnd()
     WindowApi.destroyWindow(MobileHealthBar.Arrow)
 end
+
+function MobileHealthBar.onDoubleClick()
+    UserAction.useItem(
+        WindowApi.getId(Active.window()),
+        false
+    )
+end
