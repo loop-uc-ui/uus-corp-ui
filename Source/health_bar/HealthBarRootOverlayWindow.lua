@@ -51,6 +51,26 @@ function HealthBarRootOverlayWindow.endHealthBarDrag()
         HealthBarRootOverlayWindow.Name,
         "OnUpdate"
     )
+
+    local mobile = Active.mobile()
+
+    if mobile == nil or mobile == 0 then
+        return
+    end
+
+    local isPlayer = mobile == PlayerStatus.id()
+    local window = MobileHealthBar.Name .. mobile
+
+    if isPlayer then
+        window = PlayerHealthBar.Name
+    end
+
+    if WindowApi.doesExist(window) then
+        WindowApi.setMoving(
+            window,
+            false
+        )
+    end
 end
 
 function HealthBarRootOverlayWindow.onUpdate()
@@ -96,10 +116,12 @@ function HealthBarRootOverlayWindow.onUpdate()
         window
     )
 
+    local scale = 1 / InterfaceCore.scale
+
     WindowApi.setOffsetFromParent(
         window,
-        MousePosition.x() - x / 2,
-        MousePosition.y() - y / 2
+        MousePosition.x() * scale - x / 2 * scale,
+        MousePosition.y() * scale - y / 2 * scale
     )
 
     WindowApi.setMoving(
