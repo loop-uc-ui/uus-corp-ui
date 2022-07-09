@@ -352,6 +352,7 @@ function ContainerWindow.onToggleView()
     UserContainerSettings.legacyContainers(
         not UserContainerSettings.legacyContainers()
     )
+    SettingsApi.settingsChanged()
     ContainerWindow.reopenContainer(WindowApi.getParent(Active.window()))
 end
 
