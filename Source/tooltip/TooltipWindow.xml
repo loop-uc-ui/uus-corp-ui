@@ -13,6 +13,7 @@
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="TooltipWindow.onInitialize"/>
                 <EventHandler event="OnUpdate" function="TooltipWindow.onUpdate"/>
+                <EventHandler event="OnShutdown" function="TooltipWindow.onShutdown"/>
             </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background">

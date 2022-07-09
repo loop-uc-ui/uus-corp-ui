@@ -1,14 +1,26 @@
 TooltipWindow = {}
 TooltipWindow.Name = "TooltipWindow"
 TooltipWindow.Text = TooltipWindow.Name .. "Text"
+TooltipWindow.Data = {}
 
 function TooltipWindow.create(data)
+    TooltipWindow.Data = data
     WindowApi.createWindow(TooltipWindow.Name, false)
+end
 
+function TooltipWindow.destroy()
+    WindowApi.destroyWindow(TooltipWindow.Name)
+end
+
+function TooltipWindow.onShutdown()
+    TooltipWindow.Data = {}
+end
+
+function TooltipWindow.onInitialize()
     local width = 0
     local height = 0
 
-    for i = 1, #data do
+    for i = 1, #TooltipWindow.Data do
         local label = TooltipWindow.Text .. tostring(i)
         WindowApi.createFromTemplate(
             label,
@@ -36,7 +48,7 @@ function TooltipWindow.create(data)
             )
         end
 
-        LabelApi.setText(label, data[i])
+        LabelApi.setText(label, TooltipWindow.Data[i])
 
         local x, y = WindowApi.getDimensions(label)
 
@@ -53,15 +65,8 @@ function TooltipWindow.create(data)
         height + 16
     )
 
-    WindowApi.setShowing(TooltipWindow.Name, true)
-end
-
-function TooltipWindow.destroy()
-    WindowApi.destroyWindow(TooltipWindow.Name)
-end
-
-function TooltipWindow.onInitialize()
     TooltipWindow.onUpdate()
+    WindowApi.setShowing(TooltipWindow.Name, true)
 end
 
 function TooltipWindow.onUpdate()

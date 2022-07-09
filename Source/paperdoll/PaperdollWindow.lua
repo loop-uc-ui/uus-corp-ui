@@ -148,6 +148,7 @@ end
 
 function PaperdollWindow.onShutdown()
     TooltipWindow.destroy()
+
     local id = WindowApi.getId(Active.window())
 
     for i = 1, Paperdoll.numSlots(id) do
@@ -161,6 +162,10 @@ function PaperdollWindow.onShutdown()
     WindowDataApi.unregisterData(Paperdoll.type(), id)
     WindowApi.unregisterEventHandler(Active.window(), Paperdoll.event())
     WindowApi.unregisterEventHandler(Active.window(), MobileData.nameEvent())
+    WindowApi.unregisterCoreEventHandler(
+        Active.window(),
+        "OnUpdate"
+    )
 end
 
 function PaperdollWindow.onRightClick()
@@ -282,5 +287,48 @@ function PaperdollWindow.onModelLeftClickUp()
         DragApi.dropEquipmentOnPaperdoll(slotId)
     elseif Drag.isItem() then
         DragApi.dropObjectOnPaperdoll(paperdollId)
+    end
+end
+
+function PaperdollWindow.onModelMouseOverEnd()
+    WindowApi.unregisterCoreEventHandler(
+        Active.window(),
+        "OnUpdate"
+    )
+end
+
+function PaperdollWindow.onModelMouseOver()
+    WindowApi.registerCoreEventHandler(
+        Active.window(),
+        "OnUpdate",
+        "PaperdollWindow.onModelUpdate"
+    )
+end
+
+function PaperdollWindow.onModelUpdate()
+    local _, slotId = activeModelTexture()
+
+    if slotId == 0 or ItemProperties.properties(slotId) == nil then
+        TooltipWindow.destroy()
+        return
+    end
+
+    if WindowApi.doesExist(TooltipWindow.Name) and
+        slotId == WindowApi.getId(TooltipWindow.Name) then
+        return
+    end
+
+    TooltipWindow.destroy()
+
+    local data = {}
+    local properties = ItemProperties.propertiesList(slotId)
+
+    if properties ~= nil then
+        for i = 1, #properties do
+            local text = tostring(properties[i])
+            table.insert(data, text)
+        end
+        TooltipWindow.create(data)
+        WindowApi.setId(TooltipWindow.Name, slotId)
     end
 end
