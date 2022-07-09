@@ -66,6 +66,8 @@
 						<EventHandler event="OnLButtonDown" function="PaperdollWindow.onModelLeftClickDown" />
 						<EventHandler event="OnLButtonUp" function="PaperdollWindow.onModelLeftClickUp" />
 						<EventHandler event="OnLButtonDblClk" function="PaperdollWindow.onModelDoubleClick" />
+						<EventHandler event="OnMouseOver" function="PaperdollWindow.onModelMouseOver" />
+						<EventHandler event="OnMouseOverEnd" function="PaperdollWindow.onModelMouseOverEnd" />
 					</EventHandlers>
 				</DynamicImage>
 
