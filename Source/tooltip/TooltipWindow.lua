@@ -67,9 +67,11 @@ end
 function TooltipWindow.onUpdate()
     local _, y = WindowApi.getDimensions(Active.window())
 
+    local scale = 1 / InterfaceCore.scale
+
     WindowApi.setOffsetFromParent(
         TooltipWindow.Name,
-        MousePosition.x() + 8,
-        MousePosition.y() - y - 8
+        scale * (MousePosition.x()),
+        scale * (MousePosition.y() - y)
     )
 end
