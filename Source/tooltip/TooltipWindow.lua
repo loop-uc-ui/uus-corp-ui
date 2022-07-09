@@ -70,7 +70,7 @@ function TooltipWindow.onInitialize()
 end
 
 function TooltipWindow.onUpdate()
-    local x, y = WindowApi.getDimensions(Active.window())
+    local _, y = WindowApi.getDimensions(Active.window())
 
     local scale = 1 / InterfaceCore.scale
 
