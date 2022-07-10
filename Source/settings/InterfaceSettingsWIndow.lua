@@ -23,7 +23,7 @@ InterfaceSettingsWindow.CheckBoxes = {
     LegacyContainers = {
         name = InterfaceSettingsWindow.Container .. "LegacyContainersCheckBox",
         setting = function(newValue)
-            return  UserContainerSettings.legacyContainers(not UserContainerSettings.legacyContainers())
+            return  UserContainerSettings.legacyContainers(newValue)
         end
     }
 }

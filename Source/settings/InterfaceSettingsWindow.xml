@@ -63,7 +63,7 @@
                         <Button name="$parentLegacyContainersCheckBox" inherits="UO_Default_Check_Button">
                             <Anchors>
                                 <Anchor point="right" relativePoint="left" relativeTo="$parentLegacyContainersLabel">
-                                    <AbsPoint x="36" y="0"/>
+                                    <AbsPoint x="42" y="0"/>
                                 </Anchor>
                             </Anchors>
                             <EventHandlers>
