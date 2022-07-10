@@ -7,37 +7,6 @@ UserOptionsSettings.Languages = {
     SystemData.Settings.Language.LANGUAGE_KOR
 }
 
-UserOptionsSettings.ObjectHandleFilters = {
-    {
-        id = SystemData.Settings.ObjectHandleFilter.eDynamicFilter,
-        text = 1079457
-    },
-    {
-        id = SystemData.Settings.ObjectHandleFilter.eCorpseFilter,
-        text = 1078368
-    },
-    {
-        id = SystemData.Settings.ObjectHandleFilter.eNPCFilter,
-        text = 1079458
-    },
-    {
-        id =  SystemData.Settings.ObjectHandleFilter.eNPCVendorFilter,
-        text = 1079459
-    },
-    {
-        id = SystemData.Settings.ObjectHandleFilter.eMobileFilter,
-        text = 1075672
-    },
-    {
-        id = SystemData.Settings.ObjectHandleFilter.eItemsOnlyFilter,
-        text = 1154804
-    },
-    {
-        id = SystemData.Settings.ObjectHandleFilter.eLostItemsOnlyFilter,
-        text =1154805
-    }
-}
-
 function UserOptionsSettings.useEnglishNames(newValue)
     if newValue ~= nil then
         SystemData.Settings.Language.englishNames = newValue
