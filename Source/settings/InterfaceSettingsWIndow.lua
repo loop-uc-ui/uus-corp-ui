@@ -34,7 +34,7 @@ InterfaceSettingsWindow.ComboBoxes = {
         start = 1,
         list = function()
             local list = UserOptionsSettings.customUiList()
-            list[1] = 3000094
+            list[1] = StringFormatter.fromTid(3000094)
             return list
         end,
         setting = function(newValue)

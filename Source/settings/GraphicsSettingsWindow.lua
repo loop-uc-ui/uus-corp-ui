@@ -5,80 +5,131 @@ GraphicsSettingsWindow.Name = SettingsWindow.Name .. "GraphicsPage"
 GraphicsSettingsWindow.Container = GraphicsSettingsWindow.Name .. "Container"
 
 GraphicsSettingsWindow.Labels = {
-    Resolution = GraphicsSettingsWindow.Container .. "ResLabel",
-    UseFullScreen = GraphicsSettingsWindow.Container .. "FullScreenLabel"
+    Resolution = {
+        name = GraphicsSettingsWindow.Container .. "ResLabel",
+        text = "Resolution"
+    },
+    UseFullScreen = {
+        name = GraphicsSettingsWindow.Container .. "FullScreenLabel",
+        text = 1077821
+    },
+    PlayFlyingAnimation = {
+        name = GraphicsSettingsWindow.Container .. "FlyingAnimationLabel",
+        text = 1158627
+    }
 }
 
 GraphicsSettingsWindow.ComboBoxes = {
-    Resolution = GraphicsSettingsWindow.Container .. "ResCombo"
+    Resolution = {
+        name = GraphicsSettingsWindow.Container .. "ResCombo",
+        list = function()
+            local list = {}
+            for i = 1, #UserGraphicsSettings.availableResolutions().widths do
+                local width = UserGraphicsSettings.availableResolutions().widths[i]
+                local height = UserGraphicsSettings.availableResolutions().heights[i]
+                table.insert(
+                    list,
+                    width .. " x " .. height
+                )
+            end
+            return list
+        end,
+        isSelected = function(index)
+            local width = UserGraphicsSettings.availableResolutions().widths[index]
+            local height = UserGraphicsSettings.availableResolutions().heights[index]
+            local resolution = UserGraphicsSettings.resolution()
+            return resolution.width == width and resolution.height == height
+        end,
+        setting = function(newValue)
+            if newValue == nil then
+                return UserGraphicsSettings.resolution()
+            else
+                local width = UserGraphicsSettings.availableResolutions().widths[newValue]
+                local height = UserGraphicsSettings.availableResolutions().heights[newValue]
+                return  UserGraphicsSettings.resolution({
+                    width = width,
+                    height = height
+                })
+            end
+        end
+    }
 }
 
 GraphicsSettingsWindow.CheckBoxes = {
-    UseFullScreen = GraphicsSettingsWindow.Container .. "FullScreenCheckBox"
-}
-
-GraphicsSettingsWindow.TextIds = {
-    UseFullScreen = 1077821
+    UseFullScreen = {
+        name = GraphicsSettingsWindow.Container .. "FullScreenCheckBox",
+        setting = function(newValue)
+            return UserGraphicsSettings.fullScreen(newValue)
+        end
+    },
+    PlayFlyingAnimation = {
+        name = GraphicsSettingsWindow.Container .. "FlyingAnimationCheckBox",
+        setting = function (newValue)
+            return UserGraphicsSettings.flyingAnimation(newValue)
+        end
+    }
 }
 
 function GraphicsSettingsWindow.onInitialize()
-    LabelApi.setText(
-        GraphicsSettingsWindow.Labels.Resolution,
-        "Resolution"
-    )
-
-    LabelApi.setText(
-        GraphicsSettingsWindow.Labels.UseFullScreen,
-        GraphicsSettingsWindow.TextIds.UseFullScreen
-    )
-
-    ButtonApi.setChecked(
-        GraphicsSettingsWindow.CheckBoxes.UseFullScreen,
-        UserGraphicsSettings.fullScreen()
-    )
-
-    ButtonApi.setStayDown(
-        GraphicsSettingsWindow.CheckBoxes.UseFullScreen,
-        true
-    )
-
-    for i = 1, #UserGraphicsSettings.availableResolutions().widths do
-        local width = UserGraphicsSettings.availableResolutions().widths[i]
-        local height = UserGraphicsSettings.availableResolutions().heights[i]
-
-        ComboBoxApi.addItem(
-            GraphicsSettingsWindow.ComboBoxes.Resolution,
-            width .. " x " .. height
+    for _, v in pairs(GraphicsSettingsWindow.Labels) do
+        LabelApi.setText(
+            v.name,
+            v.text
         )
+    end
 
-        local resolution = UserGraphicsSettings.resolution()
+    for _, v in pairs(GraphicsSettingsWindow.CheckBoxes) do
+        ButtonApi.setChecked(
+            v.name,
+            v.setting()
+        )
+        ButtonApi.setStayDown(
+            v.name,
+            true
+        )
+    end
 
-        if width == resolution.width and height == resolution.height then
-            ComboBoxApi.setSelectedItem(
-                GraphicsSettingsWindow.ComboBoxes.Resolution,
-                i
+    for _, v in pairs(GraphicsSettingsWindow.ComboBoxes) do
+        local list = v.list()
+
+        for i = 1, #list do
+            local item = list[i]
+
+            ComboBoxApi.addItem(
+                v.name,
+                item
             )
+
+            if v.isSelected(i) then
+                ComboBoxApi.setSelectedItem(
+                    v.name,
+                    i
+                )
+            end
         end
     end
 end
 
-function GraphicsSettingsWindow.onResolutionChanged(index)
-    local width = UserGraphicsSettings.availableResolutions().widths[index]
-    local height = UserGraphicsSettings.availableResolutions().heights[index]
-    UserGraphicsSettings.resolution({
-        width = width,
-        height = height
-    })
-    EventApi.broadcast(Events.userSettingsUpdated())
+function GraphicsSettingsWindow.onGraphicSettingChanged(index)
+    for _, v in pairs(GraphicsSettingsWindow.ComboBoxes) do
+        if v.name == Active.window() then
+            v.setting(index)
+            EventApi.broadcast(Events.userSettingsUpdated())
+            break
+        end
+    end
 end
 
-function GraphicsSettingsWindow.onFullScreenCheck()
-    UserGraphicsSettings.fullScreen(not UserGraphicsSettings.fullScreen())
-
-    ButtonApi.setChecked(
-        GraphicsSettingsWindow.CheckBoxes.UseFullScreen,
-        UserGraphicsSettings.fullScreen()
-    )
-
-    EventApi.broadcast(Events.userSettingsUpdated())
+function GraphicsSettingsWindow.onGraphicSettingChecked()
+    for _, v in pairs(GraphicsSettingsWindow.CheckBoxes) do
+        if v.name == Active.window() then
+            v.setting(not v.setting())
+            ButtonApi.setChecked(
+                v.name,
+                v.setting()
+            )
+            EventApi.broadcast(Events.userSettingsUpdated())
+            break
+        end
+    end
 end
