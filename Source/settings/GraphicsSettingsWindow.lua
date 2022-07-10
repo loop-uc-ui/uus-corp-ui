@@ -16,6 +16,10 @@ GraphicsSettingsWindow.Labels = {
     PlayFlyingAnimation = {
         name = GraphicsSettingsWindow.Container .. "FlyingAnimationLabel",
         text = 1158627
+    },
+    ShowWindowFrame = {
+        name = GraphicsSettingsWindow.Container .. "WindowFrameLabel",
+        text = 1077820
     }
 }
 
@@ -66,6 +70,12 @@ GraphicsSettingsWindow.CheckBoxes = {
         name = GraphicsSettingsWindow.Container .. "FlyingAnimationCheckBox",
         setting = function (newValue)
             return UserGraphicsSettings.flyingAnimation(newValue)
+        end
+    },
+    ShowWindowFrame = {
+        name = GraphicsSettingsWindow.Container .. "WindowFrameCheckBox",
+        setting = function (newValue)
+            return UserGraphicsSettings.showFrame(newValue)
         end
     }
 }
