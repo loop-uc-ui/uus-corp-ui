@@ -20,6 +20,10 @@ GraphicsSettingsWindow.Labels = {
     ShowWindowFrame = {
         name = GraphicsSettingsWindow.Container .. "WindowFrameLabel",
         text = 1077820
+    },
+    HouseContents = {
+        name = GraphicsSettingsWindow.Container .. "HouseContentsLabel",
+        text = 1159003
     }
 }
 
@@ -76,6 +80,12 @@ GraphicsSettingsWindow.CheckBoxes = {
         name = GraphicsSettingsWindow.Container .. "WindowFrameCheckBox",
         setting = function (newValue)
             return UserGraphicsSettings.showFrame(newValue)
+        end
+    },
+    HouseContents = {
+        name = GraphicsSettingsWindow.Container .. "HouseContentsCheckBox",
+        setting = function (newValue)
+            return UserGraphicsSettings.displayHousingContents(newValue)
         end
     }
 }
