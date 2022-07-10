@@ -85,6 +85,26 @@
                                 <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
                             </EventHandlers>
                         </Button>
+
+                        <Label name="$parentWindowFrameLabel" inherits="SettingsLabelTemplate" wordwrap="true">
+                            <Size>
+                                <AbsPoint x="200" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFlyingAnimationLabel">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+
+                        <Button name="$parentWindowFrameCheckBox" inherits="UO_Default_Check_Button">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentWindowFrameLabel"/>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
+                            </EventHandlers>
+                        </Button>
                     </Windows>
                 </Window>
             </Windows>
