@@ -33,6 +33,7 @@
     <Include file="Source/settings/ControlsSettingsWindow.xml"/>
     <Include file="Source/settings/GraphicsSetttingsWindow.xml"/>
     <Include file="Source/settings/InterfaceSettingsWindow.xml"/>
+    <Include file="Source/settings/SoundSettingsWindow.xml"/>
     <Include file="Source/skills/SkillsWindow.xml"/>
     <Include file="Source/tooltip/TooltipWindow.xml"/>
 
@@ -148,6 +149,7 @@
         <Script file="Source/settings/ControlsSettingsWindow.lua"/>
         <Script file="Source/settings/GraphicsSettingsWindow.lua"/>
         <Script file="Source/settings/InterfaceSettingsWindow.lua"/>
+        <Script file="Source/settings/SoundSettingsWindow.lua"/>
         <Script file="Source/skills/SkillsWindow.lua"/>
         <Script file="Source/tooltip/TooltipWindow.lua"/>
 
