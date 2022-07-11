@@ -40,6 +40,10 @@ GraphicsSettingsWindow.Labels = {
     Foliage = {
         name = GraphicsSettingsWindow.Container .. "FoliageLabel",
         text = 1079814
+    },
+    Shadows = {
+        name = GraphicsSettingsWindow.Container .. "ShadowsLabel",
+        text = 1079286
     }
 }
 
@@ -126,6 +130,12 @@ GraphicsSettingsWindow.CheckBoxes = {
         name = GraphicsSettingsWindow.Container .. "FoliageCheckBox",
         setting = function (newValue)
             return UserGraphicsSettings.foliage(newValue)
+        end
+    },
+    Shadows = {
+        name = GraphicsSettingsWindow.Container .. "ShadowsCheckBox",
+        setting = function (newValue)
+            return UserGraphicsSettings.showShadows(newValue)
         end
     }
 }

@@ -83,7 +83,12 @@ function SettingsWindow.onTabClick()
 end
 
 function SettingsWindow.onSettingsUpdate()
-    if SettingsApi.settingsChanged() then
-        InterfaceCore.ReloadUI()
-    end
+    --Some settings (Show Mob Shadows, for example) are bugged.
+    --Applying them will fail and changes will not reflect until you
+    --log in/out. For this reason, we use pcall to catch the error.
+    pcall(function ()
+        if SettingsApi.settingsChanged() then
+            InterfaceCore.ReloadUI()
+        end
+    end)
 end
