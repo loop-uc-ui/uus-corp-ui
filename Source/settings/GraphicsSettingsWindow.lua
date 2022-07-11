@@ -24,6 +24,10 @@ GraphicsSettingsWindow.Labels = {
     HouseContents = {
         name = GraphicsSettingsWindow.Container .. "HouseContentsLabel",
         text = 1159003
+    },
+    DeathEffect = {
+        name = GraphicsSettingsWindow.Container .. "DeathEffectLabel",
+        text = 1115993
     }
 }
 
@@ -54,7 +58,7 @@ GraphicsSettingsWindow.ComboBoxes = {
             else
                 local width = UserGraphicsSettings.availableResolutions().widths[newValue]
                 local height = UserGraphicsSettings.availableResolutions().heights[newValue]
-                return  UserGraphicsSettings.resolution({
+                return UserGraphicsSettings.resolution({
                     width = width,
                     height = height
                 })
@@ -86,6 +90,12 @@ GraphicsSettingsWindow.CheckBoxes = {
         name = GraphicsSettingsWindow.Container .. "HouseContentsCheckBox",
         setting = function (newValue)
             return UserGraphicsSettings.displayHousingContents(newValue)
+        end
+    },
+    DeathEffect = {
+        name = GraphicsSettingsWindow.Container .. "DeathEffectCheckBox",
+        setting = function (newValue)
+            return UserGraphicsSettings.hardwareDeathEffect(newValue)
         end
     }
 }
