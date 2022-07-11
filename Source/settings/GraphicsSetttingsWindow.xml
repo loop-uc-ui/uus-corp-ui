@@ -46,9 +46,9 @@
                             </EventHandlers>
                         </ComboBox>
 
-                        <Label name="$parentFullScreenLabel" inherits="SettingsLabelTemplate">
+                        <Label name="$parentFullScreenLabel" inherits="SettingsLabelTemplate" textalign="left">
                             <Size>
-                                <AbsPoint x="250" y="0" />
+                                <AbsPoint x="300" y="0" />
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentResLabel">
@@ -68,7 +68,7 @@
 
                         <Label name="$parentFlyingAnimationLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                             <Size>
-                                <AbsPoint x="250" y="0" />
+                                <AbsPoint x="300" y="0" />
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFullScreenLabel">
@@ -88,7 +88,7 @@
 
                         <Label name="$parentWindowFrameLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                             <Size>
-                                <AbsPoint x="250" y="0" />
+                                <AbsPoint x="300" y="0" />
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFlyingAnimationLabel">
@@ -108,7 +108,7 @@
 
                         <Label name="$parentHouseContentsLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                             <Size>
-                                <AbsPoint x="250" y="0" />
+                                <AbsPoint x="300" y="0" />
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWindowFrameLabel">
@@ -128,7 +128,7 @@
 
                         <Label name="$parentDeathEffectLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                             <Size>
-                                <AbsPoint x="250" y="0" />
+                                <AbsPoint x="300" y="0" />
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentHouseContentsLabel">
@@ -148,7 +148,7 @@
 
                         <Label name="$parentVSyncLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                             <Size>
-                                <AbsPoint x="250" y="0" />
+                                <AbsPoint x="300" y="0" />
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDeathEffectLabel">
@@ -168,7 +168,7 @@
 
                         <Label name="$parentIdleAnimationLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                             <Size>
-                                <AbsPoint x="250" y="0" />
+                                <AbsPoint x="300" y="0" />
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentVSyncLabel">
@@ -188,7 +188,7 @@
 
                         <Label name="$parentFoliageLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                             <Size>
-                                <AbsPoint x="250" y="0" />
+                                <AbsPoint x="300" y="0" />
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentIdleAnimationLabel">
@@ -208,7 +208,7 @@
 
                         <Label name="$parentShadowsLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                             <Size>
-                                <AbsPoint x="250" y="0" />
+                                <AbsPoint x="300" y="0" />
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFoliageLabel">
@@ -228,7 +228,7 @@
 
                         <Label name="$parentCircleOfTransparencyLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                             <Size>
-                                <AbsPoint x="250" y="0" />
+                                <AbsPoint x="300" y="0" />
                             </Size>
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentShadowsLabel">
