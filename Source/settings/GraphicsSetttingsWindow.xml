@@ -205,6 +205,26 @@
                                 <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
                             </EventHandlers>
                         </Button>
+
+                        <Label name="$parentShadowsLabel" inherits="SettingsLabelTemplate" wordwrap="true">
+                            <Size>
+                                <AbsPoint x="250" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFoliageLabel">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+    
+                        <Button name="$parentShadowsCheckBox" inherits="UO_Default_Check_Button">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentShadowsLabel"/>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
+                            </EventHandlers>
+                        </Button>
                     </Windows>
                 </Window>
             </Windows>
