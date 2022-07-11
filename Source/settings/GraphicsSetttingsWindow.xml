@@ -225,6 +225,26 @@
                                 <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
                             </EventHandlers>
                         </Button>
+
+                        <Label name="$parentCircleOfTransparencyLabel" inherits="SettingsLabelTemplate" wordwrap="true">
+                            <Size>
+                                <AbsPoint x="250" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentShadowsLabel">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+    
+                        <Button name="$parentCircleOfTransparencyCheckBox" inherits="UO_Default_Check_Button">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentCircleOfTransparencyLabel"/>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
+                            </EventHandlers>
+                        </Button>
                     </Windows>
                 </Window>
             </Windows>

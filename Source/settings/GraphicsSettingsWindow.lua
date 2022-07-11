@@ -44,6 +44,10 @@ GraphicsSettingsWindow.Labels = {
     Shadows = {
         name = GraphicsSettingsWindow.Container .. "ShadowsLabel",
         text = 1079286
+    },
+    CircleOfTransparency = {
+        name = GraphicsSettingsWindow.Container .. "CircleOfTransparencyLabel",
+        text = 1078079
     }
 }
 
@@ -136,6 +140,12 @@ GraphicsSettingsWindow.CheckBoxes = {
         name = GraphicsSettingsWindow.Container .. "ShadowsCheckBox",
         setting = function (newValue)
             return UserGraphicsSettings.showShadows(newValue)
+        end
+    },
+    CircleOfTransparency = {
+        name = GraphicsSettingsWindow.Container .. "CircleOfTransparencyCheckBox",
+        setting = function (newValue)
+            return UserGraphicsSettings.circleOfTransparency(newValue)
         end
     }
 }
