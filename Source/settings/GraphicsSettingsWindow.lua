@@ -32,6 +32,10 @@ GraphicsSettingsWindow.Labels = {
     VSync = {
         name = GraphicsSettingsWindow.Container .. "VSyncLabel",
         text = 1112689
+    },
+    IdleAnimation = {
+        name = GraphicsSettingsWindow.Container .. "IdleAnimationLabel",
+        text = 1094692
     }
 }
 
@@ -106,6 +110,12 @@ GraphicsSettingsWindow.CheckBoxes = {
         name = GraphicsSettingsWindow.Container .. "VSyncCheckBox",
         setting = function (newValue)
             return UserGraphicsSettings.enableVSync(newValue)
+        end
+    },
+    IdleAnimation = {
+        name = GraphicsSettingsWindow.Container .. "IdleAnimationCheckBox",
+        setting = function (newValue)
+            return UserGraphicsSettings.idleAnimation(newValue)
         end
     }
 }
