@@ -28,6 +28,10 @@ GraphicsSettingsWindow.Labels = {
     DeathEffect = {
         name = GraphicsSettingsWindow.Container .. "DeathEffectLabel",
         text = 1115993
+    },
+    VSync = {
+        name = GraphicsSettingsWindow.Container .. "VSyncLabel",
+        text = 1112689
     }
 }
 
@@ -96,6 +100,12 @@ GraphicsSettingsWindow.CheckBoxes = {
         name = GraphicsSettingsWindow.Container .. "DeathEffectCheckBox",
         setting = function (newValue)
             return UserGraphicsSettings.hardwareDeathEffect(newValue)
+        end
+    },
+    VSync = {
+        name = GraphicsSettingsWindow.Container .. "VSyncCheckBox",
+        setting = function (newValue)
+            return UserGraphicsSettings.enableVSync(newValue)
         end
     }
 }
