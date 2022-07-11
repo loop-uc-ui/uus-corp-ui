@@ -36,6 +36,10 @@ GraphicsSettingsWindow.Labels = {
     IdleAnimation = {
         name = GraphicsSettingsWindow.Container .. "IdleAnimationLabel",
         text = 1094692
+    },
+    Foliage = {
+        name = GraphicsSettingsWindow.Container .. "FoliageLabel",
+        text = 1079814
     }
 }
 
@@ -116,6 +120,12 @@ GraphicsSettingsWindow.CheckBoxes = {
         name = GraphicsSettingsWindow.Container .. "IdleAnimationCheckBox",
         setting = function (newValue)
             return UserGraphicsSettings.idleAnimation(newValue)
+        end
+    },
+    Foliage = {
+        name = GraphicsSettingsWindow.Container .. "FoliageCheckBox",
+        setting = function (newValue)
+            return UserGraphicsSettings.foliage(newValue)
         end
     }
 }
