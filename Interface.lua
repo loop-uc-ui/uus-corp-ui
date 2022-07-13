@@ -3,6 +3,7 @@ Interface = {}
 local function settingOverrides()
     Paperdoll.useLegacy(false)
     UserOptionsSettings.genericGumpScale(1.2)
+    UserOptionsSettings.cacheSize(1024 * 1024 * 1024)
     SettingsApi.settingsChanged()
 end
 
