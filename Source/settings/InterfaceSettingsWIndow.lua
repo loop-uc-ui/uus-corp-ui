@@ -33,8 +33,23 @@ InterfaceSettingsWindow.ComboBoxes = {
         name = InterfaceSettingsWindow.Container .. "ModCombo",
         start = 1,
         list = function()
-            local list = UserOptionsSettings.customUiList()
-            list[1] = StringFormatter.fromTid(3000094)
+            local list = {}
+            for i = 1, #UserOptionsSettings.customUiList() do
+                local item = UserOptionsSettings.customUiList()[i]
+                if item == "" then
+                    table.insert(
+                        list,
+                        StringFormatter.fromTid(
+                            3000094
+                        )
+                    )
+                else
+                    table.insert(
+                        list,
+                        item
+                    )
+                end
+            end
             return list
         end,
         setting = function(newValue)
