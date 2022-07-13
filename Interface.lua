@@ -1,7 +1,13 @@
 Interface = {}
 
-function Interface.CreatePlayWindowSet()
+local function settingOverrides()
     Paperdoll.useLegacy(false)
+    UserOptionsSettings.genericGumpScale(1.2)
+    SettingsApi.settingsChanged()
+end
+
+function Interface.CreatePlayWindowSet()
+    settingOverrides()
     WindowApi.unregisterEventHandler(
         "ResizingWindowFrame",
         Events.onLButtonUp()
