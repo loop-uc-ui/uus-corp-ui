@@ -35,6 +35,8 @@ SettingsWindow.Tabs = {
 SettingsWindow.SelectedTab = SettingsWindow.Tabs.Graphics
 
 function SettingsWindow.onInitialize()
+        Debug.Print(UserGraphicsSettings.frameRate() .. "test")
+
     for _, v in pairs(SettingsWindow.Tabs) do
         ButtonApi.setText(
             v.name,
