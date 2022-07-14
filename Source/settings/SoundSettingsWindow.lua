@@ -106,21 +106,19 @@ function SoundSettingsWindow.onInitialize()
     end
 end
 
-function SoundSettingsWindow.onVolumeSlide()
+function SoundSettingsWindow.onVolumeSlide(position)
     for _, v in pairs(SoundSettingsWindow.Sliders) do
         if v.name == Active.window() then
             LabelApi.setText(
                 v.value,
                 StringFormatter.toWString(
                     math.floor(
-                        100 * SliderApi.getPosition(v.name)
+                        100 * position
                     )
                 )
             )
 
-            v.setting(
-                SliderApi.getPosition(v.name)
-            )
+            v.setting(position)
 
             EventApi.broadcast(Events.userSettingsUpdated())
             break
