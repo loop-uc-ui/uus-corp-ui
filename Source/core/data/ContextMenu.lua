@@ -24,10 +24,6 @@ function ContextMenu.itemFlags(index)
     return ContextMenu.items()[index].flags
 end
 
-function ContextMenu.itemReturnCode(index)
-    return ContextMenu.items()[index].returnCOde
-end
-
 function ContextMenu.itemTextId(index)
     return ContextMenu.items()[index].tid
 end

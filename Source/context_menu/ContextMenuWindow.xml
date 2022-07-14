@@ -19,7 +19,7 @@
 	        <TextOffset x="7" y="4" />
 			
 			<EventHandlers>
-	        	<EventHandler event="OnLButtonDown" function="ContextMenuWindow.onItemClick"/>
+	        	<EventHandler event="OnLButtonUp" function="ContextMenuWindow.onItemClick"/>
 			</EventHandlers>
 			<Windows>
 				<Label name="$parentItemText" font="UO_DefaultText">
