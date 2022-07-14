@@ -245,6 +245,41 @@
                                 <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
                             </EventHandlers>
                         </Button>
+
+                        <Label name="$parentBrightnessLabel" inherits="SettingsLabelTemplate" wordwrap="true">
+                            <Size>
+                                <AbsPoint x="175" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentCircleOfTransparencyLabel">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                            <Color r="206" g="217" b="242" a="255"/>
+                        </Label>
+        
+                        <SliderBar name="$parentBrightnessSliderBar" inherits="UO_Default_Horizontal_SliderBar">
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topleft" relativeTo="$parentBrightnessLabel">
+                                    <AbsPoint x="48" y="0" />
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnSlide" function="GraphicsSettingsWindow.onGraphicsSlide" />
+                            </EventHandlers>
+                        </SliderBar>
+            
+                        <Label name="$parentBrightnessValue" inherits="SettingsLabelTemplate" wordwrap="true">
+                            <Size>
+                                <AbsPoint x="40" y="20"/>
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topleft" relativeTo="$parentBrightnessSliderBar">
+                                    <AbsPoint x="20" y="0" />
+                                </Anchor>
+                            </Anchors>
+                            <Color r="206" g="217" b="242" a="255"/>
+                        </Label>
                     </Windows>
                 </Window>
             </Windows>

@@ -48,6 +48,10 @@ GraphicsSettingsWindow.Labels = {
     CircleOfTransparency = {
         name = GraphicsSettingsWindow.Container .. "CircleOfTransparencyLabel",
         text = 1078079
+    },
+    Brightness = {
+        name = GraphicsSettingsWindow.Container .. "BrightnessLabel",
+        text = 3000166
     }
 }
 
@@ -150,6 +154,16 @@ GraphicsSettingsWindow.CheckBoxes = {
     }
 }
 
+GraphicsSettingsWindow.Sliders = {
+    Brightness = {
+        name = GraphicsSettingsWindow.Container .. "BrightnessSliderBar",
+        value = GraphicsSettingsWindow.Container .. "BrightnessValue",
+        setting = function(newValue)
+            return UserGraphicsSettings.gamma(newValue)
+        end
+    }
+}
+
 function GraphicsSettingsWindow.onInitialize()
     for _, v in pairs(GraphicsSettingsWindow.Labels) do
         LabelApi.setText(
@@ -188,6 +202,21 @@ function GraphicsSettingsWindow.onInitialize()
             end
         end
     end
+
+    for _, v in pairs(GraphicsSettingsWindow.Sliders) do
+        LabelApi.setText(
+            v.value,
+            StringFormatter.toTwoDecimalPlaces(
+                StringFormatter.toWString(
+                    v.setting()
+                )
+            )
+        )
+        SliderApi.setPosition(
+            v.name,
+            v.setting()
+        )
+    end
 end
 
 function GraphicsSettingsWindow.onGraphicSettingChanged(index)
@@ -208,6 +237,27 @@ function GraphicsSettingsWindow.onGraphicSettingChecked()
                 v.name,
                 v.setting()
             )
+            EventApi.broadcast(Events.userSettingsUpdated())
+            break
+        end
+    end
+end
+
+
+function GraphicsSettingsWindow.onGraphicsSlide(position)
+    for _, v in pairs(GraphicsSettingsWindow.Sliders) do
+        if v.name == Active.window() then
+            LabelApi.setText(
+                v.value,
+                StringFormatter.toTwoDecimalPlaces(
+                    StringFormatter.toWString(
+                        position
+                    )
+                )
+            )
+
+            v.setting(position)
+
             EventApi.broadcast(Events.userSettingsUpdated())
             break
         end
