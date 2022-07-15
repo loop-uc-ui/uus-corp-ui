@@ -78,8 +78,8 @@ function MapWindow.onInitialize()
     end
 end
 
-function MapWindow.onWaypointInitialize()
-    local window = Active.window()
+function MapWindow.onWaypointInitialize(window)
+    local window = window or Active.window()
     local waypoint = string.gsub(
         window,
         "Waypoint",
@@ -278,6 +278,13 @@ function MapWindow.onMapMouseDrag(_, deltaX, deltaY)
         area,
         false
     )
+
+    local waypoints = WaypointList.Waypoints.Facet[facet]
+
+    for i = 1, #waypoints do
+        local waypoint = "Waypoint" .. i
+        MapWindow.onWaypointInitialize(waypoint)
+    end
 end
 
 function MapWindow.onMapLButtonDown()
