@@ -79,7 +79,7 @@ function MapWindow.onInitialize()
 end
 
 function MapWindow.onWaypointInitialize(window)
-    local window = window or Active.window()
+    window = window or Active.window()
     local waypoint = string.gsub(
         window,
         "Waypoint",
