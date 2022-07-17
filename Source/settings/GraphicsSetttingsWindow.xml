@@ -280,6 +280,50 @@
                             </Anchors>
                             <Color r="206" g="217" b="242" a="255"/>
                         </Label>
+
+                        <Label name="$parentParticleDetailLabel" inherits="SettingsLabelTemplate">
+                            <Size>
+                                <AbsPoint x="175" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentBrightnessLabel">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+
+                        <ComboBox name="$parentParticleDetailCombo" inherits="UO_Default_LongComboBox">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentParticleDetailLabel">
+                                    <AbsPoint x="36" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnSelChanged" function="GraphicsSettingsWindow.onGraphicSettingChanged"/>
+                            </EventHandlers>
+                        </ComboBox>
+
+                        <Label name="$parentParticleFilterLabel" inherits="SettingsLabelTemplate">
+                            <Size>
+                                <AbsPoint x="175" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentParticleDetailLabel">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+
+                        <ComboBox name="$parentParticleFilterCombo" inherits="UO_Default_LongComboBox">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentParticleFilterLabel">
+                                    <AbsPoint x="36" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnSelChanged" function="GraphicsSettingsWindow.onGraphicSettingChanged"/>
+                            </EventHandlers>
+                        </ComboBox>
                     </Windows>
                 </Window>
             </Windows>
