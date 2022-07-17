@@ -58,8 +58,8 @@
 					</Size>
 					<TexCoords x="0" y="0" />
 					<Anchors>
-                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentName">
-							<AbsPoint x="16" y="16"/>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentName">
+							<AbsPoint x="48" y="16"/>
 						</Anchor>
                     </Anchors>
 					<EventHandlers>
