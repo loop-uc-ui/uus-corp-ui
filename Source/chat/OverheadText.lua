@@ -21,10 +21,10 @@ function OverheadText.Initialize()
 end
 
 function OverheadText.Shutdown()
-end
-
-function OverheadText.OnOverheadChatShutdown()
-
+    WindowDataApi.unregisterData(
+        MobileData.nameType(),
+        WindowApi.getId(Active.window())
+    )
 end
 
 function OverheadText.NameOnDblClick()
@@ -42,5 +42,12 @@ end
 function OverheadText.update(window)
     local id = WindowApi.getId(window)
     local name = MobileData.name(id)
-    LabelApi.setText(window .. OverheadText.MobileName, name)
+    LabelApi.setText(
+        window .. OverheadText.MobileName,
+        name
+    )
+    LabelApi.setTextColor(
+        window .. OverheadText.MobileName,
+        Colors.Notoriety[MobileData.notoriety(id)] or Colors.OffWhite
+    )
 end
