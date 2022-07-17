@@ -52,6 +52,14 @@ GraphicsSettingsWindow.Labels = {
     Brightness = {
         name = GraphicsSettingsWindow.Container .. "BrightnessLabel",
         text = 3000166
+    },
+    ParticleDetail = {
+        name = GraphicsSettingsWindow.Container .. "ParticleDetailLabel",
+        text = 1079213
+    },
+    ParticleFilter = {
+        name = GraphicsSettingsWindow.Container .. "ParticleFilterLabel",
+        text = 1112330
     }
 }
 
@@ -87,6 +95,30 @@ GraphicsSettingsWindow.ComboBoxes = {
                     height = height
                 })
             end
+        end
+    },
+    ParticleDetail = {
+        name = GraphicsSettingsWindow.Container .. "ParticleDetailCombo",
+        list = function ()
+            return { 1079210, 1079211, 1079212 }
+        end,
+        isSelected = function (index)
+            return index == UserGraphicsSettings.particleDetail()
+        end,
+        setting = function (newValue)
+            return UserGraphicsSettings.particleDetail(newValue)
+        end
+    },
+    ParticleFilter = {
+        name = GraphicsSettingsWindow.Container .. "ParticleFilterCombo",
+        list = function ()
+            return { 1112331, 1112332, 1112333, 1112334, 1158020 }
+        end,
+        isSelected = function (index)
+            return index == UserGraphicsSettings.particleFilter() + 1
+        end,
+        setting = function (newValue)
+            return UserGraphicsSettings.particleFilter(newValue - 1)
         end
     }
 }
