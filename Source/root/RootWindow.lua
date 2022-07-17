@@ -53,15 +53,10 @@ function RootWindow.onShowNamesFlashTemp()
 end
 
 function RootWindow.togglePaperdoll()
-    local paperdoll = PaperdollWindow.Name .. PlayerStatus.id()
-
-    if not WindowApi.destroyWindow(paperdoll) then
-        WindowApi.createFromTemplate(
-            paperdoll,
-            PaperdollWindow.Name,
-            RootWindow.Name
-        )
-    end
+    UserAction.useItem(
+        PlayerStatus.id(),
+        true
+    )
 end
 
 function RootWindow.toggleBackpack()
