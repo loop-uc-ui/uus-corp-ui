@@ -33,6 +33,6 @@ function MapSettings.setZoom(zoom)
 end
 
 function MapSettings.getZoom()
-    return UserInterfaceVariables.LoadNumber(MAP_SETTING_ZOOM, -100)
+    return UserInterfaceVariables.LoadNumber(MAP_SETTING_ZOOM, 0)
 end
 

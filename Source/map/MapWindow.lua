@@ -50,6 +50,8 @@ function MapWindow.onInitialize()
 
     MapSettings.setMode(MapSettings.MODES.ATLAS)
 
+    RadarApi.setZoom(MapSettings.getZoom())
+
     DynamicImageApi.setRotation(
         MapWindow.MapImage,
         Radar.textureRotation()
@@ -87,6 +89,10 @@ function MapWindow.onWaypointInitialize(window)
     )
 
     waypoint = WaypointList.Waypoints.Facet[RadarApi.getFacet()][tonumber(waypoint)]
+
+    if waypoint == nil then
+        return
+    end
 
     local iconTexture, xIcon, yIcon = IconApi.getIconData(
         tonumber(waypoint.Icon)
@@ -144,6 +150,10 @@ function MapWindow.onUpdateMap()
         "radar_texture",
         Radar.textureXCord(),
         Radar.textureYCord()
+    )
+    DynamicImageApi.setTextureScale(
+        MapWindow.MapImage,
+        Radar.textureScale()
     )
     MapWindow.onUpdateWaypoints()
 end
@@ -237,20 +247,41 @@ function MapWindow.onRightClick()
 end
 
 function MapWindow.onMouseWheel(_, _, delta)
-    local zoom = MapSettings.getZoom() - (delta * 0.2)
     local maxZoom = RadarApi.getMaxZoom(
         RadarApi.getFacet(),
         RadarApi.getArea()
     )
+    local minZoom = -maxZoom
 
-    if zoom < -2 then
-        zoom = -2
-    elseif zoom > maxZoom then
+    local step = 0.2
+
+    if delta > 0 then
+        step = -step
+    end
+
+    local zoom = MapSettings.getZoom() + step
+
+    if zoom <= minZoom then
+        zoom = minZoom
+    elseif zoom >= maxZoom then
         zoom = maxZoom
     end
 
-    RadarApi.setZoom(zoom)
-    MapSettings.setZoom(zoom)
+    local waypoints = WaypointList.Waypoints.Facet[RadarApi.getFacet()]
+
+    MapSettings.setZoom(
+        zoom
+    )
+
+    RadarApi.setZoom(
+        zoom
+    )
+
+    for i = 1, #waypoints do
+        local waypoint = "Waypoint" .. i
+        WindowApi.setShowing(waypoint, zoom == minZoom)
+        MapWindow.onWaypointInitialize(waypoint)
+    end
 end
 
 function MapWindow.onMapMouseDrag(_, deltaX, deltaY)
