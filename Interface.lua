@@ -5,6 +5,8 @@ local function settingOverrides()
     UserOptionsSettings.genericGumpScale(1.2)
     UserOptionsSettings.cacheSize(1024 * 1024 * 1024)
     UserGraphicsSettings.frameRate(60)
+    UserOptionsSettings.legacyChat(false)
+    UserOptionsSettings.legacyTarget(false)
     SettingsApi.settingsChanged()
 end
 
