@@ -188,6 +188,20 @@ function UserOptionsSettings.customUI(newValue)
     return SystemData.Settings.Interface.customUiName
 end
 
+function UserOptionsSettings.legacyChat(newValue)
+    if newValue ~= nil then
+        SystemData.Settings.Interface.LegacyChat = newValue
+    end
+    return SystemData.Settings.Interface.LegacyChat
+end
+
+function UserOptionsSettings.legacyTarget(newValue)
+    if newValue ~= nil then
+        SystemData.Settings.GameOptions.legacyTargeting = newValue
+    end
+    return SystemData.Settings.GameOptions.legacyTargeting
+end
+
 function UserOptionsSettings.customUiList()
     return SystemData.CustomUIList
 end
