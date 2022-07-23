@@ -106,46 +106,6 @@
                                 <EventHandler event="OnLButtonUp" function="ChatSettingsWindow.onChatSettingChecked"/>
                             </EventHandlers>
                         </Button>
-
-                        <Label name="$parentShowOverheadChatLabel" inherits="SettingsLabelTemplate" textalign="left" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSaveJournalLabel">
-                                    <AbsPoint x="0" y="18"/>
-                                </Anchor>
-                            </Anchors>
-                        </Label>
-
-                        <Button name="$parentShowOverheadChatCheckBox" inherits="UO_Default_Check_Button">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentShowOverheadChatLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="ChatSettingsWindow.onChatSettingChecked"/>
-                            </EventHandlers>
-                        </Button>
-
-                        <Label name="$parentShowCorpseNamesLabel" inherits="SettingsLabelTemplate" textalign="left" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentShowOverheadChatLabel">
-                                    <AbsPoint x="0" y="18"/>
-                                </Anchor>
-                            </Anchors>
-                        </Label>
-
-                        <Button name="$parentShowCorpseNamesCheckBox" inherits="UO_Default_Check_Button">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentShowCorpseNamesLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="ChatSettingsWindow.onChatSettingChecked"/>
-                            </EventHandlers>
-                        </Button>
                     </Windows>
                 </Window>
             </Windows>
