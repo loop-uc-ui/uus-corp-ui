@@ -1,5 +1,9 @@
 Gump = {}
 
+Gump.SuppressedIds = {
+    TownCrier = 89
+}
+
 function Gump.getStringPageIndex()
     return WindowData.GG_Core.stringPageIndex
 end
