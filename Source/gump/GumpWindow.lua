@@ -1,20 +1,7 @@
 GumpWindow = {}
 
 function GumpWindow.Initialize()
-    local destroy = false
-
-    for _, v in pairs(Gump.SuppressedIds) do
-        if v == Gump.getGumpId() then
-            destroy = true
-            break
-        end
-    end
-
-    if destroy then
-        WindowApi.destroyWindow(Active.window())
-    else
-        WindowApi.setShowing(Active.window(), true)
-    end
+    WindowApi.setShowing(Active.window(), true)
 end
 
 function GumpWindow.OnClicked()
