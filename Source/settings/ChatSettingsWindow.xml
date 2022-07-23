@@ -86,6 +86,26 @@
                                 <EventHandler event="OnLButtonUp" function="ChatSettingsWindow.onChatSettingChecked"/>
                             </EventHandlers>
                         </Button>
+
+                        <Label name="$parentSaveJournalLabel" inherits="SettingsLabelTemplate" textalign="left" wordwrap="true">
+                            <Size>
+                                <AbsPoint x="300" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDisablePoisonTextLabel">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Label>
+
+                        <Button name="$parentSaveJournalCheckBox" inherits="UO_Default_Check_Button">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentSaveJournalLabel"/>
+                            </Anchors>
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="ChatSettingsWindow.onChatSettingChecked"/>
+                            </EventHandlers>
+                        </Button>
                     </Windows>
                 </Window>
             </Windows>
