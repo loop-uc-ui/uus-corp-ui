@@ -24,6 +24,10 @@ ChatSettingsWindow.Labels = {
     ShowOverheadChat = {
         name = ChatSettingsWindow.Container .. "ShowOverheadChatLabel",
         text = 1078083
+    },
+    ShowCorpseNames = {
+        name = ChatSettingsWindow.Container .. "ShowCorpseNamesLabel",
+        text = 1115927
     }
 }
 
@@ -56,6 +60,12 @@ ChatSettingsWindow.CheckBoxes = {
         name = ChatSettingsWindow.Container .. "ShowOverheadChatCheckBox",
         setting = function(newValue)
             return UserOverheadTextSettings.showChat(newValue)
+        end
+    },
+    ShowCorpseNames = {
+        name = ChatSettingsWindow.Container .. "ShowCorpseNamesCheckBox",
+        setting = function(newValue)
+            return UserOverheadTextSettings.showCorpseNames(newValue)
         end
     }
 }
