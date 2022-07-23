@@ -84,7 +84,7 @@
 
                 <Window name="$parentGraphicsPage" inherits="GraphicsSettingsWindow"/>
                 <Window name="$parentSoundPage" inherits="SoundSettingsWindow"/>
-                <Window name="$parentChatPage" inherits="SettingsPageTemplate"/>
+                <Window name="$parentChatPage" inherits="ChatSettingsWindow"/>
                 <Window name="$parentControlsPage" inherits="ControlsSettingsWindow"/>
                 <Window name="$parentInterfacePage" inherits="InterfaceSettingsWindow"/>
 
