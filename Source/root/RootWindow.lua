@@ -80,7 +80,8 @@ function RootWindow.toggleSkills()
 end
 
 function RootWindow.onTextArrived()
-    if not Chat.isOverhead(Chat.chatChannel()) or Chat.sourceId() == 0 then
+    if not Chat.isOverhead(Chat.chatChannel()) or Chat.sourceId() == 0
+        or not UserOverheadTextSettings.showChat() then
         return
     end
 

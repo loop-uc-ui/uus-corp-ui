@@ -16,6 +16,14 @@ ChatSettingsWindow.Labels = {
     DisablePoisonText = {
         name = ChatSettingsWindow.Container .. "DisablePoisonTextLabel",
         text = 1155338
+    },
+    SaveJournal = {
+        name = ChatSettingsWindow.Container .. "SaveJournalLabel",
+        text = 1149998
+    },
+    ShowOverheadChat = {
+        name = ChatSettingsWindow.Container .. "ShowOverheadChatLabel",
+        text = 1078083
     }
 }
 
@@ -36,6 +44,18 @@ ChatSettingsWindow.CheckBoxes = {
         name = ChatSettingsWindow.Container .. "DisablePoisonTextCheckBox",
         setting = function(newValue)
             return UserOverheadTextSettings.disablePoison(newValue)
+        end
+    },
+    SaveJournal = {
+        name = ChatSettingsWindow.Container .. "SaveJournalCheckBox",
+        setting = function(newValue)
+            return UserOptionsSettings.enableChatLog(newValue)
+        end
+    },
+    ShowOverheadChat = {
+        name = ChatSettingsWindow.Container .. "ShowOverheadChatCheckBox",
+        setting = function(newValue)
+            return UserOverheadTextSettings.showChat(newValue)
         end
     }
 }
