@@ -1,0 +1,84 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+		<Button name="CharacterSheetRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
+            <Size>
+				<AbsPoint x="500" y="24" />
+			</Size>
+            <TexCoords>
+                <NormalHighlit x="12" y="12"/>
+                <PressedHighlit x="12" y="12"/>
+            </TexCoords>
+            <Windows>
+                <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="250" y="24" />
+                    </Size>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <Label name="$parentItemValue" font="inter_medium_18" textalign="rightcenter">
+                    <Size>
+                        <AbsPoint x="100" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemName">
+                            <AbsPoint x="32" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+            </Windows>
+        </Button>
+		
+		<Window name="CharacterSheetWindow" movable="true" handleinput="true">
+			<Size>
+				<AbsPoint x="548" y="512" />
+			</Size>
+			<Anchors>
+				<Anchor point="center" relativePoint="center" />
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="CharacterSheetWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="CharacterSheetWindow.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="CharacterSheetWindow.onRightClick"/>
+			</EventHandlers>
+			<Windows>
+				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+                
+                <ListBox name="$parentList" rowdef="CharacterSheetRowTemplate" visiblerows="20" rowcount="64" rowspacing="0" scrollbar="$parentScrollbar">
+                    <Size>
+                        <AbsPoint x="500" y="500" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="8" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                    <ListData table="CharacterSheetWindow.Data">
+                        <ListColumns>
+                             <ListColumn windowname="ItemName" variable="name" format="wstring"/>
+                             <ListColumn windowname="ItemValue" variable="value" format="number"/>
+                        </ListColumns>
+                        <Windows>
+                            <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
+                         </Windows>
+                     </ListData>
+                </ListBox>
+			</Windows>
+		</Window>
+		
+	</Windows>
+</Interface>

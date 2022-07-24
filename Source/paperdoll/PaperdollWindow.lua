@@ -335,3 +335,7 @@ function PaperdollWindow.onModelUpdate()
         WindowApi.setId(TooltipWindow.Name, slotId)
     end
 end
+
+function PaperdollWindow.ToggleCharacterSheet()
+    WindowApi.toggleWindow(CharacterSheetWindow.Name)
+end

@@ -52,3 +52,11 @@ function PlayerStatus.inWarMode()
     return WindowData.PlayerStatus.InWarMode
 end
 
+function PlayerStatus.stats()
+    return WindowData.PlayerStatsDataCSV
+end
+
+function PlayerStatus.data()
+    return WindowData.PlayerStatus
+end
+

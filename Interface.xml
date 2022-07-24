@@ -28,6 +28,7 @@
     <Include file="Source/object_handle/ObjectHandleWindow.xml"/>
     <Include file="Source/object_handle/ObjectHandleRootOverlayWindow.xml"/>
     <Include file="Source/paperdoll/CharacterAbilitiesWindow.xml"/>
+    <Include file="Source/paperdoll/CharacterSheetWindow.xml"/>
     <Include file="Source/paperdoll/PaperdollWindow.xml"/>
     <Include file="Source/settings/SettingsWindow.xml"/>
     <Include file="Source/settings/ChatSettingsWindow.xml"/>
@@ -144,6 +145,7 @@
         <Script file="Source/container/ContainerWindow.lua"/>
         <Script file="Source/object_handle/ObjectHandleWindow.lua"/>
         <Script file="Source/object_handle/ObjectHandleRootOverlayWindow.lua"/>
+        <Script file="Source/paperdoll/CharacterSheetWindow.lua"/>
         <Script file="Source/paperdoll/CharacterAbilitiesWindow.lua"/>
         <Script file="Source/paperdoll/PaperdollWindow.lua"/>
         <Script file="Source/settings/SettingsWindow.lua"/>
