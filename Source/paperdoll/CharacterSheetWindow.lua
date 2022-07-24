@@ -35,7 +35,7 @@ function CharacterSheetWindow.onUpdate()
     CharacterSheetWindow.Data = {}
     local order = {}
 
-    for k, v in ipairs(PlayerStatus.stats()) do
+    for _, v in ipairs(PlayerStatus.stats()) do
         if v.tid ~= nil and v.tid ~= 0 then
             local name = StringFormatter.fromTid(
                 v.tid
