@@ -1,23 +1,35 @@
 CSVUtilities = {}
 
-local BUFFS = {
-    PATH = "Data/GameData/buffdata.csv",
-    NAME = "BuffDataCSV"
-}
-
-local SKILLS = {
-    PATH = "data/gamedata/skilldata.csv",
-    NAME = "SkillsCSV"
+local DATA = {
+    BUFFS = {
+        PATH = "Data/GameData/buffdata.csv",
+        NAME = "BuffDataCSV"
+    },
+    SKILLS = {
+        PATH = "data/gamedata/skilldata.csv",
+        NAME = "SkillsCSV"
+    },
+    PLAYER_STATS = {
+        PATH = "Data/GameData/playerstats.csv",
+        NAME = "PlayerStatsDataCSV"
+    }
 }
 
 function CSVUtilities.initialize()
-    CSVApi.buildTable(BUFFS.PATH, BUFFS.NAME)
-    CSVApi.buildTable(SKILLS.PATH, SKILLS.NAME)
+    for _, v in pairs(DATA) do
+        CSVApi.buildTable(
+            v.PATH,
+            v.NAME
+        )
+    end
 end
 
 function CSVUtilities.shutdown()
-    CSVApi.unloadCSV(BUFFS.NAME)
-    CSVApi.unloadCSV(SKILLS.NAME)
+    for _, v in pairs(DATA) do
+        CSVApi.unloadCSV(
+            v.NAME
+        )
+    end
 end
 
 function CSVUtilities.getNumRows(CSVTable)
