@@ -56,3 +56,7 @@ function PlayerStatus.stats()
     return WindowData.PlayerStatsDataCSV
 end
 
+function PlayerStatus.data()
+    return WindowData.PlayerStatus
+end
+

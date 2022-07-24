@@ -36,35 +36,39 @@ function CharacterSheetWindow.onUpdate()
     local order = {}
 
     for k, v in ipairs(PlayerStatus.stats()) do
-        local name = ""
-
         if v.tid ~= nil and v.tid ~= 0 then
-            name = StringFormatter.fromTid(
+            local name = StringFormatter.fromTid(
                 v.tid
             )
+
+            local value = 0
+
+            for i, j in pairs(PlayerStatus.data()) do
+                if i == StringFormatter.fromWString(v.name) then
+                    value = j
+                    break
+                end
+            end
+
+            table.insert(
+                CharacterSheetWindow.Data,
+                #CharacterSheetWindow.Data + 1,
+                {
+                    name = name,
+                    value = value
+                }
+            )
+
+            table.insert(
+                order,
+                #order + 1,
+                #order + 1
+            )
         end
-
-        table.insert(
-            CharacterSheetWindow.Data,
-            k,
-            {
-                name = name
-            }
-        )
-
-        table.insert(
-            order,
-            k,
-            k
-        )
     end
 
     ListBoxApi.setDisplayOrder(
         CharacterSheetWindow.List,
         order
     )
-end
-
-function CharacterSheetWindow.onPopulate(data)
-    
 end
