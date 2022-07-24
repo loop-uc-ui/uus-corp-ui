@@ -11,8 +11,9 @@
             <Windows>
                 <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="200" y="24" />
+                        <AbsPoint x="250" y="24" />
                     </Size>
+                    <Color r="206" g="217" b="242" a="255"/>
                 </Label>
             </Windows>
         </Button>
@@ -54,9 +55,9 @@
                             <AbsPoint x="8" y="8"/>
                         </Anchor>
                     </Anchors>
-                    <ListData>
+                    <ListData table="CharacterSheetWindow.Data" populationfunction="CharacterSheetWindow.onPopulate">
                         <ListColumns>
-                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
+                             <ListColumn windowname="ItemName" variable="name" format="wstring"/>
                         </ListColumns>
                         <Windows>
                             <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
