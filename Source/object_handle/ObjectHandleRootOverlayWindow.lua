@@ -58,9 +58,12 @@ function ObjectHandleRootOverlayWindow.destroyObjectHandles()
     )
 
     for i = 1, #ObjectHandles.objectId() do
-        WindowApi.destroyWindow(
-            ObjectHandleWindow.Name .. ObjectHandles.objectId()[i]
-        )
+        local id =  ObjectHandles.objectId()[i]
+        if  ObjectApi.isValid(id) then
+            WindowApi.destroyWindow(
+                ObjectHandleWindow.Name .. id
+            )
+        end
     end
 end
 
