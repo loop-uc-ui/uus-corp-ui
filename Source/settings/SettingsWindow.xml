@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-        <Window name="SettingsPageTemplate" layer="default">
+        <Window name="SettingsPageTemplate" layer="default" handleinput="true">
             <Size>
                 <AbsPoint x="616" y="576"/>
             </Size>
@@ -37,7 +37,7 @@
 
         <Label name="SettingsLabelTemplate" autoresize="true" font="inter_medium_16">
             <Size>
-                <AbsPoint x="100" y="18"/>
+                <AbsPoint x="200" y="18"/>
             </Size>
             <Color r="206" g="217" b="242" a="255"/>
         </Label>
@@ -45,9 +45,6 @@
         <Button name="SettingsCheckBoxTemplate" inherits="UO_Default_Check_Button">
             <Windows>
                 <Label name="$parentLabel" inherits="SettingsLabelTemplate" textalign="left" wordwrap="true">
-                    <Size>
-                        <AbsPoint x="300" y="0" />
-                    </Size>
                     <Anchors>
                         <Anchor point="left" relativePoint="left">
                             <AbsPoint x="32" y="-2"/>
@@ -60,17 +57,12 @@
             </EventHandlers>
         </Button>
 
-        <Window name="SettingsSliderTemplate" handleinput="true">
+        <Window name="SettingsSliderTemplate">
             <Size>
-                <AbsPoint x="400" y="18"/>
+                <AbsPoint x="560" y="18"/>
             </Size>
             <Windows>
-                <Label name="$parentLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                    <Size>
-                        <AbsPoint x="175" y="0" />
-                    </Size>
-                    <Color r="206" g="217" b="242" a="255"/>
-                </Label>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" wordwrap="true"/>
 
                 <SliderBar name="$parentBar" inherits="UO_Default_Horizontal_SliderBar">
                     <Anchors>
@@ -94,6 +86,27 @@
                     </Anchors>
                     <Color r="206" g="217" b="242" a="255"/>
                 </Label>
+            </Windows>
+        </Window>
+
+        <Window name="SettingsComboTemplate">
+            <Size>
+                <AbsPoint x="560" y="27"/>
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate">
+                    <Size>
+                        <AbsPoint x="100" y="0" />
+                    </Size>
+                </Label>
+    
+                <ComboBox name="$parentBox" inherits="UO_Default_LongComboBox">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentLabel">
+                            <AbsPoint x="36" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </ComboBox>
             </Windows>
         </Window>
 

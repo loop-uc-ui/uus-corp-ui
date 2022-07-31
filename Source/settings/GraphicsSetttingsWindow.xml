@@ -24,28 +24,11 @@
                     </Anchors>
 
                     <Windows>
-                        <Label name="$parentResLabel" inherits="SettingsLabelTemplate">
-                            <Anchors>
-                                <Anchor point="topleft" relativePoint="topleft">
-                                    <AbsPoint x="0" y="0"/>
-                                </Anchor>
-                            </Anchors>
-                        </Label>
-
-                        <ComboBox name="$parentResCombo" inherits="UO_Default_LongComboBox">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentResLabel">
-                                    <AbsPoint x="36" y="0"/>
-                                </Anchor>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnSelChanged" function="GraphicsSettingsWindow.onGraphicSettingChanged"/>
-                            </EventHandlers>
-                        </ComboBox>
+                        <Window name="$parentResCombo" inherits="SettingsComboTemplate"/>
 
                         <Button name="$parentFullScreenCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentResLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentResCombo">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
@@ -131,49 +114,21 @@
                             </Anchors>
                         </Window>
 
-                        <Label name="$parentParticleDetailLabel" inherits="SettingsLabelTemplate">
-                            <Size>
-                                <AbsPoint x="175" y="0" />
-                            </Size>
+                        <Window name="$parentParticleDetailCombo" inherits="SettingsComboTemplate">
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentBrightnessSlider">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
+                        </Window>
 
-                        <ComboBox name="$parentParticleDetailCombo" inherits="UO_Default_LongComboBox">
+                        <Window name="$parentParticleFilterCombo" inherits="SettingsComboTemplate">
                             <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentParticleDetailLabel">
-                                    <AbsPoint x="36" y="0"/>
-                                </Anchor>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnSelChanged" function="GraphicsSettingsWindow.onGraphicSettingChanged"/>
-                            </EventHandlers>
-                        </ComboBox>
-
-                        <Label name="$parentParticleFilterLabel" inherits="SettingsLabelTemplate">
-                            <Size>
-                                <AbsPoint x="175" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentParticleDetailLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentParticleDetailCombo">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
-
-                        <ComboBox name="$parentParticleFilterCombo" inherits="UO_Default_LongComboBox">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentParticleFilterLabel">
-                                    <AbsPoint x="36" y="0"/>
-                                </Anchor>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnSelChanged" function="GraphicsSettingsWindow.onGraphicSettingChanged"/>
-                            </EventHandlers>
-                        </ComboBox>
+                        </Window>
                     </Windows>
                 </Window>
             </Windows>

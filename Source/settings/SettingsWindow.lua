@@ -8,7 +8,7 @@ SettingsWindow.Tabs = {
     Graphics = {
         text = "Graphics",
         name = SettingsWindow.TabContainer .. "GraphicsTab",
-        page = SettingsWindow.Name .. "GraphicsPage"
+        page = SettingsWindow.Name .. "Graphics"
     },
     Sound = {
         text = "Sound",
@@ -18,7 +18,7 @@ SettingsWindow.Tabs = {
     Chat = {
         text = "Chat",
         name = SettingsWindow.TabContainer .. "ChatTab",
-        page = SettingsWindow.Name .. "ChatPage"
+        page = SettingsWindow.Name .. "Chat"
     },
     Controls = {
         text = "Controls",
@@ -39,7 +39,7 @@ SettingsWindow.Pages = {
         name = SettingsWindow.Name .. "GraphicsPage",
         labels = {
             Resolution = {
-                name = SettingsWindow.Name .. "GraphicsPageResLabel",
+                name = SettingsWindow.Name .. "GraphicsPageResComboLabel",
                 text = "Resolution"
             },
             UseFullScreen = {
@@ -87,17 +87,17 @@ SettingsWindow.Pages = {
                 text = 3000166
             },
             ParticleDetail = {
-                name = SettingsWindow.Name .. "GraphicsPageParticleDetailLabel",
+                name = SettingsWindow.Name .. "GraphicsPageParticleDetailComboLabel",
                 text = 1079213
             },
             ParticleFilter = {
-                name = SettingsWindow.Name .. "GraphicsPageParticleFilterLabel",
+                name = SettingsWindow.Name .. "GraphicsPageParticleFilterComboLabel",
                 text = 1112330
             }
         },
         comboBoxes = {
             Resolution = {
-                name = SettingsWindow.Name .. "GraphicsPageResCombo",
+                name = SettingsWindow.Name .. "GraphicsPageResComboBox",
                 list = function()
                     local list = {}
                     for i = 1, #UserGraphicsSettings.availableResolutions().widths do
@@ -130,7 +130,7 @@ SettingsWindow.Pages = {
                 end
             },
             ParticleDetail = {
-                name = SettingsWindow.Name .. "GraphicsPageParticleDetailCombo",
+                name = SettingsWindow.Name .. "GraphicsPageParticleDetailComboBox",
                 list = function ()
                     return { 1079210, 1079211, 1079212 }
                 end,
@@ -142,7 +142,7 @@ SettingsWindow.Pages = {
                 end
             },
             ParticleFilter = {
-                name = SettingsWindow.Name .. "GraphicsPageParticleFilterCombo",
+                name = SettingsWindow.Name .. "GraphicsPageParticleFilterComboBox",
                 list = function ()
                     return { 1112331, 1112332, 1112333, 1112334, 1158020 }
                 end,
@@ -283,15 +283,6 @@ SettingsWindow.Pages = {
 }
 
 function SettingsWindow.onInitialize()
-    for _, v in pairs(SettingsWindow.Tabs) do
-        ButtonApi.setText(
-            v.name,
-            v.text
-        )
-        WindowApi.setShowing(v.page, SettingsWindow.SelectedTab == v)
-        ButtonApi.setChecked(v.name, SettingsWindow.SelectedTab == v)
-    end
-
     WindowApi.registerEventHandler(
         SettingsWindow.Name,
         Events.userSettingsUpdated(),
@@ -358,6 +349,15 @@ function SettingsWindow.onInitialize()
             end
         end
     end
+
+    for _, v in pairs(SettingsWindow.Tabs) do
+        ButtonApi.setText(
+            v.name,
+            v.text
+        )
+        WindowApi.setShowing(v.page, SettingsWindow.SelectedTab == v)
+        ButtonApi.setChecked(v.name, SettingsWindow.SelectedTab == v)
+    end
 end
 
 function SettingsWindow.onShutdown()
@@ -423,12 +423,23 @@ function SettingsWindow.onCheckBoxClicked()
     end
 end
 
-function SettingsWindow.onComboBoxChanged(comboBoxes, index)
-    for _, v in pairs(comboBoxes) do
-        if v.name == Active.window() then
-            v.setting(index)
-            EventApi.broadcast(Events.userSettingsUpdated())
-            break
+function SettingsWindow.onComboBoxChanged(index)
+    local active = Active.window()
+    local parent = WindowApi.getParent(
+        WindowApi.getParent(
+            active
+        )
+    )
+
+    for _, v in pairs(SettingsWindow.Pages) do
+        if parent == v.name then
+            for _, c in pairs(v.comboBoxes) do
+                if c.name == active then
+                    c.setting(index)
+                    EventApi.broadcast(Events.userSettingsUpdated())
+                    break
+                end
+            end
         end
     end
 end

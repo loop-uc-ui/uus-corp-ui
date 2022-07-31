@@ -150,7 +150,6 @@
         <Script file="Source/paperdoll/PaperdollWindow.lua"/>
         <Script file="Source/settings/SettingsWindow.lua"/>
         <Script file="Source/settings/ControlsSettingsWindow.lua"/>
-        <Script file="Source/settings/GraphicsSettingsWindow.lua"/>
         <Script file="Source/settings/InterfaceSettingsWindow.lua"/>
         <Script file="Source/settings/SoundSettingsWindow.lua"/>
         <Script file="Source/skills/SkillsWindow.lua"/>
