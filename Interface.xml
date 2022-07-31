@@ -149,7 +149,6 @@
         <Script file="Source/paperdoll/CharacterAbilitiesWindow.lua"/>
         <Script file="Source/paperdoll/PaperdollWindow.lua"/>
         <Script file="Source/settings/SettingsWindow.lua"/>
-        <Script file="Source/settings/ChatSettingsWindow.lua"/>
         <Script file="Source/settings/ControlsSettingsWindow.lua"/>
         <Script file="Source/settings/GraphicsSettingsWindow.lua"/>
         <Script file="Source/settings/InterfaceSettingsWindow.lua"/>

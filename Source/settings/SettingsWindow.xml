@@ -42,6 +42,61 @@
             <Color r="206" g="217" b="242" a="255"/>
         </Label>
 
+        <Button name="SettingsCheckBoxTemplate" inherits="UO_Default_Check_Button">
+            <Windows>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" textalign="left" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="300" y="0" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left">
+                            <AbsPoint x="32" y="-2"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="SettingsWindow.onCheckBoxClicked"/>
+            </EventHandlers>
+        </Button>
+
+        <Window name="SettingsSliderTemplate" handleinput="true">
+            <Size>
+                <AbsPoint x="400" y="18"/>
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="175" y="0" />
+                    </Size>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <SliderBar name="$parentBar" inherits="UO_Default_Horizontal_SliderBar">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentLabel">
+                            <AbsPoint x="48" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnSlide" function="SettingsWindow.onSliderChanged" />
+                    </EventHandlers>
+                </SliderBar>
+
+                <Label name="$parentValue" inherits="SettingsLabelTemplate" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="40" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentBar">
+                            <AbsPoint x="20" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+            </Windows>
+        </Window>
+
         <Window name="SettingsWindow" movable="true" layer="default">
             <Size>
                 <AbsPoint x="800" y="600" />
@@ -82,9 +137,9 @@
                     </Anchors>
                 </VerticalResizeImage>
 
-                <Window name="$parentGraphicsPage" inherits="GraphicsSettingsWindow"/>
+                <Window name="$parentGraphics" inherits="GraphicsSettingsWindow"/>
                 <Window name="$parentSoundPage" inherits="SoundSettingsWindow"/>
-                <Window name="$parentChatPage" inherits="ChatSettingsWindow"/>
+                <Window name="$parentChat" inherits="ChatSettingsWindow"/>
                 <Window name="$parentControlsPage" inherits="ControlsSettingsWindow"/>
                 <Window name="$parentInterfacePage" inherits="InterfaceSettingsWindow"/>
 

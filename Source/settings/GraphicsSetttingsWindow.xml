@@ -1,9 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
         <Window name="GraphicsSettingsWindow" inherits="SettingsPageTemplate">
-            <EventHandlers>
-                <EventHandler event="OnInitialize" function="GraphicsSettingsWindow.onInitialize"/>
-            </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
                     <Anchors>
@@ -12,7 +9,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Window name="$parentContainer" layer="default">
+                <Window name="$parentPage" layer="default">
                     <Size>
                         <AbsPoint x="580" y="540"/>
                     </Size>
@@ -46,247 +43,100 @@
                             </EventHandlers>
                         </ComboBox>
 
-                        <Label name="$parentFullScreenLabel" inherits="SettingsLabelTemplate" textalign="left">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
+                        <Button name="$parentFullScreenCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentResLabel">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
-
-                        <Button name="$parentFullScreenCheckBox" inherits="UO_Default_Check_Button">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentFullScreenLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
-                            </EventHandlers>
                         </Button>
 
-                        <Label name="$parentFlyingAnimationLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
+                        <Button name="$parentFlyingAnimationCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFullScreenLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFullScreenCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
-
-                        <Button name="$parentFlyingAnimationCheckBox" inherits="UO_Default_Check_Button">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentFlyingAnimationLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
-                            </EventHandlers>
                         </Button>
 
-                        <Label name="$parentWindowFrameLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
+                        <Button name="$parentWindowFrameCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFlyingAnimationLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFlyingAnimationCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
-
-                        <Button name="$parentWindowFrameCheckBox" inherits="UO_Default_Check_Button">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentWindowFrameLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
-                            </EventHandlers>
                         </Button>
-
-                        <Label name="$parentHouseContentsLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWindowFrameLabel">
-                                    <AbsPoint x="0" y="18"/>
-                                </Anchor>
-                            </Anchors>
-                        </Label>
     
-                        <Button name="$parentHouseContentsCheckBox" inherits="UO_Default_Check_Button">
+                        <Button name="$parentHouseContentsCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentHouseContentsLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
-                            </EventHandlers>
-                        </Button>
-
-                        <Label name="$parentDeathEffectLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentHouseContentsLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWindowFrameCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
+                        </Button>
     
-                        <Button name="$parentDeathEffectCheckBox" inherits="UO_Default_Check_Button">
+                        <Button name="$parentDeathEffectCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentDeathEffectLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
-                            </EventHandlers>
-                        </Button>
-
-                        <Label name="$parentVSyncLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDeathEffectLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentHouseContentsCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
+                        </Button>
     
-                        <Button name="$parentVSyncCheckBox" inherits="UO_Default_Check_Button">
+                        <Button name="$parentVSyncCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentVSyncLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
-                            </EventHandlers>
-                        </Button>
-
-                        <Label name="$parentIdleAnimationLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentVSyncLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDeathEffectCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
+                        </Button>
     
-                        <Button name="$parentIdleAnimationCheckBox" inherits="UO_Default_Check_Button">
+                        <Button name="$parentIdleAnimationCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentIdleAnimationLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
-                            </EventHandlers>
-                        </Button>
-
-                        <Label name="$parentFoliageLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentIdleAnimationLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentVSyncCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
+                        </Button>
     
-                        <Button name="$parentFoliageCheckBox" inherits="UO_Default_Check_Button">
+                        <Button name="$parentFoliageCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentFoliageLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
-                            </EventHandlers>
-                        </Button>
-
-                        <Label name="$parentShadowsLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFoliageLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentIdleAnimationCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
+                        </Button>
     
-                        <Button name="$parentShadowsCheckBox" inherits="UO_Default_Check_Button">
+                        <Button name="$parentShadowsCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentShadowsLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
-                            </EventHandlers>
-                        </Button>
-
-                        <Label name="$parentCircleOfTransparencyLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentShadowsLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFoliageCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
+                        </Button>
     
-                        <Button name="$parentCircleOfTransparencyCheckBox" inherits="UO_Default_Check_Button">
+                        <Button name="$parentCircleOfTransparencyCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentCircleOfTransparencyLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="GraphicsSettingsWindow.onGraphicSettingChecked"/>
-                            </EventHandlers>
-                        </Button>
-
-                        <Label name="$parentBrightnessLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="175" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentCircleOfTransparencyLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentShadowsCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                            <Color r="206" g="217" b="242" a="255"/>
-                        </Label>
-        
-                        <SliderBar name="$parentBrightnessSliderBar" inherits="UO_Default_Horizontal_SliderBar">
+                        </Button>
+
+                        <Window name="$parentBrightnessSlider" inherits="SettingsSliderTemplate">
                             <Anchors>
-                                <Anchor point="topright" relativePoint="topleft" relativeTo="$parentBrightnessLabel">
-                                    <AbsPoint x="48" y="0" />
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentCircleOfTransparencyCheckBox">
+                                    <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnSlide" function="GraphicsSettingsWindow.onGraphicsSlide" />
-                            </EventHandlers>
-                        </SliderBar>
-            
-                        <Label name="$parentBrightnessValue" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="40" y="20"/>
-                            </Size>
-                            <Anchors>
-                                <Anchor point="topright" relativePoint="topleft" relativeTo="$parentBrightnessSliderBar">
-                                    <AbsPoint x="20" y="0" />
-                                </Anchor>
-                            </Anchors>
-                            <Color r="206" g="217" b="242" a="255"/>
-                        </Label>
+                        </Window>
 
                         <Label name="$parentParticleDetailLabel" inherits="SettingsLabelTemplate">
                             <Size>
                                 <AbsPoint x="175" y="0" />
                             </Size>
                             <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentBrightnessLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentBrightnessSlider">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
