@@ -1,55 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-        <Window name="VolumeSliderItemTemplate">
-			<Size>
-				<AbsPoint x="580" y="36" />
-			</Size>
-			<Windows>
-				<Label name="$parentText" inherits="SettingsLabelTemplate" wordwrap="true">
-					<Size>
-                        <AbsPoint x="175" y="0" />
-                    </Size>
-                    <Color r="206" g="217" b="242" a="255"/>
-				</Label>
-
-                <Button name="$parentToggleButton" inherits="UO_Default_Check_Button">
-                    <Anchors>
-                        <Anchor point="right" relativePoint="left" relativeTo="$parentText"/>
-                    </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="SoundSettingsWindow.onSoundSettingChecked"/>
-                    </EventHandlers>
-                </Button>
-
-				<SliderBar name="$parentSliderBar" inherits="UO_Default_Horizontal_SliderBar">
-					<Anchors>
-						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentText">
-							<AbsPoint x="48" y="0" />
-						</Anchor>
-					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnSlide" function="SoundSettingsWindow.onVolumeSlide" />
-					</EventHandlers>
-				</SliderBar>
-    
-				<Label name="$parentVal" inherits="SettingsLabelTemplate" wordwrap="true">
-					<Size>
-						<AbsPoint x="40" y="20"/>
-					</Size>
-					<Anchors>
-						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentSliderBar">
-							<AbsPoint x="20" y="0" />
-						</Anchor>
-					</Anchors>
-                    <Color r="206" g="217" b="242" a="255"/>
-				</Label>
-			</Windows>
-		</Window>
-
         <Window name="SoundSettingsWindow" inherits="SettingsPageTemplate">
-            <EventHandlers>
-                <EventHandler event="OnInitialize" function="SoundSettingsWindow.onInitialize"/>
-            </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
                     <Anchors>
@@ -58,7 +9,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Window name="$parentContainer" layer="default">
+                <Window name="$parentPage" layer="default">
                     <Size>
                         <AbsPoint x="580" y="540"/>
                     </Size>
@@ -73,48 +24,54 @@
                     </Anchors>
 
                     <Windows>
-                        <Window name="$parentMasterVolume" inherits="VolumeSliderItemTemplate" >
+                        <Button name="$parentMasterVolumeCheckBox" inherits="SettingsCheckBoxTemplate"/>
+
+                        <Window name="$parentMasterVolumeSlider" inherits="SettingsSliderTemplate">
                             <Anchors>
-                                <Anchor point="topleft" relativePoint="topleft">
-                                    <AbsPoint x="0" y="16" />
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentMasterVolumeCheckBox">
+                                    <AbsPoint x="18" y="0"/>
                                 </Anchor>
                             </Anchors>
                         </Window>
 
-                        <Window name="$parentEffectsVolume" inherits="VolumeSliderItemTemplate" >
+                        <Button name="$parentEffectsVolumeCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentMasterVolume">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentMasterVolumeCheckBox">
                                     <AbsPoint x="0" y="12" />
                                 </Anchor>
                             </Anchors>
-                        </Window>
-
-                        <Window name="$parentMusicVolume" inherits="VolumeSliderItemTemplate" >
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentEffectsVolume">
-                                    <AbsPoint x="0" y="12" />
-                                </Anchor>
-                            </Anchors>
-                        </Window>
-
-                        <Label name="$parentToggleFootstepsLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="175" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentMusicVolume">
-                                    <AbsPoint x="0" y="12"/>
-                                </Anchor>
-                            </Anchors>
-                        </Label>
+                        </Button>
                         
-                        <Button name="$parentToggleFootstepsCheckbox" inherits="UO_Default_Check_Button">
+                        <Window name="$parentEffectsVolumeSlider" inherits="SettingsSliderTemplate">
                             <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentToggleFootstepsLabel"/>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentEffectsVolumeCheckBox">
+                                    <AbsPoint x="18" y="0"/>
+                                </Anchor>
                             </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="SoundSettingsWindow.onSoundSettingChecked"/>
-                            </EventHandlers>
+                        </Window>
+
+                        <Button name="$parentMusicVolumeCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentEffectsVolumeCheckBox">
+                                    <AbsPoint x="0" y="12" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Window name="$parentMusicVolumeSlider" inherits="SettingsSliderTemplate">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentMusicVolumeCheckBox">
+                                    <AbsPoint x="18" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <Button name="$parentToggleFootstepsCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentMusicVolumeCheckBox">
+                                    <AbsPoint x="0" y="12" />
+                                </Anchor>
+                            </Anchors>
                         </Button>
                     </Windows>
                 </Window>

@@ -1,9 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
         <Window name="ChatSettingsWindow" inherits="SettingsPageTemplate">
-            <EventHandlers>
-                <EventHandler event="OnInitialize" function="ChatSettingsWindow.onInitialize"/>
-            </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
                     <Anchors>
@@ -12,7 +9,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Window name="$parentContainer" layer="default">
+                <Window name="$parentPage" layer="default">
                     <Size>
                         <AbsPoint x="580" y="540"/>
                     </Size>
@@ -27,84 +24,36 @@
                     </Anchors>
 
                     <Windows>
-                        <Label name="$parentDisableSpellsLabel" inherits="SettingsLabelTemplate" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
+                        <Button name="$parentDisableSpellsCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
                                 <Anchor point="topleft" relativePoint="topleft">
                                     <AbsPoint x="0" y="0"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
-                        
-                        <Button name="$parentDisableSpellsCheckBox" inherits="UO_Default_Check_Button">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentDisableSpellsLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="ChatSettingsWindow.onChatSettingChecked"/>
-                            </EventHandlers>
                         </Button>
 
-                        <Label name="$parentShowSpellNameLabel" inherits="SettingsLabelTemplate" textalign="left" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
+                        <Button name="$parentShowSpellNameCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDisableSpellsLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDisableSpellsCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
-
-                        <Button name="$parentShowSpellNameCheckBox" inherits="UO_Default_Check_Button">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentShowSpellNameLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="ChatSettingsWindow.onChatSettingChecked"/>
-                            </EventHandlers>
                         </Button>
 
-                        <Label name="$parentDisablePoisonTextLabel" inherits="SettingsLabelTemplate" textalign="left" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
+                        <Button name="$parentDisablePoisonTextCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentShowSpellNameLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentShowSpellNameCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
-
-                        <Button name="$parentDisablePoisonTextCheckBox" inherits="UO_Default_Check_Button">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentDisablePoisonTextLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="ChatSettingsWindow.onChatSettingChecked"/>
-                            </EventHandlers>
                         </Button>
 
-                        <Label name="$parentSaveJournalLabel" inherits="SettingsLabelTemplate" textalign="left" wordwrap="true">
-                            <Size>
-                                <AbsPoint x="300" y="0" />
-                            </Size>
+                        <Button name="$parentSaveJournalCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDisablePoisonTextLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDisablePoisonTextCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
-
-                        <Button name="$parentSaveJournalCheckBox" inherits="UO_Default_Check_Button">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentSaveJournalLabel"/>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnLButtonUp" function="ChatSettingsWindow.onChatSettingChecked"/>
-                            </EventHandlers>
                         </Button>
                     </Windows>
                 </Window>

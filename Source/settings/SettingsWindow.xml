@@ -1,6 +1,6 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-        <Window name="SettingsPageTemplate" layer="default">
+        <Window name="SettingsPageTemplate" layer="default" handleinput="true">
             <Size>
                 <AbsPoint x="616" y="576"/>
             </Size>
@@ -37,10 +37,77 @@
 
         <Label name="SettingsLabelTemplate" autoresize="true" font="inter_medium_16">
             <Size>
-                <AbsPoint x="100" y="18"/>
+                <AbsPoint x="150" y="18"/>
             </Size>
             <Color r="206" g="217" b="242" a="255"/>
         </Label>
+
+        <Button name="SettingsCheckBoxTemplate" inherits="UO_Default_Check_Button">
+            <Windows>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" textalign="left" autoresizewidth="true">
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left">
+                            <AbsPoint x="32" y="-2"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="SettingsWindow.onCheckBoxClicked"/>
+            </EventHandlers>
+        </Button>
+
+        <Window name="SettingsSliderTemplate">
+            <Size>
+                <AbsPoint x="560" y="18"/>
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" wordwrap="true"/>
+
+                <SliderBar name="$parentBar" inherits="UO_Default_Horizontal_SliderBar">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentLabel">
+                            <AbsPoint x="48" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnSlide" function="SettingsWindow.onSliderChanged" />
+                    </EventHandlers>
+                </SliderBar>
+
+                <Label name="$parentValue" inherits="SettingsLabelTemplate" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="40" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentBar">
+                            <AbsPoint x="20" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+            </Windows>
+        </Window>
+
+        <Window name="SettingsComboTemplate">
+            <Size>
+                <AbsPoint x="560" y="27"/>
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate"/>
+    
+                <ComboBox name="$parentBox" inherits="UO_Default_LongComboBox">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentLabel">
+                            <AbsPoint x="36" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnSelChanged" function="SettingsWindow.onComboBoxChanged"/>
+                    </EventHandlers>
+                </ComboBox>
+            </Windows>
+        </Window>
 
         <Window name="SettingsWindow" movable="true" layer="default">
             <Size>
@@ -82,11 +149,11 @@
                     </Anchors>
                 </VerticalResizeImage>
 
-                <Window name="$parentGraphicsPage" inherits="GraphicsSettingsWindow"/>
-                <Window name="$parentSoundPage" inherits="SoundSettingsWindow"/>
-                <Window name="$parentChatPage" inherits="ChatSettingsWindow"/>
-                <Window name="$parentControlsPage" inherits="ControlsSettingsWindow"/>
-                <Window name="$parentInterfacePage" inherits="InterfaceSettingsWindow"/>
+                <Window name="$parentGraphics" inherits="GraphicsSettingsWindow"/>
+                <Window name="$parentSound" inherits="SoundSettingsWindow"/>
+                <Window name="$parentChat" inherits="ChatSettingsWindow"/>
+                <Window name="$parentControls" inherits="ControlsSettingsWindow"/>
+                <Window name="$parentInterface" inherits="InterfaceSettingsWindow"/>
 
                 <Window name="$parentTabContainer">
                     <Size>
