@@ -306,7 +306,7 @@ SettingsWindow.Pages = {
                     return list
                 end,
                 isSelected = function (index)
-                    return SettingsWindow.Pages.Interface.comboBoxes.Mod.list()[index] 
+                    return SettingsWindow.Pages.Interface.comboBoxes.Mod.list()[index]
                         == UserOptionsSettings.customUI()
                 end,
                 setting = function(newValue)
@@ -404,6 +404,50 @@ SettingsWindow.Pages = {
                 name =  SettingsWindow.Name .. "SoundPageToggleFootstepsCheckBox",
                 setting = function (newValue)
                     return UserSoundSettings.footstepsEnabled(newValue)
+                end
+            }
+        },
+        sliders = {
+            MasterVolume = {
+                name = SettingsWindow.Name .. "SoundPageMasterVolumeSliderBar",
+                value = SettingsWindow.Name .. "SoundPageMasterVolumeSliderValue",
+                setting = function(newValue)
+                    return UserSoundSettings.masterVolume(newValue)
+                end,
+                formatValue = function (value)
+                    return StringFormatter.toWString(
+                        math.floor(
+                            100 * value
+                        )
+                    )
+                end
+            },
+            EffectsVolume = {
+                name = SettingsWindow.Name .. "SoundPageEffectsVolumeSliderBar",
+                value = SettingsWindow.Name .. "SoundPageEffectsVolumeSliderValue",
+                setting = function(newValue)
+                    return UserSoundSettings.effectsVolume(newValue)
+                end,
+                formatValue = function (value)
+                    return StringFormatter.toWString(
+                        math.floor(
+                            100 * value
+                        )
+                    )
+                end
+            },
+            MusicVolume = {
+                name = SettingsWindow.Name .. "SoundPageMusicVolumeSliderBar",
+                value = SettingsWindow.Name .. "SoundPageMusicVolumeSliderValue",
+                setting = function(newValue)
+                    return UserSoundSettings.musicVolume(newValue)
+                end,
+                formatValue = function (value)
+                    return StringFormatter.toWString(
+                        math.floor(
+                            100 * value
+                        )
+                    )
                 end
             }
         }
