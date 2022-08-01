@@ -22,10 +22,6 @@
         </Button>
 
         <Window name="ControlsSettingsWindow" inherits="SettingsPageTemplate">
-            <EventHandlers>
-                <EventHandler event="OnInitialize" function="ControlsSettingsWindow.onInitialize"/>
-                <EventHandler event="OnShutdown" function="ControlsSettingsWindow.onShutdown"/>
-            </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
                     <Anchors>
@@ -34,7 +30,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Window name="$parentContainer" layer="default">
+                <Window name="$parentPage" layer="default">
                     <Size>
                         <AbsPoint x="500" y="500"/>
                     </Size>
@@ -49,57 +45,28 @@
                     </Anchors>
 
                     <Windows>
-                        <Label name="$parentScrollUpLabel" inherits="SettingsLabelTemplate">
-                            <Size>
-                                <AbsPoint x="170" y="35"/>
-                            </Size>
-                            <Anchors>
-                                <Anchor point="topleft" relativePoint="topleft">
-                                    <AbsPoint x="0" y="0"/>
-                                </Anchor>
-                            </Anchors>
-                        </Label>
+                        <Window name="$parentScrollUpCombo" inherits="SettingsComboTemplate"/>
 
-                        <ComboBox name="$parentScrollUpCombo" inherits="UO_Default_LongComboBox">
+                        <Window name="$parentScrollDownCombo" inherits="SettingsComboTemplate">
                             <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentScrollUpLabel">
-                                    <AbsPoint x="36" y="0"/>
-                                </Anchor>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnSelChanged" function="ControlsSettingsWindow.onScrollChanged"/>
-                            </EventHandlers>
-                        </ComboBox>
-
-                        <Label name="$parentScrollDownLabel" inherits="SettingsLabelTemplate">
-                            <Size>
-                                <AbsPoint x="170" y="35"/>
-                            </Size>
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentScrollUpLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentScrollUpCombo">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
-                        </Label>
+                        </Window>
 
-                        <ComboBox name="$parentScrollDownCombo" inherits="UO_Default_LongComboBox">
-                            <Anchors>
-                                <Anchor point="right" relativePoint="left" relativeTo="$parentScrollDownLabel">
-                                    <AbsPoint x="36" y="0"/>
-                                </Anchor>
-                            </Anchors>
-                            <EventHandlers>
-                                <EventHandler event="OnSelChanged" function="ControlsSettingsWindow.onScrollChanged"/>
-                            </EventHandlers>
-                        </ComboBox>
-
-                        <ListBox name="$parentList" rowdef="KeybindingRowTemplate" visiblerows="18" rowcount="57" rowspacing="24" scrollbar="$parentScrollbar">
+                        <ListBox name="$parentList" rowdef="KeybindingRowTemplate" visiblerows="17" rowcount="57" rowspacing="24" scrollbar="$parentScrollbar">
                             <Size>
                                 <AbsPoint x="500" y="440" />
                             </Size>
-        
+    
+                            <EventHandlers>
+                                <EventHandler event="OnInitialize" function="ControlsSettingsWindow.onInitialize"/>
+                                <EventHandler event="OnShutdown" function="ControlsSettingsWindow.onShutdown"/>
+                            </EventHandlers>
+
                             <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentScrollDownLabel">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentScrollDownCombo">
                                     <AbsPoint x="0" y="24"/>
                                 </Anchor>
                             </Anchors>

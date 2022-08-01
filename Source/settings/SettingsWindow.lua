@@ -23,7 +23,7 @@ SettingsWindow.Tabs = {
     Controls = {
         text = "Controls",
         name = SettingsWindow.TabContainer .. "ControlsTab",
-        page = SettingsWindow.Name .. "ControlsPage"
+        page = SettingsWindow.Name .. "Controls"
     },
     Interface = {
         text = "Interface",
@@ -448,6 +448,81 @@ SettingsWindow.Pages = {
                             100 * value
                         )
                     )
+                end
+            }
+        }
+    },
+    Controls = {
+        name = SettingsWindow.Name .. "ControlsPage",
+        labels = {
+            ScrollWheelUp = {
+                name = SettingsWindow.Name .. "ControlsPageScrollUpComboLabel",
+                text = 1111944
+            },
+            ScrollWheelDown = {
+                name = SettingsWindow.Name .. "ControlsPageScrollDownComboLabel",
+                text = 1111945
+            }
+        },
+        comboBoxes = {
+            ScrollWheelUp = {
+                name = SettingsWindow.Name .. "ControlsPageScrollUpComboBox",
+                list = function()
+                    local list = {}
+                    local scrollWheelBehaviors = UserControlSettings.scrollWheelBehaviors()
+
+                    for i = 1, #scrollWheelBehaviors do
+                        table.insert(
+                            list,
+                            scrollWheelBehaviors[i].tid
+                        )
+                    end
+
+                    return list
+                end,
+                isSelected = function (index)
+                    local scrollWheelBehaviors = UserControlSettings.scrollWheelBehaviors()
+                    local item = scrollWheelBehaviors[index]
+                    return item.id == UserControlSettings.mouseScrollUpAction()
+                end,
+                setting = function(newValue)
+                    if newValue == nil then
+                        return UserControlSettings.mouseScrollUpAction()
+                    else
+                        return UserControlSettings.mouseScrollUpAction(
+                            UserControlSettings.scrollWheelBehaviors()[newValue].id
+                        )
+                    end
+                end
+            },
+            ScrollWheelDown = {
+                name = SettingsWindow.Name .. "ControlsPageScrollDownComboBox",
+                list = function()
+                    local list = {}
+                    local scrollWheelBehaviors = UserControlSettings.scrollWheelBehaviors()
+
+                    for i = 1, #scrollWheelBehaviors do
+                        table.insert(
+                            list,
+                            scrollWheelBehaviors[i].tid
+                        )
+                    end
+
+                    return list
+                end,
+                isSelected = function (index)
+                    local scrollWheelBehaviors = UserControlSettings.scrollWheelBehaviors()
+                    local item = scrollWheelBehaviors[index]
+                    return item.id == UserControlSettings.mouseScrollDownAction()
+                end,
+                setting = function(newValue)
+                    if newValue == nil then
+                        return UserControlSettings.mouseScrollDownAction()
+                    else
+                        return UserControlSettings.mouseScrollDownAction(
+                            UserControlSettings.scrollWheelBehaviors()[newValue].id
+                        )
+                    end
                 end
             }
         }

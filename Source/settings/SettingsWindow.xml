@@ -152,7 +152,7 @@
                 <Window name="$parentGraphics" inherits="GraphicsSettingsWindow"/>
                 <Window name="$parentSound" inherits="SoundSettingsWindow"/>
                 <Window name="$parentChat" inherits="ChatSettingsWindow"/>
-                <Window name="$parentControlsPage" inherits="ControlsSettingsWindow"/>
+                <Window name="$parentControls" inherits="ControlsSettingsWindow"/>
                 <Window name="$parentInterface" inherits="InterfaceSettingsWindow"/>
 
                 <Window name="$parentTabContainer">
