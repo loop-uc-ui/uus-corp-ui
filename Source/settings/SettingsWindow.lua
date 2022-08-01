@@ -28,7 +28,7 @@ SettingsWindow.Tabs = {
     Interface = {
         text = "Interface",
         name = SettingsWindow.TabContainer .. "InterfaceTab",
-        page = SettingsWindow.Name .. "InterfacePage"
+        page = SettingsWindow.Name .. "Interface"
     }
 }
 
@@ -277,6 +277,87 @@ SettingsWindow.Pages = {
             SaveJournal = {
                 name = SettingsWindow.Name .. "ChatPageSaveJournalCheckBoxLabel",
                 text = 1149998
+            }
+        }
+    },
+    Interface = {
+        name = SettingsWindow.Name .. "InterfacePage",
+        comboBoxes = {
+            Mod = {
+                name = SettingsWindow.Name .. "InterfacePageModComboBox",
+                list = function()
+                    local list = {}
+                    for i = 1, #UserOptionsSettings.customUiList() do
+                        local item = UserOptionsSettings.customUiList()[i]
+                        if item == "" then
+                            table.insert(
+                                list,
+                                StringFormatter.fromTid(
+                                    3000094
+                                )
+                            )
+                        else
+                            table.insert(
+                                list,
+                                item
+                            )
+                        end
+                    end
+                    return list
+                end,
+                isSelected = function (index)
+                    return SettingsWindow.Pages.Interface.comboBoxes.Mod.list()[index] 
+                        == UserOptionsSettings.customUI()
+                end,
+                setting = function(newValue)
+                    return UserOptionsSettings.customUI(newValue)
+                end
+            },
+            ObjectHandleFilter = {
+                name = SettingsWindow.Name .. "InterfacePageObjectHandleComboBox",
+                list = function ()
+                    return {
+                        1079457,
+                        1078368,
+                        1079458,
+                        1079459,
+                        1075672,
+                        1154804,
+                        1154805
+                    }
+                end,
+                isSelected = function (index)
+                    return index == UserOptionsSettings.objectHandleFilter() + 1
+                end,
+                setting = function (newValue)
+                    if newValue == nil then
+                        return UserOptionsSettings.objectHandleFilter() + 1
+                    else
+                        return UserOptionsSettings.objectHandleFilter(newValue - 1)
+                    end
+                end
+            }
+        },
+        checkBoxes = {
+            LegacyContainers = {
+                name = SettingsWindow.Name .. "InterfacePageLegacyContainersCheckBox",
+                setting = function(newValue)
+                    return  UserContainerSettings.legacyContainers(newValue)
+                end
+            }
+        },
+        labels = {
+            Mod = {
+                name = SettingsWindow.Name .. "InterfacePageModComboLabel",
+                text = 1079523
+            },
+            LegacyContainers = {
+                name = SettingsWindow.Name .. "InterfacePageLegacyContainersCheckBoxLabel",
+                text = "Use Legacy Containers"
+            },
+            ObjectHandleFilter = {
+                name = SettingsWindow.Name .. "InterfacePageObjectHandleComboLabel",
+                text = 1079461
             }
         }
     }

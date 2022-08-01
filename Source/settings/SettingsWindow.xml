@@ -153,7 +153,7 @@
                 <Window name="$parentSoundPage" inherits="SoundSettingsWindow"/>
                 <Window name="$parentChat" inherits="ChatSettingsWindow"/>
                 <Window name="$parentControlsPage" inherits="ControlsSettingsWindow"/>
-                <Window name="$parentInterfacePage" inherits="InterfaceSettingsWindow"/>
+                <Window name="$parentInterface" inherits="InterfaceSettingsWindow"/>
 
                 <Window name="$parentTabContainer">
                     <Size>
