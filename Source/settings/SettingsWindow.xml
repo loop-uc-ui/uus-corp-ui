@@ -150,7 +150,7 @@
                 </VerticalResizeImage>
 
                 <Window name="$parentGraphics" inherits="GraphicsSettingsWindow"/>
-                <Window name="$parentSoundPage" inherits="SoundSettingsWindow"/>
+                <Window name="$parentSound" inherits="SoundSettingsWindow"/>
                 <Window name="$parentChat" inherits="ChatSettingsWindow"/>
                 <Window name="$parentControlsPage" inherits="ControlsSettingsWindow"/>
                 <Window name="$parentInterface" inherits="InterfaceSettingsWindow"/>

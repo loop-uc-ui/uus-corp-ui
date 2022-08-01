@@ -13,7 +13,7 @@ SettingsWindow.Tabs = {
     Sound = {
         text = "Sound",
         name = SettingsWindow.TabContainer .. "SoundTab",
-        page = SettingsWindow.Name .. "SoundPage"
+        page = SettingsWindow.Name .. "Sound"
     },
     Chat = {
         text = "Chat",
@@ -358,6 +358,53 @@ SettingsWindow.Pages = {
             ObjectHandleFilter = {
                 name = SettingsWindow.Name .. "InterfacePageObjectHandleComboLabel",
                 text = 1079461
+            }
+        }
+    },
+    Sound = {
+        name = SettingsWindow.Name .. "SoundPage",
+        labels = {
+            MasterVolume = {
+                name = SettingsWindow.Name .. "SoundPageMasterVolumeCheckBoxLabel",
+                text = 1077823
+            },
+            EffectsVolume = {
+                name = SettingsWindow.Name .. "SoundPageEffectsVolumeCheckBoxLabel",
+                text = 1078575
+            },
+            MusicVolume = {
+                name = SettingsWindow.Name .. "SoundPageMusicVolumeCheckBoxLabel",
+                text = 1078577
+            },
+            PlayFootsteps = {
+                name = SettingsWindow.Name .. "SoundPageToggleFootstepsCheckBoxLabel",
+                text = 1078077
+            }
+        },
+        checkBoxes = {
+            MasterVolume = {
+                name =  SettingsWindow.Name .. "SoundPageMasterVolumeCheckBox",
+                setting = function (newValue)
+                    return UserSoundSettings.masterEnabled(newValue)
+                end
+            },
+            EffectsVolume = {
+                name =  SettingsWindow.Name .. "SoundPageEffectsVolumeCheckBox",
+                setting = function (newValue)
+                    return UserSoundSettings.effectsEnabled(newValue)
+                end
+            },
+            MusicVolume = {
+                name =  SettingsWindow.Name .. "SoundPageMusicVolumeCheckBox",
+                setting = function (newValue)
+                    return UserSoundSettings.musicEnabled(newValue)
+                end
+            },
+            PlayFootsteps = {
+                name =  SettingsWindow.Name .. "SoundPageToggleFootstepsCheckBox",
+                setting = function (newValue)
+                    return UserSoundSettings.footstepsEnabled(newValue)
+                end
             }
         }
     }
