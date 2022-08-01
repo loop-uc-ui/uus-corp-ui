@@ -37,14 +37,14 @@
 
         <Label name="SettingsLabelTemplate" autoresize="true" font="inter_medium_16">
             <Size>
-                <AbsPoint x="200" y="18"/>
+                <AbsPoint x="150" y="18"/>
             </Size>
             <Color r="206" g="217" b="242" a="255"/>
         </Label>
 
         <Button name="SettingsCheckBoxTemplate" inherits="UO_Default_Check_Button">
             <Windows>
-                <Label name="$parentLabel" inherits="SettingsLabelTemplate" textalign="left" wordwrap="true">
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" textalign="left" autoresizewidth="true">
                     <Anchors>
                         <Anchor point="left" relativePoint="left">
                             <AbsPoint x="32" y="-2"/>
@@ -94,11 +94,7 @@
                 <AbsPoint x="560" y="27"/>
             </Size>
             <Windows>
-                <Label name="$parentLabel" inherits="SettingsLabelTemplate">
-                    <Size>
-                        <AbsPoint x="100" y="0" />
-                    </Size>
-                </Label>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate"/>
     
                 <ComboBox name="$parentBox" inherits="UO_Default_LongComboBox">
                     <Anchors>
@@ -106,6 +102,9 @@
                             <AbsPoint x="36" y="0"/>
                         </Anchor>
                     </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnSelChanged" function="SettingsWindow.onComboBoxChanged"/>
+                    </EventHandlers>
                 </ComboBox>
             </Windows>
         </Window>
