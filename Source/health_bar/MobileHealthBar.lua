@@ -4,6 +4,7 @@ MobileHealthBar.StatusBar = "HealthBar"
 MobileHealthBar.HealthLabel = "HealthBarPerc"
 MobileHealthBar.NameLabel = "Name"
 MobileHealthBar.Arrow = "MobileArrow"
+MobileHealthBar.ObjectAnchor = "ObjectAnchor"
 
 function MobileHealthBar.onInitialize()
     local window = Active.window()
@@ -20,6 +21,7 @@ function MobileHealthBar.onInitialize()
     WindowApi.registerEventHandler(window, Events.enableHealthBar(), update)
     WindowApi.registerEventHandler(window, Events.disableHealthBar(), "MobileHealthBar.onShutdown")
 
+    WindowApi.setShowing(window .. MobileHealthBar.ObjectAnchor, false)
     MobileHealthBar.update()
 end
 
@@ -36,6 +38,7 @@ function MobileHealthBar.onShutdown()
     WindowApi.unregisterEventHandler(window, Events.disableHealthBar())
     WindowApi.unregisterEventHandler(window, Events.enableHealthBar())
     MobileHealthBar.onMouseOverEnd()
+    WindowApi.detachWindowFromWorldObject(id, window)
 end
 
 function MobileHealthBar.update()
@@ -70,6 +73,10 @@ function MobileHealthBar.onRightClick()
 end
 
 function MobileHealthBar.onMouseOver()
+    if WindowApi.isShowing(Active.window() .. MobileHealthBar.ObjectAnchor) then
+        return
+    end
+
     local id = WindowApi.getId(
         Active.window()
     )
@@ -97,4 +104,19 @@ function MobileHealthBar.onDoubleClick()
         WindowApi.getId(Active.window()),
         false
     )
+end
+
+function MobileHealthBar.onLeftClickDown()
+    if Cursor.hasTarget() then
+        return
+    end
+
+    WindowApi.detachWindowFromWorldObject(
+        WindowApi.getId(
+            Active.window()
+        ),
+        Active.window()
+    )
+
+    WindowApi.setShowing(Active.window() .. MobileHealthBar.ObjectAnchor, false)
 end

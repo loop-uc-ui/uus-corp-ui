@@ -24,6 +24,7 @@
     <Include file="Source/health_bar/HealthBarRootOverlayWindow.xml"/>
     <Include file="Source/health_bar/MobileHealthBar.xml"/>
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
+    <Include file="Source/health_bar/TargetWindow.xml"/>
     <Include file="Source/container/ContainerWindow.xml"/>
     <Include file="Source/object_handle/ObjectHandleWindow.xml"/>
     <Include file="Source/object_handle/ObjectHandleRootOverlayWindow.xml"/>
@@ -142,6 +143,7 @@
         <Script file="Source/health_bar/HealthBarRootOverlayWindow.lua"/>
         <Script file="Source/health_bar/MobileHealthBar.lua"/>
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>
+        <Script file="Source/health_bar/TargetWindow.lua"/>
         <Script file="Source/container/ContainerWindow.lua"/>
         <Script file="Source/object_handle/ObjectHandleWindow.lua"/>
         <Script file="Source/object_handle/ObjectHandleRootOverlayWindow.lua"/>
