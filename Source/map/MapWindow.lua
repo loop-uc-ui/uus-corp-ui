@@ -4,6 +4,9 @@ MapWindow.Name = "MapWindow"
 
 MapWindow.MapImage = MapWindow.Name .. "MapImage"
 
+--Stupidly, there is no API function to get this property.
+local isCenterOnPlayer = true
+
 function MapWindow.onInitialize()
     WindowDataApi.registerData(
         PlayerLocation.type()
@@ -47,6 +50,7 @@ function MapWindow.onInitialize()
     RadarApi.setOffset(0, 0)
 
     RadarApi.setCenterOnPlayer(true)
+    isCenterOnPlayer = true
 
     MapSettings.setMode(MapSettings.MODES.ATLAS)
 
@@ -152,44 +156,48 @@ function MapWindow.onUpdateMap()
     MapWindow.onUpdateWaypoints()
 end
 
-function MapWindow.onUpdateWaypoints()
-    WindowApi.createFromTemplate(
-        "WaypointInfoPlayer",
-        "WaypointIconTemplate",
-        MapWindow.Name .. "Map"
-    )
+function MapWindow.onUpdateWaypoints(initPlayer)
+    initPlayer = initPlayer == nil or initPlayer
 
-    local iconTexture, x, y = IconApi.getIconData(
-        WaypointDisplay.getTypeIconId(
-            MapSettings.MODES.ATLAS,
-            WaypointDisplay.TYPE_PLAYER
+    if initPlayer then
+        WindowApi.createFromTemplate(
+            "WaypointInfoPlayer",
+            "WaypointIconTemplate",
+            MapWindow.Name .. "Map"
         )
-    )
 
-    local width, height = IconApi.getTextureSize(
-        "icon" .. WaypointDisplay.getTypeIconId(
-            MapSettings.MODES.ATLAS,
-            WaypointDisplay.TYPE_PLAYER
+        local iconTexture, x, y = IconApi.getIconData(
+            WaypointDisplay.getTypeIconId(
+                MapSettings.MODES.ATLAS,
+                WaypointDisplay.TYPE_PLAYER
+            )
         )
-    )
 
-    DynamicImageApi.setTexture(
-        "WaypointInfoPlayer",
-        iconTexture,
-        x,
-        y
-    )
+        local width, height = IconApi.getTextureSize(
+            "icon" .. WaypointDisplay.getTypeIconId(
+                MapSettings.MODES.ATLAS,
+                WaypointDisplay.TYPE_PLAYER
+            )
+        )
 
-    WindowApi.setScale(
-        "WaypointInfoPlayer",
-        0.5
-    )
+        DynamicImageApi.setTexture(
+            "WaypointInfoPlayer",
+            iconTexture,
+            x,
+            y
+        )
 
-    WindowApi.setDimensions(
-        "WaypointInfoPlayer",
-        width,
-        height
-    )
+        WindowApi.setScale(
+            "WaypointInfoPlayer",
+            0.5
+        )
+
+        WindowApi.setDimensions(
+            "WaypointInfoPlayer",
+            width,
+            height
+        )
+    end
 
     WindowApi.clearAnchors("WaypointInfoPlayer")
 
@@ -198,14 +206,32 @@ function MapWindow.onUpdateWaypoints()
         PlayerLocation.yCord()
     )
 
-    WindowApi.addAnchor(
-        "WaypointInfoPlayer",
-        "topleft",
-        MapWindow.Name .. "Map",
-        "center",
-        xCord / 4,
-        yCord / 4
-    )
+    if isCenterOnPlayer then
+        WindowApi.addAnchor(
+            "WaypointInfoPlayer",
+            "topleft",
+            MapWindow.Name .. "Map",
+            "center",
+            xCord / 4,
+            yCord / 4
+        )
+    else
+        local centerX, centerY = RadarApi.getCenter()
+
+        centerX, centerY = RadarApi.worldPosToRadar(
+            centerX,
+            centerY
+        )
+
+        WindowApi.addAnchor(
+            "WaypointInfoPlayer",
+            "center",
+            MapWindow.Name .. "Map",
+            "center",
+            xCord - centerX,
+            yCord - centerY
+        )
+    end
 
     local waypoints = WaypointList.Waypoints.Facet[RadarApi.getFacet()]
 
@@ -246,6 +272,9 @@ function MapWindow.onShutdown()
         MapWindow.Name,
         WaypointList.event()
     )
+
+    RadarApi.setCenterOnPlayer(true)
+    isCenterOnPlayer = true
 end
 
 function MapWindow.onRightClick()
@@ -296,6 +325,7 @@ function MapWindow.onMapMouseDrag(_, deltaX, deltaY)
     end
 
     RadarApi.setCenterOnPlayer(false)
+    isCenterOnPlayer = false
 
     local area = RadarApi.getArea()
     local facet = RadarApi.getFacet()
@@ -316,12 +346,7 @@ function MapWindow.onMapMouseDrag(_, deltaX, deltaY)
         false
     )
 
-    local waypoints = WaypointList.Waypoints.Facet[facet]
-
-    for i = 1, #waypoints do
-        local waypoint = "Waypoint" .. i
-        MapWindow.onWaypointInitialize(waypoint, false)
-    end
+    MapWindow.onUpdateWaypoints(false)
 end
 
 function MapWindow.onMapLButtonDown()
@@ -330,4 +355,5 @@ end
 
 function MapWindow.onMapDoubleClick()
     RadarApi.setCenterOnPlayer(true)
+    isCenterOnPlayer = true
 end
