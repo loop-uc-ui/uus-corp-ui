@@ -96,7 +96,9 @@ function MobileHealthBar.onMouseOver()
 end
 
 function MobileHealthBar.onMouseOverEnd()
-    WindowApi.destroyWindow(MobileHealthBar.Arrow)
+    if Active.window() == Active.mouseOverWindow() then
+        WindowApi.destroyWindow(MobileHealthBar.Arrow)
+    end
 end
 
 function MobileHealthBar.onDoubleClick()
