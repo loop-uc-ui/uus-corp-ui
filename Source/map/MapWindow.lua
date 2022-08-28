@@ -68,16 +68,6 @@ function MapWindow.onInitialize()
         Radar.textureXCord(),
         Radar.textureYCord()
     )
-
-    local waypoints = WaypointList.Waypoints.Facet[RadarApi.getFacet()]
-
-    for i = 1, #waypoints do
-        WindowApi.createFromTemplate(
-            "Waypoint" .. i,
-            "WaypointIconTemplate",
-            MapWindow.Name .. "Map"
-        )
-    end
 end
 
 function MapWindow.onWaypointInitialize(window)
@@ -212,6 +202,18 @@ function MapWindow.onUpdateWaypoints()
         xCord / 4,
         yCord / 4
     )
+
+    local waypoints = WaypointList.Waypoints.Facet[RadarApi.getFacet()]
+
+    for i = 1, #waypoints do
+        if not WindowApi.createFromTemplate(
+            "Waypoint" .. i,
+            "WaypointIconTemplate",
+            MapWindow.Name .. "Map"
+        ) then
+            MapWindow.onWaypointInitialize("Waypoint" .. i)
+        end
+    end
 end
 
 function MapWindow.onShutdown()
