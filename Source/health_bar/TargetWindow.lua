@@ -51,8 +51,16 @@ function TargetWindow.onCurrentTarget()
 
     WindowApi.attachWIndowToWorldObject(id, window)
     WindowApi.setShowing(window .. MobileHealthBar.ObjectAnchor, true)
+    WindowApi.destroyWindow(OverheadText.Name .. id)
 end
 
 function TargetWindow.onShutdown()
-
+    WindowDataApi.unregisterData(
+        CurrentTarget.dataType()
+    )
+    WindowApi.unregisterEventHandler(
+        Active.window(),
+        CurrentTarget.event()
+    )
+    previousTarget = nil
 end
