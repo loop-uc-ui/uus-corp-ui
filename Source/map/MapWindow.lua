@@ -70,8 +70,10 @@ function MapWindow.onInitialize()
     )
 end
 
-function MapWindow.onWaypointInitialize(window)
+function MapWindow.onWaypointInitialize(window, reinitialize)
     window = window or Active.window()
+    reinitialize = reinitialize == nil or reinitialize
+
     local waypoint = string.gsub(
         window,
         "Waypoint",
@@ -84,31 +86,33 @@ function MapWindow.onWaypointInitialize(window)
         return
     end
 
-    local iconTexture, xIcon, yIcon = IconApi.getIconData(
-        tonumber(waypoint.Icon)
-    )
+    if reinitialize then
+        local iconTexture, xIcon, yIcon = IconApi.getIconData(
+            tonumber(waypoint.Icon)
+        )
 
-    local width, height = IconApi.getTextureSize(
-        "icon" .. waypoint.Icon
-    )
+        local width, height = IconApi.getTextureSize(
+            "icon" .. waypoint.Icon
+        )
 
-    DynamicImageApi.setTexture(
-        window,
-        iconTexture,
-        xIcon,
-        yIcon
-    )
+        DynamicImageApi.setTexture(
+            window,
+            iconTexture,
+            xIcon,
+            yIcon
+        )
 
-    WindowApi.setScale(
-        window,
-        0.3
-    )
+        WindowApi.setScale(
+            window,
+            0.3
+        )
 
-    WindowApi.setDimensions(
-        window,
-        width,
-        height
-    )
+        WindowApi.setDimensions(
+            window,
+            width,
+            height
+        )
+    end
 
     WindowApi.clearAnchors(window)
 
@@ -211,7 +215,7 @@ function MapWindow.onUpdateWaypoints()
             "WaypointIconTemplate",
             MapWindow.Name .. "Map"
         ) then
-            MapWindow.onWaypointInitialize("Waypoint" .. i)
+            MapWindow.onWaypointInitialize("Waypoint" .. i, false)
         end
     end
 end
@@ -282,7 +286,7 @@ function MapWindow.onMouseWheel(_, _, delta)
     for i = 1, #waypoints do
         local waypoint = "Waypoint" .. i
         WindowApi.setShowing(waypoint, zoom == minZoom)
-        MapWindow.onWaypointInitialize(waypoint)
+        MapWindow.onWaypointInitialize(waypoint, false)
     end
 end
 
@@ -316,7 +320,7 @@ function MapWindow.onMapMouseDrag(_, deltaX, deltaY)
 
     for i = 1, #waypoints do
         local waypoint = "Waypoint" .. i
-        MapWindow.onWaypointInitialize(waypoint)
+        MapWindow.onWaypointInitialize(waypoint, false)
     end
 end
 
