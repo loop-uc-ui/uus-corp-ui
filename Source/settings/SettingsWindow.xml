@@ -94,7 +94,7 @@
                 <AbsPoint x="560" y="27"/>
             </Size>
             <Windows>
-                <Label name="$parentLabel" inherits="SettingsLabelTemplate"/>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" wordwrap="true"/>
     
                 <ComboBox name="$parentBox" inherits="UO_Default_LongComboBox">
                     <Anchors>

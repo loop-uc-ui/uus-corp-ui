@@ -321,9 +321,12 @@ SettingsWindow.Pages = {
                         1078368,
                         1079458,
                         1079459,
-                        1075672,
-                        1154804,
-                        1154805
+                        1075672
+                        --Items Only and Lost Items Only.
+                        --Disabling these since they are not applied automatically.
+                        --They require client-side interventions.
+                        -- 1154804,
+                        -- 1154805
                     }
                 end,
                 isSelected = function (index)
