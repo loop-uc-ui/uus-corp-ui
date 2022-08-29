@@ -6,7 +6,9 @@
 			</Size>
             
             <EventHandlers>
-                <EventHandler event="OnUpdate" function="BuffsWindow.onUpdate"/>
+                <EventHandler event="OnInitialize" function="BuffsWindow.onBuffStart"/>
+                <EventHandler event="OnShutdown" function="BuffsWindow.onBuffEnd"/>
+                <EventHandler event="OnUpdate" function="BuffsWindow.onBuffUpdate"/>
             </EventHandlers>
 
 			<Windows>

@@ -44,35 +44,64 @@ function BuffsWindow.onEffectReceived()
 
     local textureId = tonumber(Buffs.csv()[rowNumber].IconId)
 
+    buffs[id].textureId = textureId
+
     local icon, x, y = IconApi.getIconData(textureId)
 
-    local buffWindow = "Buff" .. textureId
+    buffs[id].icon = {
+        id = icon,
+        x = x,
+        y = y
+    }
 
-    if WindowApi.createFromTemplate(
+    local buffWindow = "Buff" .. id
+
+    WindowApi.createFromTemplate(
         buffWindow,
         "BuffIconTemplate",
         Active.window()
-    ) then
-        DynamicImageApi.setTexture(
-            buffWindow .. "Icon",
-            icon,
-            x,
-            y
-        )
-    end
+    )
 
-    WindowApi.setId(buffWindow, id)
-    WindowApi.setUpdateFrequency(buffWindow, 1)
+    WindowApi.createFromTemplate(
+        buffWindow,
+        "BuffIconTemplate",
+        Active.window()
+    )
 end
 
-function BuffsWindow.onUpdate(timePassed)
+function BuffsWindow.onBuffStart()
+    local id = string.gsub(
+        Active.window(),
+        "Buff",
+        ""
+    )
+
+    WindowApi.setId(Active.window(), tonumber(id))
+
+    local buff = buffs[tonumber(id)]
+
+    DynamicImageApi.setTexture(
+        Active.window() .. "Icon",
+        buff.icon.id,
+        buff.icon.x,
+        buff.icon.y
+    )
+
+    WindowApi.setUpdateFrequency(Active.window(), 1)
+end
+
+function BuffsWindow.onBuffUpdate(timePassed)
     local id = WindowApi.getId(Active.window())
     local buff = buffs[id]
     buff.timer = buff.timer - timePassed
 
-    if buff.hasTImer and buff.timer <= 0 or buff.isBeingRemoved then
+    if buff.hasTimer and buff.timer <= 0 or buff.isBeingRemoved then
         WindowApi.destroyWindow(Active.window())
     end
+end
+
+function BuffsWindow.onBuffEnd()
+    buffs[WindowApi.getId(Active.window())] = nil
 end
 
 function BuffsWindow.onShutdown()
