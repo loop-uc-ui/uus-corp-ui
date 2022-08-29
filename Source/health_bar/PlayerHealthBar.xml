@@ -1,5 +1,33 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
+        <Window name="BuffIconTemplate" movable="false" layer="secondary">
+			<Size>
+				<AbsPoint x="38" y="38"/>
+			</Size>
+            
+            <EventHandlers>
+                <EventHandler event="OnUpdate" function="BuffsWindow.onUpdate"/>
+            </EventHandlers>
+
+			<Windows>
+				<DynamicImage name="$parentIcon" handleinput="false"  textureScale="1.2">
+					<Size>
+						<AbsPoint x="38" y="38" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topleft">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+				</DynamicImage>
+				<Label name="$parentLabel" inherits="UO_Default_Label_Color"  font="UO_Default_Outline_Text" maxchars="6" handleinput="false" autoresize="true" textalign="top">
+					<Size>
+						<AbsPoint x="38" y="10"/>
+					</Size>
+				</Label>
+			</Windows>
+		</Window>
+
         <Window name="PlayerHealthBar" movable="true" draganddrop="true">
             <Size>
                 <AbsPoint x="150" y="90" />
@@ -103,6 +131,21 @@
                     </Anchors>
                     <Color r="255" g="255" b="255" a="255" />
                 </Label>
+
+                <Window name="$parentBuffWindow" autoresize="true">
+                    <Size>
+                        <AbsPoint x="38" y="38"/>
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentStaminaBar"/>
+                    </Anchors>
+
+                    <EventHandlers>
+                        <EventHandler event="OnInitialize" function="BuffsWindow.onInitialize"/>
+                        <EventHandler event="OnShutdown" function="BuffsWIndow.onShutdown"/>
+                    </EventHandlers>
+                </Window>
             </Windows>
         </Window>
     </Windows>

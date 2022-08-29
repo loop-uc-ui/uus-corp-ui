@@ -142,6 +142,7 @@
         <Script file="Source/map/MapWindow.lua"/>
         <Script file="Source/health_bar/HealthBarRootOverlayWindow.lua"/>
         <Script file="Source/health_bar/MobileHealthBar.lua"/>
+        <Script file="Source/health_bar/BuffsWindow.lua"/>
         <Script file="Source/health_bar/PlayerHealthBar.lua"/>
         <Script file="Source/health_bar/TargetWindow.lua"/>
         <Script file="Source/container/ContainerWindow.lua"/>
