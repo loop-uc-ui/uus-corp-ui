@@ -51,9 +51,7 @@ function BuffsWindow.onEffectReceived()
     if WindowApi.createFromTemplate(
         buffWindow,
         "BuffIconTemplate",
-        WindowApi.getParent(
-            Active.window()
-        )
+        Active.window()
     ) then
         DynamicImageApi.setTexture(
             buffWindow .. "Icon",
@@ -72,7 +70,7 @@ function BuffsWindow.onUpdate(timePassed)
     local buff = buffs[id]
     buff.timer = buff.timer - timePassed
 
-    if buff.timer <= 0 then
+    if buff.hasTImer and buff.timer <= 0 or buff.isBeingRemoved then
         WindowApi.destroyWindow(Active.window())
     end
 end

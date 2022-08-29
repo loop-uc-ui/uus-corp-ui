@@ -10,16 +10,12 @@
             </EventHandlers>
 
 			<Windows>
-				<DynamicImage name="$parentIcon" handleinput="false"  textureScale="1.2">
+				<DynamicImage name="$parentIcon" handleinput="false" textureScale="1.2">
 					<Size>
 						<AbsPoint x="38" y="38" />
 					</Size>
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft">
-							<AbsPoint x="0" y="0" />
-						</Anchor>
-					</Anchors>
 				</DynamicImage>
+
 				<Label name="$parentLabel" inherits="UO_Default_Label_Color"  font="UO_Default_Outline_Text" maxchars="6" handleinput="false" autoresize="true" textalign="top">
 					<Size>
 						<AbsPoint x="38" y="10"/>
@@ -132,7 +128,7 @@
                     <Color r="255" g="255" b="255" a="255" />
                 </Label>
 
-                <Window name="$parentBuffWindow" autoresize="true">
+                <Window name="$parentBuffWindow">
                     <Size>
                         <AbsPoint x="38" y="38"/>
                     </Size>
@@ -145,6 +141,15 @@
                         <EventHandler event="OnInitialize" function="BuffsWindow.onInitialize"/>
                         <EventHandler event="OnShutdown" function="BuffsWIndow.onShutdown"/>
                     </EventHandlers>
+
+                    <Windows>
+                        <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
+                            </Anchors>
+                        </FullResizeImage>
+                    </Windows>
                 </Window>
             </Windows>
         </Window>
