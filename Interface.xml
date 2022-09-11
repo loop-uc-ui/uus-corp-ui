@@ -23,6 +23,7 @@
     <Include file="Source/map/MapWindow.xml"/>
     <Include file="Source/health_bar/HealthBarRootOverlayWindow.xml"/>
     <Include file="Source/health_bar/MobileHealthBar.xml"/>
+    <Include file="Source/health_bar/BuffsWindow.xml"/>
     <Include file="Source/health_bar/PlayerHealthBar.xml"/>
     <Include file="Source/health_bar/TargetWindow.xml"/>
     <Include file="Source/container/ContainerWindow.xml"/>

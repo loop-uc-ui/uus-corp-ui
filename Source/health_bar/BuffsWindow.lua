@@ -3,6 +3,28 @@ BuffsWindow.Name = "BuffsWindow"
 
 local buffs = {}
 
+local function anchorBuffs()
+    local previousBuff = nil
+
+    for k, _ in pairs(buffs) do
+        WindowApi.clearAnchors(
+            "Buff" .. k
+        )
+
+        if previousBuff ~= nil then
+            WindowApi.addAnchor(
+                "Buff" .. k,
+                "right",
+                "Buff" .. previousBuff,
+                "left",
+                8,
+                0
+            )
+        end
+        previousBuff = k
+    end
+end
+
 function BuffsWindow.onInitialize()
     WindowDataApi.registerData(
         Buffs.dataType()
@@ -17,12 +39,11 @@ end
 function BuffsWindow.onEffectReceived()
     local id = Buffs.id()
 
-    if id == 0 or id == nil then
+    if id < 999 or id == nil or Buffs.isBeingRemoved() then
         return
     end
 
     buffs[id] = {
-        id = id,
         timer = Buffs.timer(),
         hasTimer = Buffs.hasTimer(),
         nameVector = Buffs.nameVector(),
@@ -61,12 +82,6 @@ function BuffsWindow.onEffectReceived()
         "BuffIconTemplate",
         Active.window()
     )
-
-    WindowApi.createFromTemplate(
-        buffWindow,
-        "BuffIconTemplate",
-        Active.window()
-    )
 end
 
 function BuffsWindow.onBuffStart()
@@ -87,7 +102,22 @@ function BuffsWindow.onBuffStart()
         buff.icon.y
     )
 
-    WindowApi.setUpdateFrequency(Active.window(), 1)
+    local parent = WindowApi.getParent(Active.window())
+    local x, y = WindowApi.getDimensions(parent)
+
+    WindowApi.forceProcessAnchors(
+        WindowApi.getParent(Active.window())
+    )
+
+    WindowApi.forceProcessAnchors(
+        WindowApi.getParent(
+            WindowApi.getParent(
+                Active.window()
+            )
+        )
+    )
+
+    anchorBuffs()
 end
 
 function BuffsWindow.onBuffUpdate(timePassed)
@@ -102,6 +132,7 @@ end
 
 function BuffsWindow.onBuffEnd()
     buffs[WindowApi.getId(Active.window())] = nil
+    anchorBuffs()
 end
 
 function BuffsWindow.onShutdown()
@@ -109,7 +140,7 @@ function BuffsWindow.onShutdown()
         Buffs.dataType()
     )
     WindowApi.unregisterEventHandler(
-        BuffsWindow.Name,
+        Active.window(),
         Buffs.event()
     )
 end
