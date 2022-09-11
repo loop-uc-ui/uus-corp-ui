@@ -1,0 +1,56 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="BuffIconTemplate" movable="false" layer="secondary">
+			<Size>
+				<AbsPoint x="38" y="38"/>
+			</Size>
+            
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="BuffsWindow.onBuffStart"/>
+                <EventHandler event="OnShutdown" function="BuffsWindow.onBuffEnd"/>
+                <EventHandler event="OnUpdate" function="BuffsWindow.onBuffUpdate"/>
+            </EventHandlers>
+
+			<Windows>
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="-2" y="-2"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="2" y="2"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+
+				<DynamicImage name="$parentIcon" handleinput="false" textureScale="1.2">
+					<Size>
+						<AbsPoint x="38" y="38" />
+					</Size>
+				</DynamicImage>
+
+				<Label name="$parentLabel" inherits="UO_Default_Label_Color"  font="UO_Default_Outline_Text" maxchars="6" handleinput="false" autoresize="true" textalign="top">
+					<Size>
+						<AbsPoint x="38" y="10"/>
+					</Size>
+				</Label>
+			</Windows>
+		</Window>
+
+        <Window name="BuffsWindow">
+            <Size>
+                <AbsPoint x="168" y="38"/>
+            </Size>
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent">
+                    <AbsPoint x="10" y="12"/>
+                </Anchor>
+            </Anchors>
+
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="BuffsWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="BuffsWindow.onShutdown"/>
+            </EventHandlers>
+        </Window>
+    </Windows>
+</Interface>
