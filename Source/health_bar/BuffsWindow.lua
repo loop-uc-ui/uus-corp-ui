@@ -118,21 +118,6 @@ function BuffsWindow.onBuffStart()
         buff.icon.y
     )
 
-    local parent = WindowApi.getParent(Active.window())
-    local x, y = WindowApi.getDimensions(parent)
-
-    WindowApi.forceProcessAnchors(
-        WindowApi.getParent(Active.window())
-    )
-
-    WindowApi.forceProcessAnchors(
-        WindowApi.getParent(
-            WindowApi.getParent(
-                Active.window()
-            )
-        )
-    )
-
     anchorBuffs()
 end
 
