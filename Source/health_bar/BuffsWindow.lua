@@ -4,24 +4,39 @@ BuffsWindow.Name = "BuffsWindow"
 local buffs = {}
 
 local function anchorBuffs()
-    local previousBuff = nil
+    local list = {}
 
-    for k, _ in pairs(buffs) do
+    for _, v in pairs(buffs) do
+        table.insert(
+            list,
+            v
+        )
+    end
+
+    for i = 1, #list do
         WindowApi.clearAnchors(
-            "Buff" .. k
+            "Buff" .. list[i].id
         )
 
-        if previousBuff ~= nil then
+        if i > 1 and i % 5 ~= 0 then
             WindowApi.addAnchor(
-                "Buff" .. k,
+                "Buff" .. list[i].id,
                 "right",
-                "Buff" .. previousBuff,
+                "Buff" .. list[i - 1].id,
                 "left",
                 8,
                 0
             )
+        elseif i % 5 == 0 then
+            WindowApi.addAnchor(
+                "Buff" .. list[i].id,
+                "bottom",
+                "Buff" .. list[i - 4].id,
+                "top",
+                0,
+                8
+            )
         end
-        previousBuff = k
     end
 end
 
@@ -44,6 +59,7 @@ function BuffsWindow.onEffectReceived()
     end
 
     buffs[id] = {
+        id = id,
         timer = Buffs.timer(),
         hasTimer = Buffs.hasTimer(),
         nameVector = Buffs.nameVector(),
