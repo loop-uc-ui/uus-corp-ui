@@ -3,6 +3,26 @@ BuffsWindow.Name = "BuffsWindow"
 
 local buffs = {}
 
+local function updateTimer(time)
+    local min = math.floor(time / 60)
+    local prefix = ""
+
+    if min > 60 then
+        if ((min / 60) - math.floor(min / 60) > 0) then
+            prefix = ">"
+        end
+        local h = math.floor(min / 60)
+        return prefix .. h .. "h"
+    elseif min > 0 then
+        if (time - (min * 60) > 0) then
+            prefix = ">"
+        end
+        return prefix .. min	.. "m"
+    else
+        return time	.. "s"
+    end
+end
+
 local function anchorBuffs()
     local list = {}
 
@@ -24,7 +44,7 @@ local function anchorBuffs()
                 "right",
                 "Buff" .. list[i - 1].id,
                 "left",
-                8,
+                4,
                 0
             )
         elseif i % 5 == 0 then
@@ -34,7 +54,7 @@ local function anchorBuffs()
                 "Buff" .. list[i - 4].id,
                 "top",
                 0,
-                8
+                4
             )
         end
     end
@@ -125,6 +145,13 @@ function BuffsWindow.onBuffUpdate(timePassed)
     local id = WindowApi.getId(Active.window())
     local buff = buffs[id]
     buff.timer = buff.timer - timePassed
+
+    if buff.hasTimer then
+        LabelApi.setText(
+            Active.window() .. "Time",
+            updateTimer(math.floor(buff.timer))
+        )
+    end
 
     if buff.hasTimer and buff.timer <= 0 or buff.isBeingRemoved then
         WindowApi.destroyWindow(Active.window())
