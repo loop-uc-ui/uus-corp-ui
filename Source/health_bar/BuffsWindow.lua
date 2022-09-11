@@ -69,12 +69,20 @@ function BuffsWindow.onInitialize()
         Buffs.event(),
         "BuffsWindow.onEffectReceived"
     )
+    WindowApi.addAnchor(
+        Active.window(),
+        "bottomleft",
+        PlayerHealthBar.Name,
+        "topleft",
+        8,
+        12
+    )
 end
 
 function BuffsWindow.onEffectReceived()
     local id = Buffs.id()
 
-    if id < 999 or id == nil or Buffs.isBeingRemoved() then
+    if id < 1000 or id == nil or Buffs.isBeingRemoved() then
         return
     end
 
@@ -146,7 +154,7 @@ function BuffsWindow.onBuffUpdate(timePassed)
     local buff = buffs[id]
     buff.timer = buff.timer - timePassed
 
-    if buff.hasTimer then
+    if buff.hasTimer and buff.timer >= 0 then
         LabelApi.setText(
             Active.window() .. "Time",
             updateTimer(math.floor(buff.timer))
@@ -159,8 +167,39 @@ function BuffsWindow.onBuffUpdate(timePassed)
 end
 
 function BuffsWindow.onBuffEnd()
-    buffs[WindowApi.getId(Active.window())] = nil
+    local id = WindowApi.getId(Active.window())
+    buffs[id] = nil
+
+    if TooltipWindow.Context == id then
+        BuffsWindow.onBuffMouseOverEnd()
+    end
+
     anchorBuffs()
+end
+
+function BuffsWindow.onBuffMouseOver()
+    local buff = buffs[WindowApi.getId(Active.window())]
+    local data = {}
+
+    for i = 1, #buff.nameVector do
+        table.insert(
+            data,
+            buff.nameVector[i]
+        )
+    end
+
+    for i = 1, #buff.toolTipVector do
+        table.insert(
+            data,
+            buff.toolTipVector[i]
+        )
+    end
+
+    TooltipWindow.create(data, buff.id)
+end
+
+function BuffsWindow.onBuffMouseOverEnd()
+    TooltipWindow.destroy()
 end
 
 function BuffsWindow.onShutdown()
@@ -171,4 +210,5 @@ function BuffsWindow.onShutdown()
         Active.window(),
         Buffs.event()
     )
+    BuffsWindow.onBuffMouseOverEnd()
 end
