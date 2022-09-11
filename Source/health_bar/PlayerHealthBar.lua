@@ -5,10 +5,15 @@ function PlayerHealthBar.onInitialize()
     WindowDataApi.registerData(MobileData.nameType(), PlayerStatus.id())
     WindowDataApi.registerData(MobileData.healthBarColorType(), PlayerStatus.id())
     WindowApi.registerEventHandler(PlayerHealthBar.Name, PlayerStatus.event(), "PlayerHealthBar.update")
+    WindowApi.createWindow(
+        BuffsWindow.Name,
+        true
+    )
     PlayerHealthBar.update()
 end
 
 function PlayerHealthBar.onShutdown()
+    WindowApi.destroyWindow(BuffsWindow.Name)
     WindowDataApi.unregisterData(MobileData.nameType(), PlayerStatus.id())
     WindowDataApi.unregisterData(MobileData.healthBarColorType(), PlayerStatus.id())
     WindowApi.unregisterEventHandler(PlayerHealthBar.Name, PlayerStatus.event())

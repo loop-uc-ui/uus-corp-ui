@@ -7,9 +7,6 @@
         </Label>
 
         <Window name="TooltipWindow" movable="true" handleinput="true" popable="false" layer="overlay">
-            <Size>
-                <AbsPoint x="16" y="16"/>
-            </Size>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="TooltipWindow.onInitialize"/>
                 <EventHandler event="OnUpdate" function="TooltipWindow.onUpdate"/>

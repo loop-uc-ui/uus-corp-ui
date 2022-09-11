@@ -2,9 +2,11 @@ TooltipWindow = {}
 TooltipWindow.Name = "TooltipWindow"
 TooltipWindow.Text = TooltipWindow.Name .. "Text"
 TooltipWindow.Data = {}
+TooltipWindow.Context = 0
 
-function TooltipWindow.create(data)
+function TooltipWindow.create(data, context)
     TooltipWindow.Data = data
+    TooltipWindow.Context = context or 0
     WindowApi.createWindow(TooltipWindow.Name, false)
 end
 
@@ -17,9 +19,6 @@ function TooltipWindow.onShutdown()
 end
 
 function TooltipWindow.onInitialize()
-    local width = 0
-    local height = 0
-
     for i = 1, #TooltipWindow.Data do
         local label = TooltipWindow.Text .. tostring(i)
         WindowApi.createFromTemplate(
@@ -35,7 +34,7 @@ function TooltipWindow.onInitialize()
                 TooltipWindow.Name,
                 "topleft",
                 8,
-                8
+                4
             )
         else
             WindowApi.addAnchor(
@@ -49,23 +48,14 @@ function TooltipWindow.onInitialize()
         end
 
         LabelApi.setText(label, TooltipWindow.Data[i])
-
-        local x, y = WindowApi.getDimensions(label)
-
-        if width < x then
-            width = x
-        end
-
-        height = height + y
     end
 
-    WindowApi.setDimensions(
-        TooltipWindow.Name,
-        width + 16,
-        height + 16
-    )
-
     TooltipWindow.onUpdate()
+    WindowApi.resizeOnChildren(
+        Active.window(),
+        true,
+        8
+    )
     WindowApi.setShowing(TooltipWindow.Name, true)
 end
 

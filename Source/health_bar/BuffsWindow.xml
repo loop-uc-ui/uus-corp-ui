@@ -9,6 +9,8 @@
                 <EventHandler event="OnInitialize" function="BuffsWindow.onBuffStart"/>
                 <EventHandler event="OnShutdown" function="BuffsWindow.onBuffEnd"/>
                 <EventHandler event="OnUpdate" function="BuffsWindow.onBuffUpdate"/>
+                <EventHandler event="OnMouseOver" function="BuffsWindow.onBuffMouseOver"/>
+                <EventHandler event="OnMouseOverEnd" function="BuffsWindow.onBuffMouseOverEnd"/>
             </EventHandlers>
 
 			<Windows>
@@ -28,25 +30,23 @@
                     </Anchors>
 				</DynamicImage>
 
-				<Label name="$parentTime" font="inter_medium_14" maxchars="6" handleinput="false" autoresize="true" textalign="center">
+				<Label name="$parentTime" font="inter_medium_14" maxchars="6" handleinput="false" autoresize="true" textalign="top">
 					<Size>
 						<AbsPoint x="38" y="14"/>
 					</Size>
                     <Anchors>
-                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentFrame">
-                            <AbsPoint x="2" y="-1"/>
-                        </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame">
-                            <AbsPoint x="-2" y="-1"/>
-                        </Anchor>
+                        <Anchor point="bottomleft" relativePoint="bottomleft" relativeTo="$parentIcon"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentIcon"/>
                     </Anchors>
                     <Color r="206" g="217" b="242" a="255" />
 				</Label>
 
                 <FullResizeImage name="$parentTimeBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTime"/>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentTime"/>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTime">
+                            <AbsPoint x="-2" y="0"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame"/>
                     </Anchors>
                 </FullResizeImage>
 			</Windows>
@@ -56,12 +56,6 @@
             <Size>
                 <AbsPoint x="168" y="38"/>
             </Size>
-            <Anchors>
-                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parent">
-                    <AbsPoint x="6" y="12"/>
-                </Anchor>
-            </Anchors>
-
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="BuffsWindow.onInitialize"/>
                 <EventHandler event="OnShutdown" function="BuffsWindow.onShutdown"/>
