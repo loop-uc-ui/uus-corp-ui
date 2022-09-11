@@ -12,6 +12,17 @@
             </EventHandlers>
 
 			<Windows>
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="-2" y="-2"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                            <AbsPoint x="2" y="2"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+
 				<DynamicImage name="$parentIcon" handleinput="false" textureScale="1.2">
 					<Size>
 						<AbsPoint x="38" y="38" />
