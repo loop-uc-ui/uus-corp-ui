@@ -155,13 +155,16 @@ end
 function BuffsWindow.onBuffUpdate(timePassed)
     local id = WindowApi.getId(Active.window())
     local buff = BuffsWindow.Buffs[id]
-    buff.timer = buff.timer - timePassed
 
-    if buff.hasTimer and buff.timer >= 0 then
-        LabelApi.setText(
-            Active.window() .. "Time",
-            updateTimer(math.floor(buff.timer))
-        )
+    if buff.hasTimer then
+        buff.timer = buff.timer - timePassed
+
+        if buff.timer >= 0 then
+            LabelApi.setText(
+                Active.window() .. "Time",
+                updateTimer(math.floor(buff.timer))
+            )
+        end
     else
         WindowApi.setShowing(
             Active.window() .. "TimeBackground",
