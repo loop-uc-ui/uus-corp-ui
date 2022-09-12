@@ -1,7 +1,6 @@
 BuffsWindow = {}
 BuffsWindow.Name = "BuffsWindow"
-
-local buffs = {}
+BuffsWindow.Buffs = {}
 
 local function updateTimer(time)
     local min = math.floor(time / 60)
@@ -26,7 +25,7 @@ end
 local function anchorBuffs()
     local list = {}
 
-    for _, v in pairs(buffs) do
+    for _, v in pairs(BuffsWindow.Buffs) do
         table.insert(
             list,
             v
@@ -69,6 +68,10 @@ function BuffsWindow.onInitialize()
         Buffs.event(),
         "BuffsWindow.onEffectReceived"
     )
+end
+
+function BuffsWindow.onShown()
+    WindowApi.clearAnchors(Active.window())
     WindowApi.addAnchor(
         Active.window(),
         "bottomleft",
@@ -86,7 +89,7 @@ function BuffsWindow.onEffectReceived()
         return
     end
 
-    buffs[id] = {
+    BuffsWindow.Buffs[id] = {
         id = id,
         timer = Buffs.timer(),
         hasTimer = Buffs.hasTimer(),
@@ -109,11 +112,11 @@ function BuffsWindow.onEffectReceived()
 
     local textureId = tonumber(Buffs.csv()[rowNumber].IconId)
 
-    buffs[id].textureId = textureId
+    BuffsWindow.Buffs[id].textureId = textureId
 
     local icon, x, y = IconApi.getIconData(textureId)
 
-    buffs[id].icon = {
+    BuffsWindow.Buffs[id].icon = {
         id = icon,
         x = x,
         y = y
@@ -137,7 +140,7 @@ function BuffsWindow.onBuffStart()
 
     WindowApi.setId(Active.window(), tonumber(id))
 
-    local buff = buffs[tonumber(id)]
+    local buff = BuffsWindow.Buffs[tonumber(id)]
 
     DynamicImageApi.setTexture(
         Active.window() .. "Icon",
@@ -151,13 +154,18 @@ end
 
 function BuffsWindow.onBuffUpdate(timePassed)
     local id = WindowApi.getId(Active.window())
-    local buff = buffs[id]
+    local buff = BuffsWindow.Buffs[id]
     buff.timer = buff.timer - timePassed
 
     if buff.hasTimer and buff.timer >= 0 then
         LabelApi.setText(
             Active.window() .. "Time",
             updateTimer(math.floor(buff.timer))
+        )
+    else
+        WindowApi.setShowing(
+            Active.window() .. "TimeBackground",
+            false
         )
     end
 
@@ -168,7 +176,7 @@ end
 
 function BuffsWindow.onBuffEnd()
     local id = WindowApi.getId(Active.window())
-    buffs[id] = nil
+    BuffsWindow.Buffs[id] = nil
 
     if TooltipWindow.Context == id then
         BuffsWindow.onBuffMouseOverEnd()
@@ -178,7 +186,7 @@ function BuffsWindow.onBuffEnd()
 end
 
 function BuffsWindow.onBuffMouseOver()
-    local buff = buffs[WindowApi.getId(Active.window())]
+    local buff = BuffsWindow.Buffs[WindowApi.getId(Active.window())]
     local data = {}
 
     for i = 1, #buff.nameVector do
@@ -189,9 +197,14 @@ function BuffsWindow.onBuffMouseOver()
     end
 
     for i = 1, #buff.toolTipVector do
+        local text = string.gsub(
+            StringFormatter.fromWString(buff.toolTipVector[i]),
+            "\n",
+            " "
+        )
         table.insert(
             data,
-            buff.toolTipVector[i]
+            text
         )
     end
 

@@ -25,6 +25,7 @@ function Interface.CreatePlayWindowSet()
     WindowApi.createWindow(TargetWindow.Name, false)
     WindowApi.createWindow("ChatWindow", true)
     WindowApi.setShowing("DebugWindow", true)
+    WindowApi.createWindow(BuffsWindow.Name, false)
 end
 
 --Called by client's InterfaceCore script
