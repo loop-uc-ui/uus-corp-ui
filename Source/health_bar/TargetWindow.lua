@@ -17,6 +17,10 @@ end
 function TargetWindow.onCurrentTarget()
     local id = CurrentTarget.id()
 
+    if id == PlayerStatus.id() then
+        return
+    end
+
     if id == nil or id == 0 and previousTarget ~= nil then
         WindowApi.destroyWindow(previousTarget)
         return
