@@ -54,11 +54,13 @@
 
         <Window name="BuffsWindow">
             <Size>
-                <AbsPoint x="168" y="38"/>
+                <AbsPoint x="168" y="100"/>
             </Size>
+            
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="BuffsWindow.onInitialize"/>
                 <EventHandler event="OnShutdown" function="BuffsWindow.onShutdown"/>
+                <EventHandler event="OnShown" function="BuffsWindow.onShown"/>
             </EventHandlers>
         </Window>
     </Windows>

@@ -12,6 +12,10 @@ function Buffs.id()
     return WindowData.BuffDebuffSystem.CurrentBuffId
 end
 
+function Buffs.data()
+    return WindowData.BuffDebuff
+end
+
 function Buffs.timer()
     return WindowData.BuffDebuff.TimerSeconds
 end
