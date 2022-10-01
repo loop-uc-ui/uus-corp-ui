@@ -78,6 +78,10 @@ function SpellbookWindow.onUpdateSpells()
             )
         end
     end
+
+    ScrollWindowApi.updateScrollRect(
+        list
+    )
 end
 
 function SpellbookWindow.onShutdown()
