@@ -4,6 +4,7 @@
             <Size>
 				<AbsPoint x="500" y="24" />
 			</Size>
+
             <TexCoords>
                 <NormalHighlit x="12" y="12"/>
                 <PressedHighlit x="12" y="12"/>
@@ -17,6 +18,7 @@
                     <Size>
                         <AbsPoint x="200" y="24" />
                     </Size>
+                    <Color r="206" g="217" b="242" a="255"/>
                 </Label>
             </Windows>
         </Button>
@@ -50,21 +52,20 @@
 
                 <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="true" autoHideScrollBar="false" popable="false">
 					<Size>
-						<AbsPoint x="548" y="512" />
+						<AbsPoint x="540" y="512" />
 					</Size>
 					<Anchors>
-                            <Anchor point="topleft" relativePoint="topleft">
-                                <AbsPoint x="0" y="12"/>
-                            </Anchor>
-                            <Anchor point="bottomright" relativePoint="bottomright">
-                                <AbsPoint x="0" y="-8"/>
-                            </Anchor>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="8" y="12"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright">
+                            <AbsPoint x="0" y="-8"/>
+                        </Anchor>
 					</Anchors>
 					<Windows>
-
 						<Window name ="$parentScrollChild" popable="false">
 							<Size>
-								<AbsPoint x="548" y="512"/>
+								<AbsPoint x="540" y="512"/>
 							</Size>
 						</Window>
 						<VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">

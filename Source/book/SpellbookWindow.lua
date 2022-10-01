@@ -4,12 +4,21 @@ SpellbookWindow = {}
 
 SpellbookWindow.Name = "Spellbook_"
 
-SpellbookWindow.Spells = {}
-
 SpellbookWindow.List = "List"
 
+local activeBook = nil
+
 function SpellbookWindow.onInitialize()
+    if activeBook ~= nil then
+        WindowApi.destroyWindow(
+            activeBook
+        )
+    end
+
+    activeBook = Active.window()
+
     local id = Active.dynamicWindowId()
+
     WindowApi.setId(Active.window(), id)
 
     WindowDataApi.registerData(
@@ -27,7 +36,7 @@ end
 function SpellbookWindow.onUpdateSpells()
     local id = WindowApi.getId(Active.window())
     local data = Spells.bookData(id)
-    SpellbookWindow.Spells[id] = {}
+    local spells = {}
 
     for k, v in ipairs(data.spells) do
         if v == 1 then
@@ -35,7 +44,7 @@ function SpellbookWindow.onUpdateSpells()
             local _, serverId, tid, _, _, _ = AbilityApi.getAbilityData(spell)
 
             table.insert(
-                SpellbookWindow.Spells[id],
+                spells,
                 k,
                 {
                     id = serverId,
@@ -47,8 +56,8 @@ function SpellbookWindow.onUpdateSpells()
 
     local list = SpellbookWindow.Name .. id .. SpellbookWindow.List
 
-    for i = 1, #SpellbookWindow.Spells[id] do
-        local spell = SpellbookWindow.Spells[id][i]
+    for i = 1, #spells do
+        local spell = spells[i]
         local row = list .. "Row" .. spell.id
 
         WindowApi.createFromTemplate(
@@ -71,7 +80,7 @@ function SpellbookWindow.onUpdateSpells()
             WindowApi.addAnchor(
                 row,
                 "bottomleft",
-                list .. "Row" .. SpellbookWindow.Spells[id][i - 1].id,
+                list .. "Row" .. spells[i - 1].id,
                 "topleft",
                 0,
                 8
@@ -85,11 +94,11 @@ function SpellbookWindow.onUpdateSpells()
 end
 
 function SpellbookWindow.onShutdown()
+    activeBook = nil
+
     local id = WindowApi.getId(
         Active.window()
     )
-
-    SpellbookWindow.Spells[id] = nil
 
     WindowApi.unregisterEventHandler(
         Active.window(),
