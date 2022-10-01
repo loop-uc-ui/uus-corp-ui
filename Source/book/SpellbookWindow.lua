@@ -27,7 +27,6 @@ end
 function SpellbookWindow.onUpdateSpells()
     local id = WindowApi.getId(Active.window())
     local data = Spells.bookData(id)
-    local order = {}
     SpellbookWindow.Spells[id] = {}
 
     for k, v in ipairs(data.spells) do
@@ -43,25 +42,42 @@ function SpellbookWindow.onUpdateSpells()
                     text = StringFormatter.fromTid(tid)
                 }
             )
-
-            table.insert(
-                order,
-                k
-            )
         end
     end
 
     local list = SpellbookWindow.Name .. id .. SpellbookWindow.List
 
-    ListBoxApi.setDataTable(
-        list,
-        "SpellbookWindow.Spells.[" .. id .. "]"
-    )
+    for i = 1, #SpellbookWindow.Spells[id] do
+        local spell = SpellbookWindow.Spells[id][i]
+        local row = list .. "Row" .. spell.id
 
-    ListBoxApi.setDisplayOrder(
-        list,
-        order
-    )
+        WindowApi.createFromTemplate(
+            row,
+            "SpellbookRowTemplate",
+            list .. "ScrollChild"
+        )
+
+        WindowApi.setId(
+            row,
+            spell.id
+        )
+
+        LabelApi.setText(
+            row .. "ItemName",
+            spell.text
+        )
+
+        if i > 1 then
+            WindowApi.addAnchor(
+                row,
+                "bottomleft",
+                list .. "Row" .. SpellbookWindow.Spells[id][i - 1].id,
+                "topleft",
+                0,
+                8
+            )
+        end
+    end
 end
 
 function SpellbookWindow.onShutdown()

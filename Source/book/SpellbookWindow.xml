@@ -1,7 +1,4 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
-	<Scripts>
-		<Script file="Source/spellbook.lua"/>
-    </Scripts>
 	<Windows>
 		<Button name="SpellbookRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
             <Size>
@@ -37,7 +34,7 @@
                 <EventHandler event="OnRButtonUp" function="SpellbookWindow.onRightClick"/>
 			</EventHandlers>
 			<Windows>
-				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft"/>
                         <Anchor point="bottomright" relativePoint="bottomright"/>
@@ -50,26 +47,40 @@
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
                     </Anchors>
                 </FullResizeImage>
-                
-                <ListBox name="$parentList" rowdef="SpellbookRowTemplate" visiblerows="20" rowcount="64" rowspacing="0" scrollbar="$parentScrollbar">
-                    <Size>
-                        <AbsPoint x="500" y="500" />
-                    </Size>
 
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="8" y="8"/>
-                        </Anchor>
-                    </Anchors>
-                    <ListData>
-                        <ListColumns>
-                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
-                        </ListColumns>
-                        <Windows>
-                            <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
-                         </Windows>
-                     </ListData>
-                </ListBox>
+                <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="true" autoHideScrollBar="false" popable="false">
+					<Size>
+						<AbsPoint x="548" y="512" />
+					</Size>
+					<Anchors>
+                            <Anchor point="topleft" relativePoint="topleft">
+                                <AbsPoint x="0" y="12"/>
+                            </Anchor>
+                            <Anchor point="bottomright" relativePoint="bottomright">
+                                <AbsPoint x="0" y="-8"/>
+                            </Anchor>
+					</Anchors>
+					<Windows>
+
+						<Window name ="$parentScrollChild" popable="false">
+							<Size>
+								<AbsPoint x="548" y="512"/>
+							</Size>
+						</Window>
+						<VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                            <Size>
+                                <AbsPoint x="12" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright">
+                                    <AbsPoint x="-14" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <ThumbOffset x="0" y="0" />
+                            <ActiveZoneOffset x="500" y="500" />
+                        </VerticalScrollbar>
+					</Windows>
+				</ScrollWindow>
 			</Windows>
 		</Window>
 		
