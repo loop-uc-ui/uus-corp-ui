@@ -2,7 +2,7 @@ UserControlSettings = {}
 
 --[[
     Table copied from default UI.
-    The table that comes to use from the client is not sorted
+    The table that comes to us from the client is not sorted
     neatly into functional areas. Additionally, it contains
     entries that we do not want the user to be able to change
     (Escape as'Cancel', for example).

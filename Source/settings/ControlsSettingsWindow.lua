@@ -35,8 +35,42 @@ function ControlsSettingsWindow.onInitialize()
         ControlsSettingsWindow.List,
         order
     )
+
+    WindowApi.registerEventHandler(
+        Active.window(),
+        Events.keyRecorded(),
+        "ControlsSettingsWindow.onKeyRecorded"
+    )
+
+    WindowApi.registerEventHandler(
+        Active.window(),
+        Events.keyRecordCanceled(),
+        "ControlsSettingsWindow.onKeyRecordCanceled"
+    )
 end
 
 function ControlsSettingsWindow.onShutdown()
     ControlsSettingsWindow.Keybindings = {}
+    WindowApi.unregisterEventHandler(
+        Active.window(),
+        Events.keyRecorded()
+    )
+    WindowApi.unregisterEventHandler(
+        Active.window(),
+        Events.keyRecordCanceled()
+    )
+end
+
+function ControlsSettingsWindow.onKeyRecorded()
+
+end
+
+function ControlsSettingsWindow.onKeyRecordCanceled()
+
+end
+
+function ControlsSettingsWindow.onKeybindingClick()
+    -- EventApi.broadcast(
+    --     Events.keyRecord()
+    -- )
 end

@@ -1,16 +1,19 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
         <Button name="KeybindingRowTemplate">
+            <Size>
+                <AbsPoint x="500" y="24" />
+            </Size>
             <Windows>
                 <Label name="$parentItemLabel" inherits="SettingsLabelTemplate" wordwrap="true">
                     <Size>
-                        <AbsPoint x="270" y="35"/>
+                        <AbsPoint x="270" y="24"/>
                     </Size>
                 </Label>
 
                 <Label name="$parentItemValue" inherits="SettingsLabelTemplate" wordwrap="true">
                     <Size>
-                        <AbsPoint x="218" y="35"/>
+                        <AbsPoint x="218" y="24"/>
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemLabel">
@@ -19,6 +22,10 @@
                     </Anchors>
                 </Label>
             </Windows>
+
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="ControlsSettingsWindow.onKeybindingClick"/>
+            </EventHandlers>
         </Button>
 
         <Window name="ControlsSettingsWindow" inherits="SettingsPageTemplate">
@@ -55,7 +62,7 @@
                             </Anchors>
                         </Window>
 
-                        <ListBox name="$parentList" rowdef="KeybindingRowTemplate" visiblerows="17" rowcount="57" rowspacing="24" scrollbar="$parentScrollbar">
+                        <ListBox name="$parentList" rowdef="KeybindingRowTemplate" visiblerows="17" rowcount="57" rowspacing="2" scrollbar="$parentScrollbar">
                             <Size>
                                 <AbsPoint x="500" y="440" />
                             </Size>
