@@ -61,8 +61,17 @@ function ControlsSettingsWindow.onShutdown()
     )
 end
 
-function ControlsSettingsWindow.onKeyRecorded()
+function ControlsSettingsWindow.onPopulateKeybindings(data)
+    for k, v in ipairs(data) do
+        local row = ControlsSettingsWindow.List .. "Row" .. k
+        WindowApi.setId(row, v)
+    end
+end
 
+function ControlsSettingsWindow.onKeyRecorded()
+    if ControlsSettingsWindow.Keybindings ~= L"" then
+        
+    end
 end
 
 function ControlsSettingsWindow.onKeyRecordCanceled()
@@ -70,7 +79,8 @@ function ControlsSettingsWindow.onKeyRecordCanceled()
 end
 
 function ControlsSettingsWindow.onKeybindingClick()
-    -- EventApi.broadcast(
-    --     Events.keyRecord()
-    -- )
+    UserControlSettings.isRecording(true)
+    EventApi.broadcast(
+        Events.keyRecord()
+    )
 end

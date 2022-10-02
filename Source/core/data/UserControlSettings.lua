@@ -165,6 +165,18 @@ function UserControlSettings.isRecording(newValue)
     return SystemData.IsRecordingSettings
 end
 
+function UserControlSettings.recordedKey()
+    return SystemData.RecordedKey
+end
+
+function UserControlSettings.bindingConflictIndex()
+    return SystenmData.BindingConflictItemIndex
+end
+
+function UserControlSettings.bindingConflictType()
+    return SystemData.BindingConflictType
+end
+
 function UserControlSettings.resetKeyBindings()
     ResetMMOKeyBinding()
     SystemData.Settings.Keybindings = SystemData.Settings.DefaultKeybindings

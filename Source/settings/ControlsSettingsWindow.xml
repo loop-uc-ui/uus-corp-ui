@@ -77,7 +77,7 @@
                                     <AbsPoint x="0" y="24"/>
                                 </Anchor>
                             </Anchors>
-                            <ListData table="ControlsSettingsWindow.Keybindings">
+                            <ListData table="ControlsSettingsWindow.Keybindings" populationfunction="ControlsSettingsWindow.onPopulateKeybindings">
                                 <ListColumns>
                                      <ListColumn windowname="ItemLabel" variable="label" format="wstring"/>
                                      <ListColumn windowname="ItemValue" variable="value" format="wstring"/>
