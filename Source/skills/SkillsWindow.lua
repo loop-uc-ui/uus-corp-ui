@@ -183,6 +183,14 @@ function SkillsWindow.onClickArrowUp()
         WindowApi.getParent(Active.window()) .. SkillsWindow.ArrowDown,
         true
     )
+    SkillsWindow.onToggleSkillState(
+        WindowApi.getId(
+            WindowApi.getParent(
+               Active.window()
+            )
+        ),
+        1
+    )
 end
 
 function SkillsWindow.onClickArrowDown()
@@ -190,6 +198,14 @@ function SkillsWindow.onClickArrowDown()
     WindowApi.setShowing(
         WindowApi.getParent(Active.window()) .. SkillsWindow.Lock,
         true
+    )
+    SkillsWindow.onToggleSkillState(
+        WindowApi.getId(
+            WindowApi.getParent(
+               Active.window()
+            )
+        ),
+        2
     )
 end
 
@@ -199,8 +215,27 @@ function SkillsWindow.onClickLock()
         WindowApi.getParent(Active.window()) .. SkillsWindow.ArrowUp,
         true
     )
+    SkillsWindow.onToggleSkillState(
+        WindowApi.getId(
+            WindowApi.getParent(
+               Active.window()
+            )
+        ),
+        0
+    )
 end
 
 function SkillsWindow.onRightClick()
     WindowApi.destroyWindow(SkillsWindow.Name)
+end
+
+function SkillsWindow.onToggleSkillState(id, state)
+    Skills.state(
+        id,
+        state
+    )
+
+    EventApi.broadcast(
+        Events.skillStateChange()
+    )
 end

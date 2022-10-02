@@ -20,6 +20,7 @@
                     <EventHandlers>
                         <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
                     </EventHandlers>
+                    <Color r="206" g="217" b="242" a="255"/>
                 </Label>
 
                 <Label name="$parentItemRealValue" font="inter_medium_18" textalign="leftcenter">
@@ -32,6 +33,7 @@
                     <EventHandlers>
                         <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
                     </EventHandlers>
+                    <Color r="206" g="217" b="242" a="255"/>
                 </Label>
 
                 <Label name="$parentItemTempValue" font="inter_medium_18" textalign="leftcenter">
@@ -44,6 +46,7 @@
                     <EventHandlers>
                         <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
                     </EventHandlers>
+                    <Color r="206" g="217" b="242" a="255"/>
                 </Label>
 
                 <Label name="$parentItemCap" font="inter_medium_18" textalign="leftcenter">
@@ -56,6 +59,7 @@
                     <EventHandlers>
                         <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
                     </EventHandlers>
+                    <Color r="206" g="217" b="242" a="255"/>
                 </Label>
                 
                 <Button name="$parentItemLock" backgroundtexture="Lock_Button" highlighttexture="Lock_Button">

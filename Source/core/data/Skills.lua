@@ -40,7 +40,10 @@ function Skills.tempValue(index)
     return Skills.dynamicData()[index].TempSkillValue
 end
 
-function Skills.state(index)
+function Skills.state(index, newState)
+    if newState ~= nil then
+        Skills.dynamicData()[index].SkillState = newState
+    end
     return Skills.dynamicData()[index].SkillState
 end
 
