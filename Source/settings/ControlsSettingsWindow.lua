@@ -29,7 +29,7 @@ local function toggleRecordingTextColor()
     )
 end
 
-function ControlsSettingsWindow.onInitialize()
+local function updateBindings()
     local order = {}
 
     for i = 1, #UserControlSettings.Keybindings do
@@ -58,7 +58,10 @@ function ControlsSettingsWindow.onInitialize()
         ControlsSettingsWindow.List,
         order
     )
+end
 
+function ControlsSettingsWindow.onInitialize()
+    updateBindings()
     WindowApi.registerEventHandler(
         Active.window(),
         Events.keyRecorded(),
@@ -100,21 +103,28 @@ function ControlsSettingsWindow.onKeyRecorded()
         local binding = UserControlSettings.Keybindings[id]
 
         if binding.type ~= nil then
-            for k, _ in pairs(UserControlSettings.recordedKeybindings()) do
-                if binding.type == k then
-                    UserControlSettings.recordedKeybindings()[k] = key
-                    LabelApi.setText(
-                        recordingKey .. "ItemValue",
-                        key
-                    )
-                    EventApi.broadcast(
-                        Events.keybindingsUpdated()
-                    )
+            for k, v in pairs(UserControlSettings.recordedKeybindings()) do
+                if key == v then
+                    UserControlSettings.recordedKeybindings()[k] = L""
                     break
                 end
             end
+
+            UserControlSettings.recordedKeybindings()[binding.type] = key
+
+            LabelApi.setText(
+                recordingKey .. "ItemValue",
+                key
+            )
+
+            EventApi.broadcast(
+                Events.keybindingsUpdated()
+            )
+
+            updateBindings()
         end
     end
+
     UserControlSettings.isRecording(false)
     toggleRecordingTextColor()
     recordingKey = nil
