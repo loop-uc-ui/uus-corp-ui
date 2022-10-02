@@ -6,6 +6,8 @@ ControlsSettingsWindow.List = ControlsSettingsWindow.Name .. "List"
 
 ControlsSettingsWindow.Keybindings = {}
 
+local recordingKey = nil
+
 function ControlsSettingsWindow.onInitialize()
     local order = {}
 
@@ -50,6 +52,8 @@ function ControlsSettingsWindow.onInitialize()
 end
 
 function ControlsSettingsWindow.onShutdown()
+    recordingKey = nil
+    UserControlSettings.isRecording(false)
     ControlsSettingsWindow.Keybindings = {}
     WindowApi.unregisterEventHandler(
         Active.window(),
@@ -79,8 +83,11 @@ function ControlsSettingsWindow.onKeyRecordCanceled()
 end
 
 function ControlsSettingsWindow.onKeybindingClick()
-    UserControlSettings.isRecording(true)
-    EventApi.broadcast(
-        Events.keyRecord()
-    )
+    if not UserControlSettings.isRecording() then
+        recordingKey = Active.window()
+        UserControlSettings.isRecording(true)
+        EventApi.broadcast(
+            Events.keyRecord()
+        )
+    end
 end
