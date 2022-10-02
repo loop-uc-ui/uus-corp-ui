@@ -183,6 +183,14 @@ function UserControlSettings.resetKeyBindings()
     UserControlSettings.Keybindings = TableFormatter:sortTable(SystemData.Settings.Keybindings)
 end
 
+function UserControlSettings.recordedKeybindings()
+    return SystemData.Settings.Keybindings
+end
+
+function UserContainerSettings.defaultKeybindings()
+    return SystemData.Settings.DefaultKeybindings
+end
+
 function UserControlSettings.updateKeyBindings(bindings)
     if bindings ~= nil and next(bindings) ~= nil then
         for _, v in pairs(bindings) do

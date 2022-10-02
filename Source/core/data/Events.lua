@@ -135,3 +135,7 @@ end
 function Events.keyRecordCanceled()
     return SystemData.Events.INTERFACE_KEY_CANCEL_RECORD
 end
+
+function Events.keybindingsUpdated()
+    return SystemData.Events.KEYBINDINGS_UPDATED
+end

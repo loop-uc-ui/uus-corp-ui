@@ -95,10 +95,25 @@ end
 
 function ControlsSettingsWindow.onKeyRecorded()
     if ControlsSettingsWindow.Keybindings ~= L"" then
-        LabelApi.setText(
-            recordingKey .. "ItemValue",
-            UserControlSettings.recordedKey()
-        )
+        local id = WindowApi.getId(recordingKey)
+        local key = UserControlSettings.recordedKey()
+        local binding = UserControlSettings.Keybindings[id]
+
+        if binding.type ~= nil then
+            for k, _ in pairs(UserControlSettings.recordedKeybindings()) do
+                if binding.type == k then
+                    UserControlSettings.recordedKeybindings()[k] = key
+                    LabelApi.setText(
+                        recordingKey .. "ItemValue",
+                        key
+                    )
+                    EventApi.broadcast(
+                        Events.keybindingsUpdated()
+                    )
+                    break
+                end
+            end
+        end
     end
     UserControlSettings.isRecording(false)
     toggleRecordingTextColor()
