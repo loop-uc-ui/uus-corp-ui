@@ -60,6 +60,12 @@ Colors.OffBlack = {
     b = 34
 }
 
+Colors.CoreBlue = {
+    r = 206,
+    g = 217,
+    b = 242
+}
+
 Colors.NotoInnocent = { r=128, g=200, b=255 }
 Colors.NotoFriend = { r=0 ,  g=180, b=0   }
 Colors.NotoCanAttack = { r=225, g=225, b=225 }

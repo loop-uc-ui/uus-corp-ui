@@ -2,7 +2,7 @@ UserControlSettings = {}
 
 --[[
     Table copied from default UI.
-    The table that comes to use from the client is not sorted
+    The table that comes to us from the client is not sorted
     neatly into functional areas. Additionally, it contains
     entries that we do not want the user to be able to change
     (Escape as'Cancel', for example).
@@ -165,10 +165,30 @@ function UserControlSettings.isRecording(newValue)
     return SystemData.IsRecordingSettings
 end
 
+function UserControlSettings.recordedKey()
+    return SystemData.RecordedKey
+end
+
+function UserControlSettings.bindingConflictIndex()
+    return SystemData.BindingConflictItemIndex
+end
+
+function UserControlSettings.bindingConflictType()
+    return SystemData.BindingConflictType
+end
+
 function UserControlSettings.resetKeyBindings()
     ResetMMOKeyBinding()
     SystemData.Settings.Keybindings = SystemData.Settings.DefaultKeybindings
     UserControlSettings.Keybindings = TableFormatter:sortTable(SystemData.Settings.Keybindings)
+end
+
+function UserControlSettings.recordedKeybindings()
+    return SystemData.Settings.Keybindings
+end
+
+function UserContainerSettings.defaultKeybindings()
+    return SystemData.Settings.DefaultKeybindings
 end
 
 function UserControlSettings.updateKeyBindings(bindings)

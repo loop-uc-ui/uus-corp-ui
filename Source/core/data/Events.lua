@@ -123,3 +123,19 @@ end
 function Events.toggleMap()
     return SystemData.Events.TOGGLE_WORLD_MAP_WINDOW
 end
+
+function Events.keyRecord()
+    return SystemData.Events.INTERFACE_RECORD_KEY
+end
+
+function Events.keyRecorded()
+    return SystemData.Events.INTERFACE_KEY_RECORDED
+end
+
+function Events.keyRecordCanceled()
+    return SystemData.Events.INTERFACE_KEY_CANCEL_RECORD
+end
+
+function Events.keybindingsUpdated()
+    return SystemData.Events.KEYBINDINGS_UPDATED
+end
