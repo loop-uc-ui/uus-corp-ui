@@ -170,7 +170,7 @@ function UserControlSettings.recordedKey()
 end
 
 function UserControlSettings.bindingConflictIndex()
-    return SystenmData.BindingConflictItemIndex
+    return SystemData.BindingConflictItemIndex
 end
 
 function UserControlSettings.bindingConflictType()

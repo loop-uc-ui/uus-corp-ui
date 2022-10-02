@@ -8,6 +8,27 @@ ControlsSettingsWindow.Keybindings = {}
 
 local recordingKey = nil
 
+local function toggleRecordingTextColor()
+    if recordingKey == nil then
+        return
+    end
+
+    local color = Colors.CoreBlue
+
+    if UserControlSettings.isRecording() then
+        color = Colors.YellowDark
+    end
+
+    LabelApi.setTextColor(
+        recordingKey .. "ItemLabel",
+        color
+    )
+    LabelApi.setTextColor(
+        recordingKey .. "ItemValue",
+        color
+    )
+end
+
 function ControlsSettingsWindow.onInitialize()
     local order = {}
 
@@ -74,18 +95,27 @@ end
 
 function ControlsSettingsWindow.onKeyRecorded()
     if ControlsSettingsWindow.Keybindings ~= L"" then
-        
+        LabelApi.setText(
+            recordingKey .. "ItemValue",
+            UserControlSettings.recordedKey()
+        )
     end
+    UserControlSettings.isRecording(false)
+    toggleRecordingTextColor()
+    recordingKey = nil
 end
 
 function ControlsSettingsWindow.onKeyRecordCanceled()
-
+    UserControlSettings.isRecording(false)
+    toggleRecordingTextColor()
+    recordingKey = nil
 end
 
 function ControlsSettingsWindow.onKeybindingClick()
     if not UserControlSettings.isRecording() then
         recordingKey = Active.window()
         UserControlSettings.isRecording(true)
+        toggleRecordingTextColor()
         EventApi.broadcast(
             Events.keyRecord()
         )
