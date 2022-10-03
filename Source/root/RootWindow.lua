@@ -24,6 +24,7 @@ function RootWindow.create()
     registerEvent(Events.toggleSkills(), "toggleSkills")
     registerEvent(Events.textArrived(), "onTextArrived")
     registerEvent(Events.toggleMap(), "toggleMap")
+    registerEvent(Events.gumpArrived(), "onGumpArrived")
     WindowApi.createWindow(ObjectHandleRootOverlayWindow.Name, true)
     WindowApi.createWindow(HealthBarRootOverlayWindow.Name, true)
     WindowApi.createWindow(ContextMenuWindow.Name, false)
@@ -40,6 +41,7 @@ function RootWindow.shutdown()
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.toggleSkills())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.textArrived())
     WindowApi.unregisterEventHandler(RootWindow.Name, Events.toggleMap())
+    WindowApi.unregisterEventHandler(RootWindow.Name, Events.gumpArrived())
     WindowApi.destroyWindow(ObjectHandleRootOverlayWindow.Name)
     WindowApi.destroyWindow(HealthBarRootOverlayWindow.Name)
 end
@@ -115,4 +117,15 @@ end
 
 function RootWindow.toggleMap()
     WindowApi.toggleWindow(MapWindow.Name)
+end
+
+function RootWindow.onGumpArrived()
+    local id = Gump.getGumpId()
+
+    if id == 89 then --Runebook
+        WindowApi.createWindow(
+            RunebookWindow.Name,
+            true
+        )
+    end
 end
