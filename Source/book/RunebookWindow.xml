@@ -1,0 +1,85 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+        <Button name="LegacyPurpleDiamond" texture="Legacy_Buttons">
+            <Size>
+              <AbsPoint x="17" y="17" />
+            </Size>
+            <TexCoords>
+              <Normal texture="Legacy_Buttons" x="426" y="141" />
+              <NormalHighlit texture="Legacy_Buttons" x="455" y="141" />
+              <Pressed texture="Legacy_Buttons" x="455" y="141" />
+              <Disabled texture="Legacy_Buttons" x="486" y="141" />
+            </TexCoords>
+        </Button>
+
+        <Button name="RunebookRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
+            <Size>
+				<AbsPoint x="500" y="24" />
+			</Size>
+            <TexCoords>
+                <NormalHighlit x="12" y="12"/>
+                <PressedHighlit x="12" y="12"/>
+            </TexCoords>
+            <Windows>
+                <Button name="$parentButton" inherits="LegacyPurpleDiamond"/>
+
+                <Label name="$parentName" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor relativePoint="left" point="right" relativeTo="$parentButton">
+                            <AbsPoint x="8" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <Label name="$parentLocation" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="100" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor relativePoint="left" point="right" relativeTo="$parentName">
+                            <AbsPoint x="8" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
+                    </EventHandlers>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+            </Windows>
+        </Button>
+
+		<Window name="RunebookWindow" movable="true" handleinput="true">
+			<Size>
+				<AbsPoint x="548" y="512" />
+			</Size>
+			<Anchors>
+				<Anchor point="center" relativePoint="center" />
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="RunebookWindow.onInitialize" />
+                <EventHandler event="OnRButtonUp" function="RunebookWindow.onRightClick" />
+				<EventHandler event="OnShutdown" function="RunebookWindow.onShutdown" />
+			</EventHandlers>
+			<Windows>
+				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+			</Windows>
+		</Window>
+
+	</Windows>
+</Interface>
