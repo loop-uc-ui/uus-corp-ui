@@ -123,6 +123,11 @@ function RootWindow.onGumpArrived()
     local id = Gump.getGumpId()
 
     if id == 89 then --Runebook
+        if WindowApi.doesExist(RunebookWindow.Name)
+            and WindowApi.getId(RunebookWindow.Name) ~= Gump.getObjectId() then
+            WindowApi.destroyWindow(RunebookWindow.Name)
+        end
+
         WindowApi.createWindow(
             RunebookWindow.Name,
             true

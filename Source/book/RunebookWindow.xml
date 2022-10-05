@@ -1,6 +1,18 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Windows>
-        <Button name="SkillsRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
+        <Button name="LegacyPurpleDiamond" texture="Legacy_Buttons">
+            <Size>
+              <AbsPoint x="17" y="17" />
+            </Size>
+            <TexCoords>
+              <Normal texture="Legacy_Buttons" x="426" y="141" />
+              <NormalHighlit texture="Legacy_Buttons" x="455" y="141" />
+              <Pressed texture="Legacy_Buttons" x="455" y="141" />
+              <Disabled texture="Legacy_Buttons" x="486" y="141" />
+            </TexCoords>
+        </Button>
+
+        <Button name="RunebookRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
             <Size>
 				<AbsPoint x="500" y="24" />
 			</Size>
@@ -8,119 +20,35 @@
                 <NormalHighlit x="12" y="12"/>
                 <PressedHighlit x="12" y="12"/>
             </TexCoords>
-            <EventHandlers>
-                <EventHandler event="OnLButtonDblClk" function="SkillsWindow.onSkillDoubleClick"/>
-                <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
-            </EventHandlers>
             <Windows>
-                <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
+                <Button name="$parentButton" inherits="LegacyPurpleDiamond"/>
+
+                <Label name="$parentName" font="inter_medium_18" textalign="leftcenter">
                     <Size>
                         <AbsPoint x="200" y="24" />
                     </Size>
-                    <EventHandlers>
-                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
-                    </EventHandlers>
+                    <Anchors>
+                        <Anchor relativePoint="left" point="right" relativeTo="$parentButton">
+                            <AbsPoint x="8" y="0"/>
+                        </Anchor>
+                    </Anchors>
                     <Color r="206" g="217" b="242" a="255"/>
                 </Label>
 
-                <Label name="$parentItemRealValue" font="inter_medium_18" textalign="leftcenter">
+                <Label name="$parentLocation" font="inter_medium_18" textalign="leftcenter">
                     <Size>
                         <AbsPoint x="100" y="24" />
                     </Size>
                     <Anchors>
-                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemName"/>
+                        <Anchor relativePoint="left" point="right" relativeTo="$parentName">
+                            <AbsPoint x="8" y="0"/>
+                        </Anchor>
                     </Anchors>
                     <EventHandlers>
                         <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
                     </EventHandlers>
                     <Color r="206" g="217" b="242" a="255"/>
                 </Label>
-
-                <Label name="$parentItemTempValue" font="inter_medium_18" textalign="leftcenter">
-                    <Size>
-                        <AbsPoint x="100" y="24" />
-                    </Size>
-                    <Anchors>
-                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemRealValue" textalign="leftcenter"/>
-                    </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
-                    </EventHandlers>
-                    <Color r="206" g="217" b="242" a="255"/>
-                </Label>
-
-                <Label name="$parentItemCap" font="inter_medium_18" textalign="leftcenter">
-                    <Size>
-                        <AbsPoint x="75" y="24" />
-                    </Size>
-                    <Anchors>
-                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemTempValue"/>
-                    </Anchors>
-                    <EventHandlers>
-                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
-                    </EventHandlers>
-                    <Color r="206" g="217" b="242" a="255"/>
-                </Label>
-                
-                <Button name="$parentItemLock" backgroundtexture="Lock_Button" highlighttexture="Lock_Button">
-                    <Size>
-                        <AbsPoint x="22" y="22"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemCap"/>
-                    </Anchors>
-                    <TexCoords>
-                        <PressedHighlit x="24" y="0"/>
-                        <NormalHighlit x="24" y="0"/>
-                        <Pressed x="0" y="0"/>
-                        <Normal x="0" y="0"/>
-                    </TexCoords>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="SkillsWindow.onClickLock"/>
-                    </EventHandlers>
-                </Button>
-
-                <Button name="$parentItemArrowUp" backgroundtexture="arrowup" highlighttexture="arrowup">
-                    <Size>
-                        <AbsPoint x="22" y="22"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemCap"/>
-                    </Anchors>
-                    <TexCoords>
-                        <PressedHighlit x="24" y="0"/>
-                        <NormalHighlit x="24" y="0"/>
-                        <Pressed x="0" y="0"/>
-                        <Normal x="0" y="0"/>
-                    </TexCoords>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="SkillsWindow.onClickArrowUp"/>
-                    </EventHandlers>
-                </Button>
-
-                <Button name="$parentItemArrowDown" backgroundtexture="arrowdown" highlighttexture="arrowdown">
-                    <Size>
-                        <AbsPoint x="22" y="22"/>
-                    </Size>
-                    <Anchors>
-                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemCap"/>
-                    </Anchors>
-                    <TexCoords>
-                        <PressedHighlit x="24" y="0"/>
-                        <NormalHighlit x="24" y="0"/>
-                        <Pressed x="0" y="0"/>
-                        <Normal x="0" y="0"/>
-                    </TexCoords>
-                    <EventHandlers>
-                        <EventHandler event="OnLButtonUp" function="SkillsWindow.onClickArrowDown"/>
-                    </EventHandlers>
-                </Button>
-
-                <DynamicImage name="$parentItemIcon" texturescale="1.0">
-                    <Size>
-						<AbsPoint x="64" y="64" />
-					</Size>
-                </DynamicImage>
             </Windows>
         </Button>
 
@@ -150,30 +78,6 @@
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
                     </Anchors>
                 </FullResizeImage>
-                
-                <ListBox name="$parentList" rowdef="SkillsRowTemplate" visiblerows="20" rowcount="57" rowspacing="0" scrollbar="$parentScrollbar">
-                    <Size>
-                        <AbsPoint x="500" y="500" />
-                    </Size>
-
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="8" y="8"/>
-                        </Anchor>
-                    </Anchors>
-                    <ListData table="RunebookWindow.Skills" populationfunction="RunebookWindow.onPopulate">
-                        <ListColumns>
-                             <ListColumn windowname="ItemName" variable="skillName" format="wstring"/>
-                             <ListColumn windowname="ItemRealValue" variable="realValue" format="wstring"/>
-                             <ListColumn windowname="ItemTempValue" variable="tempValue" format="wstring"/>
-                             <ListColumn windowname="ItemCap" variable="cap" format="wstring"/>
-                             <ListColumn windowname="ItemIcon" variable="icon" format="icon"/>
-                        </ListColumns>
-                         <Windows>
-                            <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
-                         </Windows>
-                     </ListData>
-                </ListBox>
 			</Windows>
 		</Window>
 
