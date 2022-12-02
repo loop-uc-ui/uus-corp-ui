@@ -7,7 +7,7 @@ TooltipWindow.Context = 0
 -- Copied from default UI
 local function stripHTML(inString)
 	local outString = L""
-	local o1, _, _, c2
+	local o1, c2
 	c2 = 0
     inString = StringFormatter.toWString(inString)
 	o1, _ = wstring.find(inString, L"<", 1, true)
