@@ -24,6 +24,10 @@ function Drag.sourceContainer()
     return Drag.source().SOURCETYPE_CONTAINER
 end
 
+function Drag.sourceObject()
+    return Drag.source().SOURCETYPE_OBJECT
+end
+
 function Drag.item()
     return SystemData.DragItem
 end
