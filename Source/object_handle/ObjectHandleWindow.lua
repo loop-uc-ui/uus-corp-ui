@@ -64,6 +64,11 @@ function ObjectHandleWindow.onShutdown()
 end
 
 function ObjectHandleWindow.onMouseDrag()
-    Active.setMobile(WindowApi.getId(Active.window()))
-    EventApi.broadcast(Events.beginHealthBarDrag())
+    local id = WindowApi.getId(Active.window())
+    if ObjectApi.isMobile(id) then
+        Active.setMobile(id)
+        EventApi.broadcast(Events.beginHealthBarDrag())
+    elseif ObjectApi.isValid(id) then
+        DragApi.setObjectMouseClickData(id, Drag.sourceObject())
+    end
 end
