@@ -117,6 +117,8 @@ function CharacterSheetWindow.onUpdate()
                     PlayerStatus.dexterity(),
                     PlayerStatus.increaseDexterity()
                 )
+            elseif v.tid == 1017319 then
+                value = PlayerStatus.damage() .. " - " .. PlayerStatus.maxDamage()
             else
                 for i, j in pairs(PlayerStatus.data()) do
                     if i == StringFormatter.fromWString(v.name) then
