@@ -18,7 +18,7 @@
 
                 <Label name="$parentItemValue" font="inter_medium_18" textalign="rightcenter">
                     <Size>
-                        <AbsPoint x="100" y="24" />
+                        <AbsPoint x="202" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemName">
@@ -70,7 +70,7 @@
                     <ListData table="CharacterSheetWindow.Data">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="name" format="wstring"/>
-                             <ListColumn windowname="ItemValue" variable="value" format="number"/>
+                             <ListColumn windowname="ItemValue" variable="value" format="wstring"/>
                         </ListColumns>
                         <Windows>
                             <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>

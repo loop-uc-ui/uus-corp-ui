@@ -60,3 +60,38 @@ function PlayerStatus.data()
     return WindowData.PlayerStatus
 end
 
+function PlayerStatus.increaseMaxHitPoints()
+    return PlayerStatus.data()["IncreaseHitPointsMax"]
+end
+
+function PlayerStatus.increaseMaxMana()
+    return PlayerStatus.data()["IncreaseManaMax"]
+end
+
+function PlayerStatus.increaseMaxStamina()
+    return PlayerStatus.data()["IncreaseStamMax"]
+end
+
+function PlayerStatus.intelligence()
+    return PlayerStatus.data()["Intelligence"]
+end
+
+function PlayerStatus.increaseIntelligence()
+    return PlayerStatus.data()["IncreaseInt"]
+end
+
+function PlayerStatus.strength()
+    return PlayerStatus.data()["Strength"]
+end
+
+function PlayerStatus.increaseStrength()
+    return PlayerStatus.data()["IncreaseStr"]
+end
+
+function PlayerStatus.dexterity()
+    return PlayerStatus.data()["Dexterity"]
+end
+
+function PlayerStatus.increaseDexterity()
+    return PlayerStatus.data()["IncreaseDex"]
+end
