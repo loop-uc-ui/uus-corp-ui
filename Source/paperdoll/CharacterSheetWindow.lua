@@ -75,7 +75,7 @@ end
 function CharacterSheetWindow.onUpdate()
     CharacterSheetWindow.Data = {}
     local order = {}
-    
+
     for _, v in ipairs(PlayerStatus.stats()) do
         if v.tid ~= nil and v.tid ~= 0 and not skipLabel(v.tid) then
             local name = StringFormatter.fromTid(
