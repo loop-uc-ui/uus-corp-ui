@@ -23,10 +23,11 @@
 			</Anchors>
 			<EventHandlers>
 				<EventHandler event="OnInitialize" function="ContainerWindow.Initialize" />
-				<EventHandler event="OnShutdown" function="ContainerWindow.Shutdown" />
+				<EventHandler event="OnShutdown" function="ContainerWindow.onShutdown" />
 				<EventHandler event="OnSetMoving" function="ContainerWindow.OnSetMoving" />
 				<EventHandler event="OnRButtonUp" function="ContainerWindow.onRightClick" />
 				<EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
+				<EventHandler event="OnUpdate" function="ContainerWindow.onUpdate"/>
 			</EventHandlers>
 			<Windows>
 
@@ -44,10 +45,31 @@
                     </Anchors>
                 </FullResizeImage>
 
+				<Button name="$parentLootAll" layer="popup" backgroundtexture="Loot_ALL" highlighttexture="Loot_ALL">
+					<Size>
+						<AbsPoint x="32" y="32" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topright" relativeTo="$parentToggleView">
+							<AbsPoint x="0" y="-4" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal  x="0" y="0" />
+						<NormalHighlit x="0" y="0" />
+						<Pressed x="0" y="0" />
+						<PressedHighlit x="0" y="0" />
+						<Disabled x="0" y="0" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="ContainerWindow.onLootAll" />
+					</EventHandlers>
+				</Button>
+
 				<Button name="$parentToggleView" inherits="UO_Default_Spring_Button" layer="overlay">
 					<Anchors>
 						<Anchor point="topright" relativePoint="topright" relativeTo="$parentFrame">
-							<AbsPoint x="-6" y="6"/>
+							<AbsPoint x="-8" y="10"/>
 						</Anchor>
 					</Anchors>
 					<EventHandlers>

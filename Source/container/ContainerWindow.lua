@@ -15,6 +15,8 @@ ContainerWindow.Gumps = {
     Corpse = 9
 }
 
+local LootAll = {}
+
 local function activeSlot()
     local slotNum = WindowApi.getId(Active.window())
 
@@ -68,6 +70,8 @@ function ContainerWindow.Initialize()
 
     WindowDataApi.registerData(Container.type(), id)
 
+    WindowApi.setUpdateFrequency(Active.window(), 1)
+
     WindowApi.setShowing(
         ContainerWindow.Name .. id .. ContainerWindow.Views.Grid,
         not UserContainerSettings.legacyContainers()
@@ -83,10 +87,24 @@ function ContainerWindow.Initialize()
         UserContainerSettings.legacyContainers()
     )
 
+    WindowApi.setShowing(
+        ContainerWindow.Name .. id .. "LootAll",
+        id ~= Paperdoll.backpack(PlayerStatus.id())
+    )
+
     -- There appears to be a bug with empty containers
     -- where updateContainer is not fired automatically
     if Container.itemCount(id) <= 0 then
         ContainerWindow.updateContainer()
+    end
+end
+
+function ContainerWindow.onUpdate()
+    local id = WindowApi.getId(Active.window())
+    if LootAll[Active.window()] and Container.itemCount(id) > 0 then
+        DragApi.autoPickUpObject(Container.items(id)[1].objectId)
+    else
+        LootAll[Active.window()] = nil
     end
 end
 
@@ -270,11 +288,13 @@ function ContainerWindow.onRightClick()
     WindowApi.destroyWindow(Active.window())
 end
 
-function ContainerWindow.Shutdown()
+function ContainerWindow.onShutdown()
     ContainerWindow.onSlotMouseOverEnd()
 
     local window = Active.window()
     local id = WindowApi.getId(window)
+
+    LootAll[window] = nil
 
     WindowApi.unregisterEventHandler(window, Container.event())
     WindowApi.unregisterEventHandler(window, ObjectInfo.event())
@@ -289,6 +309,10 @@ function ContainerWindow.Shutdown()
 
     WindowDataApi.unregisterData(Container.type(), id)
     GumpApi.onCloseContainer(id)
+end
+
+function ContainerWindow.onLootAll()
+    LootAll[WindowApi.getParent(Active.window())] = true
 end
 
 function ContainerWindow.onSlotSingleClick()
