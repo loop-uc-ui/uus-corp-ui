@@ -82,6 +82,12 @@ function ContainerWindow.Initialize()
         ContainerWindow.Name .. id .. "FreeformBackground",
         UserContainerSettings.legacyContainers()
     )
+
+    -- There appears to be a bug with empty containers
+    -- where updateContainer is not fired automatically
+    if Container.itemCount(id) <= 0 then
+        ContainerWindow.updateContainer()
+    end
 end
 
 function ContainerWindow.updateContainer()
