@@ -75,7 +75,7 @@ end
 function CharacterSheetWindow.onUpdate()
     CharacterSheetWindow.Data = {}
     local order = {}
-
+    
     for _, v in ipairs(PlayerStatus.stats()) do
         if v.tid ~= nil and v.tid ~= 0 and not skipLabel(v.tid) then
             local name = StringFormatter.fromTid(
@@ -117,6 +117,8 @@ function CharacterSheetWindow.onUpdate()
                     PlayerStatus.dexterity(),
                     PlayerStatus.increaseDexterity()
                 )
+            elseif v.tid == 1017319 then
+                value = PlayerStatus.damage() .. " - " .. PlayerStatus.maxDamage()
             else
                 for i, j in pairs(PlayerStatus.data()) do
                     if i == StringFormatter.fromWString(v.name) then

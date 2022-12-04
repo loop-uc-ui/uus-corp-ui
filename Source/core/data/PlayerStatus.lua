@@ -95,3 +95,11 @@ end
 function PlayerStatus.increaseDexterity()
     return PlayerStatus.data()["IncreaseDex"]
 end
+
+function PlayerStatus.damage()
+    return PlayerStatus.data()["Damage"]
+end
+
+function PlayerStatus.maxDamage()
+    return PlayerStatus.data()["MaxDamage"]
+end
