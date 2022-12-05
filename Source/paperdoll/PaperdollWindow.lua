@@ -60,6 +60,12 @@ function PaperdollWindow.onInitialize()
     )
 
     local isPlayer = pId == PlayerStatus.id()
+
+    if isPlayer then
+        WindowDataApi.registerData(PlayerStatus.type(), 0)
+        WindowApi.registerEventHandler(window, PlayerStatus.event(), "PaperdollWindow.onUpdateWarMode")
+    end
+
     WindowApi.setShowing(window .. PaperdollWindow.Model, false)
     WindowApi.setShowing(window .. PaperdollWindow.WarButton, isPlayer)
     WindowApi.setShowing(window .. PaperdollWindow.CharacterSheet, isPlayer)
@@ -69,6 +75,12 @@ function PaperdollWindow.onInitialize()
         isPlayer and PlayerStatus.inWarMode()
     )
     PaperdollWindow.update()
+end
+
+function PaperdollWindow.onUpdateWarMode()
+    ButtonApi.setChecked(
+        Active.window() .. PaperdollWindow.WarButton, PlayerStatus.inWarMode()
+    )
 end
 
 function PaperdollWindow.updateName()
@@ -159,6 +171,11 @@ function PaperdollWindow.onShutdown()
         if data ~= nil and data.slotId ~= nil then
             WindowDataApi.unregisterData(ItemProperties.type(), data.slotId)
         end
+    end
+
+    if id == PlayerStatus.id() then
+        WindowDataApi.unregisterData(PlayerStatus.type())
+        WindowApi.unregisterEventHandler(Active.window(), PlayerStatus.event())
     end
 
     WindowDataApi.unregisterData(MobileData.nameType(), id)
