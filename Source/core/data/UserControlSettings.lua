@@ -180,7 +180,6 @@ end
 function UserControlSettings.resetKeyBindings()
     ResetMMOKeyBinding()
     SystemData.Settings.Keybindings = SystemData.Settings.DefaultKeybindings
-    UserControlSettings.Keybindings = TableFormatter:sortTable(SystemData.Settings.Keybindings)
 end
 
 function UserControlSettings.recordedKeybindings()
