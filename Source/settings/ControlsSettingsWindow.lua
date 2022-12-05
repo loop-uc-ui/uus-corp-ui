@@ -146,3 +146,9 @@ function ControlsSettingsWindow.onKeybindingClick()
         )
     end
 end
+
+function ControlsSettingsWindow.onReset()
+    UserControlSettings.resetKeyBindings()
+    updateBindings()
+    EventApi.broadcast(Events.userSettingsUpdated())
+end

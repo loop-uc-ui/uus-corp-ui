@@ -52,7 +52,35 @@
                     </Anchors>
 
                     <Windows>
-                        <Window name="$parentScrollUpCombo" inherits="SettingsComboTemplate"/>
+                        <Button name="$parentReset" backgroundtexture="Swirl_Button" highlighttexture="Swirl_Button">
+                            <Size>
+                                <AbsPoint x="20" y="20" />
+                            </Size>
+
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                                    <AbsPoint x="-16" y="0"/>
+                                </Anchor>
+                            </Anchors>
+
+                            <TexCoords>
+                                <Normal x="0" y="0" />
+                                <NormalHighlit x="0" y="23" />
+                                <Pressed x="0" y="23" />
+                                <PressedHighlit x="0" y="23" />
+                                <Disabled x="0" y="23" />
+                            </TexCoords>
+
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="ControlsSettingsWindow.onReset"/>
+                            </EventHandlers>
+                        </Button>
+
+                        <Window name="$parentScrollUpCombo" inherits="SettingsComboTemplate">
+                            <Size>
+                                <AbsPoint x="500" y="27"/>
+                            </Size>
+                        </Window>
 
                         <Window name="$parentScrollDownCombo" inherits="SettingsComboTemplate">
                             <Anchors>
