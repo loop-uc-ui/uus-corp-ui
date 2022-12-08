@@ -12,26 +12,43 @@ ContextMenuWindow.List = ContextMenuWindow.Name .. "List"
 
 ContextMenuWindow.Data = {}
 
+ContextMenuWindow.IsHardcoded = false
+
+function ContextMenuWindow.create(data)
+    ContextMenuWindow.Data = data
+    ContextMenuWindow.IsHardcoded = true
+    WindowApi.setShowing(ContextMenuWindow.Name, true)
+end
+
 function ContextMenuWindow.onInitialize()
 end
 
 function ContextMenuWindow.onShown()
     local order = {}
 
-    for i = 1, #ContextMenu.items() do
-        table.insert(
-            order,
-            i
-        )
+    if not ContextMenuWindow.IsHardcoded then
+        for i = 1, #ContextMenu.items() do
+            table.insert(
+                order,
+                i
+            )
 
-        table.insert(
-            ContextMenuWindow.Data,
-            {
-                text = StringFormatter.fromTid(
-                    ContextMenu.itemTextId(i)
-                )
-            }
-        )
+            table.insert(
+                ContextMenuWindow.Data,
+                {
+                    text = StringFormatter.fromTid(
+                        ContextMenu.itemTextId(i)
+                    )
+                }
+            )
+        end
+    else
+        for i = 1, #ContextMenuWindow.Data do
+            table.insert(
+                order,
+                i
+            )
+        end
     end
 
     ListBoxApi.setVisibleRowCount(
@@ -69,10 +86,12 @@ end
 
 function ContextMenuWindow.onShutdown()
     ContextMenuWindow.Data = {}
+    ContextMenuWindow.IsHardcoded = false
 end
 
 function ContextMenuWindow.onHidden()
     ContextMenuWindow.Data = {}
+    ContextMenuWindow.IsHardcoded = false
 end
 
 function ContextMenuWindow.populate(data)
@@ -83,11 +102,15 @@ function ContextMenuWindow.populate(data)
 end
 
 function ContextMenuWindow.onItemClick()
-    ContextMenu.setReturnCode(
-        ContextMenu.itemReturnCode(
-            WindowApi.getId(Active.window())
+    if ContextMenuWindow.IsHardcoded then
+        ContextMenuWindow.Data[WindowApi.getId(Active.window())].onClick()
+    else
+        ContextMenu.setReturnCode(
+            ContextMenu.itemReturnCode(
+                WindowApi.getId(Active.window())
+            )
         )
-    )
-    EventApi.broadcast(Events.contextMenuSelected())
+        EventApi.broadcast(Events.contextMenuSelected())
+    end
     WindowApi.setShowing(ContextMenuWindow.Name, false)
 end

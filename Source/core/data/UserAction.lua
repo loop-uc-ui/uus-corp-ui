@@ -15,3 +15,7 @@ end
 function UserAction.castSpell(serverId)
     UserActionCastSpell(serverId)
 end
+
+function UserAction.requestSpell(spellId)
+    GameData.UseRequests.UseSpellcast = spellId
+end
