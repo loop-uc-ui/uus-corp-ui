@@ -50,6 +50,10 @@
                     <Color r="206" g="217" b="242" a="255"/>
                 </Label>
             </Windows>
+
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="RunebookWindow.onRuneClick"/>
+            </EventHandlers>
         </Button>
 
 		<Window name="RunebookWindow" movable="true" handleinput="true">
