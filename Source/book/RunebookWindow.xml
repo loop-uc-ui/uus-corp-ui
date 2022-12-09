@@ -82,6 +82,51 @@
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
                     </Anchors>
                 </FullResizeImage>
+
+                <Label name="$parentCharges" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="148" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="-12" y="16"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <ScrollWindow name="$parentList" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="true" autoHideScrollBar="false" popable="false">
+                   <Size>
+						<AbsPoint x="540" y="512" />
+					</Size>
+					<Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="16" y="52"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright">
+                            <AbsPoint x="0" y="-8"/>
+                        </Anchor>
+					</Anchors>
+                    <Windows>
+						<Window name ="$parentScrollChild" popable="false">
+							<Size>
+								<AbsPoint x="540" y="512"/>
+							</Size>
+						</Window>
+						<VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                            <Size>
+                                <AbsPoint x="12" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright">
+                                    <AbsPoint x="-14" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <ThumbOffset x="0" y="0" />
+                            <ActiveZoneOffset x="500" y="500" />
+                        </VerticalScrollbar>
+					</Windows>
+                </ScrollWindow>
 			</Windows>
 		</Window>
 
