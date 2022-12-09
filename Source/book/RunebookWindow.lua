@@ -65,7 +65,7 @@ function RunebookWindow.onInitialize()
         WindowApi.createFromTemplate(
             window,
             "RunebookRowTemplate",
-            Active.window()
+            Active.window() .. "ListScrollChild"
         )
 
         WindowApi.setId(
@@ -94,6 +94,20 @@ function RunebookWindow.onInitialize()
             )
         end
     end
+
+    WindowApi.setShowing(
+        Active.window() .. "ListScrollbar",
+        #runes > 16
+    )
+
+    LabelApi.setText(
+        Active.window() .. "Charges",
+        StringFormatter.fromWString(labels[1].name) .. " "
+            .. StringFormatter.fromWString(labels[1].value)
+            .. "/" .. StringFormatter.fromWString(labels[2].value)
+    )
+
+    ScrollWindowApi.updateScrollRect(Active.window() .. "List")
 end
 
 function RunebookWindow.onShutdown()
