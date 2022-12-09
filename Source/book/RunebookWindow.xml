@@ -14,7 +14,7 @@
 
         <Button name="RunebookRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
             <Size>
-				<AbsPoint x="500" y="24" />
+				<AbsPoint x="696" y="24" />
 			</Size>
             <TexCoords>
                 <NormalHighlit x="12" y="12"/>
@@ -25,7 +25,7 @@
 
                 <Label name="$parentName" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="200" y="24" />
+                        <AbsPoint x="264" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor relativePoint="left" point="right" relativeTo="$parentButton">
@@ -35,13 +35,28 @@
                     <Color r="206" g="217" b="242" a="255"/>
                 </Label>
 
-                <Label name="$parentLocation" font="inter_medium_18" textalign="leftcenter">
+                <Label name="$parentFacet" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="100" y="24" />
+                        <AbsPoint x="200" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor relativePoint="left" point="right" relativeTo="$parentName">
-                            <AbsPoint x="8" y="0"/>
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
+                    </EventHandlers>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <Label name="$parentLocation" font="inter_medium_18" textalign="rightcenter">
+                    <Size>
+                        <AbsPoint x="232" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor relativePoint="right" point="right" relativeTo="$parent">
+                            <AbsPoint x="0" y="0"/>
                         </Anchor>
                     </Anchors>
                     <EventHandlers>
@@ -58,7 +73,7 @@
 
 		<Window name="RunebookWindow" movable="true" handleinput="true">
 			<Size>
-				<AbsPoint x="548" y="512" />
+				<AbsPoint x="728" y="512" />
 			</Size>
 			<Anchors>
 				<Anchor point="center" relativePoint="center" />
@@ -97,20 +112,20 @@
 
                 <ScrollWindow name="$parentList" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="true" autoHideScrollBar="false" popable="false">
                    <Size>
-						<AbsPoint x="540" y="512" />
+						<AbsPoint x="696" y="512" />
 					</Size>
 					<Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
                             <AbsPoint x="16" y="52"/>
                         </Anchor>
                         <Anchor point="bottomright" relativePoint="bottomright">
-                            <AbsPoint x="0" y="-8"/>
+                            <AbsPoint x="-16" y="-8"/>
                         </Anchor>
 					</Anchors>
                     <Windows>
 						<Window name ="$parentScrollChild" popable="false">
 							<Size>
-								<AbsPoint x="540" y="512"/>
+								<AbsPoint x="696" y="512"/>
 							</Size>
 						</Window>
 						<VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
