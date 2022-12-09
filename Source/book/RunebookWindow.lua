@@ -1,6 +1,29 @@
 RunebookWindow = {}
 RunebookWindow.Name = "RunebookWindow"
 
+local FacetColorMap = {
+    Malas = {
+        id = 1102,
+        name = "Malas"
+    },
+    Trammel = {
+        id = 10,
+        name = "Trammel"
+    },
+    Tokuno = {
+        id = 1154,
+        name = "Tokuno"
+    },
+    Felucca = {
+        id = 81,
+        name = "Felucca"
+    },
+    TerMur = {
+        id = 1645,
+        name = "Ter Mur"
+    }
+}
+
 local labels = {}
 
 local actions = {}
@@ -78,6 +101,20 @@ function RunebookWindow.onInitialize()
             v.name
         )
 
+        local hue = Gump.getTextHueData()[k]
+
+        LabelApi.setText(window .. "Facet", "--")
+
+        for _, j in pairs(FacetColorMap) do
+            if hue == j.id then
+                LabelApi.setText(
+                    window .. "Facet",
+                    j.name
+                )
+                break
+            end
+        end
+
         LabelApi.setText(
             window .. "Location",
             v.location
@@ -123,9 +160,13 @@ function RunebookWindow.onRightClick()
 end
 
 function RunebookWindow.onRuneClick()
-    local data = {}
-
     local id = WindowApi.getId(Active.window())
+
+    if StringFormatter.fromWString(runes[id].location) == "Nowhere" then
+        return
+    end
+
+    local data = {}
 
     table.insert(
         data,
