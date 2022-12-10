@@ -171,6 +171,17 @@ function RunebookWindow.onRuneClick()
     table.insert(
         data,
         {
+            text = actions[1].name,
+            onClick = function ()
+                EventApi.broadcast(Events.gumpAction(id + 199, gumpId, objectId))
+                WindowApi.destroyWindow(RunebookWindow.Name)
+            end
+        }
+    )
+
+    table.insert(
+        data,
+        {
             text = StringFormatter.fromTid(1062723),
             onClick = function ()
                 --Gate
