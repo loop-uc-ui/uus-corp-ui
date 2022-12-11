@@ -98,6 +98,58 @@
                     </Anchors>
                 </FullResizeImage>
 
+                <Button name="$parentRename" backgroundtexture="Swirl_Button" highlighttexture="Swirl_Button">
+                    <Size>
+                        <AbsPoint x="20" y="20" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="16" y="16"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <TexCoords>
+                        <Normal x="0" y="0" />
+                        <NormalHighlit x="0" y="23" />
+                        <Pressed x="0" y="23" />
+                        <PressedHighlit x="0" y="23" />
+                        <Disabled x="0" y="23" />
+                    </TexCoords>
+
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="RunebookWindow.onRenameClick"/>
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentName" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="500" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentRename">
+                            <AbsPoint x="12" y="-2"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <EditBox name="$parentNameEditBox" font="inter_medium_18" maxchars="128">
+					<Size>
+                        <AbsPoint x="500" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentName">
+                            <AbsPoint x="0" y="3"/>
+                        </Anchor>
+                    </Anchors>
+                    <TextColor r="206" g="217" b="242" a="255"/>
+					<EventHandlers>
+						<EventHandler event="OnKeyEnter" function="RunebookWindow.onRenameEnter" />
+                        <EventHandler event="OnKeyEscape" function="RunebookWindow.onRenameEscape" />
+					</EventHandlers>
+				</EditBox>
+
                 <Label name="$parentCharges" font="inter_medium_18" textalign="leftcenter">
                     <Size>
                         <AbsPoint x="148" y="24" />

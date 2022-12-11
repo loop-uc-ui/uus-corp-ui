@@ -11,6 +11,12 @@ Spells.Books = {
     Masteries = 8794
 }
 
+Spells.Ids = {
+    GateTravel = 52,
+    Recall = 32,
+    SacredJourney = 210
+}
+
 function Spells.bookDataType()
     return WindowData.Spellbook.Type
 end

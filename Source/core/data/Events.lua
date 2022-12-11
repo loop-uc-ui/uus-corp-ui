@@ -140,9 +140,10 @@ function Events.keybindingsUpdated()
     return SystemData.Events.KEYBINDINGS_UPDATED
 end
 
-function Events.gumpAction(buttonId, gumpId, objectId)
-    ReturnWindowData.GG_Core.ButtonId = buttonId
-    ReturnWindowData.GG_Core.GumpId = gumpId
-    ReturnWindowData.GG_Core.ObjectId = objectId
+function Events.gumpAction()
     return SystemData.Events.GENERIC_GUMP_ACTION
+end
+
+function Events.gumpActionTextEntry()
+    return SystemData.Events.GENERIC_GUMP_TEXT_ENTRYU_ACTION
 end

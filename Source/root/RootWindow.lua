@@ -122,7 +122,7 @@ end
 function RootWindow.onGumpArrived()
     local id = Gump.getGumpId()
 
-    if id == 89 then --Runebook
+    if id == Gump.Map.Runebook.Id then --Runebook
         if WindowApi.doesExist(RunebookWindow.Name)
             and WindowApi.getId(RunebookWindow.Name) ~= Gump.getObjectId() then
             WindowApi.destroyWindow(RunebookWindow.Name)
@@ -133,4 +133,7 @@ function RootWindow.onGumpArrived()
             true
         )
     end
+
+    --TODO when adding SingleLineTextEntry parsing 686
+    --check Runebook renaming
 end
