@@ -1,5 +1,7 @@
 RunebookWindow = {}
 RunebookWindow.Name = "RunebookWindow"
+RunebookWindow.NameLabel = RunebookWindow.Name .. "Name"
+RunebookWindow.NameEditBox = RunebookWindow.Name .. "NameEditBox"
 
 local FacetColorMap = {
     Malas = {
@@ -30,14 +32,33 @@ local actions = {}
 
 local runes = {}
 
-local gumpId = 0
-
-local objectId = 0
-
 local function processRuneClick(spellId, buttonId, buttonOffset)
     UserAction.requestSpell(spellId)
-    EventApi.broadcast(Events.gumpAction(buttonId + buttonOffset, gumpId, objectId))
+    GumpWindow.broadcastButtonPress(
+        buttonId + buttonOffset,
+        Gump.Map.Runebook.Id,
+        WindowApi.getId(RunebookWindow.Name)
+    )
     WindowApi.destroyWindow(RunebookWindow.Name)
+end
+
+local function toggleRename()
+    WindowApi.setShowing(
+        RunebookWindow.NameLabel,
+        not WindowApi.isShowing(RunebookWindow.NameLabel)
+    )
+
+    WindowApi.setShowing(
+        RunebookWindow.NameEditBox,
+        not WindowApi.isShowing(RunebookWindow.NameEditBox)
+    )
+
+    WindowApi.assignFocus(
+        RunebookWindow.NameEditBox,
+        WindowApi.isShowing(RunebookWindow.NameEditBox)
+    )
+
+    RunebookWindow.onUpdateItemProperties()
 end
 
 function RunebookWindow.onInitialize()
@@ -46,9 +67,16 @@ function RunebookWindow.onInitialize()
         Gump.getObjectId()
     )
 
-    gumpId = Gump.getGumpId()
+    WindowDataApi.registerData(
+        ItemProperties.type(),
+        Gump.getObjectId()
+    )
 
-    objectId = Gump.getObjectId()
+    WindowApi.registerEventHandler(
+        Active.window(),
+        ItemProperties.event(),
+        "RunebookWindow.onUpdateItemProperties"
+    )
 
     for k, v in ipairs(Gump.getStringData()) do
         if k <= 2 then
@@ -144,15 +172,80 @@ function RunebookWindow.onInitialize()
             .. "/" .. StringFormatter.fromWString(labels[2].value)
     )
 
+
+    WindowApi.setShowing(
+        RunebookWindow.NameEditBox,
+        false
+    )
+
+    RunebookWindow.onUpdateItemProperties()
+
     ScrollWindowApi.updateScrollRect(Active.window() .. "List")
 end
 
+function RunebookWindow.onUpdateItemProperties()
+    local objectId = WindowApi.getId(RunebookWindow.Name)
+    local name = ItemProperties.propertiesList(objectId)[
+        #ItemProperties.propertiesList(objectId)
+    ]
+
+    LabelApi.setText(
+        RunebookWindow.NameLabel,
+        name
+    )
+
+    EditTextBoxApi.setText(
+        RunebookWindow.NameEditBox,
+        name
+    )
+end
+
+function RunebookWindow.onRenameClick()
+    GumpWindow.broadcastButtonPress(
+        Gump.Map.Runebook.Buttons.RenameBook,
+        Gump.Map.Runebook.Id,
+        WindowApi.getId(RunebookWindow.Name)
+    )
+    toggleRename()
+end
+
+function RunebookWindow.onRenameEscape()
+    GumpWindow.broadcastTextEntry(
+        EditTextBoxApi.getText(RunebookWindow.NameEditBox),
+        false,
+        WindowApi.getId(RunebookWindow.Name)
+    )
+    toggleRename()
+end
+
+function RunebookWindow.onRenameEnter()
+    GumpWindow.broadcastTextEntry(
+        EditTextBoxApi.getText(RunebookWindow.NameEditBox),
+        true,
+        WindowApi.getId(RunebookWindow.Name)
+    )
+    toggleRename()
+    WindowApi.destroyWindow(RunebookWindow.Name)
+end
+
 function RunebookWindow.onShutdown()
+    if WindowApi.isShowing(RunebookWindow.NameEditBox) then
+        RunebookWindow.onRenameEscape()
+    end
+
+    WindowDataApi.unregisterData(
+        ItemProperties.type(),
+        WindowApi.getId(RunebookWindow.Name)
+    )
+
+    WindowApi.unregisterEventHandler(
+        Active.window(),
+        ItemProperties.event()
+    )
+
     labels = {}
     runes = {}
     actions = {}
-    gumpId = 0
-    objectId = 0
 end
 
 function RunebookWindow.onRightClick()
@@ -173,7 +266,11 @@ function RunebookWindow.onRuneClick()
         {
             text = actions[1].name,
             onClick = function ()
-                EventApi.broadcast(Events.gumpAction(id + 199, gumpId, objectId))
+                GumpWindow.broadcastButtonPress(
+                    id + Gump.Map.Runebook.Buttons.DropRune,
+                    Gump.Map.Runebook.Id,
+                    WindowApi.getId(RunebookWindow.Name)
+                )
                 WindowApi.destroyWindow(RunebookWindow.Name)
             end
         }
@@ -185,7 +282,11 @@ function RunebookWindow.onRuneClick()
             text = StringFormatter.fromTid(1062723),
             onClick = function ()
                 --Gate
-                processRuneClick(52, id, 99)
+                processRuneClick(
+                    Spells.Ids.GateTravel,
+                    id,
+                    Gump.Map.Runebook.Buttons.GateTravel
+                )
             end
         }
     )
@@ -196,7 +297,11 @@ function RunebookWindow.onRuneClick()
             text = StringFormatter.fromTid(1077594),
             onClick = function ()
                 --Recall charge
-                processRuneClick(32, id, 9)
+                processRuneClick(
+                    Spells.Ids.Recall,
+                    id,
+                    Gump.Map.Runebook.Buttons.RecallCharge
+                )
             end
         }
     )
@@ -207,7 +312,11 @@ function RunebookWindow.onRuneClick()
             text = StringFormatter.fromTid(1077595),
             onClick = function ()
                 --Recall
-                processRuneClick(32, id, 49)
+                processRuneClick(
+                    Spells.Ids.Recall,
+                    id,
+                    Gump.Map.Runebook.Buttons.RecallSpell
+                )
             end
         }
     )
@@ -218,7 +327,11 @@ function RunebookWindow.onRuneClick()
             text = StringFormatter.fromTid(1062724),
             onClick = function ()
                 --Sacred journey
-                processRuneClick(210, id, 74)
+                processRuneClick(
+                    Spells.Ids.SacredJourney,
+                    id,
+                    Gump.Map.Runebook.Buttons.SacredJourney
+                )
             end
         }
     )

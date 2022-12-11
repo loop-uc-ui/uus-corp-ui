@@ -1,5 +1,25 @@
 Gump = {}
 
+Gump.Map = {
+    Runebook = {
+        Id = 89,
+        Buttons = {
+            DropRune = 199,
+            GateTravel = 99,
+            RecallCharge = 9,
+            RecallSpell = 49,
+            RenameBook = 1000,
+            SacredJourney = 74
+        }
+    },
+    SingleLineTextEntry = {
+        Id = 686,
+        Buttons = {
+            Submit = 44
+        }
+    }
+}
+
 function Gump.getStringPageIndex()
     return WindowData.GG_Core.stringPageIndex
 end
@@ -84,7 +104,31 @@ function Gump.getButtonPageIndex()
     return WindowData.GG_Core.buttonPageIndex
 end
 
-function Gump.data()
-    return GumpData
+function Gump.returnGumpId(gumpId)
+    ReturnWindowData.GG_Core.GumpId = gumpId
+end
+
+function Gump.returnButtonId(buttonId)
+    ReturnWindowData.GG_Core.ButtonId = buttonId
+end
+
+function Gump.returnObjectId(objectId)
+    ReturnWindowData.GG_Core.ObjectId = objectId
+end
+
+function Gump.returnText(text)
+    ReturnWindowData.GG_Core.TheTexts[1] = text
+end
+
+function Gump.returnTextEntryId(textEntryId)
+    ReturnWindowData.GG_Core.TextEntryID = textEntryId
+end
+
+function Gump.returnTextLength(length)
+    ReturnWindowData.GG_Core.TheTextLengths[1] = length
+end
+
+function Gump.returnCode(code)
+    ReturnWindowData.GG_Core.TheCode = code
 end
 
