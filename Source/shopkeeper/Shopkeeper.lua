@@ -1,5 +1,25 @@
 Shopkeeper = {}
 Shopkeeper.Name = "Shopkeeper"
+Shopkeeper.List = Shopkeeper.Name .. "List"
+Shopkeeper.ScrollChild = Shopkeeper.List .. "ScrollChild"
+
+local function updateBuyItems(id)
+    local sellContainerId = ObjectInfo.sellContainerId(id)
+
+    for i = 1, Container.itemCount(sellContainerId) do
+        local item = Container.items(sellContainerId)[i]
+
+        WindowDataApi.registerData(
+            ObjectInfo.type(),
+            item.objectId
+        )
+
+        WindowDataApi.registerData(
+            ItemProperties.type(),
+            item.objectId
+        )
+    end
+end
 
 function Shopkeeper.onInitialize()
     local window = Active.window()
@@ -10,16 +30,6 @@ function Shopkeeper.onInitialize()
         merchantId
     )
 
-    WindowDataApi.registerData(
-        Container.type(),
-        merchantId
-    )
-
-    WindowApi.registerEventHandler(
-        window,
-        Container.event(),
-        "Shopkeeper.onUpdateContainer"
-    )
 
     WindowDataApi.registerData(
         ObjectInfo.type(),
@@ -30,6 +40,17 @@ function Shopkeeper.onInitialize()
         window,
         ObjectInfo.event(),
         "Shopkeeper.onUpdateObjectInfo"
+    )
+
+    WindowDataApi.registerData(
+        Container.type(),
+        ObjectInfo.sellContainerId(merchantId)
+    )
+
+    WindowApi.registerEventHandler(
+        window,
+        Container.event(),
+        "Shopkeeper.onUpdateContainer"
     )
 
     WindowDataApi.registerData(
@@ -64,6 +85,8 @@ function Shopkeeper.onInitialize()
         PlayerStatus.event(),
         "Shopkeeper.onUpdatePlayerStatus"
     )
+
+    --updateBuyItems(merchantId)
 end
 
 function Shopkeeper.onRightClick()

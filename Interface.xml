@@ -112,6 +112,7 @@
         <Script file="Source/core/data/PlayerStatus.lua"/>
         <Script file="Source/core/data/Radar.lua"/>
         <Script file="Source/core/data/ScreenResolution.lua"/>
+        <Script file="Source/core/data/ShopData.lua"/>
         <Script file="Source/core/data/Skills.lua"/>
         <Script file="Source/core/data/Spells.lua"/>
         <Script file="Source/core/data/UserAction.lua"/>
