@@ -3,6 +3,19 @@ Shopkeeper.Name = "Shopkeeper"
 Shopkeeper.List = Shopkeeper.Name .. "List"
 Shopkeeper.ScrollChild = Shopkeeper.List .. "ScrollChild"
 
+
+local function stripFirstNumber(wStr)
+	if (not wStr or wStr == "" or wStr == L"") then
+		return wStr
+	end
+	if (type(wStr) == "string") then
+		wStr = StringFormatter.toWString(wStr)
+	end
+	wStr = wstring.gsub(wStr, L"%,", L"" )
+	local tempStr = wstring.gsub(wStr, L"^%d* ", L"" )
+	return tempStr
+end
+
 local function updateBuyItems(id)
     local sellContainerId = ObjectInfo.sellContainerId(id)
 
@@ -18,7 +31,64 @@ local function updateBuyItems(id)
             ItemProperties.type(),
             item.objectId
         )
+
+        local itemWindow = "ShopItem" .. item.objectId
+
+        WindowApi.createFromTemplate(
+            itemWindow,
+            "ShopItemTemplate",
+            Shopkeeper.ScrollChild
+        )
+
+        LabelApi.setText(
+            itemWindow .. "Name",
+            stripFirstNumber(
+                ObjectInfo.name(
+                    item.objectId
+                )
+            )
+        )
+
+        local iconWindow = itemWindow .. "IconHolderSquareIcon"
+
+        local name, x, y, scale, newWidth, newHeight = IconApi.requestTileArt(
+            ObjectInfo.objectType(item.objectId),
+            300,
+            300
+        )
+
+        DynamicImageApi.setTextureDimensions(
+            iconWindow,
+            newWidth,
+            newHeight
+        )
+
+        WindowApi.setDimensions(
+            iconWindow,
+            newWidth,
+            newHeight
+        )
+
+        DynamicImageApi.setTexture(
+            iconWindow,
+            name,
+            x,
+            y
+        )
+
+        if i > 1 then
+            WindowApi.addAnchor(
+                itemWindow,
+                "bottomleft",
+                "ShopItem" .. Container.items(sellContainerId)[i - 1].objectId,
+                "toptop",
+                0,
+                12
+            )
+        end
     end
+
+    ScrollWindowApi.updateScrollRect(Shopkeeper.List)
 end
 
 function Shopkeeper.onInitialize()
@@ -86,7 +156,7 @@ function Shopkeeper.onInitialize()
         "Shopkeeper.onUpdatePlayerStatus"
     )
 
-    --updateBuyItems(merchantId)
+    updateBuyItems(merchantId)
 end
 
 function Shopkeeper.onRightClick()
