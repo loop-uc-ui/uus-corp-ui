@@ -76,6 +76,24 @@ local function updateBuyItems(id)
             y
         )
 
+        LabelApi.setText(
+            itemWindow .. "Cost",
+            StringFormatter.toWString(
+                ObjectInfo.shopValue(
+                    item.objectId
+                )
+            )
+        )
+
+        LabelApi.setText(
+            itemWindow .. "Quantity",
+            StringFormatter.toWString(
+                ObjectInfo.shopQuantity(
+                    item.objectId
+                )
+            )
+        )
+
         if i > 1 then
             WindowApi.addAnchor(
                 itemWindow,
