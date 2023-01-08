@@ -2,7 +2,7 @@
 	<Windows>
         <Window name="ShopItemTemplate">
 			<Size>
-				<AbsPoint x="480" y="50" />
+				<AbsPoint x="502" y="50" />
 			</Size>
 
 			<Windows>
@@ -48,7 +48,7 @@
 
 				<Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="" wordwrap="true" autoresize="true">
 					<Size>
-						<AbsPoint x="150" y="26" />
+						<AbsPoint x="172" y="26" />
 					</Size>
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentIconHolder">

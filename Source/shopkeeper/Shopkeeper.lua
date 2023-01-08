@@ -94,6 +94,11 @@ local function updateBuyItems(id)
             )
         )
 
+        ButtonApi.setText(
+            itemWindow .. "BuyAll",
+            1077866
+        )
+
         if i > 1 then
             WindowApi.addAnchor(
                 itemWindow,
@@ -101,7 +106,7 @@ local function updateBuyItems(id)
                 "ShopItem" .. Container.items(sellContainerId)[i - 1].objectId,
                 "toptop",
                 0,
-                12
+                0
             )
         end
     end
