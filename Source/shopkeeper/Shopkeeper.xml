@@ -1,0 +1,176 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+        <Window name="ShopItemTemplate">
+			<Size>
+				<AbsPoint x="624" y="50" />
+			</Size>
+
+			<Windows>
+				<Label name="$parentQuantity" font="UO_DefaultText" maxchars="64" textalign="center" >
+					<Size>
+						<AbsPoint x="40" y="16" />
+					</Size>
+					<Anchors>
+						<Anchor point="left" relativePoint="left">
+							<AbsPoint x="10" y="0" />
+						</Anchor>
+					</Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+				</Label>
+
+				<Window name="$parentIconHolder" >
+					<Size>
+						<AbsPoint x="40" y="40" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentQuantity">
+							<AbsPoint x="10" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.OnItemClicked" />
+						<EventHandler event="OnMouseOver" function="Shopkeeper.ItemMouseOver"/>
+						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
+						<EventHandler event="OnLButtonDblClk" function="Shopkeeper.OnBuyOne" />
+					</EventHandlers>
+					<Windows>
+						<DynamicImage name="$parentSquareIcon" texture="" handleinput="false">
+							<Size>
+								<AbsPoint x="40" y="40" />
+							</Size>
+							<!-- <TexCoords x="399" y="32"/> -->
+							<Anchors>
+								<Anchor point="center" relativePoint="center" />
+							</Anchors>
+						</DynamicImage>
+					</Windows>
+				</Window>
+
+				<Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="" wordwrap="true" autoresize="true">
+					<Size>
+						<AbsPoint x="294" y="26" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentIconHolder">
+							<AbsPoint x="10" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.OnItemClicked" />
+						<EventHandler event="OnMouseOver" function="Shopkeeper.ItemMouseOver" />
+						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
+					</EventHandlers>
+                    <Color r="206" g="217" b="242" a="255"/>
+				</Label>
+
+				<Label name="$parentCost" font="UO_DefaultText" maxchars="64" textalign="rightcenter" >
+					<Size>
+						<AbsPoint x="75" y="16" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentName">
+							<AbsPoint x="10" y="0" />
+						</Anchor>
+					</Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+				</Label>
+
+				<Button name="$parentBuyMore" inherits="UO_Default_Plus_Button" textureScale="0.85">
+					<Anchors>
+						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentCost">
+							<AbsPoint x="24" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.OnBuyMore" />
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentBuyLess" inherits="UO_Default_Minus_Button" textureScale="0.85">
+					<Anchors>
+						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentBuyMore">
+							<AbsPoint x="5" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.OnBuyLess" />
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentBuyAll" inherits="UO_Default_VendorButton">
+					<Anchors>
+						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentBuyLess">
+							<AbsPoint x="5" y="0" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.OnBuyAll" />
+					</EventHandlers>
+				</Button>
+
+			</Windows>
+		</Window>
+		<Window name="Shopkeeper" movable="true" handleinput="true">
+			<Size>
+				<AbsPoint x="728" y="512" />
+			</Size>
+			<Anchors>
+				<Anchor point="center" relativePoint="center" />
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="Shopkeeper.onInitialize" />
+                <EventHandler event="OnRButtonUp" function="Shopkeeper.onRightClick" />
+				<EventHandler event="OnShutdown" function="Shopkeeper.onShutdown" />
+			</EventHandlers>
+			<Windows>
+				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <ScrollWindow name="$parentList" childScrollWindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
+                   <Size>
+						<AbsPoint x="696" y="512" />
+					</Size>
+					<Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="16" y="52"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright">
+                            <AbsPoint x="-16" y="-8"/>
+                        </Anchor>
+					</Anchors>
+                    <Windows>
+						<Window name ="$parentScrollChild" popable="false" autoresize="true">
+							<Size>
+								<AbsPoint x="696" y="512"/>
+							</Size>
+						</Window>
+						<VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                            <Size>
+                                <AbsPoint x="12" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright">
+                                    <AbsPoint x="-14" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <ThumbOffset x="0" y="0" />
+                            <ActiveZoneOffset x="500" y="500" />
+                        </VerticalScrollbar>
+					</Windows>
+                </ScrollWindow>
+			</Windows>
+		</Window>
+
+	</Windows>
+</Interface>

@@ -39,6 +39,7 @@
     <Include file="Source/settings/GraphicsSetttingsWindow.xml"/>
     <Include file="Source/settings/InterfaceSettingsWindow.xml"/>
     <Include file="Source/settings/SoundSettingsWindow.xml"/>
+    <Include file="Source/shopkeeper/Shopkeeper.xml"/>
     <Include file="Source/skills/SkillsWindow.xml"/>
     <Include file="Source/tooltip/TooltipWindow.xml"/>
 
@@ -111,6 +112,7 @@
         <Script file="Source/core/data/PlayerStatus.lua"/>
         <Script file="Source/core/data/Radar.lua"/>
         <Script file="Source/core/data/ScreenResolution.lua"/>
+        <Script file="Source/core/data/ShopData.lua"/>
         <Script file="Source/core/data/Skills.lua"/>
         <Script file="Source/core/data/Spells.lua"/>
         <Script file="Source/core/data/UserAction.lua"/>
@@ -156,6 +158,7 @@
         <Script file="Source/paperdoll/PaperdollWindow.lua"/>
         <Script file="Source/settings/SettingsWindow.lua"/>
         <Script file="Source/settings/ControlsSettingsWindow.lua"/>
+        <Script file="Source/shopkeeper/Shopkeeper.lua"/>
         <Script file="Source/skills/SkillsWindow.lua"/>
         <Script file="Source/tooltip/TooltipWindow.lua"/>
 

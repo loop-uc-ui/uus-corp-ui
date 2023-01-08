@@ -67,3 +67,7 @@ end
 function ObjectInfo.shopValue(id)
     return ObjectInfo.info(id).shopValue
 end
+
+function ObjectInfo.sellContainerId(id)
+    return ObjectInfo.info(id).sellContainerId
+end

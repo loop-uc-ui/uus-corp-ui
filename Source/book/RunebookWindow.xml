@@ -162,7 +162,7 @@
                     <Color r="206" g="217" b="242" a="255"/>
                 </Label>
 
-                <ScrollWindow name="$parentList" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="true" autoHideScrollBar="false" popable="false">
+                <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="false" autoHideScrollBar="false" popable="false">
                    <Size>
 						<AbsPoint x="696" y="512" />
 					</Size>
