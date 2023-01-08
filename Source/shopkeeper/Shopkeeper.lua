@@ -56,7 +56,7 @@ local function updateBuyItems(id)
             item.objectId
         )
 
-        local name, x, y, scale, newWidth, newHeight = IconApi.requestTileArt(
+        local name, x, y, _, newWidth, newHeight = IconApi.requestTileArt(
             ObjectInfo.objectType(item.objectId),
             300,
             300
