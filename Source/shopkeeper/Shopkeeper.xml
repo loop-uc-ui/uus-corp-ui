@@ -2,7 +2,7 @@
 	<Windows>
         <Window name="ShopItemTemplate">
 			<Size>
-				<AbsPoint x="502" y="50" />
+				<AbsPoint x="624" y="50" />
 			</Size>
 
 			<Windows>
@@ -15,7 +15,7 @@
 							<AbsPoint x="10" y="0" />
 						</Anchor>
 					</Anchors>
-					<Color r="255" g="255" b="255" a="255" />
+                    <Color r="206" g="217" b="242" a="255"/>
 				</Label>
 
 				<Window name="$parentIconHolder" >
@@ -48,7 +48,7 @@
 
 				<Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="" wordwrap="true" autoresize="true">
 					<Size>
-						<AbsPoint x="172" y="26" />
+						<AbsPoint x="294" y="26" />
 					</Size>
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentIconHolder">
@@ -60,10 +60,10 @@
 						<EventHandler event="OnMouseOver" function="Shopkeeper.ItemMouseOver" />
 						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
 					</EventHandlers>
-					<Color r="253" g="210" b="69" a="255" />
+                    <Color r="206" g="217" b="242" a="255"/>
 				</Label>
 
-				<Label name="$parentCost" font="UO_DefaultText" maxchars="64" textalign="center" >
+				<Label name="$parentCost" font="UO_DefaultText" maxchars="64" textalign="rightcenter" >
 					<Size>
 						<AbsPoint x="75" y="16" />
 					</Size>
@@ -72,13 +72,13 @@
 							<AbsPoint x="10" y="0" />
 						</Anchor>
 					</Anchors>
-					<Color r="255" g="255" b="255" a="255" />
+                    <Color r="206" g="217" b="242" a="255"/>
 				</Label>
 
 				<Button name="$parentBuyMore" inherits="UO_Default_Plus_Button" textureScale="0.85">
 					<Anchors>
 						<Anchor point="topright" relativePoint="topleft" relativeTo="$parentCost">
-							<AbsPoint x="10" y="0" />
+							<AbsPoint x="24" y="0" />
 						</Anchor>
 					</Anchors>
 					<EventHandlers>

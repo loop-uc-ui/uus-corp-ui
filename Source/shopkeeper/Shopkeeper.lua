@@ -43,13 +43,18 @@ local function updateBuyItems(id)
         LabelApi.setText(
             itemWindow .. "Name",
             stripFirstNumber(
-                ObjectInfo.name(
+                ItemProperties.propertiesList(
                     item.objectId
-                )
+                )[1]
             )
         )
 
         local iconWindow = itemWindow .. "IconHolderSquareIcon"
+
+        WindowApi.setId(
+            iconWindow,
+            item.objectId
+        )
 
         local name, x, y, scale, newWidth, newHeight = IconApi.requestTileArt(
             ObjectInfo.objectType(item.objectId),
@@ -78,11 +83,9 @@ local function updateBuyItems(id)
 
         LabelApi.setText(
             itemWindow .. "Cost",
-            StringFormatter.toWString(
-                ObjectInfo.shopValue(
-                    item.objectId
-                )
-            )
+            ObjectInfo.shopValue(
+                item.objectId
+            ) .. " gp"
         )
 
         LabelApi.setText(
@@ -123,7 +126,6 @@ function Shopkeeper.onInitialize()
         merchantId
     )
 
-
     WindowDataApi.registerData(
         ObjectInfo.type(),
         merchantId
@@ -133,17 +135,6 @@ function Shopkeeper.onInitialize()
         window,
         ObjectInfo.event(),
         "Shopkeeper.onUpdateObjectInfo"
-    )
-
-    WindowDataApi.registerData(
-        Container.type(),
-        ObjectInfo.sellContainerId(merchantId)
-    )
-
-    WindowApi.registerEventHandler(
-        window,
-        Container.event(),
-        "Shopkeeper.onUpdateContainer"
     )
 
     WindowDataApi.registerData(
@@ -177,6 +168,17 @@ function Shopkeeper.onInitialize()
         window,
         PlayerStatus.event(),
         "Shopkeeper.onUpdatePlayerStatus"
+    )
+
+    WindowDataApi.registerData(
+        Container.type(),
+        ObjectInfo.sellContainerId(merchantId)
+    )
+
+    WindowApi.registerEventHandler(
+        window,
+        Container.event(),
+        "Shopkeeper.onUpdateContainer"
     )
 
     updateBuyItems(merchantId)
@@ -241,7 +243,7 @@ function Shopkeeper.onShutdown()
 end
 
 function Shopkeeper.onUpdateContainer()
-
+    updateBuyItems(WindowApi.getId(Active.window()))
 end
 
 function Shopkeeper.onUpdateObjectInfo()
