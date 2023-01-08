@@ -16,105 +16,61 @@ local function stripFirstNumber(wStr)
 	return tempStr
 end
 
+local function createItems(objectId, previous)
+    local itemWindow = "ShopItem" .. objectId
+
+    WindowApi.createFromTemplate(
+        itemWindow,
+        "ShopItemTemplate",
+        Shopkeeper.ScrollChild
+    )
+
+    if previous() ~= nil then
+        WindowApi.addAnchor(
+            itemWindow,
+            "bottomleft",
+            "ShopItem" .. previous(),
+            "toptop",
+            0,
+            0
+        )
+    end
+end
+
+local function updateSellItems()
+    for i = 1, #ShopData.sellNames() do
+        if ShopData.sellQuantities(i) > 0 then
+            createItems(
+                i,
+                function ()
+                    if i > 1 then
+                        return ShopData.sellId(i - 1)
+                    else
+                        return nil
+                    end
+                end
+            )
+        end
+    end
+end
+
 local function updateBuyItems(id)
     local sellContainerId = ObjectInfo.sellContainerId(id)
 
     for i = 1, Container.itemCount(sellContainerId) do
         local item = Container.items(sellContainerId)[i]
 
-        WindowDataApi.registerData(
-            ObjectInfo.type(),
-            item.objectId
+        createItems(
+            item.objectId,
+            function ()
+                if i > 1 then
+                    return Container.items(sellContainerId)[i - 1].objectId
+                else
+                    return nil
+                end
+            end
         )
-
-        WindowDataApi.registerData(
-            ItemProperties.type(),
-            item.objectId
-        )
-
-        local itemWindow = "ShopItem" .. item.objectId
-
-        WindowApi.createFromTemplate(
-            itemWindow,
-            "ShopItemTemplate",
-            Shopkeeper.ScrollChild
-        )
-
-        LabelApi.setText(
-            itemWindow .. "Name",
-            stripFirstNumber(
-                ItemProperties.propertiesList(
-                    item.objectId
-                )[1]
-            )
-        )
-
-        local iconWindow = itemWindow .. "IconHolderSquareIcon"
-
-        WindowApi.setId(
-            iconWindow,
-            item.objectId
-        )
-
-        local name, x, y, _, newWidth, newHeight = IconApi.requestTileArt(
-            ObjectInfo.objectType(item.objectId),
-            300,
-            300
-        )
-
-        DynamicImageApi.setTextureDimensions(
-            iconWindow,
-            newWidth,
-            newHeight
-        )
-
-        WindowApi.setDimensions(
-            iconWindow,
-            newWidth,
-            newHeight
-        )
-
-        DynamicImageApi.setTexture(
-            iconWindow,
-            name,
-            x,
-            y
-        )
-
-        LabelApi.setText(
-            itemWindow .. "Cost",
-            ObjectInfo.shopValue(
-                item.objectId
-            ) .. " gp"
-        )
-
-        LabelApi.setText(
-            itemWindow .. "Quantity",
-            StringFormatter.toWString(
-                ObjectInfo.shopQuantity(
-                    item.objectId
-                )
-            )
-        )
-
-        ButtonApi.setText(
-            itemWindow .. "BuyAll",
-            1077866
-        )
-
-        if i > 1 then
-            WindowApi.addAnchor(
-                itemWindow,
-                "bottomleft",
-                "ShopItem" .. Container.items(sellContainerId)[i - 1].objectId,
-                "toptop",
-                0,
-                0
-            )
-        end
     end
-
-    ScrollWindowApi.updateScrollRect(Shopkeeper.List)
 end
 
 function Shopkeeper.onInitialize()
@@ -126,62 +82,99 @@ function Shopkeeper.onInitialize()
         merchantId
     )
 
-    WindowDataApi.registerData(
+    if ShopData.isSelling() then
+        updateSellItems()
+    else
+        WindowDataApi.registerData(
+            ObjectInfo.type(),
+            merchantId
+        )
+
+        WindowDataApi.registerData(
+            MobileData.nameType(),
+            merchantId
+        )
+
+        WindowApi.registerEventHandler(
+            window,
+            MobileData.nameEvent(),
+            "Shopkeeper.onUpdateMobileName"
+        )
+
+        WindowDataApi.registerData(
+            Container.type(),
+            ObjectInfo.sellContainerId(merchantId)
+        )
+
+        updateBuyItems(merchantId)
+    end
+end
+
+function Shopkeeper.onItemInitialize()
+    local id = tonumber(
+        string.gsub(
+            Active.window(),
+            "ShopItem",
+            ""
+        ),
+        10
+    )
+
+    --If we're selling then the name will have the index,
+    --so we need need to set the id to the ObjectId
+    if ShopData.isSelling() then
+        WindowApi.setId(
+            Active.window(),
+            ShopData.sellId(id)
+        )
+    else
+        WindowApi.setId(
+            Active.window(),
+            id
+        )
+    end
+
+    --If we're selling then the data is presume not to change
+    --and we take the data from ShopData instead of ObjectInfo
+    if ShopData.isSelling() then
+        Shopkeeper.onUpdateObjectInfo(
+            {
+                name = ShopData.sellName(id),
+                type = ShopData.sellType(id),
+                quantity = ShopData.sellQuantities(id),
+                price = ShopData.sellPrice(id)
+            }
+        )
+    else
+        WindowDataApi.registerData(
+            ObjectInfo.type(),
+            id
+        )
+
+        WindowApi.registerEventHandler(
+            Active.window(),
+            ObjectInfo.event(),
+            "Shopkeeper.onUpdateObjectInfo"
+        )
+    end
+end
+
+function Shopkeeper.onItemShutdown()
+    if ShopData.isSelling() then
+        return
+    end
+
+    local id = WindowApi.getId(Active.window())
+
+    WindowDataApi.unregisterData(
         ObjectInfo.type(),
-        merchantId
+        id
     )
 
-    WindowApi.registerEventHandler(
-        window,
-        ObjectInfo.event(),
-        "Shopkeeper.onUpdateObjectInfo"
+    WindowApi.unregisterEventHandler(
+        Active.window(),
+        ObjectInfo.event()
     )
-
-    WindowDataApi.registerData(
-        ItemProperties.type(),
-        merchantId
-    )
-
-    WindowApi.registerEventHandler(
-        window,
-        ItemProperties.event(),
-        "Shopkeeper.onUpdateItemProperties"
-    )
-
-    WindowDataApi.registerData(
-        MobileData.nameType(),
-        merchantId
-    )
-
-    WindowApi.registerEventHandler(
-        window,
-        MobileData.nameEvent(),
-        "Shopkeeper.onUpdateMobileName"
-    )
-
-    WindowDataApi.registerData(
-        PlayerStatus.type(),
-        0
-    )
-
-    WindowApi.registerEventHandler(
-        window,
-        PlayerStatus.event(),
-        "Shopkeeper.onUpdatePlayerStatus"
-    )
-
-    WindowDataApi.registerData(
-        Container.type(),
-        ObjectInfo.sellContainerId(merchantId)
-    )
-
-    WindowApi.registerEventHandler(
-        window,
-        Container.event(),
-        "Shopkeeper.onUpdateContainer"
-    )
-
-    updateBuyItems(merchantId)
 end
 
 function Shopkeeper.onRightClick()
@@ -189,6 +182,10 @@ function Shopkeeper.onRightClick()
 end
 
 function Shopkeeper.onShutdown()
+    if ShopData.isSelling() then
+        return
+    end
+
     local merchantId = WindowApi.getId(Active.window())
 
     WindowDataApi.unregisterData(
@@ -196,29 +193,9 @@ function Shopkeeper.onShutdown()
         merchantId
     )
 
-    WindowApi.unregisterEventHandler(
-        Active.window(),
-        Container.event()
-    )
-
     WindowDataApi.unregisterData(
         ObjectInfo.type(),
         merchantId
-    )
-
-    WindowApi.unregisterEventHandler(
-        Active.window(),
-        ObjectInfo.event()
-    )
-
-    WindowDataApi.unregisterData(
-        ItemProperties.type(),
-        merchantId
-    )
-
-    WindowApi.unregisterEventHandler(
-        Active.window(),
-        ItemProperties.event()
     )
 
     WindowDataApi.unregisterData(
@@ -230,31 +207,68 @@ function Shopkeeper.onShutdown()
         Active.window(),
         MobileData.nameEvent()
     )
+end
 
-    WindowDataApi.unregisterData(
-        PlayerStatus.type(),
-        0
+function Shopkeeper.onUpdateObjectInfo(data)
+    local itemWindow = Active.window()
+    local objectId = WindowApi.getId(itemWindow)
+    local objectName = data and data.name or ObjectInfo.name(objectId)
+    local objectType = data and data.type or ObjectInfo.objectType(objectId)
+    local objectQuantity = data and data.quantity or ObjectInfo.shopQuantity(objectId)
+    local objectPrice = data and data.price or ObjectInfo.shopValue(objectId)
+
+    LabelApi.setText(
+        itemWindow .. "Name",
+        stripFirstNumber(objectName)
     )
 
-    WindowApi.unregisterEventHandler(
-        Active.window(),
-        PlayerStatus.event()
+    local iconWindow = itemWindow .. "IconHolderSquareIcon"
+
+    WindowApi.setId(
+        iconWindow,
+        objectId
     )
-end
 
-function Shopkeeper.onUpdateContainer()
-    updateBuyItems(WindowApi.getId(Active.window()))
-end
+    local name, x, y, _, newWidth, newHeight = IconApi.requestTileArt(
+        objectType,
+        300,
+        300
+    )
 
-function Shopkeeper.onUpdateObjectInfo()
+    DynamicImageApi.setTextureDimensions(
+        iconWindow,
+        newWidth,
+        newHeight
+    )
 
-end
+    WindowApi.setDimensions(
+        iconWindow,
+        newWidth,
+        newHeight
+    )
 
-function Shopkeeper.onUpdateItemProperties()
+    DynamicImageApi.setTexture(
+        iconWindow,
+        name,
+        x,
+        y
+    )
+
+    LabelApi.setText(
+        itemWindow .. "Cost",
+        objectPrice .. " gp"
+    )
+
+    LabelApi.setText(
+        itemWindow .. "Quantity",
+        StringFormatter.toWString(objectQuantity)
+    )
+
+    ButtonApi.setText(
+        itemWindow .. "BuyAll",
+        "All"
+    )
 end
 
 function Shopkeeper.onUpdateMobileName()
-end
-
-function Shopkeeper.onUpdatePlayerStatus()
 end

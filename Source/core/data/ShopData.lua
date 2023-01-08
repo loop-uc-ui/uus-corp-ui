@@ -17,5 +17,13 @@ function ShopData.sellType(index)
 end
 
 function ShopData.sellName(index)
-    return WindowData.ShopData.Sell.Name[index]
+    return WindowData.ShopData.Sell.Names[index]
+end
+
+function ShopData.isSelling()
+    return WindowData.ShopData.IsSelling
+end
+
+function ShopData.sellNames()
+    return WindowData.ShopData.Sell.Names
 end
