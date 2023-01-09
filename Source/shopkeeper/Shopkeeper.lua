@@ -6,7 +6,7 @@ Shopkeeper.ScrollChild = Shopkeeper.List .. "ScrollChild"
 local shoppingCart = {}
 
 local function incrementQuantity(id, increment)
-    local max = 0
+    local max
 
     if ShopData.isSelling() then
         max = ShopData.sellQuantities(id)
