@@ -108,7 +108,7 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="Shopkeeper.OnBuyAll" />
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.onBuyAll" />
 					</EventHandlers>
 				</Button>
 
