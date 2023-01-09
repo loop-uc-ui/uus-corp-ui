@@ -3,8 +3,6 @@ Shopkeeper.Name = "Shopkeeper"
 Shopkeeper.List = Shopkeeper.Name .. "List"
 Shopkeeper.ScrollChild = Shopkeeper.List .. "ScrollChild"
 
-local shoppingCart = {}
-
 local function incrementQuantity(id, increment)
     local max
 
@@ -25,18 +23,23 @@ local function incrementQuantity(id, increment)
         10
     )
 
-    if current <= 0 and increment <= 0 or current >= max and increment >= 0 then
-        return
+    --If we go beyond 0 then set the value to 0.
+    --If we go beyond the max then set the value to the max.
+    --Otherwise, add the increment to the current value
+    if current + increment <= 0 then
+        current = 0
+    elseif current + increment >= max then
+        current = max
+    else
+        current = current + increment
     end
 
     LabelApi.setText(
         quantityWindow,
         StringFormatter.toWString(
-            current + increment
+            current
         )
     )
-
-    shoppingCart[id] = (shoppingCart[id] or 0) + increment
 end
 
 local function stripFirstNumber(wStr)
@@ -233,8 +236,6 @@ function Shopkeeper.onShutdown()
         Active.window(),
         MobileData.nameEvent()
     )
-
-    shoppingCart = {}
 end
 
 function Shopkeeper.onUpdateObjectInfo(data)
@@ -305,7 +306,7 @@ function Shopkeeper.onQuantityUp()
                 Active.window()
             )
         ),
-        1
+        -1
     )
 end
 
@@ -316,7 +317,7 @@ function Shopkeeper.onQuantityDown()
                 Active.window()
             )
         ),
-        -1
+        1
     )
 end
 
@@ -335,6 +336,17 @@ function Shopkeeper.onItemDoubleClick()
             Active.window()
         ),
         -1
+    )
+end
+
+function Shopkeeper.onBuyAll()
+    incrementQuantity(
+        WindowApi.getId(
+            WindowApi.getParent(
+                Active.window()
+            )
+        ),
+        -math.huge
     )
 end
 
