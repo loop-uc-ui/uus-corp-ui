@@ -3,8 +3,6 @@ Shopkeeper.Name = "Shopkeeper"
 Shopkeeper.List = Shopkeeper.Name .. "List"
 Shopkeeper.ScrollChild = Shopkeeper.List .. "ScrollChild"
 
-local shoppingCart = {}
-
 local function incrementQuantity(id, increment)
     local max
 
@@ -42,8 +40,6 @@ local function incrementQuantity(id, increment)
             current
         )
     )
-
-    shoppingCart[id] = current
 end
 
 local function stripFirstNumber(wStr)
@@ -240,8 +236,6 @@ function Shopkeeper.onShutdown()
         Active.window(),
         MobileData.nameEvent()
     )
-
-    shoppingCart = {}
 end
 
 function Shopkeeper.onUpdateObjectInfo(data)
