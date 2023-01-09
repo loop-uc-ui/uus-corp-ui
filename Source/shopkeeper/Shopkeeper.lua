@@ -321,7 +321,7 @@ function Shopkeeper.onQuantityDown()
     )
 end
 
-function Shopkeeper.onItemDoubleClick()
+function Shopkeeper.onItemDoubleClick(flags)
     local plus = Active.window() .. "BuyMore"
     local minus = Active.window() .. "BuyLess"
     local buyAll = Active.window() .. "BuyAll"
@@ -331,11 +331,17 @@ function Shopkeeper.onItemDoubleClick()
         return
     end
 
+    local increment = -1
+
+    if ButtonFlags.isShift(flags) then
+        increment = -math.huge
+    end
+
     incrementQuantity(
         WindowApi.getId(
             Active.window()
         ),
-        -1
+        increment
     )
 end
 

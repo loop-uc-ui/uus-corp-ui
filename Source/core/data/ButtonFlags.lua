@@ -7,3 +7,7 @@ end
 function ButtonFlags.isControl(flag)
     return ButtonFlags.flags().CONTROL == flag
 end
+
+function ButtonFlags.isShift(flag)
+    return ButtonFlags.flags().SHIFT == flag
+end
