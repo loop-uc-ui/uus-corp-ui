@@ -5,6 +5,11 @@
 				<AbsPoint x="624" y="50" />
 			</Size>
 
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="Shopkeeper.onItemInitialize"/>
+                <EventHandler event="OnShutdown" function="Shopkeeper.onItemShutdown"/>
+            </EventHandlers>
+
 			<Windows>
 				<Label name="$parentQuantity" font="UO_DefaultText" maxchars="64" textalign="center" >
 					<Size>
