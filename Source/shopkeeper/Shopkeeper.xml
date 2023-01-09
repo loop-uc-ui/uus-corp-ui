@@ -8,6 +8,7 @@
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="Shopkeeper.onItemInitialize"/>
                 <EventHandler event="OnShutdown" function="Shopkeeper.onItemShutdown"/>
+				<EventHandler event="OnLButtonDblClk" function="Shopkeeper.onItemDoubleClick"/>
             </EventHandlers>
 
 			<Windows>
@@ -33,7 +34,6 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="Shopkeeper.OnItemClicked" />
 						<EventHandler event="OnMouseOver" function="Shopkeeper.ItemMouseOver"/>
 						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
 						<EventHandler event="OnLButtonDblClk" function="Shopkeeper.OnBuyOne" />
@@ -61,7 +61,6 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="Shopkeeper.OnItemClicked" />
 						<EventHandler event="OnMouseOver" function="Shopkeeper.ItemMouseOver" />
 						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
 					</EventHandlers>

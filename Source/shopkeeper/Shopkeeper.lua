@@ -320,5 +320,23 @@ function Shopkeeper.onQuantityDown()
     )
 end
 
+function Shopkeeper.onItemDoubleClick()
+    local plus = Active.window() .. "BuyMore"
+    local minus = Active.window() .. "BuyLess"
+    local buyAll = Active.window() .. "BuyAll"
+
+    if WindowApi.hasFocus(plus) or WindowApi.hasFocus(minus)
+        or WindowApi.hasFocus(buyAll) then
+        return
+    end
+
+    incrementQuantity(
+        WindowApi.getId(
+            Active.window()
+        ),
+        -1
+    )
+end
+
 function Shopkeeper.onUpdateMobileName()
 end
