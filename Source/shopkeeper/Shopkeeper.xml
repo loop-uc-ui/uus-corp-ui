@@ -87,7 +87,7 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="Shopkeeper.OnBuyMore" />
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.onQuantityUp" />
 					</EventHandlers>
 				</Button>
 
@@ -98,7 +98,7 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="Shopkeeper.OnBuyLess" />
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.onQuantityDown" />
 					</EventHandlers>
 				</Button>
 

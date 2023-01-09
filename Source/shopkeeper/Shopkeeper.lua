@@ -3,6 +3,41 @@ Shopkeeper.Name = "Shopkeeper"
 Shopkeeper.List = Shopkeeper.Name .. "List"
 Shopkeeper.ScrollChild = Shopkeeper.List .. "ScrollChild"
 
+local shoppingCart = {}
+
+local function incrementQuantity(id, increment)
+    local max
+
+    if ShopData.isSelling() then
+        max = ShopData.sellQuantities(id)
+    else
+        max = ObjectInfo.shopQuantity(id)
+    end
+
+    local itemWindow = "ShopItem" .. id
+
+    local quantityWindow = itemWindow .. "Quantity"
+
+    local current = tonumber(
+        LabelApi.getText(
+            quantityWindow
+        ),
+        10
+    )
+
+    if current <= 0 and increment <= 0 or current >= max and increment >= 0 then
+        return
+    end
+
+    LabelApi.setText(
+        quantityWindow,
+        StringFormatter.toWString(
+            current + increment
+        )
+    )
+
+    shoppingCart[id] = (shoppingCart[id] or 0) + increment
+end
 
 local function stripFirstNumber(wStr)
 	if (not wStr or wStr == "" or wStr == L"") then
@@ -120,19 +155,10 @@ function Shopkeeper.onItemInitialize()
         10
     )
 
-    --If we're selling then the name will have the index,
-    --so we need need to set the id to the ObjectId
-    if ShopData.isSelling() then
-        WindowApi.setId(
-            Active.window(),
-            ShopData.sellId(id)
-        )
-    else
-        WindowApi.setId(
-            Active.window(),
-            id
-        )
-    end
+    WindowApi.setId(
+        Active.window(),
+        id
+    )
 
     --If we're selling then the data is presume not to change
     --and we take the data from ShopData instead of ObjectInfo
@@ -207,6 +233,8 @@ function Shopkeeper.onShutdown()
         Active.window(),
         MobileData.nameEvent()
     )
+
+    shoppingCart = {}
 end
 
 function Shopkeeper.onUpdateObjectInfo(data)
@@ -267,6 +295,28 @@ function Shopkeeper.onUpdateObjectInfo(data)
     ButtonApi.setText(
         itemWindow .. "BuyAll",
         "All"
+    )
+end
+
+function Shopkeeper.onQuantityUp()
+    incrementQuantity(
+        WindowApi.getId(
+            WindowApi.getParent(
+                Active.window()
+            )
+        ),
+        1
+    )
+end
+
+function Shopkeeper.onQuantityDown()
+    incrementQuantity(
+        WindowApi.getId(
+            WindowApi.getParent(
+                Active.window()
+            )
+        ),
+        -1
     )
 end
 
