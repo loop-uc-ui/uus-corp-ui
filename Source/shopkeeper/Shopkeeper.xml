@@ -2,13 +2,15 @@
 	<Windows>
         <Window name="ShopItemTemplate">
 			<Size>
-				<AbsPoint x="624" y="50" />
+				<AbsPoint x="762" y="50" />
 			</Size>
 
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="Shopkeeper.onItemInitialize"/>
                 <EventHandler event="OnShutdown" function="Shopkeeper.onItemShutdown"/>
 				<EventHandler event="OnLButtonDblClk" function="Shopkeeper.onItemDoubleClick"/>
+                <EventHandler event="OnMouseOver" function="Shopkeeper.onItemMouseOver"/>
+                <EventHandler event="OnMouseOverEnd" function="Shopkeeper.onItemMouseOverEnd"/>
             </EventHandlers>
 
 			<Windows>
@@ -30,14 +32,10 @@
 					</Size>
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentQuantity">
-							<AbsPoint x="10" y="0" />
+							<AbsPoint x="16" y="0" />
 						</Anchor>
 					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnMouseOver" function="Shopkeeper.ItemMouseOver"/>
-						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
-						<EventHandler event="OnLButtonDblClk" function="Shopkeeper.OnBuyOne" />
-					</EventHandlers>
+
 					<Windows>
 						<DynamicImage name="$parentSquareIcon" texture="" handleinput="false">
 							<Size>
@@ -51,19 +49,15 @@
 					</Windows>
 				</Window>
 
-				<Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="" wordwrap="true" autoresize="true">
+				<Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="center" wordwrap="true" autoresize="true">
 					<Size>
-						<AbsPoint x="294" y="26" />
+						<AbsPoint x="388" y="26" />
 					</Size>
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentIconHolder">
-							<AbsPoint x="10" y="0" />
+							<AbsPoint x="16" y="0" />
 						</Anchor>
 					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnMouseOver" function="Shopkeeper.ItemMouseOver" />
-						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
-					</EventHandlers>
                     <Color r="206" g="217" b="242" a="255"/>
 				</Label>
 
@@ -116,7 +110,7 @@
 		</Window>
 		<Window name="Shopkeeper" movable="true" handleinput="true">
 			<Size>
-				<AbsPoint x="728" y="512" />
+				<AbsPoint x="800" y="600" />
 			</Size>
 			<Anchors>
 				<Anchor point="center" relativePoint="center" />
@@ -143,20 +137,20 @@
 
                 <ScrollWindow name="$parentList" childScrollWindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
                    <Size>
-						<AbsPoint x="696" y="512" />
+						<AbsPoint x="762" y="534" />
 					</Size>
 					<Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="16" y="52"/>
+                            <AbsPoint x="16" y="32"/>
                         </Anchor>
                         <Anchor point="bottomright" relativePoint="bottomright">
-                            <AbsPoint x="-16" y="-8"/>
+                            <AbsPoint x="-16" y="-32"/>
                         </Anchor>
 					</Anchors>
                     <Windows>
 						<Window name ="$parentScrollChild" popable="false" autoresize="true">
 							<Size>
-								<AbsPoint x="696" y="512"/>
+                                <AbsPoint x="762" y="534" />
 							</Size>
 						</Window>
 						<VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
