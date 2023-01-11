@@ -66,9 +66,9 @@ local function createItems(objectId, previous)
     if previous() ~= nil then
         WindowApi.addAnchor(
             itemWindow,
-            "bottomleft",
+            "bottom",
             "ShopItem" .. previous(),
-            "toptop",
+            "top",
             0,
             0
         )
@@ -146,6 +146,10 @@ function Shopkeeper.onInitialize()
 
         updateBuyItems(merchantId)
     end
+
+    ScrollWindowApi.updateScrollRect(
+        Shopkeeper.List
+    )
 end
 
 function Shopkeeper.onItemInitialize()

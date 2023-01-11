@@ -2,7 +2,7 @@
 	<Windows>
         <Window name="ShopItemTemplate">
 			<Size>
-				<AbsPoint x="762" y="50" />
+				<AbsPoint x="700" y="50" />
 			</Size>
 
             <EventHandlers>
@@ -51,7 +51,7 @@
 
 				<Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="center" wordwrap="true" autoresize="true">
 					<Size>
-						<AbsPoint x="388" y="26" />
+						<AbsPoint x="360" y="26" />
 					</Size>
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentIconHolder">
@@ -135,22 +135,19 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <ScrollWindow name="$parentList" childScrollWindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
+                <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="false" popable="false">
                    <Size>
-						<AbsPoint x="762" y="534" />
+						<AbsPoint x="762" y="268" />
 					</Size>
 					<Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
                             <AbsPoint x="16" y="32"/>
                         </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright">
-                            <AbsPoint x="-16" y="-32"/>
-                        </Anchor>
 					</Anchors>
                     <Windows>
-						<Window name ="$parentScrollChild" popable="false" autoresize="true">
+						<Window name ="$parentScrollChild" popable="false" autoresize="false">
 							<Size>
-                                <AbsPoint x="762" y="534" />
+                                <AbsPoint x="762" y="362" />
 							</Size>
 						</Window>
 						<VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
