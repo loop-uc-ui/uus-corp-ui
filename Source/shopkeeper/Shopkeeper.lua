@@ -1,7 +1,10 @@
 Shopkeeper = {}
 Shopkeeper.Name = "Shopkeeper"
-Shopkeeper.List = Shopkeeper.Name .. "List"
-Shopkeeper.ScrollChild = Shopkeeper.List .. "ScrollChild"
+
+Shopkeeper.Lists = {
+    Top = Shopkeeper.Name .. "TopList",
+    Bottom = Shopkeeper.Name .. "BottomList"
+}
 
 local function incrementQuantity(id, increment)
     local max
@@ -60,7 +63,7 @@ local function createItems(objectId, previous)
     WindowApi.createFromTemplate(
         itemWindow,
         "ShopItemTemplate",
-        Shopkeeper.ScrollChild
+        Shopkeeper.Lists.Top .. "ScrollChild"
     )
 
     if previous() ~= nil then
@@ -148,7 +151,7 @@ function Shopkeeper.onInitialize()
     end
 
     ScrollWindowApi.updateScrollRect(
-        Shopkeeper.List
+        Shopkeeper.Lists.Top
     )
 end
 
