@@ -466,11 +466,12 @@ function Shopkeeper.onUpdateShoppingCart()
 
         for i = 1, #shoppingCart do
             local item = shoppingCart[i]
-            WindowApi.clearAnchors("ShopCartItem" .. item.id())
+            local window = "ShopCartItem" .. item.id()
+            WindowApi.clearAnchors(window)
 
             if i > 1 then
                 WindowApi.addAnchor(
-                    itemWindow,
+                    window,
                     "bottom",
                     "ShopCartItem" .. shoppingCart[i - 1].id(),
                     "top",
