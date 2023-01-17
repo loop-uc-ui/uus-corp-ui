@@ -1,7 +1,16 @@
 Shopkeeper = {}
 Shopkeeper.Name = "Shopkeeper"
-Shopkeeper.List = Shopkeeper.Name .. "List"
-Shopkeeper.ScrollChild = Shopkeeper.List .. "ScrollChild"
+
+Shopkeeper.Lists = {
+    Top = Shopkeeper.Name .. "TopList",
+    Bottom = Shopkeeper.Name .. "BottomList"
+}
+
+local updateItem
+
+local shoppingCart = {}
+
+local merchantList = {}
 
 local function incrementQuantity(id, increment)
     local max
@@ -40,6 +49,20 @@ local function incrementQuantity(id, increment)
             current
         )
     )
+
+    updateItem = merchantList[id]
+
+    updateItem.quantity = function()
+        return max - current
+    end
+
+    updateItem.price = function()
+        return updateItem.quantity() * tonumber(
+            LabelApi.getText(
+                "ShopItem" .. id .. "Cost"
+            )
+        )
+    end
 end
 
 local function stripFirstNumber(wStr)
@@ -60,15 +83,20 @@ local function createItems(objectId, previous)
     WindowApi.createFromTemplate(
         itemWindow,
         "ShopItemTemplate",
-        Shopkeeper.ScrollChild
+        Shopkeeper.Lists.Top .. "ScrollChild"
+    )
+
+    WindowApi.setId(
+        itemWindow,
+        objectId
     )
 
     if previous() ~= nil then
         WindowApi.addAnchor(
             itemWindow,
-            "bottomleft",
+            "bottom",
             "ShopItem" .. previous(),
-            "toptop",
+            "top",
             0,
             0
         )
@@ -87,6 +115,29 @@ local function updateSellItems()
                         return nil
                     end
                 end
+            )
+
+            merchantList[i] = {
+                id = function()
+                    return i
+                end,
+                name = function()
+                    return ShopData.sellName(i)
+                end,
+                type = function()
+                    return ShopData.sellType(i)
+                end,
+                quantity = function()
+                    return ShopData.sellQuantities(i)
+                end,
+                price = function()
+                    return ShopData.sellPrice(i)
+                end
+            }
+
+            Shopkeeper.onUpdateObjectInfo(
+                "ShopItem" .. i,
+                merchantList[i]
             )
         end
     end
@@ -108,12 +159,48 @@ local function updateBuyItems(id)
                 end
             end
         )
+
+        WindowDataApi.registerData(
+            ObjectInfo.type(),
+            item.objectId
+        )
+
+        WindowApi.registerEventHandler(
+            "ShopItem" .. item.objectId,
+            ObjectInfo.event(),
+            "Shopkeeper.onUpdateObjectInfo"
+        )
+
+        --These need to be functions because there
+        --is a delay in the time that the server sends this info.
+        merchantList[item.objectId] = {
+            id = function()
+                return item.objectId
+            end,
+            name = function()
+                return ObjectInfo.name(item.objectId)
+            end,
+            type = function()
+                return ObjectInfo.objectType(item.objectId)
+            end,
+            quantity = function()
+                return ObjectInfo.shopQuantity(item.objectId)
+            end,
+            price = function()
+                return ObjectInfo.shopValue(item.objectId)
+            end
+        }
     end
 end
 
 function Shopkeeper.onInitialize()
     local window = Active.window()
     local merchantId = Active.dynamicWindowId()
+
+    WindowApi.setUpdateFrequency(
+        window,
+        0.25
+    )
 
     WindowApi.setId(
         window,
@@ -146,63 +233,9 @@ function Shopkeeper.onInitialize()
 
         updateBuyItems(merchantId)
     end
-end
 
-function Shopkeeper.onItemInitialize()
-    local id = tonumber(
-        string.gsub(
-            Active.window(),
-            "ShopItem",
-            ""
-        ),
-        10
-    )
-
-    WindowApi.setId(
-        Active.window(),
-        id
-    )
-
-    --If we're selling then the data is presume not to change
-    --and we take the data from ShopData instead of ObjectInfo
-    if ShopData.isSelling() then
-        Shopkeeper.onUpdateObjectInfo(
-            {
-                name = ShopData.sellName(id),
-                type = ShopData.sellType(id),
-                quantity = ShopData.sellQuantities(id),
-                price = ShopData.sellPrice(id)
-            }
-        )
-    else
-        WindowDataApi.registerData(
-            ObjectInfo.type(),
-            id
-        )
-
-        WindowApi.registerEventHandler(
-            Active.window(),
-            ObjectInfo.event(),
-            "Shopkeeper.onUpdateObjectInfo"
-        )
-    end
-end
-
-function Shopkeeper.onItemShutdown()
-    if ShopData.isSelling() then
-        return
-    end
-
-    local id = WindowApi.getId(Active.window())
-
-    WindowDataApi.unregisterData(
-        ObjectInfo.type(),
-        id
-    )
-
-    WindowApi.unregisterEventHandler(
-        Active.window(),
-        ObjectInfo.event()
+    ScrollWindowApi.updateScrollRect(
+        Shopkeeper.Lists.Top
     )
 end
 
@@ -222,6 +255,18 @@ function Shopkeeper.onShutdown()
         merchantId
     )
 
+    for _, v in pairs(merchantList) do
+        WindowDataApi.unregisterData(
+            ObjectInfo.type(),
+            v.id()
+        )
+
+        WindowApi.unregisterEventHandler(
+            "ShopItem" .. v.id(),
+            ObjectInfo.event()
+        )
+    end
+
     WindowDataApi.unregisterData(
         ObjectInfo.type(),
         merchantId
@@ -236,15 +281,19 @@ function Shopkeeper.onShutdown()
         Active.window(),
         MobileData.nameEvent()
     )
+
+    updateItem = nil
+    shoppingCart = {}
+    merchantList = {}
 end
 
-function Shopkeeper.onUpdateObjectInfo(data)
-    local itemWindow = Active.window()
+function Shopkeeper.onUpdateObjectInfo(itemWindow, data)
+    itemWindow = itemWindow or Active.window()
     local objectId = WindowApi.getId(itemWindow)
-    local objectName = data and data.name or ObjectInfo.name(objectId)
-    local objectType = data and data.type or ObjectInfo.objectType(objectId)
-    local objectQuantity = data and data.quantity or ObjectInfo.shopQuantity(objectId)
-    local objectPrice = data and data.price or ObjectInfo.shopValue(objectId)
+    local objectName = data and data.name() or ObjectInfo.name(objectId)
+    local objectType = data and data.type() or ObjectInfo.objectType(objectId)
+    local objectQuantity = data and data.quantity() or ObjectInfo.shopQuantity(objectId)
+    local objectPrice = data and data.price() or ObjectInfo.shopValue(objectId)
 
     LabelApi.setText(
         itemWindow .. "Name",
@@ -354,6 +403,86 @@ function Shopkeeper.onBuyAll()
         ),
         -math.huge
     )
+end
+
+function Shopkeeper.onUpdateShoppingCart()
+    if updateItem == nil then
+        return
+    end
+
+    local itemWindow = "ShopCartItem" .. updateItem.id()
+
+    if WindowApi.createFromTemplate(
+        itemWindow,
+        "ShopItemTemplate",
+        Shopkeeper.Lists.Bottom .. "ScrollChild"
+    ) then
+        WindowApi.setId(
+            itemWindow,
+            updateItem.id()
+        )
+
+        table.insert(
+            shoppingCart,
+            updateItem
+        )
+
+        if #shoppingCart > 1 then
+            WindowApi.addAnchor(
+                itemWindow,
+                "bottom",
+                "ShopCartItem" .. shoppingCart[#shoppingCart - 1].id(),
+                "top",
+                0,
+                0
+            )
+        end
+
+        ScrollWindowApi.updateScrollRect(
+            Shopkeeper.Lists.Bottom
+        )
+    end
+
+    Shopkeeper.onUpdateObjectInfo(
+        itemWindow,
+        updateItem
+    )
+
+    if updateItem.quantity() <= 0 then
+        WindowApi.destroyWindow(
+            itemWindow
+        )
+
+        for i = 1, #shoppingCart do
+            local item = shoppingCart[i]
+            if item.id() == updateItem.id() then
+                table.remove(
+                    shoppingCart,
+                    i
+                )
+                break
+            end
+        end
+
+        for i = 1, #shoppingCart do
+            local item = shoppingCart[i]
+            local window = "ShopCartItem" .. item.id()
+            WindowApi.clearAnchors(window)
+
+            if i > 1 then
+                WindowApi.addAnchor(
+                    window,
+                    "bottom",
+                    "ShopCartItem" .. shoppingCart[i - 1].id(),
+                    "top",
+                    0,
+                    0
+                )
+            end
+        end
+    end
+
+    updateItem = nil
 end
 
 function Shopkeeper.onUpdateMobileName()

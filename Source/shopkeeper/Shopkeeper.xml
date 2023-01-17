@@ -2,12 +2,10 @@
 	<Windows>
         <Window name="ShopItemTemplate">
 			<Size>
-				<AbsPoint x="624" y="50" />
+				<AbsPoint x="700" y="50" />
 			</Size>
 
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="Shopkeeper.onItemInitialize"/>
-                <EventHandler event="OnShutdown" function="Shopkeeper.onItemShutdown"/>
 				<EventHandler event="OnLButtonDblClk" function="Shopkeeper.onItemDoubleClick"/>
             </EventHandlers>
 
@@ -30,14 +28,10 @@
 					</Size>
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentQuantity">
-							<AbsPoint x="10" y="0" />
+							<AbsPoint x="16" y="0" />
 						</Anchor>
 					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnMouseOver" function="Shopkeeper.ItemMouseOver"/>
-						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
-						<EventHandler event="OnLButtonDblClk" function="Shopkeeper.OnBuyOne" />
-					</EventHandlers>
+
 					<Windows>
 						<DynamicImage name="$parentSquareIcon" texture="" handleinput="false">
 							<Size>
@@ -51,19 +45,15 @@
 					</Windows>
 				</Window>
 
-				<Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="" wordwrap="true" autoresize="true">
+				<Label name="$parentName" font="UO_DefaultText" maxchars="64" textalign="center" wordwrap="true" autoresize="true">
 					<Size>
-						<AbsPoint x="294" y="26" />
+						<AbsPoint x="360" y="26" />
 					</Size>
 					<Anchors>
 						<Anchor point="right" relativePoint="left" relativeTo="$parentIconHolder">
-							<AbsPoint x="10" y="0" />
+							<AbsPoint x="16" y="0" />
 						</Anchor>
 					</Anchors>
-					<EventHandlers>
-						<EventHandler event="OnMouseOver" function="Shopkeeper.ItemMouseOver" />
-						<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
-					</EventHandlers>
                     <Color r="206" g="217" b="242" a="255"/>
 				</Label>
 
@@ -116,7 +106,7 @@
 		</Window>
 		<Window name="Shopkeeper" movable="true" handleinput="true">
 			<Size>
-				<AbsPoint x="728" y="512" />
+				<AbsPoint x="800" y="600" />
 			</Size>
 			<Anchors>
 				<Anchor point="center" relativePoint="center" />
@@ -125,6 +115,7 @@
 				<EventHandler event="OnInitialize" function="Shopkeeper.onInitialize" />
                 <EventHandler event="OnRButtonUp" function="Shopkeeper.onRightClick" />
 				<EventHandler event="OnShutdown" function="Shopkeeper.onShutdown" />
+				<EventHandler event="OnUpdate" function="Shopkeeper.onUpdateShoppingCart" />
 			</EventHandlers>
 			<Windows>
 				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
@@ -141,38 +132,65 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <ScrollWindow name="$parentList" childScrollWindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
-                   <Size>
-						<AbsPoint x="696" y="512" />
-					</Size>
-					<Anchors>
-                        <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="16" y="52"/>
-                        </Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright">
-                            <AbsPoint x="-16" y="-8"/>
-                        </Anchor>
-					</Anchors>
-                    <Windows>
-						<Window name ="$parentScrollChild" popable="false" autoresize="true">
-							<Size>
-								<AbsPoint x="696" y="512"/>
-							</Size>
-						</Window>
-						<VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
-                            <Size>
-                                <AbsPoint x="12" y="0" />
-                            </Size>
-                            <Anchors>
-                                <Anchor point="topright" relativePoint="topright">
-                                    <AbsPoint x="-14" y="0"/>
-                                </Anchor>
-                            </Anchors>
-                            <ThumbOffset x="0" y="0" />
-                            <ActiveZoneOffset x="500" y="500" />
-                        </VerticalScrollbar>
-					</Windows>
-                </ScrollWindow>
+                <ScrollWindow name="$parentTopList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
+                    <Size>
+                         <AbsPoint x="762" y="258" />
+                     </Size>
+                     <Anchors>
+                         <Anchor point="topleft" relativePoint="topleft">
+                             <AbsPoint x="16" y="32"/>
+                         </Anchor>
+                     </Anchors>
+                     <Windows>
+                         <Window name ="$parentScrollChild" popable="false" autoresize="false">
+                             <Size>
+                                 <AbsPoint x="762" y="258" />
+                             </Size>
+                         </Window>
+                         <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                             <Size>
+                                 <AbsPoint x="12" y="0" />
+                             </Size>
+                             <Anchors>
+                                 <Anchor point="topright" relativePoint="topright">
+                                     <AbsPoint x="-14" y="0"/>
+                                 </Anchor>
+                             </Anchors>
+                             <ThumbOffset x="0" y="0" />
+                             <ActiveZoneOffset x="500" y="500" />
+                         </VerticalScrollbar>
+                     </Windows>
+                 </ScrollWindow>
+
+                 <ScrollWindow name="$parentBottomList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
+                    <Size>
+                         <AbsPoint x="762" y="258" />
+                     </Size>
+                     <Anchors>
+                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTopList">
+                             <AbsPoint x="0" y="32"/>
+                         </Anchor>
+                     </Anchors>
+                     <Windows>
+                         <Window name ="$parentScrollChild" popable="false" autoresize="false">
+                             <Size>
+                                 <AbsPoint x="762" y="258" />
+                             </Size>
+                         </Window>
+                         <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                             <Size>
+                                 <AbsPoint x="12" y="0" />
+                             </Size>
+                             <Anchors>
+                                 <Anchor point="topright" relativePoint="topright">
+                                     <AbsPoint x="-14" y="0"/>
+                                 </Anchor>
+                             </Anchors>
+                             <ThumbOffset x="0" y="0" />
+                             <ActiveZoneOffset x="500" y="500" />
+                         </VerticalScrollbar>
+                     </Windows>
+                 </ScrollWindow>
 			</Windows>
 		</Window>
 
