@@ -6,11 +6,7 @@
 			</Size>
 
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="Shopkeeper.onItemInitialize"/>
-                <EventHandler event="OnShutdown" function="Shopkeeper.onItemShutdown"/>
 				<EventHandler event="OnLButtonDblClk" function="Shopkeeper.onItemDoubleClick"/>
-                <EventHandler event="OnMouseOver" function="Shopkeeper.onItemMouseOver"/>
-                <EventHandler event="OnMouseOverEnd" function="Shopkeeper.onItemMouseOverEnd"/>
             </EventHandlers>
 
 			<Windows>
@@ -119,6 +115,7 @@
 				<EventHandler event="OnInitialize" function="Shopkeeper.onInitialize" />
                 <EventHandler event="OnRButtonUp" function="Shopkeeper.onRightClick" />
 				<EventHandler event="OnShutdown" function="Shopkeeper.onShutdown" />
+				<EventHandler event="OnUpdate" function="Shopkeeper.onUpdateShoppingCart" />
 			</EventHandlers>
 			<Windows>
 				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
@@ -165,7 +162,7 @@
                      </Windows>
                  </ScrollWindow>
 
-                 <ScrollWindow name="$parentBottomList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="false" popable="false">
+                 <ScrollWindow name="$parentBottomList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
                     <Size>
                          <AbsPoint x="762" y="258" />
                      </Size>
