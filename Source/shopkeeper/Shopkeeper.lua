@@ -220,17 +220,6 @@ function Shopkeeper.onInitialize()
         )
 
         WindowDataApi.registerData(
-            MobileData.nameType(),
-            merchantId
-        )
-
-        WindowApi.registerEventHandler(
-            window,
-            MobileData.nameEvent(),
-            "Shopkeeper.onUpdateMobileName"
-        )
-
-        WindowDataApi.registerData(
             Container.type(),
             ObjectInfo.sellContainerId(merchantId)
         )
@@ -549,5 +538,11 @@ function Shopkeeper.onUpdateShoppingCart()
     updateItem = nil
 end
 
-function Shopkeeper.onUpdateMobileName()
+function Shopkeeper.onSendTransaction()
+    for i = 1, #shoppingCart do
+        ShopData.offerIds()[i] = shoppingCart[i].id()
+        ShopData.offerQuantities()[i] = shoppingCart[i].quantity()
+    end
+    EventApi.broadcast(Events.shopOffer())
+    WindowApi.destroyWindow(WindowApi.getParent(Active.window()))
 end

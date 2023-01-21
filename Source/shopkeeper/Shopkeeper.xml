@@ -240,7 +240,7 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="Shopkeeper.onClearShoppingCart" />
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.onSendTransaction" />
 					</EventHandlers>
 				</Button>
 
