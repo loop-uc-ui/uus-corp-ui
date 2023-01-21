@@ -8,6 +8,8 @@ Shopkeeper.Lists = {
 
 Shopkeeper.EmptyText = Shopkeeper.Lists.Bottom .. "EmptyCart"
 
+Shopkeeper.Total = Shopkeeper.Name .. "Total"
+
 local updateItem
 
 local shoppingCart = {}
@@ -260,6 +262,11 @@ function Shopkeeper.onInitialize()
         Shopkeeper.EmptyText,
         "Your shopping cart is empty."
     )
+
+    WindowApi.setShowing(
+        Shopkeeper.Total,
+        false
+    )
 end
 
 function Shopkeeper.onRightClick()
@@ -509,6 +516,35 @@ function Shopkeeper.onUpdateShoppingCart()
         Shopkeeper.EmptyText,
         #shoppingCart <= 0
     )
+
+    WindowApi.setShowing(
+        Shopkeeper.Total,
+        #shoppingCart > 0
+    )
+
+    local total = 0
+
+    for i = 1, #shoppingCart do
+        local item = "ShopCartItem" .. shoppingCart[i].id() .. "Cost"
+        local cost = tonumber(
+            string.match(
+                StringFormatter.fromWString(
+                    LabelApi.getText(
+                        item
+                    )
+                ),
+                "%d+"
+            )
+        )
+        total = total + cost
+    end
+
+    if total > 0 then
+        LabelApi.setText(
+            Shopkeeper.Total,
+            "Total: " .. total .. " gp"
+        )
+    end
 
     updateItem = nil
 end

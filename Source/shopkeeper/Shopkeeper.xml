@@ -224,8 +224,8 @@
 
 				 <Button name="$parentClearShoppingCart" inherits="UO_Default_VendorButton">
 					<Anchors>
-						<Anchor point="bottomright" relativePoint="bottomright">
-							<AbsPoint x="-20" y="-16"/>
+						<Anchor point="bottomright" relativePoint="topright" relativeTo="$parentBottomList">
+							<AbsPoint x="0" y="16"/>
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
@@ -243,6 +243,18 @@
 						<EventHandler event="OnLButtonDown" function="Shopkeeper.onClearShoppingCart" />
 					</EventHandlers>
 				</Button>
+
+				<Label name="$parentTotal" font="UO_DefaultText" autoresize="true">
+					<Size>
+						<AbsPoint x="360" y="26" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentBottomList">
+							<AbsPoint x="0" y="16" />
+						</Anchor>
+					</Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+				</Label>
 			</Windows>
 		</Window>
 
