@@ -147,3 +147,7 @@ end
 function Events.gumpActionTextEntry()
     return SystemData.Events.GENERIC_GUMP_TEXT_ENTRYU_ACTION
 end
+
+function Events.shopOffer()
+    return SystemData.Events.SHOP_OFFER_ACCEPT
+end

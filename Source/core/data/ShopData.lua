@@ -27,3 +27,11 @@ end
 function ShopData.sellNames()
     return WindowData.ShopData.Sell.Names
 end
+
+function ShopData.offerIds()
+    return WindowData.ShopData.OfferIds
+end
+
+function ShopData.offerQuantities()
+    return WindowData.ShopData.OfferQuantities
+end
