@@ -182,6 +182,16 @@
                          </Anchor>
                      </Anchors>
                      <Windows>
+					 	<Label name="$parentEmptyCart" font="UO_DefaultText"textalign="center" >
+							<Size>
+								<AbsPoint x="300" y="16" />
+							</Size>
+							<Anchors>
+								<Anchor point="center" relativePoint="center"/>
+							</Anchors>
+							<Color r="206" g="217" b="242" a="255"/>
+						</Label>
+			
 					 	<FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
 							<Anchors>
 								<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
@@ -211,6 +221,28 @@
                          </VerticalScrollbar>
                      </Windows>
                  </ScrollWindow>
+
+				 <Button name="$parentClearShoppingCart" inherits="UO_Default_VendorButton">
+					<Anchors>
+						<Anchor point="bottomright" relativePoint="bottomright">
+							<AbsPoint x="-20" y="-16"/>
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.onClearShoppingCart" />
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentSendTransaction" inherits="UO_Default_VendorButton">
+					<Anchors>
+						<Anchor point="left" relativePoint="right" relativeTo="$parentClearShoppingCart">
+							<AbsPoint x="-12" y="0"/>
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="Shopkeeper.onClearShoppingCart" />
+					</EventHandlers>
+				</Button>
 			</Windows>
 		</Window>
 

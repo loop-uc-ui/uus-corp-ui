@@ -6,6 +6,8 @@ Shopkeeper.Lists = {
     Bottom = Shopkeeper.Name .. "BottomList"
 }
 
+Shopkeeper.EmptyText = Shopkeeper.Lists.Bottom .. "EmptyCart"
+
 local updateItem
 
 local shoppingCart = {}
@@ -236,6 +238,27 @@ function Shopkeeper.onInitialize()
 
     ScrollWindowApi.updateScrollRect(
         Shopkeeper.Lists.Top
+    )
+
+    ButtonApi.setText(
+        Active.window() .. "ClearShoppingCart",
+        "Clear"
+    )
+
+    local buttonText = "Buy"
+
+    if ShopData.isSelling() then
+        buttonText = "Sell"
+    end
+
+    ButtonApi.setText(
+        Active.window() .. "SendTransaction",
+        buttonText
+    )
+
+    LabelApi.setText(
+        Shopkeeper.EmptyText,
+        "Your shopping cart is empty."
     )
 end
 
@@ -481,6 +504,11 @@ function Shopkeeper.onUpdateShoppingCart()
             end
         end
     end
+
+    WindowApi.setShowing(
+        Shopkeeper.EmptyText,
+        #shoppingCart <= 0
+    )
 
     updateItem = nil
 end
