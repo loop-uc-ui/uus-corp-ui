@@ -1,64 +1,64 @@
 UusCorp = {}
 
 local function eventHandler()
-    local eventHandler = {}
-    function eventHandler.onInitialize() end
-    function eventHandler.onShutdown() end
-    function eventHandler.onLButtonUp() end
-    function eventHandler.onLButtonDown() end
-    function eventHandler.onRButtonUp() end
-    function eventHandler.onRButtonDown() end
-    function eventHandler.onUpdate() end
-    function eventHandler.onMouseOver() end
-    function eventHandler.onMouseOverEnd() end
-    return eventHandler
+    local _eventHandler = {}
+    function _eventHandler.onInitialize() end
+    function _eventHandler.onShutdown() end
+    function _eventHandler.onLButtonUp() end
+    function _eventHandler.onLButtonDown() end
+    function _eventHandler.onRButtonUp() end
+    function _eventHandler.onRButtonDown() end
+    function _eventHandler.onUpdate() end
+    function _eventHandler.onMouseOver() end
+    function _eventHandler.onMouseOverEnd() end
+    return _eventHandler
 end
 
 local function window(name)
-    local window = {}
+    local _window = {}
     local eventHandler = eventHandler()
     local delegates = {}
 
-    function window.registerEventHandler(event, func)
+    function _window.registerEventHandler(event, func)
         WindowApi.registerEventHandler(name, event, func)
     end
 
-    function window.unregisterEventHandler(event)
+    function _window.unregisterEventHandler(event)
         WindowApi.unregisterEventHandler(name, event)
     end
 
-    function window.getName()
+    function _window.getName()
         return name
     end
 
-    function window.isShowing()
+    function _window.isShowing()
         return WindowApi.isShowing(name)
     end
 
-    function window.setShowing(show)
+    function _window.setShowing(show)
         WindowApi.setShowing(name, show)
     end
 
-    function window.getEventHandler()
+    function _window.getEventHandler()
         return eventHandler
     end
 
-    function window.setEventHandler(nEventHandler)
+    function _window.setEventHandler(nEventHandler)
         eventHandler = nEventHandler
     end
 
-    function window.getDelegates()
+    function _window.getDelegates()
         return delegates
     end
 
-    function window.setDelegates(nDelegates)
+    function _window.setDelegates(nDelegates)
         delegates = nDelegates
     end
 
     function window.bind(views)
         if views == nil then
             for i = 1, #delegates do
-                delegates[i](window)
+                delegates[i](_window)
             end
         elseif views[1] == nil then
             for _, v in pairs(views) do
@@ -71,35 +71,35 @@ local function window(name)
         end
     end
 
-    return window
+    return _window
 end
 
 local function button(name)
-    local button = window(name)
+    local _button = window(name)
 
-    function button.getText()
+    function _button.getText()
         return ButtonApi.getText(name)
     end
 
-    function button.setText(text)
+    function _button.setText(text)
         ButtonApi.setText(name, text)
     end
 
-    return button
+    return _button
 end
 
 local function label(name)
-    local label = window(name)
+    local _label = window(name)
 
-    function label.getText()
+    function _label.getText()
         return LabelApi.getText(name)
     end
 
-    function label.setText(text)
+    function _label.setText(text)
         LabelApi.setText(name, text)
     end
 
-    return label
+    return _label
 end
 
 function UusCorp.window(name)
