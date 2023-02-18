@@ -16,7 +16,7 @@ end
 
 local function window(name)
     local _window = {}
-    local eventHandler = eventHandler()
+    local _eventHandler = eventHandler()
     local delegates = {}
 
     function _window.registerEventHandler(event, func)
@@ -40,11 +40,11 @@ local function window(name)
     end
 
     function _window.getEventHandler()
-        return eventHandler
+        return _eventHandler
     end
 
     function _window.setEventHandler(nEventHandler)
-        eventHandler = nEventHandler
+        _eventHandler = nEventHandler
     end
 
     function _window.getDelegates()
@@ -105,7 +105,7 @@ end
 function UusCorp.window(name)
     local builder = {}
     builder.window = window(name)
-    local eventHandler = eventHandler()
+    local _eventHandler = eventHandler()
     local delegates = {}
 
     function builder.asLabel()
@@ -119,21 +119,21 @@ function UusCorp.window(name)
     end
 
     function builder.doOnLeftButtonUp(func)
-        eventHandler.onLButtonUp = function ()
+        _eventHandler.onLButtonUp = function ()
             func(builder.window)
         end
         return builder
     end
 
     function builder.doOnInitialize(func)
-        eventHandler.onInitialize = function ()
+        _eventHandler.onInitialize = function ()
             func(builder.window)
         end
         return builder
     end
 
     function builder.doOnRButtonUp(func)
-        eventHandler.onRButtonUp = function ()
+        _eventHandler.onRButtonUp = function ()
             func(builder.window)
         end
         return builder
@@ -149,7 +149,7 @@ function UusCorp.window(name)
 
     function builder.build()
         builder.window.setDelegates(delegates)
-        builder.window.setEventHandler(eventHandler)
+        builder.window.setEventHandler(_eventHandler)
         return builder.window
     end
 
