@@ -51,6 +51,21 @@ function CharacterAbilitiesWindow.onInitialize()
 
     CharacterAbilitiesWindow.onUpdateRacialAbilities()
     CharacterAbilitiesWindow.onUpdateAbilities()
+
+    LabelApi.setText(
+        CharacterAbilitiesWindow.Name .. "RacialTitle",
+        "Racial"
+    )
+
+    LabelApi.setText(
+        CharacterAbilitiesWindow.Name .. "ActiveTitle",
+        "Active"
+    )
+
+    LabelApi.setText(
+        CharacterAbilitiesWindow.Name .. "InactiveTitle",
+        "Inactive"
+    )
 end
 
 function CharacterAbilitiesWindow.onShutdown()
@@ -177,7 +192,6 @@ end
 
 function CharacterAbilitiesWindow.onResetAbilities()
     CharacterAbilitiesWindow.InactiveAbilities = {}
-    local order = {}
 
     for i = 1, AbilityApi.WeaponAbilitiesCount do
         local _, _, tid = AbilityApi.getAbilityData(
@@ -220,14 +234,28 @@ function CharacterAbilitiesWindow.onResetAbilities()
     )
 
     for i = 1, #CharacterAbilitiesWindow.InactiveAbilities do
-        table.insert(
-            order,
-            i
+        WindowApi.createFromTemplate(
+            CharacterAbilitiesWindow.InactiveList .. i,
+            "CharacterAbilitiesRowTemplate",
+            CharacterAbilitiesWindow.InactiveList .. "ScrollChild"
         )
+
+        LabelApi.setText(
+            CharacterAbilitiesWindow.InactiveList .. i .. "ItemName",
+            CharacterAbilitiesWindow.InactiveAbilities[i].text
+        )
+
+        if i > 1 then
+            WindowApi.addAnchor(
+                CharacterAbilitiesWindow.InactiveList .. i,
+                "bottom",
+                CharacterAbilitiesWindow.InactiveList .. i - 1,
+                "top",
+                0,
+                8
+            )
+        end
     end
 
-    ListBoxApi.setDisplayOrder(
-        CharacterAbilitiesWindow.InactiveList,
-        order
-    )
+    ScrollWindowApi.updateScrollRect(CharacterAbilitiesWindow.InactiveList)
 end
