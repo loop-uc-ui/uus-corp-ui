@@ -6,8 +6,6 @@ Shopkeeper.Lists = {
     Bottom = Shopkeeper.Name .. "BottomList"
 }
 
-Shopkeeper.EmptyText = Shopkeeper.Lists.Bottom .. "EmptyCart"
-
 Shopkeeper.Total = Shopkeeper.Name .. "Total"
 
 local updateItem
@@ -258,11 +256,6 @@ function Shopkeeper.onInitialize()
         buttonText
     )
 
-    LabelApi.setText(
-        Shopkeeper.EmptyText,
-        "Your shopping cart is empty."
-    )
-
     WindowApi.setShowing(
         Shopkeeper.Total,
         false
@@ -375,10 +368,17 @@ function Shopkeeper.onUpdateObjectInfo(itemWindow, data)
         StringFormatter.toWString(objectQuantity)
     )
 
-    ButtonApi.setText(
-        itemWindow .. "BuyAll",
-        "All"
-    )
+    if string.match(itemWindow, "ShopCartItem") then
+        ButtonApi.setText(
+            itemWindow .. "BuyAll",
+            "Clear"
+        )
+    else
+        ButtonApi.setText(
+            itemWindow .. "BuyAll",
+            "All"
+        )
+    end
 end
 
 function Shopkeeper.onQuantityUp()
@@ -428,13 +428,19 @@ function Shopkeeper.onItemDoubleClick(flags)
 end
 
 function Shopkeeper.onBuyAll()
+    local increment = -math.huge
+
+    if string.match(Active.window(), "ShopCartItem") then
+        increment = math.abs(increment)
+    end
+
     incrementQuantity(
         WindowApi.getId(
             WindowApi.getParent(
                 Active.window()
             )
         ),
-        -math.huge
+        increment
     )
 end
 
@@ -516,11 +522,6 @@ function Shopkeeper.onUpdateShoppingCart()
     end
 
     WindowApi.setShowing(
-        Shopkeeper.EmptyText,
-        #shoppingCart <= 0
-    )
-
-    WindowApi.setShowing(
         Shopkeeper.Total,
         #shoppingCart > 0
     )
@@ -559,4 +560,12 @@ function Shopkeeper.onSendTransaction()
     end
     acceptOffer = true
     WindowApi.destroyWindow(WindowApi.getParent(Active.window()))
+end
+
+function Shopkeeper.onClearShoppingCart()
+    for i = 1, #shoppingCart do
+        WindowApi.destroyWindow("ShopCartItem" .. shoppingCart[i].id())
+    end
+    ScrollWindowApi.updateScrollRect(Shopkeeper.Lists.Bottom)
+    shoppingCart = {}
 end
