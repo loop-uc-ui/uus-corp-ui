@@ -16,11 +16,22 @@ local shoppingCart = {}
 
 local merchantList = {}
 
+local acceptOffer = false
+
 local function incrementQuantity(id, increment)
     local max
 
     if ShopData.isSelling() then
-        max = ShopData.sellQuantities(id)
+        local index = 1
+
+        for i = 1, #ShopData.sellIds() do
+            if id == ShopData.sellId(i) then
+                break
+            end
+            index = i + 1
+        end
+
+        max = ShopData.sellQuantities(index)
     else
         max = ObjectInfo.shopQuantity(id)
     end
@@ -111,7 +122,7 @@ local function updateSellItems()
     for i = 1, #ShopData.sellNames() do
         if ShopData.sellQuantities(i) > 0 then
             createItems(
-                i,
+                ShopData.sellId(i),
                 function ()
                     if i > 1 then
                         return ShopData.sellId(i - 1)
@@ -121,9 +132,9 @@ local function updateSellItems()
                 end
             )
 
-            merchantList[i] = {
+            merchantList[ShopData.sellId(i)] = {
                 id = function()
-                    return i
+                    return ShopData.sellId(i)
                 end,
                 name = function()
                     return ShopData.sellName(i)
@@ -140,8 +151,8 @@ local function updateSellItems()
             }
 
             Shopkeeper.onUpdateObjectInfo(
-                "ShopItem" .. i,
-                merchantList[i]
+                "ShopItem" .. ShopData.sellId(i),
+                merchantList[ShopData.sellId(i)]
             )
         end
     end
@@ -263,10 +274,6 @@ function Shopkeeper.onRightClick()
 end
 
 function Shopkeeper.onShutdown()
-    if ShopData.isSelling() then
-        return
-    end
-
     local merchantId = WindowApi.getId(Active.window())
 
     WindowDataApi.unregisterData(
@@ -301,6 +308,13 @@ function Shopkeeper.onShutdown()
         MobileData.nameEvent()
     )
 
+    if acceptOffer then
+        EventApi.broadcast(Events.acceptShopOffer())
+    else
+        EventApi.broadcast(Events.cancelShopOffer())
+    end
+
+    acceptOffer = false
     updateItem = nil
     shoppingCart = {}
     merchantList = {}
@@ -543,6 +557,6 @@ function Shopkeeper.onSendTransaction()
         ShopData.offerIds()[i] = shoppingCart[i].id()
         ShopData.offerQuantities()[i] = shoppingCart[i].quantity()
     end
-    EventApi.broadcast(Events.shopOffer())
+    acceptOffer = true
     WindowApi.destroyWindow(WindowApi.getParent(Active.window()))
 end
