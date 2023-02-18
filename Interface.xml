@@ -129,7 +129,7 @@
 
         <Script file="Source/core/resources/Colors.lua"/>
         <Script file="Source/core/resources/TextIds.lua"/>
-        
+        <Script file="Source/core/UusCorp.lua"/>
         <Script file="InterfaceCoreOverrides.lua"/>
 		<Script file="Interface.lua" />
         <Script file="Source/root/RootWindow.lua"/>

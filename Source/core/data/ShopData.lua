@@ -4,8 +4,12 @@ function ShopData.sellQuantities(index)
     return WindowData.ShopData.Sell.Quantities[index]
 end
 
+function ShopData.sellIds()
+    return WindowData.ShopData.Sell.Ids
+end
+
 function ShopData.sellId(index)
-    return WindowData.ShopData.Sell.Ids[index]
+    return ShopData.sellIds()[index]
 end
 
 function ShopData.sellPrice(index)
