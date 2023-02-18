@@ -13,13 +13,19 @@
                     <Size>
                         <AbsPoint x="200" y="24" />
                     </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
                 </Label>
             </Windows>
         </Button>
 
 		<Window name="CharacterAbilitiesWindow" movable="true" handleinput="true">
 			<Size>
-				<AbsPoint x="548" y="512" />
+				<AbsPoint x="800" y="600" />
 			</Size>
 			<Anchors>
 				<Anchor point="center" relativePoint="center" />
@@ -44,16 +50,29 @@
                     </Anchors>
                 </FullResizeImage>
                 
+                <Label name="$parentRacialTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="24" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
                 <ListBox name="$parentRacialList" rowdef="CharacterAbilitiesRowTemplate" visiblerows="5" rowcount="5" rowspacing="0">
                     <Size>
-                        <AbsPoint x="500" y="150" />
+                        <AbsPoint x="764" y="120" />
                     </Size>
 
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="8" y="8"/>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRacialTitle">
+                            <AbsPoint x="-8" y="8"/>
                         </Anchor>
                     </Anchors>
+
                     <ListData table="CharacterAbilitiesWindow.RacialAbilities">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
@@ -61,16 +80,36 @@
                      </ListData>
                 </ListBox>
 
+                <FullResizeImage name="$parentRacialFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentRacialList"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentRacialList" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Label name="$parentActiveTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRacialList">
+                            <AbsPoint x="8" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
                 <ListBox name="$parentActiveList" rowdef="CharacterAbilitiesRowTemplate" visiblerows="5" rowcount="5" rowspacing="0">
                     <Size>
-                        <AbsPoint x="500" y="70" />
+                        <AbsPoint x="764" y="60" />
                     </Size>
 
                     <Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRacialList">
-                            <AbsPoint x="0" y="8"/>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentActiveTitle">
+                            <AbsPoint x="-8" y="8"/>
                         </Anchor>
                     </Anchors>
+
                     <ListData table="CharacterAbilitiesWindow.ActiveAbilities">
                         <ListColumns>
                              <ListColumn windowname="ItemName" variable="text" format="wstring"/>
@@ -78,25 +117,68 @@
                      </ListData>
                 </ListBox>
 
-                <ListBox name="$parentInactiveList" rowdef="CharacterAbilitiesRowTemplate" visiblerows="10" rowcount="31" rowspacing="0" scrollbar="$parentScrollbar">>
-                    <Size>
-                        <AbsPoint x="500" y="254" />
-                    </Size>
+                <FullResizeImage name="$parentActiveFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentActiveList"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentActiveList" />
+                    </Anchors>
+                </FullResizeImage>
 
+                <Label name="$parentInactiveTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="24" />
+                    </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentActiveList">
-                            <AbsPoint x="0" y="8"/>
+                            <AbsPoint x="8" y="12"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="CharacterAbilitiesWindow.InactiveAbilities">
-                        <ListColumns>
-                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
-                        </ListColumns>
-                        <Windows>
-                            <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
-                         </Windows>
-                     </ListData>
-                </ListBox>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <ScrollWindow name="$parentInactiveList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
+                    <Size>
+                        <AbsPoint x="764" y="264" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentInactiveTitle">
+                            <AbsPoint x="-8" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                     <Windows>
+						<FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+							<Anchors>
+								<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                                    <AbsPoint x="0" y="-4"/>
+                                </Anchor>
+								<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                                    <AbsPoint x="0" y="4"/>
+                                </Anchor>
+							</Anchors>
+						</FullResizeImage>
+
+                         <Window name ="$parentScrollChild" popable="false" autoresize="false">
+                             <Size>
+                                <AbsPoint x="764" y="264" />
+                            </Size>
+                         </Window>
+                         <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                             <Size>
+                                 <AbsPoint x="12" y="0" />
+                             </Size>
+                             <Anchors>
+                                 <Anchor point="topright" relativePoint="topright">
+                                     <AbsPoint x="-14" y="8"/>
+                                 </Anchor>
+								 <Anchor point="bottomright" relativePoint="bottomright">
+                                     <AbsPoint x="-14" y="-8"/>
+                                 </Anchor>
+                             </Anchors>
+                             <ThumbOffset x="0" y="0" />
+                             <ActiveZoneOffset x="500" y="500" />
+                         </VerticalScrollbar>
+                     </Windows>
+                </ScrollWindow>
 			</Windows>
 		</Window>
 
