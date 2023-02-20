@@ -4,8 +4,6 @@ CharacterSheetWindow.Name = "CharacterSheetWindow"
 
 CharacterSheetWindow.List = CharacterSheetWindow.Name .. "List"
 
-CharacterSheetWindow.Data = {}
-
 local TextIds = {
     IncreaseManaMax = 1079409,
     IncreaseStamMax = 1079408,
@@ -47,6 +45,48 @@ local function formatStat(current, increase)
     return current .. " (" .. increase .. ")"
 end
 
+local function populateList(title, list, data)
+    if WindowApi.createFromTemplate(
+        list,
+        list,
+        CharacterSheetWindow.List .. "ScrollChild"
+    ) then
+        LabelApi.setText(
+            list .. "Title",
+            title
+        )
+    end
+
+    for i = 1, #data do
+        if WindowApi.createFromTemplate(
+            list .. "Row" .. i,
+            "CharacterSheetRowTemplate",
+            list .. "Data"
+        ) and i > 1 then
+            WindowApi.addAnchor(
+                list .. "Row" .. i,
+                "bottom",
+                list .. "Row" .. i - 1,
+                "top",
+                0,
+                4
+            )
+
+            ScrollWindowApi.updateScrollRect(CharacterSheetWindow.List)
+        end
+
+        LabelApi.setText(
+            list .. "Row" .. i .. "ItemName",
+            data[i].name
+        )
+
+        LabelApi.setText(
+            list .. "Row" .. i .. "ItemValue",
+            data[i].value
+        )
+    end
+end
+
 function CharacterSheetWindow.onInitialize()
     WindowDataApi.registerData(PlayerStatus.type())
 
@@ -60,7 +100,6 @@ function CharacterSheetWindow.onInitialize()
 end
 
 function CharacterSheetWindow.onShutdown()
-    CharacterSheetWindow.Data = {}
     WindowDataApi.unregisterData(PlayerStatus.type())
     WindowApi.unregisterEventHandler(
         CharacterSheetWindow.Name,
@@ -73,8 +112,7 @@ function CharacterSheetWindow.onRightClick()
 end
 
 function CharacterSheetWindow.onUpdate()
-    CharacterSheetWindow.Data = {}
-    local order = {}
+    local data = {}
 
     for _, v in ipairs(PlayerStatus.stats()) do
         if v.tid ~= nil and v.tid ~= 0 and not skipLabel(v.tid) then
@@ -129,24 +167,64 @@ function CharacterSheetWindow.onUpdate()
             end
 
             table.insert(
-                CharacterSheetWindow.Data,
-                #CharacterSheetWindow.Data + 1,
+                data,
+                #data + 1,
                 {
                     name = name,
                     value = StringFormatter.toWString(value)
                 }
             )
+        end
+    end
 
+    local stats = {}
+    local combat = {}
+    local magic = {}
+    local resistances = {}
+    local regens = {}
+
+    for i = 1, #data do
+        if i <= 11 then
             table.insert(
-                order,
-                #order + 1,
-                #order + 1
+                stats,
+                data[i]
+            )
+        elseif i <= 16 then
+            table.insert(
+                resistances,
+                data[i]
+            )
+        elseif i <= 20 then
+            table.insert(
+                combat,
+                data[i]
+            )
+        elseif i == 21 then
+            table.insert(
+                magic,
+                data[i]
+            )
+        elseif i <= 24 then
+            table.insert(
+                regens,
+                data[i]
+            )
+        elseif i <= 27 then
+            table.insert(
+                combat,
+                data[i]
+            )
+        else
+            table.insert(
+                magic,
+                data[i]
             )
         end
     end
 
-    ListBoxApi.setDisplayOrder(
-        CharacterSheetWindow.List,
-        order
-    )
+    populateList("Stats", "CharacterSheetStatsList", stats)
+    populateList("Regens", "CharacterSheetRegenList", regens)
+    populateList("Resists", "CharacterSheetResistList", resistances)
+    populateList("Combat", "CharacterSheetCombatList", combat)
+    populateList("Magic", "CharacterSheetMagicList", magic)
 end
