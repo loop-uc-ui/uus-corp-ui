@@ -2,7 +2,7 @@
 	<Windows>
         <Button name="SkillsRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
             <Size>
-				<AbsPoint x="500" y="24" />
+				<AbsPoint x="700" y="24" />
 			</Size>
             <TexCoords>
                 <NormalHighlit x="12" y="12"/>
@@ -15,7 +15,7 @@
             <Windows>
                 <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="200" y="24" />
+                        <AbsPoint x="280" y="24" />
                     </Size>
                     <EventHandlers>
                         <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
@@ -25,7 +25,7 @@
 
                 <Label name="$parentItemRealValue" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="100" y="24" />
+                        <AbsPoint x="150" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemName"/>
@@ -38,7 +38,7 @@
 
                 <Label name="$parentItemTempValue" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="100" y="24" />
+                        <AbsPoint x="150" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemRealValue" textalign="leftcenter"/>
@@ -51,7 +51,7 @@
 
                 <Label name="$parentItemCap" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="75" y="24" />
+                        <AbsPoint x="100" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemTempValue"/>
@@ -126,7 +126,7 @@
 
 		<Window name="SkillsWindow" movable="true" handleinput="true">
 			<Size>
-				<AbsPoint x="548" y="512" />
+				<AbsPoint x="800" y="600" />
 			</Size>
 			<Anchors>
 				<Anchor point="center" relativePoint="center" />
@@ -151,31 +151,40 @@
                     </Anchors>
                 </FullResizeImage>
                 
-                <ListBox name="$parentList" rowdef="SkillsRowTemplate" visiblerows="20" rowcount="57" rowspacing="0" scrollbar="$parentScrollbar">
+                <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
                     <Size>
-                        <AbsPoint x="500" y="500" />
+                        <AbsPoint x="752" y="552" />
                     </Size>
-
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="8" y="8"/>
+                            <AbsPoint x="24" y="24"/>
                         </Anchor>
                     </Anchors>
-                    <ListData table="SkillsWindow.Skills" populationfunction="SkillsWindow.Populate">
-                        <ListColumns>
-                             <ListColumn windowname="ItemName" variable="skillName" format="wstring"/>
-                             <ListColumn windowname="ItemRealValue" variable="realValue" format="wstring"/>
-                             <ListColumn windowname="ItemTempValue" variable="tempValue" format="wstring"/>
-                             <ListColumn windowname="ItemCap" variable="cap" format="wstring"/>
-                             <ListColumn windowname="ItemIcon" variable="icon" format="icon"/>
-                        </ListColumns>
-                         <Windows>
-                            <VerticalScrollbar name="$parentScrollbar"  up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb"/>
-                         </Windows>
-                     </ListData>
-                </ListBox>
+                    <Windows>
+                    <Window name ="$parentScrollChild" popable="false" autoresize="false">
+                        <Size>
+                            <AbsPoint x="752" y="552" />
+                        </Size>
+                    </Window>
+
+                    <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                        <Size>
+                            <AbsPoint x="12" y="0" />
+                        </Size>
+                        <Anchors>
+                            <Anchor point="topright" relativePoint="topright">
+                                <AbsPoint x="-14" y="8"/>
+                            </Anchor>
+                            <Anchor point="bottomright" relativePoint="bottomright">
+                                <AbsPoint x="-14" y="-8"/>
+                            </Anchor>
+                        </Anchors>
+                        <ThumbOffset x="0" y="0" />
+                        <ActiveZoneOffset x="500" y="500" />
+                    </VerticalScrollbar>
+                     </Windows>
+                </ScrollWindow>
 			</Windows>
 		</Window>
-
 	</Windows>
 </Interface>

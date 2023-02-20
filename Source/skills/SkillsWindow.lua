@@ -15,6 +15,38 @@ local function formatValue(skillLevel)
     )
 end
 
+local function updateSkillRow(index)
+    local item = SkillsWindow.ListRow .. index
+
+    LabelApi.setText(
+        item .. "ItemName",
+        SkillsWindow.Skills[index].skillName
+    )
+
+    LabelApi.setText(
+        item .. "ItemRealValue",
+        SkillsWindow.Skills[index].realValue
+    )
+
+    LabelApi.setText(
+        item .. "ItemTempValue",
+        SkillsWindow.Skills[index].tempValue
+    )
+
+    LabelApi.setText(
+        item .. "ItemCap",
+        SkillsWindow.Skills[index].cap
+    )
+
+    local state = SkillsWindow.Skills[index].state
+
+    WindowApi.setId(item, SkillsWindow.Skills[index].id)
+    WindowApi.setShowing(item .. SkillsWindow.Icon, false)
+    WindowApi.setShowing(item .. SkillsWindow.Lock, state == 2)
+    WindowApi.setShowing(item .. SkillsWindow.ArrowUp, state == 0)
+    WindowApi.setShowing(item .. SkillsWindow.ArrowDown, state == 1)
+end
+
 function SkillsWindow.Initialize()
     WindowDataApi.registerData(
         Skills.listDataType()
@@ -50,20 +82,31 @@ function SkillsWindow.Initialize()
         end
     )
 
-    for k, _ in pairs(SkillsWindow.Skills) do
-        table.insert(
-            SkillsWindow.SortOrder,
-            k
-        )
-    end
-
     WindowApi.registerEventHandler(
         SkillsWindow.Name,
         Skills.event(),
         "SkillsWindow.UpdateSkills"
     )
 
-    ListBoxApi.setDisplayOrder(SkillsWindow.List, SkillsWindow.SortOrder)
+    for i = 1, #SkillsWindow.Skills do
+        local item = SkillsWindow.ListRow .. i
+        if WindowApi.createFromTemplate(
+            item,
+            "SkillsRowTemplate",
+            SkillsWindow.List .. "ScrollChild"
+        ) and i > 1 then
+            WindowApi.addAnchor(
+                item,
+                "bottom",
+                SkillsWindow.ListRow .. i - 1,
+                "top",
+                0,
+                4
+            )
+        end
+
+        updateSkillRow(i)
+    end
 end
 
 function SkillsWindow.UpdateSkills()
@@ -88,26 +131,7 @@ function SkillsWindow.UpdateSkills()
         end
     end
 
-    local item = SkillsWindow.ListRow .. index
-
-    if not WindowApi.doesExist(item) then
-        return
-    end
-
-    LabelApi.setText(
-        item .. "ItemRealValue",
-        SkillsWindow.Skills[index].realValue
-    )
-
-    LabelApi.setText(
-        item .. "ItemTempValue",
-        SkillsWindow.Skills[index].tempValue
-    )
-
-    LabelApi.setText(
-        item .. "ItemCap",
-        SkillsWindow.Skills[index].cap
-    )
+    updateSkillRow(index)
 end
 
 function SkillsWindow.Shutdown()
@@ -128,18 +152,6 @@ function SkillsWindow.Shutdown()
     )
 
     SkillsWindow.Skills = {}
-end
-
-function SkillsWindow.Populate(data)
-    for k, v in ipairs(data) do
-        local item = SkillsWindow.ListRow .. k
-        local state = SkillsWindow.Skills[v].state
-        WindowApi.setId(item, SkillsWindow.Skills[v].id)
-        WindowApi.setShowing(item .. SkillsWindow.Icon, false)
-        WindowApi.setShowing(item .. SkillsWindow.Lock, state == 2)
-        WindowApi.setShowing(item .. SkillsWindow.ArrowUp, state == 0)
-        WindowApi.setShowing(item .. SkillsWindow.ArrowDown, state == 1)
-    end
 end
 
 function SkillsWindow.onSkillDoubleClick()
