@@ -10,6 +10,8 @@ SkillsWindow.Skills = {}
 SkillsWindow.SortOrder = {}
 SkillsWindow.Totals = "SkillsWindowTotals"
 
+local toggleState = 2
+
 local function formatValue(skillLevel)
     return StringFormatter.toWString(
         string.format("%2.1f", skillLevel / 10)
@@ -17,12 +19,6 @@ local function formatValue(skillLevel)
 end
 
 local function updateTotals()
-    WindowApi.createFromTemplate(
-        SkillsWindow.Totals,
-        SkillsWindow.Totals,
-        SkillsWindow.List .. "ScrollChild"
-    )
-
     local real = 0.0
     local modified = 0.0
 
@@ -33,8 +29,25 @@ local function updateTotals()
     end
 
     LabelApi.setText(
-        SkillsWindow.Totals,
+        SkillsWindow.Totals .. "Values",
         "Total: " .. string.format("%2.1f", real) .. " (" .. string.format("%2.1f", modified) .. ")"
+    )
+end
+
+local function updateStateToggle(state)
+    toggleState = state
+
+    local text = "Raise All"
+
+    if state == 0 then
+        text = "Lower All"
+    elseif state == 1 then
+        text = "Lock All"
+    end
+
+    LabelApi.setText(
+        SkillsWindow.Totals .. "ToggleState",
+        text
     )
 end
 
@@ -111,7 +124,14 @@ function SkillsWindow.Initialize()
         "SkillsWindow.UpdateSkills"
     )
 
+    WindowApi.createFromTemplate(
+        SkillsWindow.Totals,
+        SkillsWindow.Totals,
+        SkillsWindow.List .. "ScrollChild"
+    )
+
     updateTotals()
+    updateStateToggle(toggleState)
 
     for i = 1, #SkillsWindow.Skills do
         local item = SkillsWindow.ListRow .. i
@@ -286,5 +306,39 @@ function SkillsWindow.onToggleSkillState(id, state)
 
     EventApi.broadcast(
         Events.skillStateChange()
+    )
+end
+
+function SkillsWindow.onToggleStates()
+    if toggleState == 1 then
+        updateStateToggle(2)
+    elseif toggleState == 2 then
+        updateStateToggle(0)
+    else
+        updateStateToggle(1)
+    end
+
+    for i = 1, #SkillsWindow.Skills do
+        local skill = SkillsWindow.Skills[i]
+        skill.state = toggleState
+        SkillsWindow.onToggleSkillState(
+            skill.id,
+            toggleState
+        )
+        updateSkillRow(i)
+    end
+end
+
+function SkillsWindow.onMouseOverStateToggle()
+    LabelApi.setTextColor(
+        SkillsWindow.Totals .. "ToggleState",
+        Colors.OffWhite
+    )
+end
+
+function SkillsWindow.onMouseOverStateToggleEnd()
+    LabelApi.setTextColor(
+        SkillsWindow.Totals .. "ToggleState",
+        Colors.CoreBlue
     )
 end
