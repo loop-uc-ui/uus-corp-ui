@@ -8,10 +8,33 @@ SkillsWindow.ArrowDown = "ItemArrowDown"
 SkillsWindow.ListRow = SkillsWindow.List .. "Row"
 SkillsWindow.Skills = {}
 SkillsWindow.SortOrder = {}
+SkillsWindow.Totals = "SkillsWindowTotals"
 
 local function formatValue(skillLevel)
     return StringFormatter.toWString(
         string.format("%2.1f", skillLevel / 10)
+    )
+end
+
+local function updateTotals()
+    WindowApi.createFromTemplate(
+        SkillsWindow.Totals,
+        SkillsWindow.Totals,
+        SkillsWindow.List .. "ScrollChild"
+    )
+
+    local real = 0.0
+    local modified = 0.0
+
+    for i = 1, #SkillsWindow.Skills do
+        local skill = SkillsWindow.Skills[i]
+        real = real + skill.realValue
+        modified = modified + skill.tempValue
+    end
+
+    LabelApi.setText(
+        SkillsWindow.Totals,
+        "Total: " .. string.format("%2.1f", real) .. " (" .. string.format("%2.1f", modified) .. ")"
     )
 end
 
@@ -88,13 +111,17 @@ function SkillsWindow.Initialize()
         "SkillsWindow.UpdateSkills"
     )
 
+    updateTotals()
+
     for i = 1, #SkillsWindow.Skills do
         local item = SkillsWindow.ListRow .. i
-        if WindowApi.createFromTemplate(
+        WindowApi.createFromTemplate(
             item,
             "SkillsRowTemplate",
             SkillsWindow.List .. "ScrollChild"
-        ) and i > 1 then
+        )
+
+        if i > 1 then
             WindowApi.addAnchor(
                 item,
                 "bottom",
@@ -102,6 +129,15 @@ function SkillsWindow.Initialize()
                 "top",
                 0,
                 4
+            )
+        else
+            WindowApi.addAnchor(
+                item,
+                "bottom",
+                SkillsWindow.Totals,
+                "top",
+                0,
+                12
             )
         end
 
@@ -132,6 +168,7 @@ function SkillsWindow.UpdateSkills()
     end
 
     updateSkillRow(index)
+    updateTotals()
 end
 
 function SkillsWindow.Shutdown()

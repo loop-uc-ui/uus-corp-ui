@@ -124,6 +124,18 @@
             </Windows>
         </Button>
 
+        <Label name="SkillsWindowTotals" font="inter_medium_18" textalign="rightcenter">
+            <Size>
+                <AbsPoint x="700" y="24" />
+            </Size>
+            <Anchors>
+                <Anchor point="topright" relativePoint="topright">
+                    <AbsPoint x="-48" y="0"/>
+                </Anchor>
+            </Anchors>
+            <Color r="206" g="217" b="242" a="255"/>
+        </Label>
+
 		<Window name="SkillsWindow" movable="true" handleinput="true">
 			<Size>
 				<AbsPoint x="800" y="600" />
