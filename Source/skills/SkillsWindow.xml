@@ -124,6 +124,71 @@
             </Windows>
         </Button>
 
+        <Window name="SkillsWindowTotals">
+            <Size>
+                <AbsPoint x="700" y="24" />
+            </Size>
+
+            <Anchors>
+                <Anchor point="topright" relativePoint="topright">
+                    <AbsPoint x="-48" y="0"/>
+                </Anchor>
+            </Anchors>
+
+            <Windows> 
+                <Button name="$parentDiamond" texture="Legacy_Buttons">
+                    <Size>
+                        <AbsPoint x="17" y="17" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="left" relativePoint="right" relativeTo="$parentToggleState">
+                            <AbsPoint x="-4" y="3"/>
+                        </Anchor>
+                    </Anchors>
+                    <TexCoords>
+                        <Normal texture="Legacy_Buttons" x="426" y="141" />
+                        <NormalHighlit texture="Legacy_Buttons" x="455" y="141" />
+                        <Pressed texture="Legacy_Buttons" x="455" y="141" />
+                        <Disabled texture="Legacy_Buttons" x="486" y="141" />
+                    </TexCoords>
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SkillsWindow.onToggleStates"/>
+                        <EventHandler event="OnMouseOver" function="SkillsWindow.onMouseOverStateToggle"/>
+                        <EventHandler event="OnMouseOverEnd" function="SkillsWindow.onMouseOverStateToggleEnd"/>
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentToggleState" font="inter_medium_18" textalign="leftcenter" autoresizewidth="true">
+                    <Size>
+                        <AbsPoint x="150" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="18" y="0"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="SkillsWindow.onToggleStates"/>
+                        <EventHandler event="OnMouseOver" function="SkillsWindow.onMouseOverStateToggle"/>
+                        <EventHandler event="OnMouseOverEnd" function="SkillsWindow.onMouseOverStateToggleEnd"/>
+                    </EventHandlers>
+
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <Label name="$parentValues" font="inter_medium_18" textalign="rightcenter">
+                    <Size>
+                        <AbsPoint x="300" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright"/>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+            </Windows>
+        </Window>
+
 		<Window name="SkillsWindow" movable="true" handleinput="true">
 			<Size>
 				<AbsPoint x="800" y="600" />
