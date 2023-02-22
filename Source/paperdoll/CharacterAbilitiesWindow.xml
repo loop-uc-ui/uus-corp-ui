@@ -2,7 +2,7 @@
 	<Windows>
         <Button name="CharacterAbilitiesRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
             <Size>
-				<AbsPoint x="500" y="24" />
+				<AbsPoint x="556" y="24" />
 			</Size>
             <TexCoords>
                 <NormalHighlit x="12" y="12"/>
@@ -25,7 +25,7 @@
 
 		<Window name="CharacterAbilitiesWindow" movable="true" handleinput="true">
 			<Size>
-				<AbsPoint x="800" y="600" />
+				<AbsPoint x="640" y="600" />
 			</Size>
 			<Anchors>
 				<Anchor point="center" relativePoint="center" />
@@ -64,7 +64,7 @@
 
                 <ListBox name="$parentRacialList" rowdef="CharacterAbilitiesRowTemplate" visiblerows="5" rowcount="5" rowspacing="0">
                     <Size>
-                        <AbsPoint x="764" y="120" />
+                        <AbsPoint x="592" y="120" />
                     </Size>
 
                     <Anchors>
@@ -101,7 +101,7 @@
 
                 <ListBox name="$parentActiveList" rowdef="CharacterAbilitiesRowTemplate" visiblerows="5" rowcount="5" rowspacing="0">
                     <Size>
-                        <AbsPoint x="764" y="60" />
+                        <AbsPoint x="592" y="60" />
                     </Size>
 
                     <Anchors>
@@ -138,7 +138,7 @@
 
                 <ScrollWindow name="$parentInactiveList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
                     <Size>
-                        <AbsPoint x="764" y="264" />
+                        <AbsPoint x="592" y="264" />
                     </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentInactiveTitle">
@@ -159,7 +159,7 @@
 
                          <Window name ="$parentScrollChild" popable="false" autoresize="false">
                              <Size>
-                                <AbsPoint x="764" y="264" />
+                                <AbsPoint x="592" y="264" />
                             </Size>
                          </Window>
                          <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
