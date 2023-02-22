@@ -115,24 +115,34 @@ function PaperdollWindow.update()
             if data.slotId ~= nil and data.slotId ~= 0 then
                 WindowDataApi.registerData(ItemProperties.type(), data.slotId)
 
-                if ItemProperties.propertiesTidsParams(data.slotId) ~= nil then
-                    local currentDurability = ItemProperties.currentDurability(data.slotId)
-                    local maxDurability = ItemProperties.maxDurability(data.slotId)
+                local properties = ItemProperties.propertiesList(data.slotId)
 
-                    if currentDurability ~= nil and maxDurability ~= nil then
-                        local percentage = currentDurability / maxDurability
+                local color = {
+                    r = 255,
+                    g = 255,
+                    b = 255
+                }
 
-                        if percentage <= 0.25 then
-                            WindowApi.setColor(slot, Colors.Red)
-                        else
-                            WindowApi.setColor(slot, {
-                                r = 255,
-                                g = 255,
-                                b = 255
-                            })
+                for i = 1, #properties do
+                    local property = StringFormatter.fromWString(properties[i])
+
+                    if string.match(property, "Durability") then
+                        local numbers = {}
+                        for n in property:gmatch("%d+") do
+                            table.insert(numbers, n)
+                        end
+
+                        if #numbers == 2 then
+                            local percentage = numbers[1] / numbers[2]
+
+                            if percentage <= 0.25 then
+                                color = Colors.Red
+                            end
                         end
                     end
                 end
+
+                WindowApi.setColor(slot, color)
             end
         end
     end
