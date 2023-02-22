@@ -256,7 +256,7 @@ end
 function PaperdollWindow.onSlotMouseOver()
     local slot = activeSlot()
 
-    if slot.objectId == nil then
+    if slot.objectId == nil or slot.objectId == 0 then
         return
     end
 
@@ -338,7 +338,7 @@ end
 function PaperdollWindow.onModelUpdate()
     local _, slotId = activeModelTexture()
 
-    if slotId == 0 or ItemProperties.properties(slotId) == nil then
+    if slotId == nil or slotId == 0 or ItemProperties.properties(slotId) == nil then
         TooltipWindow.destroy()
         return
     end

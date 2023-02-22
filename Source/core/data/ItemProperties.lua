@@ -25,5 +25,9 @@ function ItemProperties.maxDurability(id)
 end
 
 function ItemProperties.propertiesList(id)
-    return ItemProperties.properties(id).PropertiesList
+    if id == 0 or id == nil then
+        return nil
+    else
+        return ItemProperties.properties(id).PropertiesList
+    end
 end
