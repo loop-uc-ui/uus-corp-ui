@@ -123,8 +123,8 @@ function PaperdollWindow.update()
                     b = 255
                 }
 
-                for i = 1, #properties do
-                    local property = StringFormatter.fromWString(properties[i])
+                for p = 1, #properties do
+                    local property = StringFormatter.fromWString(properties[p])
 
                     if string.match(property, "Durability") then
                         local numbers = {}
