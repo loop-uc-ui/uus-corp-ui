@@ -82,13 +82,19 @@ function TooltipWindow.onInitialize()
 end
 
 function TooltipWindow.onUpdate()
-    local _, y = WindowApi.getDimensions(Active.window())
-
     local scale = 1 / InterfaceCore.scale
 
-    WindowApi.setOffsetFromParent(
-        TooltipWindow.Name,
-        scale * (MousePosition.x()),
-        scale * (MousePosition.y() - y)
+    local xPos = scale * MousePosition.x()
+    local yPos = scale * (MousePosition.y() - 24)
+
+    WindowApi.clearAnchors(Active.window())
+
+    WindowApi.addAnchor(
+        Active.window(),
+        "topleft",
+        RootWindow.Name,
+        "bottomleft",
+        xPos,
+        yPos
     )
 end
