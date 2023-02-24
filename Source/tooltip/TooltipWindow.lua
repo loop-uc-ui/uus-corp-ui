@@ -70,12 +70,14 @@ function TooltipWindow.onInitialize()
         LabelApi.setText(label, stripHTML(TooltipWindow.Data[i]))
     end
 
-    TooltipWindow.onUpdate()
     WindowApi.resizeOnChildren(
         Active.window(),
-        true,
+        false,
         8
     )
+
+    TooltipWindow.onUpdate()
+
     WindowApi.setShowing(TooltipWindow.Name, true)
 end
 
