@@ -4,6 +4,7 @@
             <Size>
                 <AbsPoint x="248" y="16"/>
             </Size>
+            <Color r="206" g="217" b="242" a="255"/>
         </Label>
 
         <Window name="TooltipWindow" movable="true" handleinput="true" popable="false" layer="overlay">
