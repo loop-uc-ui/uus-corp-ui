@@ -8,6 +8,8 @@ SpellbookWindow.List = "List"
 
 local activeBook = nil
 
+local spells = {}
+
 function SpellbookWindow.onInitialize()
     if activeBook ~= nil then
         WindowApi.destroyWindow(
@@ -36,29 +38,29 @@ end
 function SpellbookWindow.onUpdateSpells()
     local id = WindowApi.getId(Active.window())
     local data = Spells.bookData(id)
-    local spells = {}
 
     for k, v in ipairs(data.spells) do
-        if v == 1 then
-            local spell = k + data.firstSpellNum - 1
-            local _, serverId, tid, _, _, _ = AbilityApi.getAbilityData(spell)
+        local spell = k + data.firstSpellNum - 1
+        local _, serverId, tid, _, _, _ = AbilityApi.getAbilityData(spell)
 
+        if serverId ~= nil then
             table.insert(
                 spells,
                 k,
                 {
                     id = serverId,
-                    text = StringFormatter.fromTid(tid)
+                    text = StringFormatter.fromTid(tid),
+                    isDisabled = v ~= 1
                 }
             )
         end
     end
 
     local list = SpellbookWindow.Name .. id .. SpellbookWindow.List
+    local previous = nil
 
-    for i = 1, #spells do
-        local spell = spells[i]
-        local row = list .. "Row" .. spell.id
+    for _, v in ipairs(spells) do
+        local row = list .. "Row" .. v.id
 
         WindowApi.createFromTemplate(
             row,
@@ -68,24 +70,33 @@ function SpellbookWindow.onUpdateSpells()
 
         WindowApi.setId(
             row,
-            spell.id
+            v.id
         )
 
         LabelApi.setText(
             row .. "ItemName",
-            spell.text
+            v.text
         )
 
-        if i > 1 then
+        if v.isDisabled then
+            LabelApi.setTextColor(
+                row .. "ItemName",
+                Colors.DarkGray
+            )
+        end
+
+        if previous ~= nil then
             WindowApi.addAnchor(
                 row,
                 "bottomleft",
-                list .. "Row" .. spells[i - 1].id,
+                list .. "Row" .. previous.id,
                 "topleft",
                 0,
                 8
             )
         end
+
+        previous = v
     end
 
     ScrollWindowApi.updateScrollRect(
@@ -95,6 +106,7 @@ end
 
 function SpellbookWindow.onShutdown()
     activeBook = nil
+    spells = {}
 
     local id = WindowApi.getId(
         Active.window()
@@ -116,5 +128,13 @@ function SpellbookWindow.onRightClick()
 end
 
 function SpellbookWindow.onDoubleClick()
-    UserAction.castSpell(WindowApi.getId(Active.window()))
+    local id = WindowApi.getId(Active.window())
+
+    for _, v in ipairs(spells) do
+        if v.id == id and v.isDisabled then
+            return
+        end
+    end
+
+    UserAction.castSpell(id)
 end
