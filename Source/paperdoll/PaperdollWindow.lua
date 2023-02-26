@@ -123,20 +123,22 @@ function PaperdollWindow.update()
                     b = 255
                 }
 
-                for p = 1, #properties do
-                    local property = StringFormatter.fromWString(properties[p])
+                if properties ~= nil then
+                    for p = 1, #properties do
+                        local property = StringFormatter.fromWString(properties[p])
 
-                    if string.match(property, "Durability") then
-                        local numbers = {}
-                        for n in property:gmatch("%d+") do
-                            table.insert(numbers, n)
-                        end
+                        if string.match(property, "Durability") then
+                            local numbers = {}
+                            for n in property:gmatch("%d+") do
+                                table.insert(numbers, n)
+                            end
 
-                        if #numbers == 2 then
-                            local percentage = numbers[1] / numbers[2]
+                            if #numbers == 2 then
+                                local percentage = numbers[1] / numbers[2]
 
-                            if percentage <= 0.25 then
-                                color = Colors.Red
+                                if percentage <= 0.25 then
+                                    color = Colors.Red
+                                end
                             end
                         end
                     end
