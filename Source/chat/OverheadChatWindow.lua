@@ -47,23 +47,34 @@ end
 
 function OverheadChatWindow.onTextInitialize()
     local window = Active.window()
-    WindowApi.setId(window, WindowApi.getId(WindowApi.getParent(window)))
+    local parent = WindowApi.getParent(window)
+    local id = WindowApi.getId(parent)
+
+    WindowApi.setId(window, id)
     WindowApi.clearAnchors(window)
     OverheadChatWindow.restartAnimation(window)
     LabelApi.setText(Active.window(), Chat.chatText())
 
     if string.match(window, OverheadChatWindow.ChatTwo) then
         WindowApi.addAnchor(
-            WindowApi.getParent(window) .. OverheadChatWindow.ChatOne,
+            parent .. OverheadChatWindow.ChatOne,
             "top",
             window,
             "bottom"
         )
     elseif string.match(window, OverheadChatWindow.ChatThree) then
         WindowApi.addAnchor(
-            WindowApi.getParent(window) .. OverheadChatWindow.ChatTwo,
+            parent .. OverheadChatWindow.ChatTwo,
             "top",
-            Active.window(),
+            window,
+            "bottom"
+        )
+    elseif string.match(window, OverheadChatWindow.ChatOne)
+        and WindowApi.doesExist(parent .. OverheadChatWindow.ChatThree) then
+        WindowApi.addAnchor(
+            parent .. OverheadChatWindow.ChatThree,
+            "top",
+            window,
             "bottom"
         )
     end
