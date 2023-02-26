@@ -50,7 +50,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="true" autoHideScrollBar="false" popable="false">
+                <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="true" autoHideScrollBar="true" popable="false">
 					<Size>
 						<AbsPoint x="540" y="512" />
 					</Size>
