@@ -1,0 +1,637 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+
+        <Button name="SettingsTabTemplate" backgroundtexture="" highlighttexture="Menu_Selection" font="inter_medium_20" layer="default" textalign="center" texturescale="0.66">
+            <Size>
+                <AbsPoint x="128" y="36"/>
+            </Size>
+            <TexCoords>
+                <NormalHighlit x="20" y="10"/>
+                <PressedHighlit x="20" y="10"/>
+            </TexCoords>
+            <TextColors>
+                <Normal r="206" g="217" b="242" a="255"/>
+            </TextColors>
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="UusCorpSettingsWindow.onTabClick"/>
+            </EventHandlers>
+        </Button>
+
+        <Label name="SettingsLabelTemplate" autoresize="true" font="inter_medium_16">
+            <Size>
+                <AbsPoint x="150" y="18"/>
+            </Size>
+            <Color r="206" g="217" b="242" a="255"/>
+        </Label>
+
+        <Button name="SettingsCheckBoxTemplate" inherits="UO_Default_Check_Button">
+            <Windows>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" textalign="left" autoresizewidth="true">
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left">
+                            <AbsPoint x="32" y="-2"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="UusCorpSettingsWindow.onCheckBoxClicked"/>
+            </EventHandlers>
+        </Button>
+
+        <Window name="SettingsSliderTemplate">
+            <Size>
+                <AbsPoint x="560" y="18"/>
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" wordwrap="true"/>
+
+                <SliderBar name="$parentBar" inherits="UO_Default_Horizontal_SliderBar">
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentLabel">
+                            <AbsPoint x="48" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnSlide" function="UusCorpSettingsWindow.onSliderChanged" />
+                    </EventHandlers>
+                </SliderBar>
+
+                <Label name="$parentValue" inherits="SettingsLabelTemplate" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="40" y="20"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentBar">
+                            <AbsPoint x="20" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+            </Windows>
+        </Window>
+
+        <Window name="SettingsComboTemplate">
+            <Size>
+                <AbsPoint x="560" y="27"/>
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" wordwrap="true"/>
+    
+                <ComboBox name="$parentBox" inherits="UO_Default_LongComboBox">
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentLabel">
+                            <AbsPoint x="36" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnSelChanged" function="UusCorpSettingsWindow.onComboBoxChanged"/>
+                    </EventHandlers>
+                </ComboBox>
+            </Windows>
+        </Window>
+
+        <Window name="SettingsPageTemplate" layer="default" handleinput="true">
+            <Size>
+                <AbsPoint x="616" y="576"/>
+            </Size>
+            <Anchors>
+                <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTabDivider">
+                    <AbsPoint x="4" y="0"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+
+        <Window name="SoundSettingsWindow" inherits="SettingsPageTemplate">
+            <Windows>
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Window name="$parentPage" layer="default">
+                    <Size>
+                        <AbsPoint x="580" y="540"/>
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame">
+                            <AbsPoint x="18" y="36"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame">
+                            <AbsPoint x="-36" y="36"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <Windows>
+                        <Button name="$parentMasterVolumeCheckBox" inherits="SettingsCheckBoxTemplate"/>
+
+                        <Window name="$parentMasterVolumeSlider" inherits="SettingsSliderTemplate">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentMasterVolumeCheckBox">
+                                    <AbsPoint x="18" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <Button name="$parentEffectsVolumeCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentMasterVolumeCheckBox">
+                                    <AbsPoint x="0" y="12" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+                        
+                        <Window name="$parentEffectsVolumeSlider" inherits="SettingsSliderTemplate">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentEffectsVolumeCheckBox">
+                                    <AbsPoint x="18" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <Button name="$parentMusicVolumeCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentEffectsVolumeCheckBox">
+                                    <AbsPoint x="0" y="12" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Window name="$parentMusicVolumeSlider" inherits="SettingsSliderTemplate">
+                            <Anchors>
+                                <Anchor point="right" relativePoint="left" relativeTo="$parentMusicVolumeCheckBox">
+                                    <AbsPoint x="18" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <Button name="$parentToggleFootstepsCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentMusicVolumeCheckBox">
+                                    <AbsPoint x="0" y="12" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+                    </Windows>
+                </Window>
+            </Windows>
+        </Window>
+
+
+        <Window name="InterfaceSettingsWindow" inherits="SettingsPageTemplate">
+            <Windows>
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Window name="$parentPage" layer="default">
+                    <Size>
+                        <AbsPoint x="580" y="540"/>
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame">
+                            <AbsPoint x="18" y="36"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame">
+                            <AbsPoint x="-36" y="36"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <Windows>
+                        <Window name="$parentModCombo" inherits="SettingsComboTemplate"/>
+                        
+                        <Button name="$parentLegacyContainersCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentModCombo">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Window name="$parentObjectHandleCombo" inherits="SettingsComboTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLegacyContainersCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+                    </Windows>
+                </Window>
+            </Windows>
+        </Window>
+
+        <Window name="GraphicsSettingsWindow" inherits="SettingsPageTemplate">
+            <Windows>
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Window name="$parentPage" layer="default">
+                    <Size>
+                        <AbsPoint x="580" y="540"/>
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame">
+                            <AbsPoint x="18" y="36"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame">
+                            <AbsPoint x="-36" y="36"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <Windows>
+                        <Window name="$parentResCombo" inherits="SettingsComboTemplate"/>
+
+                        <Button name="$parentFullScreenCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentResCombo">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentFlyingAnimationCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFullScreenCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentWindowFrameCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFlyingAnimationCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+    
+                        <Button name="$parentHouseContentsCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentWindowFrameCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+    
+                        <Button name="$parentDeathEffectCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentHouseContentsCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+    
+                        <Button name="$parentVSyncCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDeathEffectCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+    
+                        <Button name="$parentIdleAnimationCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentVSyncCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+    
+                        <Button name="$parentFoliageCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentIdleAnimationCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+    
+                        <Button name="$parentShadowsCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFoliageCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+    
+                        <Button name="$parentCircleOfTransparencyCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentShadowsCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Window name="$parentBrightnessSlider" inherits="SettingsSliderTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentCircleOfTransparencyCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <Window name="$parentParticleDetailCombo" inherits="SettingsComboTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentBrightnessSlider">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <Window name="$parentParticleFilterCombo" inherits="SettingsComboTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentParticleDetailCombo">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+                    </Windows>
+                </Window>
+            </Windows>
+        </Window>
+
+        <Button name="KeybindingRowTemplate">
+            <Size>
+                <AbsPoint x="500" y="24" />
+            </Size>
+            <Windows>
+                <Label name="$parentItemLabel" inherits="SettingsLabelTemplate" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="270" y="24"/>
+                    </Size>
+                </Label>
+
+                <Label name="$parentItemValue" inherits="SettingsLabelTemplate" wordwrap="true">
+                    <Size>
+                        <AbsPoint x="218" y="24"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentItemLabel">
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+            </Windows>
+
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="UusCorpControlsSettingsWindow.onKeybindingClick"/>
+            </EventHandlers>
+        </Button>
+
+        <Window name="ControlsSettingsWindow" inherits="SettingsPageTemplate">
+            <Windows>
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Window name="$parentPage" layer="default">
+                    <Size>
+                        <AbsPoint x="500" y="500"/>
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame">
+                            <AbsPoint x="18" y="36"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame">
+                            <AbsPoint x="-36" y="36"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <Windows>
+                        <Button name="$parentReset" backgroundtexture="Swirl_Button" highlighttexture="Swirl_Button">
+                            <Size>
+                                <AbsPoint x="20" y="20" />
+                            </Size>
+
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                                    <AbsPoint x="-16" y="0"/>
+                                </Anchor>
+                            </Anchors>
+
+                            <TexCoords>
+                                <Normal x="0" y="0" />
+                                <NormalHighlit x="0" y="23" />
+                                <Pressed x="0" y="23" />
+                                <PressedHighlit x="0" y="23" />
+                                <Disabled x="0" y="23" />
+                            </TexCoords>
+
+                            <EventHandlers>
+                                <EventHandler event="OnLButtonUp" function="UusCorpControlsSettingsWindow.onReset"/>
+                            </EventHandlers>
+                        </Button>
+
+                        <Window name="$parentScrollUpCombo" inherits="SettingsComboTemplate">
+                            <Size>
+                                <AbsPoint x="500" y="27"/>
+                            </Size>
+                        </Window>
+
+                        <Window name="$parentScrollDownCombo" inherits="SettingsComboTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentScrollUpCombo">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <ListBox name="$parentList" rowdef="KeybindingRowTemplate" visiblerows="17" rowcount="57" rowspacing="2" scrollbar="$parentScrollbar">
+                            <Size>
+                                <AbsPoint x="500" y="440" />
+                            </Size>
+
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentScrollDownCombo">
+                                    <AbsPoint x="0" y="24"/>
+                                </Anchor>
+                            </Anchors>
+                            <ListData table="ControlsSettingsWindow.Keybindings" populationfunction="UusCorpControlsSettingsWindow.onPopulateKeybindings">
+                                <ListColumns>
+                                     <ListColumn windowname="ItemLabel" variable="label" format="wstring"/>
+                                     <ListColumn windowname="ItemValue" variable="value" format="wstring"/>
+                                </ListColumns>
+                             </ListData>
+                             <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb">
+                                 <Anchors>
+                                     <Anchor point="bottomright" relativePoint="bottomright"/>
+                                 </Anchors>
+                            </VerticalScrollbar>
+                        </ListBox>
+                    </Windows>
+                </Window>
+            </Windows>
+        </Window>
+
+        <Window name="ChatSettingsWindow" inherits="SettingsPageTemplate">
+            <Windows>
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Window name="$parentPage" layer="default">
+                    <Size>
+                        <AbsPoint x="580" y="540"/>
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame">
+                            <AbsPoint x="18" y="36"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame">
+                            <AbsPoint x="-36" y="36"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <Windows>
+                        <Button name="$parentDisableSpellsCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft">
+                                    <AbsPoint x="0" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentShowSpellNameCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDisableSpellsCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentDisablePoisonTextCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentShowSpellNameCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentSaveJournalCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDisablePoisonTextCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+                    </Windows>
+                </Window>
+            </Windows>
+        </Window>
+
+        <Window name="SettingsWindow" movable="true" layer="default">
+            <Size>
+                <AbsPoint x="800" y="600" />
+            </Size>
+
+            <Anchors>
+                <Anchor point="center" relativePoint="center"/>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="UusCorpSettingsWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="UusCorpSettingsWindow.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="UusCorpSettingsWindow.onRightClick"/>
+            </EventHandlers>
+
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+    
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <VerticalResizeImage name="$parentTabDivider" inherits="UO_Default_Vertical_Rule">
+                    <Size>
+                        <AbsPoint x="5" y="576" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentTabContainer">
+                            <AbsPoint x="18" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                </VerticalResizeImage>
+
+                <Window name="$parentGraphics" inherits="GraphicsSettingsWindow"/>
+                <Window name="$parentSound" inherits="SoundSettingsWindow"/>
+                <Window name="$parentChat" inherits="ChatSettingsWindow"/>
+                <Window name="$parentControls" inherits="ControlsSettingsWindow"/>
+                <Window name="$parentInterface" inherits="InterfaceSettingsWindow"/>
+
+                <Window name="$parentTabContainer">
+                    <Size>
+                        <AbsPoint x="146" y="600"/>
+                    </Size>
+                    <Windows>
+                        <Button name="$parentGraphicsTab" inherits="SettingsTabTemplate">
+                            <Anchors>
+                                <Anchor point="topleft" relativePoint="topleft">
+                                    <AbsPoint x="18" y="36"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+        
+                        <Button name="$parentSoundTab" inherits="SettingsTabTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentGraphicsTab"/>
+                            </Anchors>
+                        </Button>
+        
+                        <Button name="$parentChatTab" inherits="SettingsTabTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSoundTab"/>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentControlsTab" inherits="SettingsTabTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentChatTab"/>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentInterfaceTab" inherits="SettingsTabTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentControlsTab"/>
+                            </Anchors>
+                        </Button>
+                    </Windows>
+                </Window>
+            </Windows>
+        </Window>
+
+    </Windows>
+</Interface>

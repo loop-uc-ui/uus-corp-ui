@@ -1,0 +1,186 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+        <Button name="CharacterAbilitiesRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
+            <Size>
+				<AbsPoint x="556" y="24" />
+			</Size>
+            <TexCoords>
+                <NormalHighlit x="12" y="12"/>
+                <PressedHighlit x="12" y="12"/>
+            </TexCoords>
+            <Windows>
+                <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+            </Windows>
+        </Button>
+
+		<Window name="CharacterAbilitiesWindow" movable="true" handleinput="true">
+			<Size>
+				<AbsPoint x="640" y="600" />
+			</Size>
+			<Anchors>
+				<Anchor point="center" relativePoint="center" />
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="UusCorpCharacterAbilitiesWindow.onInitialize" />
+                <EventHandler event="OnRButtonUp" function="UusCorpCharacterAbilitiesWindow.onRightClick" />
+				<EventHandler event="OnShutdown" function="UusCorpCharacterAbilitiesWindow.onShutdown" />
+			</EventHandlers>
+			<Windows>
+				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+                
+                <Label name="$parentRacialTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="24" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <ListBox name="$parentRacialList" rowdef="CharacterAbilitiesRowTemplate" visiblerows="5" rowcount="5" rowspacing="0">
+                    <Size>
+                        <AbsPoint x="592" y="120" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRacialTitle">
+                            <AbsPoint x="-8" y="8"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <ListData table="UusCorpCharacterAbilitiesWindow.RacialAbilities">
+                        <ListColumns>
+                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
+                        </ListColumns>
+                     </ListData>
+                </ListBox>
+
+                <FullResizeImage name="$parentRacialFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentRacialList"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentRacialList" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Label name="$parentActiveTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentRacialList">
+                            <AbsPoint x="8" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <ListBox name="$parentActiveList" rowdef="CharacterAbilitiesRowTemplate" visiblerows="5" rowcount="5" rowspacing="0">
+                    <Size>
+                        <AbsPoint x="592" y="60" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentActiveTitle">
+                            <AbsPoint x="-8" y="8"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <ListData table="UusCorpCharacterAbilitiesWindow.ActiveAbilities">
+                        <ListColumns>
+                             <ListColumn windowname="ItemName" variable="text" format="wstring"/>
+                        </ListColumns>
+                     </ListData>
+                </ListBox>
+
+                <FullResizeImage name="$parentActiveFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentActiveList"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentActiveList" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Label name="$parentInactiveTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentActiveList">
+                            <AbsPoint x="8" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <ScrollWindow name="$parentInactiveList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
+                    <Size>
+                        <AbsPoint x="592" y="264" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentInactiveTitle">
+                            <AbsPoint x="-8" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                     <Windows>
+						<FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" layer="background" frameonly="false">
+							<Anchors>
+								<Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                                    <AbsPoint x="0" y="-4"/>
+                                </Anchor>
+								<Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent">
+                                    <AbsPoint x="0" y="4"/>
+                                </Anchor>
+							</Anchors>
+						</FullResizeImage>
+
+                         <Window name ="$parentScrollChild" popable="false" autoresize="false">
+                             <Size>
+                                <AbsPoint x="592" y="264" />
+                            </Size>
+                         </Window>
+                         <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                             <Size>
+                                 <AbsPoint x="12" y="0" />
+                             </Size>
+                             <Anchors>
+                                 <Anchor point="topright" relativePoint="topright">
+                                     <AbsPoint x="-14" y="8"/>
+                                 </Anchor>
+								 <Anchor point="bottomright" relativePoint="bottomright">
+                                     <AbsPoint x="-14" y="-8"/>
+                                 </Anchor>
+                             </Anchors>
+                             <ThumbOffset x="0" y="0" />
+                             <ActiveZoneOffset x="500" y="500" />
+                         </VerticalScrollbar>
+                     </Windows>
+                </ScrollWindow>
+			</Windows>
+		</Window>
+
+	</Windows>
+</Interface>

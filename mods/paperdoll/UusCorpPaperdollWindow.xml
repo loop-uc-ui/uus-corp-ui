@@ -1,0 +1,268 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+
+		<Button name="PaperdollSlotTemplate" inherits="ItemGridSocketTemplate">
+			<EventHandlers>
+				<EventHandler event="OnLButtonDblClk" function="UusCorpPaperdollWindow.onSlotDoubleClick"/>
+				<EventHandler event="OnLButtonDown" function="UusCorpPaperdollWindow.onSlotSingleClick"/>
+				<EventHandler event="OnLButtonUp" function="UusCorpPaperdollWindow.onSlotSingleClickUp"/>
+				<EventHandler event="OnMouseOver" function="PaperdollWindow.ItemMouseOver"/>
+				<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
+			</EventHandlers>
+		</Button>
+
+		<Window name="PaperdollWindow" movable="true" sticky="true" popable="true" layer="default" handleinput="true">
+			<Size>
+				<AbsPoint x="240" y="372" />
+			</Size>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="UusCorpPaperdollWindow.onInitialize" />
+				<EventHandler event="OnShutdown" function="UusCorpPaperdollWindow.onShutdown" />
+				<EventHandler event="OnLButtonDown" function="UusCorpPaperdollWindow.OnMouseDrag" />
+				<EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
+				<EventHandler event="OnRButtonUp" function="UusCorpPaperdollWindow.onRightClick" />
+			</EventHandlers>
+			<Windows>
+
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentToggleInventory">
+                            <AbsPoint x="16" y="16"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Label name="$parentName" font="inter_medium_16" maxchars="64" textalign="center" wordwrap="true" autoresize="true">
+                    <Size>
+                        <AbsPoint x="208" y="70"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="top">
+                            <AbsPoint x="0" y="12" />
+						</Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+				<DynamicImage name="$parentModelTexture" texture="" filtering="false" texturescale="1.0" handleinput="true" sticky="false" draganddrop="true" popable="false" layer="secondary" >
+					<Size>
+						<AbsPoint x="0" y="0" />
+					</Size>
+					<TexCoords x="0" y="0" />
+					<Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentName">
+							<AbsPoint x="48" y="16"/>
+						</Anchor>
+                    </Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="UusCorpPaperdollWindow.onModelLeftClickDown" />
+						<EventHandler event="OnLButtonUp" function="UusCorpPaperdollWindow.onModelLeftClickUp" />
+						<EventHandler event="OnLButtonDblClk" function="UusCorpPaperdollWindow.onModelDoubleClick" />
+						<EventHandler event="OnMouseOver" function="UusCorpPaperdollWindow.onModelMouseOver" />
+						<EventHandler event="OnMouseOverEnd" function="UusCorpPaperdollWindow.onModelMouseOverEnd" />
+					</EventHandlers>
+				</DynamicImage>
+
+				<Button name="$parentItemSlotButton1" inherits="PaperdollSlotTemplate" id="1" >
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentName">
+							<AbsPoint x="8" y="12" />
+						</Anchor>
+					</Anchors>
+				</Button>
+				
+				<Button name="$parentItemSlotButton2" inherits="PaperdollSlotTemplate" id="2" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton1"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton3" inherits="PaperdollSlotTemplate" id="3" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton2" />
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton4" inherits="PaperdollSlotTemplate" id="4" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton3"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton5" inherits="PaperdollSlotTemplate" id="5" >
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton1"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton6" inherits="PaperdollSlotTemplate" id="6" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton5"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton7" inherits="PaperdollSlotTemplate" id="7" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton6"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton8" inherits="PaperdollSlotTemplate" id="8" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton7"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton9" inherits="PaperdollSlotTemplate" id="9" >
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton5"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton10" inherits="PaperdollSlotTemplate" id="10" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton9" />
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton11" inherits="PaperdollSlotTemplate" id="11" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton10"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton12" inherits="PaperdollSlotTemplate" id="12">
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton11"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton13" inherits="PaperdollSlotTemplate" id="13" >
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton9"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton14" inherits="PaperdollSlotTemplate" id="14" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton13"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton15" inherits="PaperdollSlotTemplate" id="15" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton14" />
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton16" inherits="PaperdollSlotTemplate" id="16" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton15"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton17" inherits="PaperdollSlotTemplate" id="17" >
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentItemSlotButton13"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton18" inherits="PaperdollSlotTemplate" id="18" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton17"/>
+					</Anchors>
+				</Button>
+				<Button name="$parentItemSlotButton19" inherits="PaperdollSlotTemplate" id="19" >
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton18"/>
+					</Anchors>
+				</Button>
+
+				<Button name="$parentToggleView" inherits="UO_Default_Spring_Button" layer="overlay">
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentItemSlotButton19">
+							<AbsPoint x="15" y="0"/>
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="UusCorpPaperdollWindow.ToggleView"/>
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentWarButton" movable="false" backgroundtexture="hud_image" highlighttexture="hud_image" texturescale="0.65">
+					<Size>
+						<AbsPoint x="40" y="48" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottom" relativePoint="top" relativeTo="$parentItemSlotButton17">
+							<AbsPoint x="-12" y="12" />
+						</Anchor>
+					</Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="UusCorpPaperdollWindow.toggleWarMode" />
+					</EventHandlers>
+					<TexCoords>
+						<Normal x="204" y="277" />
+						<NormalHighlit x="266" y="277" />
+						<Pressed x="204" y="355" />
+						<PressedHighlit x="266" y="355" />
+					</TexCoords>
+        		</Button>
+
+				<Button name="$parentToggleCharacterAbilities" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false">
+					<Size>
+						<AbsPoint x="48" y="48" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentWarButton">
+							<AbsPoint x="12" y="4" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal         x="115" y="749" />
+						<NormalHighlit  x="115" y="567" />
+						<Pressed        x="115" y="567" />
+						<PressedHighlit x="115" y="567" />
+						<Disabled       x="115" y="749" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="UusCorpPaperdollWindow.ToggleCharacterAbilities" />
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentToggleCharacterSheet" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false">
+					<Size>
+						<AbsPoint x="48" y="48" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentToggleCharacterAbilities">
+							<AbsPoint x="12" y="0" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal         x="115" y="688" />
+						<NormalHighlit  x="115" y="628" />
+						<Pressed        x="115" y="628" />
+						<PressedHighlit x="115" y="628" />
+						<Disabled       x="115" y="688" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="UusCorpPaperdollWindow.ToggleCharacterSheet" />
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentToggleInventory" textureScale="0.80" sticky="false" backgroundtexture="hud_image" highlighttexture="hud_image" layer="overlay" popable="false" draganddrop="true" >
+					<Size>
+						<AbsPoint x="48" y="48" />
+					</Size>
+					<Anchors>
+						<Anchor point="right" relativePoint="left" relativeTo="$parentToggleCharacterSheet">
+							<AbsPoint x="8" y="-4" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						 <Normal x="330" y="383" />
+						 <NormalHighlit x="392" y="383" />
+						 <Pressed x="392" y="383" />
+						 <PressedHighlit x="392" y="383" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="UusCorpPaperdollWindow.ToggleInventoryWindow" />
+					</EventHandlers>
+				</Button>
+			</Windows>
+		</Window>
+	</Windows>
+</Interface>

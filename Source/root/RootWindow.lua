@@ -74,10 +74,10 @@ function RootWindow.toggleBackpack()
 end
 
 function RootWindow.toggleSkills()
-    if WindowApi.doesExist(SkillsWindow.Name) then
-        WindowApi.destroyWindow(SkillsWindow.Name)
+    if WindowApi.doesExist(UusCorpSkillsWindow.Name) then
+        WindowApi.destroyWindow(UusCorpSkillsWindow.Name)
     else
-        WindowApi.createWindow(SkillsWindow.Name, true)
+        WindowApi.createWindow(UusCorpSkillsWindow.Name, true)
     end
 end
 
@@ -123,13 +123,13 @@ function RootWindow.onGumpArrived()
     local id = Gump.getGumpId()
 
     if id == Gump.Map.Runebook.Id then --Runebook
-        if WindowApi.doesExist(RunebookWindow.Name)
-            and WindowApi.getId(RunebookWindow.Name) ~= Gump.getObjectId() then
-            WindowApi.destroyWindow(RunebookWindow.Name)
+        if WindowApi.doesExist(UusCorpRunebookWindow.Name)
+            and WindowApi.getId(UusCorpRunebookWindow.Name) ~= Gump.getObjectId() then
+            WindowApi.destroyWindow(UusCorpRunebookWindow.Name)
         end
 
         WindowApi.createWindow(
-            RunebookWindow.Name,
+            UusCorpRunebookWindow.Name,
             true
         )
     end

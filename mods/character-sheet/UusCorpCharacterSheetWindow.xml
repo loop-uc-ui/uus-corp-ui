@@ -1,0 +1,325 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+        <Window name="CharacterSheetStatsList" autoresize="false">
+            <Size>
+                <AbsPoint x="560" y="336" />
+            </Size>
+
+            <Windows>
+                <Label name="$parentTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="250" y="24" />
+                    </Size>
+                    <Color r="206" g="217" b="242" a="255"/>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Window name="$parentData" popable="false" autoresize="false">
+                    <Size>
+                        <AbsPoint x="560" y="312" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
+                            <AbsPoint x="-12" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" frameonly="false">
+                    <Size>
+                        <AbsPoint x="560" y="312" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentData"/>
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+
+        <Window name="CharacterSheetRegenList" autoresize="false">
+            <Size>
+                <AbsPoint x="560" y="120" />
+            </Size>
+
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="CharacterSheetStatsListFrame">
+                    <AbsPoint x="0" y="24"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <Label name="$parentTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="250" y="24" />
+                    </Size>
+                    <Color r="206" g="217" b="242" a="255"/>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Window name="$parentData" popable="false" autoresize="false">
+                    <Size>
+                        <AbsPoint x="560" y="96" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
+                            <AbsPoint x="-12" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" frameonly="false">
+                    <Size>
+                        <AbsPoint x="560" y="96" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentData"/>
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+
+        <Window name="CharacterSheetResistList" autoresize="false">
+            <Size>
+                <AbsPoint x="560" y="168" />
+            </Size>
+
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="CharacterSheetRegenListFrame">
+                    <AbsPoint x="0" y="24"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <Label name="$parentTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="250" y="24" />
+                    </Size>
+                    <Color r="206" g="217" b="242" a="255"/>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Window name="$parentData" popable="false" autoresize="false">
+                    <Size>
+                        <AbsPoint x="560" y="144" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
+                            <AbsPoint x="-12" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" frameonly="false">
+                    <Size>
+                        <AbsPoint x="560" y="144" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentData"/>
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+
+        <Window name="CharacterSheetCombatList" autoresize="false">
+            <Size>
+                <AbsPoint x="560" y="230" />
+            </Size>
+
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="CharacterSheetResistListFrame">
+                    <AbsPoint x="0" y="24"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <Label name="$parentTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="250" y="24" />
+                    </Size>
+                    <Color r="206" g="217" b="242" a="255"/>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Window name="$parentData" popable="false" autoresize="false">
+                    <Size>
+                        <AbsPoint x="560" y="206" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
+                            <AbsPoint x="-12" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" frameonly="false">
+                    <Size>
+                        <AbsPoint x="560" y="206" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentData"/>
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+
+        <Window name="CharacterSheetMagicList" autoresize="false">
+            <Size>
+                <AbsPoint x="560" y="220" />
+            </Size>
+
+            <Anchors>
+                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="CharacterSheetCombatListFrame">
+                    <AbsPoint x="0" y="24"/>
+                </Anchor>
+            </Anchors>
+            <Windows>
+                <Label name="$parentTitle" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="250" y="24" />
+                    </Size>
+                    <Color r="206" g="217" b="242" a="255"/>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Window name="$parentData" popable="false" autoresize="false">
+                    <Size>
+                        <AbsPoint x="560" y="168" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
+                            <AbsPoint x="-12" y="8"/>
+                        </Anchor>
+                    </Anchors>
+                </Window>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" frameonly="false">
+                    <Size>
+                        <AbsPoint x="560" y="168" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentData"/>
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+
+		<Button name="CharacterSheetRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
+            <Size>
+				<AbsPoint x="548" y="24" />
+			</Size>
+            
+            <TexCoords>
+                <NormalHighlit x="12" y="12"/>
+                <PressedHighlit x="12" y="12"/>
+            </TexCoords>
+            <Windows>
+                <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="250" y="24" />
+                    </Size>
+                    <Color r="206" g="217" b="242" a="255"/>
+
+                    <Anchors>
+                        <Anchor point="left" relativePoint="left" relativeTo="$parent">
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </Label>
+
+                <Label name="$parentItemValue" font="inter_medium_18" textalign="rightcenter">
+                    <Size>
+                        <AbsPoint x="202" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="right" relativeTo="$parent">
+                            <AbsPoint x="-12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+            </Windows>
+        </Button>
+		
+		<Window name="CharacterSheetWindow" movable="true" handleinput="true">
+			<Size>
+				<AbsPoint x="640" y="600" />
+			</Size>
+			<Anchors>
+				<Anchor point="center" relativePoint="center" />
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="UusCorpCharacterSheetWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="UusCorpCharacterSheetWindow.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="UusCorpCharacterSheetWindow.onRightClick"/>
+			</EventHandlers>
+			<Windows>
+				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+                
+                <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
+                    <Size>
+                        <AbsPoint x="604" y="564" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="24" y="24"/>
+                        </Anchor>
+                    </Anchors>
+                    <Windows>
+                    <Window name ="$parentScrollChild" popable="false" autoresize="false">
+                        <Size>
+                            <AbsPoint x="604" y="564" />
+                        </Size>
+                    </Window>
+
+                    <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                        <Size>
+                            <AbsPoint x="12" y="0" />
+                        </Size>
+                        <Anchors>
+                            <Anchor point="topright" relativePoint="topright">
+                                <AbsPoint x="-14" y="8"/>
+                            </Anchor>
+                            <Anchor point="bottomright" relativePoint="bottomright">
+                                <AbsPoint x="-14" y="-8"/>
+                            </Anchor>
+                        </Anchors>
+                        <ThumbOffset x="0" y="0" />
+                        <ActiveZoneOffset x="500" y="500" />
+                    </VerticalScrollbar>
+                     </Windows>
+                </ScrollWindow>
+			</Windows>
+		</Window>
+		
+	</Windows>
+</Interface>
