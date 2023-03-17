@@ -538,6 +538,7 @@ function UusCorpSettingsWindow.initialize()
         "UusCorpSettingsWindow.xml"
     )
 
+    WindowApi.destroyWindow("TipoftheDayWindow")
     WindowApi.destroyWindow("SettingsWindow")
     WindowApi.createWindow("SettingsWindow", false)
 end

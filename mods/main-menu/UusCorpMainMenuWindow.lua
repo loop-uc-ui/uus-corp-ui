@@ -20,6 +20,10 @@ function UusCorpMainMenuWindow.initialize()
         "UusCorpMainMenuWindow.xml"
     )
 
+    function InterfaceCore.OnExitGame()
+        EventApi.broadcast(Events.exitGame())
+    end
+
     -- Destroy the old main menu menu, so our custom one
     -- takes precendence
     WindowApi.destroyWindow(UusCorpMainMenuWindow.Name)
