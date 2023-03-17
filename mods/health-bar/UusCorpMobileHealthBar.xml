@@ -17,13 +17,13 @@
                 <AbsPoint x="190" y="50" />
             </Size>
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="MobileHealthBar.onInitialize"/>
-                <EventHandler event="OnShutdown" function="MobileHealthBar.onShutdown"/>
-                <EventHandler event="OnRButtonUp" function="MobileHealthBar.onRightClick"/>
-                <EventHandler event="OnMouseOver" function="MobileHealthBar.onMouseOver"/>
-                <EventHandler event="OnMouseOverEnd" function="MobileHealthBar.onMouseOverEnd"/>
-                <EventHandler event="OnLButtonDown" function="MobileHealthBar.onLeftClickDown"/>
-                <EventHandler event="OnLButtonDblClk" function="MobileHealthBar.onDoubleClick" />
+                <EventHandler event="OnInitialize" function="UusCorpMobileHealthBar.onInitialize"/>
+                <EventHandler event="OnShutdown" function="UusCorpMobileHealthBar.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="UusCorpMobileHealthBar.onRightClick"/>
+                <EventHandler event="OnMouseOver" function="UusCorpMobileHealthBar.onMouseOver"/>
+                <EventHandler event="OnMouseOverEnd" function="UusCorpMobileHealthBar.onMouseOverEnd"/>
+                <EventHandler event="OnLButtonDown" function="UusCorpMobileHealthBar.onLeftClickDown"/>
+                <EventHandler event="OnLButtonDblClk" function="UusCorpMobileHealthBar.onDoubleClick" />
             </EventHandlers>
             <Windows>
                 <!-- Reference window for determining whether we're attached to an object -->

@@ -59,7 +59,7 @@ function HealthBarRootOverlayWindow.endHealthBarDrag()
     end
 
     local isPlayer = mobile == PlayerStatus.id()
-    local window = MobileHealthBar.Name .. mobile
+    local window = UusCorpMobileHealthBar.Name .. mobile
 
     if isPlayer then
         window = PlayerHealthBar.Name
@@ -92,7 +92,7 @@ function HealthBarRootOverlayWindow.onUpdate()
     end
 
     local isPlayer = mobile == PlayerStatus.id()
-    local window = MobileHealthBar.Name .. mobile
+    local window = UusCorpMobileHealthBar.Name .. mobile
 
     if isPlayer then
         window = PlayerHealthBar.Name
@@ -107,7 +107,7 @@ function HealthBarRootOverlayWindow.onUpdate()
     else
         WindowApi.createFromTemplate(
             window,
-            MobileHealthBar.Name,
+            UusCorpMobileHealthBar.Name,
             HealthBarRootOverlayWindow.Name
         )
     end

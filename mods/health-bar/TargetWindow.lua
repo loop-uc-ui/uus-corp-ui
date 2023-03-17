@@ -26,7 +26,7 @@ function TargetWindow.onCurrentTarget()
         return
     end
 
-    local window = MobileHealthBar.Name .. CurrentTarget.id()
+    local window = UusCorpMobileHealthBar.Name .. CurrentTarget.id()
 
     if not ObjectApi.isValid(id) or not CurrentTarget.isMobile() then
         WindowApi.destroyWindow(window)
@@ -39,7 +39,7 @@ function TargetWindow.onCurrentTarget()
 
     if previousTarget ~= window then
         if previousTarget ~= nil and WindowApi.doesExist(previousTarget)
-         and WindowApi.isShowing(previousTarget .. MobileHealthBar.ObjectAnchor) then
+         and WindowApi.isShowing(previousTarget .. UusCorpMobileHealthBar.ObjectAnchor) then
             WindowApi.destroyWindow(previousTarget)
         end
         previousTarget = window
@@ -48,13 +48,13 @@ function TargetWindow.onCurrentTarget()
     Active.setMobile(id)
 
     WindowApi.createFromTemplate(
-        MobileHealthBar.Name .. CurrentTarget.id(),
-        MobileHealthBar.Name,
+        UusCorpMobileHealthBar.Name .. CurrentTarget.id(),
+        UusCorpMobileHealthBar.Name,
         HealthBarRootOverlayWindow.Name
     )
 
     WindowApi.attachWIndowToWorldObject(id, window)
-    WindowApi.setShowing(window .. MobileHealthBar.ObjectAnchor, true)
+    WindowApi.setShowing(window .. UusCorpMobileHealthBar.ObjectAnchor, true)
     WindowApi.destroyWindow(OverheadText.Name .. id)
 end
 

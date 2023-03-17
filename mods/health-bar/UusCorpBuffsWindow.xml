@@ -6,11 +6,11 @@
 			</Size>
             
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="BuffsWindow.onBuffStart"/>
-                <EventHandler event="OnShutdown" function="BuffsWindow.onBuffEnd"/>
-                <EventHandler event="OnUpdate" function="BuffsWindow.onBuffUpdate"/>
-                <EventHandler event="OnMouseOver" function="BuffsWindow.onBuffMouseOver"/>
-                <EventHandler event="OnMouseOverEnd" function="BuffsWindow.onBuffMouseOverEnd"/>
+                <EventHandler event="OnInitialize" function="UusCorpBuffsWindow.onBuffStart"/>
+                <EventHandler event="OnShutdown" function="UusCorpBuffsWindow.onBuffEnd"/>
+                <EventHandler event="OnUpdate" function="UusCorpBuffsWindow.onBuffUpdate"/>
+                <EventHandler event="OnMouseOver" function="UusCorpBuffsWindow.onBuffMouseOver"/>
+                <EventHandler event="OnMouseOverEnd" function="UusCorpBuffsWindow.onBuffMouseOverEnd"/>
             </EventHandlers>
 
 			<Windows>
@@ -58,9 +58,9 @@
             </Size>
             
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="BuffsWindow.onInitialize"/>
-                <EventHandler event="OnShutdown" function="BuffsWindow.onShutdown"/>
-                <EventHandler event="OnShown" function="BuffsWindow.onShown"/>
+                <EventHandler event="OnInitialize" function="UusCorpBuffsWindow.onInitialize"/>
+                <EventHandler event="OnShutdown" function="UusCorpBuffsWindow.onShutdown"/>
+                <EventHandler event="OnShown" function="UusCorpBuffsWindow.onShown"/>
             </EventHandlers>
         </Window>
     </Windows>

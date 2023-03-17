@@ -11,3 +11,11 @@ function UusCorpCore.loadResources(path, file)
         file
     )
 end
+
+function UusCorpCore.overrideFunctions(table)
+    for _, v in pairs(table) do
+        if type(v) == "function" then
+            v = function () end
+        end
+    end
+end

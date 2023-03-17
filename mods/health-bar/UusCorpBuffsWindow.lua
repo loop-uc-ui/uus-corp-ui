@@ -1,6 +1,6 @@
-BuffsWindow = {}
-BuffsWindow.Name = "BuffsWindow"
-BuffsWindow.Buffs = {}
+UusCorpBuffsWindow = {}
+UusCorpBuffsWindow.Name = "BuffsWindow"
+UusCorpBuffsWindow.Buffs = {}
 
 local function updateTimer(time)
     local min = math.floor(time / 60)
@@ -25,7 +25,7 @@ end
 local function anchorBuffs()
     local list = {}
 
-    for _, v in pairs(BuffsWindow.Buffs) do
+    for _, v in pairs(UusCorpBuffsWindow.Buffs) do
         table.insert(
             list,
             v
@@ -59,18 +59,38 @@ local function anchorBuffs()
     end
 end
 
-function BuffsWindow.onInitialize()
+function UusCorpBuffsWindow.initialize()
+    UusCorpCore.loadResources(
+        "/mods/health-bar",
+        "UusCorpBuffsWindow.xml"
+    )
+
+    WindowApi.setShowing(
+        "AdvancedBuffGood",
+        false
+    )
+
+    WindowApi.setShowing(
+        "AdvancedBuffEvil",
+        false
+    )
+
+    UusCorpCore.overrideFunctions(AdvancedBuff)
+    UusCorpCore.overrideFunctions(BuffDebuff)
+end
+
+function UusCorpBuffsWindow.onInitialize()
     WindowDataApi.registerData(
         Buffs.dataType()
     )
     WindowApi.registerEventHandler(
         Active.window(),
         Buffs.event(),
-        "BuffsWindow.onEffectReceived"
+        "UusCorpBuffsWindow.onEffectReceived"
     )
 end
 
-function BuffsWindow.onShown()
+function UusCorpBuffsWindow.onShown()
     WindowApi.clearAnchors(Active.window())
     WindowApi.addAnchor(
         Active.window(),
@@ -82,14 +102,14 @@ function BuffsWindow.onShown()
     )
 end
 
-function BuffsWindow.onEffectReceived()
+function UusCorpBuffsWindow.onEffectReceived()
     local id = Buffs.id()
 
     if id < 1000 or id == nil or Buffs.isBeingRemoved() then
         return
     end
 
-    BuffsWindow.Buffs[id] = {
+    UusCorpBuffsWindow.Buffs[id] = {
         id = id,
         timer = Buffs.timer(),
         hasTimer = Buffs.hasTimer(),
@@ -112,11 +132,11 @@ function BuffsWindow.onEffectReceived()
 
     local textureId = tonumber(Buffs.csv()[rowNumber].IconId)
 
-    BuffsWindow.Buffs[id].textureId = textureId
+    UusCorpBuffsWindow.Buffs[id].textureId = textureId
 
     local icon, x, y = IconApi.getIconData(textureId)
 
-    BuffsWindow.Buffs[id].icon = {
+    UusCorpBuffsWindow.Buffs[id].icon = {
         id = icon,
         x = x,
         y = y
@@ -131,7 +151,7 @@ function BuffsWindow.onEffectReceived()
     )
 end
 
-function BuffsWindow.onBuffStart()
+function UusCorpBuffsWindow.onBuffStart()
     local id = string.gsub(
         Active.window(),
         "Buff",
@@ -140,7 +160,7 @@ function BuffsWindow.onBuffStart()
 
     WindowApi.setId(Active.window(), tonumber(id))
 
-    local buff = BuffsWindow.Buffs[tonumber(id)]
+    local buff = UusCorpBuffsWindow.Buffs[tonumber(id)]
 
     DynamicImageApi.setTexture(
         Active.window() .. "Icon",
@@ -152,9 +172,9 @@ function BuffsWindow.onBuffStart()
     anchorBuffs()
 end
 
-function BuffsWindow.onBuffUpdate(timePassed)
+function UusCorpBuffsWindow.onBuffUpdate(timePassed)
     local id = WindowApi.getId(Active.window())
-    local buff = BuffsWindow.Buffs[id]
+    local buff = UusCorpBuffsWindow.Buffs[id]
 
     if buff.hasTimer then
         buff.timer = buff.timer - timePassed
@@ -177,19 +197,19 @@ function BuffsWindow.onBuffUpdate(timePassed)
     end
 end
 
-function BuffsWindow.onBuffEnd()
+function UusCorpBuffsWindow.onBuffEnd()
     local id = WindowApi.getId(Active.window())
-    BuffsWindow.Buffs[id] = nil
+    UusCorpBuffsWindow.Buffs[id] = nil
 
     if TooltipWindow.Context == id then
-        BuffsWindow.onBuffMouseOverEnd()
+        UusCorpBuffsWindow.onBuffMouseOverEnd()
     end
 
     anchorBuffs()
 end
 
-function BuffsWindow.onBuffMouseOver()
-    local buff = BuffsWindow.Buffs[WindowApi.getId(Active.window())]
+function UusCorpBuffsWindow.onBuffMouseOver()
+    local buff = UusCorpBuffsWindow.Buffs[WindowApi.getId(Active.window())]
     local data = {}
 
     for i = 1, #buff.nameVector do
@@ -214,11 +234,11 @@ function BuffsWindow.onBuffMouseOver()
     TooltipWindow.create(data, buff.id)
 end
 
-function BuffsWindow.onBuffMouseOverEnd()
+function UusCorpBuffsWindow.onBuffMouseOverEnd()
     TooltipWindow.destroy()
 end
 
-function BuffsWindow.onShutdown()
+function UusCorpBuffsWindow.onShutdown()
     WindowDataApi.unregisterData(
         Buffs.dataType()
     )
@@ -226,5 +246,5 @@ function BuffsWindow.onShutdown()
         Active.window(),
         Buffs.event()
     )
-    BuffsWindow.onBuffMouseOverEnd()
+    UusCorpBuffsWindow.onBuffMouseOverEnd()
 end
