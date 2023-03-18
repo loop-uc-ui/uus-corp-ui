@@ -6,8 +6,8 @@
 				<EventHandler event="OnLButtonDblClk" function="UusCorpPaperdollWindow.onSlotDoubleClick"/>
 				<EventHandler event="OnLButtonDown" function="UusCorpPaperdollWindow.onSlotSingleClick"/>
 				<EventHandler event="OnLButtonUp" function="UusCorpPaperdollWindow.onSlotSingleClickUp"/>
-				<EventHandler event="OnMouseOver" function="PaperdollWindow.ItemMouseOver"/>
-				<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem" />
+				<EventHandler event="OnMouseOver" function="UusCorpPaperdollWindow.onSlotMouseOver"/>
+				<EventHandler event="OnMouseOverEnd" function="UusCorpPaperdollWindow.onSlotMouseOverEnd" />
 			</EventHandlers>
 		</Button>
 

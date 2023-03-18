@@ -206,7 +206,7 @@ function UusCorpBuffsWindow.onBuffEnd()
     local id = WindowApi.getId(Active.window())
     UusCorpBuffsWindow.Buffs[id] = nil
 
-    if TooltipWindow.Context == id then
+    if UusCorpTooltipWindow.Context == id then
         UusCorpBuffsWindow.onBuffMouseOverEnd()
     end
 
@@ -236,11 +236,11 @@ function UusCorpBuffsWindow.onBuffMouseOver()
         )
     end
 
-    TooltipWindow.create(data, buff.id)
+    UusCorpTooltipWindow.create(data, buff.id)
 end
 
 function UusCorpBuffsWindow.onBuffMouseOverEnd()
-    TooltipWindow.destroy()
+    UusCorpTooltipWindow.destroy()
 end
 
 function UusCorpBuffsWindow.onShutdown()

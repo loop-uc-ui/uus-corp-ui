@@ -1,8 +1,8 @@
-TooltipWindow = {}
-TooltipWindow.Name = "TooltipWindow"
-TooltipWindow.Text = TooltipWindow.Name .. "Text"
-TooltipWindow.Data = {}
-TooltipWindow.Context = 0
+UusCorpTooltipWindow = {}
+UusCorpTooltipWindow.Name = "TooltipWindow"
+UusCorpTooltipWindow.Text = UusCorpTooltipWindow.Name .. "Text"
+UusCorpTooltipWindow.Data = {}
+UusCorpTooltipWindow.Context = 0
 
 -- Copied from default UI
 local function stripHTML(inString)
@@ -24,34 +24,34 @@ local function stripHTML(inString)
 	return outString
 end
 
-function TooltipWindow.create(data, context)
-    TooltipWindow.Data = data
-    TooltipWindow.Context = context or 0
-    WindowApi.createWindow(TooltipWindow.Name, false)
+function UusCorpTooltipWindow.create(data, context)
+    UusCorpTooltipWindow.Data = data
+    UusCorpTooltipWindow.Context = context or 0
+    WindowApi.createWindow(UusCorpTooltipWindow.Name, false)
 end
 
-function TooltipWindow.destroy()
-    WindowApi.destroyWindow(TooltipWindow.Name)
+function UusCorpTooltipWindow.destroy()
+    WindowApi.destroyWindow(UusCorpTooltipWindow.Name)
 end
 
-function TooltipWindow.onShutdown()
-    TooltipWindow.Data = {}
+function UusCorpTooltipWindow.onShutdown()
+    UusCorpTooltipWindow.Data = {}
 end
 
-function TooltipWindow.onInitialize()
-    for i = 1, #TooltipWindow.Data do
-        local label = TooltipWindow.Text .. tostring(i)
+function UusCorpTooltipWindow.onInitialize()
+    for i = 1, #UusCorpTooltipWindow.Data do
+        local label = UusCorpTooltipWindow.Text .. tostring(i)
         WindowApi.createFromTemplate(
             label,
             "TooltipLabelTemplate",
-            TooltipWindow.Name
+            UusCorpTooltipWindow.Name
         )
 
         if i == 1 then
             WindowApi.addAnchor(
                 label,
                 "topleft",
-                TooltipWindow.Name,
+                UusCorpTooltipWindow.Name,
                 "topleft",
                 8,
                 4
@@ -60,14 +60,14 @@ function TooltipWindow.onInitialize()
             WindowApi.addAnchor(
                 label,
                 "bottomleft",
-                TooltipWindow.Text .. tostring(i - 1),
+                UusCorpTooltipWindow.Text .. tostring(i - 1),
                 "topleft",
                 0,
                 0
             )
         end
 
-        LabelApi.setText(label, stripHTML(TooltipWindow.Data[i]))
+        LabelApi.setText(label, stripHTML(UusCorpTooltipWindow.Data[i]))
     end
 
     WindowApi.resizeOnChildren(
@@ -76,12 +76,12 @@ function TooltipWindow.onInitialize()
         8
     )
 
-    TooltipWindow.onUpdate()
+    UusCorpTooltipWindow.onUpdate()
 
-    WindowApi.setShowing(TooltipWindow.Name, true)
+    WindowApi.setShowing(UusCorpTooltipWindow.Name, true)
 end
 
-function TooltipWindow.onUpdate()
+function UusCorpTooltipWindow.onUpdate()
     local scale = 1 / InterfaceCore.scale
 
     local xPos = scale * MousePosition.x()

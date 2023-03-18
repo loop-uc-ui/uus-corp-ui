@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
-    <Assets>
-        <Texture name="StatusBar" file="Textures/uus_corp_ui/status_window_bar.dds" />
-        <Texture name="Atlas" file="Textures/AtlasMap_bg.dds"/>
-    </Assets>
-</Interface>

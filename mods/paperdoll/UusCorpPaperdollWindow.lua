@@ -185,7 +185,7 @@ function UusCorpPaperdollWindow.ItemMouseOver()
 end
 
 function UusCorpPaperdollWindow.onShutdown()
-   -- TooltipWindow.destroy()
+    UusCorpTooltipWindow.destroy()
 
     local id = WindowApi.getId(Active.window())
 
@@ -296,12 +296,12 @@ function UusCorpPaperdollWindow.onSlotMouseOver()
             local text = tostring(properties[i])
             table.insert(data, text)
         end
-        TooltipWindow.create(data)
+        UusCorpTooltipWindow.create(data)
     end
 end
 
 function UusCorpPaperdollWindow.onSlotMouseOverEnd()
-    TooltipWindow.destroy()
+    UusCorpTooltipWindow.destroy()
 end
 
 function UusCorpPaperdollWindow.toggleWarMode()
@@ -363,16 +363,16 @@ function UusCorpPaperdollWindow.onModelUpdate()
     local _, slotId = activeModelTexture()
 
     if slotId == nil or slotId == 0 or ItemPropertiesData.properties(slotId) == nil then
-        TooltipWindow.destroy()
+        UusCorpTooltipWindow.destroy()
         return
     end
 
-    if WindowApi.doesExist(TooltipWindow.Name) and
-        slotId == WindowApi.getId(TooltipWindow.Name) then
+    if WindowApi.doesExist(UusCorpTooltipWindow.Name) and
+        slotId == WindowApi.getId(UusCorpTooltipWindow.Name) then
         return
     end
 
-    TooltipWindow.destroy()
+    UusCorpTooltipWindow.destroy()
 
     local data = {}
     local properties = ItemPropertiesData.propertiesList(slotId)
@@ -382,8 +382,8 @@ function UusCorpPaperdollWindow.onModelUpdate()
             local text = tostring(properties[i])
             table.insert(data, text)
         end
-        TooltipWindow.create(data)
-        WindowApi.setId(TooltipWindow.Name, slotId)
+        UusCorpTooltipWindow.create(data)
+        WindowApi.setId(UusCorpTooltipWindow.Name, slotId)
     end
 end
 

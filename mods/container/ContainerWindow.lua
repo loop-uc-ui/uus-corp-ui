@@ -370,12 +370,12 @@ function ContainerWindow.onSlotMouseOver()
             local text = tostring(properties[i])
             table.insert(data, text)
         end
-        TooltipWindow.create(data)
+        UusCorpTooltipWindow.create(data)
     end
 end
 
 function ContainerWindow.onSlotMouseOverEnd()
-    TooltipWindow.destroy()
+    UusCorpTooltipWindow.destroy()
 end
 
 function ContainerWindow.onToggleView()
