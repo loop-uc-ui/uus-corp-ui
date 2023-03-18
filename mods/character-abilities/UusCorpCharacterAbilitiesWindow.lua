@@ -19,6 +19,7 @@ function UusCorpCharacterAbilitiesWindow.initialize()
         "/mods/character-abilities",
         "UusCorpCharacterAbilitiesWindow.xml"
     )
+    UusCorpCore.overrideFunctions(CharacterAbilities)
 end
 
 function UusCorpCharacterAbilitiesWindow.onInitialize()

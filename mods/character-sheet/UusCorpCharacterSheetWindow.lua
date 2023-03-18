@@ -92,6 +92,7 @@ function UusCorpCharacterSheetWindow.initialize()
         "/mods/character-sheet",
         "UusCorpCharacterSheetWindow.xml"
     )
+    UusCorpCore.overrideFunctions(CharacterSheet)
 end
 
 function UusCorpCharacterSheetWindow.onInitialize()
