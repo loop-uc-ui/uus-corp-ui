@@ -16,7 +16,7 @@ UusCorpMainMenuWindow.Buttons = {
 
 function UusCorpMainMenuWindow.initialize()
     UusCorpCore.loadResources(
-        "/mods/main-menu",
+        "/src/mods/main-menu",
         "UusCorpMainMenuWindow.xml"
     )
 

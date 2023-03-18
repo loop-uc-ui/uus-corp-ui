@@ -44,7 +44,7 @@ end
 
 function UusCorpPaperdollWindow.initialize()
     UusCorpCore.loadResources(
-        "/mods/paperdoll",
+        "/src/mods/paperdoll",
         "UusCorpPaperdollWindow.xml"
     )
 

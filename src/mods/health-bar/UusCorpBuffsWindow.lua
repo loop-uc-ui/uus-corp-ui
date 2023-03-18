@@ -61,7 +61,7 @@ end
 
 function UusCorpBuffsWindow.initialize()
     UusCorpCore.loadResources(
-        "/mods/health-bar",
+        "/src/mods/health-bar",
         "UusCorpBuffsWindow.xml"
     )
 

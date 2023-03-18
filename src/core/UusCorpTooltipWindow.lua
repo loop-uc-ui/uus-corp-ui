@@ -32,7 +32,7 @@ end
 
 function UusCorpTooltipWindow.initialize()
     UusCorpCore.loadResources(
-        "/core",
+        "/src/core",
         "UusCorpTooltipWindow.xml"
     )
 end

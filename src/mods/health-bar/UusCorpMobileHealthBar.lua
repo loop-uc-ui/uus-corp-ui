@@ -8,7 +8,7 @@ UusCorpMobileHealthBar.ObjectAnchor = "ObjectAnchor"
 
 function UusCorpMobileHealthBar.initialize()
     UusCorpCore.loadResources(
-        "/mods/health-bar",
+        "/src/mods/health-bar",
         "UusCorpMobileHealthBar.xml"
     )
 

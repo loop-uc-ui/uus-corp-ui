@@ -1,8 +1,8 @@
 UusCorpCore = {}
 
 function UusCorpCore.initialize()
-    UusCorpCore.loadResources("/core/template", "ItemGridSocketTemplate.xml")
-    UusCorpCore.loadResources("/core/textures", "UusCorpTextures.xml")
+    UusCorpCore.loadResources("/src/core/template", "ItemGridSocketTemplate.xml")
+    UusCorpCore.loadResources("/src/core/textures", "UusCorpTextures.xml")
 end
 
 function UusCorpCore.loadResources(path, file)

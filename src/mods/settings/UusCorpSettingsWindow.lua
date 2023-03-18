@@ -534,7 +534,7 @@ UusCorpSettingsWindow.Pages = {
 
 function UusCorpSettingsWindow.initialize()
     UusCorpCore.loadResources(
-        "/mods/settings",
+        "/src/mods/settings",
         "UusCorpSettingsWindow.xml"
     )
 

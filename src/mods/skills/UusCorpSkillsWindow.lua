@@ -85,7 +85,7 @@ end
 
 function UusCorpSkillsWindow.initialize()
     UusCorpCore.loadResources(
-        "/mods/skills",
+        "/src/mods/skills",
         "UusCorpSkillsWindow.xml"
     )
 

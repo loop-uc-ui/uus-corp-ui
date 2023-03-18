@@ -89,7 +89,7 @@ end
 
 function UusCorpCharacterSheetWindow.initialize()
     UusCorpCore.loadResources(
-        "/mods/character-sheet",
+        "/src/mods/character-sheet",
         "UusCorpCharacterSheetWindow.xml"
     )
     UusCorpCore.overrideFunctions(CharacterSheet)

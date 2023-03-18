@@ -16,7 +16,7 @@ UusCorpCharacterAbilitiesWindow.InactiveAbilities = {}
 
 function UusCorpCharacterAbilitiesWindow.initialize()
     UusCorpCore.loadResources(
-        "/mods/character-abilities",
+        "/src/mods/character-abilities",
         "UusCorpCharacterAbilitiesWindow.xml"
     )
     UusCorpCore.overrideFunctions(CharacterAbilities)

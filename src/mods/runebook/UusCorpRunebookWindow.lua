@@ -63,7 +63,7 @@ end
 
 function UusCorpRunebookWindow.initialize()
     UusCorpCore.loadResources(
-        "/mods/runebook",
+        "/src/mods/runebook",
         "UusCorpRunebookWindow.xml"
     )
 end

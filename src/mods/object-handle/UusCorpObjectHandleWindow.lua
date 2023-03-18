@@ -4,7 +4,7 @@ UusCorpObjectHandleWindow.Label = "Name"
 
 function UusCorpObjectHandleWindow.initialize()
     UusCorpCore.loadResources(
-        "/mods/object-handle",
+        "/src/mods/object-handle",
         "UusCorpObjectHandleWindow.xml"
     )
 

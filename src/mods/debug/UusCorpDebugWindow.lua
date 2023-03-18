@@ -12,7 +12,7 @@ local uiLog = "UiLog"
 
 function UusCorpDebugWindow.initialize()
     UusCorpCore.loadResources(
-        "/mods/debug",
+        "/src/mods/debug",
         "UusCorpDebugWindow.xml"
     )
     WindowApi.destroyWindow("DebugWindow")

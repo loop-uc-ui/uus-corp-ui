@@ -208,7 +208,7 @@ end
 
 function UusCorpShopkeeper.initialize()
     UusCorpCore.loadResources(
-        "/mods/shopkeeper",
+        "/src/mods/shopkeeper",
         "UusCorpShopkeeper.xml"
     )
 end

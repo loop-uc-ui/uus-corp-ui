@@ -3,7 +3,7 @@ UusCorpPlayerHealthBar.Name = "PlayerHealthBar"
 
 function UusCorpPlayerHealthBar.initialize()
     UusCorpCore.loadResources(
-        "/mods/health-bar",
+        "/src/mods/health-bar",
         "UusCorpPlayerHealthBar.xml"
     )
 
