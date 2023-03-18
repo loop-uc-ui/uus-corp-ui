@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Assets>
+        <Texture name="StatusBar" file="status_window_bar.dds" />
+    </Assets>
+</Interface>

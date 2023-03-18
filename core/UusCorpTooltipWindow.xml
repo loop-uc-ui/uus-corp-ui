@@ -1,0 +1,33 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Label name="TooltipLabelTemplate" font="inter_medium_16" autoresize="true" wordwrap="true" textalign="top">
+            <Size>
+                <AbsPoint x="248" y="16"/>
+            </Size>
+            <Color r="206" g="217" b="242" a="255"/>
+        </Label>
+
+        <Window name="UusCorpTooltipWindow" movable="true" handleinput="true" popable="false" layer="overlay">
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="UusCorpTooltipWindow.onInitialize"/>
+                <EventHandler event="OnUpdate" function="UusCorpTooltipWindow.onUpdate"/>
+                <EventHandler event="OnShutdown" function="UusCorpTooltipWindow.onShutdown"/>
+            </EventHandlers>
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
+                    </Anchors>
+                </FullResizeImage>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

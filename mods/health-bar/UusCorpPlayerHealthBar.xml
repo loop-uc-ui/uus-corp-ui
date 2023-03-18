@@ -1,0 +1,111 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="PlayerHealthBar" movable="true" draganddrop="true">
+            <Size>
+                <AbsPoint x="168" y="90" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="UusCorpPlayerHealthBar.onInitialize"/>
+                <EventHandler event="OnShutdown" function="UusCorpPlayerHealthBar.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="UusCorpPlayerHealthBar.onRightClick"/>
+                <EventHandler event="OnLButtonDblClk" function="UusCorpPlayerHealthBar.onDoubleClick" />
+            </EventHandlers>
+            <Windows>
+                <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="-4"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentStaminaBar">
+                            <AbsPoint x="24" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                </FullResizeImage>
+
+                <!-- Inner Frame Boilerplate -->
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentWindowBackground"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentWindowBackground"/>
+                    </Anchors>
+                </FullResizeImage>
+                <!-- End of Inner Frame Boilerplate -->
+
+                <Label name="$parentName" font="inter_medium_18" maxchars="16" textalign="center" handleinput="false" wordwrap="false" popable="false">
+                    <Size>
+                        <AbsPoint x="136" y="12" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="top" relativeTo="$parent">
+                            <AbsPoint x="12" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255" />
+                </Label>
+
+                <StatusBar name="$parentHealthBar" foreground="StatusBar" handleinput="false" alpha="0.5">
+                    <Size>
+                        <AbsPoint x="150" y="16"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentName">
+                            <AbsPoint x="0" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                </StatusBar>
+
+                <StatusBar name="$parentManaBar" foreground="StatusBar" handleinput="false" alpha="0.5">
+                    <Size>
+                        <AbsPoint x="150" y="16"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentHealthBar">
+                            <AbsPoint y="6" x="0"/>
+                        </Anchor>
+                    </Anchors>
+                </StatusBar>
+
+                <StatusBar name="$parentStaminaBar" foreground="StatusBar" handleinput="false" alpha="0.5">
+                    <Size>
+                        <AbsPoint x="150" y="16"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentManaBar">
+                            <AbsPoint y="8" x="0"/>
+                        </Anchor>
+                    </Anchors>
+                </StatusBar>
+
+                <Label name="$parentHealthBarPerc" font="inter_medium_16" maxchars="50" textalign="center" handleinput="false" wordwrap="false" linespacing="18" popable="false" layer="overlay">
+                    <Size>
+                        <AbsPoint x="130" y="16" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="top" relativeTo="$parentHealthBar"/>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255" />
+                </Label>
+
+                <Label name="$parentManaBarPerc" font="inter_medium_16" maxchars="50" textalign="center" handleinput="false" wordwrap="false" linespacing="18" popable="false" layer="overlay">
+                    <Size>
+                        <AbsPoint x="130" y="16" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="top" relativeTo="$parentManaBar"/>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255" />
+                </Label>
+
+                <Label name="$parentStaminaBarPerc" font="inter_medium_16" maxchars="50" textalign="center" handleinput="false" wordwrap="false" linespacing="18" popable="false" layer="overlay">
+                    <Size>
+                        <AbsPoint x="130" y="16" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="top" relativeTo="$parentStaminaBar"/>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255" />
+                </Label>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

@@ -1,0 +1,201 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+        <Button name="LegacyPurpleDiamond" texture="Legacy_Buttons">
+            <Size>
+              <AbsPoint x="17" y="17" />
+            </Size>
+            <TexCoords>
+              <Normal texture="Legacy_Buttons" x="426" y="141" />
+              <NormalHighlit texture="Legacy_Buttons" x="455" y="141" />
+              <Pressed texture="Legacy_Buttons" x="455" y="141" />
+              <Disabled texture="Legacy_Buttons" x="486" y="141" />
+            </TexCoords>
+        </Button>
+
+        <Button name="RunebookRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
+            <Size>
+				<AbsPoint x="696" y="24" />
+			</Size>
+            <TexCoords>
+                <NormalHighlit x="12" y="12"/>
+                <PressedHighlit x="12" y="12"/>
+            </TexCoords>
+            <Windows>
+                <Button name="$parentButton" inherits="LegacyPurpleDiamond"/>
+
+                <Label name="$parentName" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="264" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor relativePoint="left" point="right" relativeTo="$parentButton">
+                            <AbsPoint x="8" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <Label name="$parentFacet" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="200" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor relativePoint="left" point="right" relativeTo="$parentName">
+                            <AbsPoint x="12" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
+                    </EventHandlers>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <Label name="$parentLocation" font="inter_medium_18" textalign="rightcenter">
+                    <Size>
+                        <AbsPoint x="232" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor relativePoint="right" point="right" relativeTo="$parent">
+                            <AbsPoint x="0" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <EventHandlers>
+                        <EventHandler event="OnMouseDrag" function="SkillsWindow.onSkillDrag"/>
+                    </EventHandlers>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+            </Windows>
+
+            <EventHandlers>
+                <EventHandler event="OnLButtonUp" function="UusCorpRunebookWindow.onRuneClick"/>
+            </EventHandlers>
+        </Button>
+
+		<Window name="LEGACY_Runebook_GUMP" movable="true" handleinput="true">
+			<Size>
+				<AbsPoint x="728" y="512" />
+			</Size>
+			<Anchors>
+				<Anchor point="center" relativePoint="center" />
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="UusCorpRunebookWindow.onInitialize" />
+                <EventHandler event="OnRButtonUp" function="UusCorpRunebookWindow.onRightClick" />
+				<EventHandler event="OnShutdown" function="UusCorpRunebookWindow.onShutdown" />
+			</EventHandlers>
+			<Windows>
+				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <Button name="$parentRename" backgroundtexture="Swirl_Button" highlighttexture="Swirl_Button">
+                    <Size>
+                        <AbsPoint x="20" y="20" />
+                    </Size>
+
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="16" y="16"/>
+                        </Anchor>
+                    </Anchors>
+
+                    <TexCoords>
+                        <Normal x="0" y="0" />
+                        <NormalHighlit x="0" y="23" />
+                        <Pressed x="0" y="23" />
+                        <PressedHighlit x="0" y="23" />
+                        <Disabled x="0" y="23" />
+                    </TexCoords>
+
+                    <EventHandlers>
+                        <EventHandler event="OnLButtonUp" function="UusCorpRunebookWindow.onRenameClick"/>
+                    </EventHandlers>
+                </Button>
+
+                <Label name="$parentName" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="500" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentRename">
+                            <AbsPoint x="12" y="-2"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <EditBox name="$parentNameEditBox" font="inter_medium_18" maxchars="128">
+					<Size>
+                        <AbsPoint x="500" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentName">
+                            <AbsPoint x="0" y="3"/>
+                        </Anchor>
+                    </Anchors>
+                    <TextColor r="206" g="217" b="242" a="255"/>
+					<EventHandlers>
+						<EventHandler event="OnKeyEnter" function="UusCorpRunebookWindow.onRenameEnter" />
+                        <EventHandler event="OnKeyEscape" function="UusCorpRunebookWindow.onRenameEscape" />
+					</EventHandlers>
+				</EditBox>
+
+                <Label name="$parentCharges" font="inter_medium_18" textalign="leftcenter">
+                    <Size>
+                        <AbsPoint x="148" y="24" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topright" relativeTo="$parent">
+                            <AbsPoint x="-12" y="16"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="false" autoHideScrollBar="false" popable="false">
+                   <Size>
+						<AbsPoint x="696" y="512" />
+					</Size>
+					<Anchors>
+                        <Anchor point="topleft" relativePoint="topleft">
+                            <AbsPoint x="16" y="52"/>
+                        </Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright">
+                            <AbsPoint x="-16" y="-8"/>
+                        </Anchor>
+					</Anchors>
+                    <Windows>
+						<Window name ="$parentScrollChild" popable="false">
+							<Size>
+								<AbsPoint x="696" y="512"/>
+							</Size>
+						</Window>
+						<VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                            <Size>
+                                <AbsPoint x="12" y="0" />
+                            </Size>
+                            <Anchors>
+                                <Anchor point="topright" relativePoint="topright">
+                                    <AbsPoint x="-14" y="0"/>
+                                </Anchor>
+                            </Anchors>
+                            <ThumbOffset x="0" y="0" />
+                            <ActiveZoneOffset x="500" y="500" />
+                        </VerticalScrollbar>
+					</Windows>
+                </ScrollWindow>
+			</Windows>
+		</Window>
+
+	</Windows>
+</Interface>
