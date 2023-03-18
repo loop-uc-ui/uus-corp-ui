@@ -6,7 +6,14 @@ function UusCorpPlayerHealthBar.initialize()
         "/mods/health-bar",
         "UusCorpPlayerHealthBar.xml"
     )
+
     WindowApi.setShowing("StatusWindow", false)
+
+    WindowApi.unregisterEventHandler(
+        "StatusWindow",
+        PlayerStatus.event()
+    )
+
     UusCorpCore.overrideFunctions(StatusWindow)
 end
 

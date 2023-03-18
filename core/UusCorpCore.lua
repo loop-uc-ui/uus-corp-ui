@@ -14,9 +14,9 @@ function UusCorpCore.loadResources(path, file)
 end
 
 function UusCorpCore.overrideFunctions(table)
-    for _, v in pairs(table) do
+    for k, v in pairs(table) do
         if type(v) == "function" then
-            v = function () end
+            table[k] = function () end
         end
     end
 end

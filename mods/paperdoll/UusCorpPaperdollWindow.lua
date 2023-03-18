@@ -48,8 +48,7 @@ function UusCorpPaperdollWindow.initialize()
         "UusCorpPaperdollWindow.xml"
     )
 
-    PaperdollWindow.UpdateDurabilities = function ()
-    end
+    UusCorpCore.overrideFunctions(PaperdollWindow)
 
     WindowApi.setShowing("WarShield", false)
 end

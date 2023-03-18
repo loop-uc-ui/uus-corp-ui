@@ -77,6 +77,10 @@ function UusCorpBuffsWindow.initialize()
 
     UusCorpCore.overrideFunctions(AdvancedBuff)
     UusCorpCore.overrideFunctions(BuffDebuff)
+    WindowApi.unregisterEventHandler(
+        "BuffDebuff",
+        Buffs.event()
+    )
     WindowApi.createWindow(UusCorpBuffsWindow.Name, false)
 end
 
