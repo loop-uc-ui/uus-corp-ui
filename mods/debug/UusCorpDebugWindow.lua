@@ -10,6 +10,14 @@ LuaLog.FUNCTION = 4
 local debugPrint = "DebugPrint"
 local uiLog = "UiLog"
 
+function UusCorpDebugWindow.initialize()
+    UusCorpCore.loadResources(
+        "/mods/debug",
+        "UusCorpDebugWindow.xml"
+    )
+    WindowApi.destroyWindow("DebugWindow")
+end
+
 function UusCorpDebugWindow.onInitialize()
     TextLogApi.createTextLog(debugPrint, 1)
     TextLogApi.enableLog(debugPrint)
