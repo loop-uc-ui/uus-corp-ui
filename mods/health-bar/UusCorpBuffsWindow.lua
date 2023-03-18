@@ -77,6 +77,7 @@ function UusCorpBuffsWindow.initialize()
 
     UusCorpCore.overrideFunctions(AdvancedBuff)
     UusCorpCore.overrideFunctions(BuffDebuff)
+    WindowApi.createWindow(UusCorpBuffsWindow.Name, false)
 end
 
 function UusCorpBuffsWindow.onInitialize()
@@ -95,7 +96,7 @@ function UusCorpBuffsWindow.onShown()
     WindowApi.addAnchor(
         Active.window(),
         "bottomleft",
-        PlayerHealthBar.Name,
+        UusCorpPlayerHealthBar.Name,
         "topleft",
         8,
         12

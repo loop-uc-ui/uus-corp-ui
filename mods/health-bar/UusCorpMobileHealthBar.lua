@@ -15,10 +15,17 @@ function UusCorpMobileHealthBar.initialize()
     UusCorpCore.overrideFunctions(MobileHealthBar)
 
     MobileHealthBar.CreateHealthBar = function (mobileId)
-        local window = UusCorpMobileHealthBar.Name .. mobileId
+        local template = UusCorpMobileHealthBar.Name
+        local window = template .. mobileId
+
+        if mobileId == PlayerStatus.id() then
+            template = UusCorpPlayerHealthBar.Name
+            window = UusCorpPlayerHealthBar.Name
+        end
+
         WindowApi.createFromTemplate(
             window,
-            UusCorpMobileHealthBar.Name,
+            template,
             "Root"
         )
 

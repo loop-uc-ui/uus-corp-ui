@@ -5,10 +5,10 @@
                 <AbsPoint x="168" y="90" />
             </Size>
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="PlayerHealthBar.onInitialize"/>
-                <EventHandler event="OnShutdown" function="PlayerHealthBar.onShutdown"/>
-                <EventHandler event="OnRButtonUp" function="PlayerHealthBar.onRightClick"/>
-                <EventHandler event="OnLButtonDblClk" function="PlayerHealthBar.onDoubleClick" />
+                <EventHandler event="OnInitialize" function="UusCorpPlayerHealthBar.onInitialize"/>
+                <EventHandler event="OnShutdown" function="UusCorpPlayerHealthBar.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="UusCorpPlayerHealthBar.onRightClick"/>
+                <EventHandler event="OnLButtonDblClk" function="UusCorpPlayerHealthBar.onDoubleClick" />
             </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">

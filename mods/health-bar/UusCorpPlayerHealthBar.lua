@@ -1,67 +1,76 @@
-PlayerHealthBar = {}
-PlayerHealthBar.Name = "PlayerHealthBar"
+UusCorpPlayerHealthBar = {}
+UusCorpPlayerHealthBar.Name = "PlayerHealthBar"
 
-function PlayerHealthBar.onInitialize()
-    WindowDataApi.registerData(MobileData.nameType(), PlayerStatus.id())
-    WindowDataApi.registerData(MobileData.healthBarColorType(), PlayerStatus.id())
-    WindowApi.registerEventHandler(PlayerHealthBar.Name, PlayerStatus.event(), "PlayerHealthBar.update")
-    WindowApi.setShowing(UusCorpBuffsWindow.Name, true)
-    PlayerHealthBar.update()
+function UusCorpPlayerHealthBar.initialize()
+    UusCorpCore.loadResources(
+        "/mods/health-bar",
+        "UusCorpPlayerHealthBar.xml"
+    )
+    WindowApi.setShowing("StatusWindow", false)
+    UusCorpCore.overrideFunctions(StatusWindow)
 end
 
-function PlayerHealthBar.onShutdown()
+function UusCorpPlayerHealthBar.onInitialize()
+    WindowDataApi.registerData(MobileData.nameType(), PlayerStatus.id())
+    WindowDataApi.registerData(MobileData.healthBarColorType(), PlayerStatus.id())
+    WindowApi.registerEventHandler(UusCorpPlayerHealthBar.Name, PlayerStatus.event(), "UusCorpPlayerHealthBar.update")
+    WindowApi.setShowing(UusCorpBuffsWindow.Name, true)
+    UusCorpPlayerHealthBar.update()
+end
+
+function UusCorpPlayerHealthBar.onShutdown()
     WindowApi.setShowing(UusCorpBuffsWindow.Name, false)
     WindowDataApi.unregisterData(MobileData.nameType(), PlayerStatus.id())
     WindowDataApi.unregisterData(MobileData.healthBarColorType(), PlayerStatus.id())
-    WindowApi.unregisterEventHandler(PlayerHealthBar.Name, PlayerStatus.event())
+    WindowApi.unregisterEventHandler(UusCorpPlayerHealthBar.Name, PlayerStatus.event())
 end
 
-function PlayerHealthBar.update()
+function UusCorpPlayerHealthBar.update()
     LabelApi.setText(
-        PlayerHealthBar.Name .. "Name",
+        UusCorpPlayerHealthBar.Name .. "Name",
         MobileData.name(PlayerStatus.id())
     )
     LabelApi.setText(
-        PlayerHealthBar.Name .. "HealthBarPerc",
+        UusCorpPlayerHealthBar.Name .. "HealthBarPerc",
         PlayerStatus.currentHealth() .. " / " .. PlayerStatus.maxHealth()
     )
     LabelApi.setText(
-        PlayerHealthBar.Name .. "ManaBarPerc",
+        UusCorpPlayerHealthBar.Name .. "ManaBarPerc",
         PlayerStatus.currentMana() .. " / " .. PlayerStatus.maxMana()
     )
     LabelApi.setText(
-        PlayerHealthBar.Name .. "StaminaBarPerc",
+        UusCorpPlayerHealthBar.Name .. "StaminaBarPerc",
         PlayerStatus.currentStamina() .. " / " .. PlayerStatus.maxStamina()
     )
 
-    local bar = PlayerHealthBar.Name .. "HealthBar"
+    local bar = UusCorpPlayerHealthBar.Name .. "HealthBar"
     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentHealth())
     StatusBarApi.setMaximumValue(bar, PlayerStatus.maxHealth())
     StatusBarApi.setForegroundTint(bar, Colors.Red)
 
-    bar = PlayerHealthBar.Name .. "ManaBar"
+    bar = UusCorpPlayerHealthBar.Name .. "ManaBar"
     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentMana())
     StatusBarApi.setMaximumValue(bar, PlayerStatus.maxMana())
     StatusBarApi.setForegroundTint(bar, Colors.Blue)
 
-    bar = PlayerHealthBar.Name .. "StaminaBar"
+    bar = UusCorpPlayerHealthBar.Name .. "StaminaBar"
     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentStamina())
     StatusBarApi.setMaximumValue(bar, PlayerStatus.maxStamina())
     StatusBarApi.setForegroundTint(bar, Colors.YellowDark)
 end
 
-function PlayerHealthBar.offset()
+function UusCorpPlayerHealthBar.offset()
     WindowApi.setOffsetFromParent(
-        PlayerHealthBar.Name,
+        UusCorpPlayerHealthBar.Name,
         MousePosition.x() - 30,
         MousePosition.y() - 15
     )
 end
 
-function PlayerHealthBar.onRightClick()
-    WindowApi.destroyWindow(PlayerHealthBar.Name)
+function UusCorpPlayerHealthBar.onRightClick()
+    WindowApi.destroyWindow(UusCorpPlayerHealthBar.Name)
 end
 
-function PlayerHealthBar.onDoubleClick()
+function UusCorpPlayerHealthBar.onDoubleClick()
     UserAction.useItem(PlayerStatus.id(), false)
 end

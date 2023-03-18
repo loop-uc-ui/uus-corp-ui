@@ -10,15 +10,15 @@
 		</Dependencies>
 
 		<Files>
-			<File name="UusCorpMobileHealthBar.lua" />
             <File name="UusCorpBuffsWindow.lua" />
             <File name="UusCorpPlayerHealthBar.lua" />
+			<File name="UusCorpMobileHealthBar.lua" />
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpMobileHealthBar.initialize" />
             <CallFunction name="UusCorpBuffsWindow.initialize" />
 			<CallFunction name="UusCorpPlayerHealthBar.initialize" />
+			<CallFunction name="UusCorpMobileHealthBar.initialize" />
 		</OnInitialize>
 	</UiMod>
 </ModuleFile>
