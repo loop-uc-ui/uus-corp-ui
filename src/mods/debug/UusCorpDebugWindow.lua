@@ -15,7 +15,6 @@ function UusCorpDebugWindow.initialize()
         "/src/mods/debug",
         "UusCorpDebugWindow.xml"
     )
-    WindowApi.destroyWindow("DebugWindow")
 end
 
 function UusCorpDebugWindow.onInitialize()

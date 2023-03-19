@@ -1,5 +1,13 @@
 Events = {}
 
+function Events.profanityListUpdated()
+    return SystemData.Events.PROFANITYLIST_UPDATED
+end
+
+function Events.toggleUserPreference()
+    return SystemData.Events.TOGGLE_USER_PREFERENCE
+end
+
 function Events.skillStateChange()
     return SystemData.Events.SKILLS_ACTION_SKILL_STATE_CHANGE
 end
@@ -14,6 +22,10 @@ end
 
 function Events.enableHealthBar()
     return SystemData.Events.ENABLE_HEALTHBAR_WINDOW
+end
+
+function Events.bugReport()
+    return SystemData.Events.BUG_REPORT_SCREEN
 end
 
 function Events.disableHealthBar()

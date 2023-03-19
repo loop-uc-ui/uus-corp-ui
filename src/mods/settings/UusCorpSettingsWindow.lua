@@ -1,6 +1,6 @@
 UusCorpSettingsWindow = {}
 
-UusCorpSettingsWindow.Name = "SettingsWindow"
+UusCorpSettingsWindow.Name = "UusCorpSettingsWindow"
 
 UusCorpSettingsWindow.TabContainer = UusCorpSettingsWindow.Name .. "TabContainer"
 
@@ -532,15 +532,45 @@ UusCorpSettingsWindow.Pages = {
     }
 }
 
+
 function UusCorpSettingsWindow.initialize()
+    WindowApi.destroyWindow("TipoftheDayWindow")
+
+    local defaultSettings = "SettingsWindow"
+
+    UusCorpCore.overrideFunctions(SettingsWindow)
+
+    WindowApi.unregisterEventHandler(
+        "Root",
+        Events.profanityListUpdated()
+    )
+
+    WindowApi.unregisterEventHandler(
+        defaultSettings,
+        Events.keyRecordCanceled()
+    )
+
+    WindowApi.unregisterEventHandler(
+        defaultSettings,
+        Events.userSettingsUpdated()
+    )
+
+    WindowApi.unregisterEventHandler(
+        defaultSettings,
+        Events.keyRecorded()
+    )
+
+    WindowApi.unregisterEventHandler(
+        defaultSettings,
+        Events.toggleUserPreference()
+    )
+
     UusCorpCore.loadResources(
         "/src/mods/settings",
         "UusCorpSettingsWindow.xml"
     )
 
-    WindowApi.destroyWindow("TipoftheDayWindow")
-    WindowApi.destroyWindow("SettingsWindow")
-    WindowApi.createWindow("SettingsWindow", false)
+    WindowApi.createWindow(UusCorpSettingsWindow.Name, false)
 end
 
 function UusCorpSettingsWindow.onInitialize()

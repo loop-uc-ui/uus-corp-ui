@@ -15,10 +15,26 @@ UusCorpCharacterAbilitiesWindow.ActiveAbilities = {}
 UusCorpCharacterAbilitiesWindow.InactiveAbilities = {}
 
 function UusCorpCharacterAbilitiesWindow.initialize()
+    WindowApi.unregisterEventHandler(
+        "CharacterAbilities",
+        PlayerStatus.event()
+    )
+
+    WindowApi.unregisterEventHandler(
+        "CharacterAbilities",
+        Events.displayActiveAbilities()
+    )
+
+    WindowApi.unregisterEventHandler(
+        "CharacterAbilities",
+        Events.resetAbilities()
+    )
+
     UusCorpCore.loadResources(
         "/src/mods/character-abilities",
         "UusCorpCharacterAbilitiesWindow.xml"
     )
+
     UusCorpCore.overrideFunctions(CharacterAbilities)
 end
 
