@@ -1,5 +1,5 @@
 UusCorpDebugWindow = {}
-UusCorpDebugWindow.Name = "UusCorpDebugWindow"
+UusCorpDebugWindow.Name = "DebugWindow"
 
 local LuaLog = {}
 LuaLog.SYSTEM = 1
@@ -15,43 +15,49 @@ function UusCorpDebugWindow.initialize()
         "/src/mods/debug",
         "UusCorpDebugWindow.xml"
     )
-end
 
-function UusCorpDebugWindow.onInitialize()
-    TextLogApi.createTextLog(debugPrint, 1)
-    TextLogApi.enableLog(debugPrint)
-    TextLogApi.clearLog(debugPrint)
+    WindowApi.destroyWindow(UusCorpDebugWindow.Name)
 
-    local text = UusCorpDebugWindow.Name .. "Text"
-    LogDisplayApi.showTimestamp(text)
-    LogDisplayApi.showLogName(text)
-    LogDisplayApi.showFilterName(text)
+    DebugWindow.Initialize = function ()
+        TextLogApi.createTextLog(debugPrint, 1)
+        TextLogApi.enableLog(debugPrint)
+        TextLogApi.clearLog(debugPrint)
 
-    LogDisplayApi.addLog(text, uiLog)
+        local text = UusCorpDebugWindow.Name .. "Text"
+        LogDisplayApi.showTimestamp(text)
+        LogDisplayApi.showLogName(text)
+        LogDisplayApi.showFilterName(text)
 
-    LogDisplayApi.setFilterColor(text, uiLog, LuaLog.SYSTEM, { r = 255, g = 0, b = 255 }) -- Magenta
-    LogDisplayApi.setFilterColor(text, uiLog, LuaLog.ERROR, { r = 255, g = 0, b = 0}) -- Red
-    LogDisplayApi.setFilterColor(text, uiLog, LuaLog.DEBUG, { r = 255, g = 255, b = 0}) -- Yellow
-    LogDisplayApi.setFilterColor(text, uiLog, LuaLog.FUNCTION, { r = 0, g = 175, b = 50}) -- Green
-    LogDisplayApi.setFilterColor(text, uiLog, LuaLog.WARNING, { r = 0, g = 175, b = 50}) -- Green
+        LogDisplayApi.addLog(text, uiLog)
 
-    TextLogApi.enableLog(uiLog)
+        LogDisplayApi.setFilterColor(text, uiLog, LuaLog.SYSTEM, { r = 255, g = 0, b = 255 }) -- Magenta
+        LogDisplayApi.setFilterColor(text, uiLog, LuaLog.ERROR, { r = 255, g = 0, b = 0}) -- Red
+        LogDisplayApi.setFilterColor(text, uiLog, LuaLog.DEBUG, { r = 255, g = 255, b = 0}) -- Yellow
+        LogDisplayApi.setFilterColor(text, uiLog, LuaLog.FUNCTION, { r = 0, g = 175, b = 50}) -- Green
+        LogDisplayApi.setFilterColor(text, uiLog, LuaLog.WARNING, { r = 0, g = 175, b = 50}) -- Green
 
-    for index = 1, #DevData.DebugWindow.luaFilters do
-        LogDisplayApi.setFilterState(
-            text,
-            uiLog,
-            index,
-            true
-        )
+        TextLogApi.enableLog(uiLog)
+
+        for index = 1, #DevData.DebugWindow.luaFilters do
+            LogDisplayApi.setFilterState(
+                text,
+                uiLog,
+                index,
+                true
+            )
+        end
     end
+
+    WindowApi.createFromTemplate(UusCorpDebugWindow.Name, UusCorpDebugWindow.Name, "Root")
+    WindowApi.setShowing(UusCorpDebugWindow.Name, false)
 end
 
-function UusCorpDebugWindow.onShutdown()
-    TextLogApi.enableLog(debugPrint, false)
-    TextLogApi.destroyTextLog(debugPrint)
-    TextLogApi.enableLog(uiLog, false)
-    TextLogApi.destroyTextLog(uiLog)
+function UusCorpDebugWindow.onShown()
+    DebugWindow.logging = true
+end
+
+function UusCorpDebugWindow.onHidden()
+    DebugWindow.logging = false
 end
 
 function UusCorpDebugWindow.OnResizeBegin()
@@ -61,5 +67,5 @@ function UusCorpDebugWindow.OnResizeBegin()
 end
 
 function UusCorpDebugWindow.onRightClick()
-    WindowApi.destroyWindow(UusCorpDebugWindow.Name)
+    WindowApi.setShowing(UusCorpDebugWindow.Name, false)
 end

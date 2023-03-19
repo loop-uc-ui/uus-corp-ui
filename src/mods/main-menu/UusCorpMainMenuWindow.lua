@@ -53,7 +53,7 @@ function UusCorpMainMenuWindow.onButtonClick()
     local window = Active.window()
 
     if window == UusCorpMainMenuWindow.Buttons.Debug then
-        WindowApi.createWindow(UusCorpDebugWindow.Name, true)
+        ToggleWindowByName("DebugWindow", "")
     elseif window == UusCorpMainMenuWindow.Buttons.ExitGame then
         InterfaceCore.OnExitGame()
         return

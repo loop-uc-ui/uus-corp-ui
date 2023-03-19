@@ -31,3 +31,7 @@ end
 function TextLogApi.getEntry(name, index)
     return TextLogGetEntry(name, index)
 end
+
+function TextLogApi.addEntry(textLogName, filterId, text)
+    TextLogAddEntry(textLogName, filterId, text)
+end
