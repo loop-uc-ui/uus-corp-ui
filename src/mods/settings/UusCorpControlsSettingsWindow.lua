@@ -1,6 +1,6 @@
 UusCorpControlsSettingsWindow = {}
 
-UusCorpControlsSettingsWindow.Name = "SettingsWindowControlsPage"
+UusCorpControlsSettingsWindow.Name = "UusCorpSettingsWindowControlsPage"
 
 UusCorpControlsSettingsWindow.List = UusCorpControlsSettingsWindow.Name .. "List"
 

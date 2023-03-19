@@ -15,6 +15,13 @@ UusCorpMainMenuWindow.Buttons = {
 }
 
 function UusCorpMainMenuWindow.initialize()
+    WindowApi.destroyWindow("BugReportWindow")
+
+    WindowApi.unregisterEventHandler(
+        "Root",
+        Events.bugReport()
+    )
+
     UusCorpCore.loadResources(
         "/src/mods/main-menu",
         "UusCorpMainMenuWindow.xml"
@@ -64,7 +71,11 @@ function UusCorpMainMenuWindow.onButtonClick()
     elseif window == UusCorpMainMenuWindow.Buttons.Store then
         EventApi.broadcast(Events.store())
     elseif window == UusCorpMainMenuWindow.Buttons.Settings then
-        ToggleWindowByName("SettingsWindow", "")
+        if WindowApi.doesExist("UusCorpSettingsWindow") then
+            ToggleWindowByName("UusCorpSettingsWindow", "")
+        else
+            ToggleWindowByName("SettingsWindow", "")
+        end
     end
 
     WindowApi.setShowing(UusCorpMainMenuWindow.Name, false)

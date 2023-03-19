@@ -546,7 +546,7 @@
             </Windows>
         </Window>
 
-        <Window name="SettingsWindow" movable="true" layer="default">
+        <Window name="UusCorpSettingsWindow" movable="true" layer="default">
             <Size>
                 <AbsPoint x="800" y="600" />
             </Size>

@@ -88,10 +88,16 @@ local function populateList(title, list, data)
 end
 
 function UusCorpCharacterSheetWindow.initialize()
+    WindowApi.unregisterEventHandler(
+        "CharacterSheet",
+        PlayerStatus.event()
+    )
+
     UusCorpCore.loadResources(
         "/src/mods/character-sheet",
         "UusCorpCharacterSheetWindow.xml"
     )
+
     UusCorpCore.overrideFunctions(CharacterSheet)
 end
 
