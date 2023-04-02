@@ -215,6 +215,12 @@ function UusCorpCharacterAbilitiesWindow.onDisplayActiveAbilities()
 end
 
 function UusCorpCharacterAbilitiesWindow.onResetAbilities()
+    for i = 1, #UusCorpCharacterAbilitiesWindow.InactiveAbilities do
+        WindowApi.destroyWindow(
+            UusCorpCharacterAbilitiesWindow.InactiveList .. i
+        )
+    end
+
     UusCorpCharacterAbilitiesWindow.InactiveAbilities = {}
 
     for i = 1, AbilityApi.WeaponAbilitiesCount do
