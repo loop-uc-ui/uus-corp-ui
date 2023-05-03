@@ -1,4 +1,4 @@
-<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Interface.xsd">
     <Windows>
 
         <Button name="SettingsTabTemplate" backgroundtexture="" highlighttexture="Menu_Selection" font="inter_medium_20" layer="default" textalign="center" texturescale="0.66">
@@ -459,28 +459,38 @@
                             </Anchors>
                         </Window>
 
-                        <ListBox name="$parentList" rowdef="KeybindingRowTemplate" visiblerows="17" rowcount="57" rowspacing="2" scrollbar="$parentScrollbar">
+                        <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
                             <Size>
-                                <AbsPoint x="500" y="440" />
+                                <AbsPoint x="556" y="440" />
                             </Size>
-
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentScrollDownCombo">
                                     <AbsPoint x="0" y="24"/>
                                 </Anchor>
                             </Anchors>
-                            <ListData table="ControlsSettingsWindow.Keybindings" populationfunction="UusCorpControlsSettingsWindow.onPopulateKeybindings">
-                                <ListColumns>
-                                     <ListColumn windowname="ItemLabel" variable="label" format="wstring"/>
-                                     <ListColumn windowname="ItemValue" variable="value" format="wstring"/>
-                                </ListColumns>
-                             </ListData>
-                             <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb">
-                                 <Anchors>
-                                     <Anchor point="bottomright" relativePoint="bottomright"/>
-                                 </Anchors>
-                            </VerticalScrollbar>
-                        </ListBox>
+                            <Windows>
+                                <Window name ="$parentScrollChild" popable="false" autoresize="false">
+                                    <Size>
+                                        <AbsPoint x="556" y="440" />
+                                    </Size>
+                                </Window>
+                                <VerticalScrollbar name="$parentScrollbar" up="StandardVertScrollUpBtn" down="StandardVertScrollDownBtn" thumb="StandardVertScrollThumb" gutter="StandardVertScrollGutter">
+                                    <Size>
+                                        <AbsPoint x="12" y="0" />
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="topright" relativePoint="topright">
+                                            <AbsPoint x="-14" y="8"/>
+                                        </Anchor>
+                                        <Anchor point="bottomright" relativePoint="bottomright">
+                                            <AbsPoint x="-14" y="-8"/>
+                                        </Anchor>
+                                    </Anchors>
+                                    <ThumbOffset x="0" y="0" />
+                                    <ActiveZoneOffset x="500" y="500" />
+                                </VerticalScrollbar>
+                            </Windows>
+                        </ScrollWindow>
                     </Windows>
                 </Window>
             </Windows>
