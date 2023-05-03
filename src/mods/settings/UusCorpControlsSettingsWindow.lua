@@ -4,8 +4,6 @@ UusCorpControlsSettingsWindow.Name = "UusCorpSettingsWindowControlsPage"
 
 UusCorpControlsSettingsWindow.List = UusCorpControlsSettingsWindow.Name .. "List"
 
-UusCorpControlsSettingsWindow.Keybindings = {}
-
 local recordingKey = nil
 
 local function toggleRecordingTextColor()
@@ -23,6 +21,7 @@ local function toggleRecordingTextColor()
         recordingKey .. "ItemLabel",
         color
     )
+
     LabelApi.setTextColor(
         recordingKey .. "ItemValue",
         color
@@ -30,38 +29,44 @@ local function toggleRecordingTextColor()
 end
 
 local function updateBindings()
-    local order = {}
-
     for i = 1, #UserControlSettings.Keybindings do
         local item = UserControlSettings.Keybindings[i]
+        local name = "KeyBindingRow" .. i
 
-        if item.type ~= nil then
-            table.insert(
-                UusCorpControlsSettingsWindow.Keybindings,
-                i,
-                {
-                    label = StringFormatter.fromTid(item.tid),
-                    value = StringFormatter.toWString(
-                        UserControlSettings.updateKeyBindings()[item.type]
-                    )
-                }
-            )
-
-            table.insert(
-                order,
-                i
+        if WindowApi.createFromTemplate(
+            name,
+            "KeybindingRowTemplate",
+            UusCorpControlsSettingsWindow.List .. "ScrollChild"
+        ) and i > 1 then
+            WindowApi.addAnchor(
+                name,
+                "bottom",
+                "KeyBindingRow" .. i - 1,
+                "top",
+                0
             )
         end
-    end
 
-    ListBoxApi.setDisplayOrder(
-        UusCorpControlsSettingsWindow.List,
-        order
-    )
+        WindowApi.setId(
+            name,
+            i
+        )
+
+        LabelApi.setText(
+            name .. "ItemLabel",
+            StringFormatter.fromTid(item.tid)
+        )
+
+        LabelApi.setText(
+            name .. "ItemValue",
+            StringFormatter.toWString(
+                UserControlSettings.updateKeyBindings()[item.type]
+            )
+        )
+    end
 end
 
 function UusCorpControlsSettingsWindow.onInitialize()
-    updateBindings()
     WindowApi.registerEventHandler(
         Active.window(),
         Events.keyRecorded(),
@@ -73,12 +78,14 @@ function UusCorpControlsSettingsWindow.onInitialize()
         Events.keyRecordCanceled(),
         "UusCorpControlsSettingsWindow.onKeyRecordCanceled"
     )
+
+    updateBindings()
+    ScrollWindowApi.updateScrollRect(UusCorpControlsSettingsWindow.List)
 end
 
 function UusCorpControlsSettingsWindow.onShutdown()
     recordingKey = nil
     UserControlSettings.isRecording(false)
-    UusCorpControlsSettingsWindow.Keybindings = {}
     WindowApi.unregisterEventHandler(
         Active.window(),
         Events.keyRecorded()
@@ -87,13 +94,6 @@ function UusCorpControlsSettingsWindow.onShutdown()
         Active.window(),
         Events.keyRecordCanceled()
     )
-end
-
-function UusCorpControlsSettingsWindow.onPopulateKeybindings(data)
-    for k, v in ipairs(data) do
-        local row = UusCorpControlsSettingsWindow.List .. "Row" .. k
-        WindowApi.setId(row, v)
-    end
 end
 
 function UusCorpControlsSettingsWindow.onKeyRecorded()

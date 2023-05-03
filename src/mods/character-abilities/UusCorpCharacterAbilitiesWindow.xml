@@ -1,4 +1,4 @@
-<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Interface.xsd">
 	<Windows>
         <Button name="CharacterAbilitiesRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
             <Size>
