@@ -81,3 +81,11 @@ end
 function UusCorpPlayerHealthBar.onDoubleClick()
     UserAction.useItem(PlayerStatus.id(), false)
 end
+
+function UusCorpPlayerHealthBar.onLeftClickDown()
+    if Cursor.hasTarget() then
+        TargetApi.clickTarget(
+            PlayerStatus.id()
+        )
+    end
+end

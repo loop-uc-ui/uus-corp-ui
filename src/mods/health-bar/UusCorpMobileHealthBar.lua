@@ -149,15 +149,10 @@ end
 
 function UusCorpMobileHealthBar.onLeftClickDown()
     if Cursor.hasTarget() then
-        return
+        TargetApi.clickTarget(
+            WindowApi.getId(
+                Active.window()
+            )
+        )
     end
-
-    WindowApi.detachWindowFromWorldObject(
-        WindowApi.getId(
-            Active.window()
-        ),
-        Active.window()
-    )
-
-    WindowApi.setShowing(Active.window() .. UusCorpMobileHealthBar.ObjectAnchor, false)
 end
