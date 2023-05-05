@@ -8,6 +8,7 @@
                 <EventHandler event="OnInitialize" function="UusCorpPlayerHealthBar.onInitialize"/>
                 <EventHandler event="OnShutdown" function="UusCorpPlayerHealthBar.onShutdown"/>
                 <EventHandler event="OnRButtonUp" function="UusCorpPlayerHealthBar.onRightClick"/>
+                <EventHandler event="OnLButtonDown" function="UusCorpPlayerHealthBar.onLeftClickDown"/>
                 <EventHandler event="OnLButtonDblClk" function="UusCorpPlayerHealthBar.onDoubleClick" />
             </EventHandlers>
             <Windows>
