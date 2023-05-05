@@ -390,3 +390,8 @@ end
 function UusCorpPaperdollWindow.ToggleCharacterSheet()
     WindowApi.toggleWindow("CharacterSheetWindow")
 end
+
+function UusCorpPaperdollWindow.onModelDoubleClick()
+    local _, slotId = activeModelTexture()
+    UserActionApi.useItem(slotId, false)
+end
