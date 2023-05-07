@@ -7,6 +7,14 @@ UusCorpMobileHealthBar.Arrow = "MobileArrow"
 UusCorpMobileHealthBar.ObjectAnchor = "ObjectAnchor"
 
 function UusCorpMobileHealthBar.initialize()
+    WindowApi.destroyWindow("YellowDockspot")
+    WindowApi.destroyWindow("BlueDockspot")
+    WindowApi.destroyWindow("GreyDockspot")
+    WindowApi.destroyWindow("RedDockspot")
+    WindowApi.destroyWindow("GreenDockspot")
+    WindowApi.destroyWindow("OrangeDockspot")
+    WindowApi.destroyWindow("MobilesOnScreenWindow")
+
     UusCorpCore.loadResources(
         "/src/mods/health-bar",
         "UusCorpMobileHealthBar.xml"
