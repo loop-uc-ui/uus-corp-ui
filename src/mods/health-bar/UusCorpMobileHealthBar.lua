@@ -13,6 +13,7 @@ function UusCorpMobileHealthBar.initialize()
     WindowApi.destroyWindow("RedDockspot")
     WindowApi.destroyWindow("GreenDockspot")
     WindowApi.destroyWindow("OrangeDockspot")
+    WindowApi.destroyWindow("PetWindow")
     WindowApi.destroyWindow("MobilesOnScreenWindow")
 
     UusCorpCore.loadResources(
