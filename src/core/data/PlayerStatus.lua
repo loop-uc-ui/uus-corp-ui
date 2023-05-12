@@ -103,3 +103,11 @@ end
 function PlayerStatus.maxDamage()
     return PlayerStatus.data()["MaxDamage"]
 end
+
+function PlayerStatus.weight()
+    return PlayerStatus.data()["Weight"]
+end
+
+function PlayerStatus.maxWeight()
+    return PlayerStatus.data()["MaxWeight"]
+end
