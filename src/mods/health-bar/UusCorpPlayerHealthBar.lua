@@ -22,6 +22,7 @@ function UusCorpPlayerHealthBar.onInitialize()
     WindowDataApi.registerData(MobileData.healthBarColorType(), PlayerStatus.id())
     WindowApi.registerEventHandler(UusCorpPlayerHealthBar.Name, PlayerStatus.event(), "UusCorpPlayerHealthBar.update")
     WindowApi.setShowing(UusCorpBuffsWindow.Name, true)
+    WindowApi.setColor(Active.window() .. "FrameWar", Colors.NotoMurderer)
     UusCorpPlayerHealthBar.update()
 end
 
@@ -33,6 +34,9 @@ function UusCorpPlayerHealthBar.onShutdown()
 end
 
 function UusCorpPlayerHealthBar.update()
+    WindowApi.setShowing(Active.window() .. "Frame", not PlayerStatus.inWarMode())
+    WindowApi.setShowing(Active.window() .. "FrameWar", PlayerStatus.inWarMode())
+
     LabelApi.setText(
         UusCorpPlayerHealthBar.Name .. "Name",
         MobileData.name(PlayerStatus.id())

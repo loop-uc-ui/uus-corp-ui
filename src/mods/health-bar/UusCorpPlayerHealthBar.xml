@@ -30,6 +30,13 @@
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentWindowBackground"/>
                     </Anchors>
                 </FullResizeImage>
+
+                <FullResizeImage name="$parentFrameWar" inherits="UO_Simple_Frame" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentWindowBackground"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentWindowBackground"/>
+                    </Anchors>
+                </FullResizeImage>
                 <!-- End of Inner Frame Boilerplate -->
 
                 <Label name="$parentName" font="inter_medium_18" maxchars="16" textalign="center" handleinput="false" wordwrap="false" popable="false">
