@@ -171,6 +171,8 @@ function UusCorpCharacterSheetWindow.onUpdate()
                 )
             elseif v.tid == 1017319 then
                 value = PlayerStatus.damage() .. " - " .. PlayerStatus.maxDamage()
+            elseif v.tid == 1061154 then
+                value = PlayerStatus.weight() .. " / " .. PlayerStatus.maxWeight()
             else
                 for i, j in pairs(PlayerStatus.data()) do
                     if i == StringFormatter.fromWString(v.name) then
