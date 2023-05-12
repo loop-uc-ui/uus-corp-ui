@@ -110,7 +110,16 @@ end
 function UusCorpBuffsWindow.onEffectReceived()
     local id = Buffs.id()
 
-    if id < 1000 or id == nil or Buffs.isBeingRemoved() then
+    if id < 1000 or id == nil then
+        return
+    end
+
+    if not Buffs.hasTimer() and Buffs.isBeingRemoved() then
+        WindowApi.destroyWindow("Buff" .. id)
+        return
+    end
+
+    if Buffs.isBeingRemoved() then
         return
     end
 
