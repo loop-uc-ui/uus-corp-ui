@@ -85,12 +85,10 @@
             <File name="util/CSVUtilities.lua"/>
             <File name="util/StringFormatter.lua"/>
             <File name="util/TableFormatter.lua"/>
-            <File name="UusCorpTooltipWindow.lua"/>
 		</Files>
 
         <OnInitialize>
             <CallFunction name="UusCorpCore.initialize"/>
-            <CallFunction name="UusCorpTooltipWindow.initialize"/>
         </OnInitialize>
 	</UiMod>
 </ModuleFile>

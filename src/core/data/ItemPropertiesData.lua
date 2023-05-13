@@ -31,3 +31,19 @@ function ItemPropertiesData.propertiesList(id)
         return ItemPropertiesData.properties(id).PropertiesList
     end
 end
+
+function ItemPropertiesData.tyepItem()
+    return WindowData.ItemProperties.TYPE_ITEM
+end
+
+function ItemPropertiesData.detailLong()
+    return ItemProperties.DETAIL_LONG
+end
+
+function ItemPropertiesData.setActiveItem(itemData)
+    ItemProperties.SetActiveItem(itemData)
+end
+
+function ItemPropertiesData.clearActiveItem()
+    ItemProperties.ClearMouseOverItem()
+end
