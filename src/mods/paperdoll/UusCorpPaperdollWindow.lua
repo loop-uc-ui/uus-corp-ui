@@ -48,6 +48,12 @@ function UusCorpPaperdollWindow.initialize()
         "UusCorpPaperdollWindow.xml"
     )
 
+    local itemMouseOver = PaperdollWindow.ItemMouseOver
+
+    UusCorpPaperdollWindow.onSlotMouseOver = function ()
+        itemMouseOver()
+    end
+
     UusCorpCore.overrideFunctions(PaperdollWindow)
 
     WindowApi.setShowing("WarShield", false)
@@ -181,11 +187,9 @@ function UusCorpPaperdollWindow.update()
     end
 end
 
-function UusCorpPaperdollWindow.ItemMouseOver()
-end
-
 function UusCorpPaperdollWindow.onShutdown()
-    UusCorpTooltipWindow.destroy()
+    UusCorpPaperdollWindow.onSlotMouseOverEnd()
+    UusCorpPaperdollWindow.onModelMouseOverEnd()
 
     local id = WindowApi.getId(Active.window())
 
@@ -205,10 +209,6 @@ function UusCorpPaperdollWindow.onShutdown()
     WindowDataApi.unregisterData(Paperdoll.type(), id)
     WindowApi.unregisterEventHandler(Active.window(), Paperdoll.event())
     WindowApi.unregisterEventHandler(Active.window(), MobileData.nameEvent())
-    WindowApi.unregisterCoreEventHandler(
-        Active.window(),
-        "OnUpdate"
-    )
 end
 
 function UusCorpPaperdollWindow.onRightClick()
@@ -278,31 +278,8 @@ function UusCorpPaperdollWindow.onSlotSingleClickUp()
     end
 end
 
-function UusCorpPaperdollWindow.onSlotMouseOver()
-    local slot = activeSlot()
-
-    if slot.objectId == nil or slot.objectId == 0 then
-        return
-    end
-
-    if ItemPropertiesData.properties(slot.objectId) == nil then
-        return
-    end
-
-    local data = {}
-    local properties = ItemPropertiesData.propertiesList(slot.objectId)
-
-    if properties ~= nil then
-        for i = 1, #properties do
-            local text = tostring(properties[i])
-            table.insert(data, text)
-        end
-        UusCorpTooltipWindow.create(data)
-    end
-end
-
 function UusCorpPaperdollWindow.onSlotMouseOverEnd()
-    UusCorpTooltipWindow.destroy()
+    ItemPropertiesData.clearActiveItem()
 end
 
 function UusCorpPaperdollWindow.toggleWarMode()
@@ -361,31 +338,17 @@ function UusCorpPaperdollWindow.onModelMouseOver()
 end
 
 function UusCorpPaperdollWindow.onModelUpdate()
+    local window = WindowApi.getParent(Active.window())
     local _, slotId = activeModelTexture()
 
-    if slotId == nil or slotId == 0 or ItemPropertiesData.properties(slotId) == nil then
-        UusCorpTooltipWindow.destroy()
-        return
-    end
+    local itemData = {
+        windowName = window,
+        itemId = slotId,
+        itemType = ItemPropertiesData.tyepItem(),
+        detail = ItemPropertiesData.detailLong()
+    }
 
-    if WindowApi.doesExist(UusCorpTooltipWindow.Name) and
-        slotId == WindowApi.getId(UusCorpTooltipWindow.Name) then
-        return
-    end
-
-    UusCorpTooltipWindow.destroy()
-
-    local data = {}
-    local properties = ItemPropertiesData.propertiesList(slotId)
-
-    if properties ~= nil then
-        for i = 1, #properties do
-            local text = tostring(properties[i])
-            table.insert(data, text)
-        end
-        UusCorpTooltipWindow.create(data)
-        WindowApi.setId(UusCorpTooltipWindow.Name, slotId)
-    end
+    ItemPropertiesData.setActiveItem(itemData)
 end
 
 function UusCorpPaperdollWindow.ToggleCharacterSheet()
