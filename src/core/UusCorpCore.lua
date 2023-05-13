@@ -1,5 +1,7 @@
 UusCorpCore = {}
 
+UusCorpCore.isBuffsModEnabled = false
+
 function UusCorpCore.initialize()
     UusCorpCore.loadResources("/src/core/template", "ItemGridSocketTemplate.xml")
     UusCorpCore.loadResources("/src/core/textures", "UusCorpTextures.xml")

@@ -60,8 +60,10 @@ local function anchorBuffs()
 end
 
 function UusCorpBuffsWindow.initialize()
+    UusCorpCore.isBuffsModEnabled = true
+
     UusCorpCore.loadResources(
-        "/src/mods/health-bar",
+        "/src/mods/buffs",
         "UusCorpBuffsWindow.xml"
     )
 
@@ -82,6 +84,10 @@ function UusCorpBuffsWindow.initialize()
         Buffs.event()
     )
     WindowApi.createWindow(UusCorpBuffsWindow.Name, false)
+end
+
+function UusCorpBuffsWindow.shutdown()
+    UusCorpCore.isBuffsModEnabled = false
 end
 
 function UusCorpBuffsWindow.onInitialize()

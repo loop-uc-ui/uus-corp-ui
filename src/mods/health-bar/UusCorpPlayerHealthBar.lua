@@ -21,13 +21,17 @@ function UusCorpPlayerHealthBar.onInitialize()
     WindowDataApi.registerData(MobileData.nameType(), PlayerStatus.id())
     WindowDataApi.registerData(MobileData.healthBarColorType(), PlayerStatus.id())
     WindowApi.registerEventHandler(UusCorpPlayerHealthBar.Name, PlayerStatus.event(), "UusCorpPlayerHealthBar.update")
-    WindowApi.setShowing(UusCorpBuffsWindow.Name, true)
+    if UusCorpCore.isBuffsModEnabled then
+        WindowApi.setShowing(UusCorpBuffsWindow.Name, true)
+    end
     WindowApi.setColor(Active.window() .. "FrameWar", Colors.NotoMurderer)
     UusCorpPlayerHealthBar.update()
 end
 
 function UusCorpPlayerHealthBar.onShutdown()
-    WindowApi.setShowing(UusCorpBuffsWindow.Name, false)
+    if UusCorpCore.isBuffsModEnabled then
+        WindowApi.setShowing(UusCorpBuffsWindow.Name, false)
+    end
     WindowDataApi.unregisterData(MobileData.nameType(), PlayerStatus.id())
     WindowDataApi.unregisterData(MobileData.healthBarColorType(), PlayerStatus.id())
     WindowApi.unregisterEventHandler(UusCorpPlayerHealthBar.Name, PlayerStatus.event())
