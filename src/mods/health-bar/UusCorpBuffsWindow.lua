@@ -38,7 +38,6 @@ local function anchorBuffs()
         )
 
         if i > 1 and i <= 4 or i % 4 ~= 1 then
-            Debug.Print("test")
             WindowApi.addAnchor(
                 "Buff" .. list[i].id,
                 "right",
