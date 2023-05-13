@@ -37,7 +37,8 @@ local function anchorBuffs()
             "Buff" .. list[i].id
         )
 
-        if i > 1 and i % 5 ~= 0 then
+        if i > 1 and i <= 4 or i % 4 ~= 1 then
+            Debug.Print("test")
             WindowApi.addAnchor(
                 "Buff" .. list[i].id,
                 "right",
@@ -46,7 +47,7 @@ local function anchorBuffs()
                 4,
                 0
             )
-        elseif i % 5 == 0 then
+        elseif i > 1 and i % 4 == 1 then
             WindowApi.addAnchor(
                 "Buff" .. list[i].id,
                 "bottom",
