@@ -20,7 +20,11 @@ end
 function UusCorpPlayerStatusWindow.onInitialize()
     WindowDataApi.registerData(MobileData.nameType(), PlayerStatus.id())
     WindowDataApi.registerData(MobileData.healthBarColorType(), PlayerStatus.id())
-    WindowApi.registerEventHandler(UusCorpPlayerStatusWindow.Name, PlayerStatus.event(), "UusCorpPlayerStatusWindow.update")
+    WindowApi.registerEventHandler(
+        UusCorpPlayerStatusWindow.Name,
+        PlayerStatus.event(),
+        "UusCorpPlayerStatusWindow.update"
+    )
     if UusCorpCore.isBuffsModEnabled then
         WindowApi.setShowing(UusCorpBuffsWindow.Name, true)
     end
