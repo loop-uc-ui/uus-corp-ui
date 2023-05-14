@@ -79,3 +79,7 @@ end
 function Skills.event()
     return Skills.dynamicData().Event
 end
+
+function Skills.csv()
+    return WindowData.SkillsCSV
+end

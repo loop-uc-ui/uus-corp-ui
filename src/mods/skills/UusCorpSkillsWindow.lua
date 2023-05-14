@@ -101,22 +101,23 @@ function UusCorpSkillsWindow.onInitialize()
     WindowDataApi.registerData(
         Skills.listDataType()
     )
+    Debug.Print(Skills.csv())
 
-    for i = 1, #Skills.list() - 1 do
+    for i = 1, #Skills.csv() do
         WindowDataApi.registerData(
             Skills.dynamicDataType(),
             i
         )
 
-        local skill = Skills.list()[i]
-        local data = Skills.dynamicData()[i]
+        local skill = Skills.csv()[i]
+        local data = Skills.dynamicData()[skill.ServerId]
 
         table.insert(
             UusCorpSkillsWindow.Skills,
             {
-                id = i,
-                icon = skill.iconId,
-                skillName = skill.skillName,
+                id = skill.ID,
+                icon = skill.IconId,
+                skillName = skill.SkillName,
                 tempValue = formatValue(data.TempSkillValue),
                 state = data.SkillState,
                 realValue = formatValue(data.RealSkillValue),
@@ -181,17 +182,17 @@ end
 
 function UusCorpSkillsWindow.UpdateSkills()
     local id = Active.updateId()
-    local skill = Skills.list()[id]
-    local data = Skills.dynamicData()[id]
+    local skill = Skills.csv()[id]
+    local data = Skills.dynamicData()[skill.ServerId]
     local index = 0
 
     for k, v in ipairs(UusCorpSkillsWindow.Skills) do
         if v.id == id then
             index = k
             UusCorpSkillsWindow.Skills[k] = {
-                id = id,
-                icon = skill.iconId,
-                skillName = skill.skillName,
+                id = skill.ID,
+                icon = skill.IconId,
+                skillName = skill.SkillName,
                 tempValue = formatValue(data.TempSkillValue),
                 state = data.SkillState,
                 realValue = formatValue(data.RealSkillValue),
