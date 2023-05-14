@@ -288,7 +288,7 @@ function UusCorpPaperdollWindow.toggleWarMode()
 end
 
 function UusCorpPaperdollWindow.ToggleCharacterAbilities()
-    WindowApi.toggleWindow(UusCorpCharacterAbilitiesWindow.Name)
+    WindowApi.setShowing("CharacterAbilities", true)
 end
 
 function UusCorpPaperdollWindow.onModelLeftClickDown()
