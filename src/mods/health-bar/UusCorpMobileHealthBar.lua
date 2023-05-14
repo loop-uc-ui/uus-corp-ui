@@ -28,8 +28,8 @@ function UusCorpMobileHealthBar.initialize()
         local window = template .. mobileId
 
         if mobileId == PlayerStatus.id() then
-            template = UusCorpPlayerHealthBar.Name
-            window = UusCorpPlayerHealthBar.Name
+            template = UusCorpPlayerStatusWindow.Name
+            window = UusCorpPlayerStatusWindow.Name
         end
 
         WindowApi.createFromTemplate(
