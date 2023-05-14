@@ -106,7 +106,7 @@ function UusCorpBuffsWindow.onShown()
     WindowApi.addAnchor(
         Active.window(),
         "bottomleft",
-        UusCorpPlayerHealthBar.Name,
+        UusCorpPlayerStatusWindow.Name,
         "topleft",
         8,
         12
