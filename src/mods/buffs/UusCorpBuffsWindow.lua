@@ -12,6 +12,16 @@ local function findBuff(id)
     return nil
 end
 
+local function formatVector(vectorSize, vectorArray)
+    local text = L""
+
+    for i = 1, vectorSize do
+        text = text .. vectorArray[i]
+    end
+
+    return WindowUtils.translateMarkup(text)
+end
+
 local function updateTimer(time)
     local min = math.floor(time / 60)
     local prefix = ""
@@ -33,34 +43,27 @@ local function updateTimer(time)
 end
 
 local function anchorBuffs()
-    local list = {}
+    for i = 1, #UusCorpBuffsWindow.Buffs do
+        local buff = UusCorpBuffsWindow.Buffs[i]
 
-    for _, v in pairs(UusCorpBuffsWindow.Buffs) do
-        table.insert(
-            list,
-            v
-        )
-    end
-
-    for i = 1, #list do
         WindowApi.clearAnchors(
-            "Buff" .. list[i].id
+            "Buff" .. buff.id
         )
 
         if i > 1 and i <= 4 or i % 4 ~= 1 then
             WindowApi.addAnchor(
-                "Buff" .. list[i].id,
+                "Buff" .. buff.id,
                 "right",
-                "Buff" .. list[i - 1].id,
+                "Buff" .. UusCorpBuffsWindow.Buffs[i - 1].id,
                 "left",
                 4,
                 0
             )
         elseif i > 1 and i % 4 == 1 then
             WindowApi.addAnchor(
-                "Buff" .. list[i].id,
+                "Buff" .. buff.id,
                 "bottom",
-                "Buff" .. list[i - 4].id,
+                "Buff" .. UusCorpBuffsWindow.Buffs[i - 4].id,
                 "top",
                 0,
                 4
@@ -264,7 +267,7 @@ function UusCorpBuffsWindow.onBuffEnd()
         end
     end
 
-    if UusCorpTooltipWindow.Context == id then
+    if Active.mouseOverWindow() == Active.window() then
         UusCorpBuffsWindow.onBuffMouseOverEnd()
     end
 
@@ -278,35 +281,26 @@ function UusCorpBuffsWindow.onBuffMouseOver()
         return
     end
 
-    local data = {}
+    local itemData = {
+        windowName = Active.window(),
+        itemId = buff.id,
+        itemType = ItemPropertiesData.typeWString(),
+        binding = L"",
+        detail = nil,
+        title = formatVector(buff.nameVectorSize, buff.nameVector),
+        body = formatVector(buff.toolTipVectorSize, buff.toolTipVector)
+    }
 
-    for i = 1, #buff.nameVector do
-        table.insert(
-            data,
-            buff.nameVector[i]
-        )
-    end
-
-    for i = 1, #buff.toolTipVector do
-        local text = string.gsub(
-            StringFormatter.fromWString(buff.toolTipVector[i]),
-            "\n",
-            " "
-        )
-        table.insert(
-            data,
-            text
-        )
-    end
-
-    UusCorpTooltipWindow.create(data, buff.id)
+    Debug.Print(itemData)
+    ItemProperties.SetActiveItem(itemData)
 end
 
 function UusCorpBuffsWindow.onBuffMouseOverEnd()
-    UusCorpTooltipWindow.destroy()
+    ItemProperties.ClearMouseOverItem()
 end
 
 function UusCorpBuffsWindow.onShutdown()
+    UusCorpBuffsWindow.onBuffMouseOverEnd()
     WindowDataApi.unregisterData(
         Buffs.dataType()
     )
