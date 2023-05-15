@@ -6,7 +6,7 @@
             </Size>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="UusCorpPlayerStatusWindow.onInitialize"/>
-                <EventHandler event="OnShutdown" function="UusCorpPlayerStatusWIndow.onShutdown"/>
+                <EventHandler event="OnShutdown" function="UusCorpPlayerStatusWindow.onShutdown"/>
                 <EventHandler event="OnRButtonUp" function="UusCorpPlayerStatusWindow.onRightClick"/>
                 <EventHandler event="OnLButtonDown" function="UusCorpPlayerStatusWindow.onLeftClickDown"/>
                 <EventHandler event="OnLButtonDblClk" function="UusCorpPlayerStatusWindow.onDoubleClick" />

@@ -7,7 +7,7 @@
 
 		<Dependencies>
 			<Dependency name="UusCorpCore" />
-            <Dependency name="UusCorpHealthBar" />
+            <Dependency name="UusCorpPlayerStatus" />
 		</Dependencies>
 
 		<Files>
