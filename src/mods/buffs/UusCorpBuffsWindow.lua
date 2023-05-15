@@ -2,6 +2,16 @@ UusCorpBuffsWindow = {}
 UusCorpBuffsWindow.Name = "BuffsWindow"
 UusCorpBuffsWindow.Buffs = {}
 
+local function findBuff(id)
+    for i = 1, #UusCorpBuffsWindow.Buffs do
+        if UusCorpBuffsWindow.Buffs[i].id == tonumber(id) then
+            return UusCorpBuffsWindow.Buffs[i]
+        end
+    end
+
+    return nil
+end
+
 local function updateTimer(time)
     local min = math.floor(time / 60)
     local prefix = ""
@@ -114,6 +124,11 @@ function UusCorpBuffsWindow.onShown()
 end
 
 function UusCorpBuffsWindow.onEffectReceived()
+    WindowApi.setShowing(
+        Active.window(),
+        WindowApi.doesExist(UusCorpPlayerStatusWindow.Name)
+    )
+
     local id = Buffs.id()
 
     if id < 1000 or id == nil then
@@ -129,16 +144,19 @@ function UusCorpBuffsWindow.onEffectReceived()
         return
     end
 
-    UusCorpBuffsWindow.Buffs[id] = {
-        id = id,
-        timer = Buffs.timer(),
-        hasTimer = Buffs.hasTimer(),
-        nameVector = Buffs.nameVector(),
-        nameVectorSize = Buffs.nameVectorSize(),
-        toolTipVector = Buffs.toolTipVector(),
-        toolTipVectorSize = Buffs.toolTipVectorSize(),
-        isBeingRemoved = Buffs.isBeingRemoved()
-    }
+    table.insert(
+        UusCorpBuffsWindow.Buffs,
+        {
+            id = id,
+            timer = Buffs.timer(),
+            hasTimer = Buffs.hasTimer(),
+            nameVector = Buffs.nameVector(),
+            nameVectorSize = Buffs.nameVectorSize(),
+            toolTipVector = Buffs.toolTipVector(),
+            toolTipVectorSize = Buffs.toolTipVectorSize(),
+            isBeingRemoved = Buffs.isBeingRemoved()
+        }
+    )
 
     local rowNumber = CSVUtilities.getRowIdWithColumnValue(
         Buffs.csv(),
@@ -152,11 +170,13 @@ function UusCorpBuffsWindow.onEffectReceived()
 
     local textureId = tonumber(Buffs.csv()[rowNumber].IconId)
 
-    UusCorpBuffsWindow.Buffs[id].textureId = textureId
+    local buff = UusCorpBuffsWindow.Buffs[#UusCorpBuffsWindow.Buffs]
+
+    buff.textureId = textureId
 
     local icon, x, y = IconApi.getIconData(textureId)
 
-    UusCorpBuffsWindow.Buffs[id].icon = {
+    buff.icon = {
         id = icon,
         x = x,
         y = y
@@ -180,7 +200,11 @@ function UusCorpBuffsWindow.onBuffStart()
 
     WindowApi.setId(Active.window(), tonumber(id))
 
-    local buff = UusCorpBuffsWindow.Buffs[tonumber(id)]
+    local buff = findBuff(tonumber(id))
+
+    if buff == nil then
+        return
+    end
 
     DynamicImageApi.setTexture(
         Active.window() .. "Icon",
@@ -193,8 +217,18 @@ function UusCorpBuffsWindow.onBuffStart()
 end
 
 function UusCorpBuffsWindow.onBuffUpdate(timePassed)
+    WindowApi.setShowing(
+        WindowApi.getParent(Active.window()),
+        WindowApi.doesExist(UusCorpPlayerStatusWindow.Name)
+    )
+
     local id = WindowApi.getId(Active.window())
-    local buff = UusCorpBuffsWindow.Buffs[id]
+
+    local buff = findBuff(id)
+
+    if buff == nil then
+        return
+    end
 
     if buff.hasTimer then
         buff.timer = buff.timer - timePassed
@@ -219,7 +253,16 @@ end
 
 function UusCorpBuffsWindow.onBuffEnd()
     local id = WindowApi.getId(Active.window())
-    UusCorpBuffsWindow.Buffs[id] = nil
+
+    for i = 1, #UusCorpBuffsWindow.Buffs do
+        if UusCorpBuffsWindow.Buffs[i].id == id then
+            table.remove(
+                UusCorpBuffsWindow.Buffs,
+                i
+            )
+            break
+        end
+    end
 
     if UusCorpTooltipWindow.Context == id then
         UusCorpBuffsWindow.onBuffMouseOverEnd()
@@ -229,7 +272,12 @@ function UusCorpBuffsWindow.onBuffEnd()
 end
 
 function UusCorpBuffsWindow.onBuffMouseOver()
-    local buff = UusCorpBuffsWindow.Buffs[WindowApi.getId(Active.window())]
+    local buff = findBuff(WindowApi.getId(Active.window()))
+
+    if buff == nil then
+        return
+    end
+
     local data = {}
 
     for i = 1, #buff.nameVector do

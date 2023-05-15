@@ -25,17 +25,11 @@ function UusCorpPlayerStatusWindow.onInitialize()
         PlayerStatus.event(),
         "UusCorpPlayerStatusWindow.update"
     )
-    if UusCorpCore.isBuffsModEnabled then
-        WindowApi.setShowing(UusCorpBuffsWindow.Name, true)
-    end
     WindowApi.setColor(Active.window() .. "FrameWar", Colors.NotoMurderer)
     UusCorpPlayerStatusWindow.update()
 end
 
 function UusCorpPlayerStatusWindow.onShutdown()
-    if UusCorpCore.isBuffsModEnabled then
-        WindowApi.setShowing(UusCorpBuffsWindow.Name, false)
-    end
     WindowDataApi.unregisterData(MobileData.nameType(), PlayerStatus.id())
     WindowDataApi.unregisterData(MobileData.healthBarColorType(), PlayerStatus.id())
     WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, PlayerStatus.event())
