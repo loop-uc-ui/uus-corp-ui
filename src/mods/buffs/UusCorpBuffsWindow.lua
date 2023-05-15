@@ -291,7 +291,6 @@ function UusCorpBuffsWindow.onBuffMouseOver()
         body = formatVector(buff.toolTipVectorSize, buff.toolTipVector)
     }
 
-    Debug.Print(itemData)
     ItemProperties.SetActiveItem(itemData)
 end
 

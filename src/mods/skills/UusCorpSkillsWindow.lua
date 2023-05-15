@@ -101,7 +101,6 @@ function UusCorpSkillsWindow.onInitialize()
     WindowDataApi.registerData(
         Skills.listDataType()
     )
-    Debug.Print(Skills.csv())
 
     for i = 1, #Skills.csv() do
         WindowDataApi.registerData(
