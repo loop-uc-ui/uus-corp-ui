@@ -36,6 +36,10 @@ function ItemPropertiesData.tyepItem()
     return WindowData.ItemProperties.TYPE_ITEM
 end
 
+function ItemPropertiesData.typeWString()
+    return WindowData.ItemProperties.TYPE_WSTRINGDATA
+end
+
 function ItemPropertiesData.detailLong()
     return ItemProperties.DETAIL_LONG
 end
