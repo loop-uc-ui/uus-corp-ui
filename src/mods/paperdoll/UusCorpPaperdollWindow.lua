@@ -34,9 +34,17 @@ local function activeModelTexture()
         )
     )
 
+    local scale = WindowApi.getScale(Active.window())
+
+    if not Paperdoll.isLegacyEnabled() then
+        scale = scale / UusCorpPaperdollWindow.ModelOffset
+    else
+        scale = scale / 2
+    end
+
     local slotId = ObjectApi.fromPaperdoll(
         paperdollId,
-        WindowApi.getScale(Active.window()) / UusCorpPaperdollWindow.ModelOffset
+        scale
     )
 
     return paperdollId, slotId
@@ -168,23 +176,28 @@ function UusCorpPaperdollWindow.update()
 
     local texture = Paperdoll.textureData(id)
 
-    --Unfortunately, we can't support legacy textures
-    --because they're horrendously buggy. We ONLY support
-    --enhanced textures. If the user had legacy textures enabled
-    --in the default UI, they will be required to restart.
+    local textureName = "paperdoll_texture" .. id
+    local backgroundWindow = window .. UusCorpPaperdollWindow.Model
+
+    DynamicImageApi.setTextureDimensions(backgroundWindow, texture.Width, texture.Height)
+    DynamicImageApi.setTexture(backgroundWindow, textureName)
+
+    local width = texture.Width
+    local height = texture.Height
+
     if texture.IsLegacy == 0 then
-        WindowApi.setShowing(window .. "ToggleView", true) --TODO disable and add a tooltip
-        local textureName = "paperdoll_texture" .. id
-        local backgroundWindow = window .. UusCorpPaperdollWindow.Model
-        DynamicImageApi.setTextureDimensions(backgroundWindow, texture.Width, texture.Height)
-        DynamicImageApi.setTexture(backgroundWindow, textureName)
-        WindowApi.setDimensions(
-            backgroundWindow, texture.Width / UusCorpPaperdollWindow.ModelOffset,
-            texture.Height / UusCorpPaperdollWindow.ModelOffset
-        )
+        width = width / UusCorpPaperdollWindow.ModelOffset
+        height = height / UusCorpPaperdollWindow.ModelOffset
     else
-        WindowApi.setShowing(window .. "ToggleView", false)
+        WindowApi.setScale(backgroundWindow, 1.35)
+        WindowApi.clearAnchors(backgroundWindow)
     end
+
+    WindowApi.setDimensions(
+        backgroundWindow,
+        width,
+        height
+    )
 end
 
 function UusCorpPaperdollWindow.onShutdown()

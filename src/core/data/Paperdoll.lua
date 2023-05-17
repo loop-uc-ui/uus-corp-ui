@@ -52,5 +52,8 @@ function Paperdoll.isLegacyEnabled()
 end
 
 function Paperdoll.useLegacy(useLegacy)
-    SystemData.Settings.Interface.LegacyPaperdolls = useLegacy
+    if useLegacy ~= nil then
+        SystemData.Settings.Interface.LegacyPaperdolls = useLegacy
+    end
+    return SystemData.Settings.Interface.LegacyPaperdolls
 end
