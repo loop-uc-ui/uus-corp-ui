@@ -345,7 +345,13 @@ UusCorpSettingsWindow.Pages = {
             LegacyContainers = {
                 name = UusCorpSettingsWindow.Name .. "InterfacePageLegacyContainersCheckBox",
                 setting = function(newValue)
-                    return  UserContainerSettings.legacyContainers(newValue)
+                    return UserContainerSettings.legacyContainers(newValue)
+                end
+            },
+            LegacyPaperdoll = {
+                name = UusCorpSettingsWindow.Name .. "InterfacePageLegacyPaperdollCheckBox",
+                setting = function (newValue)
+                    return Paperdoll.useLegacy(newValue)
                 end
             }
         },
@@ -356,7 +362,11 @@ UusCorpSettingsWindow.Pages = {
             },
             LegacyContainers = {
                 name = UusCorpSettingsWindow.Name .. "InterfacePageLegacyContainersCheckBoxLabel",
-                text = "Use Legacy Containers"
+                text = 1094708
+            },
+            LegacyPaperdoll = {
+                name = UusCorpSettingsWindow.Name .. "InterfacePageLegacyPaperdollCheckBoxLabel",
+                text = 1150185
             },
             ObjectHandleFilter = {
                 name = UusCorpSettingsWindow.Name .. "InterfacePageObjectHandleComboLabel",

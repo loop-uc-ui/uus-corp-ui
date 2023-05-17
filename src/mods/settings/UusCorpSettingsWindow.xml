@@ -223,9 +223,17 @@
                             </Anchors>
                         </Button>
 
-                        <Window name="$parentObjectHandleCombo" inherits="SettingsComboTemplate">
+                        <Button name="$parentLegacyPaperdollCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLegacyContainersCheckBox">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Window name="$parentObjectHandleCombo" inherits="SettingsComboTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLegacyPaperdollCheckBox">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
