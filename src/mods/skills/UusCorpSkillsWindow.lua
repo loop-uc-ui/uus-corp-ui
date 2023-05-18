@@ -95,6 +95,25 @@ function UusCorpSkillsWindow.initialize()
     Actions.ToggleSkillsWindow = function ()
         WindowApi.toggleWindow(UusCorpSkillsWindow.Name)
     end
+
+    local window = "SkillsWindow"
+
+    WindowApi.unregisterEventHandler(
+        window,
+        Events.toggleSkillTracker()
+    )
+
+    WindowApi.unregisterEventHandler(
+        window,
+        Skills.event()
+    )
+
+    WindowApi.unregisterCoreEventHandler(
+        window,
+        "OnUpdate"
+    )
+
+    UusCorpCore.overrideFunctions(SkillsWindow)
 end
 
 function UusCorpSkillsWindow.onInitialize()
@@ -120,7 +139,8 @@ function UusCorpSkillsWindow.onInitialize()
                 tempValue = formatValue(data.TempSkillValue),
                 state = data.SkillState,
                 realValue = formatValue(data.RealSkillValue),
-                cap = formatValue(data.SkillCap)
+                cap = formatValue(data.SkillCap),
+                serverId = skill.ServerId
             }
         )
     end
@@ -181,27 +201,26 @@ end
 
 function UusCorpSkillsWindow.UpdateSkills()
     local id = Active.updateId()
-    local skill = Skills.csv()[id]
-    local data = Skills.dynamicData()[skill.ServerId]
+    local data = Skills.dynamicData()[id]
     local index = 0
 
-    for k, v in ipairs(UusCorpSkillsWindow.Skills) do
-        if v.id == id then
-            index = k
-            UusCorpSkillsWindow.Skills[k] = {
-                id = skill.ID,
-                icon = skill.IconId,
-                skillName = skill.SkillName,
-                tempValue = formatValue(data.TempSkillValue),
-                state = data.SkillState,
-                realValue = formatValue(data.RealSkillValue),
-                cap = formatValue(data.SkillCap)
-            }
+    for i = 1, #UusCorpSkillsWindow.Skills do
+        local skill = UusCorpSkillsWindow.Skills[i]
+
+        if skill.serverId == id then
+            index = i
+            skill.tempValue = formatValue(data.TempSkillValue)
+            skill.state = data.SkillState
+            skill.realValue = formatValue(data.RealSkillValue)
+            skill.cap = formatValue(data.SkillCap)
             break
         end
     end
 
-    updateSkillRow(index)
+    if index ~= 0 then
+        updateSkillRow(index)
+    end
+
     updateTotals()
 end
 
@@ -226,11 +245,14 @@ function UusCorpSkillsWindow.Shutdown()
 end
 
 function UusCorpSkillsWindow.onSkillDoubleClick()
-    UserAction.useSkill(
-        Skills.serverId(
-            Skills.csvId(WindowApi.getId(Active.window()))
-        )
-    )
+    for i = 1, #UusCorpSkillsWindow.Skills do
+        local skill = UusCorpSkillsWindow.Skills[i]
+
+        if skill.id == WindowApi.getId(Active.window()) then
+            UserAction.useSkill(skill.serverId)
+            break
+        end
+    end
 end
 
 function UusCorpSkillsWindow.onSkillDrag()
