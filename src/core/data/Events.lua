@@ -167,3 +167,7 @@ end
 function Events.cancelShopOffer()
     return SystemData.Events.SHOP_CANCEL_OFFER
 end
+
+function Events.toggleSkillTracker()
+    return SystemData.Events.TOGGLE_SKILLS_TRACKER_WINDOW
+end
