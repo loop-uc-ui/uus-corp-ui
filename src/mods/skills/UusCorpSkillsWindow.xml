@@ -199,7 +199,7 @@
 			<EventHandlers>
 				<EventHandler event="OnInitialize" function="UusCorpSkillsWindow.onInitialize" />
                 <EventHandler event="OnRButtonUp" function="UusCorpSkillsWindow.onRightClick" />
-				<EventHandler event="OnShutdown" function="UusCorpSkillsWindow.Shutdown" />
+				<EventHandler event="OnShutdown" function="UusCorpSkillsWindow.onShutdown" />
 			</EventHandlers>
 			<Windows>
 				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">

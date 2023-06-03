@@ -117,6 +117,8 @@ function UusCorpSkillsWindow.initialize()
 end
 
 function UusCorpSkillsWindow.onInitialize()
+    WindowUtilsWrapper.restoreWindowPosition(UusCorpSkillsWindow.Name)
+
     WindowDataApi.registerData(
         Skills.listDataType()
     )
@@ -224,7 +226,9 @@ function UusCorpSkillsWindow.UpdateSkills()
     updateTotals()
 end
 
-function UusCorpSkillsWindow.Shutdown()
+function UusCorpSkillsWindow.onShutdown()
+    WindowUtilsWrapper.saveWindowPosition(UusCorpSkillsWindow.Name)
+
     WindowDataApi.unregisterData(
         Skills.listDataType()
     )
