@@ -111,3 +111,11 @@ end
 function PlayerStatus.maxWeight()
     return PlayerStatus.data()["MaxWeight"]
 end
+
+function PlayerStatus.maxFollowers()
+    return PlayerStatus.data()["MaxFollowers"]
+end
+
+function PlayerStatus.followers()
+    return PlayerStatus.data()["Followers"]
+end

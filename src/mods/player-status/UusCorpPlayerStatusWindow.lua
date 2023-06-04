@@ -1,6 +1,30 @@
 UusCorpPlayerStatusWindow = {}
 UusCorpPlayerStatusWindow.Name = "PlayerHealthBar"
 
+local function setStat(value, max, name)
+    local index = 1
+
+    if name == "Follower" then
+        index = 13
+    end
+
+    local texture, x, y = IconApi.getIconData(
+        PlayerStatus.stats()[index].iconId
+    )
+	x = 4
+	y = 3
+
+    local icon = UusCorpPlayerStatusWindow.Name .. name .. "Icon"
+    WindowApi.setDimensions(icon, 22, 22)
+    DynamicImageApi.setTexture(icon, texture, x, y)
+    DynamicImageApi.setTextureScale(icon, 1)
+
+    LabelApi.setText(
+        UusCorpPlayerStatusWindow.Name .. name .. "Count",
+        value .. "/" .. max
+    )
+end
+
 function UusCorpPlayerStatusWindow.initialize()
     UusCorpCore.loadResources(
         "/src/mods/player-status",
@@ -25,6 +49,8 @@ function UusCorpPlayerStatusWindow.onInitialize()
         PlayerStatus.event(),
         "UusCorpPlayerStatusWindow.update"
     )
+    Debug.Print(PlayerStatus.data())
+    Debug.Print(PlayerStatus.stats())
     WindowApi.setColor(Active.window() .. "FrameWar", Colors.NotoMurderer)
     UusCorpPlayerStatusWindow.update()
 end
@@ -70,6 +96,8 @@ function UusCorpPlayerStatusWindow.update()
     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentStamina())
     StatusBarApi.setMaximumValue(bar, PlayerStatus.maxStamina())
     StatusBarApi.setForegroundTint(bar, Colors.YellowDark)
+
+    setStat(PlayerStatus.followers(), PlayerStatus.maxFollowers(), "Follower")
 end
 
 function UusCorpPlayerStatusWindow.offset()
