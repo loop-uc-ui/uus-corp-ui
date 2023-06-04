@@ -8,15 +8,13 @@ local function setStat(value, max, name)
         index = 13
     end
 
-    local texture, x, y = IconApi.getIconData(
+    local texture, _, _ = IconApi.getIconData(
         PlayerStatus.stats()[index].iconId
     )
-	x = 4
-	y = 3
 
     local icon = UusCorpPlayerStatusWindow.Name .. name .. "Icon"
     WindowApi.setDimensions(icon, 22, 22)
-    DynamicImageApi.setTexture(icon, texture, x, y)
+    DynamicImageApi.setTexture(icon, texture, 4, 3)
     DynamicImageApi.setTextureScale(icon, 1)
 
     LabelApi.setText(
