@@ -2,7 +2,7 @@
     <Windows>
         <Button name="SkillsRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
             <Size>
-				<AbsPoint x="700" y="24" />
+				<AbsPoint x="464" y="24" />
 			</Size>
             <TexCoords>
                 <NormalHighlit x="12" y="12"/>
@@ -15,7 +15,7 @@
             <Windows>
                 <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="280" y="24" />
+                        <AbsPoint x="224" y="24" />
                     </Size>
                     <EventHandlers>
                         <EventHandler event="OnMouseDrag" function="UusCorpSkillsWindow.onSkillDrag"/>
@@ -25,7 +25,7 @@
 
                 <Label name="$parentItemRealValue" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="150" y="24" />
+                        <AbsPoint x="64" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemName"/>
@@ -38,7 +38,7 @@
 
                 <Label name="$parentItemTempValue" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="150" y="24" />
+                        <AbsPoint x="64" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemRealValue" textalign="leftcenter"/>
@@ -51,7 +51,7 @@
 
                 <Label name="$parentItemCap" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="100" y="24" />
+                        <AbsPoint x="64" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemTempValue"/>
@@ -126,12 +126,12 @@
 
         <Window name="SkillsWindowTotals">
             <Size>
-                <AbsPoint x="700" y="24" />
+                <AbsPoint x="464" y="24" />
             </Size>
 
             <Anchors>
                 <Anchor point="topright" relativePoint="topright">
-                    <AbsPoint x="-48" y="0"/>
+                    <AbsPoint x="0" y="0"/>
                 </Anchor>
             </Anchors>
 
@@ -160,7 +160,7 @@
 
                 <Label name="$parentToggleState" font="inter_medium_18" textalign="leftcenter" autoresizewidth="true">
                     <Size>
-                        <AbsPoint x="150" y="24" />
+                        <AbsPoint x="220" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
@@ -179,10 +179,12 @@
 
                 <Label name="$parentValues" font="inter_medium_18" textalign="rightcenter">
                     <Size>
-                        <AbsPoint x="300" y="24" />
+                        <AbsPoint x="220" y="24" />
                     </Size>
                     <Anchors>
-                        <Anchor point="topright" relativePoint="topright"/>
+                        <Anchor point="topright" relativePoint="topright">
+                            <AbsPoint x="-24" y="0"/>
+                        </Anchor>
                     </Anchors>
                     <Color r="206" g="217" b="242" a="255"/>
                 </Label>
@@ -191,11 +193,8 @@
 
 		<Window name="UusCorpSkillsWindow"  movable="true" handleinput="true">
 			<Size>
-				<AbsPoint x="800" y="600" />
+				<AbsPoint x="504" y="480" />
 			</Size>
-			<Anchors>
-				<Anchor point="center" relativePoint="center" />
-			</Anchors>
 			<EventHandlers>
 				<EventHandler event="OnInitialize" function="UusCorpSkillsWindow.onInitialize" />
                 <EventHandler event="OnRButtonUp" function="UusCorpSkillsWindow.onRightClick" />
@@ -204,8 +203,8 @@
 			<Windows>
 				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft"/>
-                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
                     </Anchors>
                 </FullResizeImage>
 
@@ -218,17 +217,17 @@
                 
                 <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
                     <Size>
-                        <AbsPoint x="752" y="552" />
+                        <AbsPoint x="480" y="432" />
                     </Size>
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="24" y="24"/>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                            <AbsPoint x="0" y="24"/>
                         </Anchor>
                     </Anchors>
                     <Windows>
                     <Window name ="$parentScrollChild" popable="false" autoresize="false">
                         <Size>
-                            <AbsPoint x="752" y="552" />
+                            <AbsPoint x="480" y="432" />
                         </Size>
                     </Window>
 
@@ -238,10 +237,10 @@
                         </Size>
                         <Anchors>
                             <Anchor point="topright" relativePoint="topright">
-                                <AbsPoint x="-14" y="8"/>
+                                <AbsPoint x="0" y="8"/>
                             </Anchor>
                             <Anchor point="bottomright" relativePoint="bottomright">
-                                <AbsPoint x="-14" y="-8"/>
+                                <AbsPoint x="0" y="-8"/>
                             </Anchor>
                         </Anchors>
                         <ThumbOffset x="0" y="0" />
