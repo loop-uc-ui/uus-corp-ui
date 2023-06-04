@@ -2,7 +2,7 @@
     <Windows>
         <Window name="PlayerHealthBar" movable="true" draganddrop="true">
             <Size>
-                <AbsPoint x="168" y="90" />
+                <AbsPoint x="168" y="108" />
             </Size>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="UusCorpPlayerStatusWindow.onInitialize"/>
@@ -18,7 +18,7 @@
                             <AbsPoint x="0" y="-4"/>
                         </Anchor>
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentStaminaBar">
-                            <AbsPoint x="24" y="12"/>
+                            <AbsPoint x="24" y="32"/>
                         </Anchor>
                     </Anchors>
                 </FullResizeImage>
@@ -110,6 +110,29 @@
                     </Size>
                     <Anchors>
                         <Anchor point="top" relativePoint="top" relativeTo="$parentStaminaBar"/>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255" />
+                </Label>
+
+                <DynamicImage name="$parentFollowerIcon" texturescale="1.0" handleinput="false" layer="default">
+                    <Size>
+                        <AbsPoint x="22" y="22" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentStaminaBar">
+                            <AbsPoint x="0" y="6"/>
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+
+                <Label name="$parentFollowerCount" font="inter_medium_16" textalign="leftCenter" handleinput="false" wordwrap="false" linespacing="18" popable="false">
+                    <Size>
+                        <AbsPoint x="48" y="16" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentFollowerIcon">
+                            <AbsPoint x="4" y="0"/>
+                        </Anchor>
                     </Anchors>
                     <Color r="255" g="255" b="255" a="255" />
                 </Label>
