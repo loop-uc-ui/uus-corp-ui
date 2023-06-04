@@ -6,3 +6,7 @@ function ChatApi.send(channel, text)
     end
     SendChat(channel, text)
 end
+
+function ChatApi.print(wString, filter)
+    PrintWStringToChatWindow(wString, filter)
+end

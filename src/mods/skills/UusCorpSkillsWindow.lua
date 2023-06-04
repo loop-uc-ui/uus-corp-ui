@@ -18,6 +18,27 @@ local function formatValue(skillLevel)
     )
 end
 
+local function printSkillChangeToChat(oldSkill, newSkill)
+    if oldSkill.tempValue == newSkill.tempValue then
+        return
+    end
+
+    local change = newSkill.tempValue - oldSkill.tempValue
+    local qualifier = "increased"
+
+    if change < 0 then
+        qualifier = "decreased"
+    end
+
+    -- TODO figure out why replace Tokens doesn't work
+    ChatApi.print(
+        StringFormatter.toWString("Your skill in " .. StringFormatter.fromWString(newSkill.skillName)
+            .. " has " .. qualifier .. " by " .. StringFormatter.fromWString(formatValue(change * 10))
+            .. ". It is now " .. StringFormatter.fromWString(newSkill.tempValue) .. "."),
+        Chat.filtersSystem()
+    )
+end
+
 local function updateTotals()
     local real = 0.0
     local modified = 0.0
@@ -199,28 +220,48 @@ function UusCorpSkillsWindow.onInitialize()
 
         updateSkillRow(i)
     end
+
+    ScrollWindowApi.updateScrollRect(UusCorpSkillsWindow.List)
 end
 
 function UusCorpSkillsWindow.UpdateSkills()
     local id = Active.updateId()
     local data = Skills.dynamicData()[id]
+    local oldSkill = nil
+    local newSkill = nil
     local index = 0
 
     for i = 1, #UusCorpSkillsWindow.Skills do
         local skill = UusCorpSkillsWindow.Skills[i]
 
         if skill.serverId == id then
+            oldSkill = {
+                id = skill.id,
+                icon = skill.icon,
+                skillName = skill.skillName,
+                tempValue = skill.tempValue,
+                state = skill.state,
+                realValue = skill.realValue,
+                cap = skill.cap,
+                serverId = skill.serverId
+            }
+
             index = i
             skill.tempValue = formatValue(data.TempSkillValue)
             skill.state = data.SkillState
             skill.realValue = formatValue(data.RealSkillValue)
             skill.cap = formatValue(data.SkillCap)
+            newSkill = skill
             break
         end
     end
 
     if index ~= 0 then
         updateSkillRow(index)
+    end
+
+    if oldSkill ~= nil and newSkill ~= nil then
+        printSkillChangeToChat(oldSkill, newSkill)
     end
 
     updateTotals()
