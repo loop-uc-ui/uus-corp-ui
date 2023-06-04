@@ -66,3 +66,7 @@ function StringFormatter.fromWString(text)
         return StringApi.fromWString(text)
     end
 end
+
+function StringFormatter.replaceTokens(token, array)
+    ReplaceTokens(token, array)
+end
