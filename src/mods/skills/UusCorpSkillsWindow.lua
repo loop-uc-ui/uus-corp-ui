@@ -33,7 +33,7 @@ local function printSkillChangeToChat(oldSkill, newSkill)
     -- TODO figure out why replace Tokens doesn't work
     ChatApi.print(
         StringFormatter.toWString("Your skill in " .. StringFormatter.fromWString(newSkill.skillName)
-            .. " has " .. qualifier .. " by " .. StringFormatter.fromWString(formatValue(change * 10))
+            .. " has " .. qualifier .. " by " .. StringFormatter.fromWString(formatValue(math.abs(change) * 10))
             .. ". It is now " .. StringFormatter.fromWString(newSkill.tempValue) .. "."),
         Chat.filtersSystem()
     )
@@ -114,7 +114,10 @@ function UusCorpSkillsWindow.initialize()
     end
 
     Actions.ToggleSkillsWindow = function ()
-        WindowApi.toggleWindow(UusCorpSkillsWindow.Name)
+        WindowApi.setShowing(
+            UusCorpSkillsWindow.Name,
+            not WindowApi.isShowing(UusCorpSkillsWindow.Name)
+        )
     end
 
     local window = "SkillsWindow"
@@ -135,6 +138,8 @@ function UusCorpSkillsWindow.initialize()
     )
 
     UusCorpCore.overrideFunctions(SkillsWindow)
+
+    WindowApi.createWindow(UusCorpSkillsWindow.Name, false)
 end
 
 function UusCorpSkillsWindow.onInitialize()
@@ -376,7 +381,7 @@ function UusCorpSkillsWindow.onClickLock()
 end
 
 function UusCorpSkillsWindow.onRightClick()
-    WindowApi.destroyWindow(UusCorpSkillsWindow.Name)
+    WindowApi.setShowing(UusCorpSkillsWindow.Name, false)
 end
 
 function UusCorpSkillsWindow.onToggleSkillState(id, state)
