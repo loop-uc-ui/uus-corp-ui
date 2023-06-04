@@ -115,7 +115,7 @@ function UusCorpSkillsWindow.initialize()
 
     Actions.ToggleSkillsWindow = function ()
         WindowApi.setShowing(
-            UusCorpSkillsWindow.Name, 
+            UusCorpSkillsWindow.Name,
             not WindowApi.isShowing(UusCorpSkillsWindow.Name)
         )
     end
