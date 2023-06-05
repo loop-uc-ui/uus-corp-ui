@@ -6,6 +6,8 @@ local function setStat(value, max, name)
 
     if name == "Follower" then
         index = 13
+    elseif name == "Weight" then
+        index = 11
     end
 
     local texture, _, _ = IconApi.getIconData(
@@ -47,8 +49,6 @@ function UusCorpPlayerStatusWindow.onInitialize()
         PlayerStatus.event(),
         "UusCorpPlayerStatusWindow.update"
     )
-    Debug.Print(PlayerStatus.data())
-    Debug.Print(PlayerStatus.stats())
     WindowApi.setColor(Active.window() .. "FrameWar", Colors.NotoMurderer)
     UusCorpPlayerStatusWindow.update()
 end
@@ -96,6 +96,7 @@ function UusCorpPlayerStatusWindow.update()
     StatusBarApi.setForegroundTint(bar, Colors.YellowDark)
 
     setStat(PlayerStatus.followers(), PlayerStatus.maxFollowers(), "Follower")
+    setStat(PlayerStatus.weight(), PlayerStatus.maxWeight(), "Weight")
 end
 
 function UusCorpPlayerStatusWindow.offset()

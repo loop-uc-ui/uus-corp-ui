@@ -114,27 +114,50 @@
                     <Color r="255" g="255" b="255" a="255" />
                 </Label>
 
-                <DynamicImage name="$parentFollowerIcon" texturescale="1.0" handleinput="false" layer="default">
+                <DynamicImage name="$parentFollowerIcon" texturescale="1.0" handleinput="false" layer="default" alpha="0.8">
                     <Size>
                         <AbsPoint x="22" y="22" />
                     </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentStaminaBar">
-                            <AbsPoint x="0" y="6"/>
+                            <AbsPoint x="-12" y="6"/>
                         </Anchor>
                     </Anchors>
                 </DynamicImage>
 
                 <Label name="$parentFollowerCount" font="inter_medium_16" textalign="leftCenter" handleinput="false" wordwrap="false" linespacing="18" popable="false">
                     <Size>
-                        <AbsPoint x="48" y="16" />
+                        <AbsPoint x="32" y="16" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentFollowerIcon">
                             <AbsPoint x="4" y="0"/>
                         </Anchor>
                     </Anchors>
-                    <Color r="255" g="255" b="255" a="255" />
+                    <Color r="206" g="217" b="242" a="255"/>
+                </Label>
+
+                <DynamicImage name="$parentWeightIcon" texturescale="1.0" handleinput="false" layer="default" alpha="0.8">
+                    <Size>
+                        <AbsPoint x="22" y="22" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentFollowerCount">
+                            <AbsPoint x="16" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+
+                <Label name="$parentWeightCount" font="inter_medium_16" textalign="leftCenter" handleinput="false" wordwrap="false" linespacing="18" popable="false">
+                    <Size>
+                        <AbsPoint x="72" y="16" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentWeightIcon">
+                            <AbsPoint x="4" y="0"/>
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255"/>
                 </Label>
             </Windows>
         </Window>
