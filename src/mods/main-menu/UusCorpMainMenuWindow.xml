@@ -37,7 +37,7 @@
         </FullResizeImage>
 
 
-        <Window name="MainMenuWindow" movable="true" layer="popup">
+        <Window name="UusCorpMainMenuWindow" movable="true" layer="popup">
             <Size>
                 <AbsPoint x="214" y="440"/>
             </Size>
