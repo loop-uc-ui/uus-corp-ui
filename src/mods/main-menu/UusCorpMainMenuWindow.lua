@@ -1,6 +1,6 @@
 UusCorpMainMenuWindow = {}
 
-UusCorpMainMenuWindow.Name = "MainMenuWindow"
+UusCorpMainMenuWindow.Name = "UusCorpMainMenuWindow"
 
 UusCorpMainMenuWindow.Buttons = {
     Debug = UusCorpMainMenuWindow.Name .. "DebugItemButton",
@@ -31,9 +31,22 @@ function UusCorpMainMenuWindow.initialize()
         EventApi.broadcast(Events.exitGame())
     end
 
+    function Actions.ToggleMainMenu()
+        WindowApi.setShowing(
+            UusCorpMainMenuWindow.Name,
+            not WindowApi.isShowing(UusCorpMainMenuWindow.Name)
+        )
+    end
+
+    WindowApi.registerEventHandler(
+        "Root",
+        Events.onEscape(),
+        "Actions.ToggleMainMenu"
+    )
+
     -- Destroy the old main menu menu, so our custom one
     -- takes precendence
-    WindowApi.destroyWindow(UusCorpMainMenuWindow.Name)
+    WindowApi.destroyWindow("MainMenuWindow")
     WindowApi.createWindow(UusCorpMainMenuWindow.Name, false)
 end
 
