@@ -163,7 +163,7 @@ function UusCorpSkillsWindow.onInitialize()
             {
                 id = skill.ID,
                 icon = skill.IconId,
-                skillName = skill.SkillName,
+                skillName = StringFormatter.fromTid(Skills.csv()[skill.ID].NameTid),
                 tempValue = formatValue(data.TempSkillValue),
                 state = data.SkillState,
                 realValue = formatValue(data.RealSkillValue),

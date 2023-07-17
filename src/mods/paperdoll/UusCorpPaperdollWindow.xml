@@ -25,7 +25,7 @@
 			</EventHandlers>
 			<Windows>
 
-                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background" alpha="0.8">
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft"/>
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentToggleInventory">
