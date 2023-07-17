@@ -52,7 +52,7 @@
             </Anchors>
             <Windows>
                 <!-- Body background -->
-                <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background" alpha="0.8">
+                <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft"/>
                         <Anchor point="bottomright" relativePoint="bottomright"/>
