@@ -200,18 +200,13 @@ function UusCorpPaperdollWindow.update()
     )
 end
 
+function UusCorpPaperdollWindow.onSlotShutdown()
+    WindowDataApi.unregisterData(ItemPropertiesData.type(), WindowApi.getId(Active.window()))
+end
+
 function UusCorpPaperdollWindow.onShutdown()
     UusCorpPaperdollWindow.onSlotMouseOverEnd()
     UusCorpPaperdollWindow.onModelMouseOverEnd()
-
-    local id = WindowApi.getId(Active.window())
-
-    for i = 1, Paperdoll.numSlots(id) do
-        local data = Paperdoll.slotData(id, i)
-        if data ~= nil and data.slotId ~= nil then
-            WindowDataApi.unregisterData(ItemPropertiesData.type(), data.slotId)
-        end
-    end
 
     if id == PlayerStatus.id() then
         WindowDataApi.unregisterData(PlayerStatus.type())
@@ -222,6 +217,7 @@ function UusCorpPaperdollWindow.onShutdown()
     WindowDataApi.unregisterData(Paperdoll.type(), id)
     WindowApi.unregisterEventHandler(Active.window(), Paperdoll.event())
     WindowApi.unregisterEventHandler(Active.window(), MobileData.nameEvent())
+    WindowApi.unregisterEventHandler(Active.window(), ItemPropertiesData.event())
 end
 
 function UusCorpPaperdollWindow.onRightClick()

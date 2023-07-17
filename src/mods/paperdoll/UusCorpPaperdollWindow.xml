@@ -8,6 +8,7 @@
 				<EventHandler event="OnLButtonUp" function="UusCorpPaperdollWindow.onSlotSingleClickUp"/>
 				<EventHandler event="OnMouseOver" function="UusCorpPaperdollWindow.onSlotMouseOver"/>
 				<EventHandler event="OnMouseOverEnd" function="UusCorpPaperdollWindow.onSlotMouseOverEnd" />
+				<EventHandler event="OnShutdown" function="UusCorpPaperdollWindow.onSlotShutdown" />
 			</EventHandlers>
 		</Button>
 
