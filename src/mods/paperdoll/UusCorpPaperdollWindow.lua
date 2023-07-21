@@ -73,8 +73,8 @@ function UusCorpPaperdollWindow.onInitialize()
 
     WindowApi.setId(window, pId)
     WindowDataApi.registerData(Paperdoll.type(), pId)
-    WindowDataApi.registerData(MobileData.nameType(), pId)
-    WindowApi.registerEventHandler(window, MobileData.nameEvent(), "UusCorpPaperdollWindow.updateName")
+    WindowDataApi.registerData(MobileStatus.type(), pId)
+    WindowApi.registerEventHandler(window, MobileStatus.event(), "UusCorpPaperdollWindow.updateName")
     WindowApi.registerEventHandler(window, Paperdoll.event(), "UusCorpPaperdollWindow.update")
     WindowApi.registerEventHandler(window, ItemPropertiesData.event(), "UusCorpPaperdollWindow.update")
 
@@ -111,8 +111,8 @@ end
 function UusCorpPaperdollWindow.updateName()
     local id = WindowApi.getId(Active.window())
     local label = Active.window() .. UusCorpPaperdollWindow.NameLabel
-    LabelApi.setText(label, MobileData.name(id))
-    local notoriety = MobileData.notoriety(id)
+    LabelApi.setText(label, MobileStatus.name(id))
+    local notoriety = MobileStatus.notoriety(id)
     LabelApi.setTextColor(label, Colors.Notoriety[notoriety])
     WindowApi.forceProcessAnchors(label)
 end
@@ -200,24 +200,28 @@ function UusCorpPaperdollWindow.update()
     )
 end
 
-function UusCorpPaperdollWindow.onSlotShutdown()
-    WindowDataApi.unregisterData(ItemPropertiesData.type(), WindowApi.getId(Active.window()))
-end
-
 function UusCorpPaperdollWindow.onShutdown()
     UusCorpPaperdollWindow.onSlotMouseOverEnd()
     UusCorpPaperdollWindow.onModelMouseOverEnd()
+
+    local id = WindowApi.getId(Active.window())
+
+    for i = 1, Paperdoll.numSlots(id) do
+        local data = Paperdoll.slotData(id, i)
+        if data ~= nil and data.slotId ~= nil then
+            WindowDataApi.unregisterData(ItemPropertiesData.type(), data.slotId)
+        end
+    end
 
     if id == PlayerStatus.id() then
         WindowDataApi.unregisterData(PlayerStatus.type())
         WindowApi.unregisterEventHandler(Active.window(), PlayerStatus.event())
     end
 
-    WindowDataApi.unregisterData(MobileData.nameType(), id)
+    WindowDataApi.unregisterData(MobileStatus.type(), id)
     WindowDataApi.unregisterData(Paperdoll.type(), id)
     WindowApi.unregisterEventHandler(Active.window(), Paperdoll.event())
-    WindowApi.unregisterEventHandler(Active.window(), MobileData.nameEvent())
-    WindowApi.unregisterEventHandler(Active.window(), ItemPropertiesData.event())
+    WindowApi.unregisterEventHandler(Active.window(), MobileStatus.event())
 end
 
 function UusCorpPaperdollWindow.onRightClick()

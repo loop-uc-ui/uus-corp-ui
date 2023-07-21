@@ -42,11 +42,16 @@ function UusCorpPlayerStatusWindow.initialize()
 end
 
 function UusCorpPlayerStatusWindow.onInitialize()
-    WindowDataApi.registerData(MobileData.nameType(), PlayerStatus.id())
+    WindowDataApi.registerData(MobileStatus.type(), PlayerStatus.id())
     WindowDataApi.registerData(MobileData.healthBarColorType(), PlayerStatus.id())
     WindowApi.registerEventHandler(
         UusCorpPlayerStatusWindow.Name,
         PlayerStatus.event(),
+        "UusCorpPlayerStatusWindow.update"
+    )
+    WindowApi.registerEventHandler(
+        UusCorpPlayerStatusWindow.Name,
+        MobileStatus.event(),
         "UusCorpPlayerStatusWindow.update"
     )
     WindowApi.setColor(Active.window() .. "FrameWar", Colors.NotoMurderer)
@@ -54,9 +59,10 @@ function UusCorpPlayerStatusWindow.onInitialize()
 end
 
 function UusCorpPlayerStatusWindow.onShutdown()
-    WindowDataApi.unregisterData(MobileData.nameType(), PlayerStatus.id())
+    WindowDataApi.unregisterData(MobileStatus.type(), PlayerStatus.id())
     WindowDataApi.unregisterData(MobileData.healthBarColorType(), PlayerStatus.id())
     WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, PlayerStatus.event())
+    WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, MobileStatus.event())
 end
 
 function UusCorpPlayerStatusWindow.update()
@@ -65,8 +71,14 @@ function UusCorpPlayerStatusWindow.update()
 
     LabelApi.setText(
         UusCorpPlayerStatusWindow.Name .. "Name",
-        MobileData.name(PlayerStatus.id())
+        MobileStatus.name(PlayerStatus.id())
     )
+
+    LabelApi.setTextColor(
+        UusCorpPlayerStatusWindow.Name .. "Name",
+        Colors.Notoriety[MobileStatus.notoriety(PlayerStatus.id())]
+    )
+
     LabelApi.setText(
         UusCorpPlayerStatusWindow.Name .. "HealthBarPerc",
         PlayerStatus.currentHealth() .. " / " .. PlayerStatus.maxHealth()

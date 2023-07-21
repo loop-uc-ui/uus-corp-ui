@@ -57,6 +57,7 @@
             <File name="data/ItemPropertiesData.lua" />
             <File name="data/MapSettings.lua" />
             <File name="data/MobileData.lua" />
+            <File name="data/MobileStatus.lua" />
             <File name="data/MousePosition.lua" />
             <File name="data/ObjectHandles.lua" />
             <File name="data/ObjectInfo.lua" />
