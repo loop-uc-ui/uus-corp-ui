@@ -23,6 +23,8 @@ function UusCorpMobileHealthBar.initialize()
 
     UusCorpCore.overrideFunctions(MobileHealthBar)
 
+    function Interface.MobileArrowManager() end
+
     MobileHealthBar.CreateHealthBar = function (mobileId)
         local template = UusCorpMobileHealthBar.Name
         local window = template .. mobileId
