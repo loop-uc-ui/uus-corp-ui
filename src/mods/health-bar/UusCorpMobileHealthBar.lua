@@ -61,30 +61,25 @@ function UusCorpMobileHealthBar.onInitialize()
     local id = Active.mobile()
 
     WindowApi.setId(window, id)
-    WindowDataApi.registerData(MobileData.nameType(), id)
-    WindowDataApi.registerData(MobileData.statusType(), id)
+    WindowDataApi.registerData(MobileStatus.type(), id)
     WindowDataApi.registerData(MobileData.healthBarColorType(), id)
 
     local update = "UusCorpMobileHealthBar.update"
-    WindowApi.registerEventHandler(window, MobileData.statusEvent(), update)
-    WindowApi.registerEventHandler(window, MobileData.nameEvent(), update)
+    WindowApi.registerEventHandler(window, MobileStatus.event(), update)
     WindowApi.registerEventHandler(window, Events.enableHealthBar(), update)
     WindowApi.registerEventHandler(window, Events.disableHealthBar(), "UusCorpMobileHealthBar.onShutdown")
 
     WindowApi.setShowing(window .. UusCorpMobileHealthBar.ObjectAnchor, false)
-    UusCorpMobileHealthBar.update()
 end
 
 function UusCorpMobileHealthBar.onShutdown()
     local window = Active.window()
     local id = WindowApi.getId(window)
 
-    WindowDataApi.unregisterData(MobileData.nameType(), id)
-    WindowDataApi.unregisterData(MobileData.statusType(), id)
+    WindowDataApi.unregisterData(MobileStatus.type(), id)
     WindowDataApi.unregisterData(MobileData.healthBarColorType(), id)
 
-    WindowApi.unregisterEventHandler(window, MobileData.statusEvent())
-    WindowApi.unregisterEventHandler(window, MobileData.nameEvent())
+    WindowApi.unregisterEventHandler(window, MobileStatus.event())
     WindowApi.unregisterEventHandler(window, Events.disableHealthBar())
     WindowApi.unregisterEventHandler(window, Events.enableHealthBar())
     UusCorpMobileHealthBar.onMouseOverEnd()
@@ -96,16 +91,16 @@ function UusCorpMobileHealthBar.update()
     local id = WindowApi.getId(window)
 
     local statusBar = window .. UusCorpMobileHealthBar.StatusBar
-    StatusBarApi.setCurrentValue(statusBar, MobileData.currentHealth(id))
-    StatusBarApi.setMaximumValue(statusBar, MobileData.maxHealth(id))
+    StatusBarApi.setCurrentValue(statusBar, MobileStatus.currentHealth(id))
+    StatusBarApi.setMaximumValue(statusBar, MobileStatus.maxHealth(id))
     StatusBarApi.setForegroundTint(statusBar, Colors.Red)
 
-    LabelApi.setText(window .. UusCorpMobileHealthBar.NameLabel, MobileData.name(id))
-    local notoriety = MobileData.notoriety(id)
+    LabelApi.setText(window .. UusCorpMobileHealthBar.NameLabel, MobileStatus.name(id))
+    local notoriety = MobileStatus.notoriety(id)
     LabelApi.setTextColor(window .. UusCorpMobileHealthBar.NameLabel, Colors.Notoriety[notoriety])
     LabelApi.setText(window .. UusCorpMobileHealthBar.HealthLabel, tostring(
         math.floor(
-            MobileData.currentHealth(id) / MobileData.maxHealth(id) * 100
+            MobileStatus.currentHealth(id) / MobileStatus.maxHealth(id) * 100
         )) .. "%"
     )
 end
@@ -135,7 +130,7 @@ function UusCorpMobileHealthBar.onMouseOver()
         return
     end
 
-    local notoriety = MobileData.notoriety(id)
+    local notoriety = MobileStatus.notoriety(id)
 
     WindowApi.createWindow(UusCorpMobileHealthBar.Arrow, false)
     WindowApi.setScale(UusCorpMobileHealthBar.Arrow, 0.33)
