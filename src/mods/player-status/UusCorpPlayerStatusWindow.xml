@@ -9,6 +9,7 @@
                 <EventHandler event="OnShutdown" function="UusCorpPlayerStatusWindow.onShutdown"/>
                 <EventHandler event="OnRButtonUp" function="UusCorpPlayerStatusWindow.onRightClick"/>
                 <EventHandler event="OnLButtonDown" function="UusCorpPlayerStatusWindow.onLeftClickDown"/>
+                <EventHandler event="OnLButtonUp" function="UusCorpPlayerStatusWindow.onLeftClickUp"/>
                 <EventHandler event="OnLButtonDblClk" function="UusCorpPlayerStatusWindow.onDoubleClick" />
             </EventHandlers>
             <Windows>
