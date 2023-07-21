@@ -134,3 +134,9 @@ function UusCorpPlayerStatusWindow.onLeftClickDown()
         )
     end
 end
+
+function UusCorpPlayerStatusWindow.onLeftClickUp()
+    if Drag.isItem() then
+        DragApi.dragToObject(PlayerStatus.id())
+    end
+end
