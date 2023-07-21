@@ -125,7 +125,7 @@
                     </Anchors>
                 </DynamicImage>
 
-                <Label name="$parentFollowerCount" font="inter_medium_16" textalign="leftCenter" handleinput="false" wordwrap="false" linespacing="18" popable="false">
+                <Label name="$parentFollowerCount" autoresizewidth="true" font="inter_medium_16" textalign="leftCenter" handleinput="false" wordwrap="false" linespacing="18" popable="false">
                     <Size>
                         <AbsPoint x="32" y="16" />
                     </Size>
@@ -148,7 +148,7 @@
                     </Anchors>
                 </DynamicImage>
 
-                <Label name="$parentWeightCount" font="inter_medium_16" textalign="leftCenter" handleinput="false" wordwrap="false" linespacing="18" popable="false">
+                <Label name="$parentWeightCount" autoresizewidth="true" font="inter_medium_16" textalign="leftCenter" handleinput="false" wordwrap="false" linespacing="18" popable="false">
                     <Size>
                         <AbsPoint x="72" y="16" />
                     </Size>
