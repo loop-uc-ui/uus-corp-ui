@@ -20,3 +20,11 @@ function UusCorpCore.overrideFunctions(table)
         end
     end
 end
+
+function UusCorpCore.copyTable(table)
+    local newTable = {}
+    for k, v in pairs(table) do
+        newTable[k] = v
+    end
+    return newTable
+end
