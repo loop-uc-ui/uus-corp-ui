@@ -89,3 +89,9 @@ Colors.Notoriety = {
     Colors.NotoMurderer,
     Colors.NotoInvunerable
 }
+
+Colors.HealthBar = {
+    Colors.Red,
+    Colors.Green,
+    Colors.Yellow
+}

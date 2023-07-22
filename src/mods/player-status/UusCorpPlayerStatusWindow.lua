@@ -43,26 +43,38 @@ end
 
 function UusCorpPlayerStatusWindow.onInitialize()
     WindowDataApi.registerData(MobileStatus.type(), PlayerStatus.id())
-    WindowDataApi.registerData(MobileData.healthBarColorType(), PlayerStatus.id())
+    WindowDataApi.registerData(HealthBarColorData.type(), PlayerStatus.id())
+
+    local update = "UusCorpPlayerStatusWindow.update"
+
     WindowApi.registerEventHandler(
         UusCorpPlayerStatusWindow.Name,
         PlayerStatus.event(),
-        "UusCorpPlayerStatusWindow.update"
+        update
     )
+
     WindowApi.registerEventHandler(
         UusCorpPlayerStatusWindow.Name,
         MobileStatus.event(),
-        "UusCorpPlayerStatusWindow.update"
+        update
     )
+
+    WindowApi.registerEventHandler(
+        UusCorpPlayerStatusWindow.Name,
+        HealthBarColorData.event(),
+        update
+    )
+
     WindowApi.setColor(Active.window() .. "FrameWar", Colors.NotoMurderer)
     UusCorpPlayerStatusWindow.update()
 end
 
 function UusCorpPlayerStatusWindow.onShutdown()
     WindowDataApi.unregisterData(MobileStatus.type(), PlayerStatus.id())
-    WindowDataApi.unregisterData(MobileData.healthBarColorType(), PlayerStatus.id())
+    WindowDataApi.unregisterData(HealthBarColorData.type(), PlayerStatus.id())
     WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, PlayerStatus.event())
     WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, MobileStatus.event())
+    WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, HealthBarColorData.event())
 end
 
 function UusCorpPlayerStatusWindow.update()
@@ -95,7 +107,7 @@ function UusCorpPlayerStatusWindow.update()
     local bar = UusCorpPlayerStatusWindow.Name .. "HealthBar"
     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentHealth())
     StatusBarApi.setMaximumValue(bar, PlayerStatus.maxHealth())
-    StatusBarApi.setForegroundTint(bar, Colors.Red)
+    StatusBarApi.setForegroundTint(bar, Colors.HealthBar[HealthBarColorData.visualState(PlayerStatus.id()) + 1])
 
     bar = UusCorpPlayerStatusWindow.Name .. "ManaBar"
     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentMana())

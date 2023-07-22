@@ -54,6 +54,7 @@
             <File name="data/Equipment.lua" />
             <File name="data/Events.lua" />
             <File name="data/Gump.lua" />
+            <File name="data/HealthBarColorData.lua" />
             <File name="data/ItemPropertiesData.lua" />
             <File name="data/MapSettings.lua" />
             <File name="data/MobileData.lua" />

@@ -8,10 +8,6 @@ function MobileData.nameEvent()
     return WindowData.MobileName.Event
 end
 
-function MobileData.healthBarColorType()
-    return WindowData.HealthBarColor.Type
-end
-
 function MobileData.notoriety(id)
     return WindowData.MobileName[id].Notoriety
 end
