@@ -7,14 +7,21 @@ UusCorpMobileHealthBar.Arrow = "MobileArrow"
 UusCorpMobileHealthBar.ObjectAnchor = "ObjectAnchor"
 
 function UusCorpMobileHealthBar.initialize()
-    WindowApi.destroyWindow("YellowDockspot")
-    WindowApi.destroyWindow("BlueDockspot")
-    WindowApi.destroyWindow("GreyDockspot")
-    WindowApi.destroyWindow("RedDockspot")
-    WindowApi.destroyWindow("GreenDockspot")
-    WindowApi.destroyWindow("OrangeDockspot")
-    WindowApi.destroyWindow("PetWindow")
-    WindowApi.destroyWindow("MobilesOnScreenWindow")
+    local dockspots = {
+        "YellowDockspot",
+        "BlueDockspot",
+        "GreyDockspot",
+        "RedDockspot",
+        "GreenDockspot",
+        "OrangeDockspot",
+        "PetWindow",
+        "MobilesOnScreenWindow"
+    }
+
+    for i = 1, #dockspots do
+        WindowApi.destroyWindow(dockspots[i])
+        SnapUtilsWrapper.removeWindow(dockspots[i])
+    end
 
     UusCorpCore.loadResources(
         "/src/mods/health-bar",
@@ -22,6 +29,8 @@ function UusCorpMobileHealthBar.initialize()
     )
 
     UusCorpCore.overrideFunctions(MobileHealthBar)
+
+    Interface.EnableSnapping = true
 
     function Interface.MobileArrowManager() end
 
@@ -60,6 +69,7 @@ function UusCorpMobileHealthBar.onInitialize()
     local window = Active.window()
     local id = Active.mobile()
 
+    SnapUtilsWrapper.addWindow(window)
     WindowApi.setId(window, id)
     WindowDataApi.registerData(MobileStatus.type(), id)
     WindowDataApi.registerData(HealthBarColorData.type(), id)
@@ -67,12 +77,17 @@ function UusCorpMobileHealthBar.onInitialize()
     local update = "UusCorpMobileHealthBar.update"
     WindowApi.registerEventHandler(window, MobileStatus.event(), update)
     WindowApi.registerEventHandler(window, Events.enableHealthBar(), update)
-    WindowApi.registerEventHandler(window, Events.disableHealthBar(), "UusCorpMobileHealthBar.onShutdown")
+    WindowApi.registerEventHandler(window, Events.disableHealthBar(), "UusCorpMobileHealthBar.shutdown")
     WindowApi.registerEventHandler(window, HealthBarColorData.event(), "UusCorpMobileHealthBar.updateHealthBarColor")
 
     WindowApi.setShowing(window .. UusCorpMobileHealthBar.ObjectAnchor, false)
     UusCorpMobileHealthBar.update()
     UusCorpMobileHealthBar.updateHealthBarColor()
+    SnapUtilsWrapper.startSnap(Active.window())
+end
+
+function UusCorpMobileHealthBar.shutdown()
+    WindowApi.destroyWindow(Active.window())
 end
 
 function UusCorpMobileHealthBar.onShutdown()
@@ -88,6 +103,7 @@ function UusCorpMobileHealthBar.onShutdown()
     WindowApi.unregisterEventHandler(window, Events.enableHealthBar())
     UusCorpMobileHealthBar.onMouseOverEnd()
     WindowApi.detachWindowFromWorldObject(id, window)
+    SnapUtilsWrapper.removeWindow(window)
 end
 
 function UusCorpMobileHealthBar.updateHealthBarColor()
@@ -172,5 +188,7 @@ function UusCorpMobileHealthBar.onLeftClickDown()
                 Active.window()
             )
         )
+    else
+        SnapUtilsWrapper.startSnap(Active.window())
     end
 end

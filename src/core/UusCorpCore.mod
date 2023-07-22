@@ -85,6 +85,7 @@
             <File name="resources/Colors.lua"/>
             <File name="resources/TextIds.lua"/>
             <File name="util/CSVUtilities.lua"/>
+            <File name="util/SnapUtilsWrapper.lua"/>
             <File name="util/StringFormatter.lua"/>
             <File name="util/TableFormatter.lua"/>
             <File name="util/WindowUtilsWrapper.lua"/>
