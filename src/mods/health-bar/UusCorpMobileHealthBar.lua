@@ -68,9 +68,11 @@ function UusCorpMobileHealthBar.onInitialize()
     WindowApi.registerEventHandler(window, MobileStatus.event(), update)
     WindowApi.registerEventHandler(window, Events.enableHealthBar(), update)
     WindowApi.registerEventHandler(window, Events.disableHealthBar(), "UusCorpMobileHealthBar.onShutdown")
-    WindowApi.registerEventHandler(window, HealthBarColorData.event(), update)
+    WindowApi.registerEventHandler(window, HealthBarColorData.event(), "UusCorpMobileHealthBar.updateHealthBarColor")
 
     WindowApi.setShowing(window .. UusCorpMobileHealthBar.ObjectAnchor, false)
+    UusCorpMobileHealthBar.update()
+    UusCorpMobileHealthBar.updateHealthBarColor()
 end
 
 function UusCorpMobileHealthBar.onShutdown()
@@ -88,6 +90,15 @@ function UusCorpMobileHealthBar.onShutdown()
     WindowApi.detachWindowFromWorldObject(id, window)
 end
 
+function UusCorpMobileHealthBar.updateHealthBarColor()
+    local window = Active.window()
+    local id = WindowApi.getId(window)
+    StatusBarApi.setForegroundTint(
+        window .. UusCorpMobileHealthBar.StatusBar,
+        Colors.HealthBar[HealthBarColorData.visualState(id) + 1]
+    )
+end
+
 function UusCorpMobileHealthBar.update()
     local window = Active.window()
     local id = WindowApi.getId(window)
@@ -95,7 +106,6 @@ function UusCorpMobileHealthBar.update()
     local statusBar = window .. UusCorpMobileHealthBar.StatusBar
     StatusBarApi.setCurrentValue(statusBar, MobileStatus.currentHealth(id))
     StatusBarApi.setMaximumValue(statusBar, MobileStatus.maxHealth(id))
-    StatusBarApi.setForegroundTint(statusBar, Colors.HealthBar[HealthBarColorData.visualState(id) + 1])
 
     LabelApi.setText(window .. UusCorpMobileHealthBar.NameLabel, MobileStatus.name(id))
     local notoriety = MobileStatus.notoriety(id)

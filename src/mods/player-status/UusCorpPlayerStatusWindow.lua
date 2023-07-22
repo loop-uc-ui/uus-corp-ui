@@ -45,28 +45,28 @@ function UusCorpPlayerStatusWindow.onInitialize()
     WindowDataApi.registerData(MobileStatus.type(), PlayerStatus.id())
     WindowDataApi.registerData(HealthBarColorData.type(), PlayerStatus.id())
 
-    local update = "UusCorpPlayerStatusWindow.update"
-
     WindowApi.registerEventHandler(
         UusCorpPlayerStatusWindow.Name,
         PlayerStatus.event(),
-        update
+        "UusCorpPlayerStatusWindow.update"
     )
 
     WindowApi.registerEventHandler(
         UusCorpPlayerStatusWindow.Name,
         MobileStatus.event(),
-        update
+        "UusCorpPlayerStatusWindow.updateNotoriety"
     )
 
     WindowApi.registerEventHandler(
         UusCorpPlayerStatusWindow.Name,
         HealthBarColorData.event(),
-        update
+        "UusCorpPlayerStatusWindow.updateHealthBarColor"
     )
 
     WindowApi.setColor(Active.window() .. "FrameWar", Colors.NotoMurderer)
     UusCorpPlayerStatusWindow.update()
+    UusCorpPlayerStatusWindow.updateHealthBarColor()
+    UusCorpPlayerStatusWindow.updateNotoriety()
 end
 
 function UusCorpPlayerStatusWindow.onShutdown()
@@ -77,6 +77,20 @@ function UusCorpPlayerStatusWindow.onShutdown()
     WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, HealthBarColorData.event())
 end
 
+function UusCorpPlayerStatusWindow.updateHealthBarColor()
+    StatusBarApi.setForegroundTint(
+        UusCorpPlayerStatusWindow.Name .. "HealthBar",
+        Colors.HealthBar[HealthBarColorData.visualState(PlayerStatus.id()) + 1]
+    )
+end
+
+function UusCorpPlayerStatusWindow.updateNotoriety()
+    LabelApi.setTextColor(
+        UusCorpPlayerStatusWindow.Name .. "Name",
+        Colors.Notoriety[MobileStatus.notoriety(PlayerStatus.id())]
+    )
+end
+
 function UusCorpPlayerStatusWindow.update()
     WindowApi.setShowing(Active.window() .. "Frame", not PlayerStatus.inWarMode())
     WindowApi.setShowing(Active.window() .. "FrameWar", PlayerStatus.inWarMode())
@@ -84,11 +98,6 @@ function UusCorpPlayerStatusWindow.update()
     LabelApi.setText(
         UusCorpPlayerStatusWindow.Name .. "Name",
         MobileStatus.name(PlayerStatus.id())
-    )
-
-    LabelApi.setTextColor(
-        UusCorpPlayerStatusWindow.Name .. "Name",
-        Colors.Notoriety[MobileStatus.notoriety(PlayerStatus.id())]
     )
 
     LabelApi.setText(
@@ -107,7 +116,6 @@ function UusCorpPlayerStatusWindow.update()
     local bar = UusCorpPlayerStatusWindow.Name .. "HealthBar"
     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentHealth())
     StatusBarApi.setMaximumValue(bar, PlayerStatus.maxHealth())
-    StatusBarApi.setForegroundTint(bar, Colors.HealthBar[HealthBarColorData.visualState(PlayerStatus.id()) + 1])
 
     bar = UusCorpPlayerStatusWindow.Name .. "ManaBar"
     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentMana())
