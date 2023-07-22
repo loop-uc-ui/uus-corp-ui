@@ -206,13 +206,6 @@ function UusCorpPaperdollWindow.onShutdown()
 
     local id = WindowApi.getId(Active.window())
 
-    for i = 1, Paperdoll.numSlots(id) do
-        local data = Paperdoll.slotData(id, i)
-        if data ~= nil and data.slotId ~= nil then
-            WindowDataApi.unregisterData(ItemPropertiesData.type(), data.slotId)
-        end
-    end
-
     if id == PlayerStatus.id() then
         WindowDataApi.unregisterData(PlayerStatus.type())
         WindowApi.unregisterEventHandler(Active.window(), PlayerStatus.event())
@@ -222,6 +215,7 @@ function UusCorpPaperdollWindow.onShutdown()
     WindowDataApi.unregisterData(Paperdoll.type(), id)
     WindowApi.unregisterEventHandler(Active.window(), Paperdoll.event())
     WindowApi.unregisterEventHandler(Active.window(), MobileStatus.event())
+    WindowApi.unregisterEventHandler(Active.window(), ItemPropertiesData.event())
 end
 
 function UusCorpPaperdollWindow.onRightClick()
@@ -298,6 +292,10 @@ end
 function UusCorpPaperdollWindow.toggleWarMode()
     UserActionApi.toggleWarMode()
     ButtonApi.setChecked(Active.window(), not PlayerStatus.inWarMode())
+end
+
+function UusCorpPaperdollWindow.onSlotShutdown()
+    WindowDataApi.unregisterData(ItemPropertiesData.type(), WindowApi.getId(Active.window()))
 end
 
 function UusCorpPaperdollWindow.ToggleCharacterAbilities()
