@@ -45,8 +45,6 @@ function UusCorpPlayerStatusWindow.onInitialize()
     WindowDataApi.registerData(MobileStatus.type(), PlayerStatus.id())
     WindowDataApi.registerData(HealthBarColorData.type(), PlayerStatus.id())
 
-    local update = "UusCorpPlayerStatusWindow.update"
-
     WindowApi.registerEventHandler(
         UusCorpPlayerStatusWindow.Name,
         PlayerStatus.event(),
