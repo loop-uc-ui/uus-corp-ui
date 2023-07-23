@@ -24,6 +24,12 @@ Colors.Green = {
     b = 32
 }
 
+Colors.Grey = {
+    r = 128,
+    g = 128,
+    b = 128
+}
+
 Colors.YellowDark = {
     r = 164,
     g = 164,
@@ -93,5 +99,5 @@ Colors.Notoriety = {
 Colors.HealthBar = {
     Colors.Red,
     Colors.Green,
-    Colors.Yellow
+    Colors.Grey
 }
