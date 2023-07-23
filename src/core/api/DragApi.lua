@@ -6,9 +6,9 @@ end
 
 function DragApi.setActionMouseClickData(userAction, actionId, iconId)
     DragSlotSetActionMouseClickData(
-            userAction,
-            actionId,
-            iconId
+        userAction,
+        actionId,
+        iconId
     )
 end
 

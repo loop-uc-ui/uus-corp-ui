@@ -1,7 +1,6 @@
 UusCorpSkillsWindow = {}
 UusCorpSkillsWindow.Name = "UusCorpSkillsWindow"
 UusCorpSkillsWindow.List = UusCorpSkillsWindow.Name .. "List"
-UusCorpSkillsWindow.Icon = "ItemIcon"
 UusCorpSkillsWindow.Lock = "ItemLock"
 UusCorpSkillsWindow.ArrowUp = "ItemArrowUp"
 UusCorpSkillsWindow.ArrowDown = "ItemArrowDown"
@@ -98,7 +97,6 @@ local function updateSkillRow(index)
     local state = UusCorpSkillsWindow.Skills[index].state
 
     WindowApi.setId(item, UusCorpSkillsWindow.Skills[index].id)
-    WindowApi.setShowing(item .. UusCorpSkillsWindow.Icon, false)
     WindowApi.setShowing(item .. UusCorpSkillsWindow.Lock, state == 2)
     WindowApi.setShowing(item .. UusCorpSkillsWindow.ArrowUp, state == 0)
     WindowApi.setShowing(item .. UusCorpSkillsWindow.ArrowDown, state == 1)
@@ -138,6 +136,11 @@ function UusCorpSkillsWindow.initialize()
     )
 
     UusCorpCore.overrideFunctions(SkillsWindow)
+
+    -- For compatibility
+    function SkillsWindow.FormatSkillValue(skillLevel)
+        return formatValue(skillLevel)
+    end
 
     WindowApi.createWindow(UusCorpSkillsWindow.Name, false)
 end
@@ -307,29 +310,20 @@ end
 
 function UusCorpSkillsWindow.onSkillDrag()
     --TODO proper drag and release
-    local id = WindowApi.getId(Active.window())
-    local icon = UusCorpSkillsWindow.ListRow .. id .. UusCorpSkillsWindow.Icon
+    local id = WindowApi.getId(WindowApi.getParent(Active.window()))
 
-    WindowApi.clearAnchors(icon)
-    WindowApi.setShowing(
-        icon,
-        true
-    )
+    for i = 1, #UusCorpSkillsWindow.Skills do
+        local skill = UusCorpSkillsWindow.Skills[i]
 
-    WindowApi.setMoving(
-        icon,
-        true
-    )
-
-    DragApi.setActionMouseClickData(
-        UserAction.typeSkill(),
-        Skills.serverId(
-            Skills.csvId(id)
-        ),
-        Skills.iconId(
-            id
-        )
-    )
+        if skill.id == id then
+            DragApi.setActionMouseClickData(
+                UserAction.typeSkill(),
+                skill.serverId,
+                skill.icon
+            )
+            break
+        end
+    end
 end
 
 function UusCorpSkillsWindow.onClickArrowUp()

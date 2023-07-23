@@ -10,7 +10,6 @@
             </TexCoords>
             <EventHandlers>
                 <EventHandler event="OnLButtonDblClk" function="UusCorpSkillsWindow.onSkillDoubleClick"/>
-                <EventHandler event="OnMouseDrag" function="UusCorpSkillsWindow.onSkillDrag"/>
             </EventHandlers>
             <Windows>
                 <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
@@ -115,12 +114,6 @@
                         <EventHandler event="OnLButtonUp" function="UusCorpSkillsWindow.onClickArrowDown"/>
                     </EventHandlers>
                 </Button>
-
-                <DynamicImage name="$parentItemIcon" texturescale="1.0">
-                    <Size>
-						<AbsPoint x="64" y="64" />
-					</Size>
-                </DynamicImage>
             </Windows>
         </Button>
 
