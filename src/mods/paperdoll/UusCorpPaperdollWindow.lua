@@ -63,7 +63,7 @@ function UusCorpPaperdollWindow.initialize()
     end
 
     UusCorpCore.overrideFunctions(PaperdollWindow)
-
+    WindowApi.destroyWindow("PropertiesInfoWindow")
     WindowApi.setShowing("WarShield", false)
 end
 
