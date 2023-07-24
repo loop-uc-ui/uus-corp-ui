@@ -77,6 +77,7 @@
 					</Anchors>
 					<EventHandlers>
 						<EventHandler event="OnLButtonDown" function="UusCorpShopkeeper.onQuantityUp" />
+						<EventHandler event="OnLButtonUp" function="UusCorpShopkeeper.onStopIncrement" />
 					</EventHandlers>
 				</Button>
 
@@ -88,6 +89,7 @@
 					</Anchors>
 					<EventHandlers>
 						<EventHandler event="OnLButtonDown" function="UusCorpShopkeeper.onQuantityDown" />
+						<EventHandler event="OnLButtonUp" function="UusCorpShopkeeper.onStopIncrement" />
 					</EventHandlers>
 				</Button>
 
@@ -99,6 +101,7 @@
 					</Anchors>
 					<EventHandlers>
 						<EventHandler event="OnLButtonDown" function="UusCorpShopkeeper.onBuyAll" />
+						<EventHandler event="OnLButtonUp" function="UusCorpShopkeeper.onStopIncrement"/>
 					</EventHandlers>
 				</Button>
 

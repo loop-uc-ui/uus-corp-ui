@@ -8,7 +8,13 @@ UusCorpShopkeeper.Lists = {
 
 UusCorpShopkeeper.Total = UusCorpShopkeeper.Name .. "Total"
 
-local updateItem
+-- The item we're buying/selling is tied to onUpdate
+-- in order to allow for long pressing of the + / - buttons.
+local updateItem = {
+    id = nil,
+    increment = nil,
+    doStop = false
+}
 
 local shoppingCart = {}
 
@@ -63,19 +69,21 @@ local function incrementQuantity(id, increment)
         )
     )
 
-    updateItem = merchantList[id]
+    local item = merchantList[id]
 
-    updateItem.quantity = function()
+    item.quantity = function()
         return max - current
     end
 
-    updateItem.price = function()
-        return updateItem.quantity() * tonumber(
+    item.price = function()
+        return item.quantity() * tonumber(
             LabelApi.getText(
                 "ShopItem" .. id .. "Cost"
             )
         )
     end
+
+    return item
 end
 
 local function stripFirstNumber(wStr)
@@ -219,7 +227,7 @@ function UusCorpShopkeeper.onInitialize()
 
     WindowApi.setUpdateFrequency(
         window,
-        0.25
+        0.10
     )
 
     WindowApi.setId(
@@ -388,26 +396,28 @@ function UusCorpShopkeeper.onUpdateObjectInfo(itemWindow, data)
     end
 end
 
+function UusCorpShopkeeper.onStopIncrement()
+    updateItem = nil
+end
+
 function UusCorpShopkeeper.onQuantityUp()
-    incrementQuantity(
-        WindowApi.getId(
-            WindowApi.getParent(
-                Active.window()
-            )
-        ),
-        -1
+    updateItem = {}
+    updateItem.id = WindowApi.getId(
+        WindowApi.getParent(
+            Active.window()
+        )
     )
+    updateItem.increment = -1
 end
 
 function UusCorpShopkeeper.onQuantityDown()
-    incrementQuantity(
-        WindowApi.getId(
-            WindowApi.getParent(
-                Active.window()
-            )
-        ),
-        1
+    updateItem = {}
+    updateItem.id = WindowApi.getId(
+        WindowApi.getParent(
+            Active.window()
+        )
     )
+    updateItem.increment = 1
 end
 
 function UusCorpShopkeeper.onItemDoubleClick(flags)
@@ -426,12 +436,12 @@ function UusCorpShopkeeper.onItemDoubleClick(flags)
         increment = -math.huge
     end
 
-    incrementQuantity(
-        WindowApi.getId(
-            Active.window()
-        ),
-        increment
+    updateItem = {}
+    updateItem.id = WindowApi.getId(
+        Active.window()
     )
+    updateItem.increment = increment
+    updateItem.doStop = true
 end
 
 function UusCorpShopkeeper.onBuyAll()
@@ -441,22 +451,24 @@ function UusCorpShopkeeper.onBuyAll()
         increment = math.abs(increment)
     end
 
-    incrementQuantity(
-        WindowApi.getId(
-            WindowApi.getParent(
-                Active.window()
-            )
-        ),
-        increment
+    updateItem = {}
+    updateItem.id = WindowApi.getId(
+        WindowApi.getParent(
+            Active.window()
+        )
     )
+    updateItem.increment = increment
+    updateItem.doStop = true
 end
 
 function UusCorpShopkeeper.onUpdateShoppingCart()
-    if updateItem == nil then
+    if updateItem == nil or updateItem.id == nil or updateItem.increment == nil then
         return
     end
 
-    local itemWindow = "ShopCartItem" .. updateItem.id()
+    local update = incrementQuantity(updateItem.id, updateItem.increment)
+
+    local itemWindow = "ShopCartItem" .. update.id()
 
     if WindowApi.createFromTemplate(
         itemWindow,
@@ -465,12 +477,12 @@ function UusCorpShopkeeper.onUpdateShoppingCart()
     ) then
         WindowApi.setId(
             itemWindow,
-            updateItem.id()
+            update.id()
         )
 
         table.insert(
             shoppingCart,
-            updateItem
+            update
         )
 
         if #shoppingCart > 1 then
@@ -491,17 +503,17 @@ function UusCorpShopkeeper.onUpdateShoppingCart()
 
     UusCorpShopkeeper.onUpdateObjectInfo(
         itemWindow,
-        updateItem
+        update
     )
 
-    if updateItem.quantity() <= 0 then
+    if update.quantity() <= 0 then
         WindowApi.destroyWindow(
             itemWindow
         )
 
         for i = 1, #shoppingCart do
             local item = shoppingCart[i]
-            if item.id() == updateItem.id() then
+            if item.id() == update.id() then
                 table.remove(
                     shoppingCart,
                     i
@@ -557,7 +569,9 @@ function UusCorpShopkeeper.onUpdateShoppingCart()
         )
     end
 
-    updateItem = nil
+    if updateItem.doStop then
+        updateItem = nil
+    end
 end
 
 function UusCorpShopkeeper.onSendTransaction()
