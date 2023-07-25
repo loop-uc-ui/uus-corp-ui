@@ -2,7 +2,7 @@
 	<Windows>
         <Window name="CharacterSheetStatsList" autoresize="false">
             <Size>
-                <AbsPoint x="560" y="336" />
+                <AbsPoint x="444" y="336" />
             </Size>
 
             <Windows>
@@ -20,7 +20,7 @@
 
                 <Window name="$parentData" popable="false" autoresize="false">
                     <Size>
-                        <AbsPoint x="560" y="312" />
+                        <AbsPoint x="444" y="312" />
                     </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
@@ -31,7 +31,7 @@
 
                 <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" frameonly="false">
                     <Size>
-                        <AbsPoint x="560" y="312" />
+                        <AbsPoint x="444" y="312" />
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentData"/>
@@ -42,7 +42,7 @@
 
         <Window name="CharacterSheetRegenList" autoresize="false">
             <Size>
-                <AbsPoint x="560" y="120" />
+                <AbsPoint x="444" y="120" />
             </Size>
 
             <Anchors>
@@ -65,7 +65,7 @@
 
                 <Window name="$parentData" popable="false" autoresize="false">
                     <Size>
-                        <AbsPoint x="560" y="96" />
+                        <AbsPoint x="444" y="96" />
                     </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
@@ -76,7 +76,7 @@
 
                 <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" frameonly="false">
                     <Size>
-                        <AbsPoint x="560" y="96" />
+                        <AbsPoint x="444" y="96" />
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentData"/>
@@ -87,7 +87,7 @@
 
         <Window name="CharacterSheetResistList" autoresize="false">
             <Size>
-                <AbsPoint x="560" y="168" />
+                <AbsPoint x="444" y="168" />
             </Size>
 
             <Anchors>
@@ -110,7 +110,7 @@
 
                 <Window name="$parentData" popable="false" autoresize="false">
                     <Size>
-                        <AbsPoint x="560" y="144" />
+                        <AbsPoint x="444" y="144" />
                     </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
@@ -121,7 +121,7 @@
 
                 <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" frameonly="false">
                     <Size>
-                        <AbsPoint x="560" y="144" />
+                        <AbsPoint x="444" y="144" />
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentData"/>
@@ -132,7 +132,7 @@
 
         <Window name="CharacterSheetCombatList" autoresize="false">
             <Size>
-                <AbsPoint x="560" y="230" />
+                <AbsPoint x="444" y="230" />
             </Size>
 
             <Anchors>
@@ -155,7 +155,7 @@
 
                 <Window name="$parentData" popable="false" autoresize="false">
                     <Size>
-                        <AbsPoint x="560" y="206" />
+                        <AbsPoint x="444" y="206" />
                     </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
@@ -166,7 +166,7 @@
 
                 <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" frameonly="false">
                     <Size>
-                        <AbsPoint x="560" y="206" />
+                        <AbsPoint x="444" y="206" />
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentData"/>
@@ -177,7 +177,7 @@
 
         <Window name="CharacterSheetMagicList" autoresize="false">
             <Size>
-                <AbsPoint x="560" y="220" />
+                <AbsPoint x="444" y="220" />
             </Size>
 
             <Anchors>
@@ -201,7 +201,7 @@
 
                 <Window name="$parentData" popable="false" autoresize="false">
                     <Size>
-                        <AbsPoint x="560" y="168" />
+                        <AbsPoint x="444" y="168" />
                     </Size>
                     <Anchors>
                         <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
@@ -212,7 +212,7 @@
 
                 <FullResizeImage name="$parentFrame" inherits="UO_Default_Inner_Window_Frame" frameonly="false">
                     <Size>
-                        <AbsPoint x="560" y="168" />
+                        <AbsPoint x="444" y="168" />
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentData"/>
@@ -223,7 +223,7 @@
 
 		<Button name="CharacterSheetRowTemplate" font="inter_medium_16" highlighttexture="Menu_Selection" texturescale="2.0">
             <Size>
-				<AbsPoint x="548" y="24" />
+				<AbsPoint x="444" y="24" />
 			</Size>
             
             <TexCoords>
@@ -260,7 +260,7 @@
 		
 		<Window name="CharacterSheetWindow" movable="true" handleinput="true">
 			<Size>
-				<AbsPoint x="640" y="600" />
+				<AbsPoint x="512" y="464" />
 			</Size>
 			<Anchors>
 				<Anchor point="center" relativePoint="center" />
@@ -287,17 +287,17 @@
                 
                 <ScrollWindow name="$parentList" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39" autoHideScrollBar="true" popable="false">
                     <Size>
-                        <AbsPoint x="604" y="564" />
+                        <AbsPoint x="468" y="416" />
                     </Size>
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft">
-                            <AbsPoint x="24" y="24"/>
+                            <AbsPoint x="16" y="16"/>
                         </Anchor>
                     </Anchors>
                     <Windows>
                     <Window name ="$parentScrollChild" popable="false" autoresize="false">
                         <Size>
-                            <AbsPoint x="604" y="564" />
+                            <AbsPoint x="468" y="416" />
                         </Size>
                     </Window>
 
@@ -307,10 +307,10 @@
                         </Size>
                         <Anchors>
                             <Anchor point="topright" relativePoint="topright">
-                                <AbsPoint x="-14" y="8"/>
+                                <AbsPoint x="0" y="8"/>
                             </Anchor>
                             <Anchor point="bottomright" relativePoint="bottomright">
-                                <AbsPoint x="-14" y="-8"/>
+                                <AbsPoint x="0" y="-8"/>
                             </Anchor>
                         </Anchors>
                         <ThumbOffset x="0" y="0" />
