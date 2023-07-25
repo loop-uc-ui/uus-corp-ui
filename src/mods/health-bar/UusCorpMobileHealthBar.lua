@@ -62,6 +62,10 @@ function UusCorpMobileHealthBar.initialize()
         )
 
         WindowApi.setMoving(window, true)
+
+        if mobileId ~= PlayerStatus.id() then
+            SnapUtilsWrapper.startSnap(window)
+        end
     end
 end
 
