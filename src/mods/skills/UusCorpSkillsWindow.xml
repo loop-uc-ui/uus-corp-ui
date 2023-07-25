@@ -14,7 +14,7 @@
             <Windows>
                 <Label name="$parentItemName" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="224" y="24" />
+                        <AbsPoint x="200" y="24" />
                     </Size>
                     <EventHandlers>
                         <EventHandler event="OnMouseDrag" function="UusCorpSkillsWindow.onSkillDrag"/>
@@ -24,7 +24,7 @@
 
                 <Label name="$parentItemRealValue" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="64" y="24" />
+                        <AbsPoint x="72" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemName"/>
@@ -37,7 +37,7 @@
 
                 <Label name="$parentItemTempValue" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="64" y="24" />
+                        <AbsPoint x="72" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemRealValue" textalign="leftcenter"/>
@@ -50,7 +50,7 @@
 
                 <Label name="$parentItemCap" font="inter_medium_18" textalign="leftcenter">
                     <Size>
-                        <AbsPoint x="64" y="24" />
+                        <AbsPoint x="72" y="24" />
                     </Size>
                     <Anchors>
                         <Anchor point="right" relativePoint="left" relativeTo="$parentItemTempValue"/>
