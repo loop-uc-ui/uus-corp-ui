@@ -32,6 +32,10 @@ function UusCorpMainMenuWindow.initialize()
     end
 
     function Actions.ToggleMainMenu()
+        if Cursor.hasTarget() or WindowApi.isShowing("TargetWindow") then
+            return
+        end
+
         WindowApi.setShowing(
             UusCorpMainMenuWindow.Name,
             not WindowApi.isShowing(UusCorpMainMenuWindow.Name)
