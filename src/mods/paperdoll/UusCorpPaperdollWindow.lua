@@ -189,7 +189,7 @@ function UusCorpPaperdollWindow.update()
         width = width / UusCorpPaperdollWindow.ModelOffset
         height = height / UusCorpPaperdollWindow.ModelOffset
     else
-        WindowApi.setScale(backgroundWindow, 1.35)
+        WindowApi.setScale(backgroundWindow, InterfaceCore.scale * 1.35)
         WindowApi.clearAnchors(backgroundWindow)
     end
 
