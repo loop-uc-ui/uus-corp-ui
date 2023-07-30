@@ -77,6 +77,12 @@ function UusCorpObjectHandleWindow.onInitialize()
     )
 end
 
+function UusCorpObjectHandleWindow.onUpdate()
+    if not ObjectApi.isValid(WindowApi.getId(Active.window())) then
+        WindowApi.destroyWindow(Active.window())
+    end
+end
+
 function UusCorpObjectHandleWindow.onRightClick()
     WindowApi.destroyWindow(Active.window())
 end
