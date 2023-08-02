@@ -32,6 +32,16 @@ function UusCorpObjectHandleWindow.initialize()
             end
         end
     end
+
+    local itemProperties = UusCorpCore.copyTable(ItemProperties)
+
+    function ItemProperties.UpdateItemPropertiesData()
+        if (string.find(Active.mouseOverWindow(), UusCorpObjectHandleWindow.Name)) then
+            ItemPropertiesData.clearActiveItem()
+        else
+            itemProperties.UpdateItemPropertiesData()
+        end
+    end
 end
 
 function UusCorpObjectHandleWindow.onInitialize()
