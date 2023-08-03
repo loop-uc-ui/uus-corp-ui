@@ -6,7 +6,33 @@ UusCorpMobileHealthBar.NameLabel = "Name"
 UusCorpMobileHealthBar.Arrow = "MobileArrow"
 UusCorpMobileHealthBar.ObjectAnchor = "ObjectAnchor"
 
-function UusCorpMobileHealthBar.initialize()
+local function overrideCoreInterface()
+    Interface.EnableSnapping = true
+    function Interface.MobileArrowManager() end
+end
+
+local function overrideTargeting()
+    local targetWindow = "TargetWindow"
+
+    local events = {
+        CurrentTarget.event(),
+        MobileStatus.event(),
+        MobileData.nameEvent(),
+        ObjectInfo.event(),
+        HealthBarColorData.event()
+    }
+
+    for i = 1, #events do
+        WindowApi.unregisterEventHandler(targetWindow, events[i])
+    end
+
+    WindowApi.unregisterCoreEventHandler(targetWindow, "OnUpdate")
+    WindowApi.setShowing(targetWindow, false)
+    UusCorpCore.overrideFunctions(TargetWindow)
+    WindowApi.registerEventHandler("Root", CurrentTarget.event(), "UusCorpMobileHealthBar.onTarget")
+end
+
+local function overrideDockspots()
     local dockspots = {
         "YellowDockspot",
         "BlueDockspot",
@@ -22,21 +48,15 @@ function UusCorpMobileHealthBar.initialize()
         WindowApi.destroyWindow(dockspots[i])
         SnapUtilsWrapper.removeWindow(dockspots[i])
     end
+end
 
-    UusCorpCore.loadResources(
-        "/src/mods/health-bar",
-        "UusCorpMobileHealthBar.xml"
-    )
-
+local function overrideHealthBars()
     UusCorpCore.overrideFunctions(MobileHealthBar)
-
-    Interface.EnableSnapping = true
-
-    function Interface.MobileArrowManager() end
 
     MobileHealthBar.CreateHealthBar = function (mobileId)
         local template = UusCorpMobileHealthBar.Name
         local window = template .. mobileId
+        local isTarget = mobileId == CurrentTarget.id()
 
         if mobileId == PlayerStatus.id() then
             template = UusCorpPlayerStatusWindow.Name
@@ -67,6 +87,19 @@ function UusCorpMobileHealthBar.initialize()
             SnapUtilsWrapper.startSnap(window)
         end
     end
+end
+
+function UusCorpMobileHealthBar.initialize()
+    overrideDockspots()
+
+    UusCorpCore.loadResources(
+        "/src/mods/health-bar",
+        "UusCorpMobileHealthBar.xml"
+    )
+
+    overrideCoreInterface()
+    overrideTargeting()
+    overrideHealthBars()
 end
 
 function UusCorpMobileHealthBar.onInitialize()
