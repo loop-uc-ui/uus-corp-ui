@@ -6,7 +6,35 @@ UusCorpMobileHealthBar.NameLabel = "Name"
 UusCorpMobileHealthBar.Arrow = "MobileArrow"
 UusCorpMobileHealthBar.ObjectAnchor = "ObjectAnchor"
 
-function UusCorpMobileHealthBar.initialize()
+local previousTarget = nil
+
+local function overrideCoreInterface()
+    Interface.EnableSnapping = true
+    function Interface.MobileArrowManager() end
+end
+
+local function overrideTargeting()
+    local targetWindow = "TargetWindow"
+
+    local events = {
+        CurrentTarget.event(),
+        MobileStatus.event(),
+        MobileData.nameEvent(),
+        ObjectInfo.event(),
+        HealthBarColorData.event()
+    }
+
+    for i = 1, #events do
+        WindowApi.unregisterEventHandler(targetWindow, events[i])
+    end
+
+    WindowApi.unregisterCoreEventHandler(targetWindow, "OnUpdate")
+    WindowApi.setShowing(targetWindow, false)
+    UusCorpCore.overrideFunctions(TargetWindow)
+    WindowApi.registerEventHandler("Root", CurrentTarget.event(), "UusCorpMobileHealthBar.onTarget")
+end
+
+local function overrideDockspots()
     local dockspots = {
         "YellowDockspot",
         "BlueDockspot",
@@ -22,17 +50,10 @@ function UusCorpMobileHealthBar.initialize()
         WindowApi.destroyWindow(dockspots[i])
         SnapUtilsWrapper.removeWindow(dockspots[i])
     end
+end
 
-    UusCorpCore.loadResources(
-        "/src/mods/health-bar",
-        "UusCorpMobileHealthBar.xml"
-    )
-
+local function overrideHealthBars()
     UusCorpCore.overrideFunctions(MobileHealthBar)
-
-    Interface.EnableSnapping = true
-
-    function Interface.MobileArrowManager() end
 
     MobileHealthBar.CreateHealthBar = function (mobileId)
         local template = UusCorpMobileHealthBar.Name
@@ -69,9 +90,33 @@ function UusCorpMobileHealthBar.initialize()
     end
 end
 
+local function isAttached()
+    return not WindowApi.isShowing(Active.window() .. UusCorpMobileHealthBar.ObjectAnchor)
+end
+
+function UusCorpMobileHealthBar.initialize()
+    overrideDockspots()
+
+    UusCorpCore.loadResources(
+        "/src/mods/health-bar",
+        "UusCorpMobileHealthBar.xml"
+    )
+
+    overrideCoreInterface()
+    overrideTargeting()
+    overrideHealthBars()
+end
+
 function UusCorpMobileHealthBar.onInitialize()
     local window = Active.window()
-    local id = Active.mobile()
+    local id = tonumber(
+        string.gsub(
+            window,
+            UusCorpMobileHealthBar.Name,
+            ""
+        ),
+        10
+    )
 
     SnapUtilsWrapper.addWindow(window)
     WindowApi.setId(window, id)
@@ -88,6 +133,32 @@ function UusCorpMobileHealthBar.onInitialize()
     UusCorpMobileHealthBar.update()
     UusCorpMobileHealthBar.updateHealthBarColor()
     SnapUtilsWrapper.startSnap(Active.window())
+end
+
+function UusCorpMobileHealthBar.onTarget()
+    local window = UusCorpMobileHealthBar.Name .. CurrentTarget.id()
+
+    if CurrentTarget.isMobile() and not WindowApi.doesExist(window) then
+        MobileHealthBar.CreateHealthBar(CurrentTarget.id())
+
+        WindowApi.attachWIndowToWorldObject(
+            CurrentTarget.id(),
+            window
+        )
+
+        WindowApi.setShowing(
+            window .. UusCorpMobileHealthBar.ObjectAnchor,
+            false
+        )
+
+        if previousTarget ~= nil and not WindowApi.isShowing(
+            UusCorpMobileHealthBar.Name .. previousTarget .. UusCorpMobileHealthBar.ObjectAnchor
+        ) then
+            WindowApi.destroyWindow(UusCorpMobileHealthBar.Name .. previousTarget)
+        end
+
+        previousTarget = CurrentTarget.id()
+    end
 end
 
 function UusCorpMobileHealthBar.shutdown()
@@ -150,7 +221,7 @@ function UusCorpMobileHealthBar.onRightClick()
 end
 
 function UusCorpMobileHealthBar.onMouseOver()
-    if WindowApi.isShowing(Active.window() .. UusCorpMobileHealthBar.ObjectAnchor) then
+    if isAttached() then
         return
     end
 
@@ -185,14 +256,25 @@ function UusCorpMobileHealthBar.onDoubleClick()
     )
 end
 
-function UusCorpMobileHealthBar.onLeftClickDown()
+function UusCorpMobileHealthBar.onLeftClickDown(flags)
+    local id = WindowApi.getId(Active.window())
+
     if Cursor.hasTarget() then
-        TargetApi.clickTarget(
-            WindowApi.getId(
-                Active.window()
-            )
+        TargetApi.clickTarget(id)
+        return
+    elseif ButtonFlags.isShift(flags) and isAttached() then
+        WindowApi.detachWindowFromWorldObject(
+            id,
+            Active.window()
         )
-    else
-        SnapUtilsWrapper.startSnap(Active.window())
+
+        WindowApi.setShowing(
+            Active.window() .. UusCorpMobileHealthBar.ObjectAnchor,
+            true
+        )
+
+        UusCorpMobileHealthBar.onMouseOver()
     end
+
+    SnapUtilsWrapper.startSnap(Active.window())
 end
