@@ -137,8 +137,9 @@ end
 
 function UusCorpMobileHealthBar.onTarget()
     local window = UusCorpMobileHealthBar.Name .. CurrentTarget.id()
+    local isPlayer = CurrentTarget.id() == PlayerStatus.id()
 
-    if CurrentTarget.isMobile() and not WindowApi.doesExist(window) then
+    if not isPlayer and CurrentTarget.isMobile() and not WindowApi.doesExist(window) then
         MobileHealthBar.CreateHealthBar(CurrentTarget.id())
 
         WindowApi.attachWIndowToWorldObject(
