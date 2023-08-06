@@ -85,13 +85,17 @@ local function overrideHealthBars()
         WindowApi.setMoving(window, true)
 
         if mobileId ~= PlayerStatus.id() then
+            WindowApi.setShowing(
+                window .. UusCorpMobileHealthBar.ObjectAnchor,
+                false
+            )
             SnapUtilsWrapper.startSnap(window)
         end
     end
 end
 
 local function isAttached()
-    return not WindowApi.isShowing(Active.window() .. UusCorpMobileHealthBar.ObjectAnchor)
+    return WindowApi.isShowing(Active.window() .. UusCorpMobileHealthBar.ObjectAnchor)
 end
 
 function UusCorpMobileHealthBar.initialize()
@@ -129,7 +133,6 @@ function UusCorpMobileHealthBar.onInitialize()
     WindowApi.registerEventHandler(window, Events.disableHealthBar(), "UusCorpMobileHealthBar.shutdown")
     WindowApi.registerEventHandler(window, HealthBarColorData.event(), "UusCorpMobileHealthBar.updateHealthBarColor")
 
-    WindowApi.setShowing(window .. UusCorpMobileHealthBar.ObjectAnchor, false)
     UusCorpMobileHealthBar.update()
     UusCorpMobileHealthBar.updateHealthBarColor()
     SnapUtilsWrapper.startSnap(Active.window())
@@ -139,7 +142,13 @@ function UusCorpMobileHealthBar.onTarget()
     local window = UusCorpMobileHealthBar.Name .. CurrentTarget.id()
     local isPlayer = CurrentTarget.id() == PlayerStatus.id()
 
-    if not isPlayer and CurrentTarget.isMobile() and not WindowApi.doesExist(window) then
+    if not isPlayer and CurrentTarget.isMobile() and ObjectApi.isValid(CurrentTarget.id())
+        and not WindowApi.doesExist(window) then
+
+        if not string.match(Active.mouseOverWindow(), UusCorpMobileHealthBar.Name) then
+            WindowApi.destroyWindow(UusCorpMobileHealthBar.Arrow)
+        end
+
         MobileHealthBar.CreateHealthBar(CurrentTarget.id())
 
         WindowApi.attachWIndowToWorldObject(
@@ -147,12 +156,9 @@ function UusCorpMobileHealthBar.onTarget()
             window
         )
 
-        WindowApi.setShowing(
-            window .. UusCorpMobileHealthBar.ObjectAnchor,
-            false
-        )
+        WindowApi.setShowing(window .. UusCorpMobileHealthBar.ObjectAnchor, true)
 
-        if previousTarget ~= nil and not WindowApi.isShowing(
+        if previousTarget ~= nil and WindowApi.isShowing(
             UusCorpMobileHealthBar.Name .. previousTarget .. UusCorpMobileHealthBar.ObjectAnchor
         ) then
             WindowApi.destroyWindow(UusCorpMobileHealthBar.Name .. previousTarget)
@@ -170,6 +176,7 @@ function UusCorpMobileHealthBar.onShutdown()
     local window = Active.window()
     local id = WindowApi.getId(window)
 
+    UusCorpMobileHealthBar.onMouseOverEnd()
     WindowDataApi.unregisterData(MobileStatus.type(), id)
     WindowDataApi.unregisterData(HealthBarColorData.type(), id)
 
@@ -177,7 +184,6 @@ function UusCorpMobileHealthBar.onShutdown()
     WindowApi.unregisterEventHandler(window, HealthBarColorData.event())
     WindowApi.unregisterEventHandler(window, Events.disableHealthBar())
     WindowApi.unregisterEventHandler(window, Events.enableHealthBar())
-    UusCorpMobileHealthBar.onMouseOverEnd()
     WindowApi.detachWindowFromWorldObject(id, window)
     SnapUtilsWrapper.removeWindow(window)
 end
@@ -271,7 +277,7 @@ function UusCorpMobileHealthBar.onLeftClickDown(flags)
 
         WindowApi.setShowing(
             Active.window() .. UusCorpMobileHealthBar.ObjectAnchor,
-            true
+            false
         )
 
         UusCorpMobileHealthBar.onMouseOver()
