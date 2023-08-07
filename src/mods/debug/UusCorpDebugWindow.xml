@@ -42,7 +42,10 @@
                 <!-- End of Inner Frame Boilerplate -->
 						
 				<LogDisplay name="$parentText" font="UO_DefaultText_15pt" background="UO_Simple_Black_Background" scrollbar="$parentScrollbar" scrollbarPosition="right" maxchars="4096" maxentries="4096" wordwrap="true">
-					<Anchors>
+					<Size>
+				        <AbsPoint x="800" y="500" />
+			        </Size>
+                    <Anchors>
 						<Anchor point="topleft" relativePoint="topleft">
 							<AbsPoint x="20" y="16" />
 						</Anchor>
