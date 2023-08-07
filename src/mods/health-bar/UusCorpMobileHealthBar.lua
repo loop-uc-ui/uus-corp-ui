@@ -98,6 +98,18 @@ local function isAttached()
     return WindowApi.isShowing(Active.window() .. UusCorpMobileHealthBar.ObjectAnchor)
 end
 
+local function destroyPrevious()
+    if previousTarget == nil then
+        return
+    end
+
+    local window = UusCorpMobileHealthBar.Name .. previousTarget
+
+    if WindowApi.doesExist(window) and WindowApi.isShowing(window .. UusCorpMobileHealthBar.ObjectAnchor) then
+        WindowApi.destroyWindow(window)
+    end
+end
+
 function UusCorpMobileHealthBar.initialize()
     overrideDockspots()
 
@@ -139,6 +151,13 @@ function UusCorpMobileHealthBar.onInitialize()
 end
 
 function UusCorpMobileHealthBar.onTarget()
+    if CurrentTarget.id() == 0 then
+        WindowApi.setShowing("ContextMenu", false)
+        destroyPrevious()
+        previousTarget = nil
+        return
+    end
+
     local window = UusCorpMobileHealthBar.Name .. CurrentTarget.id()
     local isPlayer = CurrentTarget.id() == PlayerStatus.id()
 
@@ -158,11 +177,7 @@ function UusCorpMobileHealthBar.onTarget()
 
         WindowApi.setShowing(window .. UusCorpMobileHealthBar.ObjectAnchor, true)
 
-        if previousTarget ~= nil and WindowApi.isShowing(
-            UusCorpMobileHealthBar.Name .. previousTarget .. UusCorpMobileHealthBar.ObjectAnchor
-        ) then
-            WindowApi.destroyWindow(UusCorpMobileHealthBar.Name .. previousTarget)
-        end
+        destroyPrevious()
 
         previousTarget = CurrentTarget.id()
     end

@@ -32,7 +32,7 @@ function UusCorpMainMenuWindow.initialize()
     end
 
     function Actions.ToggleMainMenu()
-        if Cursor.hasTarget() or WindowApi.isShowing("TargetWindow") then
+        if Cursor.hasTarget() or CurrentTarget.id() ~= 0 then
             return
         end
 
