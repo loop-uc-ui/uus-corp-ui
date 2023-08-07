@@ -24,6 +24,7 @@
                 <EventHandler event="OnMouseOverEnd" function="UusCorpMobileHealthBar.onMouseOverEnd"/>
                 <EventHandler event="OnLButtonDown" function="UusCorpMobileHealthBar.onLeftClickDown"/>
                 <EventHandler event="OnLButtonDblClk" function="UusCorpMobileHealthBar.onDoubleClick" />
+                <EventHandler event="OnUpdate" function="UusCorpMobileHealthBar.onUpdate"/>
             </EventHandlers>
             <Windows>
                 <!-- Reference window for determining whether we're attached to an object -->
@@ -44,6 +45,13 @@
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" />
                         <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentCurrentTargetFrame" inherits="UO_Default_Inner_Window_Frame" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground"/>
                     </Anchors>
                 </FullResizeImage>
 
