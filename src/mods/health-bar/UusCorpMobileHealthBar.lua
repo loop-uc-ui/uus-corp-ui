@@ -221,19 +221,27 @@ end
 function UusCorpMobileHealthBar.update()
     local window = Active.window()
     local id = WindowApi.getId(window)
-
     local statusBar = window .. UusCorpMobileHealthBar.StatusBar
+    local healthLabel = window .. UusCorpMobileHealthBar.HealthLabel
+    local maxHealth = MobileStatus.maxHealth(id)
+
     StatusBarApi.setCurrentValue(statusBar, MobileStatus.currentHealth(id))
-    StatusBarApi.setMaximumValue(statusBar, MobileStatus.maxHealth(id))
+    StatusBarApi.setMaximumValue(statusBar, maxHealth)
+
+    LabelApi.setText(healthLabel, tostring(
+        math.floor(
+            MobileStatus.currentHealth(id) / maxHealth * 100
+        )) .. "%"
+    )
+
+    -- There's a delay in updating the mobile's status where
+    -- values are initialy 0'd out
+    WindowApi.setShowing(statusBar, maxHealth ~= 0)
+    WindowApi.setShowing(healthLabel, maxHealth ~= 0)
 
     LabelApi.setText(window .. UusCorpMobileHealthBar.NameLabel, MobileStatus.name(id))
     local notoriety = MobileStatus.notoriety(id)
     LabelApi.setTextColor(window .. UusCorpMobileHealthBar.NameLabel, Colors.Notoriety[notoriety])
-    LabelApi.setText(window .. UusCorpMobileHealthBar.HealthLabel, tostring(
-        math.floor(
-            MobileStatus.currentHealth(id) / MobileStatus.maxHealth(id) * 100
-        )) .. "%"
-    )
 end
 
 function UusCorpMobileHealthBar.offset(mobileId)
