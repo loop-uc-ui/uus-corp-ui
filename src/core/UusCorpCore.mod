@@ -66,8 +66,8 @@
             <File name="data/PlayerEquipment.lua" />
             <File name="data/PlayerLocation.lua" />
             <File name="data/PlayerStatus.lua" />
-            <!-- <File name="data/Radar.lua" /
-            <File name="data/ScreenResolution.lua" /> -->
+            <File name="data/Radar.lua" />
+            <!-- <File name="data/ScreenResolution.lua" /> -->
             <File name="data/ShopData.lua" />
             <File name="data/Skills.lua" />
             <File name="data/Spells.lua" />
@@ -85,6 +85,7 @@
             <File name="resources/Colors.lua"/>
             <File name="resources/TextIds.lua"/>
             <File name="util/CSVUtilities.lua"/>
+            <File name="util/MapCommonWrapper.lua"/>
             <File name="util/SnapUtilsWrapper.lua"/>
             <File name="util/StringFormatter.lua"/>
             <File name="util/TableFormatter.lua"/>

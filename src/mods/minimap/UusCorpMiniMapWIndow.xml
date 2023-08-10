@@ -1,0 +1,46 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+		<Window name="UusCorpMiniMapWindow" movable="true">
+			<Size>
+				<AbsPoint x="235" y="235" />
+			</Size>
+			<Anchors>
+				<Anchor point="topright" relativePoint="topright" relativeTo="">
+					<AbsPoint x="0" y="0" />
+				</Anchor>
+			</Anchors>
+			<EventHandlers>
+				<EventHandler event="OnInitialize" function="UusCorpMiniMapWindow.Initialize" />
+				<EventHandler event="OnShutdown" function="UusCorpMiniMapWindow.Shutdown" />
+				<EventHandler event="OnRButtonUp" function="UusCorpMiniMapWindow.onRightClick"/>
+				<EventHandler event="OnMouseWheel" function="UusCorpMiniMapWindow.RadarOnMouseWheel" />
+				<EventHandler event="OnLButtonDblClk" function="UusCorpMiniMapWindow.RadarOnLButtonDblClk" />
+			</EventHandlers>
+			<Windows>
+				<CircleImage name="$parentMap" numsegments="16" texturescale="1.0" layer="default">
+					<Size>
+						<AbsPoint x="190" y="190" />
+					</Size>
+					<Anchors>
+						<Anchor point="center" relativePoint="center" relativeTo="$parentRing">
+							<AbsPoint x="4" y="0" />
+						</Anchor>
+					</Anchors>
+					<TexCoords x="128" y="128" />
+				</CircleImage>
+
+				<DynamicImage name="$parentRing" texture="hud_image" handleinput="false" texturescale="1.1" layer="background">
+					<Size>
+						<AbsPoint x="250" y="250" />
+					</Size>
+					<Anchors>
+						<Anchor point="center" relativePoint="center">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<TexCoords x="194" y="629"/>
+				</DynamicImage>
+			</Windows>
+		</Window>
+	</Windows>
+</Interface>
