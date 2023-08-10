@@ -141,8 +141,6 @@ function UusCorpMobileHealthBar.onInitialize()
 
     local update = "UusCorpMobileHealthBar.update"
     WindowApi.registerEventHandler(window, MobileStatus.event(), update)
-    WindowApi.registerEventHandler(window, Events.enableHealthBar(), update)
-    WindowApi.registerEventHandler(window, Events.disableHealthBar(), "UusCorpMobileHealthBar.shutdown")
     WindowApi.registerEventHandler(window, HealthBarColorData.event(), "UusCorpMobileHealthBar.updateHealthBarColor")
     WindowApi.setUpdateFrequency(window, 0.10)
     UusCorpMobileHealthBar.update()
@@ -203,8 +201,6 @@ function UusCorpMobileHealthBar.onShutdown()
 
     WindowApi.unregisterEventHandler(window, MobileStatus.event())
     WindowApi.unregisterEventHandler(window, HealthBarColorData.event())
-    WindowApi.unregisterEventHandler(window, Events.disableHealthBar())
-    WindowApi.unregisterEventHandler(window, Events.enableHealthBar())
     WindowApi.detachWindowFromWorldObject(id, window)
     SnapUtilsWrapper.removeWindow(window)
 end
