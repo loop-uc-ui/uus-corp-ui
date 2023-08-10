@@ -62,7 +62,7 @@ function UusCorpMiniMapWindow.ActivateRadar()
 	UusCorpMiniMapWindow.UpdateRadar()
 end
 
-function UusCorpMiniMapWindow.RadarOnMouseWheel(x, y, delta)
+function UusCorpMiniMapWindow.RadarOnMouseWheel(_, _, delta)
     MapCommon.AdjustZoom(-delta)
 end
 
