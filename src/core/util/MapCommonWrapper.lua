@@ -2,7 +2,8 @@ MapCommonWrapper = {}
 
 MapCommonWrapper.Modes = {
     Radar = MapCommon.RADAR_MODE_NAME,
-    Hidden = MapCommon.HIDDEN
+    Hidden = MapCommon.HIDDEN,
+    Atlas = MapCommon.MAP_MODE_NAME
 }
 
 function MapCommonWrapper.setMode(mode)
