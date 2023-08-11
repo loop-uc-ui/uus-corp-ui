@@ -180,6 +180,7 @@ function UusCorpMobileHealthBar.onTarget()
             window
         )
 
+        SnapUtilsWrapper.removeWindow(window)
         WindowApi.setShowing(window .. UusCorpMobileHealthBar.ObjectAnchor, true)
         destroyPrevious()
 
@@ -305,6 +306,7 @@ function UusCorpMobileHealthBar.onLeftClickDown(flags)
             false
         )
 
+        SnapUtilsWrapper.addWindow(Active.window())
         UusCorpMobileHealthBar.onMouseOver()
     else
         TargetApi.clickTarget(id)
