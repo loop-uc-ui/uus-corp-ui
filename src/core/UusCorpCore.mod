@@ -80,8 +80,8 @@
             <File name="data/UserOptionsSettings.lua" />
             <File name="data/UserOverheadTextSettings.lua" />
             <File name="data/UserSoundSettings.lua" />
-            <!--<File name="data/WaypointDisplay.lua" />
-            <File name="data/WaypointList.lua" /> -->
+            <File name="data/WaypointDisplay.lua" />
+            <File name="data/WaypointList.lua" />
             <File name="resources/Colors.lua"/>
             <File name="resources/TextIds.lua"/>
             <File name="util/CSVUtilities.lua"/>

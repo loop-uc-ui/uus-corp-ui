@@ -17,13 +17,13 @@
 				<EventHandler event="OnLButtonDblClk" function="UusCorpMiniMapWindow.RadarOnLButtonDblClk" />
 			</EventHandlers>
 			<Windows>
-				<CircleImage name="$parentMap" numsegments="16" texturescale="1.0" layer="default">
+				<CircleImage name="$parentMap" numsegments="32" texturescale="1.0" layer="default">
 					<Size>
-						<AbsPoint x="190" y="190" />
+						<AbsPoint x="187" y="187" />
 					</Size>
 					<Anchors>
 						<Anchor point="center" relativePoint="center" relativeTo="$parentRing">
-							<AbsPoint x="4" y="0" />
+							<AbsPoint x="3" y="2" />
 						</Anchor>
 					</Anchors>
 					<TexCoords x="128" y="128" />

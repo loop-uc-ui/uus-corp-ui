@@ -25,7 +25,7 @@ function MapSettings.isHidden()
 end
 
 function MapSettings.setMode(mode)
-    SystemData.Settings.Interface.mapMode = mode
+    SystemData.Settings.Interface.mapMode = string.lower(mode)
 end
 
 function MapSettings.setZoom(zoom)

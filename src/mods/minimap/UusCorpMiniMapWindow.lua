@@ -26,6 +26,7 @@ function UusCorpMiniMapWindow.Initialize()
 	WindowApi.setScale(Active.window(), scale)
 	WindowDataApi.registerData(Radar.type(), 0)
 	WindowApi.registerEventHandler(Active.window(), Radar.event(), "UusCorpMiniMapWindow.UpdateRadar")
+	MapCommonWrapper.setMode(MapCommonWrapper.Modes.Radar)
 	UusCorpMiniMapWindow.ActivateRadar()
 end
 
@@ -33,6 +34,7 @@ function UusCorpMiniMapWindow.Shutdown()
 	WindowUtils.SaveWindowPosition(Active.window())
 	WindowDataApi.unregisterData(Radar.type(), 0)
 	WindowApi.unregisterEventHandler(Active.window(), Radar.event())
+	MapCommonWrapper.setMode(nil)
 end
 
 function UusCorpMiniMapWindow.onRightClick()
