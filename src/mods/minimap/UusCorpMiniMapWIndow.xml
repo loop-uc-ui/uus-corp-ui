@@ -17,7 +17,7 @@
 				<EventHandler event="OnLButtonDblClk" function="UusCorpMiniMapWindow.RadarOnLButtonDblClk" />
 			</EventHandlers>
 			<Windows>
-				<CircleImage name="$parentMap" numsegments="32" texturescale="1.0" layer="default">
+				<CircleImage name="$parentMap" numsegments="32" texturescale="1.0" layer="default" handleinput="false">
 					<Size>
 						<AbsPoint x="187" y="187" />
 					</Size>
@@ -28,6 +28,23 @@
 					</Anchors>
 					<TexCoords x="128" y="128" />
 				</CircleImage>
+
+				<DynamicImage name="$parentPlayer" texture="cureB" texturescale="0.5" layer="default">
+					<Size>
+						<AbsPoint x="4" y="4" />
+					</Size>
+					<Anchors>
+						<Anchor point="center" relativePoint="center" relativeTo="$parentMap">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal  x="0" y="0" />
+						<NormalHighlit x="18" y="0" />
+						<Pressed x="18" y="0" />
+						<PressedHighlit x="18" y="0" />
+					</TexCoords>
+				</DynamicImage>
 
 				<DynamicImage name="$parentRing" texture="hud_image" handleinput="false" texturescale="1.1" layer="background">
 					<Size>
