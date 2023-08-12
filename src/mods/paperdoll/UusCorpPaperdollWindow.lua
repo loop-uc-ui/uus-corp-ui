@@ -9,6 +9,8 @@ UusCorpPaperdollWindow.CharacterAbilities = "ToggleCharacterAbilities"
 UusCorpPaperdollWindow.Model = "ModelTexture"
 UusCorpPaperdollWindow.CharacterSheet = "ToggleCharacterSheet"
 UusCorpPaperdollWindow.ModelOffset = 1.75
+UusCorpPaperdollWindow.isPlayerOpen = false
+UusCorpPaperdollWindow.isInitialized = false
 
 local function activeSlot()
     local id = WindowApi.getId(Active.window())
@@ -70,6 +72,14 @@ end
 function UusCorpPaperdollWindow.onInitialize()
     local pId = Paperdoll.id()
     local window = UusCorpPaperdollWindow.Name .. pId
+    local isPlayer = pId == PlayerStatus.id()
+
+    -- Hack: When the game starts, it wants to open the paperdoll
+    if isPlayer and not UusCorpPaperdollWindow.isPlayerOpen and not UusCorpPaperdollWindow.isInitialized then
+        WindowApi.destroyWindow(Active.window())
+        UusCorpPaperdollWindow.isInitialized = true
+        return
+    end
 
     WindowApi.setId(window, pId)
     WindowDataApi.registerData(Paperdoll.type(), pId)
@@ -84,9 +94,8 @@ function UusCorpPaperdollWindow.onInitialize()
         MousePosition.y() - 100
     )
 
-    local isPlayer = pId == PlayerStatus.id()
-
     if isPlayer then
+        WindowUtilsWrapper.restoreWindowPosition(Active.window())
         WindowDataApi.registerData(PlayerStatus.type(), 0)
         WindowApi.registerEventHandler(window, PlayerStatus.event(), "UusCorpPaperdollWindow.onUpdateWarMode")
     end
@@ -99,7 +108,9 @@ function UusCorpPaperdollWindow.onInitialize()
         window .. UusCorpPaperdollWindow.WarButton,
         isPlayer and PlayerStatus.inWarMode()
     )
+
     UusCorpPaperdollWindow.update()
+    UusCorpPaperdollWindow.isInitialized = true
 end
 
 function UusCorpPaperdollWindow.onUpdateWarMode()
@@ -207,6 +218,8 @@ function UusCorpPaperdollWindow.onShutdown()
     local id = WindowApi.getId(Active.window())
 
     if id == PlayerStatus.id() then
+        UusCorpPaperdollWindow.isPlayerOpen = false
+        WindowUtilsWrapper.saveWindowPosition(Active.window())
         WindowDataApi.unregisterData(PlayerStatus.type())
         WindowApi.unregisterEventHandler(Active.window(), PlayerStatus.event())
     end
