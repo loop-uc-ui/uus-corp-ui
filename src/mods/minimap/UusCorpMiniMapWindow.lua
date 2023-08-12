@@ -25,15 +25,28 @@ function UusCorpMiniMapWindow.Initialize()
 	WindowUtilsWrapper.restoreWindowPosition(Active.window())
 	WindowApi.setScale(Active.window(), scale)
 	WindowDataApi.registerData(Radar.type(), 0)
+	WindowDataApi.registerData(PlayerLocation.type(), 0)
 	WindowApi.registerEventHandler(Active.window(), Radar.event(), "UusCorpMiniMapWindow.UpdateRadar")
+	WindowApi.registerEventHandler(Active.window(), PlayerLocation.event(), "UusCorpMiniMapWindow.updatePlayerLocation")
 	MapCommonWrapper.setMode(MapCommonWrapper.Modes.Radar)
 	UusCorpMiniMapWindow.ActivateRadar()
+end
+
+function UusCorpMiniMapWindow.updatePlayerLocation()
+	local x = PlayerLocation.xCord()
+	local y = PlayerLocation.yCord()
+	local facet = PlayerLocation.facet()
+	local latStr, longStr, latDir, longDir = MapCommonWrapper.getSextantLocationStrings(x, y, facet)
+	LabelApi.setText(Active.window() .. "Coords", latStr..L"'"..latDir..L" "..longStr..L"'"..longDir)
+	LabelApi.setText(Active.window() .. "CoordsRaw", x .. "x, " .. y .. "y")
 end
 
 function UusCorpMiniMapWindow.Shutdown()
 	WindowUtils.SaveWindowPosition(Active.window())
 	WindowDataApi.unregisterData(Radar.type(), 0)
+	WindowDataApi.unregisterData(PlayerLocation.type(), 0)
 	WindowApi.unregisterEventHandler(Active.window(), Radar.event())
+	WindowApi.unregisterEventHandler(Active.window(), PlayerLocation.event())
 	MapCommonWrapper.setMode(nil)
 end
 
@@ -62,6 +75,7 @@ function UusCorpMiniMapWindow.ActivateRadar()
 	RadarApi.setOffset(0, 0)
 	MapCommonWrapper.adjustZoom(0)
 	UusCorpMiniMapWindow.UpdateRadar()
+	UusCorpMiniMapWindow.updatePlayerLocation()
 end
 
 function UusCorpMiniMapWindow.RadarOnMouseWheel(_, _, delta)
