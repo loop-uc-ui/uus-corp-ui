@@ -57,6 +57,41 @@
 					</Anchors>
 					<TexCoords x="194" y="629"/>
 				</DynamicImage>
+
+				<Label name="$parentCoords" font="inter_medium_14" maxchars="16" textalign="center" layer="overlay" handleinput="false" wordwrap="false" popable="false">
+                    <Size>
+                        <AbsPoint x="136" y="12" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentMap">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255" />
+                </Label>
+
+				<Label name="$parentCoordsRaw" font="inter_medium_14" maxchars="16" textalign="center" layer="overlay" handleinput="false" wordwrap="false" popable="false">
+                    <Size>
+                        <AbsPoint x="136" y="12" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentCoords">
+                            <AbsPoint x="0" y="4" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255" />
+                </Label>
+
+				<FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" alpha="0.33">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentCoords">
+							<AbsPoint x="0" y="-32"/>
+						</Anchor>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentCoordsRaw">
+							<AbsPoint x="0" y="8"/>
+						</Anchor>
+                    </Anchors>
+                </FullResizeImage>
 			</Windows>
 		</Window>
 	</Windows>

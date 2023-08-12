@@ -13,3 +13,7 @@ end
 function MapCommonWrapper.adjustZoom(zoom)
     MapCommon.AdjustZoom(zoom)
 end
+
+function MapCommonWrapper.getSextantLocationStrings(x, y, facet)
+    return MapCommon.GetSextantLocationStrings(x, y, facet)
+end
