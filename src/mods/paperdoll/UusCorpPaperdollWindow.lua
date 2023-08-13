@@ -58,7 +58,15 @@ function UusCorpPaperdollWindow.initialize()
         "UusCorpPaperdollWindow.xml"
     )
 
+    WindowApi.destroyWindow("CharacterAbilities")
+
     local itemMouseOver = PaperdollWindow.ItemMouseOver
+
+    Actions.ToggleCharacterAbilities = function ()
+        WindowApi.toggleWindow("CharacterAbilities")
+    end
+
+    Interface.DestroyWindowOnClose["CharacterAbilities"] = true
 
     UusCorpPaperdollWindow.onSlotMouseOver = function ()
         itemMouseOver()
@@ -307,7 +315,7 @@ function UusCorpPaperdollWindow.onSlotShutdown()
 end
 
 function UusCorpPaperdollWindow.ToggleCharacterAbilities()
-    WindowApi.setShowing("CharacterAbilities", true)
+    WindowApi.toggleWindow("CharacterAbilities")
 end
 
 function UusCorpPaperdollWindow.onModelLeftClickDown()
