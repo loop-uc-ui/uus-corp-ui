@@ -73,6 +73,7 @@ end
 
 function Skills.setState(id, state)
     WindowData.SkillDynamicData[id].SkillState = state
+    ReturnWindowData.SkillSystem.SkillId = id
     ReturnWindowData.SkillSystem.SkillButtonState = state
 end
 

@@ -379,10 +379,17 @@ function UusCorpSkillsWindow.onRightClick()
 end
 
 function UusCorpSkillsWindow.onToggleSkillState(id, state)
-    Skills.state(
-        id,
-        state
-    )
+    for i = 1, #UusCorpSkillsWindow.Skills do
+        local skill = UusCorpSkillsWindow.Skills[i]
+
+        if skill.id == id then
+            Skills.setState(
+                skill.serverId,
+                state
+            )
+            break
+        end
+    end
 
     EventApi.broadcast(
         Events.skillStateChange()
