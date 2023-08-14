@@ -2,10 +2,12 @@
     <Windows>
         <Window name="UusCorpJewelryBoxSearch" layer="default">
             <Size>
-                <AbsPoint x="200" y="32"/>
+                <AbsPoint x="256" y="32"/>
             </Size>
             <Anchors>
-                <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent"/>
+                <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent">
+                    <AbsPoint x="0" y="-32"/>
+                </Anchor>
             </Anchors>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="UusCorpJewelryBoxSearch.onInitialize"/>
@@ -26,17 +28,35 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <EditBox name="$parentBox" font="UO_DefaultText" taborder="1" maxchars="20" scrolling="horz" layer="overlay">
+                <EditBox name="$parentBox" font="UO_DefaultText" taborder="1" maxchars="24" scrolling="horz" layer="overlay">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame" />
                         <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame"/>
                     </Anchors>
                     <EventHandlers>
-						<EventHandler event="OnKeyEnter" function="RenameWindow.OnSubmit"/>
-						<EventHandler event="OnKeyEscape" function="RenameWindow.OnKeyCancel"/>
+						<EventHandler event="OnKeyEscape" function="UusCorpJewelryBoxSearch.onKeyEscape"/>
 						<EventHandler event="OnTextChanged" function="UusCorpJewelryBoxSearch.onTextChanged"/>
 					</EventHandlers>
+                    <TextOffset x="4" y="4" />
                 </EditBox>
+
+                <Button name="$parentSearch" layer="popup" backgroundtexture="Search" highlighttexture="Search">
+					<Size>
+						<AbsPoint x="32" y="32" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topright" relativeTo="$parentBox">
+							<AbsPoint x="0" y="0" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal  x="0" y="0" />
+						<NormalHighlit x="0" y="0" />
+						<Pressed x="0" y="0" />
+						<PressedHighlit x="0" y="0" />
+						<Disabled x="0" y="0" />
+					</TexCoords>
+				</Button>
             </Windows>
         </Window>
     </Windows>

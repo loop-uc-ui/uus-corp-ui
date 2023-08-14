@@ -65,3 +65,7 @@ function UusCorpJewelryBoxSearch.onShutdown()
     WindowApi.unregisterEventHandler(Active.window(), ItemPropertiesData.event())
     UusCorpJewelryBoxSearch.Data = {}
 end
+
+function UusCorpJewelryBoxSearch.onKeyEscape()
+    EditTextBoxApi.setText(Active.window(), L"")
+end
