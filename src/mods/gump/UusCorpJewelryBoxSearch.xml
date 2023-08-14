@@ -1,0 +1,43 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="UusCorpJewelryBoxSearch" layer="default">
+            <Size>
+                <AbsPoint x="200" y="32"/>
+            </Size>
+            <Anchors>
+                <Anchor point="bottom" relativePoint="bottom" relativeTo="$parent"/>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="UusCorpJewelryBoxSearch.onInitialize"/>
+                <EventHandler event="OnShutdown" function="UusCorpJewelryBoxSearch.onShutdown"/>
+            </EventHandlers>
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background" layer="background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <EditBox name="$parentBox" font="UO_DefaultText" taborder="1" maxchars="20" scrolling="horz" layer="overlay">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentFrame" />
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentFrame"/>
+                    </Anchors>
+                    <EventHandlers>
+						<EventHandler event="OnKeyEnter" function="RenameWindow.OnSubmit"/>
+						<EventHandler event="OnKeyEscape" function="RenameWindow.OnKeyCancel"/>
+						<EventHandler event="OnTextChanged" function="UusCorpJewelryBoxSearch.onTextChanged"/>
+					</EventHandlers>
+                </EditBox>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

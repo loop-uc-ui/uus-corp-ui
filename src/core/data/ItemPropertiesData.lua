@@ -25,7 +25,7 @@ function ItemPropertiesData.maxDurability(id)
 end
 
 function ItemPropertiesData.propertiesList(id)
-    if id == 0 or id == nil then
+    if id == 0 or id == nil or ItemPropertiesData.properties(id) == nil then
         return nil
     else
         return ItemPropertiesData.properties(id).PropertiesList

@@ -23,3 +23,7 @@ end
 function GumpApi.onCloseContainer(id)
     GumpManagerOnCloseContainer(id)
 end
+
+function GumpApi.getItemPropertiesObjectId(gumpId, windowName)
+    return GenericGumpGetItemPropertiesId(gumpId, windowName)
+end

@@ -132,3 +132,11 @@ function Gump.returnCode(code)
     ReturnWindowData.GG_Core.TheCode = code
 end
 
+function Gump.gumpData(gumpID)
+    return GumpData.Gumps[gumpID]
+end
+
+function Gump.gumps()
+    return GumpData.Gumps
+end
+
