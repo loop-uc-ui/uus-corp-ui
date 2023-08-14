@@ -3,7 +3,7 @@ UusCorpJewelryBoxSearch.Data = {}
 
 function UusCorpJewelryBoxSearch.onInitialize()
     local gumpData = UusCorpGump.Data[WindowApi.getId(WindowApi.getParent(Active.window()))]
-    for k, v in ipairs(gumpData.Buttons) do
+    for _, v in ipairs(gumpData.Buttons) do
         local objectId = GumpApi.getItemPropertiesObjectId(
             WindowApi.getId(v),
             v
