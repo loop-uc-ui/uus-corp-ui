@@ -142,17 +142,10 @@ function UusCorpMobileHealthBar.onInitialize()
     local update = "UusCorpMobileHealthBar.update"
     WindowApi.registerEventHandler(window, MobileStatus.event(), update)
     WindowApi.registerEventHandler(window, HealthBarColorData.event(), "UusCorpMobileHealthBar.updateHealthBarColor")
-    WindowApi.setUpdateFrequency(window, 0.10)
+
     UusCorpMobileHealthBar.update()
     UusCorpMobileHealthBar.updateHealthBarColor()
     SnapUtilsWrapper.startSnap(Active.window())
-end
-
-function UusCorpMobileHealthBar.onUpdate()
-    local window = Active.window()
-    local id = WindowApi.getId(window)
-    WindowApi.setShowing(window .. "CurrentTargetFrame", id == CurrentTarget.id())
-    WindowApi.setShowing(window .. "Frame", id ~= CurrentTarget.id())
 end
 
 function UusCorpMobileHealthBar.onTarget()
@@ -182,6 +175,7 @@ function UusCorpMobileHealthBar.onTarget()
 
         SnapUtilsWrapper.removeWindow(window)
         WindowApi.setShowing(window .. UusCorpMobileHealthBar.ObjectAnchor, true)
+
         destroyPrevious()
 
         previousTarget = CurrentTarget.id()
@@ -312,8 +306,6 @@ function UusCorpMobileHealthBar.onLeftClickDown(flags)
 
         SnapUtilsWrapper.addWindow(Active.window())
         UusCorpMobileHealthBar.onMouseOver()
-    else
-        TargetApi.clickTarget(id)
     end
 
     SnapUtilsWrapper.startSnap(Active.window())
