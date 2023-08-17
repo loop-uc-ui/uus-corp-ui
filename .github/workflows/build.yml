@@ -31,3 +31,5 @@ jobs:
         uses: nebularg/actions-luacheck@v1.1.0
         with:
           args: --ignore 111 112 113 142 143 --exclude-files '.install/*' # optional
+          node-version: '16'
+
