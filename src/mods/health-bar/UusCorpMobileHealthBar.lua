@@ -188,13 +188,17 @@ function UusCorpMobileHealthBar.onDoubleClick()
 end
 
 function UusCorpMobileHealthBar.onLeftClickDown()
+    if not Cursor.hasTarget() then
+        SnapUtilsWrapper.startSnap(Active.window())
+    end
+end
+
+function UusCorpMobileHealthBar.onLeftClickUp()
     if Cursor.hasTarget() then
         TargetApi.clickTarget(
             WindowApi.getId(
                 Active.window()
             )
         )
-    else
-        SnapUtilsWrapper.startSnap(Active.window())
     end
 end
