@@ -23,16 +23,10 @@
                 <EventHandler event="OnMouseOver" function="UusCorpMobileHealthBar.onMouseOver"/>
                 <EventHandler event="OnMouseOverEnd" function="UusCorpMobileHealthBar.onMouseOverEnd"/>
                 <EventHandler event="OnLButtonDown" function="UusCorpMobileHealthBar.onLeftClickDown"/>
+                <EventHandler event="OnLButtonUp" function="UusCorpMobileHealthBar.onLeftClickUp"/>
                 <EventHandler event="OnLButtonDblClk" function="UusCorpMobileHealthBar.onDoubleClick" />
             </EventHandlers>
             <Windows>
-                <!-- Reference window for determining whether we're attached to an object -->
-                <Window name="$parentObjectAnchor">
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft"/>
-                    </Anchors>
-                </Window>
-
                 <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft"/>
@@ -47,7 +41,7 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <Label name="$parentName" font="inter_medium_18" maxchars="16" textalign="center" handleinput="false" wordwrap="false" popable="false">
+                <Label name="$parentName" font="inter_medium_18" maxchars="16" textalign="center" wordwrap="false" popable="false">
                     <Size>
                         <AbsPoint x="190" y="12" />
                     </Size>
@@ -59,7 +53,7 @@
                     <Color r="206" g="217" b="242" a="255" />
                 </Label>
 
-                <StatusBar name="$parentHealthBar" foreground="StatusBar" handleinput="false" alpha="0.5">
+                <StatusBar name="$parentHealthBar" foreground="StatusBar" alpha="0.5">
                     <Size>
                         <AbsPoint x="136" y="16"/>
                     </Size>
@@ -71,7 +65,7 @@
                 </StatusBar>
 
 
-                <Label name="$parentHealthBarPerc" font="inter_medium_16" maxchars="50" textalign="center" handleinput="false" wordwrap="false" linespacing="18" popable="false" layer="overlay">
+                <Label name="$parentHealthBarPerc" font="inter_medium_16" maxchars="50" textalign="center" wordwrap="false" linespacing="18" popable="false" layer="overlay">
                     <Size>
                         <AbsPoint x="130" y="16" />
                     </Size>
