@@ -27,6 +27,6 @@ jobs:
       - name: luacheck
         # You may pin to the exact commit or the version.
         # uses: nebularg/actions-luacheck@86af42dcf465915896671903fcdec3e01a492e87
-        uses: nebularg/actions-luacheck@v1.1.1
+        uses: lunarmodules/luacheck@v1
         with:
           args: --ignore 111 112 113 142 143 --exclude-files '.install/*' # optional
