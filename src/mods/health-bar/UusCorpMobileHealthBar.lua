@@ -61,10 +61,6 @@ function UusCorpMobileHealthBar.initialize()
         )
 
         WindowApi.setMoving(window, true)
-
-        if mobileId ~= PlayerStatus.id() then
-            SnapUtilsWrapper.startSnap(window)
-        end
     end
 end
 
@@ -76,14 +72,15 @@ function UusCorpMobileHealthBar.onInitialize()
     WindowApi.setId(window, id)
     WindowDataApi.registerData(MobileStatus.type(), id)
     WindowDataApi.registerData(HealthBarColorData.type(), id)
+    WindowDataApi.registerData(CurrentTarget.dataType(), 0)
 
     local update = "UusCorpMobileHealthBar.update"
     WindowApi.registerEventHandler(window, MobileStatus.event(), update)
     WindowApi.registerEventHandler(window, HealthBarColorData.event(), "UusCorpMobileHealthBar.updateHealthBarColor")
-
+    WindowApi.registerEventHandler(window, CurrentTarget.event(), "UusCorpMobileHealthBar.onTarget")
     UusCorpMobileHealthBar.update()
     UusCorpMobileHealthBar.updateHealthBarColor()
-    SnapUtilsWrapper.startSnap(Active.window())
+    SnapUtilsWrapper.startSnap(window)
 end
 
 function UusCorpMobileHealthBar.shutdown()
@@ -97,11 +94,20 @@ function UusCorpMobileHealthBar.onShutdown()
     UusCorpMobileHealthBar.onMouseOverEnd()
     WindowDataApi.unregisterData(MobileStatus.type(), id)
     WindowDataApi.unregisterData(HealthBarColorData.type(), id)
+    WindowDataApi.unregisterData(CurrentTarget.dataType(), 0)
 
     WindowApi.unregisterEventHandler(window, MobileStatus.event())
     WindowApi.unregisterEventHandler(window, HealthBarColorData.event())
+    WindowApi.unregisterEventHandler(window, CurrentTarget.event())
     WindowApi.detachWindowFromWorldObject(id, window)
     SnapUtilsWrapper.removeWindow(window)
+end
+
+function UusCorpMobileHealthBar.onTarget()
+    local window = Active.window()
+    local isTarget = CurrentTarget.id() == WindowApi.getId(window)
+    WindowApi.setShowing(window .. "Frame", not isTarget)
+    WindowApi.setShowing(window .. "CurrentTargetFrame", isTarget)
 end
 
 function UusCorpMobileHealthBar.updateHealthBarColor()
@@ -187,18 +193,10 @@ function UusCorpMobileHealthBar.onDoubleClick()
     )
 end
 
-function UusCorpMobileHealthBar.onLeftClickDown()
-    if not Cursor.hasTarget() then
-        SnapUtilsWrapper.startSnap(Active.window())
-    end
-end
-
 function UusCorpMobileHealthBar.onLeftClickUp()
-    if Cursor.hasTarget() then
-        TargetApi.clickTarget(
-            WindowApi.getId(
-                Active.window()
-            )
+    TargetApi.clickTarget(
+        WindowApi.getId(
+            Active.window()
         )
-    end
+    )
 end
