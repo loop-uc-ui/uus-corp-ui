@@ -60,7 +60,17 @@ function UusCorpMobileHealthBar.initialize()
             MousePosition.y() * scale - y / 2 * scale
         )
 
-        WindowApi.setMoving(window, true)
+        SnapUtilsWrapper.startSnap(window)
+    end
+
+    local windowUtils = UusCorpCore.copyTable(WindowUtils)
+
+    function WindowUtils.OnLButtonUp()
+        windowUtils.OnLButtonUp()
+        local healthbar = string.match(Active.mouseOverWindow(), UusCorpMobileHealthBar.Name .. Active.mobile())
+        if healthbar ~= nil then
+            WindowApi.setMoving(healthbar, false)
+        end
     end
 end
 
@@ -78,9 +88,9 @@ function UusCorpMobileHealthBar.onInitialize()
     WindowApi.registerEventHandler(window, MobileStatus.event(), update)
     WindowApi.registerEventHandler(window, HealthBarColorData.event(), "UusCorpMobileHealthBar.updateHealthBarColor")
     WindowApi.registerEventHandler(window, CurrentTarget.event(), "UusCorpMobileHealthBar.onTarget")
+    UusCorpMobileHealthBar.onTarget()
     UusCorpMobileHealthBar.update()
     UusCorpMobileHealthBar.updateHealthBarColor()
-    SnapUtilsWrapper.startSnap(window)
 end
 
 function UusCorpMobileHealthBar.shutdown()
@@ -199,4 +209,8 @@ function UusCorpMobileHealthBar.onLeftClickUp()
             Active.window()
         )
     )
+end
+
+function UusCorpMobileHealthBar.onLeftClickDown()
+    SnapUtilsWrapper.startSnap(Active.window())
 end
