@@ -24,6 +24,7 @@
                 <EventHandler event="OnMouseOverEnd" function="UusCorpMobileHealthBar.onMouseOverEnd"/>
                 <EventHandler event="OnLButtonUp" function="UusCorpMobileHealthBar.onLeftClickUp"/>
                 <EventHandler event="OnLButtonDblClk" function="UusCorpMobileHealthBar.onDoubleClick" />
+                <EventHandler event="OnLButtonDown" function="UusCorpMobileHealthBar.onLeftClickDown"/>
             </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background">
