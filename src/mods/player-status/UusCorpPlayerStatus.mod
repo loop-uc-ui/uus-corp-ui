@@ -16,5 +16,13 @@
 		<OnInitialize>
 			<CallFunction name="UusCorpPlayerStatusWindow.initialize" />
 		</OnInitialize>
+
+		<OnShutdown>
+			<CallFunction name="UusCorpPlayerStatusWindow.shutdown"/>
+		</OnShutdown>
+
+		<SavedVariables>
+			<SavedVariable name="UusCorpPlayerStatusWindow.isPlayerStatusOpen"/>
+		</SavedVariables>
 	</UiMod>
 </ModuleFile>

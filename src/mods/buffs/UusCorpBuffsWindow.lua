@@ -122,11 +122,13 @@ function UusCorpBuffsWindow.onShown()
         UusCorpPlayerStatusWindow.Name,
         "topleft",
         8,
-        12
+        0
     )
 end
 
 function UusCorpBuffsWindow.onEffectReceived()
+    UusCorpBuffsWindow.onShown()
+
     WindowApi.setShowing(
         Active.window(),
         WindowApi.doesExist(UusCorpPlayerStatusWindow.Name)
