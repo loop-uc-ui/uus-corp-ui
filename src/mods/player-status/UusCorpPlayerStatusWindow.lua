@@ -1,5 +1,8 @@
 UusCorpPlayerStatusWindow = {}
 UusCorpPlayerStatusWindow.Name = "PlayerHealthBar"
+UusCorpPlayerStatusWindow.isPlayerStatusOpen = false
+
+local isInitialized = false
 
 local function setStat(value, max, name)
     local index = 1
@@ -39,9 +42,17 @@ function UusCorpPlayerStatusWindow.initialize()
     )
 
     UusCorpCore.overrideFunctions(StatusWindow)
+    WindowApi.createWindow(UusCorpPlayerStatusWindow.Name, true)
+    WindowUtilsWrapper.restoreWindowPosition(UusCorpPlayerStatusWindow.Name, true)
+end
+
+function UusCorpPlayerStatusWindow.shutdown()
+    UusCorpPlayerStatusWindow.isPlayerStatusOpen = WindowApi.doesExist(UusCorpPlayerStatusWindow.Name)
+    WindowUtilsWrapper.saveWindowPosition(UusCorpPlayerStatusWindow.Name)
 end
 
 function UusCorpPlayerStatusWindow.onInitialize()
+    WindowDataApi.registerData(PlayerStatus.type(), 0)
     WindowDataApi.registerData(MobileStatus.type(), PlayerStatus.id())
     WindowDataApi.registerData(HealthBarColorData.type(), PlayerStatus.id())
 
@@ -63,13 +74,22 @@ function UusCorpPlayerStatusWindow.onInitialize()
         "UusCorpPlayerStatusWindow.updateHealthBarColor"
     )
 
+    -- can't reference SavedVariables during mod initialization
+    if not UusCorpPlayerStatusWindow.isPlayerStatusOpen and not isInitialized then
+        WindowApi.destroyWindow(Active.window())
+        return
+    end
+
     WindowApi.setColor(Active.window() .. "FrameWar", Colors.NotoMurderer)
     UusCorpPlayerStatusWindow.update()
     UusCorpPlayerStatusWindow.updateHealthBarColor()
     UusCorpPlayerStatusWindow.updateNotoriety()
+    UusCorpPlayerStatusWindow.isPlayerStatusOpen = true
 end
 
 function UusCorpPlayerStatusWindow.onShutdown()
+    isInitialized = true
+    WindowDataApi.unregisterData(PlayerStatus.type(), 0)
     WindowDataApi.unregisterData(MobileStatus.type(), PlayerStatus.id())
     WindowDataApi.unregisterData(HealthBarColorData.type(), PlayerStatus.id())
     WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, PlayerStatus.event())
@@ -152,6 +172,7 @@ function UusCorpPlayerStatusWindow.onDoubleClick()
 end
 
 function UusCorpPlayerStatusWindow.onLeftClickDown()
+    StatusBarApi.setForegroundTint(bar, Colors.Blue)
     if Cursor.hasTarget() then
         TargetApi.clickTarget(
             PlayerStatus.id()
