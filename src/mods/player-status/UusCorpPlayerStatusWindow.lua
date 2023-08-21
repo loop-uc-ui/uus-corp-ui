@@ -172,7 +172,6 @@ function UusCorpPlayerStatusWindow.onDoubleClick()
 end
 
 function UusCorpPlayerStatusWindow.onLeftClickDown()
-    StatusBarApi.setForegroundTint(bar, Colors.Blue)
     if Cursor.hasTarget() then
         TargetApi.clickTarget(
             PlayerStatus.id()
