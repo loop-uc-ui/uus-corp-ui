@@ -1,0 +1,26 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <Window name="UusCorpDistanceCounterWindow" movable="true" draganddrop="true">
+            <Size>
+                <AbsPoint x="54" y="18" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="UusCorpDistanceCounterWindow.onInitialize"/>
+                <EventHandler event="OnUpdate" function="UusCorpDistanceCounterWindow.onUpdate"/>
+            </EventHandlers>
+            <Windows>
+                <Label name="$parentCounter" font="inter_medium_18" maxchars="3" textalign="center" wordwrap="false" popable="false">
+                    <Size>
+                        <AbsPoint x="54" y="18" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parent">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255" />
+                </Label>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>
