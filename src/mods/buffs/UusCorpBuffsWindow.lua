@@ -1,5 +1,9 @@
 UusCorpBuffsWindow = {}
 UusCorpBuffsWindow.Name = "BuffsWindow"
+
+-- Ordered table of current buffs
+-- We want the buffs to show in the UI
+-- in the same order they are received
 UusCorpBuffsWindow.Buffs = {}
 
 local function findBuff(id)
