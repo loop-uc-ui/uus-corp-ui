@@ -1,5 +1,9 @@
 UusCorpBuffsWindow = {}
 UusCorpBuffsWindow.Name = "BuffsWindow"
+
+-- Ordered table of current buffs
+-- We want the buffs to show in the UI
+-- in the same order they are received
 UusCorpBuffsWindow.Buffs = {}
 
 local function findBuff(id)
@@ -10,6 +14,20 @@ local function findBuff(id)
     end
 
     return nil
+end
+
+local function removeBuff(id)
+    if #UusCorpBuffsWindow.Buffs >= 1 then
+        for i = 1, #UusCorpBuffsWindow.Buffs do
+            if UusCorpBuffsWindow.Buffs[i].id == id then
+                table.remove(
+                    UusCorpBuffsWindow.Buffs,
+                    i
+                )
+                break
+            end
+        end
+    end
 end
 
 local function formatVector(vectorSize, vectorArray)
@@ -127,8 +145,6 @@ function UusCorpBuffsWindow.onShown()
 end
 
 function UusCorpBuffsWindow.onEffectReceived()
-    UusCorpBuffsWindow.onShown()
-
     WindowApi.setShowing(
         Active.window(),
         WindowApi.doesExist(UusCorpPlayerStatusWindow.Name)
@@ -149,19 +165,20 @@ function UusCorpBuffsWindow.onEffectReceived()
         return
     end
 
-    table.insert(
-        UusCorpBuffsWindow.Buffs,
-        {
-            id = id,
-            timer = Buffs.timer(),
-            hasTimer = Buffs.hasTimer(),
-            nameVector = Buffs.nameVector(),
-            nameVectorSize = Buffs.nameVectorSize(),
-            toolTipVector = Buffs.toolTipVector(),
-            toolTipVectorSize = Buffs.toolTipVectorSize(),
-            isBeingRemoved = Buffs.isBeingRemoved()
-        }
-    )
+    removeBuff(id)
+
+    local buff = {
+        id = id,
+        timer = Buffs.timer(),
+        hasTimer = Buffs.hasTimer(),
+        nameVector = Buffs.nameVector(),
+        nameVectorSize = Buffs.nameVectorSize(),
+        toolTipVector = Buffs.toolTipVector(),
+        toolTipVectorSize = Buffs.toolTipVectorSize(),
+        isBeingRemoved = Buffs.isBeingRemoved()
+    }
+
+    table.insert(UusCorpBuffsWindow.Buffs, buff)
 
     local rowNumber = CSVUtilities.getRowIdWithColumnValue(
         Buffs.csv(),
@@ -174,8 +191,6 @@ function UusCorpBuffsWindow.onEffectReceived()
     end
 
     local textureId = tonumber(Buffs.csv()[rowNumber].IconId)
-
-    local buff = UusCorpBuffsWindow.Buffs[#UusCorpBuffsWindow.Buffs]
 
     buff.textureId = textureId
 
@@ -258,17 +273,7 @@ end
 
 function UusCorpBuffsWindow.onBuffEnd()
     local id = WindowApi.getId(Active.window())
-
-    for i = 1, #UusCorpBuffsWindow.Buffs do
-        if UusCorpBuffsWindow.Buffs[i].id == id then
-            table.remove(
-                UusCorpBuffsWindow.Buffs,
-                i
-            )
-            break
-        end
-    end
-
+    removeBuff(id)
     if Active.mouseOverWindow() == Active.window() then
         UusCorpBuffsWindow.onBuffMouseOverEnd()
     end
