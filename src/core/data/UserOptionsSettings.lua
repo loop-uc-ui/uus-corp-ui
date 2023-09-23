@@ -143,6 +143,7 @@ end
 function UserOptionsSettings.showWarShield(newValue)
     if  newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("WarShield", newValue)
+        Interface.WarShield = newValue
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("WarShield", true)
@@ -152,6 +153,7 @@ end
 function UserOptionsSettings.autoIgnoreCorpses(newValue)
     if  newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("AutoIgnoreCorpses", newValue)
+        ContainerWindow.EnableAutoIgnoreCorpses = newValue
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("AutoIgnoreCorpses", true)
@@ -161,6 +163,7 @@ end
 function UserOptionsSettings.enableSnapping(newValue)
     if  newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("EnableSnapping", newValue)
+        Interface.EnableSnapping = newValue
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("EnableSnapping", true)

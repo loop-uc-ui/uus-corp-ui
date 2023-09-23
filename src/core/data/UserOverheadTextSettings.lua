@@ -45,6 +45,7 @@ end
 function UserOverheadTextSettings.disableSpells(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("DisableSpells", newValue)
+        Interface.DisableSpells = newValue
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("DisableSpells", false)
@@ -54,6 +55,7 @@ end
 function UserOverheadTextSettings.showSpellNames(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("ShowSpellName", newValue)
+        Interface.ShowSpellName = newValue
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("ShowSpellName", true)
@@ -63,6 +65,7 @@ end
 function UserOverheadTextSettings.disablePoison(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("noPoisonOthers", newValue)
+        Interface.noPoisonOthers = newValue
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("noPoisonOthers", true)

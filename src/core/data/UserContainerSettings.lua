@@ -10,6 +10,7 @@ UserContainerSettings.LegacyBackpackStyles = {
 function UserContainerSettings.alternateGrid(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("AlternateGrid", newValue)
+        Interface.AlternateGrid = newValue
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("AlternateGrid", false)
@@ -19,6 +20,7 @@ end
 function UserContainerSettings.gridContainer(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("EnableContainerGrid", newValue)
+        Interface.EnableContainerGrid = newValue
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("EnableContainerGrid", false)
@@ -42,6 +44,7 @@ end
 function UserContainerSettings.brightContainers(newValue)
     if newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("ExtraBrightContainers", newValue)
+        Interface.ExtraBrightContainers = newValue
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("ExtraBrightContainers", false)
