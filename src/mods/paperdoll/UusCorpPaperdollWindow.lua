@@ -72,6 +72,18 @@ function UusCorpPaperdollWindow.initialize()
         itemMouseOver()
     end
 
+    function Actions.TogglePaperdollWindow()
+        local window = UusCorpPaperdollWindow.Name .. PlayerStatus.id()
+        if WindowApi.doesExist(window) then
+            WindowApi.destroyWindow(window)
+        else
+            WindowApi.createFromTemplate(
+                window,
+                UusCorpPaperdollWindow.Name
+            )
+        end
+    end
+
     UusCorpCore.overrideFunctions(PaperdollWindow)
     WindowApi.destroyWindow("PropertiesInfoWindow")
     WindowApi.setShowing("WarShield", false)
@@ -227,6 +239,11 @@ function UusCorpPaperdollWindow.onShutdown()
 
     if id == PlayerStatus.id() then
         UusCorpPaperdollWindow.isPlayerOpen = false
+        Interface.PaperdollOpen = false
+        UserInterfaceVariables.SaveBoolean(
+            "PaperdollOpen",
+            Interface.PaperdollOpen
+        )
         WindowUtilsWrapper.saveWindowPosition(Active.window())
         WindowDataApi.unregisterData(PlayerStatus.type())
         WindowApi.unregisterEventHandler(Active.window(), PlayerStatus.event())
@@ -247,10 +264,6 @@ function UusCorpPaperdollWindow.onRightClick()
             Interface.PaperdollOpen
         )
     end
-    if (id == WindowData.PlayerStatus.PlayerId) then
-		Interface.PaperdollOpen = false
-		Interface.SaveBoolean( "PaperdollOpen",Interface.PaperdollOpen )
-	end
     WindowApi.destroyWindow(Active.window())
 end
 
