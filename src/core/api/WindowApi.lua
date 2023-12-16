@@ -198,7 +198,7 @@ end
 
 function WindowApi.createFromTemplate(windowName, template, parent)
     if not WindowApi.doesExist(windowName) then
-        CreateWindowFromTemplate(windowName, template, parent)
+        CreateWindowFromTemplate(windowName, template, parent or "Root")
         return true
     end
 
