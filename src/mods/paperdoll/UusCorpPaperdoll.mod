@@ -16,9 +16,6 @@
 		<OnInitialize>
 			<CallFunction name="UusCorpPaperdollWindow.initialize" />
 		</OnInitialize>
-
-		<SavedVariables>
-			<SavedVariable name="UusCorpPaperdollWindow.isPlayerOpen"/>
-		</SavedVariables>
+		
 	</UiMod>
 </ModuleFile>

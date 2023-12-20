@@ -92,9 +92,6 @@ function WindowApi.getAnchorCount(windowName)
     return WindowGetAnchorCount(windowName)
 end
 
-function WindowApi.forceProcessAnchors(windowName)
-    WindowForceProcessAnchors(windowName)
-end
 
 function WindowApi.forceProcessAnchors(windowName)
     WindowForceProcessAnchors(windowName)
@@ -131,19 +128,6 @@ end
 
 function WindowApi.stopAlphaAnimation(windowName)
     WindowStopAlphaAnimation(windowName)
-end
-
-function WindowApi.startScaleAnimation(
-        windowName,
-        animType,
-        startScale,
-        endScale,
-        duration,
-        setStartBeforeDelay,
-        delay,
-        numLoop
-)
-    WindowStartScaleAnimation(windowName, animType, startScale, endScale, duration, setStartBeforeDelay, delay, numLoop)
 end
 
 function WindowApi.stopScaleAnimation(windowName)
