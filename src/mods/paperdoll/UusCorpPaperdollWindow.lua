@@ -9,8 +9,6 @@ UusCorpPaperdollWindow.CharacterAbilities = "ToggleCharacterAbilities"
 UusCorpPaperdollWindow.Model = "ModelTexture"
 UusCorpPaperdollWindow.CharacterSheet = "ToggleCharacterSheet"
 UusCorpPaperdollWindow.ModelOffset = 1.75
-UusCorpPaperdollWindow.isPlayerOpen = false
-UusCorpPaperdollWindow.isInitialized = false
 
 local function activeSlot()
     local id = WindowApi.getId(Active.window())
@@ -90,16 +88,9 @@ function UusCorpPaperdollWindow.initialize()
 end
 
 function UusCorpPaperdollWindow.onInitialize()
-    local pId = Paperdoll.id()
-    local window = UusCorpPaperdollWindow.Name .. pId
+    local window = Active.window()
+    local pId = tonumber(string.gsub(window, UusCorpPaperdollWindow.Name, ""), 10)
     local isPlayer = pId == PlayerStatus.id()
-
-    -- Hack: When the game starts, it wants to open the paperdoll
-    if isPlayer and not UusCorpPaperdollWindow.isPlayerOpen and not UusCorpPaperdollWindow.isInitialized then
-        WindowApi.destroyWindow(Active.window())
-        UusCorpPaperdollWindow.isInitialized = true
-        return
-    end
 
     WindowApi.setId(window, pId)
     WindowDataApi.registerData(Paperdoll.type(), pId)
@@ -115,6 +106,8 @@ function UusCorpPaperdollWindow.onInitialize()
     )
 
     if isPlayer then
+        Interface.PaperdollOpen = true
+        UserInterfaceVariables.SaveBoolean("PaperdollOpen", true)
         WindowUtilsWrapper.restoreWindowPosition(Active.window())
         WindowDataApi.registerData(PlayerStatus.type(), 0)
         WindowApi.registerEventHandler(window, PlayerStatus.event(), "UusCorpPaperdollWindow.onUpdateWarMode")
@@ -130,7 +123,6 @@ function UusCorpPaperdollWindow.onInitialize()
     )
 
     UusCorpPaperdollWindow.update()
-    UusCorpPaperdollWindow.isInitialized = true
 end
 
 function UusCorpPaperdollWindow.onUpdateWarMode()
@@ -238,12 +230,8 @@ function UusCorpPaperdollWindow.onShutdown()
     local id = WindowApi.getId(Active.window())
 
     if id == PlayerStatus.id() then
-        UusCorpPaperdollWindow.isPlayerOpen = false
         Interface.PaperdollOpen = false
-        UserInterfaceVariables.SaveBoolean(
-            "PaperdollOpen",
-            Interface.PaperdollOpen
-        )
+        UserInterfaceVariables.SaveBoolean("PaperdollOpen", false)
         WindowUtilsWrapper.saveWindowPosition(Active.window())
         WindowDataApi.unregisterData(PlayerStatus.type())
         WindowApi.unregisterEventHandler(Active.window(), PlayerStatus.event())
@@ -257,13 +245,6 @@ function UusCorpPaperdollWindow.onShutdown()
 end
 
 function UusCorpPaperdollWindow.onRightClick()
-    if WindowApi.getId(Active.window()) == PlayerStatus.id() then
-        Interface.PaperdollOpen = false
-        UserInterfaceVariables.SaveBoolean(
-            "PaperdollOpen",
-            Interface.PaperdollOpen
-        )
-    end
     WindowApi.destroyWindow(Active.window())
 end
 
