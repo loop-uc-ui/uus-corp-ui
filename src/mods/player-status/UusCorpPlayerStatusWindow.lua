@@ -81,6 +81,14 @@ function UusCorpPlayerStatusWindow.onInitialize()
     end
 
     WindowApi.setColor(Active.window() .. "FrameWar", Colors.NotoMurderer)
+
+    -- Avoid it being set to white, which sometimes happens
+    -- right after logging in.
+    StatusBarApi.setForegroundTint(
+        UusCorpPlayerStatusWindow.Name .. "HealthBar",
+        Colors.HealthBar[1]
+    )
+
     UusCorpPlayerStatusWindow.update()
     UusCorpPlayerStatusWindow.updateHealthBarColor()
     UusCorpPlayerStatusWindow.updateNotoriety()
