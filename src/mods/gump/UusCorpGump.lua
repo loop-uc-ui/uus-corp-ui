@@ -2,7 +2,9 @@ UusCorpGump = {}
 UusCorpGump.Data = {}
 UusCorpGump.Ids = {
     JewelryBox = 61,
-    JewelryBoxPartial = 24
+    JewelryBoxPartial = 24,
+    VendorSearch = 218,
+    VendorSearchStoredSearch = 219
 }
 
 function UusCorpGump.initialize()
@@ -18,7 +20,7 @@ function UusCorpGump.initialize()
 
     function GumpsParsing.MainParsingCheck(timePassed)
         gumpParsing.MainParsingCheck(timePassed)
-        GumpsParsing.ToShow[999139] = nil
+        GumpsParsing.ToShow[999139] = nil -- Supress pet training progress gump
     end
 
     function GenericGump.OnShown()
@@ -31,7 +33,8 @@ function UusCorpGump.initialize()
             end
         end
 
-        local gumpId = UusCorpGump.Data[id].id
+        local gump = UusCorpGump.Data[id]
+        local gumpId = gump.id
 
         if gumpId == UusCorpGump.Ids.JewelryBox or gumpId == UusCorpGump.Ids.JewelryBoxPartial then
             WindowApi.createFromTemplate(
@@ -39,6 +42,10 @@ function UusCorpGump.initialize()
                 "UusCorpJewelryBoxSearch",
                 Active.window()
             )
+        elseif gumpId == UusCorpGump.Ids.VendorSearch or gumpId == UusCorpGump.Ids.VendorSearchStoredSearch then
+            for _, v in pairs(gump.TextEntry) do
+                EditTextBoxApi.setTextColor(v, Colors.OffBlack)
+            end
         end
     end
 
