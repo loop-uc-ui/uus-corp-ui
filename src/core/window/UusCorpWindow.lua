@@ -47,6 +47,10 @@ function UusCorpWindow.new(name)
         return UusCorpLabel.new(name .. label)
     end
 
+    function window.addStatusBar(statusBar)
+        return UusCorpStatusBar.new(name .. statusBar)
+    end
+
     function window.setUpdateFrequency(frequency)
         WindowApi.setUpdateFrequency(name, frequency)
     end

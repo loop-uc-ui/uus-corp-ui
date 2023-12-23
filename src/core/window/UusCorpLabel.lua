@@ -1,14 +1,14 @@
 UusCorpLabel = {}
 
 function UusCorpLabel.new(name)
-    local label = { }
+    local label = UusCorpWindow.new(name)
 
     function label.setText(text)
         LabelApi.setText(name, text)
     end
 
-    function label.getName()
-        return name
+    function label.setTextColor(color)
+        LabelApi.setTextColor(name, color)
     end
 
     return label

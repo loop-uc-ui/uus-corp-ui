@@ -31,13 +31,6 @@
                     </Anchors>
                 </FullResizeImage>
 
-                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
-                    <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" />
-                        <Anchor point="bottomright" relativePoint="bottomright" />
-                    </Anchors>
-                </FullResizeImage>
-
                 <FullResizeImage name="$parentCurrentTargetFrame" inherits="UO_Default_Inner_Window_Frame" >
                     <Anchors>
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground"/>

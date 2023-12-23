@@ -1,5 +1,7 @@
 UusCorpTargetWindow = UusCorpWindow.new("UusCorpTargetWindow")
 UusCorpTargetWindow.NameLabel = UusCorpTargetWindow.addLabel("Name")
+UusCorpTargetWindow.HealthBarPercent = UusCorpTargetWindow.addLabel("HealthBarPerc")
+UusCorpTargetWindow.StatusBar = UusCorpTargetWindow.addStatusBar("HealthBar")
 
 local function createTarget()
     local targets = TargetApi.getAllMobileTargets()
@@ -55,15 +57,42 @@ function UusCorpTargetWindow.onInitialize()
     UusCorpTargetWindow.setId(id)
     UusCorpTargetWindow.registerData(MobileStatus.type(), id)
     UusCorpTargetWindow.registerEvent(MobileStatus.event(), "onUpdateMobileStatus")
+    UusCorpTargetWindow.registerData(HealthBarColorData.type(), id)
+    UusCorpTargetWindow.registerEvent(HealthBarColorData.event(), "onUpdateHealthBarColor")
 
     if MobileStatus.status(id) ~= nil then
         UusCorpTargetWindow.onUpdateMobileStatus(id)
     end
+
+    if HealthBarColorData.data(id) ~= nil then
+        UusCorpTargetWindow.onUpdateHealthBarColor(id)
+    end
 end
 
-function UusCorpTargetWindow.onUpdateMobileStatus(id )
+function UusCorpTargetWindow.onUpdateMobileStatus(id)
     id = id or UusCorpTargetWindow.getId()
+    local maxHealth = MobileStatus.maxHealth(id)
+    local currentHealth = MobileStatus.currentHealth(id)
+
+    -- There's a delay in updating the mobile's status where
+    -- values are initialy 0'd out
+    UusCorpTargetWindow.StatusBar.setShowing(maxHealth ~= 0)
+    UusCorpTargetWindow.HealthBarPercent.setShowing(maxHealth ~= 0)
+
+    WindowApi.setShowing(statusBar, maxHealth ~= 0)
+    WindowApi.setShowing(healthLabel, maxHealth ~= 0)
+
     UusCorpTargetWindow.NameLabel.setText(MobileStatus.name(id))
+    UusCorpTargetWindow.StatusBar.setCurrentValue(currentHealth)
+    UusCorpTargetWindow.StatusBar.setMaxValue(maxHealth)
+
+    UusCorpTargetWindow.NameLabel.setTextColor(
+        Colors.Notoriety[MobileStatus.notoriety(id)]
+    )
+
+    UusCorpTargetWindow.HealthBarPercent.setText(
+        tostring(math.floor(currentHealth / maxHealth * 100)) .. "%"
+    )
 end
 
 function UusCorpTargetWindow.onUpdate()
@@ -73,6 +102,8 @@ function UusCorpTargetWindow.onShutdown()
     local id = UusCorpTargetWindow.getId()
     UusCorpTargetWindow.unregisterData(MobileStatus.type(), id)
     UusCorpTargetWindow.unregisterEvent(MobileStatus.event())
+    UusCorpTargetWindow.unregisterData(HealthBarColorData.type(), id)
+    UusCorpTargetWindow.unregisterEvent(HealthBarColorData.event())
     UusCorpTargetWindow.savePosition()
 end
 
@@ -82,4 +113,11 @@ end
 
 function UusCorpTargetWindow.onDoubleClick()
     UserActionApi.useItem(UusCorpTargetWindow.getId(), false)
+end
+
+function UusCorpTargetWindow.onUpdateHealthBarColor(id)
+    id = id or UusCorpTargetWindow.getId()
+    UusCorpTargetWindow.StatusBar.setForegroundTint(
+        Colors.HealthBar[HealthBarColorData.visualState(id) + 1]
+    )
 end

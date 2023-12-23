@@ -11,3 +11,7 @@ end
 function HealthBarColorData.visualState(id)
     return WindowData.HealthBarColor[id].VisualStateId
 end
+
+function HealthBarColorData.data(id)
+    return WindowData.HealthBarColor[id]
+end
