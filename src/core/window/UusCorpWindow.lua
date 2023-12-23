@@ -99,5 +99,13 @@ function UusCorpWindow.new(name)
         WindowApi.setColor(name, color)
     end
 
+    function window.savePosition()
+        WindowUtilsWrapper.saveWindowPosition(name)
+    end
+
+    function window.restorePosition()
+        WindowUtilsWrapper.restoreWindowPosition(name)
+    end
+
     return window
 end

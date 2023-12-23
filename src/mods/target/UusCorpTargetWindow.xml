@@ -20,6 +20,7 @@
                 <EventHandler event="OnInitialize" function="UusCorpTargetWindow.onInitialize"/>
                 <EventHandler event="OnUpdate" function="UusCorpTargetWindow.onUpdate"/>
                 <EventHandler event="OnShutdown" function="UusCorpTargetWindow.onShutdown"/>
+                <EventHandler event="OnRButtonUp" function="UusCorpTargetWindow.onRightClick"/>
             </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background">

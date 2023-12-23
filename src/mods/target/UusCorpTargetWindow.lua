@@ -1,6 +1,5 @@
 UusCorpTargetWindow = UusCorpWindow.new("UusCorpTargetWindow")
 UusCorpTargetWindow.NameLabel = UusCorpTargetWindow.addLabel("Name")
-UusCorpTargetWindow.Data = {}
 
 local function createTarget()
     local targets = TargetApi.getAllMobileTargets()
@@ -50,6 +49,8 @@ function UusCorpTargetWindow.createWindow()
 end
 
 function UusCorpTargetWindow.onInitialize()
+    UusCorpTargetWindow.restorePosition()
+
     local id = CurrentTarget.id()
     UusCorpTargetWindow.setId(id)
     UusCorpTargetWindow.registerData(MobileStatus.type(), id)
@@ -85,4 +86,9 @@ function UusCorpTargetWindow.onShutdown()
     UusCorpTargetWindow.unregisterData(MobileData.nameType(), id)
     UusCorpTargetWindow.unregisterEvent(MobileData.nameEvent())
     UusCorpTargetWindow.unregisterEvent(MobileStatus.event())
+    UusCorpTargetWindow.savePosition()
+end
+
+function UusCorpTargetWindow.onRightClick()
+    UusCorpTargetWindow.destroy()
 end
