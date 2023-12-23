@@ -54,22 +54,11 @@ function UusCorpTargetWindow.onInitialize()
     local id = CurrentTarget.id()
     UusCorpTargetWindow.setId(id)
     UusCorpTargetWindow.registerData(MobileStatus.type(), id)
-    UusCorpTargetWindow.registerData(MobileData.nameType(), id)
-    UusCorpTargetWindow.registerEvent(MobileData.nameEvent(), "onUpdateMobileName")
     UusCorpTargetWindow.registerEvent(MobileStatus.event(), "onUpdateMobileStatus")
-
-    if MobileData.data(id) ~= nil then
-        UusCorpTargetWindow.onUpdateMobileName(id)
-    end
 
     if MobileStatus.status(id) ~= nil then
         UusCorpTargetWindow.onUpdateMobileStatus(id)
     end
-end
-
-function UusCorpTargetWindow.onUpdateMobileName(id)
-    id = id or UusCorpTargetWindow.getId()
-    UusCorpTargetWindow.NameLabel.setText(MobileData.name(id))
 end
 
 function UusCorpTargetWindow.onUpdateMobileStatus(id )
@@ -83,12 +72,14 @@ end
 function UusCorpTargetWindow.onShutdown()
     local id = UusCorpTargetWindow.getId()
     UusCorpTargetWindow.unregisterData(MobileStatus.type(), id)
-    UusCorpTargetWindow.unregisterData(MobileData.nameType(), id)
-    UusCorpTargetWindow.unregisterEvent(MobileData.nameEvent())
     UusCorpTargetWindow.unregisterEvent(MobileStatus.event())
     UusCorpTargetWindow.savePosition()
 end
 
 function UusCorpTargetWindow.onRightClick()
     UusCorpTargetWindow.destroy()
+end
+
+function UusCorpTargetWindow.onDoubleClick()
+    UserActionApi.useItem(UusCorpTargetWindow.getId(), false)
 end
