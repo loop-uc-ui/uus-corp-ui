@@ -61,6 +61,18 @@
                     </Anchors>
                 </StatusBar>
 
+                <Label name="$parentDistance" font="inter_medium_16" maxchars="3" textalign="topright" wordwrap="false" popable="false">
+                    <Size>
+                        <AbsPoint x="48" y="12" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="topright" relativePoint="topleft" relativeTo="$parentHealthBar">
+                            <AbsPoint x="2" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255" />
+                </Label>
+
                 <Label name="$parentHealthBarPerc" font="inter_medium_16" maxchars="50" textalign="center" wordwrap="false" linespacing="18" popable="false" layer="overlay">
                     <Size>
                         <AbsPoint x="130" y="16" />

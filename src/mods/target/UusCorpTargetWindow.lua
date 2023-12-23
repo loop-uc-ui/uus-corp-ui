@@ -2,6 +2,7 @@ UusCorpTargetWindow = UusCorpWindow.new("UusCorpTargetWindow")
 UusCorpTargetWindow.NameLabel = UusCorpTargetWindow.addLabel("Name")
 UusCorpTargetWindow.HealthBarPercent = UusCorpTargetWindow.addLabel("HealthBarPerc")
 UusCorpTargetWindow.StatusBar = UusCorpTargetWindow.addStatusBar("HealthBar")
+UusCorpTargetWindow.Distance = UusCorpTargetWindow.addLabel("Distance")
 
 local function createTarget()
     local targets = TargetApi.getAllMobileTargets()
@@ -80,9 +81,6 @@ function UusCorpTargetWindow.onUpdateMobileStatus(id)
     UusCorpTargetWindow.StatusBar.setShowing(maxHealth ~= 0)
     UusCorpTargetWindow.HealthBarPercent.setShowing(maxHealth ~= 0)
 
-    WindowApi.setShowing(statusBar, maxHealth ~= 0)
-    WindowApi.setShowing(healthLabel, maxHealth ~= 0)
-
     UusCorpTargetWindow.NameLabel.setText(MobileStatus.name(id))
     UusCorpTargetWindow.StatusBar.setCurrentValue(currentHealth)
     UusCorpTargetWindow.StatusBar.setMaxValue(maxHealth)
@@ -97,6 +95,14 @@ function UusCorpTargetWindow.onUpdateMobileStatus(id)
 end
 
 function UusCorpTargetWindow.onUpdate()
+    local id = UusCorpTargetWindow.getId()
+    local distance = ObjectApi.getDistanceFromPlayer(id)
+
+    if distance <= 0 then
+        UusCorpTargetWindow.Distance.setText("")
+    else
+        UusCorpTargetWindow.Distance.setText(tostring(distance))
+    end
 end
 
 function UusCorpTargetWindow.onShutdown()
