@@ -55,6 +55,7 @@ function UusCorpTargetWindow.onInitialize()
 
     local id = CurrentTarget.id()
     UusCorpTargetWindow.setId(id)
+    UusCorpTargetWindow.setScale(1.0)
     UusCorpTargetWindow.registerData(MobileStatus.type(), id)
     UusCorpTargetWindow.registerEvent(MobileStatus.event(), "onUpdateMobileStatus")
     UusCorpTargetWindow.registerData(HealthBarColorData.type(), id)
