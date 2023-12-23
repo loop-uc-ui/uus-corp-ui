@@ -21,7 +21,7 @@ function OverheadChatWindow.onInitialize()
     WindowApi.setUpdateFrequency(window, 1)
     WindowApi.clearAnchors(window)
     WindowApi.setId(window, Chat.sourceId())
-    WindowApi.attachWIndowToWorldObject(
+    WindowApi.attachWindowToWorldObject(
         Chat.sourceId(),
         window
     )

@@ -53,7 +53,7 @@ function TargetWindow.onCurrentTarget()
         HealthBarRootOverlayWindow.Name
     )
 
-    WindowApi.attachWIndowToWorldObject(id, window)
+    WindowApi.attachWindowToWorldObject(id, window)
     WindowApi.setShowing(window .. UusCorpMobileHealthBar.ObjectAnchor, true)
     WindowApi.destroyWindow(OverheadText.Name .. id)
 end

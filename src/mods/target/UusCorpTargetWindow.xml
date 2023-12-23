@@ -1,0 +1,83 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+    <Windows>
+        <HorizontalResizeImage name="TargetStatusBar" texture="StatusBar" texturescale="1" alpha="0.75">
+            <Size>
+                <AbsPoint x="158" y="20"/>
+            </Size>
+            <Sizes left="0" middle="79" right="159"/>
+            <TexCoords>
+                <Left x="2" y="20"/>
+                <Middle x="79" y="20"/>
+                <Right x="158" y="20"/>
+            </TexCoords>
+        </HorizontalResizeImage>
+
+        <Window name="UusCorpTargetWindow" movable="true" draganddrop="true" autoresize="true">
+            <Size>
+                <AbsPoint x="190" y="50" />
+            </Size>
+            <EventHandlers>
+                <EventHandler event="OnInitialize" function="UusCorpTargetWindow.onInitialize"/>
+                <EventHandler event="OnUpdate" function="UusCorpTargetWindow.onUpdate"/>
+                <EventHandler event="OnShutdown" function="UusCorpTargetWindow.onShutdown"/>
+            </EventHandlers>
+            <Windows>
+                <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft"/>
+                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="false">
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" />
+                        <Anchor point="bottomright" relativePoint="bottomright" />
+                    </Anchors>
+                </FullResizeImage>
+
+                <FullResizeImage name="$parentCurrentTargetFrame" inherits="UO_Default_Inner_Window_Frame" >
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground"/>
+                    </Anchors>
+                </FullResizeImage>
+
+                <Label name="$parentName" font="inter_medium_18" maxchars="16" textalign="center" wordwrap="false" popable="false">
+                    <Size>
+                        <AbsPoint x="190" y="12" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="top" relativeTo="$parent">
+                            <AbsPoint x="0" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="206" g="217" b="242" a="255" />
+                </Label>
+
+                <StatusBar name="$parentHealthBar" foreground="TargetStatusBar" alpha="0.5">
+                    <Size>
+                        <AbsPoint x="136" y="16"/>
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottom" relativePoint="top" relativeTo="$parentName">
+                            <AbsPoint x="0" y="12"/>
+                        </Anchor>
+                    </Anchors>
+                </StatusBar>
+
+                <Label name="$parentHealthBarPerc" font="inter_medium_16" maxchars="50" textalign="center" wordwrap="false" linespacing="18" popable="false" layer="overlay">
+                    <Size>
+                        <AbsPoint x="130" y="16" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="top" relativePoint="top" relativeTo="$parentHealthBar">
+                            <AbsPoint x="5" y="0" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255" />
+                </Label>
+            </Windows>
+        </Window>
+    </Windows>
+</Interface>

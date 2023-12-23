@@ -1,51 +1,103 @@
 UusCorpWindow = {}
 
 function UusCorpWindow.new(name)
-    local window = { name = name }
+    local window = {}
 
-    window.isShowing = function ()
+    function window.getName()
+        return name
+    end
+
+    function window.setId(id)
+        WindowApi.setId(name, id)
+    end
+
+    function window.getId()
+        return WindowApi.getId(name)
+    end
+
+    function window.doesExist()
+        return WindowApi.doesExist(name)
+    end
+
+    function window.isShowing()
         return WindowApi.isShowing(name)
     end
 
-    window.setShowing = function (doShow)
+    function window.setShowing(doShow)
         WindowApi.setShowing(name, doShow)
     end
 
-    window.createFromTemplate = function (template, parent)
-        return WindowApi.createFromTemplate(name, template, parent)
+    function window.createFromTemplate(template, parent)
+        return WindowApi.createFromTemplate(name, template, parent or "Root")
     end
 
-    window.create = function (doShow)
+    function window.create(doShow)
         return WindowApi.createWindow(name, doShow == nil or doShow)
     end
 
-    window.destroy = function ()
+    function window.destroy()
         return WindowApi.destroyWindow(name)
     end
 
-    window.addAnchor = function (anchor)
+    function window.addAnchor(anchor)
         WindowApi.addAnchor(name, anchor.anchorPoint, anchor.relativeTo, anchor.relativePoint, anchor.x, anchor.y)
     end
 
-    window.addLabel = function (label)
+    function window.addLabel(label)
         return UusCorpLabel.new(name .. label)
     end
 
-    window.setUpdateFrequency = function (frequency)
+    function window.setUpdateFrequency(frequency)
         WindowApi.setUpdateFrequency(name, frequency)
     end
 
-    window.getDimensions = function ()
+    function window.getDimensions()
         return WindowApi.getDimensions(name)
     end
 
-    window.setOffsetFromParent = function (x, y)
+    function window.setOffsetFromParent(x, y)
         return WindowApi.setOffsetFromParent(name, x, y)
     end
 
-    return window
-end
+    function window.registerEvent(id, callback)
+        WindowApi.registerEventHandler(name, id, name .. "." .. callback)
+    end
 
-function UusCorpWindow.active()
-    return UusCorpWindow.new(Active.window)()
+    function window.registerData(type, id)
+        WindowDataApi.registerData(type, id)
+    end
+
+    function window.unregisterEvent(id)
+        WindowApi.unregisterEventHandler(name, id)
+    end
+
+    function window.unregisterData(type, id)
+        WindowDataApi.unregisterData(type, id)
+    end
+
+    function window.registerCoreEvent(id)
+        WindowApi.registerCoreEventHandler(name, id)
+    end
+
+    function window.unregisterCoreEvent(id)
+        WindowApi.unregisterCoreEventHandler(name, id)
+    end
+
+    function window.attachToWorldObject(id)
+        WindowApi.attachWindowToWorldObject(id, name)
+    end
+
+    function window.detatchFromWorlObject(id)
+        WindowApi.detachWindowFromWorldObject(id, name)
+    end
+
+    function window.setScale(scale)
+        WindowApi.setScale(name, scale)
+    end
+
+    function window.setColor(color)
+        WindowApi.setColor(name, color)
+    end
+
+    return window
 end

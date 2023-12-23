@@ -4,7 +4,7 @@ function ModuleApi.setEnabled(moduleName, isEnabled)
     ModuleSetEnabled(moduleName, isEnabled)
 end
 
-function ModuleApi.initialze(moduleName)
+function ModuleApi.initialize(moduleName)
     ModuleInitialize(moduleName)
 end
 
