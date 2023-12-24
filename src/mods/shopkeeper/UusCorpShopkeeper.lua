@@ -225,11 +225,6 @@ function UusCorpShopkeeper.onInitialize()
     local window = Active.window()
     local merchantId = Active.dynamicWindowId()
 
-    WindowApi.setUpdateFrequency(
-        window,
-        0.10
-    )
-
     WindowApi.setId(
         window,
         merchantId
