@@ -15,3 +15,7 @@ end
 function MobileData.name(id)
     return WindowData.MobileName[id].MobName
 end
+
+function MobileData.data(id)
+    return WindowData.MobileName[id]
+end

@@ -71,7 +71,7 @@ function UusCorpObjectHandleWindow.onInitialize()
         notoriety or Colors.OffWhite
     )
 
-    WindowApi.attachWIndowToWorldObject(
+    WindowApi.attachWindowToWorldObject(
         id,
         window
     )

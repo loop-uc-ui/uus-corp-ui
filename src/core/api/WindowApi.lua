@@ -306,7 +306,7 @@ function WindowApi.getPosition(id)
     return WindowGetScreenPosition(id)
 end
 
-function WindowApi.attachWIndowToWorldObject(objectId, window)
+function WindowApi.attachWindowToWorldObject(objectId, window)
     AttachWindowToWorldObject(objectId, window)
 end
 

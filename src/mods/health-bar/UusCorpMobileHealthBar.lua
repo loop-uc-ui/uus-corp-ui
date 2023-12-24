@@ -185,7 +185,7 @@ function UusCorpMobileHealthBar.onMouseOver()
     WindowApi.createWindow(UusCorpMobileHealthBar.Arrow, false)
     WindowApi.setScale(UusCorpMobileHealthBar.Arrow, 0.33)
     WindowApi.setColor(UusCorpMobileHealthBar.Arrow, Colors.Notoriety[notoriety])
-    WindowApi.attachWIndowToWorldObject(WindowApi.getId(Active.window()), UusCorpMobileHealthBar.Arrow)
+    WindowApi.attachWindowToWorldObject(WindowApi.getId(Active.window()), UusCorpMobileHealthBar.Arrow)
     WindowApi.setShowing(UusCorpMobileHealthBar.Arrow, true)
     AnimatedImageApi.startAnimation(AnimatedImageApi.Animations.MobileArrow, 1, true, false, 0.0)
 end
