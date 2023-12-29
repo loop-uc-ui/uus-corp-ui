@@ -168,7 +168,7 @@ function UusCorpPlayerStatusWindow.offset()
 end
 
 function UusCorpPlayerStatusWindow.onRightClick(flags)
-    if ButtonFlags.isShift(flags) then
+    if ButtonFlags.isControl(flags) then
         ContextMenuApi.requestMenu(PlayerStatus.id())
     else
         WindowApi.destroyWindow(UusCorpPlayerStatusWindow.Name)
