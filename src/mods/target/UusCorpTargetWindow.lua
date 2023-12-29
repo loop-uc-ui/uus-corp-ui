@@ -128,3 +128,7 @@ function UusCorpTargetWindow.onUpdateHealthBarColor(id)
         Colors.HealthBar[HealthBarColorData.visualState(id) + 1]
     )
 end
+
+function UusCorpTargetWindow.onLeftClickUp()
+    TargetApi.clickTarget(UusCorpTargetWindow.getId())
+end

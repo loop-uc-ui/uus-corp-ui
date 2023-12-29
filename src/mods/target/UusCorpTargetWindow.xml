@@ -22,6 +22,7 @@
                 <EventHandler event="OnShutdown" function="UusCorpTargetWindow.onShutdown"/>
                 <EventHandler event="OnRButtonUp" function="UusCorpTargetWindow.onRightClick"/>
                 <EventHandler event="OnLButtonDblClk" function="UusCorpTargetWindow.onDoubleClick"/>
+                <EventHandler event="OnLButtonUp" function="UusCorpTargetWindow.onLeftClickUp"/>
             </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background">
