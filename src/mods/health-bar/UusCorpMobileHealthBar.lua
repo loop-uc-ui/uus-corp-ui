@@ -164,7 +164,7 @@ function UusCorpMobileHealthBar.offset(mobileId)
 end
 
 function UusCorpMobileHealthBar.onRightClick(flags)
-    if ButtonFlags.isShift(flags) then
+    if ButtonFlags.isControl(flags) then
         ContextMenuApi.requestMenu(WindowApi.getId(Active.window()))
     else
         WindowApi.destroyWindow(Active.window())

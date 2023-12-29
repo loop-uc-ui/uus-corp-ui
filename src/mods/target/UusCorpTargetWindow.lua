@@ -114,8 +114,12 @@ function UusCorpTargetWindow.onShutdown()
     UusCorpTargetWindow.savePosition()
 end
 
-function UusCorpTargetWindow.onRightClick()
-    UusCorpTargetWindow.destroy()
+function UusCorpTargetWindow.onRightClick(flags)
+    if ButtonFlags.isControl(flags) then
+        ContextMenuApi.requestMenu(UusCorpTargetWindow.getId())
+    else
+        UusCorpTargetWindow.destroy()
+    end
 end
 
 function UusCorpTargetWindow.onDoubleClick()
