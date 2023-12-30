@@ -81,10 +81,12 @@ function UusCorpTargetWindow.onInitialize()
         if HealthBarColorData.data(id) ~= nil then
             UusCorpTargetWindow.onUpdateHealthBarColor(id)
         end
-    elseif CurrentTarget.isObject() then
+    elseif CurrentTarget.isObject() or CurrentTarget.isCorpse() then
         UusCorpTargetWindow.registerData(ObjectInfo.type(), id)
         UusCorpTargetWindow.registerEvent(ObjectInfo.event(), "onUpdateObjectInfo")
-        UusCorpTargetWindow.onUpdateObjectInfo(id)
+        UusCorpTargetWindow.StatusBar.setShowing(false)
+        UusCorpTargetWindow.HealthBarPercent.setShowing(false)
+        UusCorpTargetWindow.onUpdateObjectInfo()
     end
 end
 
@@ -134,7 +136,7 @@ function UusCorpTargetWindow.onShutdown()
         UusCorpTargetWindow.unregisterEvent(MobileStatus.event())
         UusCorpTargetWindow.unregisterData(HealthBarColorData.type(), id)
         UusCorpTargetWindow.unregisterEvent(HealthBarColorData.event())
-    elseif CurrentTarget.isObject() then
+    elseif CurrentTarget.isObject() or CurrentTarget.isCorpse() then
         UusCorpTargetWindow.unregisterData(ObjectInfo.type(), id)
         UusCorpTargetWindow.unregisterEvent(ObjectInfo.event())
     end
@@ -164,5 +166,8 @@ function UusCorpTargetWindow.onUpdateHealthBarColor(id)
 end
 
 function UusCorpTargetWindow.onLeftClickUp()
+    if Drag.isItem() then
+        DragApi.dragToObject(UusCorpTargetWindow.getId())
+    end
     TargetApi.clickTarget(UusCorpTargetWindow.getId())
 end
