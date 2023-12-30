@@ -5,16 +5,20 @@ UusCorpTargetWindow.StatusBar = UusCorpTargetWindow.addStatusBar("HealthBar")
 UusCorpTargetWindow.Distance = UusCorpTargetWindow.addLabel("Distance")
 
 local function createTarget()
-    local targets = TargetApi.getAllMobileTargets()
-    local target = nil
+    if not CurrentTarget.isMobile() then
+        return true
+    else
+        local targets = TargetApi.getAllMobileTargets()
+        local target = nil
 
-    for _, v in pairs(targets) do
-        if v == CurrentTarget.id() then
-            target = v
+        for _, v in pairs(targets) do
+            if v == CurrentTarget.id() then
+                target = v
+            end
         end
-    end
 
-    return target ~= nil and ObjectApi.getDistanceFromPlayer(target) < 30
+        return target ~= nil and ObjectApi.getDistanceFromPlayer(target) < 30
+    end
 end
 
 function UusCorpTargetWindow.initialize()
@@ -40,6 +44,11 @@ function UusCorpTargetWindow.initialize()
 end
 
 function UusCorpTargetWindow.createWindow()
+    if not CurrentTarget.hasTarget() then
+        UusCorpTargetWindow.destroy()
+        return
+    end
+
     if not createTarget() then
         return
     end
@@ -57,17 +66,25 @@ function UusCorpTargetWindow.onInitialize()
     local id = CurrentTarget.id()
     UusCorpTargetWindow.setId(id)
     UusCorpTargetWindow.setScale(1.0)
-    UusCorpTargetWindow.registerData(MobileStatus.type(), id)
-    UusCorpTargetWindow.registerEvent(MobileStatus.event(), "onUpdateMobileStatus")
-    UusCorpTargetWindow.registerData(HealthBarColorData.type(), id)
-    UusCorpTargetWindow.registerEvent(HealthBarColorData.event(), "onUpdateHealthBarColor")
 
-    if MobileStatus.status(id) ~= nil then
-        UusCorpTargetWindow.onUpdateMobileStatus(id)
-    end
+    if CurrentTarget.isMobile() then
+        UusCorpTargetWindow.registerData(MobileStatus.type(), id)
+        UusCorpTargetWindow.registerEvent(MobileStatus.event(), "onUpdateMobileStatus")
+        UusCorpTargetWindow.registerData(HealthBarColorData.type(), id)
+        UusCorpTargetWindow.registerEvent(HealthBarColorData.event(), "onUpdateHealthBarColor")
 
-    if HealthBarColorData.data(id) ~= nil then
-        UusCorpTargetWindow.onUpdateHealthBarColor(id)
+
+        if MobileStatus.status(id) ~= nil then
+            UusCorpTargetWindow.onUpdateMobileStatus(id)
+        end
+
+        if HealthBarColorData.data(id) ~= nil then
+            UusCorpTargetWindow.onUpdateHealthBarColor(id)
+        end
+    elseif CurrentTarget.isObject() then
+        UusCorpTargetWindow.registerData(ObjectInfo.type(), id)
+        UusCorpTargetWindow.registerEvent(ObjectInfo.event(), "onUpdateObjectInfo")
+        UusCorpTargetWindow.onUpdateObjectInfo(id)
     end
 end
 
@@ -103,22 +120,35 @@ function UusCorpTargetWindow.onUpdate()
     else
         UusCorpTargetWindow.Distance.setText(tostring(distance))
     end
+
+    if not CurrentTarget.hasTarget() then
+        UusCorpTargetWindow.destroy()
+    end
 end
 
 function UusCorpTargetWindow.onShutdown()
     local id = UusCorpTargetWindow.getId()
-    UusCorpTargetWindow.unregisterData(MobileStatus.type(), id)
-    UusCorpTargetWindow.unregisterEvent(MobileStatus.event())
-    UusCorpTargetWindow.unregisterData(HealthBarColorData.type(), id)
-    UusCorpTargetWindow.unregisterEvent(HealthBarColorData.event())
+
+    if CurrentTarget.isMobile() then
+        UusCorpTargetWindow.unregisterData(MobileStatus.type(), id)
+        UusCorpTargetWindow.unregisterEvent(MobileStatus.event())
+        UusCorpTargetWindow.unregisterData(HealthBarColorData.type(), id)
+        UusCorpTargetWindow.unregisterEvent(HealthBarColorData.event())
+    elseif CurrentTarget.isObject() then
+        UusCorpTargetWindow.unregisterData(ObjectInfo.type(), id)
+        UusCorpTargetWindow.unregisterEvent(ObjectInfo.event())
+    end
+
     UusCorpTargetWindow.savePosition()
+end
+
+function UusCorpTargetWindow.onUpdateObjectInfo()
+    UusCorpTargetWindow.NameLabel.setText(ObjectInfo.name(UusCorpTargetWindow.getId()))
 end
 
 function UusCorpTargetWindow.onRightClick(flags)
     if ButtonFlags.isControl(flags) then
         ContextMenuApi.requestMenu(UusCorpTargetWindow.getId())
-    else
-        UusCorpTargetWindow.destroy()
     end
 end
 
