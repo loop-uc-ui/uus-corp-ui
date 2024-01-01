@@ -319,12 +319,30 @@ UusCorpSettingsWindow.Pages = {
         },
         nil
     ),
-    Interface = {
-        name = UusCorpSettingsWindow.Name .. "InterfacePage",
-        comboBoxes = {
-            Mod = {
-                name = UusCorpSettingsWindow.Name .. "InterfacePageModComboBox",
-                list = function()
+    Interface = page(
+        "InterfacePage",
+        {
+            Mode = label(
+                "InterfacePageModComboLabel",
+                1079523
+            ),
+            LegacyContainers = label(
+                "InterfacePageLegacyContainersCheckBoxLabel",
+                1094708
+            ),
+            LegacyPaperdoll = label(
+                "InterfacePageLegacyPaperdollCheckBoxLabel",
+                1150185
+            ),
+            ObjectHandleFilter = label(
+                "InterfacePageObjectHandleComboLabel",
+                1079461
+            )
+        },
+        {
+            Mod = comboBox(
+                "InterfacePageModComboBox",
+                function()
                     local list = {}
                     for i = 1, #UserOptionsSettings.customUiList() do
                         local item = UserOptionsSettings.customUiList()[i]
@@ -344,17 +362,17 @@ UusCorpSettingsWindow.Pages = {
                     end
                     return list
                 end,
-                isSelected = function (index)
+                function (index)
                     return UusCorpSettingsWindow.Pages.Interface.comboBoxes.Mod.list()[index]
                         == UserOptionsSettings.customUI()
                 end,
-                setting = function(newValue)
+                function(newValue)
                     return UserOptionsSettings.customUI(newValue)
                 end
-            },
-            ObjectHandleFilter = {
-                name = UusCorpSettingsWindow.Name .. "InterfacePageObjectHandleComboBox",
-                list = function ()
+            ),
+            ObjectHandleFilter = comboBox(
+                "InterfacePageObjectHandleComboBox",
+                function ()
                     return {
                         1079457,
                         1078368,
@@ -368,51 +386,34 @@ UusCorpSettingsWindow.Pages = {
                         -- 1154805
                     }
                 end,
-                isSelected = function (index)
+                function (index)
                     return index == UserOptionsSettings.objectHandleFilter() + 1
                 end,
-                setting = function (newValue)
+                function (newValue)
                     if newValue == nil then
                         return UserOptionsSettings.objectHandleFilter() + 1
                     else
                         return UserOptionsSettings.objectHandleFilter(newValue - 1)
                     end
                 end
-            }
+            )
         },
-        checkBoxes = {
-            LegacyContainers = {
-                name = UusCorpSettingsWindow.Name .. "InterfacePageLegacyContainersCheckBox",
-                setting = function(newValue)
+        {
+            LegacyContainers = checkBox(
+                "InterfacePageLegacyContainersCheckBox",
+                function(newValue)
                     return UserContainerSettings.legacyContainers(newValue)
                 end
-            },
-            LegacyPaperdoll = {
-                name = UusCorpSettingsWindow.Name .. "InterfacePageLegacyPaperdollCheckBox",
-                setting = function (newValue)
+            ),
+            LegacyPaperdoll = checkBox(
+                "InterfacePageLegacyPaperdollCheckBox",
+                function (newValue)
                     return Paperdoll.useLegacy(newValue)
                 end
-            }
+            )
         },
-        labels = {
-            Mod = {
-                name = UusCorpSettingsWindow.Name .. "InterfacePageModComboLabel",
-                text = 1079523
-            },
-            LegacyContainers = {
-                name = UusCorpSettingsWindow.Name .. "InterfacePageLegacyContainersCheckBoxLabel",
-                text = 1094708
-            },
-            LegacyPaperdoll = {
-                name = UusCorpSettingsWindow.Name .. "InterfacePageLegacyPaperdollCheckBoxLabel",
-                text = 1150185
-            },
-            ObjectHandleFilter = {
-                name = UusCorpSettingsWindow.Name .. "InterfacePageObjectHandleComboLabel",
-                text = 1079461
-            }
-        }
-    },
+        nil
+    ),
     Sound = {
         name = UusCorpSettingsWindow.Name .. "SoundPage",
         labels = {
