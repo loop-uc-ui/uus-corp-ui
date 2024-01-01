@@ -8,7 +8,7 @@ local function tab(id)
     return {
         text = id,
         name = UusCorpSettingsWindow.TabContainer .. id .. "Tab",
-        page = UusCorpSettingsWindow.Name .. id
+        page = UusCorpSettingsWindow.name .. id
     }
 end
 
@@ -25,7 +25,7 @@ local function page(id, labels, comboBoxes, checkBoxes, sliders)
     ---@field checkBoxes table
     ---@field sliders table
     return {
-        name = UusCorpSettingsWindow.Name .. id,
+        name = UusCorpSettingsWindow.name .. id,
         labels = labels or {},
         comboBoxes = comboBoxes or {},
         checkBoxes = checkBoxes or {},
@@ -41,7 +41,7 @@ local function label(id, text)
     ---@field name string
     ---@field text string | number
     return {
-        name = UusCorpSettingsWindow.Name .. id,
+        name = UusCorpSettingsWindow.name .. id,
         text = text
     }
 end
@@ -58,7 +58,7 @@ local function comboBox(id, list, isSelected, setting)
     ---@field isSeleced function
     ---@field setting function
     return {
-        name = UusCorpSettingsWindow.Name .. id,
+        name = UusCorpSettingsWindow.name .. id,
         list = list,
         isSelected = isSelected,
         setting = setting
@@ -73,7 +73,7 @@ local function checkBox(id, setting)
     ---@field name string
     ---@field setting function
     return {
-        name = UusCorpSettingsWindow.Name .. id,
+        name = UusCorpSettingsWindow.name .. id,
         setting = setting
     }
 end
@@ -90,18 +90,17 @@ local function slider(id, value, setting, formatValue)
     ---@field setting function
     ---@field formatValue function
     return {
-        name = UusCorpSettingsWindow.Name .. id,
-        value = UusCorpSettingsWindow.Name .. value,
+        name = UusCorpSettingsWindow.name .. id,
+        value = UusCorpSettingsWindow.name .. value,
         setting = setting,
         formatValue = formatValue
     }
 end
 
-UusCorpSettingsWindow = {}
+---@class UusCorpSettingsWindow:UusCorpWindow
+UusCorpSettingsWindow = UusCorpWindow:new("UusCorpSettingsWindow")
 
-UusCorpSettingsWindow.Name = "UusCorpSettingsWindow"
-
-UusCorpSettingsWindow.TabContainer = UusCorpSettingsWindow.Name .. "TabContainer"
+UusCorpSettingsWindow.TabContainer = UusCorpSettingsWindow.name .. "TabContainer"
 
 UusCorpSettingsWindow.Tabs = {
     Graphics = tab("Graphics"),
@@ -620,12 +619,11 @@ function UusCorpSettingsWindow.initialize()
         "UusCorpSettingsWindow.xml"
     )
 
-    WindowApi.createWindow(UusCorpSettingsWindow.Name, false)
+    WindowApi.createWindow(UusCorpSettingsWindow.name, false)
 end
 
 function UusCorpSettingsWindow.onInitialize()
-    WindowApi.registerEventHandler(
-        UusCorpSettingsWindow.Name,
+    UusCorpSettingsWindow:registerEvent(
         Events.userSettingsUpdated(),
         "UusCorpSettingsWindow.onSettingsUpdate"
     )
@@ -704,15 +702,14 @@ function UusCorpSettingsWindow.onInitialize()
 end
 
 function UusCorpSettingsWindow.onShutdown()
-    WindowApi.unregisterEventHandler(
-        UusCorpSettingsWindow.Name,
+    UusCorpSettingsWindow:unregisterEvent(
         Events.userSettingsUpdated()
     )
     UusCorpControlsSettingsWindow.onShutdown()
 end
 
 function UusCorpSettingsWindow.onRightClick()
-    WindowApi.setShowing(UusCorpSettingsWindow.Name, false)
+    UusCorpSettingsWindow:setShowing(false)
 end
 
 function UusCorpSettingsWindow.onTabClick()
