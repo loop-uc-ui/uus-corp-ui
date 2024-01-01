@@ -1,23 +1,28 @@
-UusCorpStatusBar = {}
+---@class UusCorpStatusBar:UusCorpWindow
+UusCorpStatusBar = UusCorpWindow:new()
+UusCorpStatusBar.__index = UusCorpStatusBar
 
-function UusCorpStatusBar.new(name)
-    local window = UusCorpWindow.new(name)
+---@return UusCorpStatusBar
+function UusCorpStatusBar:new(name)
+    return setmetatable(UusCorpWindow.new(self, name), UusCorpStatusBar) --[[@as UusCorpStatusBar]]
+end
 
-    function window.setCurrentValue(value)
-        StatusBarApi.setCurrentValue(name, value)
-    end
+---@param tint table
+function UusCorpStatusBar:setBackgroundTint(tint)
+    StatusBarApi.setBackgroundTint(self.name, tint)
+end
 
-    function window.setMaxValue(value)
-        StatusBarApi.setMaximumValue(name, value)
-    end
+---@param value number
+function UusCorpStatusBar:setCurrentValue(value)
+    StatusBarApi.setCurrentValue(self.name, value)
+end
 
-    function window.setForegroundTint(tint)
-        StatusBarApi.setForegroundTint(name, tint)
-    end
+---@param value number
+function UusCorpStatusBar:setMaxValue(value)
+    StatusBarApi.setMaximumValue(self.name, value)
+end
 
-    function window.setBackgroundTint(tint)
-        StatusBarApi.setBackgroundTint(name, tint)
-    end
-
-    return window
+---@param tint table
+function UusCorpStatusBar:setForegroundTint(tint)
+    StatusBarApi.setForegroundTint(self.name, tint)
 end

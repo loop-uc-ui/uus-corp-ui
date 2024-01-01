@@ -1,15 +1,20 @@
-UusCorpLabel = {}
+---@class UusCorpLabel:UusCorpWindow
+UusCorpLabel = UusCorpWindow:new()
+UusCorpLabel.__index = UusCorpLabel
 
-function UusCorpLabel.new(name)
-    local label = UusCorpWindow.new(name)
+---@return UusCorpLabel
+function UusCorpLabel:new(name)
+    return setmetatable(UusCorpWindow.new(self, name), UusCorpLabel) --[[@as UusCorpLabel]]
+end
 
-    function label.setText(text)
-        LabelApi.setText(name, text)
-    end
+function UusCorpLabel:setText(text)
+    LabelApi.setText(self.name, text)
+end
 
-    function label.setTextColor(color)
-        LabelApi.setTextColor(name, color)
-    end
+function UusCorpLabel:getText()
+    return LabelApi.getText(self.name)
+end
 
-    return label
+function UusCorpLabel:setTextColor(color)
+    LabelApi.setTextColor(self.name, color)
 end

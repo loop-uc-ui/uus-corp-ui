@@ -1,4 +1,10 @@
+---@param id string
+---@return SettingsTab
 local function tab(id)
+    ---@class SettingsTab
+    ---@field text string
+    ---@field name string
+    ---@field page string
     return {
         text = id,
         name = UusCorpSettingsWindow.TabContainer .. id .. "Tab",
@@ -6,7 +12,18 @@ local function tab(id)
     }
 end
 
+---@param id string
+---@param labels? table
+---@param comboBoxes? table
+---@param sliders? table
+---@return SettingsPage
 local function page(id, labels, comboBoxes, checkBoxes, sliders)
+    ---@class SettingsPage
+    ---@field name string
+    ---@field labels table
+    ---@field comboBoxes table
+    ---@field checkBoxes table
+    ---@field sliders table
     return {
         name = UusCorpSettingsWindow.Name .. id,
         labels = labels or {},
@@ -16,14 +33,30 @@ local function page(id, labels, comboBoxes, checkBoxes, sliders)
     }
 end
 
+---@param id string
+---@param text string | number
+---@return SettingsLabel
 local function label(id, text)
+    ---@class SettingsLabel
+    ---@field name string
+    ---@field text string | number
     return {
         name = UusCorpSettingsWindow.Name .. id,
         text = text
     }
 end
 
+---@param id string
+---@param list function
+---@param isSelected function
+---@param setting function
+---@return SettingsComboBox
 local function comboBox(id, list, isSelected, setting)
+    ---@class SettingsComboBox
+    ---@field name string
+    ---@field list function
+    ---@field isSeleced function
+    ---@field setting function
     return {
         name = UusCorpSettingsWindow.Name .. id,
         list = list,
@@ -32,17 +65,33 @@ local function comboBox(id, list, isSelected, setting)
     }
 end
 
+---@param id string
+---@param setting function
+---@return SettingsCheckBox
 local function checkBox(id, setting)
+    ---@class SettingsCheckBox
+    ---@field name string
+    ---@field setting function
     return {
         name = UusCorpSettingsWindow.Name .. id,
         setting = setting
     }
 end
 
+---@param id string
+---@param value string
+---@param setting function
+---@param formatValue function
+---@return SettingsSlider
 local function slider(id, value, setting, formatValue)
+    ---@class SettingsSlider
+    ---@field name string
+    ---@field value string
+    ---@field setting function
+    ---@field formatValue function
     return {
         name = UusCorpSettingsWindow.Name .. id,
-        value = value,
+        value = UusCorpSettingsWindow.Name .. value,
         setting = setting,
         formatValue = formatValue
     }
