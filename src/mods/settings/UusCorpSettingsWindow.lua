@@ -117,6 +117,7 @@ UusCorpSettingsWindow.Pages = {
         "GraphicsPage",
         {
             Resolution = label("GraphicsPageResComboLabel", "Resolution"),
+            FrameRate = label("GraphicsPageFrameRateComboLabel", 1112340),
             UseFullScreen = label("GraphicsPageFullScreenCheckBoxLabel", 1077821),
             PlayFlyingAnimation = label("GraphicsPageFlyingAnimationCheckBoxLabel", 1158627),
             ShowWindowFrame = label("GraphicsPageWindowFrameCheckBoxLabel", 1077820),
@@ -163,6 +164,39 @@ UusCorpSettingsWindow.Pages = {
                             height = height
                         })
                     end
+                end
+            ),
+            FrameRate = comboBox(
+                "GraphicsPageFrameRateComboBox",
+                function ()
+                    return {
+                        1112341,
+                        1112342,
+                        1112343,
+                        1112344,
+                        1112345,
+                        L"70 FPS", --No clue why these are enumerated in the Default UI
+                        L"80 FPS",
+                        L"90 FPS",
+                        L"100 FPS",
+                        L"110 FPS",
+                        L"120 FPS",
+                        L"130 FPS",
+                        L"140 FPS",
+                        L"150 FPS",
+                        L"160 FPS",
+                        L"170 FPS",
+                        L"180 FPS",
+                        L"190 FPS",
+                        L"200 FPS"
+                    }
+                end,
+                function (index)
+                    return index == UserGraphicsSettings.frameRate() / 10 - 1
+                end,
+                function (newValue)
+                    Debug.Print((newValue + 1) * 10)
+                    UserGraphicsSettings.frameRate((newValue + 1) * 10)
                 end
             ),
             ParticleDetail = comboBox(
@@ -625,7 +659,7 @@ end
 function UusCorpSettingsWindow.onInitialize()
     UusCorpSettingsWindow:registerEvent(
         Events.userSettingsUpdated(),
-        "UusCorpSettingsWindow.onSettingsUpdate"
+        "onSettingsUpdate"
     )
 
     for _, v in pairs(UusCorpSettingsWindow.Pages) do

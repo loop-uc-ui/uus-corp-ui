@@ -72,8 +72,8 @@ function UusCorpWindow:unregisterData(type, id)
     WindowDataApi.unregisterData(type, id)
 end
 
-function UusCorpWindow:registerCoreEvent(id)
-    WindowApi.registerCoreEventHandler(self.name, id)
+function UusCorpWindow:registerCoreEvent(id, callback)
+    WindowApi.registerCoreEventHandler(self.name, id, callback)
 end
 
 function UusCorpWindow:unregisterCoreEvent(id)
@@ -113,4 +113,3 @@ end
 function UusCorpWindow:addStatusBar(statusBar)
     return UusCorpStatusBar.new(self --[[@as UusCorpStatusBar]], self.name .. statusBar)
 end
-

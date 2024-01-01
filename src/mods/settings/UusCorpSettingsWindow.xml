@@ -269,9 +269,17 @@
                     <Windows>
                         <Window name="$parentResCombo" inherits="SettingsComboTemplate"/>
 
-                        <Button name="$parentFullScreenCheckBox" inherits="SettingsCheckBoxTemplate">
+                        <Window name="$parentFrameRateCombo" inherits="SettingsComboTemplate">
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentResCombo">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <Button name="$parentFullScreenCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentFrameRateCombo">
                                     <AbsPoint x="0" y="18"/>
                                 </Anchor>
                             </Anchors>
