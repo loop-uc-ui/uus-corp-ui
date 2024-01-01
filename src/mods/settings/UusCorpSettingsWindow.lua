@@ -270,53 +270,55 @@ UusCorpSettingsWindow.Pages = {
             )
         }
     ),
-    Chat = {
-        name =  UusCorpSettingsWindow.Name .. "ChatPage",
-        checkBoxes = {
-            DisableSpells = {
-                name = UusCorpSettingsWindow.Name .. "ChatPageDisableSpellsCheckBox",
-                setting = function(newValue)
+    Chat = page(
+        "ChatPage",
+        {
+            DisableSpells = label(
+                "ChatPageDisableSpellsCheckBoxLabel",
+                1155334
+            ),
+            ShowSpellName = label(
+                "ChatPageShowSpellNameCheckBoxLabel",
+                1155336
+            ),
+            DisablePoisonText = label(
+                "ChatPageDisablePoisonTextCheckBoxLabel",
+                1155338
+            ),
+            SaveJournal = label(
+                "ChatPageSaveJournalCheckBoxLabel",
+                1149998
+            ),
+        },
+        nil,
+        {
+            DisableSpells = checkBox(
+                "ChatPageDisableSpellsCheckBox",
+                function(newValue)
                     return UserOverheadTextSettings.disableSpells(newValue)
                 end
-            },
-            ShowSpellName = {
-                name = UusCorpSettingsWindow.Name .. "ChatPageShowSpellNameCheckBox",
-                setting = function(newValue)
+            ),
+            ShowSpellName = checkBox(
+                "ChatPageShowSpellNameCheckBox",
+                function(newValue)
                     return UserOverheadTextSettings.showSpellNames(newValue)
                 end
-            },
-            DisablePoisonText = {
-                name = UusCorpSettingsWindow.Name .. "ChatPageDisablePoisonTextCheckBox",
-                setting = function(newValue)
+            ),
+            DisablePoisonText = checkBox(
+                "ChatPageDisablePoisonTextCheckBox",
+                function(newValue)
                     return UserOverheadTextSettings.disablePoison(newValue)
                 end
-            },
-            SaveJournal = {
-                name = UusCorpSettingsWindow.Name .. "ChatPageSaveJournalCheckBox",
-                setting = function(newValue)
+            ),
+            SaveJournal = checkBox(
+                "ChatPageSaveJournalCheckBox",
+                function(newValue)
                     return UserOptionsSettings.enableChatLog(newValue)
                 end
-            }
+            )
         },
-        labels = {
-            DisableSpells = {
-                name = UusCorpSettingsWindow.Name .. "ChatPageDisableSpellsCheckBoxLabel",
-                text = 1155334
-            },
-            ShowSpellName = {
-                name = UusCorpSettingsWindow.Name .. "ChatPageShowSpellNameCheckBoxLabel",
-                text = 1155336
-            },
-            DisablePoisonText = {
-                name = UusCorpSettingsWindow.Name .. "ChatPageDisablePoisonTextCheckBoxLabel",
-                text = 1155338
-            },
-            SaveJournal = {
-                name = UusCorpSettingsWindow.Name .. "ChatPageSaveJournalCheckBoxLabel",
-                text = 1149998
-            }
-        }
-    },
+        nil
+    ),
     Interface = {
         name = UusCorpSettingsWindow.Name .. "InterfacePage",
         comboBoxes = {
