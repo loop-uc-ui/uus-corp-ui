@@ -1,3 +1,53 @@
+local function tab(id)
+    return {
+        text = id,
+        name = UusCorpSettingsWindow.TabContainer .. id .. "Tab",
+        page = UusCorpSettingsWindow.Name .. id
+    }
+end
+
+local function page(id, labels, comboBoxes, checkBoxes, sliders)
+    return {
+        name = UusCorpSettingsWindow.Name .. id,
+        labels = labels or {},
+        comboBoxes = comboBoxes or {},
+        checkBoxes = checkBoxes or {},
+        sliders = sliders or {}
+    }
+end
+
+local function label(id, text)
+    return {
+        name = UusCorpSettingsWindow.Name .. id,
+        text = text
+    }
+end
+
+local function comboBox(id, list, isSelected, setting)
+    return {
+        name = UusCorpSettingsWindow.Name .. id,
+        list = list,
+        isSelected = isSelected,
+        setting = setting
+    }
+end
+
+local function checkBox(id, setting)
+    return {
+        name = UusCorpSettingsWindow.Name .. id,
+        setting = setting
+    }
+end
+
+local function slider(id, value, setting, formatValue)
+    return {
+        name = UusCorpSettingsWindow.Name .. id,
+        value = value,
+        setting = setting,
+        formatValue = formatValue
+    }
+end
+
 UusCorpSettingsWindow = {}
 
 UusCorpSettingsWindow.Name = "UusCorpSettingsWindow"
@@ -5,100 +55,38 @@ UusCorpSettingsWindow.Name = "UusCorpSettingsWindow"
 UusCorpSettingsWindow.TabContainer = UusCorpSettingsWindow.Name .. "TabContainer"
 
 UusCorpSettingsWindow.Tabs = {
-    Graphics = {
-        text = "Graphics",
-        name = UusCorpSettingsWindow.TabContainer .. "GraphicsTab",
-        page = UusCorpSettingsWindow.Name .. "Graphics"
-    },
-    Sound = {
-        text = "Sound",
-        name = UusCorpSettingsWindow.TabContainer .. "SoundTab",
-        page = UusCorpSettingsWindow.Name .. "Sound"
-    },
-    Chat = {
-        text = "Chat",
-        name = UusCorpSettingsWindow.TabContainer .. "ChatTab",
-        page = UusCorpSettingsWindow.Name .. "Chat"
-    },
-    Controls = {
-        text = "Controls",
-        name = UusCorpSettingsWindow.TabContainer .. "ControlsTab",
-        page = UusCorpSettingsWindow.Name .. "Controls"
-    },
-    Interface = {
-        text = "Interface",
-        name = UusCorpSettingsWindow.TabContainer .. "InterfaceTab",
-        page = UusCorpSettingsWindow.Name .. "Interface"
-    }
+    Graphics = tab("Graphics"),
+    Sound = tab("Sound"),
+    Chat = tab("Chat"),
+    Controls = tab("Controls"),
+    Interface = tab("Interface")
 }
 
 UusCorpSettingsWindow.SelectedTab = UusCorpSettingsWindow.Tabs.Graphics
 
 UusCorpSettingsWindow.Pages = {
-    Graphics = {
-        name = UusCorpSettingsWindow.Name .. "GraphicsPage",
-        labels = {
-            Resolution = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageResComboLabel",
-                text = "Resolution"
-            },
-            UseFullScreen = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageFullScreenCheckBoxLabel",
-                text = 1077821
-            },
-            PlayFlyingAnimation = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageFlyingAnimationCheckBoxLabel",
-                text = 1158627
-            },
-            ShowWindowFrame = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageWindowFrameCheckBoxLabel",
-                text = 1077820
-            },
-            HouseContents = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageHouseContentsCheckBoxLabel",
-                text = 1159003
-            },
-            DeathEffect = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageDeathEffectCheckBoxLabel",
-                text = 1115993
-            },
-            VSync = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageVSyncCheckBoxLabel",
-                text = 1112689
-            },
-            IdleAnimation = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageIdleAnimationCheckBoxLabel",
-                text = 1094692
-            },
-            Foliage = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageFoliageCheckBoxLabel",
-                text = 1079814
-            },
-            Shadows = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageShadowsCheckBoxLabel",
-                text = 1079286
-            },
-            CircleOfTransparency = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageCircleOfTransparencyCheckBoxLabel",
-                text = 1078079
-            },
-            Brightness = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageBrightnessSliderLabel",
-                text = 3000166
-            },
-            ParticleDetail = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageParticleDetailComboLabel",
-                text = 1079213
-            },
-            ParticleFilter = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageParticleFilterComboLabel",
-                text = 1112330
-            }
+    Graphics = page(
+        "GraphicsPage",
+        {
+            Resolution = label("GraphicsPageResComboLabel", "Resolution"),
+            UseFullScreen = label("GraphicsPageFullScreenCheckBoxLabel", 1077821),
+            PlayFlyingAnimation = label("GraphicsPageFlyingAnimationCheckBoxLabel", 1158627),
+            ShowWindowFrame = label("GraphicsPageWindowFrameCheckBoxLabel", 1077820),
+            HouseContents = label("GraphicsPageHouseContentsCheckBoxLabel", 1159003),
+            DeathEffect = label("GraphicsPageDeathEffectCheckBoxLabel", 1115993),
+            VSync = label("GraphicsPageVSyncCheckBoxLabel", 1112689),
+            IdleAnimation = label("GraphicsPageIdleAnimationCheckBoxLabel", 1094692),
+            Foliage = label("GraphicsPageFoliageCheckBoxLabel", 1079814),
+            Shadows = label("GraphicsPageShadowsCheckBoxLabel", 1079286),
+            Brightness = label("GraphicsPageBrightnessSliderLabel", 3000166),
+            ParticleDetail = label("GraphicsPageParticleDetailComboLabel", 1079213),
+            ParticleFilter = label("GraphicsPageParticleFilterComboLabel", 1112330),
+            CircleOfTransparency = label("GraphicsPageCircleOfTransparencyCheckBoxLabel", 1078079)
         },
-        comboBoxes = {
-            Resolution = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageResComboBox",
-                list = function()
+        {
+            Resolution = comboBox(
+                "GraphicsPageResComboBox",
+                function ()
                     local list = {}
                     for i = 1, #UserGraphicsSettings.availableResolutions().widths do
                         local width = UserGraphicsSettings.availableResolutions().widths[i]
@@ -110,13 +98,13 @@ UusCorpSettingsWindow.Pages = {
                     end
                     return list
                 end,
-                isSelected = function(index)
+                function (index)
                     local width = UserGraphicsSettings.availableResolutions().widths[index]
                     local height = UserGraphicsSettings.availableResolutions().heights[index]
                     local resolution = UserGraphicsSettings.resolution()
                     return resolution.width == width and resolution.height == height
                 end,
-                setting = function(newValue)
+                function (newValue)
                     if newValue == nil then
                         return UserGraphicsSettings.resolution()
                     else
@@ -128,111 +116,111 @@ UusCorpSettingsWindow.Pages = {
                         })
                     end
                 end
-            },
-            ParticleDetail = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageParticleDetailComboBox",
-                list = function ()
+            ),
+            ParticleDetail = comboBox(
+                "GraphicsPageParticleDetailComboBox",
+                function ()
                     return { 1079210, 1079211, 1079212 }
                 end,
-                isSelected = function (index)
-                    return index == UserGraphicsSettings.particleDetail()
-                end,
-                setting = function (newValue)
-                    return UserGraphicsSettings.particleDetail(newValue)
-                end
-            },
-            ParticleFilter = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageParticleFilterComboBox",
-                list = function ()
-                    return { 1112331, 1112332, 1112333, 1112334, 1158020 }
-                end,
-                isSelected = function (index)
+                function (index)
                     return index == UserGraphicsSettings.particleFilter() + 1
                 end,
-                setting = function (newValue)
+                function (newValue)
+                    return UserGraphicsSettings.particleDetail(newValue)
+                end
+            ),
+            ParticleFilter = comboBox(
+                "GraphicsPageParticleFilterComboBox",
+                function ()
+                    return { 1112331, 1112332, 1112333, 1112334, 1158020 }
+                end,
+                function (index)
+                    return index == UserGraphicsSettings.particleFilter() + 1
+                end,
+                function (newValue)
                     return UserGraphicsSettings.particleFilter(newValue - 1)
                 end
-            }
+            )
         },
-        checkBoxes = {
-            UseFullScreen = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageFullScreenCheckBox",
-                setting = function(newValue)
+        {
+            UseFullScreen = checkBox(
+                "GraphicsPageFullScreenCheckBox",
+                function (newValue)
                     return UserGraphicsSettings.fullScreen(newValue)
                 end
-            },
-            PlayFlyingAnimation = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageFlyingAnimationCheckBox",
-                setting = function (newValue)
+            ),
+            PlayFlyingAnimation = checkBox(
+                "GraphicsPageFlyingAnimationCheckBox",
+                function (newValue)
                     return UserGraphicsSettings.flyingAnimation(newValue)
                 end
-            },
-            ShowWindowFrame = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageWindowFrameCheckBox",
-                setting = function (newValue)
+            ),
+            ShowWindowFrame = checkBox(
+                "GraphicsPageWindowFrameCheckBox",
+                function (newValue)
                     return UserGraphicsSettings.showFrame(newValue)
                 end
-            },
-            HouseContents = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageHouseContentsCheckBox",
-                setting = function (newValue)
+            ),
+            HouseContents = checkBox(
+                "GraphicsPageHouseContentsCheckBox",
+                function (newValue)
                     return UserGraphicsSettings.displayHousingContents(newValue)
                 end
-            },
-            DeathEffect = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageDeathEffectCheckBox",
-                setting = function (newValue)
+            ),
+            DeathEffect = checkBox(
+                "GraphicsPageDeathEffectCheckBox",
+                function (newValue)
                     return UserGraphicsSettings.hardwareDeathEffect(newValue)
                 end
-            },
-            VSync = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageVSyncCheckBox",
-                setting = function (newValue)
+            ),
+            VSync = checkBox(
+                "GraphicsPageVSyncCheckBox",
+                function (newValue)
                     return UserGraphicsSettings.enableVSync(newValue)
                 end
-            },
-            IdleAnimation = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageIdleAnimationCheckBox",
-                setting = function (newValue)
+            ),
+            IdleAnimation = checkBox(
+                "GraphicsPageIdleAnimationCheckBox",
+                function (newValue)
                     return UserGraphicsSettings.idleAnimation(newValue)
                 end
-            },
-            Foliage = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageFoliageCheckBox",
-                setting = function (newValue)
+            ),
+            Foliage = checkBox(
+                "GraphicsPageFoliageCheckBox",
+                function (newValue)
                     return UserGraphicsSettings.foliage(newValue)
                 end
-            },
-            Shadows = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageShadowsCheckBox",
-                setting = function (newValue)
-                    return UserGraphicsSettings.showShadows(newValue)
+            ),
+            Shadows = checkBox(
+                "GraphicsPageShadowsCheckBox",
+                function (newValue)
+                    return UserGraphicsSettings.showShadows(newValue)                    
                 end
-            },
-            CircleOfTransparency = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageCircleOfTransparencyCheckBox",
-                setting = function (newValue)
+            ),
+            CircleOfTransparency = checkBox(
+                "GraphicsPageCircleOfTransparencyCheckBox",
+                function (newValue)
                     return UserGraphicsSettings.circleOfTransparency(newValue)
                 end
-            }
+            )
         },
-        sliders = {
-            Brightness = {
-                name = UusCorpSettingsWindow.Name .. "GraphicsPageBrightnessSliderBar",
-                value = UusCorpSettingsWindow.Name .. "GraphicsPageBrightnessSliderValue",
-                setting = function(newValue)
+        {
+            Brightness = slider(
+                "GraphicsPageBrightnessSliderBar",
+                "GraphicsPageBrightnessSliderValue",
+                function (newValue)
                     return UserGraphicsSettings.gamma(newValue)
                 end,
-                formatValue = function(value)
+                function (value)
                     return StringFormatter.toTwoDecimalPlaces(
                         StringFormatter.toWString(
                             value
                         )
                     )
                 end
-            }
+            )
         }
-    },
+    ),
     Chat = {
         name =  UusCorpSettingsWindow.Name .. "ChatPage",
         checkBoxes = {
