@@ -506,22 +506,22 @@ UusCorpSettingsWindow.Pages = {
             )
         }
     ),
-    Controls = {
-        name = UusCorpSettingsWindow.Name .. "ControlsPage",
-        labels = {
-            ScrollWheelUp = {
-                name = UusCorpSettingsWindow.Name .. "ControlsPageScrollUpComboLabel",
-                text = 1111944
-            },
-            ScrollWheelDown = {
-                name = UusCorpSettingsWindow.Name .. "ControlsPageScrollDownComboLabel",
-                text = 1111945
-            }
+    Controls = page(
+        "ControlsPage",
+        {
+            ScrollWheelUp = label(
+                "ControlsPageScrollUpComboLabel",
+                1111944
+            ),
+            ScrollWheelDown = label(
+                "ControlsPageScrollDownComboLabel",
+                1111945
+            )
         },
-        comboBoxes = {
-            ScrollWheelUp = {
-                name = UusCorpSettingsWindow.Name .. "ControlsPageScrollUpComboBox",
-                list = function()
+        {
+            ScrollWheelUp = comboBox(
+                "ControlsPageScrollUpComboBox",
+                function()
                     local list = {}
                     local scrollWheelBehaviors = UserControlSettings.scrollWheelBehaviors()
 
@@ -534,12 +534,12 @@ UusCorpSettingsWindow.Pages = {
 
                     return list
                 end,
-                isSelected = function (index)
+                function (index)
                     local scrollWheelBehaviors = UserControlSettings.scrollWheelBehaviors()
                     local item = scrollWheelBehaviors[index]
                     return item.id == UserControlSettings.mouseScrollUpAction()
                 end,
-                setting = function(newValue)
+                function(newValue)
                     if newValue == nil then
                         return UserControlSettings.mouseScrollUpAction()
                     else
@@ -548,10 +548,10 @@ UusCorpSettingsWindow.Pages = {
                         )
                     end
                 end
-            },
-            ScrollWheelDown = {
-                name = UusCorpSettingsWindow.Name .. "ControlsPageScrollDownComboBox",
-                list = function()
+            ),
+            ScrollWheelDown = comboBox(
+                "ControlsPageScrollDownComboBox",
+                function()
                     local list = {}
                     local scrollWheelBehaviors = UserControlSettings.scrollWheelBehaviors()
 
@@ -564,12 +564,12 @@ UusCorpSettingsWindow.Pages = {
 
                     return list
                 end,
-                isSelected = function (index)
+                function (index)
                     local scrollWheelBehaviors = UserControlSettings.scrollWheelBehaviors()
                     local item = scrollWheelBehaviors[index]
                     return item.id == UserControlSettings.mouseScrollDownAction()
                 end,
-                setting = function(newValue)
+                function(newValue)
                     if newValue == nil then
                         return UserControlSettings.mouseScrollDownAction()
                     else
@@ -578,11 +578,10 @@ UusCorpSettingsWindow.Pages = {
                         )
                     end
                 end
-            }
+            )
         }
-    }
+    )
 }
-
 
 function UusCorpSettingsWindow.initialize()
     WindowApi.destroyWindow("TipoftheDayWindow")
