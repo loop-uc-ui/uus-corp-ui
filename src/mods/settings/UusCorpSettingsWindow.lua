@@ -414,97 +414,98 @@ UusCorpSettingsWindow.Pages = {
         },
         nil
     ),
-    Sound = {
-        name = UusCorpSettingsWindow.Name .. "SoundPage",
-        labels = {
-            MasterVolume = {
-                name = UusCorpSettingsWindow.Name .. "SoundPageMasterVolumeCheckBoxLabel",
-                text = 1077823
-            },
-            EffectsVolume = {
-                name = UusCorpSettingsWindow.Name .. "SoundPageEffectsVolumeCheckBoxLabel",
-                text = 1078575
-            },
-            MusicVolume = {
-                name = UusCorpSettingsWindow.Name .. "SoundPageMusicVolumeCheckBoxLabel",
-                text = 1078577
-            },
-            PlayFootsteps = {
-                name = UusCorpSettingsWindow.Name .. "SoundPageToggleFootstepsCheckBoxLabel",
-                text = 1078077
-            }
+    Sound = page(
+        "SoundPage",
+        {
+            MasterVolume = label(
+                "SoundPageMasterVolumeCheckBoxLabel",
+                1077823
+            ),
+            EffectsVolume = label(
+                "SoundPageEffectsVolumeCheckBoxLabel",
+                1078575
+            ),
+            MusicVolume = label(
+                "SoundPageMusicVolumeCheckBoxLabel",
+                1078577
+            ),
+            PlayFootsteps = label(
+                "SoundPageToggleFootstepsCheckBoxLabel",
+                1078077
+            )
         },
-        checkBoxes = {
-            MasterVolume = {
-                name =  UusCorpSettingsWindow.Name .. "SoundPageMasterVolumeCheckBox",
-                setting = function (newValue)
+        nil,
+        {
+            MasterVolume = checkBox(
+                "SoundPageMasterVolumeCheckBox",
+                function (newValue)
                     return UserSoundSettings.masterEnabled(newValue)
                 end
-            },
-            EffectsVolume = {
-                name =  UusCorpSettingsWindow.Name .. "SoundPageEffectsVolumeCheckBox",
-                setting = function (newValue)
+            ),
+            EffectsVolume = checkBox(
+                "SoundPageEffectsVolumeCheckBox",
+                function (newValue)
                     return UserSoundSettings.effectsEnabled(newValue)
                 end
-            },
-            MusicVolume = {
-                name =  UusCorpSettingsWindow.Name .. "SoundPageMusicVolumeCheckBox",
-                setting = function (newValue)
+            ),
+            MusicVolume = checkBox(
+                "SoundPageMusicVolumeCheckBox",
+                function (newValue)
                     return UserSoundSettings.musicEnabled(newValue)
                 end
-            },
-            PlayFootsteps = {
-                name =  UusCorpSettingsWindow.Name .. "SoundPageToggleFootstepsCheckBox",
-                setting = function (newValue)
+            ),
+            PlayFootsteps = checkBox(
+                "SoundPageToggleFootstepsCheckBox",
+                function (newValue)
                     return UserSoundSettings.footstepsEnabled(newValue)
                 end
-            }
+            )
         },
-        sliders = {
-            MasterVolume = {
-                name = UusCorpSettingsWindow.Name .. "SoundPageMasterVolumeSliderBar",
-                value = UusCorpSettingsWindow.Name .. "SoundPageMasterVolumeSliderValue",
-                setting = function(newValue)
+        {
+            MasterVolume = slider(
+                "SoundPageMasterVolumeSliderBar",
+                "SoundPageMasterVolumeSliderValue",
+                function(newValue)
                     return UserSoundSettings.masterVolume(newValue)
                 end,
-                formatValue = function (value)
+                function (value)
                     return StringFormatter.toWString(
                         math.floor(
                             100 * value
                         )
                     )
                 end
-            },
-            EffectsVolume = {
-                name = UusCorpSettingsWindow.Name .. "SoundPageEffectsVolumeSliderBar",
-                value = UusCorpSettingsWindow.Name .. "SoundPageEffectsVolumeSliderValue",
-                setting = function(newValue)
+            ),
+            EffectsVolume = slider(
+                "SoundPageEffectsVolumeSliderBar",
+                "SoundPageEffectsVolumeSliderValue",
+                function(newValue)
                     return UserSoundSettings.effectsVolume(newValue)
                 end,
-                formatValue = function (value)
+                function (value)
                     return StringFormatter.toWString(
                         math.floor(
                             100 * value
                         )
                     )
                 end
-            },
-            MusicVolume = {
-                name = UusCorpSettingsWindow.Name .. "SoundPageMusicVolumeSliderBar",
-                value = UusCorpSettingsWindow.Name .. "SoundPageMusicVolumeSliderValue",
-                setting = function(newValue)
+            ),
+            MusicVolume = slider(
+                "SoundPageMusicVolumeSliderBar",
+                "SoundPageMusicVolumeSliderValue",
+                function(newValue)
                     return UserSoundSettings.musicVolume(newValue)
                 end,
-                formatValue = function (value)
+                function (value)
                     return StringFormatter.toWString(
                         math.floor(
                             100 * value
                         )
                     )
                 end
-            }
+            )
         }
-    },
+    ),
     Controls = {
         name = UusCorpSettingsWindow.Name .. "ControlsPage",
         labels = {

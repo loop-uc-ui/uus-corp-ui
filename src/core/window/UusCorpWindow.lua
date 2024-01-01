@@ -1,8 +1,7 @@
 ---@class UusCorpWindow
----@field name? string
-UusCorpWindow = { name = nil }
+---@field name string
+UusCorpWindow = { name = "UusCorpWindow" }
 UusCorpWindow.__index = UusCorpWindow
-
 
 ---@return UusCorpWindow
 function UusCorpWindow:new(name)
@@ -114,3 +113,4 @@ end
 function UusCorpWindow:addStatusBar(statusBar)
     return UusCorpStatusBar.new(self --[[@as UusCorpStatusBar]], self.name .. statusBar)
 end
+

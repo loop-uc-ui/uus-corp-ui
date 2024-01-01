@@ -1,5 +1,5 @@
 ---@class UusCorpStatusBar:UusCorpWindow
-UusCorpStatusBar = UusCorpWindow:new()
+UusCorpStatusBar = UusCorpWindow:new("UusCorpStatusBar")
 UusCorpStatusBar.__index = UusCorpStatusBar
 
 ---@return UusCorpStatusBar

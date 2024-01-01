@@ -1,5 +1,5 @@
 ---@class UusCorpLabel:UusCorpWindow
-UusCorpLabel = UusCorpWindow:new()
+UusCorpLabel = UusCorpWindow:new("UusCorpLabel")
 UusCorpLabel.__index = UusCorpLabel
 
 ---@return UusCorpLabel
