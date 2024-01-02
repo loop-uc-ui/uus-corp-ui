@@ -380,6 +380,14 @@
                                 </Anchor>
                             </Anchors>
                         </Window>
+
+                        <Window name="$parentAnimationQualityCombo" inherits="SettingsComboTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentParticleFilterCombo">
+                                    <AbsPoint x="0" y="18"/>
+                                </Anchor>
+                            </Anchors>
+                        </Window>
                     </Windows>
                 </Window>
             </Windows>

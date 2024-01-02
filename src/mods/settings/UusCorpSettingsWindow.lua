@@ -130,7 +130,8 @@ UusCorpSettingsWindow.Pages = {
             Brightness = label("GraphicsPageBrightnessSliderLabel", 3000166),
             ParticleDetail = label("GraphicsPageParticleDetailComboLabel", 1079213),
             ParticleFilter = label("GraphicsPageParticleFilterComboLabel", 1112330),
-            CircleOfTransparency = label("GraphicsPageCircleOfTransparencyCheckBoxLabel", 1078079)
+            CircleOfTransparency = label("GraphicsPageCircleOfTransparencyCheckBoxLabel", 1078079),
+            AnimationQuality = label("GraphicsPageAnimationQualityComboLabel", 1079368)
         },
         {
             Resolution = comboBox(
@@ -195,7 +196,6 @@ UusCorpSettingsWindow.Pages = {
                     return index == UserGraphicsSettings.frameRate() / 10 - 1
                 end,
                 function (newValue)
-                    Debug.Print((newValue + 1) * 10)
                     UserGraphicsSettings.frameRate((newValue + 1) * 10)
                 end
             ),
@@ -221,6 +221,18 @@ UusCorpSettingsWindow.Pages = {
                 end,
                 function (newValue)
                     return UserGraphicsSettings.particleFilter(newValue - 1)
+                end
+            ),
+            AnimationQuality = comboBox(
+                "GraphicsPageAnimationQualityComboBox",
+                function ()
+                    return { 1079210, 1079211, 1079212 }
+                end,
+                function (index)
+                    return index == UserGraphicsSettings.animationDetail(index) + 1
+                end,
+                function (newValue)
+                    return UserGraphicsSettings.animationDetail(newValue - 1)
                 end
             )
         },
