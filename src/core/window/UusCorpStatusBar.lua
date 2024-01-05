@@ -1,10 +1,10 @@
 ---@class UusCorpStatusBar:UusCorpWindow
 UusCorpStatusBar = UusCorpWindow:new("UusCorpStatusBar")
-UusCorpStatusBar.__index = UusCorpStatusBar
 
+---@param name string
 ---@return UusCorpStatusBar
 function UusCorpStatusBar:new(name)
-    return setmetatable(UusCorpWindow.new(self, name), UusCorpStatusBar) --[[@as UusCorpStatusBar]]
+    return UusCorpWindow.new(self, name) --[[@as UusCorpStatusBar]]
 end
 
 ---@param tint table

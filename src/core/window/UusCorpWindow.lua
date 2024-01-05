@@ -1,11 +1,13 @@
 ---@class UusCorpWindow
 ---@field name string
 UusCorpWindow = { name = "UusCorpWindow" }
-UusCorpWindow.__index = UusCorpWindow
 
+---@param name string
 ---@return UusCorpWindow
 function UusCorpWindow:new(name)
-    return setmetatable({ name = name }, UusCorpWindow)
+    local object = setmetatable({ name = name }, self)
+    self.__index = self
+    return object
 end
 
 function UusCorpWindow:setId(id)
@@ -29,7 +31,7 @@ function UusCorpWindow:setShowing(doShow)
 end
 
 function UusCorpWindow:createFromTemplate(template, parent)
-    return WindowApi.createFromTemplate(self.name, template or name, parent or "Root")
+    return WindowApi.createFromTemplate(self.name, template or self.name, parent or "Root")
 end
 
 function UusCorpWindow:create(doShow)
@@ -106,10 +108,10 @@ end
 
 ---@return UusCorpLabel
 function UusCorpWindow:addLabel(label)
-    return UusCorpLabel.new(self --[[@as UusCorpLabel]], self.name .. label)
+    return UusCorpLabel:new(self.name .. label)
 end
 
 ---@return UusCorpStatusBar
 function UusCorpWindow:addStatusBar(statusBar)
-    return UusCorpStatusBar.new(self --[[@as UusCorpStatusBar]], self.name .. statusBar)
+    return UusCorpStatusBar:new(self.name .. statusBar)
 end

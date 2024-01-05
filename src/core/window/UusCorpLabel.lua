@@ -1,10 +1,10 @@
 ---@class UusCorpLabel:UusCorpWindow
 UusCorpLabel = UusCorpWindow:new("UusCorpLabel")
-UusCorpLabel.__index = UusCorpLabel
 
+---@param name string
 ---@return UusCorpLabel
 function UusCorpLabel:new(name)
-    return setmetatable(UusCorpWindow.new(self, name), UusCorpLabel) --[[@as UusCorpLabel]]
+    return UusCorpWindow.new(self, name) --[[@as UusCorpLabel]]
 end
 
 function UusCorpLabel:setText(text)
