@@ -114,28 +114,28 @@ UusCorpSettingsWindow.SelectedTab = UusCorpSettingsWindow.Tabs.Graphics
 
 UusCorpSettingsWindow.Pages = {
     Graphics = page(
-        "GraphicsPage",
+        "GraphicsScrollPage",
         {
-            Resolution = label("GraphicsPageResComboLabel", "Resolution"),
-            FrameRate = label("GraphicsPageFrameRateComboLabel", 1112340),
-            UseFullScreen = label("GraphicsPageFullScreenCheckBoxLabel", 1077821),
-            PlayFlyingAnimation = label("GraphicsPageFlyingAnimationCheckBoxLabel", 1158627),
-            ShowWindowFrame = label("GraphicsPageWindowFrameCheckBoxLabel", 1077820),
-            HouseContents = label("GraphicsPageHouseContentsCheckBoxLabel", 1159003),
-            DeathEffect = label("GraphicsPageDeathEffectCheckBoxLabel", 1115993),
-            VSync = label("GraphicsPageVSyncCheckBoxLabel", 1112689),
-            IdleAnimation = label("GraphicsPageIdleAnimationCheckBoxLabel", 1094692),
-            Foliage = label("GraphicsPageFoliageCheckBoxLabel", 1079814),
-            Shadows = label("GraphicsPageShadowsCheckBoxLabel", 1079286),
-            Brightness = label("GraphicsPageBrightnessSliderLabel", 3000166),
-            ParticleDetail = label("GraphicsPageParticleDetailComboLabel", 1079213),
-            ParticleFilter = label("GraphicsPageParticleFilterComboLabel", 1112330),
-            CircleOfTransparency = label("GraphicsPageCircleOfTransparencyCheckBoxLabel", 1078079),
-            AnimationQuality = label("GraphicsPageAnimationQualityComboLabel", 1079368)
+            Resolution = label("GraphicsScrollPageResComboLabel", "Resolution"),
+            FrameRate = label("GraphicsScrollPageFrameRateComboLabel", 1112340),
+            UseFullScreen = label("GraphicsScrollPageFullScreenCheckBoxLabel", 1077821),
+            PlayFlyingAnimation = label("GraphicsScrollPageFlyingAnimationCheckBoxLabel", 1158627),
+            ShowWindowFrame = label("GraphicsScrollPageWindowFrameCheckBoxLabel", 1077820),
+            HouseContents = label("GraphicsScrollPageHouseContentsCheckBoxLabel", 1159003),
+            DeathEffect = label("GraphicsScrollPageDeathEffectCheckBoxLabel", 1115993),
+            VSync = label("GraphicsScrollPageVSyncCheckBoxLabel", 1112689),
+            IdleAnimation = label("GraphicsScrollPageIdleAnimationCheckBoxLabel", 1094692),
+            Foliage = label("GraphicsScrollPageFoliageCheckBoxLabel", 1079814),
+            Shadows = label("GraphicsScrollPageShadowsCheckBoxLabel", 1079286),
+            Brightness = label("GraphicsScrollPageBrightnessSliderLabel", 3000166),
+            ParticleDetail = label("GraphicsScrollPageParticleDetailComboLabel", 1079213),
+            ParticleFilter = label("GraphicsScrollPageParticleFilterComboLabel", 1112330),
+            CircleOfTransparency = label("GraphicsScrollPageCircleOfTransparencyCheckBoxLabel", 1078079),
+            AnimationQuality = label("GraphicsScrollPageAnimationQualityComboLabel", 1079368)
         },
         {
             Resolution = comboBox(
-                "GraphicsPageResComboBox",
+                "GraphicsScrollPageResComboBox",
                 function ()
                     local list = {}
                     for i = 1, #UserGraphicsSettings.availableResolutions().widths do
@@ -168,7 +168,7 @@ UusCorpSettingsWindow.Pages = {
                 end
             ),
             FrameRate = comboBox(
-                "GraphicsPageFrameRateComboBox",
+                "GraphicsScrollPageFrameRateComboBox",
                 function ()
                     return {
                         1112341,
@@ -200,7 +200,7 @@ UusCorpSettingsWindow.Pages = {
                 end
             ),
             ParticleDetail = comboBox(
-                "GraphicsPageParticleDetailComboBox",
+                "GraphicsScrollPageParticleDetailComboBox",
                 function ()
                     return { 1079210, 1079211, 1079212 }
                 end,
@@ -212,7 +212,7 @@ UusCorpSettingsWindow.Pages = {
                 end
             ),
             ParticleFilter = comboBox(
-                "GraphicsPageParticleFilterComboBox",
+                "GraphicsScrollPageParticleFilterComboBox",
                 function ()
                     return { 1112331, 1112332, 1112333, 1112334, 1158020 }
                 end,
@@ -224,7 +224,7 @@ UusCorpSettingsWindow.Pages = {
                 end
             ),
             AnimationQuality = comboBox(
-                "GraphicsPageAnimationQualityComboBox",
+                "GraphicsScrollPageAnimationQualityComboBox",
                 function ()
                     return { 1079210, 1079211, 1079212 }
                 end,
@@ -232,67 +232,67 @@ UusCorpSettingsWindow.Pages = {
                     return index == UserGraphicsSettings.animationDetail(index) + 1
                 end,
                 function (newValue)
-                    return UserGraphicsSettings.animationDetail(newValue - 1)
+                    return UserGraphicsSettings.animationDetail(newValue) - 1
                 end
             )
         },
         {
             UseFullScreen = checkBox(
-                "GraphicsPageFullScreenCheckBox",
+                "GraphicsScrollPageFullScreenCheckBox",
                 function (newValue)
                     return UserGraphicsSettings.fullScreen(newValue)
                 end
             ),
             PlayFlyingAnimation = checkBox(
-                "GraphicsPageFlyingAnimationCheckBox",
+                "GraphicsScrollPageFlyingAnimationCheckBox",
                 function (newValue)
                     return UserGraphicsSettings.flyingAnimation(newValue)
                 end
             ),
             ShowWindowFrame = checkBox(
-                "GraphicsPageWindowFrameCheckBox",
+                "GraphicsScrollPageWindowFrameCheckBox",
                 function (newValue)
                     return UserGraphicsSettings.showFrame(newValue)
                 end
             ),
             HouseContents = checkBox(
-                "GraphicsPageHouseContentsCheckBox",
+                "GraphicsScrollPageHouseContentsCheckBox",
                 function (newValue)
                     return UserGraphicsSettings.displayHousingContents(newValue)
                 end
             ),
             DeathEffect = checkBox(
-                "GraphicsPageDeathEffectCheckBox",
+                "GraphicsScrollPageDeathEffectCheckBox",
                 function (newValue)
                     return UserGraphicsSettings.hardwareDeathEffect(newValue)
                 end
             ),
             VSync = checkBox(
-                "GraphicsPageVSyncCheckBox",
+                "GraphicsScrollPageVSyncCheckBox",
                 function (newValue)
                     return UserGraphicsSettings.enableVSync(newValue)
                 end
             ),
             IdleAnimation = checkBox(
-                "GraphicsPageIdleAnimationCheckBox",
+                "GraphicsScrollPageIdleAnimationCheckBox",
                 function (newValue)
                     return UserGraphicsSettings.idleAnimation(newValue)
                 end
             ),
             Foliage = checkBox(
-                "GraphicsPageFoliageCheckBox",
+                "GraphicsScrollPageFoliageCheckBox",
                 function (newValue)
                     return UserGraphicsSettings.foliage(newValue)
                 end
             ),
             Shadows = checkBox(
-                "GraphicsPageShadowsCheckBox",
+                "GraphicsScrollPageShadowsCheckBox",
                 function (newValue)
                     return UserGraphicsSettings.showShadows(newValue)                    
                 end
             ),
             CircleOfTransparency = checkBox(
-                "GraphicsPageCircleOfTransparencyCheckBox",
+                "GraphicsScrollPageCircleOfTransparencyCheckBox",
                 function (newValue)
                     return UserGraphicsSettings.circleOfTransparency(newValue)
                 end
@@ -300,8 +300,8 @@ UusCorpSettingsWindow.Pages = {
         },
         {
             Brightness = slider(
-                "GraphicsPageBrightnessSliderBar",
-                "GraphicsPageBrightnessSliderValue",
+                "GraphicsScrollPageBrightnessSliderBar",
+                "GraphicsScrollPageBrightnessSliderValue",
                 function (newValue)
                     return UserGraphicsSettings.gamma(newValue)
                 end,
@@ -744,6 +744,7 @@ function UusCorpSettingsWindow.onInitialize()
         ButtonApi.setChecked(v.name, UusCorpSettingsWindow.SelectedTab == v)
     end
 
+    ScrollWindowApi.updateScrollRect(UusCorpSettingsWindow.name .. "Graphics")
     UusCorpControlsSettingsWindow.onInitialize()
 end
 
