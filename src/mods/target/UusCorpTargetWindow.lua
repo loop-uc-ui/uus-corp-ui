@@ -154,7 +154,7 @@ function UusCorpTargetWindow.onShutdown()
 end
 
 function UusCorpTargetWindow.onUpdateObjectInfo()
-    UusCorpTargetWindow.NameLabel.setText(ObjectInfo.name(UusCorpTargetWindow:getId()))
+    UusCorpTargetWindow.NameLabel:setText(ObjectInfo.name(UusCorpTargetWindow:getId()))
 end
 
 function UusCorpTargetWindow.onRightClick(flags)
