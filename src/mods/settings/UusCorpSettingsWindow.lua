@@ -793,6 +793,7 @@ function UusCorpSettingsWindow.initialize()
     UserOptionsSettings.objectHandleQuantity(-1)
     UserOptionsSettings.showTooltips(false)
     UserOptionsSettings.showTipOfTheDay(false)
+    UserOptionsSettings.enableSnapping(true)
 
     WindowApi.createWindow(UusCorpSettingsWindow.name, false)
     EventApi.broadcast(Events.userSettingsUpdated())
