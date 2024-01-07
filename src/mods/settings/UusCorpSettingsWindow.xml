@@ -230,6 +230,30 @@
                                 </Anchor>
                             </Anchors>
                         </Window>
+
+                        <Button name="$parentAlwaysRunCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentObjectHandleCombo">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentAutoRunCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentAlwaysRunCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentAutoNavigateCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentAutoRunCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
                     </Windows>
                 </Window>
             </Windows>

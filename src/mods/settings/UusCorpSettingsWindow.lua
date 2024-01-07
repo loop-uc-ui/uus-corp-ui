@@ -393,6 +393,18 @@ UusCorpSettingsWindow.Pages = {
             ObjectHandleFilter = label(
                 "InterfacePageObjectHandleComboLabel",
                 1079461
+            ),
+            AlwaysRun = label(
+                "InterfacePageAlwaysRunCheckBoxLabel",
+                1078078
+            ),
+            AutoRun = label(
+                "InterfacePageAutoRunCheckBoxLabel",
+                1115321
+            ),
+            AutoNavigate = label(
+                "InterfacePageAutoNavigateCheckBoxLabel",
+                1115324
             )
         },
         {
@@ -465,6 +477,24 @@ UusCorpSettingsWindow.Pages = {
                 "InterfacePageLegacyPaperdollCheckBox",
                 function (newValue)
                     return Paperdoll.useLegacy(newValue)
+                end
+            ),
+            AlwaysRun = checkBox(
+                "InterfacePageAlwaysRunCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.alwaysRun(newValue)
+                end
+            ),
+            AutoRun = checkBox(
+                "InterfacePageAutoRunCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.autoRun(newValue)
+                end
+            ),
+            AutoNavigate = checkBox(
+                "InterfacePageAutoNavigateCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.pathfinding(newValue)
                 end
             )
         },
