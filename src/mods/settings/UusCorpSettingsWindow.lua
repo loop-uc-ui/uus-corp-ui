@@ -786,7 +786,9 @@ function UusCorpSettingsWindow.initialize()
         "UusCorpSettingsWindow.xml"
     )
 
+    UserOptionsSettings.genericGumpScale(1.2)
     WindowApi.createWindow(UusCorpSettingsWindow.name, false)
+    EventApi.broadcast(Events.userSettingsUpdated())
 end
 
 function UusCorpSettingsWindow.onInitialize()
