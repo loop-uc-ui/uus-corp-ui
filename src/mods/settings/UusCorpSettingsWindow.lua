@@ -345,6 +345,10 @@ UusCorpSettingsWindow.Pages = {
                 "ChatPageSaveJournalCheckBoxLabel",
                 1149998
             ),
+            OverheadChat = label(
+                "ChatPageOverheadChatCheckBoxLabel",
+                1078083
+            )
         },
         nil,
         {
@@ -370,6 +374,12 @@ UusCorpSettingsWindow.Pages = {
                 "ChatPageSaveJournalCheckBox",
                 function(newValue)
                     return UserOptionsSettings.enableChatLog(newValue)
+                end
+            ),
+            OverheadChat = checkBox(
+                "ChatPageOverheadChatCheckBox",
+                function(newValue)
+                    return UserOverheadTextSettings.showChat(newValue)
                 end
             )
         },
@@ -794,6 +804,7 @@ function UusCorpSettingsWindow.initialize()
     UserOptionsSettings.showTooltips(false)
     UserOptionsSettings.showTipOfTheDay(false)
     UserOptionsSettings.enableSnapping(true)
+    OverheadText.clickableNames = true
 
     WindowApi.createWindow(UusCorpSettingsWindow.name, false)
     EventApi.broadcast(Events.userSettingsUpdated())

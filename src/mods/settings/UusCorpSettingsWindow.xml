@@ -641,6 +641,14 @@
                                 </Anchor>
                             </Anchors>
                         </Button>
+
+                        <Button name="$parentOverheadChatCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentSaveJournalCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
                     </Windows>
                 </Window>
             </Windows>
