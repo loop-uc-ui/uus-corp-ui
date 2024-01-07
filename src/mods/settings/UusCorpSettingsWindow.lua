@@ -405,6 +405,38 @@ UusCorpSettingsWindow.Pages = {
             AutoNavigate = label(
                 "InterfacePageAutoNavigateCheckBoxLabel",
                 1115324
+            ),
+            AlwaysAttack = label(
+                "InterfacePageAlwaysAttackCheckBoxLabel",
+                1078858
+            ),
+            QueryCriminal = label(
+                "InterfacePageQueryCriminalCheckBoxLabel",
+                1078080
+            ),
+            IgnoreMouse = label(
+                "InterfacePageIgnoreMouseCheckBoxLabel",
+                1115918
+            ),
+            ContextMenu = label(
+                "InterfacePageContextMenuCheckBoxLabel",
+                1115355
+            ),
+            TargetQueue = label(
+                "InterfacePageTargetQueueCheckBoxLabel",
+                1115337
+            ),
+            BlockWarPets = label(
+                "InterfacePageBlockWarPetsCheckBoxLabel",
+                1155300
+            ),
+            BlockWarParty = label(
+                "InterfacePageBlockWarPartyCheckBoxLabel",
+                1155302
+            ),
+            BlockWarFriendly = label(
+                "InterfacePageBlockWarFriendlyCheckBoxLabel",
+                "Block War on Friendly"
             )
         },
         {
@@ -495,6 +527,54 @@ UusCorpSettingsWindow.Pages = {
                 "InterfacePageAutoNavigateCheckBox",
                 function (newValue)
                     return UserOptionsSettings.pathfinding(newValue)
+                end
+            ),
+            AlwaysAttack = checkBox(
+                "InterfacePageAlwaysAttackCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.alwaysAttack(newValue)
+                end
+            ),
+            QueryCriminal = checkBox(
+                "InterfacePageQueryCriminalCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.queryBeforeCriminalAction(newValue)
+                end
+            ),
+            IgnoreMouse = checkBox(
+                "InterfacePageIgnoreMouseCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.ignoreMouseActionsOnSelf(newValue)
+                end
+            ),
+            ContextMenu = checkBox(
+                "InterfacePageContextMenuCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.shiftRightClickContextMenus(newValue)
+                end
+            ),
+            TargetQueue = checkBox(
+                "InterfacePageTargetQueueCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.targetQueueing(newValue)
+                end
+            ),
+            BlockWarPets = checkBox(
+                "InterfacePageBlockWarPetsCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.blockWarOnPets(newValue)
+                end
+            ),
+            BlockWarParty = checkBox(
+                "InterfacePageBlockWarPartyCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.blockWarOnParty(newValue)
+                end
+            ),
+            BlockWarFriendly = checkBox(
+                "InterfacePageBlockWarFriendlyCheckBox",
+                function (newValue)
+                    return UserOptionsSettings.blockWarOnFriendly(newValue)
                 end
             )
         },

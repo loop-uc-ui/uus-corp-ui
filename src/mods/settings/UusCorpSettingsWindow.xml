@@ -254,6 +254,70 @@
                                 </Anchor>
                             </Anchors>
                         </Button>
+
+                        <Button name="$parentAlwaysAttackCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentAutoNavigateCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentQueryCriminalCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentAlwaysAttackCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentIgnoreMouseCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentQueryCriminalCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentContextMenuCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentIgnoreMouseCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentTargetQueueCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentContextMenuCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentBlockWarPetsCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTargetQueueCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentBlockWarPartyCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentBlockWarPetsCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
+
+                        <Button name="$parentBlockWarFriendlyCheckBox" inherits="SettingsCheckBoxTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentBlockWarPartyCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Button>
                     </Windows>
                 </Window>
             </Windows>
