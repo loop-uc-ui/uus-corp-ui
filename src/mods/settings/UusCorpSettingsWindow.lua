@@ -786,7 +786,14 @@ function UusCorpSettingsWindow.initialize()
         "UusCorpSettingsWindow.xml"
     )
 
+    --- Overriding settings that don't add much value
     UserOptionsSettings.genericGumpScale(1.2)
+    UserOptionsSettings.uiScale(1.0)
+    UserOptionsSettings.partyInvitePopUp(true)
+    UserOptionsSettings.objectHandleQuantity(-1)
+    UserOptionsSettings.showTooltips(false)
+    UserOptionsSettings.showTipOfTheDay(false)
+
     WindowApi.createWindow(UusCorpSettingsWindow.name, false)
     EventApi.broadcast(Events.userSettingsUpdated())
 end

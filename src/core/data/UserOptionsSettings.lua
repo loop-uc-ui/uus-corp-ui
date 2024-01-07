@@ -119,6 +119,13 @@ function UserOptionsSettings.enableChatLog(newValue)
     return SystemData.Settings.GameOptions.enableChatLog
 end
 
+function UserOptionsSettings.showTipOfTheDay(newValue)
+    if newValue ~= nil then
+        SystemData.Settings.Interface.showTipoftheDay = newValue
+    end
+    return SystemData.Settings.Interface.showTipoftheDay
+end
+
 function UserOptionsSettings.blockWarOnPets(newValue)
     if newValue ~= nil then
         SystemData.Settings.GameOptions.noWarOnPets = newValue
@@ -189,6 +196,13 @@ function UserOptionsSettings.customUI(newValue)
         SystemData.Settings.Interface.customUiName = newValue
     end
     return SystemData.Settings.Interface.customUiName
+end
+
+function UserOptionsSettings.objectHandleQuantity(newValue)
+    if newValue ~= nil then
+        SystemData.Settings.GameOptions.objectHandleSize = newValue
+    end
+    return SystemData.Settings.GameOptions.objectHandleSize
 end
 
 function UserOptionsSettings.legacyChat(newValue)
