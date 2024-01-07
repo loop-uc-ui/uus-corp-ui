@@ -128,6 +128,7 @@ UusCorpSettingsWindow.Pages = {
             Foliage = label("GraphicsScrollPageFoliageCheckBoxLabel", 1079814),
             Shadows = label("GraphicsScrollPageShadowsCheckBoxLabel", 1079286),
             Brightness = label("GraphicsScrollPageBrightnessSliderLabel", 3000166),
+            DiskCache = label("GraphicsScrollPageDiskCacheSliderLabel", 1079480),
             ParticleDetail = label("GraphicsScrollPageParticleDetailComboLabel", 1079213),
             ParticleFilter = label("GraphicsScrollPageParticleFilterComboLabel", 1112330),
             CircleOfTransparency = label("GraphicsScrollPageCircleOfTransparencyCheckBoxLabel", 1078079),
@@ -205,10 +206,10 @@ UusCorpSettingsWindow.Pages = {
                     return { 1079210, 1079211, 1079212 }
                 end,
                 function (index)
-                    return index == UserGraphicsSettings.particleFilter() + 1
+                    return index == UserGraphicsSettings.particleDetail() + 1
                 end,
                 function (newValue)
-                    return UserGraphicsSettings.particleDetail(newValue)
+                    return UserGraphicsSettings.particleDetail(newValue -1)
                 end
             ),
             ParticleFilter = comboBox(
@@ -229,10 +230,10 @@ UusCorpSettingsWindow.Pages = {
                     return { 1079210, 1079211, 1079212 }
                 end,
                 function (index)
-                    return index == UserGraphicsSettings.animationDetail(index) + 1
+                    return index == UserGraphicsSettings.animationDetail() + 1
                 end,
                 function (newValue)
-                    return UserGraphicsSettings.animationDetail(newValue) - 1
+                    return UserGraphicsSettings.animationDetail(newValue - 1)
                 end
             )
         },
@@ -311,6 +312,16 @@ UusCorpSettingsWindow.Pages = {
                             value
                         )
                     )
+                end
+            ),
+            DiskCache = slider(
+                "GraphicsScrollPageDiskCacheSliderBar",
+                "GraphicsScrollPageDiskCacheSliderValue",
+                function (newValue)
+                    return UserOptionsSettings.cacheSize((newValue or 1024) / 1024)
+                end,
+                function (value)
+                    return tostring(math.floor(value) * 1024)
                 end
             )
         }

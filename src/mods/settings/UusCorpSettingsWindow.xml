@@ -59,7 +59,7 @@
 
                 <Label name="$parentValue" inherits="SettingsLabelTemplate" wordwrap="true">
                     <Size>
-                        <AbsPoint x="40" y="20" />
+                        <AbsPoint x="48" y="20" />
                     </Size>
                     <Anchors>
                         <Anchor point="topright" relativePoint="topleft" relativeTo="$parentBar">
@@ -739,9 +739,17 @@
                                             </Anchors>
                                         </Window>
 
-                                        <Window name="$parentParticleDetailCombo" inherits="SettingsComboTemplate">
+                                        <Window name="$parentDiskCacheSlider" inherits="SettingsSliderTemplate">
                                             <Anchors>
                                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentBrightnessSlider">
+                                                    <AbsPoint x="0" y="18" />
+                                                </Anchor>
+                                            </Anchors>
+                                        </Window>
+
+                                        <Window name="$parentParticleDetailCombo" inherits="SettingsComboTemplate">
+                                            <Anchors>
+                                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentDiskCacheSlider">
                                                     <AbsPoint x="0" y="18" />
                                                 </Anchor>
                                             </Anchors>
