@@ -649,6 +649,14 @@
                                 </Anchor>
                             </Anchors>
                         </Button>
+
+                        <Window name="$parentChatFadeCombo" inherits="SettingsComboTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentOverheadChatCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Window>
                     </Windows>
                 </Window>
             </Windows>
@@ -732,11 +740,11 @@
                                     </Anchors>
                                     <Windows>
                                         <Window name="$parentResCombo" inherits="SettingsComboTemplate">
-                                        <Anchors>
-                                            <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
-                                                <AbsPoint x="0" y="12"/>
-                                            </Anchor>
-                                        </Anchors>
+                                            <Anchors>
+                                                <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent">
+                                                    <AbsPoint x="0" y="12"/>
+                                                </Anchor>
+                                            </Anchors>
                                         </Window>
 
                                         <Window name="$parentFrameRateCombo" inherits="SettingsComboTemplate">

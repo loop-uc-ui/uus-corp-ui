@@ -348,9 +348,26 @@ UusCorpSettingsWindow.Pages = {
             OverheadChat = label(
                 "ChatPageOverheadChatCheckBoxLabel",
                 1078083
+            ),
+            ChatFade = label(
+                "ChatPageChatFadeComboLabel",
+                1078084
             )
         },
-        nil,
+        {
+            ChatFade = comboBox(
+                "ChatPageChatFadeComboBox",
+                function ()
+                    return { 1078334, 1078336, 1078337 }
+                end,
+                function (index)
+                    return index == UserOverheadTextSettings.delay()
+                end,
+                function (newValue)
+                    UserOverheadTextSettings.delay(newValue)
+                end
+            )
+        },
         {
             DisableSpells = checkBox(
                 "ChatPageDisableSpellsCheckBox",
@@ -805,6 +822,13 @@ function UusCorpSettingsWindow.initialize()
     UserOptionsSettings.showTipOfTheDay(false)
     UserOptionsSettings.enableSnapping(true)
     OverheadText.clickableNames = true
+
+    --- Default UI allows overhead text to persist for 1 min, 5 min, and forever
+    --- There isn't much reason for text to persist that long
+    local chatDelay = UserOverheadTextSettings.delay()
+    if chatDelay > 3 then
+        UserOverheadTextSettings.delay(3)
+    end
 
     WindowApi.createWindow(UusCorpSettingsWindow.name, false)
     EventApi.broadcast(Events.userSettingsUpdated())
