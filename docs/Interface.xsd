@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2007 sp2 (http://www.altova.com) by Kristen Neal (EA Mythic) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:attribute name="mode" default="">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:maxLength value="128"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="inherits">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:maxLength value="128"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="file">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:maxLength value="128"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="name">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:maxLength value="128"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+    <xs:complexType name="ColorType">
+        <xs:attribute name="r" type="xs:integer" use="optional" default="255"/>
+        <xs:attribute name="g" type="xs:integer" use="optional" default="255"/>
+        <xs:attribute name="b" type="xs:integer" use="optional" default="255"/>
+        <xs:attribute name="a" type="xs:integer" use="optional" default="255"/>
+    </xs:complexType>
+    <xs:complexType name="IncludeType">
+        <xs:attribute ref="file"/>
+    </xs:complexType>
+    <xs:complexType name="ScriptsType">
+        <xs:sequence minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Script" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ScriptType">
+        <xs:attribute ref="file" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="AssetsType">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="Texture"/>
+            <xs:element ref="Font"/>
+            <xs:element ref="TextureFont"/>
+            <xs:element ref="Icon"/>
+            <xs:element ref="MapIcon"/>
+            <xs:element ref="Nif"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="AssetType">
+        <xs:attribute ref="name" use="required"/>
+        <xs:attribute ref="file" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="EventHandlersType">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="EventHandler" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="EventHandlerType">
+        <xs:attribute name="event" type="xs:string"/>
+        <xs:attribute name="function" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="AbsPointType">
+        <xs:attribute name="x" type="xs:integer"/>
+        <xs:attribute name="y" type="xs:integer"/>
+    </xs:complexType>
+    <xs:complexType name="TexturePointType">
+        <xs:attribute name="texture" type="xs:string"/>
+        <xs:attribute name="x" type="xs:integer"/>
+        <xs:attribute name="y" type="xs:integer"/>
+    </xs:complexType>
+    <xs:complexType name="WindowDefType">
+        <xs:attribute name="def" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="AnimFramesType">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="AnimFrame"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AnimFrameType">
+        <xs:attribute name="id" type="xs:integer"/>
+        <xs:attribute name="x" type="xs:integer"/>
+        <xs:attribute name="y" type="xs:integer"/>
+    </xs:complexType>
+    <xs:complexType name="RelPointType">
+        <xs:attribute name="x" type="xs:float"/>
+        <xs:attribute name="y" type="xs:float"/>
+    </xs:complexType>
+    <xs:complexType name="SizeType">
+        <xs:choice>
+            <xs:element ref="AbsPoint"/>
+            <xs:element ref="RelPoint"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="FontType">
+        <xs:complexContent>
+            <xs:extension base="AssetType">
+                <xs:attribute name="face" type="xs:string" use="required"/>
+                <xs:attribute name="height" type="xs:integer" use="required"/>
+                <xs:attribute name="texsize" type="xs:integer" use="required"/>
+                <xs:attribute name="bold" type="xs:boolean" use="optional"/>
+                <xs:attribute name="italic" type="xs:boolean" use="optional"/>
+                <xs:attribute name="outline" type="xs:boolean" use="optional"/>
+                <xs:attribute name="antialias" type="xs:boolean" use="optional"/>
+                <xs:attribute name="hinting" type="xs:boolean" use="optional"/>
+                <xs:attribute name="shadow" type="xs:boolean" use="optional"/>
+                <xs:attribute name="autohinting" type="xs:boolean" use="optional"/>
+                <xs:attribute name="shadowsize" type="xs:integer" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="AnchorsType">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="Anchor"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AnchorType">
+        <xs:choice minOccurs="0">
+            <xs:element ref="AbsPoint"/>
+            <xs:element ref="RelPoint"/>
+        </xs:choice>
+        <xs:attribute name="point" type="xs:string" use="optional"/>
+        <xs:attribute name="relativeTo" type="xs:string" use="optional"/>
+        <xs:attribute name="relativePoint" type="xs:string" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="IconType">
+        <xs:attribute name="id" type="xs:integer" default="0"/>
+        <xs:attribute name="texture" type="xs:string"/>
+        <xs:attribute name="x" type="xs:integer"/>
+        <xs:attribute name="y" type="xs:integer"/>
+    </xs:complexType>
+    <xs:complexType name="MapIconType">
+        <xs:attribute name="id" type="xs:integer" default="0"/>
+        <xs:attribute name="texture" type="xs:string"/>
+        <xs:attribute name="textureX" type="xs:integer"/>
+        <xs:attribute name="textureY" type="xs:integer"/>
+        <xs:attribute name="sizeX" type="xs:integer"/>
+        <xs:attribute name="sizeY" type="xs:integer"/>
+        <xs:attribute name="pointX" type="xs:integer"/>
+        <xs:attribute name="pointY" type="xs:integer"/>
+    </xs:complexType>
+    <xs:complexType name="SoundType">
+        <xs:attribute name="event" type="xs:string" use="required"/>
+        <xs:attribute name="script" type="xs:string" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="SoundsType">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="Sound" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="WindowsType">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element ref="Window"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:complexType name="WindowType">
+        <xs:sequence>
+            <xs:element ref="Size" minOccurs="0"/>
+            <xs:element ref="Anchors" minOccurs="0"/>
+            <xs:element ref="EventHandlers" minOccurs="0"/>
+            <xs:element ref="Windows" minOccurs="0"/>
+            <xs:element ref="Sounds" minOccurs="0"/>
+            <xs:element name="TintColor" type="ColorType"/>
+        </xs:sequence>
+        <xs:attribute ref="name"/>
+        <xs:attribute ref="inherits" use="optional" default=""/>
+        <xs:attribute name="layer" type="xs:string" use="optional" default=""/>
+        <xs:attribute name="movable" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="popable" type="xs:boolean" use="optional" default="true"/>
+        <xs:attribute name="taborder" type="xs:integer" use="optional"/>
+        <xs:attribute name="id" type="xs:integer" use="optional"/>
+        <xs:attribute name="handleinput" type="xs:boolean" use="optional" default="true"/>
+        <xs:attribute name="sticky" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="draganddrop" type="xs:boolean" use="optional" default="false"/>
+    </xs:complexType>
+    <xs:complexType name="EditBoxType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence minOccurs="0">
+                    <xs:element name="TexCoords" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="Background" type="AbsPointType" minOccurs="0"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="TextOffset" type="AbsPointType" minOccurs="0"/>
+                    <xs:element name="TextColor" type="ColorType" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="font" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="scrollbar" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="background" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="maxchars" type="xs:integer" use="optional"/>
+                <xs:attribute name="linespacing" type="xs:integer" use="optional" default="0"/>
+                <xs:attribute name="password" type="xs:boolean" use="optional"/>
+                <xs:attribute name="scrolling" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="input" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="history" type="xs:boolean" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="LogDisplayType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence minOccurs="0">
+                    <xs:element name="TexCoords" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="Background" type="AbsPointType" minOccurs="0"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="TextOffset" type="AbsPointType" minOccurs="0"/>
+                    <xs:element name="TextColor" type="ColorType" minOccurs="0"/>
+                    <xs:element name="ScrollbarOffset">
+                        <xs:complexType>
+                            <xs:attribute name="x" type="xs:integer"/>
+                            <xs:attribute name="y" type="xs:integer"/>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="font" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="scrollbar" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="background" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="maxchars" type="xs:integer" use="optional"/>
+                <xs:attribute name="linespacing" type="xs:integer" use="optional" default="0"/>
+                <xs:attribute name="textFadeTime" type="xs:float" use="optional"/>
+                <xs:attribute name="password" type="xs:boolean" use="optional"/>
+                <xs:attribute name="scrolling" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="input" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="scrollbarPosition" type="xs:string" use="optional" default=""/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="LabelType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element ref="Color" minOccurs="0"/>
+                    <xs:element name="LinkColor" type="ColorType" minOccurs="0"/>
+                    <xs:element name="LinkHighlightColor" type="ColorType"/>
+                </xs:sequence>
+                <xs:attribute name="font" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="maxchars" type="xs:integer" use="optional" default="0"/>
+                <xs:attribute name="text" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="textalign" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="wordwrap" type="xs:boolean" use="optional"/>
+                <xs:attribute name="autoresize" type="xs:boolean" use="optional"/>
+                <xs:attribute name="autoresizewidth" type="xs:boolean" use="optional"/>
+                <xs:attribute name="linespacing" type="xs:integer" use="optional" default="0"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="FixedFontLabelType">
+        <xs:complexContent>
+            <xs:extension base="LabelType"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ListColumnType">
+        <xs:attribute name="windowname" type="xs:string" use="required"/>
+        <xs:attribute name="variable" type="xs:string" use="required"/>
+        <xs:attribute name="format" type="xs:string" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="ListColumnsType">
+        <xs:sequence maxOccurs="unbounded">
+            <xs:element ref="ListColumn"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ListDataType">
+        <xs:sequence>
+            <xs:element ref="ListColumns"/>
+        </xs:sequence>
+        <xs:attribute name="table" type="xs:string" use="optional"/>
+        <xs:attribute name="populationfunction" type="xs:string" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="ListType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element ref="ListData"/>
+                </xs:sequence>
+                <xs:attribute name="rowdef" type="xs:string" use="required"/>
+                <xs:attribute name="scrollbar" type="xs:string" use="optional"/>
+                <xs:attribute name="rowcount" type="xs:integer" use="optional" default="0"/>
+                <xs:attribute name="rowspacing" type="xs:integer" use="optional" default="0"/>
+                <xs:attribute name="visiblerows" type="xs:integer" use="optional" default="0"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="VerticalScrollbarType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element name="UpOffset" type="AbsPointType" minOccurs="0"/>
+                    <xs:element name="DownOffset" type="AbsPointType" minOccurs="0"/>
+                    <xs:element name="ThumbOffset" type="AbsPointType" minOccurs="0"/>
+                    <xs:element name="ActiveZoneOffset" type="AbsPointType" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="up" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="down" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="thumb" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="gutter" type="xs:string" use="optional" default=""/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="HorizontalScrollbarType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element name="UpOffset" type="AbsPointType" minOccurs="0"/>
+                    <xs:element name="DownOffset" type="AbsPointType" minOccurs="0"/>
+                    <xs:element name="ThumbOffset" type="AbsPointType" minOccurs="0"/>
+                    <xs:element name="ActiveZoneOffset" type="AbsPointType" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="up" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="down" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="thumb" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="gutter" type="xs:string" use="optional" default=""/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="AnimatedImageType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element ref="AnimFrames"/>
+                </xs:sequence>
+                <xs:attribute name="filtering" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="mirrorTexCoords" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="texture" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="textureScale" type="xs:float" use="optional" default="1"/>
+                <xs:attribute name="fps" type="xs:float" use="optional" default="1"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="DynamicImageType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element name="TexCoords" type="AbsPointType" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="filtering" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="mirrorTexCoords" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="texture" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="textureScale" type="xs:float" use="optional" default="1"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="MapDisplayType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element name="TexCoords" type="AbsPointType" minOccurs="0"/>
+                </xs:sequence>
+        <xs:attribute name="iconScale" type="xs:float" use="optional" default="1"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="CircleImageType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element name="TexCoords" type="AbsPointType" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="texture" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="filtering" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="numsegments" type="xs:integer" use="optional"/>
+                <xs:attribute name="startangle" type="xs:float" use="optional" default="0"/>
+                <xs:attribute name="fillangle" type="xs:float" use="optional" default="360"/>
+                <xs:attribute name="mirrorTexCoords" type="xs:boolean" use="optional"/>
+                <xs:attribute name="textureScale" type="xs:float" use="optional" default="1"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="RenderedImageType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element name="BackgroundColor" type="ColorType"/>
+                    <xs:element name="TextureResolution" type="AbsPointType"/>
+                </xs:sequence>
+                <xs:attribute name="updatemode" type="xs:string" use="optional" default=""/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ButtonType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence minOccurs="0">
+                    <xs:element name="TextColors" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="Normal" type="ColorType" minOccurs="0"/>
+                                <xs:element name="NormalHighlit" type="ColorType" minOccurs="0"/>
+                                <xs:element name="Pressed" type="ColorType" minOccurs="0"/>
+                                <xs:element name="PressedHighlit" type="ColorType" minOccurs="0"/>
+                                <xs:element name="Disabled" type="ColorType" minOccurs="0"/>
+                                <xs:element name="DisabledPressed" type="ColorType" minOccurs="0"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="TexCoords" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="Normal" type="TexturePointType" minOccurs="0"/>
+                                <xs:element name="NormalHighlit" type="TexturePointType" minOccurs="0"/>
+                                <xs:element name="Pressed" type="TexturePointType" minOccurs="0"/>
+                                <xs:element name="PressedHighlit" type="TexturePointType" minOccurs="0"/>
+                                <xs:element name="Disabled" type="TexturePointType" minOccurs="0"/>
+                                <xs:element name="DisabledPressed" type="TexturePointType" minOccurs="0"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="TextOffset" type="AbsPointType" minOccurs="0"/>
+                    <xs:element name="ResizeImages" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence>
+                                <xs:element name="Normal" type="WindowDefType" minOccurs="0"/>
+                                <xs:element name="NormalHighlit" type="WindowDefType" minOccurs="0"/>
+                                <xs:element name="Pressed" type="WindowDefType" minOccurs="0"/>
+                                <xs:element name="PressedHighlit" type="WindowDefType" minOccurs="0"/>
+                                <xs:element name="Disabled" type="WindowDefType" minOccurs="0"/>
+                                <xs:element name="DisabledPressed" type="WindowDefType" minOccurs="0"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="mirrorTexCoords" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="backgroundtexture" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="highlighttexture" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="font" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="text" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="textalign" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="texturescale" type="xs:float" use="optional" default="1.0"/>
+                <xs:attribute name="linespacing" type="xs:integer" use="optional" default="0"/>
+                <xs:attribute name="drawchildrenfirst" type="xs:boolean" use="optional" default="false"/>
+                <xs:attribute name="autoresize" type="xs:boolean" use="optional" default="false"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ScrollWindowType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:attribute name="childscrollwindow" type="xs:string"/>
+                <xs:attribute name="scrollbar" type="xs:string"/>
+                <xs:attribute name="lineheight" type="xs:integer"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="HorizontalScrollWindowType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:attribute name="childscrollwindow" type="xs:string"/>
+                <xs:attribute name="scrollbar" type="xs:string"/>
+                <xs:attribute name="linewidth" type="xs:integer"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>   
+    <xs:complexType name="PageWindowType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:attribute name="pagesdisplayed" type="xs:integer" default="2"/>
+                <xs:attribute name="guttersize" type="xs:integer" default="0"/>
+                <xs:attribute name="childcontentswindow" type="xs:string"/>
+                <xs:attribute name="pagenumbertemplate" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="ComboBoxType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element name="MenuButtonOffset" type="AbsPointType" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="selectedbutton" type="xs:string" use="optional"/>
+                <xs:attribute name="menuitembutton" type="xs:string" use="optional"/>
+                <xs:attribute name="menubackground" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="SliderBarType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence minOccurs="0">
+                    <xs:element name="ForegroundOffset" type="AbsPointType"/>
+                </xs:sequence>
+                <xs:attribute name="background" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="tickmark" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="sliderbutton" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="numticks" type="xs:integer" use="optional" default="0"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="StatusBarType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence minOccurs="0">
+                    <xs:element name="ForegroundOffset" type="AbsPointType"/>
+                </xs:sequence>
+                <xs:attribute name="background" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="foreground" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="reverseFill" type="xs:boolean" use="optional" default="false"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="FullResizeImageType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence minOccurs="0">
+                    <xs:element name="Sizes" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence minOccurs="0">
+                                <xs:element name="TopLeft" type="AbsPointType"/>
+                                <xs:element name="BottomRight" type="AbsPointType"/>
+                                <xs:element name="Middle" type="AbsPointType" minOccurs="0"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="TexCoords" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence minOccurs="0">
+                                <xs:element name="TopLeft" type="AbsPointType"/>
+                                <xs:element name="TopCenter" type="AbsPointType"/>
+                                <xs:element name="TopRight" type="AbsPointType"/>
+                                <xs:element name="MiddleLeft" type="AbsPointType"/>
+                                <xs:element name="MiddleCenter" type="AbsPointType" minOccurs="0"/>
+                                <xs:element name="MiddleRight" type="AbsPointType"/>
+                                <xs:element name="BottomLeft" type="AbsPointType"/>
+                                <xs:element name="BottomCenter" type="AbsPointType"/>
+                                <xs:element name="BottomRight" type="AbsPointType"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="texture" type="xs:string" use="optional" default=""/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="VerticalResizeImageType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence minOccurs="0">
+                    <xs:element name="Sizes" minOccurs="0">
+                        <xs:complexType>
+                            <xs:attribute name="top" type="xs:integer" use="optional"/>
+                            <xs:attribute name="middle" type="xs:integer" use="optional"/>
+                            <xs:attribute name="bottom" type="xs:integer" use="optional"/>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="TexCoords" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence minOccurs="0">
+                                <xs:element name="Top" type="AbsPointType" minOccurs="0"/>
+                                <xs:element name="Middle" type="AbsPointType" minOccurs="0"/>
+                                <xs:element name="Bottom" type="AbsPointType" minOccurs="0"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="texture" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="textureScale" type="xs:float" use="optional" default="1.0"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="HorizontalResizeImageType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence minOccurs="0">
+                    <xs:element name="Sizes" minOccurs="0">
+                        <xs:complexType>
+                            <xs:attribute name="left" type="xs:integer" use="optional"/>
+                            <xs:attribute name="middle" type="xs:integer" use="optional"/>
+                            <xs:attribute name="right" type="xs:integer" use="optional"/>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="TexCoords" minOccurs="0">
+                        <xs:complexType>
+                            <xs:sequence minOccurs="0">
+                                <xs:element name="Left" type="AbsPointType" minOccurs="0"/>
+                                <xs:element name="Middle" type="AbsPointType" minOccurs="0"/>
+                                <xs:element name="Right" type="AbsPointType" minOccurs="0"/>
+                            </xs:sequence>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
+                <xs:attribute name="texture" type="xs:string" use="optional" default=""/>
+                <xs:attribute name="textureScale" type="xs:float" use="optional" default="1.0"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="NifDisplayType">
+        <xs:complexContent>
+            <xs:extension base="WindowType">
+                <xs:sequence>
+                    <xs:element name="TexCoords" type="AbsPointType" minOccurs="0"/>
+                </xs:sequence>
+                <xs:attribute name="scale" type="xs:float" use="optional" default="1"/>
+                <xs:attribute name="nif" type="xs:string" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="InterfaceType">
+        <xs:sequence>
+            <xs:element ref="Include" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="Scripts" minOccurs="0"/>
+            <xs:element ref="Assets" minOccurs="0"/>
+            <xs:element ref="Windows" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Font" type="FontType"/>
+    <xs:element name="TextureFont" type="AssetType"/>
+    <xs:element name="Size" type="SizeType"/>
+    <xs:element name="Color" type="ColorType"/>
+    <xs:element name="Script" type="ScriptType"/>
+    <xs:element name="Anchor" type="AnchorType"/>
+    <xs:element name="EventHandler" type="EventHandlerType"/>
+    <xs:element name="Texture" type="AssetType"/>
+    <xs:element name="Nif" type="AssetType"/>
+    <xs:element name="Window" type="WindowType"/>
+    <xs:element name="Label" type="LabelType" substitutionGroup="Window"/>
+    <xs:element name="FixedFontLabel" type="FixedFontLabelType" substitutionGroup="Window"/>
+    <xs:element name="VerticalScrollbar" type="VerticalScrollbarType" substitutionGroup="Window"/>
+    <xs:element name="HorizontalScrollbar" type="HorizontalScrollbarType" substitutionGroup="Window"/>
+    <xs:element name="AnimFrame" type="AnimFrameType"/>
+    <xs:element name="AnimFrames" type="AnimFramesType"/>
+    <xs:element name="AnimatedImage" type="AnimatedImageType" substitutionGroup="Window"/>
+    <xs:element name="DynamicImage" type="DynamicImageType" substitutionGroup="Window"/>
+    <xs:element name="NifDisplay" type="NifDisplayType" substitutionGroup="Window"/>
+    <xs:element name="MapDisplay" type="MapDisplayType" substitutionGroup="Window"/>
+    <xs:element name="CircleImage" type="CircleImageType" substitutionGroup="Window"/>
+    <xs:element name="RenderedImage" type="RenderedImageType" substitutionGroup="Window"/>
+    <xs:element name="Button" type="ButtonType" substitutionGroup="Window"/>
+    <xs:element name="ScrollWindow" type="ScrollWindowType" substitutionGroup="Window"/>
+    <xs:element name="HorizontalScrollWindow" type="HorizontalScrollWindowType" substitutionGroup="Window"/>
+    <xs:element name="PageWindow" type="PageWindowType" substitutionGroup="Window"/>
+    <xs:element name="ComboBox" type="ComboBoxType" substitutionGroup="Window"/>
+    <xs:element name="StatusBar" type="StatusBarType" substitutionGroup="Window"/>
+    <xs:element name="SliderBar" type="SliderBarType" substitutionGroup="Window"/>
+    <xs:element name="EditBox" type="EditBoxType" substitutionGroup="Window"/>
+    <xs:element name="LogDisplay" type="LogDisplayType" substitutionGroup="Window"/>
+    <xs:element name="FullResizeImage" type="FullResizeImageType" substitutionGroup="Window"/>
+    <xs:element name="VerticalResizeImage" type="VerticalResizeImageType" substitutionGroup="Window"/>
+    <xs:element name="HorizontalResizeImage" type="HorizontalResizeImageType" substitutionGroup="Window"/>
+    <xs:element name="ListColumn" type="ListColumnType"/>
+    <xs:element name="ListColumns" type="ListColumnsType"/>
+    <xs:element name="ListData" type="ListDataType"/>
+    <xs:element name="List" type="ListType" substitutionGroup="Window"/>
+    <xs:element name="Anchors" type="AnchorsType"/>
+    <xs:element name="Scripts" type="ScriptsType"/>
+    <xs:element name="Assets" type="AssetsType"/>
+    <xs:element name="EventHandlers" type="EventHandlersType"/>
+    <xs:element name="Sound" type="SoundType"/>
+    <xs:element name="Sounds" type="SoundsType"/>
+    <xs:element name="Windows" type="WindowsType"/>
+    <xs:element name="Interface" type="InterfaceType">
+        <xs:annotation>
+            <xs:documentation>Root element</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="Include" type="IncludeType"/>
+    <xs:element name="AbsPoint" type="AbsPointType"/>
+    <xs:element name="RelPoint" type="RelPointType"/>
+    <xs:element name="TexturePoint" type="TexturePointType"/>
+    <xs:element name="WindowDef" type="WindowDefType"/>
+    <xs:element name="Icon" type="IconType"/>
+    <xs:element name="MapIcon" type="MapIconType"/>
+</xs:schema>

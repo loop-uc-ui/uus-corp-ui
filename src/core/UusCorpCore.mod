@@ -91,10 +91,10 @@
             <File name="util/StringFormatter.lua"/>
             <File name="util/TableFormatter.lua"/>
             <File name="util/WindowUtilsWrapper.lua"/>
+            <File name="window/UusCorpWindow.lua"/>
             <File name="window/UusCorpAnchor.lua"/>
             <File name="window/UusCorpLabel.lua"/>
             <File name="window/UusCorpStatusBar.lua"/>
-            <File name="window/UusCorpWindow.lua"/>
 		</Files>
 
         <OnInitialize>

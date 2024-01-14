@@ -1,5 +1,8 @@
-UusCorpDistanceCounterWindow = UusCorpWindow.new("UusCorpDistanceCounterWindow")
-UusCorpDistanceCounterWindow.Label = UusCorpDistanceCounterWindow.addLabel("Counter")
+---@class UusCorpDistanceCounterWindow:UusCorpWindow
+UusCorpDistanceCounterWindow = UusCorpWindow:new("UusCorpDistanceCounterWindow")
+
+---@private
+UusCorpDistanceCounterWindow.Label = UusCorpDistanceCounterWindow:addLabel("Counter")
 
 function UusCorpDistanceCounterWindow.initialize()
     UusCorpCore.loadResources(
@@ -7,16 +10,16 @@ function UusCorpDistanceCounterWindow.initialize()
         "UusCorpDistanceCounterWindow.xml"
     )
 
-    UusCorpDistanceCounterWindow.create()
+    UusCorpDistanceCounterWindow:create()
 end
 
 function UusCorpDistanceCounterWindow.onInitialize()
-    UusCorpDistanceCounterWindow.Label.setText("")
+    UusCorpDistanceCounterWindow.Label:setText("")
 end
 
 function UusCorpDistanceCounterWindow.onUpdate()
     if not Cursor.hasTarget() then
-        UusCorpDistanceCounterWindow.Label.setText("")
+        UusCorpDistanceCounterWindow.Label:setText("")
         return
     end
 
@@ -35,7 +38,7 @@ function UusCorpDistanceCounterWindow.onUpdate()
     local outsideY = MousePosition.y() > borderY or MousePosition.y() < posY
 
     if outsideX or outsideY then
-        UusCorpDistanceCounterWindow.Label.setText("")
+        UusCorpDistanceCounterWindow.Label:setText("")
         return
     end
 
@@ -49,9 +52,9 @@ function UusCorpDistanceCounterWindow.onUpdate()
     local x = xDelta * xDelta
     local y = yDelta * yDelta
 
-    UusCorpDistanceCounterWindow.Label.setText(tostring(math.floor(math.sqrt(x + y) / 32)))
+    UusCorpDistanceCounterWindow.Label:setText(tostring(math.floor(math.sqrt(x + y) / 32)))
 
-    local width, height = UusCorpDistanceCounterWindow.getDimensions()
+    local width, height = UusCorpDistanceCounterWindow:getDimensions()
 
     -- Set the window position
     local windowOffset = 16
@@ -62,7 +65,7 @@ function UusCorpDistanceCounterWindow.onUpdate()
     local mouseY = MousePosition.y()
     local propWindowY = mouseY - windowOffset - (height / scaleFactor)
 
-    UusCorpDistanceCounterWindow.setOffsetFromParent(
+    UusCorpDistanceCounterWindow:setOffsetFromParent(
         propWindowX * scaleFactor,
         propWindowY * scaleFactor
     )
