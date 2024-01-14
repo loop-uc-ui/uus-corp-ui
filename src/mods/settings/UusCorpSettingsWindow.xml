@@ -91,6 +91,45 @@
             </Windows>
         </Window>
 
+        <Window name="SettingsStepperTemplate">
+            <Size>
+                <AbsPoint x="560" y="27" />
+            </Size>
+            <Windows>
+                <Label name="$parentLabel" inherits="SettingsLabelTemplate" wordwrap="true" />
+
+                <Button name="$parentStepperDown" inherits="UO_Default_Minus_Button">
+					<Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentLabel">
+                            <AbsPoint x="36" y="0" />
+                        </Anchor>
+                    </Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="UusCorpSettingsWindow.onStepperDown" />
+					</EventHandlers>
+				</Button>
+
+                <Label name="$parentValue" inherits="SettingsLabelTemplate" maxchars="3" autoresizewidth="true">
+					<Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentStepperDown">
+                            <AbsPoint x="18" y="0" />
+                        </Anchor>
+                    </Anchors>
+				</Label>
+
+                <Button name="$parentStepperUp" inherits="UO_Default_Plus_Button">
+					<Anchors>
+                        <Anchor point="right" relativePoint="left" relativeTo="$parentValue">
+                            <AbsPoint x="18" y="0" />
+                        </Anchor>
+                    </Anchors>
+					<EventHandlers>
+						<EventHandler event="OnLButtonDown" function="UusCorpSettingsWindow.onStepperUp" />
+					</EventHandlers>
+				</Button>
+            </Windows>
+        </Window>
+
         <Window name="SettingsPageTemplate" layer="default" handleinput="true">
             <Size>
                 <AbsPoint x="616" y="576" />
@@ -653,6 +692,14 @@
                         <Window name="$parentChatFadeCombo" inherits="SettingsComboTemplate">
                             <Anchors>
                                 <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentOverheadChatCheckBox">
+                                    <AbsPoint x="0" y="18" />
+                                </Anchor>
+                            </Anchors>
+                        </Window>
+
+                        <Window name="$parentOverheadFontStepper" inherits="SettingsStepperTemplate">
+                            <Anchors>
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentChatFadeCombo">
                                     <AbsPoint x="0" y="18" />
                                 </Anchor>
                             </Anchors>

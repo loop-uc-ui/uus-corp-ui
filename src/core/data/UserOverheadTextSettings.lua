@@ -312,3 +312,13 @@ function UserOverheadTextSettings.chaosColor(newValue)
         })
     end
 end
+
+function UserOverheadTextSettings.overheadFontSize(change)
+    if change ~= nil then
+        OverheadText.OverhedTextSize = OverheadText.OverhedTextSize + change
+        UserInterfaceVariables.SaveNumber("OverhedTextSize", OverheadText.OverhedTextSize)
+        return OverheadText.OverhedTextSize
+    else
+        return UserInterfaceVariables.LoadNumber("OverhedTextSize", OverheadText.OverhedTextSize)
+    end
+end

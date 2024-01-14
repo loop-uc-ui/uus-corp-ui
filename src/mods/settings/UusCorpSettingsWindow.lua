@@ -16,20 +16,42 @@ end
 ---@param labels? table
 ---@param comboBoxes? table
 ---@param sliders? table
+---@param steppers? table
 ---@return SettingsPage
-local function page(id, labels, comboBoxes, checkBoxes, sliders)
+local function page(id, labels, comboBoxes, checkBoxes, sliders, steppers)
     ---@class SettingsPage
     ---@field name string
     ---@field labels table
     ---@field comboBoxes table
     ---@field checkBoxes table
     ---@field sliders table
+    ---@field steppers table
     return {
         name = UusCorpSettingsWindow.name .. id,
         labels = labels or {},
         comboBoxes = comboBoxes or {},
         checkBoxes = checkBoxes or {},
-        sliders = sliders or {}
+        sliders = sliders or {},
+        steppers = steppers or {}
+    }
+end
+
+---@param id string
+---@param value function
+---@param onUp function
+---@param onDown function
+---@return SettingsStepper
+local function stepper(id, value, onUp, onDown)
+    ---@class SettingsStepper
+    ---@field name string
+    ---@field value function
+    ---@field onUp function
+    ---@field onDown function
+    return {
+        name = UusCorpSettingsWindow.name .. id,
+        value = value,
+        onUp = onUp,
+        onDown = onDown
     }
 end
 
@@ -352,6 +374,10 @@ UusCorpSettingsWindow.Pages = {
             ChatFade = label(
                 "ChatPageChatFadeComboLabel",
                 1078084
+            ),
+            OverheadFontSize = label(
+                "ChatPageOverheadFontStepperLabel",
+                "Overhead Font Size"
             )
         },
         {
@@ -400,7 +426,29 @@ UusCorpSettingsWindow.Pages = {
                 end
             )
         },
-        nil
+        nil,
+        {
+            OverheadFontSize = stepper(
+                "ChatPageOverheadFontStepper",
+                function ()
+                    return tostring(UserOverheadTextSettings.overheadFontSize())
+                end,
+                function ()
+                    local change = UserOverheadTextSettings.overheadFontSize() + 0.10
+                    
+                    if change <= 1.5 then
+                        UserOverheadTextSettings.overheadFontSize(0.1)
+                    end
+                end,
+                function ()
+                    local change = UserOverheadTextSettings.overheadFontSize() - 0.10
+
+                    if change >= 0.5 then
+                        UserOverheadTextSettings.overheadFontSize(-0.1)
+                    end
+                end
+            )
+        }
     ),
     Interface = page(
         "InterfacePage",
@@ -899,6 +947,15 @@ function UusCorpSettingsWindow.onInitialize()
                 )
             end
         end
+
+        if v.steppers ~= nil then
+            for _, s in pairs(v.steppers) do
+                LabelApi.setText(
+                    s.name .. "Value",
+                    s.value()
+                )
+            end
+        end
     end
 
     for _, v in pairs(UusCorpSettingsWindow.Tabs) do
@@ -1025,4 +1082,40 @@ function UusCorpSettingsWindow.onSliderChanged(position)
             end
         end
     end
+end
+
+local function updateStepper(isIncrease)
+    local active = Active.window()
+    local stepperWindow = WindowApi.getParent(active)
+    local parent = WindowApi.getParent(stepperWindow)
+
+    for _, v in pairs(UusCorpSettingsWindow.Pages) do
+        if parent == v.name then
+            for _, s in pairs(v.steppers) do
+                if stepperWindow == s.name then
+                    if isIncrease then
+                        s.onUp()
+                    else
+                        s.onDown()
+                    end
+
+                    LabelApi.setText(
+                        s.name .. "Value",
+                        s.value()
+                    )
+
+                    EventApi.broadcast(Events.userSettingsUpdated())
+                    break
+                end
+            end
+        end
+    end
+end
+
+function UusCorpSettingsWindow.onStepperDown()
+    updateStepper(false)
+end
+
+function UusCorpSettingsWindow.onStepperUp()
+    updateStepper(true)
 end
