@@ -311,7 +311,7 @@ UusCorpSettingsWindow.Pages = {
             Shadows = checkBox(
                 "GraphicsScrollPageShadowsCheckBox",
                 function (newValue)
-                    return UserGraphicsSettings.showShadows(newValue)                    
+                    return UserGraphicsSettings.showShadows(newValue)
                 end
             ),
             CircleOfTransparency = checkBox(
@@ -435,7 +435,7 @@ UusCorpSettingsWindow.Pages = {
                 end,
                 function ()
                     local change = UserOverheadTextSettings.overheadFontSize() + 0.10
-                    
+
                     if change <= 1.5 then
                         UserOverheadTextSettings.overheadFontSize(0.1)
                     end
