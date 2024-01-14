@@ -64,6 +64,7 @@ end
 
 function UusCorpWindow:registerData(type, id)
     WindowDataApi.registerData(type, id)
+    return self
 end
 
 function UusCorpWindow:unregisterEvent(id)
@@ -72,6 +73,7 @@ end
 
 function UusCorpWindow:unregisterData(type, id)
     WindowDataApi.unregisterData(type, id)
+    return self
 end
 
 function UusCorpWindow:registerCoreEvent(id, callback)
