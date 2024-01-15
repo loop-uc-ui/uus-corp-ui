@@ -1,0 +1,28 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
+	<Windows>
+        <Button name="UusCorpResizeButton" inherits="LegacyPurpleDiamond" texturescale="1.0">
+            <Size>
+                <AbsPoint x="21" y="21" />
+            </Size>
+            <Anchors>
+                <Anchor point="bottomright" relativePoint="center" relativeTo="UusCorpResizeWindowFrame" >
+                    <AbsPoint x="0" y="0" />
+                </Anchor>
+            </Anchors>
+            <EventHandlers>
+                <EventHandler event="OnLButtonDown" function="ResizeWindow.OnResizeBegin" />
+            </EventHandlers>
+        </Button>
+
+        <FullResizeImage name="UusCorpResizeFrame" inherits="SimpleWindowFrame" handleinput="false">
+            <Anchors>
+                <Anchor point="topleft" relativePoint="topleft" relativeTo="ResizeWindow">
+                    <AbsPoint x="-1" y="-1"/>
+                </Anchor>
+                <Anchor point="bottomright" relativePoint="bottomright" relativeTo="ResizeWindow">
+                    <AbsPoint x="-1" y="-1"/>
+                </Anchor>
+            </Anchors>
+        </FullResizeImage>
+    </Windows>
+</Interface>

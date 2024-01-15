@@ -1,0 +1,24 @@
+<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Interface.xsd">
+    <Windows>
+        <FullResizeImage name="SimpleWindowFrame" layer="background" handleinput="false" texture="UusCorpCore" frameonly="true">
+            <Sizes>
+                <TopLeft x="8" y="7" />
+                <Middle x="30" y="4" />
+                <BottomRight x="8" y="7" />
+            </Sizes>
+            <TexCoords>
+                <TopLeft x="2" y="438" />
+                <TopCenter x="10" y="438" />
+                <TopRight x="40" y="438" />
+                <MiddleLeft x="2" y="445" />
+                <MiddleCenter x="10" y="445" />
+                <MiddleRight x="40" y="445" />
+                <BottomLeft x="2" y="449" />
+                <BottomCenter x="10" y="449" />
+                <BottomRight x="40" y="449" />
+            </TexCoords>
+        </FullResizeImage> 
+    </Windows>
+</Interface>
+
+      
