@@ -1,3 +1,5 @@
+---Not being used currently, as the differences between this and
+---the default UI might not be worth it.
 UusCorpCharacterSheetWindow = {}
 
 UusCorpCharacterSheetWindow.Name = "CharacterSheetWindow"

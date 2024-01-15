@@ -10,11 +10,11 @@
 		</Dependencies>
 
 		<Files>
-			<File name="UusCorpCharacterSheetWindow.lua" />
+			<File name="UusCorpCharacterSheetMod.lua" />
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpCharacterSheetWindow.initialize" />
+			<CallFunction name="UusCorpCharacterSheetMod.onInitialize" />
 		</OnInitialize>
 	</UiMod>
 </ModuleFile>

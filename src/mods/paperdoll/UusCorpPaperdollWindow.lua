@@ -373,7 +373,7 @@ function UusCorpPaperdollWindow.onModelUpdate()
 end
 
 function UusCorpPaperdollWindow.ToggleCharacterSheet()
-    WindowApi.toggleWindow("CharacterSheetWindow")
+    WindowApi.toggleWindow("CharacterSheet")
 end
 
 function UusCorpPaperdollWindow.onModelDoubleClick()
