@@ -1,21 +1,19 @@
 --Container windows are not create explicitly by the UI.
 --They are create by client when containers are clicked.
-ContainerWindow = {}
-ContainerWindow.Template = "ContainerWindow"
-ContainerWindow.Name = ContainerWindow.Template .. "_"
-ContainerWindow.MaxSlots = 125
+UusCorpContainerWindow = {}
+UusCorpContainerWindow.Template = "ContainerWindow"
+UusCorpContainerWindow.Name = UusCorpContainerWindow.Template .. "_"
+UusCorpContainerWindow.MaxSlots = 125
 
-ContainerWindow.Views = {
+UusCorpContainerWindow.Views = {
     Grid = "GridView",
     Freeform = "FreeformView"
 }
 
-ContainerWindow.Gumps = {
+UusCorpContainerWindow.Gumps = {
     Backpack = 60,
     Corpse = 9
 }
-
-local LootAll = {}
 
 local function activeSlot()
     local slotNum = WindowApi.getId(Active.window())
@@ -60,58 +58,58 @@ local function activeSlot()
     }
 end
 
-function ContainerWindow.Initialize()
-    local id = tonumber(string.gsub(Active.window(), ContainerWindow.Name, ""), 10)
+function UusCorpContainerWindow.Initialize()
+    local id = tonumber(string.gsub(Active.window(), UusCorpContainerWindow.Name, ""), 10)
     WindowApi.setId(Active.window(), id)
-    WindowApi.registerEventHandler(Active.window(), Container.event(), "ContainerWindow.updateContainer")
-    WindowApi.registerEventHandler(Active.window(), Events.userSettingsUpdated(), "ContainerWindow.reopenContainer")
-    WindowApi.registerEventHandler(Active.window(), ObjectInfo.event(), "ContainerWindow.updateObject")
-    WindowApi.registerEventHandler(Active.window(), ItemPropertiesData.event(), "ContainerWindow.updateObject")
+    WindowApi.registerEventHandler(Active.window(), Container.event(), "UusCorpContainerWindow.updateContainer")
+    WindowApi.registerEventHandler(Active.window(), Events.userSettingsUpdated(), "UusCorpContainerWindow.reopenContainer")
+    WindowApi.registerEventHandler(Active.window(), ObjectInfo.event(), "UusCorpContainerWindow.updateObject")
+    WindowApi.registerEventHandler(Active.window(), ItemPropertiesData.event(), "UusCorpContainerWindow.updateObject")
 
     WindowDataApi.registerData(Container.type(), id)
 
     WindowApi.setUpdateFrequency(Active.window(), 1)
 
     WindowApi.setShowing(
-        ContainerWindow.Name .. id .. ContainerWindow.Views.Grid,
+        UusCorpContainerWindow.Name .. id .. UusCorpContainerWindow.Views.Grid,
         not UserContainerSettings.legacyContainers()
     )
 
     WindowApi.setShowing(
-        ContainerWindow.Name .. id .. ContainerWindow.Views.Freeform,
+        UusCorpContainerWindow.Name .. id .. UusCorpContainerWindow.Views.Freeform,
         UserContainerSettings.legacyContainers()
     )
 
     WindowApi.setShowing(
-        ContainerWindow.Name .. id .. "FreeformBackground",
+        UusCorpContainerWindow.Name .. id .. "FreeformBackground",
         UserContainerSettings.legacyContainers()
     )
 
     WindowApi.setShowing(
-        ContainerWindow.Name .. id .. "LootAll",
+        UusCorpContainerWindow.Name .. id .. "LootAll",
         id ~= Paperdoll.backpack(PlayerStatus.id())
     )
 
     -- There appears to be a bug with empty containers
     -- where updateContainer is not fired automatically
     if Container.itemCount(id) <= 0 then
-        ContainerWindow.updateContainer()
+        UusCorpContainerWindow.updateContainer()
     end
 end
 
-function ContainerWindow.onUpdate()
+function UusCorpContainerWindow.onUpdate()
     local id = WindowApi.getId(Active.window())
-    if LootAll[Active.window()] and Container.itemCount(id) > 0 then
+    if Container.itemCount(id) > 0 then
         DragApi.autoPickUpObject(Container.items(id)[1].objectId)
     else
-        LootAll[Active.window()] = nil
+        WindowApi.unregisterCoreEventHandler(Active.window(), "OnUpdate")
     end
 end
 
-function ContainerWindow.updateContainer()
+function UusCorpContainerWindow.updateContainer()
     local this = Active.window()
     local id = WindowApi.getId(this)
-    local isGrid = not WindowApi.isShowing(this .. ContainerWindow.Views.Freeform)
+    local isGrid = not WindowApi.isShowing(this .. UusCorpContainerWindow.Views.Freeform)
     local name = StringFormatter.fromWString(Container.name(id))
 
     if #name > 12 then
@@ -126,56 +124,50 @@ function ContainerWindow.updateContainer()
         local scale = Container.freeFormScale()
         local _, xSize, ySize, _ = RequestGumpArt(gump)
 
-        local textureSize = xSize
-
-        if textureSize < ySize then
-            textureSize = ySize
-        end
-
-        WindowApi.setDimensions(
-            this,
-            textureSize,
-            textureSize
-        )
-
         DynamicImageApi.setTextureDimensions(
-            this .. ContainerWindow.Views.Freeform,
-            textureSize,
-            textureSize
+            this .. UusCorpContainerWindow.Views.Freeform,
+            xSize * scale,
+            ySize * scale
         )
 
         WindowApi.setDimensions(
-            this .. ContainerWindow.Views.Freeform,
-            textureSize,
-            textureSize
+            this .. UusCorpContainerWindow.Views.Freeform,
+            xSize * scale,
+            ySize * scale
         )
 
         DynamicImageApi.setTexture(
-            this .. ContainerWindow.Views.Freeform,
+            this .. UusCorpContainerWindow.Views.Freeform,
             "freeformcontainer_texture" .. id,
             0,
             0
         )
 
         DynamicImageApi.setTextureScale(
-            this .. ContainerWindow.Views.Freeform,
-            scale * InterfaceCore.scale
+            this .. UusCorpContainerWindow.Views.Freeform,
+            InterfaceCore.scale * scale
         )
 
-        if gump == ContainerWindow.Gumps.Backpack then
-            WindowApi.clearAnchors(this .. ContainerWindow.Views.Freeform)
+        WindowApi.setDimensions(
+            this,
+            xSize + 18,
+            ySize + 18
+        )
+
+        if gump == UusCorpContainerWindow.Gumps.Backpack then
+            WindowApi.clearAnchors(this .. UusCorpContainerWindow.Views.Freeform)
             WindowApi.addAnchor(
-                this .. ContainerWindow.Views.Freeform,
+                this .. UusCorpContainerWindow.Views.Freeform,
                 "topleft",
                 this,
                 "topleft",
                 -40,
                 0
             )
-        elseif gump == ContainerWindow.Gumps.Corpse then
-            WindowApi.clearAnchors(this .. ContainerWindow.Views.Freeform)
+        elseif gump == UusCorpContainerWindow.Gumps.Corpse then
+            WindowApi.clearAnchors(this .. UusCorpContainerWindow.Views.Freeform)
             WindowApi.addAnchor(
-                this .. ContainerWindow.Views.Freeform,
+                this .. UusCorpContainerWindow.Views.Freeform,
                 "topleft",
                 this,
                 "topleft",
@@ -184,8 +176,8 @@ function ContainerWindow.updateContainer()
             )
         end
     else
-        local slots = ContainerWindow.MaxSlots
-        local window = ContainerWindow.Name .. id .. "GridViewScrollChild"
+        local slots = UusCorpContainerWindow.MaxSlots
+        local window = UusCorpContainerWindow.Name .. id .. "GridViewScrollChild"
         local x, _ = WindowApi.getDimensions(window)
 
         --Public corpses may have more than the max count
@@ -239,7 +231,7 @@ function ContainerWindow.updateContainer()
         WindowDataApi.registerData(ItemPropertiesData.type(), object)
 
         if isGrid then
-            local window = ContainerWindow.Name .. id .. "GridViewScrollChild"
+            local window = UusCorpContainerWindow.Name .. id .. "GridViewScrollChild"
 
             local image = window .. "Slot" .. tostring(item.gridIndex) .. "Icon"
 
@@ -277,24 +269,22 @@ function ContainerWindow.updateContainer()
         end
     end
 
-    ScrollWindowApi.updateScrollRect(this .. ContainerWindow.Views.Grid)
+    ScrollWindowApi.updateScrollRect(this .. UusCorpContainerWindow.Views.Grid)
 end
 
-function ContainerWindow.updateObject()
+function UusCorpContainerWindow.updateObject()
 
 end
 
-function ContainerWindow.onRightClick()
+function UusCorpContainerWindow.onRightClick()
     WindowApi.destroyWindow(Active.window())
 end
 
-function ContainerWindow.onShutdown()
-    ContainerWindow.onSlotMouseOverEnd()
+function UusCorpContainerWindow.onShutdown()
+    UusCorpContainerWindow.onSlotMouseOverEnd()
 
     local window = Active.window()
     local id = WindowApi.getId(window)
-
-    LootAll[window] = nil
 
     WindowApi.unregisterEventHandler(window, Container.event())
     WindowApi.unregisterEventHandler(window, ObjectInfo.event())
@@ -311,11 +301,15 @@ function ContainerWindow.onShutdown()
     GumpApi.onCloseContainer(id)
 end
 
-function ContainerWindow.onLootAll()
-    LootAll[WindowApi.getParent(Active.window())] = true
+function UusCorpContainerWindow.onLootAll()
+    WindowApi.registerCoreEventHandler(
+        WindowApi.getParent(Active.window()),
+        "OnUpdate",
+        "UusCorpContainerWindow.onUpdate"
+    )
 end
 
-function ContainerWindow.onSlotSingleClick()
+function UusCorpContainerWindow.onSlotSingleClick()
     local slot = activeSlot()
 
     if Cursor.hasTarget() then
@@ -327,21 +321,21 @@ function ContainerWindow.onSlotSingleClick()
     end
 end
 
-function ContainerWindow.onSlotSingleClickUp()
+function UusCorpContainerWindow.onSlotSingleClickUp()
     if Drag.isItem() then
         local slot = activeSlot()
         DragApi.dragObjectToContainer(slot.containerId, 0)
     end
 end
 
-function ContainerWindow.onSlotDoubleClick()
+function UusCorpContainerWindow.onSlotDoubleClick()
     local slot = activeSlot()
     if slot.objectId ~= nil then
         UserAction.useItem(slot.objectId, false)
     end
 end
 
-function ContainerWindow.onSlotRightClick()
+function UusCorpContainerWindow.onSlotRightClick()
     local slot = activeSlot()
 
     if slot.containerId ~= PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack) then
@@ -351,42 +345,41 @@ function ContainerWindow.onSlotRightClick()
     end
 end
 
-function ContainerWindow.onSlotMouseOver()
-    local slot = activeSlot()
+function UusCorpContainerWindow.onSlotMouseOver()
+    -- local slot = activeSlot()
 
-    if slot.objectId == nil then
-        return
-    end
+    -- if slot.objectId == nil then
+    --     return
+    -- end
 
-    if ItemPropertiesData.properties(slot.objectId) == nil then
-        return
-    end
+    -- if ItemPropertiesData.properties(slot.objectId) == nil then
+    --     return
+    -- end
 
-    local data = {}
-    local properties = ItemPropertiesData.propertiesList(slot.objectId)
+    -- local data = {}
+    -- local properties = ItemPropertiesData.propertiesList(slot.objectId)
 
-    if properties ~= nil then
-        for i = 1, #properties do
-            local text = tostring(properties[i])
-            table.insert(data, text)
-        end
-        UusCorpTooltipWindow.create(data)
-    end
+    -- if properties ~= nil then
+    --     for i = 1, #properties do
+    --         local text = tostring(properties[i])
+    --         table.insert(data, text)
+    --     end
+    --     UusCorpTooltipWindow.create(data)
+    -- end
 end
 
-function ContainerWindow.onSlotMouseOverEnd()
-    UusCorpTooltipWindow.destroy()
+function UusCorpContainerWindow.onSlotMouseOverEnd()
 end
 
-function ContainerWindow.onToggleView()
+function UusCorpContainerWindow.onToggleView()
     UserContainerSettings.legacyContainers(
         not UserContainerSettings.legacyContainers()
     )
     SettingsApi.settingsChanged()
-    ContainerWindow.reopenContainer(WindowApi.getParent(Active.window()))
+    UusCorpContainerWindow.reopenContainer(WindowApi.getParent(Active.window()))
 end
 
-function ContainerWindow.reopenContainer(container)
+function UusCorpContainerWindow.reopenContainer(container)
     container = container or Active.window()
     WindowApi.destroyWindow(container)
     UserAction.useItem(

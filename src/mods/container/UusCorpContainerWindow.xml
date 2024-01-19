@@ -3,12 +3,12 @@
 		<!-- Main container window -->
         <Button name="ContainerSlotTemplate" inherits="ItemGridSocketTemplate">
             <EventHandlers>
-                <EventHandler event="OnLButtonDblClk" function="ContainerWindow.onSlotDoubleClick"/>
-				<EventHandler event="OnLButtonDown" function="ContainerWindow.onSlotSingleClick"/>
-				<EventHandler event="OnLButtonUp" function="ContainerWindow.onSlotSingleClickUp"/>
-				<EventHandler event="OnRButtonUp" function="ContainerWindow.onSlotRightClick"/>
-				<EventHandler event="OnMouseOver" function="ContainerWindow.onSlotMouseOver"/>
-				<EventHandler event="OnMouseOverEnd" function="ContainerWindow.onSlotMouseOverEnd"/>
+                <EventHandler event="OnLButtonDblClk" function="UusCorpContainerWindow.onSlotDoubleClick"/>
+				<EventHandler event="OnLButtonDown" function="UusCorpContainerWindow.onSlotSingleClick"/>
+				<EventHandler event="OnLButtonUp" function="UusCorpContainerWindow.onSlotSingleClickUp"/>
+				<EventHandler event="OnRButtonUp" function="UusCorpContainerWindow.onSlotRightClick"/>
+				<EventHandler event="OnMouseOver" function="UusCorpContainerWindow.onSlotMouseOver"/>
+				<EventHandler event="OnMouseOverEnd" function="UusCorpContainerWindow.onSlotMouseOverEnd"/>
 			</EventHandlers>
         </Button>
 
@@ -22,12 +22,11 @@
 				</Anchor>
 			</Anchors>
 			<EventHandlers>
-				<EventHandler event="OnInitialize" function="ContainerWindow.Initialize" />
-				<EventHandler event="OnShutdown" function="ContainerWindow.onShutdown" />
-				<EventHandler event="OnSetMoving" function="ContainerWindow.OnSetMoving" />
-				<EventHandler event="OnRButtonUp" function="ContainerWindow.onRightClick" />
+				<EventHandler event="OnInitialize" function="UusCorpContainerWindow.Initialize" />
+				<EventHandler event="OnShutdown" function="UusCorpContainerWindow.onShutdown" />
+				<EventHandler event="OnSetMoving" function="UusCorpContainerWindow.OnSetMoving" />
+				<EventHandler event="OnRButtonUp" function="UusCorpContainerWindow.onRightClick" />
 				<EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
-				<EventHandler event="OnUpdate" function="ContainerWindow.onUpdate"/>
 			</EventHandlers>
 			<Windows>
 
@@ -62,7 +61,7 @@
 						<Disabled x="0" y="0" />
 					</TexCoords>
 					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="ContainerWindow.onLootAll" />
+						<EventHandler event="OnLButtonUp" function="UusCorpContainerWindow.onLootAll" />
 					</EventHandlers>
 				</Button>
 
@@ -73,7 +72,7 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="ContainerWindow.onToggleView"/>
+						<EventHandler event="OnLButtonUp" function="UusCorpContainerWindow.onToggleView"/>
 					</EventHandlers>
 				</Button>
 
@@ -130,7 +129,7 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="ContainerWindow.OnResizeBegin" />
+						<EventHandler event="OnLButtonDown" function="UusCorpContainerWindow.OnResizeBegin" />
 					</EventHandlers>
 				</Button>
 
