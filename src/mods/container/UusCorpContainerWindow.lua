@@ -58,6 +58,50 @@ local function activeSlot()
     }
 end
 
+local function toggleLegacy(id, isLegacy)
+    local window = UusCorpContainerWindow.Name .. id
+
+    WindowApi.setShowing(
+        window .. UusCorpContainerWindow.Views.Grid,
+        not isLegacy
+    )
+
+    WindowApi.setShowing(
+        window .. UusCorpContainerWindow.Views.Freeform,
+        isLegacy
+    )
+
+    WindowApi.setShowing(
+        window .. "FreeformBackground",
+        isLegacy
+    )
+
+    WindowApi.setShowing(
+        window .. "Title",
+        not isLegacy
+    )
+
+    WindowApi.setShowing(
+        window .. "Background",
+        not isLegacy
+    )
+
+    WindowApi.setShowing(
+        window .. "Frame",
+        not isLegacy
+    )
+
+    WindowApi.setShowing(
+        window .. "ResizeButton",
+        not isLegacy
+    )
+
+    WindowApi.setShowing(
+        window .. "LootAll",
+        id ~= Paperdoll.backpack(PlayerStatus.id()) and not isLegacy
+    )
+end
+
 function UusCorpContainerWindow.Initialize()
     local id = tonumber(string.gsub(Active.window(), UusCorpContainerWindow.Name, ""), 10)
     WindowApi.setId(Active.window(), id)
@@ -70,25 +114,7 @@ function UusCorpContainerWindow.Initialize()
 
     WindowApi.setUpdateFrequency(Active.window(), 1)
 
-    WindowApi.setShowing(
-        UusCorpContainerWindow.Name .. id .. UusCorpContainerWindow.Views.Grid,
-        not UserContainerSettings.legacyContainers()
-    )
-
-    WindowApi.setShowing(
-        UusCorpContainerWindow.Name .. id .. UusCorpContainerWindow.Views.Freeform,
-        UserContainerSettings.legacyContainers()
-    )
-
-    WindowApi.setShowing(
-        UusCorpContainerWindow.Name .. id .. "FreeformBackground",
-        UserContainerSettings.legacyContainers()
-    )
-
-    WindowApi.setShowing(
-        UusCorpContainerWindow.Name .. id .. "LootAll",
-        id ~= Paperdoll.backpack(PlayerStatus.id())
-    )
+    toggleLegacy(id, UserContainerSettings.legacyContainers())
 
     -- There appears to be a bug with empty containers
     -- where updateContainer is not fired automatically
@@ -122,7 +148,8 @@ function UusCorpContainerWindow.updateContainer()
         local gump = Container.gumpNum(id)
 
         local scale = Container.freeFormScale()
-        local _, xSize, ySize, _ = RequestGumpArt(gump)
+        local texture, xSize, ySize, _ = RequestGumpArt(gump)
+        local tScale = 1.5
 
         DynamicImageApi.setTextureDimensions(
             this .. UusCorpContainerWindow.Views.Freeform,
@@ -148,33 +175,35 @@ function UusCorpContainerWindow.updateContainer()
             InterfaceCore.scale * scale
         )
 
-        WindowApi.setDimensions(
-            this,
-            xSize + 18,
-            ySize + 18
+        DynamicImageApi.setTextureDimensions(
+            this .. "FreeformBackground",
+            xSize * tScale,
+            ySize * tScale
         )
 
-        if gump == UusCorpContainerWindow.Gumps.Backpack then
-            WindowApi.clearAnchors(this .. UusCorpContainerWindow.Views.Freeform)
-            WindowApi.addAnchor(
-                this .. UusCorpContainerWindow.Views.Freeform,
-                "topleft",
-                this,
-                "topleft",
-                -40,
-                0
-            )
-        elseif gump == UusCorpContainerWindow.Gumps.Corpse then
-            WindowApi.clearAnchors(this .. UusCorpContainerWindow.Views.Freeform)
-            WindowApi.addAnchor(
-                this .. UusCorpContainerWindow.Views.Freeform,
-                "topleft",
-                this,
-                "topleft",
-                0,
-                -40
-            )
-        end
+        WindowApi.setDimensions(
+            this .. "FreeformBackground",
+            xSize * tScale,
+            ySize * tScale
+        )
+
+        DynamicImageApi.setTexture(
+            this .. "FreeformBackground",
+            texture,
+            0,
+            0
+        )
+
+        DynamicImageApi.setTextureScale(
+            this .. "FreeformBackground",
+            tScale
+        )
+
+        WindowApi.setDimensions(
+            this,
+            xSize * scale,
+            ySize * scale
+        )
     else
         local slots = UusCorpContainerWindow.MaxSlots
         local window = UusCorpContainerWindow.Name .. id .. "GridViewScrollChild"

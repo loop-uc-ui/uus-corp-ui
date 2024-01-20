@@ -139,23 +139,19 @@
 					</Size>
 					<TexCoords x="0" y="0"/>
 					<Anchors>
-						<Anchor point="topleft" relativePoint="topleft"/>
+						<Anchor point="center" relativePoint="center" relativeTo="$parentFreeformBackground"/>
 					</Anchors>
 				</DynamicImage>
 
-				<DynamicImage name="$parentFreeformBackground" layer="background" texture="hud_image">
+				<DynamicImage name="$parentFreeformBackground" layer="background">
 					<Size>
 						<AbsPoint x="51" y="51" />
 					</Size>
 					<Anchors>
-                        <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
-							<AbsPoint x="-8" y="8"/>
-						</Anchor>
-                        <Anchor point="bottomright" relativePoint="bottomright">
-							<AbsPoint x="-8" y="-8"/>
-						</Anchor>
+                        <Anchors>
+						<Anchor point="center" relativePoint="center" relativeTo="$parent"/>
+					</Anchors>
                     </Anchors>
-					<TexCoords x="412" y="971" />
 				</DynamicImage>
 			</Windows>
 		</Window>
