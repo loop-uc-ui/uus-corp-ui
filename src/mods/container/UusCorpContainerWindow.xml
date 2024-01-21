@@ -6,9 +6,9 @@
                 <EventHandler event="OnLButtonDblClk" function="UusCorpContainerWindow.onSlotDoubleClick"/>
 				<EventHandler event="OnLButtonDown" function="UusCorpContainerWindow.onSlotSingleClick"/>
 				<EventHandler event="OnLButtonUp" function="UusCorpContainerWindow.onSlotSingleClickUp"/>
-				<EventHandler event="OnRButtonUp" function="UusCorpContainerWindow.onSlotRightClick"/>
+				<EventHandler event="OnRButtonDown" function="UusCorpContainerWindow.onSlotRightClick"/>
 				<EventHandler event="OnMouseOver" function="UusCorpContainerWindow.onSlotMouseOver"/>
-				<EventHandler event="OnMouseOverEnd" function="UusCorpContainerWindow.onSlotMouseOverEnd"/>
+				<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
 			</EventHandlers>
         </Button>
 
@@ -65,7 +65,28 @@
 					</EventHandlers>
 				</Button>
 
-				<Button name="$parentToggleView" inherits="UO_Default_Spring_Button" layer="overlay">
+				<Button name="$parentSearch" sticky="false" backgroundtexture="Search" highlighttexture="Search">
+					<Size>
+						<AbsPoint x="32" y="32" />
+					</Size>
+					<Anchors>
+						<Anchor point="topleft" relativePoint="topright" relativeTo="$parentLootAll">
+							<AbsPoint x="0" y="-2" />
+						</Anchor>
+					</Anchors>
+					<TexCoords>
+						<Normal  x="0" y="0" />
+						<NormalHighlit x="0" y="0" />
+						<Pressed x="0" y="0" />
+						<PressedHighlit x="0" y="0" />
+						<Disabled x="0" y="0" />
+					</TexCoords>
+					<EventHandlers>
+						<EventHandler event="OnLButtonUp" function="UusCorpContainerWindow.onSearchClick"/>
+					</EventHandlers>
+				</Button>
+
+				<Button name="$parentToggleView" inherits="UO_Default_Spring_Button">
 					<Anchors>
 						<Anchor point="topright" relativePoint="topright" relativeTo="$parentFrame">
 							<AbsPoint x="-8" y="10"/>
@@ -85,7 +106,33 @@
                             <AbsPoint x="12" y="12"/>
                         </Anchor>
 					</Anchors>
+					<Color r="206" g="217" b="242" a="255" />
 				</Label>
+
+				<EditBox name="$parentBox" font="inter_medium_16" taborder="1" maxchars="24" scrolling="horz">
+					<Size>
+						<AbsPoint x="215" y="8"/>
+					</Size>
+                    <Anchors>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTitle" />
+                    </Anchors>
+					<EventHandlers>
+						<EventHandler event="OnKeyEscape" function="UusCorpContainerWindow.onSearchClick"/>
+						<EventHandler event="OnTextChanged" function="UusCorpContainerWindow.onTextChanged"/>
+					</EventHandlers>
+                    <TextOffset x="0" y="0" />
+                </EditBox>
+
+				<FullResizeImage name="$parentLine" inherits="UO_Default_Horizontal_Gold_Line" >
+					<Size>
+						<AbsPoint x="215" y="2" />
+					</Size>
+					<Anchors>
+						<Anchor point="bottomleft" relativePoint="topeft" relativeTo="$parentBox">
+							<AbsPoint x="0" y="12" />
+						</Anchor>
+					</Anchors>
+				</FullResizeImage>
 
 				<!-- Grid view -->
 				<ScrollWindow name="$parentGridView" childscrollwindow="$parentScrollChild" scrollbar="$parentScrollbar" lineheight="39"  draganddrop="true" autoHideScrollBar="true" popable="false">

@@ -96,10 +96,22 @@ local function toggleLegacy(id, isLegacy)
         not isLegacy
     )
 
+    local showLootAll = id ~= Paperdoll.backpack(PlayerStatus.id()) and not isLegacy
+
     WindowApi.setShowing(
         window .. "LootAll",
-        id ~= Paperdoll.backpack(PlayerStatus.id()) and not isLegacy
+        showLootAll
     )
+
+    WindowApi.setShowing(
+        window .. "Search",
+        not isLegacy
+    )
+
+    if not showLootAll then
+        WindowApi.clearAnchors(window .. "Search")
+        WindowApi.addAnchor(window .. "Search", "topleft", window .. "ToggleView", "topright", -6,-6)
+    end
 end
 
 function UusCorpContainerWindow.Initialize()
@@ -121,6 +133,9 @@ function UusCorpContainerWindow.Initialize()
     if Container.itemCount(id) <= 0 then
         UusCorpContainerWindow.updateContainer()
     end
+
+    WindowApi.setShowing(Active.window() .. "Box", false)
+    WindowApi.setShowing(Active.window() .. "Line", false)
 end
 
 function UusCorpContainerWindow.onUpdate()
@@ -306,11 +321,13 @@ function UusCorpContainerWindow.updateObject()
 end
 
 function UusCorpContainerWindow.onRightClick()
-    WindowApi.destroyWindow(Active.window())
+    if not string.match(Active.mouseOverWindow(), "GridViewScrollChild") then
+        WindowApi.destroyWindow(Active.window())
+    end
 end
 
 function UusCorpContainerWindow.onShutdown()
-    UusCorpContainerWindow.onSlotMouseOverEnd()
+    ItemProperties.ClearMouseOverItem()
 
     local window = Active.window()
     local id = WindowApi.getId(window)
@@ -364,40 +381,28 @@ function UusCorpContainerWindow.onSlotDoubleClick()
     end
 end
 
-function UusCorpContainerWindow.onSlotRightClick()
+function UusCorpContainerWindow.onSlotRightClick(flags)
     local slot = activeSlot()
 
-    if slot.containerId ~= PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack) then
-        DragApi.autoPickUpObject(
-            slot.objectId
-        )
+    if ButtonFlags.isControl(flags) then
+        ContextMenuApi.requestMenu(slot.objectId)
+    elseif slot.containerId ~= PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack) then
+        DragApi.autoPickUpObject(slot.objectId)
     end
 end
 
 function UusCorpContainerWindow.onSlotMouseOver()
-    -- local slot = activeSlot()
+    local slot = activeSlot()
 
-    -- if slot.objectId == nil then
-    --     return
-    -- end
-
-    -- if ItemPropertiesData.properties(slot.objectId) == nil then
-    --     return
-    -- end
-
-    -- local data = {}
-    -- local properties = ItemPropertiesData.propertiesList(slot.objectId)
-
-    -- if properties ~= nil then
-    --     for i = 1, #properties do
-    --         local text = tostring(properties[i])
-    --         table.insert(data, text)
-    --     end
-    --     UusCorpTooltipWindow.create(data)
-    -- end
-end
-
-function UusCorpContainerWindow.onSlotMouseOverEnd()
+    if slot.objectId ~= nil then
+        local itemData = {
+            windowName = Active.window(),
+            itemId = slot.objectId,
+            itemType = WindowData.ItemProperties.TYPE_ITEM,
+            detail = ItemProperties.DETAIL_LONG
+        }
+        ItemProperties.SetActiveItem(itemData)
+    end
 end
 
 function UusCorpContainerWindow.onToggleView()
@@ -415,4 +420,46 @@ function UusCorpContainerWindow.reopenContainer(container)
         WindowApi.getId(container),
         false
     )
+end
+
+function UusCorpContainerWindow.onSearchClick()
+    local window = WindowApi.getParent(Active.window())
+    WindowApi.setShowing(window .. "Box", not WindowApi.isShowing(window .. "Box"))
+    WindowApi.assignFocus(window .. "Box", WindowApi.isShowing(window .. "Box"))
+    WindowApi.setShowing(window .. "Line", WindowApi.isShowing(window .. "Box"))
+    WindowApi.setShowing(window .. "Title", not WindowApi.isShowing(window .. "Box"))
+end
+
+function UusCorpContainerWindow.onTextChanged(text)
+    local container = WindowApi.getParent(Active.window())
+    local id = WindowApi.getId(container)
+    local data = {}
+
+    ---TODO better not to do this with text change
+    for i = 1, Container.itemCount(id) do
+        local item = Container.items(id)[i]
+        local object = item.objectId
+        local index = item.gridIndex
+
+        local properties = ItemPropertiesData.propertiesList(object)
+
+        if properties ~= nil and #properties > 0 then
+            local search = ""
+
+            for j = 1 , #properties do
+                search = search .. " " .. StringFormatter.fromWString(properties[j])
+            end
+
+            local slot =  container .. "GridViewScrollChildSlot" .. tostring(index) .. "Icon"
+            data[slot] = search
+        end
+    end
+
+    for k, v in pairs(data) do
+        local isFound = string.find(
+            string.lower(v),
+            string.lower(StringFormatter.fromWString(text))
+        ) ~= nil
+        WindowApi.setShowing(k, isFound)
+    end
 end
