@@ -117,10 +117,14 @@ end
 function UusCorpContainerWindow.Initialize()
     local id = tonumber(string.gsub(Active.window(), UusCorpContainerWindow.Name, ""), 10)
     WindowApi.setId(Active.window(), id)
-    WindowApi.registerEventHandler(Active.window(), Container.event(), "UusCorpContainerWindow.updateContainer")
-    WindowApi.registerEventHandler(Active.window(), Events.userSettingsUpdated(), "UusCorpContainerWindow.reopenContainer")
-    WindowApi.registerEventHandler(Active.window(), ObjectInfo.event(), "UusCorpContainerWindow.updateObject")
-    WindowApi.registerEventHandler(Active.window(), ItemPropertiesData.event(), "UusCorpContainerWindow.updateObject")
+    WindowApi.registerEventHandler(Active.window(), Container.event(),
+    "UusCorpContainerWindow.updateContainer")
+    WindowApi.registerEventHandler(Active.window(), Events.userSettingsUpdated(),
+    "UusCorpContainerWindow.reopenContainer")
+    WindowApi.registerEventHandler(Active.window(), ObjectInfo.event(),
+    "UusCorpContainerWindow.updateObject")
+    WindowApi.registerEventHandler(Active.window(), ItemPropertiesData.event(),
+    "UusCorpContainerWindow.updateObject")
 
     WindowDataApi.registerData(Container.type(), id)
 
