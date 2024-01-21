@@ -24,6 +24,7 @@ function UusCorpResizeMod.onInitialize()
 
     WindowApi.setParent("ResizeWindowLock", "Root")
     WindowApi.clearAnchors("ResizeWindowLock")
+    WindowApi.setLayer("ResizeWindowLock", Window.Layers.DEFAULT)
     WindowApi.addAnchor("ResizeWindowLock", "left", "ResizeWindowResizeButton", "right", -3, -3)
     WindowApi.unregisterCoreEventHandler("ResizeWindowLock", "OnMouseOver")
 end
