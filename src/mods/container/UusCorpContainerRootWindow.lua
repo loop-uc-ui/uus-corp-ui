@@ -5,11 +5,17 @@ UusCorpContainerRootWindow = {}
 ---@type table<string, UusCorpContainerWindow>
 local Containers = {}
 
-local function activeSlot()
-    local scroll = WindowApi.getParent(WindowApi.getParent(Active.window()))
+local function activeSlot(isMouseOver)
+    local window = Active.window()
+
+    if isMouseOver then
+        window = Active.mouseOverWindow()
+    end
+
+    local scroll = WindowApi.getParent(WindowApi.getParent(window))
     local slots = Containers[WindowApi.getParent(scroll)].slots
     for i = 1, #slots do
-        if slots[i].name == Active.window() then
+        if slots[i].name == window then
             return slots[i]
         end
     end
@@ -33,9 +39,12 @@ function UusCorpContainerRootWindow.updateObject()
 
 end
 
-function UusCorpContainerRootWindow.onRightClick()
-    if not string.match(Active.mouseOverWindow(), "GridViewScrollChild") then
-        WindowApi.destroyWindow(Active.window())
+function UusCorpContainerRootWindow.onRightClick(flags)
+    if not string.match(Active.mouseOverWindow(), "Slot") then
+        Containers[Active.window()]:destroy()
+    else
+        local slot = activeSlot(true)
+        slot:onRightClick(flags)
     end
 end
 

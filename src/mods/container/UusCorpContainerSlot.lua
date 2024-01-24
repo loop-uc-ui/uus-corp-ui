@@ -84,6 +84,8 @@ function UusCorpContainerSlot:onRightClick(flags)
         ContextMenuApi.requestMenu(self:getId())
     elseif self.containerId ~= PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack) then
         DragApi.autoPickUpObject(self:getId())
+    else
+        WindowApi.destroyWindow(UusCorpContainerWindow.name .. self.containerId)
     end
 end
 
