@@ -160,7 +160,7 @@ end
 function UserOptionsSettings.autoIgnoreCorpses(newValue)
     if  newValue ~= nil then
         UserInterfaceVariables.SaveBoolean("AutoIgnoreCorpses", newValue)
-        UusCorpContainerWindow.EnableAutoIgnoreCorpses = newValue
+        UusCorpContainerRootWindow.EnableAutoIgnoreCorpses = newValue
         return newValue
     else
         return UserInterfaceVariables.LoadBoolean("AutoIgnoreCorpses", true)

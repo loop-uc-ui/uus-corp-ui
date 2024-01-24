@@ -885,7 +885,7 @@ end
 function UusCorpSettingsWindow.onInitialize()
     UusCorpSettingsWindow:registerEvent(
         Events.userSettingsUpdated(),
-        "onSettingsUpdate"
+        "UusCorpSettingsWindow.onSettingsUpdate"
     )
 
     for _, v in pairs(UusCorpSettingsWindow.Pages) do

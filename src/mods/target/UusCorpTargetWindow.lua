@@ -78,9 +78,9 @@ function UusCorpTargetWindow.onInitialize()
 
     if CurrentTarget.isMobile() then
         UusCorpTargetWindow:registerData(MobileStatus.type(), id)
-        UusCorpTargetWindow:registerEvent(MobileStatus.event(), "onUpdateMobileStatus")
+        UusCorpTargetWindow:registerEvent(MobileStatus.event(), "UusCorpTargetWindow.onUpdateMobileStatus")
         UusCorpTargetWindow:registerData(HealthBarColorData.type(), id)
-        UusCorpTargetWindow:registerEvent(HealthBarColorData.event(), "onUpdateHealthBarColor")
+        UusCorpTargetWindow:registerEvent(HealthBarColorData.event(), "UusCorpTargetWindow.onUpdateHealthBarColor")
 
 
         if MobileStatus.status(id) ~= nil then
@@ -92,7 +92,7 @@ function UusCorpTargetWindow.onInitialize()
         end
     elseif CurrentTarget.isObject() or CurrentTarget.isCorpse() then
         UusCorpTargetWindow:registerData(ObjectInfo.type(), id)
-        UusCorpTargetWindow:registerEvent(ObjectInfo.event(), "onUpdateObjectInfo")
+        UusCorpTargetWindow:registerEvent(ObjectInfo.event(), "UusCorpTargetWindow.onUpdateObjectInfo")
         UusCorpTargetWindow.StatusBar:setShowing(false)
         UusCorpTargetWindow.HealthBarPercent:setShowing(false)
         UusCorpTargetWindow.onUpdateObjectInfo()
