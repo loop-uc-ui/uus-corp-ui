@@ -79,13 +79,10 @@ function UusCorpContainerRootWindow.onSlotMouseOver()
 end
 
 function UusCorpContainerRootWindow.onToggleView()
-    UserContainerSettings.legacyContainers(
-        not UserContainerSettings.legacyContainers()
-    )
-    SettingsApi.settingsChanged()
-    UusCorpContainerRootWindow.reopenContainer(
-        Containers[WindowApi.getParent(Active.window())]
-    )
+    UserContainerSettings.legacyContainers(not UserContainerSettings.legacyContainers())
+    local container = Containers[WindowApi.getParent(Active.window())]
+    container:destroy()
+    UserAction.useItem(container:getId(), false)
 end
 
 function UusCorpContainerRootWindow.reopenContainer(container)
