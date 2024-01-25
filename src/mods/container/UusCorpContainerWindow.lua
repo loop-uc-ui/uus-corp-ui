@@ -172,6 +172,7 @@ function UusCorpContainerWindow:createSlots()
         end
 
         slot.icon:setTexture("")
+        slot.gridIndex = i
         table.insert(self.slots, slot)
     end
 end

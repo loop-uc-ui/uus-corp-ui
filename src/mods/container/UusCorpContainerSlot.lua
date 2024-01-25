@@ -1,6 +1,7 @@
 ---@class UusCorpContainerSlot:UusCorpButton
 ---@field icon UusCorpDynamicImage
 ---@field containerId number
+---@field gridIndex number
 UusCorpContainerSlot = UusCorpButton:new("UusCorpContainerSlot")
 
 
@@ -60,7 +61,9 @@ function UusCorpContainerSlot:properties()
 end
 
 function UusCorpContainerSlot:onSingleClick()
-    if Cursor.hasTarget() then
+    if Drag.isItem() then
+        DragApi.dragObjectToObjectAtIndex(self:getId(), self.gridIndex)
+    elseif Cursor.hasTarget() then
         TargetApi.clickTarget(self:getId())
     else
         DragApi.setObjectMouseClickData(self:getId(), Drag.sourceContainer())
@@ -71,7 +74,7 @@ end
 
 function UusCorpContainerSlot:onSingleClickUp()
     if Drag.isItem() then
-        DragApi.dragObjectToContainer(self.containerId, 0)
+        DragApi.dragObjectToObjectAtIndex(self:getId(), self.gridIndex)
     end
 end
 
