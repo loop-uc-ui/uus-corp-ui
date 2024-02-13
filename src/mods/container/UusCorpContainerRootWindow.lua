@@ -96,18 +96,12 @@ function UusCorpContainerRootWindow.onSearchClick()
     container.searchBox:assignFocus(container.searchBox:isShowing())
     container.searchLine:setShowing(container.searchBox:isShowing())
     container.title:setShowing(not container.searchBox:isShowing())
+
+    if not container.searchBox:isShowing() then
+        container.searchBox:setText("")
+    end
 end
 
 function UusCorpContainerRootWindow.onTextChanged(text)
-    local container = Containers[WindowApi.getParent(Active.window())]
-
-    for i = 1, #container.slots do
-        local slot = container.slots[i]
-        local properties = slot:properties()
-        local isFound = properties == "" or string.find(
-            string.lower(properties),
-            string.lower(StringFormatter.fromWString(text))
-        ) ~= nil
-        slot:setShowing(isFound)
-    end
+    Containers[WindowApi.getParent(Active.window())]:onSearchUpdate(text)
 end
