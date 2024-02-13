@@ -39,6 +39,15 @@ function UusCorpContainerSlot:createIcon(objectId)
     return self.icon
 end
 
+function UusCorpContainerSlot:onSearchUpdate(text)
+    local properties = self:properties()
+    local isFound = properties == "" or string.find(
+        string.lower(properties),
+        string.lower(StringFormatter.fromWString(text))
+    ) ~= nil
+    self:setShowing(isFound)
+end
+
 function UusCorpContainerSlot:onMouseOver()
     local itemData = {
         windowName = self.name,

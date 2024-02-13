@@ -129,6 +129,12 @@ function UusCorpContainerWindow:getItems()
     return Container.items(self:getId())
 end
 
+function UusCorpContainerWindow:onSearchUpdate(text)
+    for i = 1, #self.slots do
+        self.slots[i]:onSearchUpdate(text)
+    end
+end
+
 function UusCorpContainerWindow:createSlots()
     local sizeMultiplier = 1
     local scrollWindow = self.gridView.scrollChild
