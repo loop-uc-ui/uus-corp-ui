@@ -91,9 +91,14 @@
             <File name="util/StringFormatter.lua"/>
             <File name="util/TableFormatter.lua"/>
             <File name="util/WindowUtilsWrapper.lua"/>
+            <File name="window/UusCorpView.lua"/>
             <File name="window/UusCorpWindow.lua"/>
             <File name="window/UusCorpAnchor.lua"/>
+            <File name="window/UusCorpButton.lua"/>
+            <File name="window/UusCorpDynamicImage.lua"/>
+            <File name="window/UusCorpEditTextBox.lua"/>
             <File name="window/UusCorpLabel.lua"/>
+            <File name="window/UusCorpScrollWindow.lua"/>
             <File name="window/UusCorpStatusBar.lua"/>
 		</Files>
 

@@ -3,11 +3,11 @@
 		<!-- Main container window -->
         <Button name="ContainerSlotTemplate" inherits="ItemGridSocketTemplate">
             <EventHandlers>
-                <EventHandler event="OnLButtonDblClk" function="UusCorpContainerWindow.onSlotDoubleClick"/>
-				<EventHandler event="OnLButtonDown" function="UusCorpContainerWindow.onSlotSingleClick"/>
-				<EventHandler event="OnLButtonUp" function="UusCorpContainerWindow.onSlotSingleClickUp"/>
-				<EventHandler event="OnRButtonDown" function="UusCorpContainerWindow.onSlotRightClick"/>
-				<EventHandler event="OnMouseOver" function="UusCorpContainerWindow.onSlotMouseOver"/>
+                <EventHandler event="OnLButtonDblClk" function="UusCorpContainerRootWindow.onSlotDoubleClick"/>
+				<EventHandler event="OnLButtonDown" function="UusCorpContainerRootWindow.onSlotSingleClick"/>
+				<EventHandler event="OnLButtonUp" function="UusCorpContainerRootWindow.onSlotSingleClickUp"/>
+				<EventHandler event="OnRButtonDown" function="UusCorpContainerRootWindow.onSlotRightClick"/>
+				<EventHandler event="OnMouseOver" function="UusCorpContainerRootWindow.onSlotMouseOver"/>
 				<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
 			</EventHandlers>
         </Button>
@@ -22,10 +22,10 @@
 				</Anchor>
 			</Anchors>
 			<EventHandlers>
-				<EventHandler event="OnInitialize" function="UusCorpContainerWindow.Initialize" />
-				<EventHandler event="OnShutdown" function="UusCorpContainerWindow.onShutdown" />
-				<EventHandler event="OnSetMoving" function="UusCorpContainerWindow.OnSetMoving" />
-				<EventHandler event="OnRButtonUp" function="UusCorpContainerWindow.onRightClick" />
+				<EventHandler event="OnInitialize" function="UusCorpContainerRootWindow.Initialize" />
+				<EventHandler event="OnShutdown" function="UusCorpContainerRootWindow.onShutdown" />
+				<EventHandler event="OnSetMoving" function="UusCorpContainerRootWindow.OnSetMoving" />
+				<EventHandler event="OnRButtonUp" function="UusCorpContainerRootWindow.onRightClick" />
 				<EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
 			</EventHandlers>
 			<Windows>
@@ -61,7 +61,7 @@
 						<Disabled x="0" y="0" />
 					</TexCoords>
 					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="UusCorpContainerWindow.onLootAll" />
+						<EventHandler event="OnLButtonUp" function="UusCorpContainerRootWindow.onLootAll" />
 					</EventHandlers>
 				</Button>
 
@@ -82,7 +82,7 @@
 						<Disabled x="0" y="0" />
 					</TexCoords>
 					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="UusCorpContainerWindow.onSearchClick"/>
+						<EventHandler event="OnLButtonUp" function="UusCorpContainerRootWindow.onSearchClick"/>
 					</EventHandlers>
 				</Button>
 
@@ -93,7 +93,7 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonUp" function="UusCorpContainerWindow.onToggleView"/>
+						<EventHandler event="OnLButtonUp" function="UusCorpContainerRootWindow.onToggleView"/>
 					</EventHandlers>
 				</Button>
 
@@ -117,8 +117,8 @@
                         <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentTitle" />
                     </Anchors>
 					<EventHandlers>
-						<EventHandler event="OnKeyEscape" function="UusCorpContainerWindow.onSearchClick"/>
-						<EventHandler event="OnTextChanged" function="UusCorpContainerWindow.onTextChanged"/>
+						<EventHandler event="OnKeyEscape" function="UusCorpContainerRootWindow.onSearchClick"/>
+						<EventHandler event="OnTextChanged" function="UusCorpContainerRootWindow.onTextChanged"/>
 					</EventHandlers>
                     <TextOffset x="0" y="0" />
                 </EditBox>
@@ -176,7 +176,7 @@
 						</Anchor>
 					</Anchors>
 					<EventHandlers>
-						<EventHandler event="OnLButtonDown" function="UusCorpContainerWindow.OnResizeBegin" />
+						<EventHandler event="OnLButtonDown" function="UusCorpContainerRootWindow.OnResizeBegin" />
 					</EventHandlers>
 				</Button>
 

@@ -1,10 +1,10 @@
----@class UusCorpStatusBar:UusCorpWindow
-UusCorpStatusBar = UusCorpWindow:new("UusCorpStatusBar")
+---@class UusCorpStatusBar:UusCorpView
+UusCorpStatusBar = UusCorpView:new("UusCorpStatusBar")
 
 ---@param name string
 ---@return UusCorpStatusBar
 function UusCorpStatusBar:new(name)
-    return UusCorpWindow.new(self, name) --[[@as UusCorpStatusBar]]
+    return UusCorpView.new(self, name) --[[@as UusCorpStatusBar]]
 end
 
 ---@param tint table

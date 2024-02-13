@@ -1,10 +1,10 @@
----@class UusCorpLabel:UusCorpWindow
-UusCorpLabel = UusCorpWindow:new("UusCorpLabel")
+---@class UusCorpLabel:UusCorpView
+UusCorpLabel = UusCorpView:new("UusCorpLabel")
 
 ---@param name string
 ---@return UusCorpLabel
 function UusCorpLabel:new(name)
-    return UusCorpWindow.new(self, name) --[[@as UusCorpLabel]]
+    return UusCorpView.new(self, name) --[[@as UusCorpLabel]]
 end
 
 function UusCorpLabel:setText(text)

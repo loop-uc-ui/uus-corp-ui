@@ -1,469 +1,186 @@
---Container windows are not create explicitly by the UI.
---They are create by client when containers are clicked.
-UusCorpContainerWindow = {}
-UusCorpContainerWindow.Template = "ContainerWindow"
-UusCorpContainerWindow.Name = UusCorpContainerWindow.Template .. "_"
-UusCorpContainerWindow.MaxSlots = 125
+---@class UusCorpContainerWindow:UusCorpWindow
+---@field maxSlots number
+---@field gridView UusCorpScrollWindow
+---@field background UusCorpWindow
+---@field freeformView UusCorpDynamicImage
+---@field freeformBackground UusCorpDynamicImage
+---@field title UusCorpLabel
+---@field lootAll UusCorpButton
+---@field toggleView UusCorpButton
+---@field search UusCorpButton
+---@field searchBox UusCorpEditTextBox
+---@field searchLine UusCorpWindow
+---@field frame UusCorpWindow
+---@field resizeButton UusCorpButton
+---@field slots UusCorpContainerSlot[]
+UusCorpContainerWindow = UusCorpWindow:new("ContainerWindow_")
 
-UusCorpContainerWindow.Views = {
-    Grid = "GridView",
-    Freeform = "FreeformView"
-}
+local MAX_SLOTS = 125
 
-UusCorpContainerWindow.Gumps = {
-    Backpack = 60,
-    Corpse = 9
-}
-
-local function activeSlot()
-    local slotNum = WindowApi.getId(Active.window())
-
-    local container = WindowApi.getId(
-        WindowApi.getParent(
-            WindowApi.getParent(
-                WindowApi.getParent(
-                    Active.window()
-                )
-            )
-        )
-    )
-
-    local item = nil
-
-    for i = 1, Container.itemCount(container) do
-        local thisItem = Container.items(container)[i]
-        if thisItem.gridIndex == slotNum then
-            item = thisItem
-            break
-        end
-    end
-
-    local objectId = nil
-
-    if item ~= nil then
-        objectId = item.objectId
-    end
-
-    local gridIndex = nil
-
-    if item ~= nil then
-        gridIndex = item.gridIndex
-    end
-
-    return {
-        containerId = container,
-        objectId = objectId,
-        gridIndex = gridIndex,
-        slotNum = slotNum
-    }
+---@param id number
+---@return UusCorpContainerWindow
+function UusCorpContainerWindow:new(id)
+    local window = UusCorpWindow.new(self, self.name .. tostring(id)) --[[@as UusCorpContainerWindow]]
+    window.gridView = window:addScrollWindow("GridView")
+    window.background = window:addWindow("Background")
+    window.freeformView = window:addDynamicImage("FreeformView")
+    window.freeformBackground = window:addDynamicImage("FreeformBackground")
+    window.title = window:addLabel("Title")
+    window.lootAll = window:addButton("LootAll")
+    window.toggleView = window:addButton("ToggleView")
+    window.search = window:addButton("Search")
+    window.searchBox = window:addEditTextBox("Box")
+    window.searchLine = window:addWindow("Line")
+    window.frame = window:addWindow("Frame")
+    window.resizeButton = window:addButton("ResizeButton")
+    window.slots = {}
+    return window
 end
 
-local function toggleLegacy(id, isLegacy)
-    local window = UusCorpContainerWindow.Name .. id
-
-    WindowApi.setShowing(
-        window .. UusCorpContainerWindow.Views.Grid,
-        not isLegacy
-    )
-
-    WindowApi.setShowing(
-        window .. UusCorpContainerWindow.Views.Freeform,
-        isLegacy
-    )
-
-    WindowApi.setShowing(
-        window .. "FreeformBackground",
-        isLegacy
-    )
-
-    WindowApi.setShowing(
-        window .. "Title",
-        not isLegacy
-    )
-
-    WindowApi.setShowing(
-        window .. "Background",
-        not isLegacy
-    )
-
-    WindowApi.setShowing(
-        window .. "Frame",
-        not isLegacy
-    )
-
-    WindowApi.setShowing(
-        window .. "ResizeButton",
-        not isLegacy
-    )
-
-    local showLootAll = id ~= Paperdoll.backpack(PlayerStatus.id()) and not isLegacy
-
-    WindowApi.setShowing(
-        window .. "LootAll",
-        showLootAll
-    )
-
-    WindowApi.setShowing(
-        window .. "Search",
-        not isLegacy
-    )
-
-    if not showLootAll then
-        WindowApi.clearAnchors(window .. "Search")
-        WindowApi.addAnchor(window .. "Search", "topleft", window .. "ToggleView", "topright", -6,-6)
-    end
+function UusCorpContainerWindow:onInitialize(id)
+    self:setId(id)
+    self:registerData(Container.type(), id)
+    self:registerEvent(Container.event(), "UusCorpContainerRootWindow.updateContainer")
+    self:registerEvent(ObjectInfo.event(), "UusCorpContainerRootWindow.updateObject")
+    self:registerEvent(ItemPropertiesData.event(),  "UusCorpContainerRootWindow.updateObject")
+    self:setUpdateFrequency(1)
+    self:toggleState(UserContainerSettings.legacyContainers())
+    self.searchBox:setShowing(false)
+    self.searchLine:setShowing(false)
+    return self
 end
 
-function UusCorpContainerWindow.Initialize()
-    local id = tonumber(string.gsub(Active.window(), UusCorpContainerWindow.Name, ""), 10)
-    WindowApi.setId(Active.window(), id)
-    WindowApi.registerEventHandler(Active.window(), Container.event(),
-    "UusCorpContainerWindow.updateContainer")
-    WindowApi.registerEventHandler(Active.window(), Events.userSettingsUpdated(),
-    "UusCorpContainerWindow.reopenContainer")
-    WindowApi.registerEventHandler(Active.window(), ObjectInfo.event(),
-    "UusCorpContainerWindow.updateObject")
-    WindowApi.registerEventHandler(Active.window(), ItemPropertiesData.event(),
-    "UusCorpContainerWindow.updateObject")
-
-    WindowDataApi.registerData(Container.type(), id)
-
-    WindowApi.setUpdateFrequency(Active.window(), 1)
-
-    toggleLegacy(id, UserContainerSettings.legacyContainers())
-
-    -- There appears to be a bug with empty containers
-    -- where updateContainer is not fired automatically
-    if Container.itemCount(id) <= 0 then
-        UusCorpContainerWindow.updateContainer()
-    end
-
-    WindowApi.setShowing(Active.window() .. "Box", false)
-    WindowApi.setShowing(Active.window() .. "Line", false)
-end
-
-function UusCorpContainerWindow.onUpdate()
-    local id = WindowApi.getId(Active.window())
-    if Container.itemCount(id) > 0 then
-        DragApi.autoPickUpObject(Container.items(id)[1].objectId)
-    else
-        WindowApi.unregisterCoreEventHandler(Active.window(), "OnUpdate")
-    end
-end
-
-function UusCorpContainerWindow.updateContainer()
-    local this = Active.window()
-    local id = WindowApi.getId(this)
-    local isGrid = not WindowApi.isShowing(this .. UusCorpContainerWindow.Views.Freeform)
-    local name = StringFormatter.fromWString(Container.name(id))
+function UusCorpContainerWindow:onUpdateContainer()
+    local name = StringFormatter.fromWString(Container.name(self:getId()))
 
     if #name > 12 then
         name = string.sub(name, 1, 13) .. "..."
     end
 
-    LabelApi.setText(this .. "Title", name)
+    self.title:setText(name)
 
-    if not isGrid then
-        local gump = Container.gumpNum(id)
+    if #self.slots <= 0 then
+        self:createSlots()
+    end
 
-        local scale = Container.freeFormScale()
-        local texture, xSize, ySize, _ = RequestGumpArt(gump)
-        local tScale = 1.5
+    for i = 1, self:getItemCount() do
+        local item = self:getItems()[i]
+        local objectId = item.objectId
+        self:registerData(ObjectInfo.type(), objectId)
+        self:registerData(ItemPropertiesData.type(), objectId)
+        local slot = self.slots[i]
 
-        DynamicImageApi.setTextureDimensions(
-            this .. UusCorpContainerWindow.Views.Freeform,
-            xSize * scale,
-            ySize * scale
-        )
-
-        WindowApi.setDimensions(
-            this .. UusCorpContainerWindow.Views.Freeform,
-            xSize * scale,
-            ySize * scale
-        )
-
-        DynamicImageApi.setTexture(
-            this .. UusCorpContainerWindow.Views.Freeform,
-            "freeformcontainer_texture" .. id,
-            0,
-            0
-        )
-
-        DynamicImageApi.setTextureScale(
-            this .. UusCorpContainerWindow.Views.Freeform,
-            InterfaceCore.scale * scale
-        )
-
-        DynamicImageApi.setTextureDimensions(
-            this .. "FreeformBackground",
-            xSize * tScale,
-            ySize * tScale
-        )
-
-        WindowApi.setDimensions(
-            this .. "FreeformBackground",
-            xSize * tScale,
-            ySize * tScale
-        )
-
-        DynamicImageApi.setTexture(
-            this .. "FreeformBackground",
-            texture,
-            0,
-            0
-        )
-
-        DynamicImageApi.setTextureScale(
-            this .. "FreeformBackground",
-            tScale
-        )
-
-        WindowApi.setDimensions(
-            this,
-            xSize * scale,
-            ySize * scale
-        )
-    else
-        local slots = UusCorpContainerWindow.MaxSlots
-        local window = UusCorpContainerWindow.Name .. id .. "GridViewScrollChild"
-        local x, _ = WindowApi.getDimensions(window)
-
-        --Public corpses may have more than the max count
-        if Container.itemCount(id) > slots then
-            slots = Container.itemCount(id)
-        end
-
-        local sizeMultiplier = 1
-
-        for i = 1, slots do
-            local slotName = window .. "Slot" .. tostring(i)
-            WindowApi.createFromTemplate(
-                slotName,
-                "ContainerSlotTemplate",
-                window
-            )
-
-            local slotX, _ =  WindowApi.getDimensions(slotName)
-            local rowSize = sizeMultiplier * slotX
-
-            if i ~= 1 then
-                WindowApi.clearAnchors(slotName)
-                if rowSize < x then
-                    WindowApi.addAnchor(
-                        slotName,
-                        "right",
-                        window .. "Slot" .. tostring(i - 1),
-                        "left"
-                    )
-                    sizeMultiplier = sizeMultiplier + 1
-                else
-                    WindowApi.addAnchor(
-                        slotName,
-                        "bottomleft",
-                        window .. "Slot" .. tostring(i - sizeMultiplier),
-                        "topleft"
-                    )
-                    sizeMultiplier = 1
-                end
-            end
-
-            DynamicImageApi.setTexture(slotName .. "Icon", "")
-            WindowApi.setId(slotName, i)
+        if slot:getId() ~= objectId then
+            slot:createIcon(objectId)
         end
     end
 
-    for i = 1, Container.itemCount(id) do
-        local item = Container.items(id)[i]
-        local object = item.objectId
-        WindowDataApi.registerData(ObjectInfo.type(), object)
-        WindowDataApi.registerData(ItemPropertiesData.type(), object)
-
-        if isGrid then
-            local window = UusCorpContainerWindow.Name .. id .. "GridViewScrollChild"
-
-            local image = window .. "Slot" .. tostring(item.gridIndex) .. "Icon"
-
-            DynamicImageApi.setTexture(
-                image,
-                ObjectInfo.iconName(object)
-            )
-            DynamicImageApi.setTextureScale(
-                image,
-                ObjectInfo.iconScale(object)
-            )
-            DynamicImageApi.setCustomShader(image, DynamicImageApi.Shaders.Sprite, {
-                ObjectInfo.hueId(object),
-                ObjectInfo.objectType(object)
-            })
-            DynamicImageApi.setTextureDimensions(
-                image,
-                ObjectInfo.newWidth(object),
-                ObjectInfo.newHeight(object)
-            )
-
-            WindowApi.setDimensions(
-                image,
-                ObjectInfo.newWidth(object),
-                ObjectInfo.newHeight(object)
-            )
-            WindowApi.setColor(
-                image,
-                ObjectInfo.hue(object)
-            )
-            WindowApi.setAlpha(
-                image,
-                ObjectInfo.hue(object).a / 255
-            )
-        end
-    end
-
-    ScrollWindowApi.updateScrollRect(this .. UusCorpContainerWindow.Views.Grid)
+    self.gridView:updateScrollRect()
 end
 
-function UusCorpContainerWindow.updateObject()
-
-end
-
-function UusCorpContainerWindow.onRightClick()
-    if not string.match(Active.mouseOverWindow(), "GridViewScrollChild") then
-        WindowApi.destroyWindow(Active.window())
-    end
-end
-
-function UusCorpContainerWindow.onShutdown()
+function UusCorpContainerWindow:onShutdown()
     ItemProperties.ClearMouseOverItem()
+    self:unregisterData(Container.type(), self:getId())
+    self:unregisterEvent(Container.event())
+    self:unregisterEvent(ObjectInfo.event())
+    self:unregisterEvent(ItemPropertiesData.event())
 
-    local window = Active.window()
-    local id = WindowApi.getId(window)
-
-    WindowApi.unregisterEventHandler(window, Container.event())
-    WindowApi.unregisterEventHandler(window, ObjectInfo.event())
-    WindowApi.unregisterEventHandler(window, ItemPropertiesData.event())
-
-    for i = 1, Container.itemCount(id) do
-        local item = Container.items(id)[i]
-        local object = item.objectId
-        WindowDataApi.unregisterData(ObjectInfo.type(), object)
-        WindowDataApi.unregisterData(ItemPropertiesData.type(), object)
+    for i = 1, #self.slots do
+        self.slots[i]:onShutdown()
     end
 
-    WindowDataApi.unregisterData(Container.type(), id)
-    GumpApi.onCloseContainer(id)
+    GumpApi.onCloseContainer(self:getId())
 end
 
-function UusCorpContainerWindow.onLootAll()
-    WindowApi.registerCoreEventHandler(
-        WindowApi.getParent(Active.window()),
-        "OnUpdate",
-        "UusCorpContainerWindow.onUpdate"
-    )
+function UusCorpContainerWindow:isPlayer()
+    return self:getId() == PlayerStatus.id()
 end
 
-function UusCorpContainerWindow.onSlotSingleClick()
-    local slot = activeSlot()
+function UusCorpContainerWindow:getItemCount()
+    return Container.itemCount(self:getId())
+end
 
-    if Cursor.hasTarget() then
-        TargetApi.clickTarget(slot.objectId)
-    else
-        DragApi.setObjectMouseClickData(slot.objectId, Drag.sourceContainer())
-        WindowDataApi.unregisterData(ObjectInfo.type(), slot.objectId)
-        WindowDataApi.unregisterData(ItemPropertiesData.type(), slot.objectId)
+function UusCorpContainerWindow:toggleState(isLegacy)
+    self.gridView:setShowing(not isLegacy)
+    self.freeformBackground:setShowing(isLegacy)
+    self.freeformView:setShowing(isLegacy)
+    self.title:setShowing(not isLegacy)
+    self.background:setShowing(not isLegacy)
+    self.frame:setShowing(not isLegacy)
+    self.resizeButton:setShowing(not isLegacy)
+    self.search:setShowing(not isLegacy)
+    self.lootAll:setShowing(not self:isPlayer() and not isLegacy)
+
+    if not self.lootAll:isShowing() then
+        self.search:clearAnchors()
+        self.search:addAnchor(UusCorpAnchor.new("topleft", "topright", self.toggleView.name, -6, -6))
     end
 end
 
-function UusCorpContainerWindow.onSlotSingleClickUp()
-    if Drag.isItem() then
-        local slot = activeSlot()
-        DragApi.dragObjectToContainer(slot.containerId, 0)
+function UusCorpContainerWindow:isLegacy()
+    return self.freeformBackground:isShowing()
+end
+
+function UusCorpContainerWindow:getGumpId()
+    return Container.gumpNum(self:getId())
+end
+
+function UusCorpContainerWindow:getItems()
+    return Container.items(self:getId())
+end
+
+function UusCorpContainerWindow:createSlots()
+    local sizeMultiplier = 1
+    local scrollWindow = self.gridView.scrollChild
+    local slots = MAX_SLOTS
+    if self:getItemCount() > MAX_SLOTS then
+        slots = self:getItemCount()
     end
-end
 
-function UusCorpContainerWindow.onSlotDoubleClick()
-    local slot = activeSlot()
-    if slot.objectId ~= nil then
-        UserAction.useItem(slot.objectId, false)
-    end
-end
+    for i = 1, slots do
+        local x, _ = scrollWindow:getDimensions()
+        local slot = UusCorpContainerSlot:new(
+            scrollWindow.name .. "Slot" .. tostring(i),
+            self:getId()
+        )
+        slot:createFromTemplate("ContainerSlotTemplate", scrollWindow.name)
 
-function UusCorpContainerWindow.onSlotRightClick(flags)
-    local slot = activeSlot()
+        local slotX, _ = slot:getDimensions()
+        local rowSize = sizeMultiplier * slotX
 
-    if ButtonFlags.isControl(flags) then
-        ContextMenuApi.requestMenu(slot.objectId)
-    elseif slot.containerId ~= PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack) then
-        DragApi.autoPickUpObject(slot.objectId)
-    end
-end
-
-function UusCorpContainerWindow.onSlotMouseOver()
-    local slot = activeSlot()
-
-    if slot.objectId ~= nil then
-        local itemData = {
-            windowName = Active.window(),
-            itemId = slot.objectId,
-            itemType = WindowData.ItemProperties.TYPE_ITEM,
-            detail = ItemProperties.DETAIL_LONG
-        }
-        ItemProperties.SetActiveItem(itemData)
-    end
-end
-
-function UusCorpContainerWindow.onToggleView()
-    UserContainerSettings.legacyContainers(
-        not UserContainerSettings.legacyContainers()
-    )
-    SettingsApi.settingsChanged()
-    UusCorpContainerWindow.reopenContainer(WindowApi.getParent(Active.window()))
-end
-
-function UusCorpContainerWindow.reopenContainer(container)
-    container = container or Active.window()
-    WindowApi.destroyWindow(container)
-    UserAction.useItem(
-        WindowApi.getId(container),
-        false
-    )
-end
-
-function UusCorpContainerWindow.onSearchClick()
-    local window = WindowApi.getParent(Active.window())
-    WindowApi.setShowing(window .. "Box", not WindowApi.isShowing(window .. "Box"))
-    WindowApi.assignFocus(window .. "Box", WindowApi.isShowing(window .. "Box"))
-    WindowApi.setShowing(window .. "Line", WindowApi.isShowing(window .. "Box"))
-    WindowApi.setShowing(window .. "Title", not WindowApi.isShowing(window .. "Box"))
-end
-
-function UusCorpContainerWindow.onTextChanged(text)
-    local container = WindowApi.getParent(Active.window())
-    local id = WindowApi.getId(container)
-    local data = {}
-
-    ---TODO better not to do this with text change
-    for i = 1, Container.itemCount(id) do
-        local item = Container.items(id)[i]
-        local object = item.objectId
-        local index = item.gridIndex
-
-        local properties = ItemPropertiesData.propertiesList(object)
-
-        if properties ~= nil and #properties > 0 then
-            local search = ""
-
-            for j = 1 , #properties do
-                search = search .. " " .. StringFormatter.fromWString(properties[j])
+        if i ~= 1 then
+            slot:clearAnchors()
+            if rowSize < x then
+                slot:addAnchor(
+                    UusCorpAnchor.new(
+                        "right",
+                        "left",
+                        scrollWindow.name .. "Slot" .. tostring(i - 1)
+                    )
+                )
+                sizeMultiplier = sizeMultiplier + 1
+            else
+                slot:addAnchor(
+                    UusCorpAnchor.new(
+                        "bottomleft",
+                        "topleft",
+                        scrollWindow.name .. "Slot" .. tostring(i - sizeMultiplier)
+                    )
+                )
+                sizeMultiplier = 1
             end
-
-            local slot =  container .. "GridViewScrollChildSlot" .. tostring(index) .. "Icon"
-            data[slot] = search
         end
-    end
 
-    for k, v in pairs(data) do
-        local isFound = string.find(
-            string.lower(v),
-            string.lower(StringFormatter.fromWString(text))
-        ) ~= nil
-        WindowApi.setShowing(k, isFound)
+        slot.icon:setTexture("")
+        slot.gridIndex = i
+        table.insert(self.slots, slot)
+    end
+end
+
+function UusCorpContainerWindow:onUpdate()
+    if self:getItemCount() > 0 then
+        DragApi.autoPickUpObject(self:getItems()[1].objectId)
+    else
+        self:unregisterCoreEvent("OnUpdate")
     end
 end

@@ -1,87 +1,10 @@
----@class UusCorpWindow
----@field name string
-UusCorpWindow = { name = "UusCorpWindow" }
+---@class UusCorpWindow:UusCorpView
+UusCorpWindow = UusCorpView:new("UusCorpWindow")
 
 ---@param name string
 ---@return UusCorpWindow
 function UusCorpWindow:new(name)
-    local object = setmetatable({ name = name }, self)
-    self.__index = self
-    return object
-end
-
-function UusCorpWindow:setId(id)
-    return WindowApi.setId(self.name, id)
-end
-
-function UusCorpWindow:getId()
-    return WindowApi.getId(self.name)
-end
-
-function UusCorpWindow:doesExist()
-    return WindowApi.doesExist(self.name)
-end
-
-function UusCorpWindow:isShowing()
-    return WindowApi.isShowing(self.name)
-end
-
-function UusCorpWindow:setShowing(doShow)
-    WindowApi.setShowing(self.name, doShow)
-end
-
-function UusCorpWindow:createFromTemplate(template, parent)
-    return WindowApi.createFromTemplate(self.name, template or self.name, parent or "Root")
-end
-
-function UusCorpWindow:create(doShow)
-    return WindowApi.createWindow(self.name, doShow == nil or doShow)
-end
-
-function UusCorpWindow:destroy()
-    return WindowApi.destroyWindow(self.name)
-end
-
-function UusCorpWindow:addAnchor(anchor)
-    WindowApi.addAnchor(self.name, anchor.anchorPoint, anchor.relativeTo, anchor.relativePoint, anchor.x, anchor.y)
-end
-
-function UusCorpWindow:setUpdateFrequency(frequency)
-    WindowApi.setUpdateFrequency(self.name, frequency)
-end
-
-function UusCorpWindow:getDimensions()
-    return WindowApi.getDimensions(self.name)
-end
-
-function UusCorpWindow:setOffsetFromParent(x, y)
-    return WindowApi.setOffsetFromParent(self.name, x, y)
-end
-
-function UusCorpWindow:registerEvent(id, callback)
-    WindowApi.registerEventHandler(self.name, id, self.name .. "." .. callback)
-end
-
-function UusCorpWindow:registerData(type, id)
-    WindowDataApi.registerData(type, id)
-    return self
-end
-
-function UusCorpWindow:unregisterEvent(id)
-    WindowApi.unregisterEventHandler(self.name, id)
-end
-
-function UusCorpWindow:unregisterData(type, id)
-    WindowDataApi.unregisterData(type, id)
-    return self
-end
-
-function UusCorpWindow:registerCoreEvent(id, callback)
-    WindowApi.registerCoreEventHandler(self.name, id, callback)
-end
-
-function UusCorpWindow:unregisterCoreEvent(id)
-    WindowApi.unregisterCoreEventHandler(self.name, id)
+    return UusCorpView.new(self, name) --[[@as UusCorpWindow]]
 end
 
 function UusCorpWindow:attachToWorldObject(id)
@@ -90,14 +13,6 @@ end
 
 function UusCorpWindow:detatchFromWorlObject(id)
     WindowApi.detachWindowFromWorldObject(id, self.name)
-end
-
-function UusCorpWindow:setScale(scale)
-    WindowApi.setScale(self.name, scale)
-end
-
-function UusCorpWindow:setColor(color)
-    WindowApi.setColor(self.name, color)
 end
 
 function UusCorpWindow:savePosition()
@@ -113,7 +28,32 @@ function UusCorpWindow:addLabel(label)
     return UusCorpLabel:new(self.name .. label)
 end
 
+---@return UusCorpWindow
+function UusCorpWindow:addWindow(window)
+    return UusCorpWindow:new(self.name .. window)
+end
+
 ---@return UusCorpStatusBar
 function UusCorpWindow:addStatusBar(statusBar)
     return UusCorpStatusBar:new(self.name .. statusBar)
+end
+
+---@return UusCorpEditTextBox
+function UusCorpWindow:addEditTextBox(editTextBox)
+    return UusCorpEditTextBox:new(self.name .. editTextBox)
+end
+
+---@return UusCorpButton
+function UusCorpWindow:addButton(button)
+    return UusCorpButton:new(self.name .. button)
+end
+
+---@return UusCorpScrollWindow
+function UusCorpWindow:addScrollWindow(scrollWindow)
+    return UusCorpScrollWindow:new(self.name .. scrollWindow)
+end
+
+---@return UusCorpDynamicImage
+function UusCorpWindow:addDynamicImage(dynamicImage)
+    return UusCorpDynamicImage:new(self.name .. dynamicImage)
 end
