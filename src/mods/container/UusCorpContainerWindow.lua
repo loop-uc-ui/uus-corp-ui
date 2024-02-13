@@ -93,7 +93,7 @@ function UusCorpContainerWindow:onShutdown()
 end
 
 function UusCorpContainerWindow:isPlayer()
-    return self:getId() == PlayerStatus.id()
+    return self:getId() == PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack)
 end
 
 function UusCorpContainerWindow:getItemCount()
