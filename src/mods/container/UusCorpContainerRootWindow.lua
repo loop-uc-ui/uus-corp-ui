@@ -80,6 +80,7 @@ end
 
 function UusCorpContainerRootWindow.onToggleView()
     UserContainerSettings.legacyContainers(not UserContainerSettings.legacyContainers())
+    EventApi.broadcast(Events.userSettingsUpdated())
     local container = Containers[WindowApi.getParent(Active.window())]
     container:destroy()
     UserAction.useItem(container:getId(), false)

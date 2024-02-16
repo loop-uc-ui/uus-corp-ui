@@ -13,6 +13,7 @@
 ---@field frame UusCorpWindow
 ---@field resizeButton UusCorpButton
 ---@field slots UusCorpContainerSlot[]
+---@field isLegacy boolean
 UusCorpContainerWindow = UusCorpWindow:new("ContainerWindow_")
 
 local MAX_SLOTS = 125
@@ -51,16 +52,18 @@ function UusCorpContainerWindow:onInitialize(id)
 end
 
 function UusCorpContainerWindow:onUpdateContainer()
-    local name = StringFormatter.fromWString(Container.name(self:getId()))
+    if not self:isLegacy() then
+        local name = StringFormatter.fromWString(Container.name(self:getId()))
 
-    if #name > 12 then
-        name = string.sub(name, 1, 13) .. "..."
-    end
+        if #name > 12 then
+            name = string.sub(name, 1, 13) .. "..."
+        end
 
-    self.title:setText(name)
+        self.title:setText(name)
 
-    if #self.slots <= 0 then
-        self:createSlots()
+        if #self.slots <= 0 then
+            self:createSlots()
+        end
     end
 
     for i = 1, self:getItemCount() do
@@ -68,14 +71,18 @@ function UusCorpContainerWindow:onUpdateContainer()
         local objectId = item.objectId
         self:registerData(ObjectInfo.type(), objectId)
         self:registerData(ItemPropertiesData.type(), objectId)
-        local slot = self.slots[i]
 
-        if slot:getId() ~= objectId then
-            slot:createIcon(objectId)
+        if not self:isLegacy() then
+            local slot = self.slots[i]
+            if slot:getId() ~= objectId then
+                slot:createIcon(objectId)
+            end
         end
     end
 
-    self.gridView:updateScrollRect()
+    if not self:isLegacy() then
+        self.gridView:updateScrollRect()
+    end
 end
 
 function UusCorpContainerWindow:onShutdown()
@@ -115,6 +122,28 @@ function UusCorpContainerWindow:toggleState(isLegacy)
         self.search:clearAnchors()
         self.search:addAnchor(UusCorpAnchor.new("topleft", "topright", self.toggleView.name, -6, -6))
     end
+
+    if (isLegacy) then
+        self:showLegacyContainer()
+    end
+end
+
+function UusCorpContainerWindow:showLegacyContainer()
+    local gump = self:getGumpId()
+    local scale = Container.freeFormScale()
+    local texture, xSize, ySize, _ = RequestGumpArt(gump)
+    local tScale = 1.5
+
+    self.freeformView:setTextureDimensions(xSize * scale, ySize * scale)
+    self.freeformView:setDimensions(xSize * scale, ySize * scale)
+    self.freeformView:setTexture("freeformcontainer_texture" .. self:getId())
+    self.freeformView:setTextureScale(InterfaceCore.scale * scale)
+    self.freeformBackground:setTextureDimensions(xSize * tScale, ySize * tScale)
+    self.freeformBackground:setDimensions(xSize * tScale, ySize * tScale)
+    self.freeformBackground:setTexture(texture, 0, 0)
+    self.freeformBackground:setTextureScale(tScale)
+
+    self:setDimensions(xSize * scale, ySize * scale)
 end
 
 function UusCorpContainerWindow:isLegacy()
