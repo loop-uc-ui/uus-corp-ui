@@ -230,6 +230,8 @@ function UusCorpShopkeeper.onInitialize()
         merchantId
     )
 
+    WindowApi.setUpdateFrequency(window, 0.1)
+
     if ShopData.isSelling() then
         updateSellItems()
     else
