@@ -5,4 +5,9 @@ function UusCorpContainerMod.onInitialize()
         "/src/mods/container",
         "UusCorpContainerWindow.xml"
     )
+
+    if not UserContainerSettings.legacyContainers() then
+        UserContainerSettings.legacyContainers(true)
+        EventApi.broadcast(Events.userSettingsUpdated())
+    end
 end

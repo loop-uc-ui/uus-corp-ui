@@ -69,11 +69,6 @@
 					<Size>
 						<AbsPoint x="32" y="32" />
 					</Size>
-					<Anchors>
-						<Anchor point="topleft" relativePoint="topright" relativeTo="$parentLootAll">
-							<AbsPoint x="0" y="-2" />
-						</Anchor>
-					</Anchors>
 					<TexCoords>
 						<Normal  x="0" y="0" />
 						<NormalHighlit x="0" y="0" />

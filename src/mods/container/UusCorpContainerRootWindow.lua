@@ -79,16 +79,9 @@ function UusCorpContainerRootWindow.onSlotMouseOver()
 end
 
 function UusCorpContainerRootWindow.onToggleView()
-    UserContainerSettings.legacyContainers(not UserContainerSettings.legacyContainers())
-    EventApi.broadcast(Events.userSettingsUpdated())
     local container = Containers[WindowApi.getParent(Active.window())]
-    container:destroy()
-    UserAction.useItem(container:getId(), false)
-end
-
-function UusCorpContainerRootWindow.reopenContainer(container)
-    container:destroyWindow()
-    UserAction.useItem(container:getId(), false)
+    container.isLegacy = not container.isLegacy
+    container:toggleState(container.isLegacy)
 end
 
 function UusCorpContainerRootWindow.onSearchClick()

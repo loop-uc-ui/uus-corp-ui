@@ -62,6 +62,10 @@ function UusCorpView:setDimensions(x, y)
     WindowApi.setDimensions(self.name, x, y)
 end
 
+function UusCorpView:forceProcessAnchors()
+    WindowApi.forceProcessAnchors(self.name)
+end
+
 function UusCorpView:setOffsetFromParent(x, y)
     return WindowApi.setOffsetFromParent(self.name, x, y)
 end

@@ -457,10 +457,6 @@ UusCorpSettingsWindow.Pages = {
                 "InterfacePageModComboLabel",
                 1079523
             ),
-            LegacyContainers = label(
-                "InterfacePageLegacyContainersCheckBoxLabel",
-                1094708
-            ),
             LegacyPaperdoll = label(
                 "InterfacePageLegacyPaperdollCheckBoxLabel",
                 1150185
@@ -574,12 +570,6 @@ UusCorpSettingsWindow.Pages = {
             )
         },
         {
-            LegacyContainers = checkBox(
-                "InterfacePageLegacyContainersCheckBox",
-                function(newValue)
-                    return UserContainerSettings.legacyContainers(newValue)
-                end
-            ),
             LegacyPaperdoll = checkBox(
                 "InterfacePageLegacyPaperdollCheckBox",
                 function (newValue)
