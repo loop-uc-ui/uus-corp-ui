@@ -34,6 +34,7 @@ function UusCorpContainerWindow:new(id)
     window.searchLine = window:addWindow("Line")
     window.frame = window:addWindow("Frame")
     window.resizeButton = window:addButton("ResizeButton")
+    window.isLegacy = false
     window.slots = {}
     return window
 end
@@ -45,14 +46,14 @@ function UusCorpContainerWindow:onInitialize(id)
     self:registerEvent(ObjectInfo.event(), "UusCorpContainerRootWindow.updateObject")
     self:registerEvent(ItemPropertiesData.event(),  "UusCorpContainerRootWindow.updateObject")
     self:setUpdateFrequency(1)
-    self:toggleState(UserContainerSettings.legacyContainers())
+    self:toggleState(self.isLegacy)
     self.searchBox:setShowing(false)
     self.searchLine:setShowing(false)
     return self
 end
 
 function UusCorpContainerWindow:onUpdateContainer()
-    if not self:isLegacy() then
+    if not self.isLegacy then
         local name = StringFormatter.fromWString(Container.name(self:getId()))
 
         if #name > 12 then
@@ -72,7 +73,7 @@ function UusCorpContainerWindow:onUpdateContainer()
         self:registerData(ObjectInfo.type(), objectId)
         self:registerData(ItemPropertiesData.type(), objectId)
 
-        if not self:isLegacy() then
+        if not self.isLegacy then
             local slot = self.slots[i]
             if slot:getId() ~= objectId then
                 slot:createIcon(objectId)
@@ -80,7 +81,7 @@ function UusCorpContainerWindow:onUpdateContainer()
         end
     end
 
-    if not self:isLegacy() then
+    if not self.isLegacy then
         self.gridView:updateScrollRect()
     end
 end
@@ -117,14 +118,20 @@ function UusCorpContainerWindow:toggleState(isLegacy)
     self.resizeButton:setShowing(not isLegacy)
     self.search:setShowing(not isLegacy)
     self.lootAll:setShowing(not self:isPlayer() and not isLegacy)
+    self.search:clearAnchors()
 
     if not self.lootAll:isShowing() then
-        self.search:clearAnchors()
         self.search:addAnchor(UusCorpAnchor.new("topleft", "topright", self.toggleView.name, -6, -6))
+    else
+        self.search:addAnchor(UusCorpAnchor.new("topleft", "topright", self.lootAll.name, 0, -2))
     end
 
-    if (isLegacy) then
+    if isLegacy then
         self:showLegacyContainer()
+    end
+
+    if not isLegacy then
+        self:setDimensions(348, 340)
     end
 end
 
@@ -144,10 +151,6 @@ function UusCorpContainerWindow:showLegacyContainer()
     self.freeformBackground:setTextureScale(tScale)
 
     self:setDimensions(xSize * scale, ySize * scale)
-end
-
-function UusCorpContainerWindow:isLegacy()
-    return self.freeformBackground:isShowing()
 end
 
 function UusCorpContainerWindow:getGumpId()

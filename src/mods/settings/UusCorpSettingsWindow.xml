@@ -246,17 +246,9 @@
                     <Windows>
                         <Window name="$parentModCombo" inherits="SettingsComboTemplate" />
 
-                        <Button name="$parentLegacyContainersCheckBox" inherits="SettingsCheckBoxTemplate">
-                            <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentModCombo">
-                                    <AbsPoint x="0" y="18" />
-                                </Anchor>
-                            </Anchors>
-                        </Button>
-
                         <Button name="$parentLegacyPaperdollCheckBox" inherits="SettingsCheckBoxTemplate">
                             <Anchors>
-                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentLegacyContainersCheckBox">
+                                <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentModCombo">
                                     <AbsPoint x="0" y="18" />
                                 </Anchor>
                             </Anchors>
