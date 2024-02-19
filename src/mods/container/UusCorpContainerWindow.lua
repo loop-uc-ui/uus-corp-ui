@@ -53,37 +53,29 @@ function UusCorpContainerWindow:onInitialize(id)
 end
 
 function UusCorpContainerWindow:onUpdateContainer()
-    if not self.isLegacy then
-        local name = StringFormatter.fromWString(Container.name(self:getId()))
+    local items = {}
+    local slotCount = MAX_SLOTS
 
-        if #name > 12 then
-            name = string.sub(name, 1, 13) .. "..."
-        end
-
-        self.title:setText(name)
-
-        if #self.slots <= 0 then
-            self:createSlots()
-        end
+    if self:getItemCount() > MAX_SLOTS then
+        slotCount = self:getItemCount()
     end
 
-    for i = 1, self:getItemCount() do
+    for i = 1, slotCount do
         local item = self:getItems()[i]
-        local objectId = item.objectId
-        self:registerData(ObjectInfo.type(), objectId)
-        self:registerData(ItemPropertiesData.type(), objectId)
-
-        if not self.isLegacy then
-            local slot = self.slots[i]
-            if slot:getId() ~= objectId then
-                slot:createIcon(objectId)
-            end
+        if item == nil then
+            item = {
+                objectId = 0,
+                gridIndex = i
+            }
         end
+        table.insert(items, item)
     end
 
-    if not self.isLegacy then
-        self.gridView:updateScrollRect()
-    end
+    table.sort(items, function (a, b)
+        return a.gridIndex < b.gridIndex
+    end)
+
+    self:createSlots(slotCount, items)
 end
 
 function UusCorpContainerWindow:onShutdown()
@@ -167,15 +159,25 @@ function UusCorpContainerWindow:onSearchUpdate(text)
     end
 end
 
-function UusCorpContainerWindow:createSlots()
+function UusCorpContainerWindow:createSlots(slotCount, items)
     local sizeMultiplier = 1
     local scrollWindow = self.gridView.scrollChild
-    local slots = MAX_SLOTS
-    if self:getItemCount() > MAX_SLOTS then
-        slots = self:getItemCount()
+
+    for i = 1, #self.slots do
+        local slot = self.slots[i]
+        slot:onShutdown()
+        slot:destroy()
     end
 
-    for i = 1, slots do
+    self.slots = {}
+
+    for i = 1, slotCount do
+        local objectId = 0
+
+        if items[i] ~= nil then
+            objectId = items[i].objectId
+        end
+
         local x, _ = scrollWindow:getDimensions()
         local slot = UusCorpContainerSlot:new(
             scrollWindow.name .. "Slot" .. tostring(i),
@@ -208,11 +210,12 @@ function UusCorpContainerWindow:createSlots()
                 sizeMultiplier = 1
             end
         end
-
-        slot.icon:setTexture("")
+        slot:onInitialize(objectId)
         slot.gridIndex = i
         table.insert(self.slots, slot)
     end
+
+    self.gridView:updateScrollRect()
 end
 
 function UusCorpContainerWindow:onUpdate()

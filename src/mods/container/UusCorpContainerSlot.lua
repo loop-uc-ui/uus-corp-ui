@@ -14,12 +14,18 @@ function UusCorpContainerSlot:new(name, containerId)
     return slot
 end
 
-function UusCorpContainerSlot:createIcon(objectId)
+function UusCorpContainerSlot:onInitialize(objectId)
     if objectId == nil or objectId == 0 then
+        self.icon:setTexture("")
         return
     end
-
     self:setId(objectId)
+
+    self:registerData(ObjectInfo.type(), objectId)
+    self:registerData(ItemPropertiesData.type(), objectId)
+    self:registerEvent(ObjectInfo.event(), "UusCorpContainerRootWindow.updateObject")
+    self:registerEvent(ItemPropertiesData.event(),  "UusCorpContainerRootWindow.updateObject")
+
     self.icon:setTexture(ObjectInfo.iconName(objectId))
     self.icon:setTextureScale(ObjectInfo.iconScale(objectId))
     self.icon:setCustomShader(DynamicImageApi.Shaders.Sprite, {
@@ -36,7 +42,6 @@ function UusCorpContainerSlot:createIcon(objectId)
     )
     self.icon:setColor(ObjectInfo.hue(objectId))
     self.icon:setAlpha(ObjectInfo.hue(objectId).a / 255)
-    return self.icon
 end
 
 function UusCorpContainerSlot:onSearchUpdate(text)

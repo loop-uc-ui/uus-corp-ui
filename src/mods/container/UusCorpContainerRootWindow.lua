@@ -36,7 +36,6 @@ function UusCorpContainerRootWindow.updateContainer()
 end
 
 function UusCorpContainerRootWindow.updateObject()
-
 end
 
 function UusCorpContainerRootWindow.onRightClick(flags)
