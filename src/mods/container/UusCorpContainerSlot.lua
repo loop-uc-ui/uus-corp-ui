@@ -14,7 +14,7 @@ function UusCorpContainerSlot:new(name, containerId)
     return slot
 end
 
-function UusCorpContainerSlot:createIcon(objectId, oldId)
+function UusCorpContainerSlot:createIcon(objectId)
     if objectId == 0 then
         self.icon:setTexture("")
         self:onShutdown()

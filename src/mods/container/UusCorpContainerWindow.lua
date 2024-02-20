@@ -190,14 +190,8 @@ function UusCorpContainerWindow:createSlots(items)
         end
 
         local objectId = items[i].objectId or 0
-        local oldId = items[i].objectId or 0
 
-        if self.slots[i] ~= nil then
-            local currentSlot = self.slots[i]
-            oldId = currentSlot:getId() or 0
-        end
-
-        slot:createIcon(objectId, oldId)
+        slot:createIcon(objectId)
         slot.gridIndex = i
         table.insert(self.slots, slot)
     end
