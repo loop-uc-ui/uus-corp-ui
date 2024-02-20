@@ -14,12 +14,22 @@ function UusCorpContainerSlot:new(name, containerId)
     return slot
 end
 
-function UusCorpContainerSlot:createIcon(objectId)
-    if objectId == nil or objectId == 0 then
+function UusCorpContainerSlot:createIcon(objectId, oldId)
+    if objectId == 0 then
+        self.icon:setTexture("")
+        self:onShutdown()
+        self:setId(0)
         return
     end
 
+    if self:getId() > 0 then
+        self:registerData(ObjectInfo.type(), objectId)
+        self:registerData(ItemPropertiesData.type(), objectId)
+    end
+
     self:setId(objectId)
+    self:registerData(ObjectInfo.type(), objectId)
+    self:registerData(ItemPropertiesData.type(), objectId)
     self.icon:setTexture(ObjectInfo.iconName(objectId))
     self.icon:setTextureScale(ObjectInfo.iconScale(objectId))
     self.icon:setCustomShader(DynamicImageApi.Shaders.Sprite, {
