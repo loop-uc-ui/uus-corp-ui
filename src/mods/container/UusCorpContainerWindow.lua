@@ -16,8 +16,6 @@
 ---@field isLegacy boolean
 UusCorpContainerWindow = UusCorpWindow:new("ContainerWindow_")
 
-local MAX_SLOTS = 125
-
 ---@param id number
 ---@return UusCorpContainerWindow
 function UusCorpContainerWindow:new(id)
