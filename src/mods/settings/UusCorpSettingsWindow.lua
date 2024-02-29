@@ -8,7 +8,7 @@ local function tab(id)
     return {
         text = id,
         name = UusCorpSettingsWindow.TabContainer .. id .. "Tab",
-        page = UusCorpSettingsWindow.name .. id
+        page = UusCorpSettingsWindow:getName() .. id
     }
 end
 
@@ -27,7 +27,7 @@ local function page(id, labels, comboBoxes, checkBoxes, sliders, steppers)
     ---@field sliders table
     ---@field steppers table
     return {
-        name = UusCorpSettingsWindow.name .. id,
+        name = UusCorpSettingsWindow:getName() .. id,
         labels = labels or {},
         comboBoxes = comboBoxes or {},
         checkBoxes = checkBoxes or {},
@@ -48,7 +48,7 @@ local function stepper(id, value, onUp, onDown)
     ---@field onUp function
     ---@field onDown function
     return {
-        name = UusCorpSettingsWindow.name .. id,
+        name = UusCorpSettingsWindow:getName() .. id,
         value = value,
         onUp = onUp,
         onDown = onDown
@@ -63,7 +63,7 @@ local function label(id, text)
     ---@field name string
     ---@field text string | number
     return {
-        name = UusCorpSettingsWindow.name .. id,
+        name = UusCorpSettingsWindow:getName() .. id,
         text = text
     }
 end
@@ -80,7 +80,7 @@ local function comboBox(id, list, isSelected, setting)
     ---@field isSeleced function
     ---@field setting function
     return {
-        name = UusCorpSettingsWindow.name .. id,
+        name = UusCorpSettingsWindow:getName() .. id,
         list = list,
         isSelected = isSelected,
         setting = setting
@@ -95,7 +95,7 @@ local function checkBox(id, setting)
     ---@field name string
     ---@field setting function
     return {
-        name = UusCorpSettingsWindow.name .. id,
+        name = UusCorpSettingsWindow:getName() .. id,
         setting = setting
     }
 end
@@ -112,17 +112,22 @@ local function slider(id, value, setting, formatValue)
     ---@field setting function
     ---@field formatValue function
     return {
-        name = UusCorpSettingsWindow.name .. id,
-        value = UusCorpSettingsWindow.name .. value,
+        name = UusCorpSettingsWindow:getName() .. id,
+        value = UusCorpSettingsWindow:getName() .. value,
         setting = setting,
         formatValue = formatValue
     }
 end
 
 ---@class UusCorpSettingsWindow:UusCorpWindow
-UusCorpSettingsWindow = UusCorpWindow:new("UusCorpSettingsWindow")
+UusCorpSettingsWindow = UusCorpWindow:new {
+    name = "UusCorpSettingsWindow",
+    data = {},
+    events = {},
+    children = {}
+}
 
-UusCorpSettingsWindow.TabContainer = UusCorpSettingsWindow.name .. "TabContainer"
+UusCorpSettingsWindow.TabContainer = UusCorpSettingsWindow:getName() .. "TabContainer"
 
 UusCorpSettingsWindow.Tabs = {
     Graphics = tab("Graphics"),
@@ -868,7 +873,7 @@ function UusCorpSettingsWindow.initialize()
         UserOverheadTextSettings.delay(3)
     end
 
-    WindowApi.createWindow(UusCorpSettingsWindow.name, false)
+    WindowApi.createWindow(UusCorpSettingsWindow:getName(), false)
     EventApi.broadcast(Events.userSettingsUpdated())
 end
 
@@ -957,7 +962,7 @@ function UusCorpSettingsWindow.onInitialize()
         ButtonApi.setChecked(v.name, UusCorpSettingsWindow.SelectedTab == v)
     end
 
-    ScrollWindowApi.updateScrollRect(UusCorpSettingsWindow.name .. "Graphics")
+    ScrollWindowApi.updateScrollRect(UusCorpSettingsWindow:getName() .. "Graphics")
     UusCorpControlsSettingsWindow.onInitialize()
 end
 

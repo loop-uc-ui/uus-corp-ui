@@ -22,7 +22,7 @@
 				</Anchor>
 			</Anchors>
 			<EventHandlers>
-				<EventHandler event="OnInitialize" function="UusCorpContainerRootWindow.Initialize" />
+				<EventHandler event="OnInitialize" function="UusCorpEventHandler.onInitialize" />
 				<EventHandler event="OnShutdown" function="UusCorpContainerRootWindow.onShutdown" />
 				<EventHandler event="OnSetMoving" function="UusCorpContainerRootWindow.OnSetMoving" />
 				<EventHandler event="OnRButtonUp" function="UusCorpContainerRootWindow.onRightClick" />

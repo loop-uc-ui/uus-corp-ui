@@ -1,24 +1,31 @@
----@class UusCorpDynamicImage:UusCorpView
-UusCorpDynamicImage = UusCorpView:new("UusCorpDynamicImage")
+---@class UusCorpDynamicImageModel:UusCorpViewModel
+local UusCorpDynamicImageModel = {
+    name = "",
+    data = {},
+    events = {}
+}
 
----@param name string
+---@class UusCorpDynamicImage:UusCorpView
+UusCorpDynamicImage = UusCorpView:new(UusCorpDynamicImageModel)
+
+---@param model UusCorpDynamicImageModel
 ---@return UusCorpDynamicImage
-function UusCorpDynamicImage:new(name)
-    return UusCorpView.new(self, name) --[[@as UusCorpDynamicImage]]
+function UusCorpDynamicImage:new(model)
+    return UusCorpView.new(self, model) --[[@as UusCorpDynamicImage]]
 end
 
 function UusCorpDynamicImage:setTexture(texture, x, y)
-    DynamicImageApi.setTexture(self.name, texture, x, y)
+    DynamicImageApi.setTexture(self:getName(), texture, x, y)
 end
 
 function UusCorpDynamicImage:setTextureDimensions(x, y)
-    DynamicImageApi.setTextureDimensions(self.name, x, y)
+    DynamicImageApi.setTextureDimensions(self:getName(), x, y)
 end
 
 function UusCorpDynamicImage:setTextureScale(scale)
-    DynamicImageApi.setTextureScale(self.name, scale)
+    DynamicImageApi.setTextureScale(self:getName(), scale)
 end
 
 function UusCorpDynamicImage:setCustomShader(shader, hue)
-    DynamicImageApi.setCustomShader(self.name, shader, hue)
+    DynamicImageApi.setCustomShader(self:getName(), shader, hue)
 end

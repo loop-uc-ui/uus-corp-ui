@@ -15,16 +15,16 @@ local function activeSlot(isMouseOver)
     local scroll = WindowApi.getParent(WindowApi.getParent(window))
     local slots = Containers[WindowApi.getParent(scroll)].slots
     for i = 1, #slots do
-        if slots[i].name == window then
+        if slots[i]:getName() == window then
             return slots[i]
         end
     end
 end
 
 function UusCorpContainerRootWindow.Initialize()
-    local id = tonumber(string.gsub(Active.window(), UusCorpContainerWindow.name, ""), 10)
+    local id = tonumber(string.gsub(Active.window(), UusCorpContainerWindow:getName(), ""), 10)
     local container = UusCorpContainerWindow:new(id):onInitialize(id)
-    Containers[container.name] = container
+    Containers[container:getName()] = container
 end
 
 function UusCorpContainerRootWindow.onUpdate()

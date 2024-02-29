@@ -1,5 +1,8 @@
 UusCorpCore = {}
 
+---@type table<string, fun(activeWindow: string, id: number): UusCorpView>
+UusCorpCore.Windows = {}
+
 function UusCorpCore.initialize()
     UusCorpCore.loadResources("/src/core/template", "ItemGridSocketTemplate.xml")
     UusCorpCore.loadResources("/src/core/textures", "UusCorpTextures.xml")
@@ -29,3 +32,25 @@ function UusCorpCore.copyTable(table)
     end
     return newTable
 end
+
+---@param name string
+---@param view fun(activeWindow: string, id: number): UusCorpView
+function UusCorpCore.registerWindow(name, view)
+    UusCorpCore.Windows[name] = view
+end
+
+UusCorpCore.registerWindow(
+    "name",
+    function (activeWindow, id)
+        return UusCorpWindow:new {
+            name = activeWindow,
+            data = {
+                UusCorpViewDataFactory.container(0)
+            },
+            event = {
+                UusCorpEventFactory.container()
+            },
+            children = {}
+        }
+    end
+)

@@ -1,16 +1,23 @@
----@class UusCorpButton:UusCorpWindow
-UusCorpButton = UusCorpWindow:new("UusCorpButton")
+---@class UusCorpButtonModel:UusCorpWindowModel
+local UusCorpButtonModel = {
+    name = "",
+    data = {},
+    events = {}
+}
 
----@param name string
+---@class UusCorpButton:UusCorpWindow
+UusCorpButton = UusCorpWindow:new(UusCorpButtonModel)
+
+---@param model UusCorpButtonModel
 ---@return UusCorpButton
-function UusCorpButton:new(name)
-    return UusCorpWindow.new(self, name) --[[@as UusCorpButton]]
+function UusCorpButton:new(model)
+    return UusCorpWindow.new(self, model) --[[@as UusCorpButton]]
 end
 
 function UusCorpButton:setText(text)
-    ButtonApi.setText(self.name, text)
+    ButtonApi.setText(self:getName(), text)
 end
 
 function UusCorpButton:getText()
-    return ButtonApi.getText(self.name)
+    return ButtonApi.getText(self:getName())
 end

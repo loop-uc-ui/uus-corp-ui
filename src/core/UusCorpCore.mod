@@ -91,6 +91,9 @@
             <File name="util/StringFormatter.lua"/>
             <File name="util/TableFormatter.lua"/>
             <File name="util/WindowUtilsWrapper.lua"/>
+            <File name="util/UusCorpEvent.lua"/>
+            <File name="util/UusCorpViewData.lua"/>
+            <File name="window/UusCorpEventHandler.lua"/>
             <File name="window/UusCorpView.lua"/>
             <File name="window/UusCorpWindow.lua"/>
             <File name="window/UusCorpAnchor.lua"/>

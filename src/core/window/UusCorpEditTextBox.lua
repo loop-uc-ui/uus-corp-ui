@@ -1,16 +1,23 @@
----@class UusCorpEditTextBox:UusCorpView
-UusCorpEditTextBox = UusCorpView:new("UusCorpEditTextBox")
+---@class UusCorpEditTextBoxModel:UusCorpViewModel
+local UusCorpEditTextBoxModel = {
+    name = "",
+    data = {},
+    events = {}
+}
 
----@param name string
+---@class UusCorpEditTextBox:UusCorpView
+UusCorpEditTextBox = UusCorpView:new(UusCorpEditTextBoxModel)
+
+---@param model UusCorpEditTextBoxModel
 ---@return UusCorpEditTextBox
-function UusCorpEditTextBox:new(name)
-    return UusCorpView.new(self, name) --[[@as UusCorpEditTextBox]]
+function UusCorpEditTextBox:new(model)
+    return UusCorpView.new(self, model) --[[@as UusCorpEditTextBox]]
 end
 
 function UusCorpEditTextBox:getText()
-    return EditTextBoxApi.getText(self.name)
+    return EditTextBoxApi.getText(self:getName())
 end
 
 function UusCorpEditTextBox:setText(text)
-    EditTextBoxApi.setText(self.name, text)
+    EditTextBoxApi.setText(self:getName(), text)
 end

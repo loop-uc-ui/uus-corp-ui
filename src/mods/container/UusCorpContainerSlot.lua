@@ -60,7 +60,7 @@ end
 
 function UusCorpContainerSlot:onMouseOver()
     local itemData = {
-        windowName = self.name,
+        windowName = self:getName(),
         itemId = self:getId(),
         itemType = WindowData.ItemProperties.TYPE_ITEM,
         detail = ItemProperties.DETAIL_LONG
@@ -107,7 +107,7 @@ function UusCorpContainerSlot:onRightClick(flags)
     elseif self.containerId ~= PlayerEquipment.slotId(PlayerEquipment.Slots.Backpack) then
         DragApi.autoPickUpObject(self:getId())
     else
-        WindowApi.destroyWindow(UusCorpContainerWindow.name .. self.containerId)
+        WindowApi.destroyWindow(UusCorpContainerWindow:getName() .. self.containerId)
     end
 end
 

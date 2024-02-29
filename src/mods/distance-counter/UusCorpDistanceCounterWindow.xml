@@ -6,7 +6,7 @@
             </Size>
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="UusCorpDistanceCounterWindow.onInitialize"/>
-                <EventHandler event="OnUpdate" function="UusCorpDistanceCounterWindow.onUpdate"/>
+                <!-- <EventHandler event="OnUpdate" function="UusCorpDistanceCounterWindow.onUpdate"/> -->
             </EventHandlers>
             <Windows>
                 <Label name="$parentCounter" font="inter_medium_18" maxchars="3" textalign="center" wordwrap="false" popable="false">

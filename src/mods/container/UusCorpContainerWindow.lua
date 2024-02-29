@@ -14,12 +14,18 @@
 ---@field resizeButton UusCorpButton
 ---@field slots UusCorpContainerSlot[]
 ---@field isLegacy boolean
-UusCorpContainerWindow = UusCorpWindow:new("ContainerWindow_")
+UusCorpContainerWindow = UusCorpWindow:new {
+    name = "ContainerWindow_",
+    children = {}
+}
 
 ---@param id number
 ---@return UusCorpContainerWindow
 function UusCorpContainerWindow:new(id)
-    local window = UusCorpWindow.new(self, self.name .. tostring(id)) --[[@as UusCorpContainerWindow]]
+    local window = UusCorpWindow.new(self, {
+        name = self:getName() .. tostring(id),
+        children = {}
+    }) --[[@as UusCorpContainerWindow]]
     window.gridView = window:addScrollWindow("GridView")
     window.background = window:addWindow("Background")
     window.freeformView = window:addDynamicImage("FreeformView")
@@ -105,9 +111,9 @@ function UusCorpContainerWindow:toggleState(isLegacy)
     self.search:clearAnchors()
 
     if not self.lootAll:isShowing() then
-        self.search:addAnchor(UusCorpAnchor.new("topleft", "topright", self.toggleView.name, -6, -6))
+        self.search:addAnchor(UusCorpAnchor.new("topleft", "topright", self.toggleView:getName(), -6, -6))
     else
-        self.search:addAnchor(UusCorpAnchor.new("topleft", "topright", self.lootAll.name, 0, -2))
+        self.search:addAnchor(UusCorpAnchor.new("topleft", "topright", self.lootAll:getName(), 0, -2))
     end
 
     if isLegacy then
@@ -158,10 +164,10 @@ function UusCorpContainerWindow:createSlots(items)
     for i = 1, #items do
         local x, _ = scrollWindow:getDimensions()
         local slot = UusCorpContainerSlot:new(
-            scrollWindow.name .. "Slot" .. tostring(i),
+            scrollWindow:getName() .. "Slot" .. tostring(i),
             self:getId()
         )
-        slot:createFromTemplate("ContainerSlotTemplate", scrollWindow.name)
+        slot:createFromTemplate("ContainerSlotTemplate", scrollWindow:getName())
 
         local slotX, _ = slot:getDimensions()
         local rowSize = sizeMultiplier * slotX
@@ -173,7 +179,7 @@ function UusCorpContainerWindow:createSlots(items)
                     UusCorpAnchor.new(
                         "right",
                         "left",
-                        scrollWindow.name .. "Slot" .. tostring(i - 1)
+                        scrollWindow:getName() .. "Slot" .. tostring(i - 1)
                     )
                 )
                 sizeMultiplier = sizeMultiplier + 1
@@ -182,7 +188,7 @@ function UusCorpContainerWindow:createSlots(items)
                     UusCorpAnchor.new(
                         "bottomleft",
                         "topleft",
-                        scrollWindow.name .. "Slot" .. tostring(i - sizeMultiplier)
+                        scrollWindow:getName() .. "Slot" .. tostring(i - sizeMultiplier)
                     )
                 )
                 sizeMultiplier = 1
