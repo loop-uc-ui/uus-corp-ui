@@ -1,13 +1,41 @@
 ---@class UusCorpView
 ---@field name string
+---@field onInitialize fun(view: UusCorpView)?
+---@field Shutdown fun(view: UusCorpView)?
+---@field onShown fun(view: UusCorpView)?
+---@field onUpdate fun(view: UusCorpView, timePassed: number)?
+---@field onLButtonUp fun(view: UusCorpView, flags: number, x: number, y: number)?
+---@field onRButtonUp fun(view: UusCorpView, flags: number, x: number, y: number)?
+---@field onRButtonDown fun(view: UusCorpView, flags: number, x: number, y: number)?
+---@field onLButtonDown fun(view: UusCorpView, flags: number, x: number, y: number)?
 UusCorpView = { name = "UusCorpView" }
 
----@param name string
+---@param model UusCorpView
 ---@return UusCorpView
-function UusCorpView:new(name)
-    local object = setmetatable({ name = name }, self)
+function UusCorpView:new(model)
+    local object = setmetatable(model or {}, self)
     self.__index = self
     return object
+end
+
+function UusCorpView:onInitialize() end
+
+function UusCorpView:onShown() end
+
+function UusCorpView:onShutdown() end
+
+function UusCorpView:onUpdate(timePassed) return self, timePassed end
+
+function UusCorpView:onLButtonUp(flags, x, y) return self, flags, x, y end
+
+function UusCorpView:onRButtonUp(flags, x, y) return self, flags, x, y end
+
+function UusCorpView:onLButtonDown(flags, x, y) return self, flags, x, y end
+
+function UusCorpView:onRButtonDown(flags, x, y) return self, flags, x, y end
+
+function UusCorpView:getPosition()
+    return WindowApi.getPosition(self.name)
 end
 
 function UusCorpView:setId(id)
@@ -39,6 +67,7 @@ function UusCorpView:create(doShow)
 end
 
 function UusCorpView:destroy()
+    self:onShutdown()
     return WindowApi.destroyWindow(self.name)
 end
 

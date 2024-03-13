@@ -1,5 +1,5 @@
 ---@class UusCorpTargetWindow:UusCorpWindow
-UusCorpTargetWindow = UusCorpWindow:new("UusCorpTargetWindow")
+UusCorpTargetWindow = UusCorpWindow:new { name = "UusCorpTargetWindow" }
 
 ---@private
 UusCorpTargetWindow.NameLabel = UusCorpTargetWindow:addLabel("Name")
@@ -38,7 +38,7 @@ function UusCorpTargetWindow.initialize()
 
     UusCorpCore.overrideFunctions(TargetWindow)
 
-    local oldWindow = UusCorpWindow:new("TargetWindow")
+    local oldWindow = UusCorpWindow:new { name = "TargetWindow" }
     oldWindow:unregisterData(CurrentTarget.dataType(), 0)
     oldWindow:unregisterEvent(CurrentTarget.event())
     oldWindow:unregisterEvent(MobileStatus.event())

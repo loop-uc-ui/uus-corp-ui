@@ -1,13 +1,13 @@
 ---@class UusCorpScrollWindow:UusCorpWindow
----@field scrollChild UusCorpWindow
-UusCorpScrollWindow = UusCorpWindow:new("UusCorpScrollWindow")
+UusCorpScrollWindow = UusCorpWindow:new { name = "UusCorpScrollWindow" }
 
----@param name string
+---@param model UusCorpScrollWindow
 ---@return UusCorpScrollWindow
-function UusCorpScrollWindow:new(name)
-    local window = UusCorpWindow.new(self, name) --[[@as UusCorpScrollWindow]]
-    window.scrollChild = window:addWindow("ScrollChild")
-    return window
+function UusCorpScrollWindow:new(model)
+    local newObject = setmetatable(model or {}, self)
+    self.__index = self
+    self.scrollChild = newObject:addWindow("ScrollChild")
+    return newObject
 end
 
 function UusCorpScrollWindow:updateScrollRect()

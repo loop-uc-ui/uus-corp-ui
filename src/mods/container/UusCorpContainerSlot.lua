@@ -2,13 +2,14 @@
 ---@field icon UusCorpDynamicImage
 ---@field containerId number
 ---@field gridIndex number
-UusCorpContainerSlot = UusCorpButton:new("UusCorpContainerSlot")
+UusCorpContainerSlot = UusCorpButton:new { name = "UusCorpContainerSlot" }
 
 
 ---@param name string
 ---@return UusCorpContainerSlot
 function UusCorpContainerSlot:new(name, containerId)
-    local slot = UusCorpButton.new(self, name) --[[@as UusCorpContainerSlot]]
+    local slot = setmetatable({ name = name }, self)
+    self.__index = self
     slot.icon = slot:addDynamicImage("Icon")
     self.containerId = containerId
     return slot

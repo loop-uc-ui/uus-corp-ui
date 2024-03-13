@@ -1,10 +1,12 @@
 ---@class UusCorpLabel:UusCorpView
-UusCorpLabel = UusCorpView:new("UusCorpLabel")
+UusCorpLabel = UusCorpView:new { name = "UusCorpLabel" }
 
----@param name string
+---@param model UusCorpLabel
 ---@return UusCorpLabel
-function UusCorpLabel:new(name)
-    return UusCorpView.new(self, name) --[[@as UusCorpLabel]]
+function UusCorpLabel:new(model)
+    local newObject = setmetatable(model or {}, self)
+    self.__index = self
+    return newObject
 end
 
 function UusCorpLabel:setText(text)

@@ -1,10 +1,14 @@
 ---@class UusCorpDynamicImage:UusCorpView
-UusCorpDynamicImage = UusCorpView:new("UusCorpDynamicImage")
+UusCorpDynamicImage = UusCorpView:new {
+    name = "UusCorpDynamicImage"
+}
 
----@param name string
+---@param model UusCorpDynamicImage
 ---@return UusCorpDynamicImage
-function UusCorpDynamicImage:new(name)
-    return UusCorpView.new(self, name) --[[@as UusCorpDynamicImage]]
+function UusCorpDynamicImage:new(model)
+    local newObject = setmetatable(model or {}, self)
+    self.__index = self
+    return newObject
 end
 
 function UusCorpDynamicImage:setTexture(texture, x, y)

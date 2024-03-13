@@ -1,10 +1,12 @@
 ---@class UusCorpButton:UusCorpWindow
-UusCorpButton = UusCorpWindow:new("UusCorpButton")
+UusCorpButton = UusCorpWindow:new { name = "UusCorpButton" }
 
----@param name string
+---@param model UusCorpButton
 ---@return UusCorpButton
-function UusCorpButton:new(name)
-    return UusCorpWindow.new(self, name) --[[@as UusCorpButton]]
+function UusCorpButton:new(model)
+    local newObject = setmetatable(model or {}, self)
+    self.__index = self
+    return newObject
 end
 
 function UusCorpButton:setText(text)

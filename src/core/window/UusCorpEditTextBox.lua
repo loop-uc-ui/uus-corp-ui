@@ -1,10 +1,12 @@
 ---@class UusCorpEditTextBox:UusCorpView
-UusCorpEditTextBox = UusCorpView:new("UusCorpEditTextBox")
+UusCorpEditTextBox = UusCorpView:new { name = "UusCorpEditTextBox" }
 
----@param name string
+---@param model UusCorpEditTextBox
 ---@return UusCorpEditTextBox
-function UusCorpEditTextBox:new(name)
-    return UusCorpView.new(self, name) --[[@as UusCorpEditTextBox]]
+function UusCorpEditTextBox:new(model)
+    local newObject = setmetatable(model or {}, self)
+    self.__index = self
+    return newObject
 end
 
 function UusCorpEditTextBox:getText()

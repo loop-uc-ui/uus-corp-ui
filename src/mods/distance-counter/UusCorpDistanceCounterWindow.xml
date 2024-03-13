@@ -5,8 +5,8 @@
                 <AbsPoint x="54" y="18" />
             </Size>
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="UusCorpDistanceCounterWindow.onInitialize"/>
-                <EventHandler event="OnUpdate" function="UusCorpDistanceCounterWindow.onUpdate"/>
+                <EventHandler event="OnInitialize" function="UusCorpDistanceCounterEventHandler.onInitialize"/>
+                <EventHandler event="OnUpdate" function="UusCorpDistanceCounterEventHandler.onUpdate"/>
             </EventHandlers>
             <Windows>
                 <Label name="$parentCounter" font="inter_medium_18" maxchars="3" textalign="center" wordwrap="false" popable="false">

@@ -120,7 +120,7 @@ local function slider(id, value, setting, formatValue)
 end
 
 ---@class UusCorpSettingsWindow:UusCorpWindow
-UusCorpSettingsWindow = UusCorpWindow:new("UusCorpSettingsWindow")
+UusCorpSettingsWindow = UusCorpWindow:new { name = "UusCorpSettingsWindow" }
 
 UusCorpSettingsWindow.TabContainer = UusCorpSettingsWindow.name .. "TabContainer"
 

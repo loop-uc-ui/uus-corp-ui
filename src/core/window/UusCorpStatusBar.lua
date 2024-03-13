@@ -1,10 +1,12 @@
 ---@class UusCorpStatusBar:UusCorpView
-UusCorpStatusBar = UusCorpView:new("UusCorpStatusBar")
+UusCorpStatusBar = UusCorpView:new { name = "UusCorpStatusBar" }
 
----@param name string
+---@param model UusCorpStatusBar
 ---@return UusCorpStatusBar
-function UusCorpStatusBar:new(name)
-    return UusCorpView.new(self, name) --[[@as UusCorpStatusBar]]
+function UusCorpStatusBar:new(model)
+    local newObject = setmetatable(model or {}, self)
+    self.__index = self
+    return newObject
 end
 
 ---@param tint table

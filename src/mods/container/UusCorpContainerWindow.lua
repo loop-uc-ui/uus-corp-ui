@@ -14,12 +14,13 @@
 ---@field resizeButton UusCorpButton
 ---@field slots UusCorpContainerSlot[]
 ---@field isLegacy boolean
-UusCorpContainerWindow = UusCorpWindow:new("ContainerWindow_")
+UusCorpContainerWindow = UusCorpWindow:new { name = "ContainerWindow_" }
 
 ---@param id number
 ---@return UusCorpContainerWindow
 function UusCorpContainerWindow:new(id)
-    local window = UusCorpWindow.new(self, self.name .. tostring(id)) --[[@as UusCorpContainerWindow]]
+    local window = setmetatable({ name = self.name .. tostring(id) }, self)
+    self.__index = self
     window.gridView = window:addScrollWindow("GridView")
     window.background = window:addWindow("Background")
     window.freeformView = window:addDynamicImage("FreeformView")
