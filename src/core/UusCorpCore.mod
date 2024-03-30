@@ -82,8 +82,11 @@
             <File name="data/UserSoundSettings.lua" />
             <File name="data/WaypointDisplay.lua" />
             <File name="data/WaypointList.lua" />
+            <File name="data/wrapper/UusCorpContainer.lua"/>
             <File name="data/wrapper/UusCorpCursor.lua"/>
+            <File name="data/wrapper/UusCorpGameObject.lua"/>q  
             <File name="data/wrapper/UusCorpMousePosition.lua"/>
+            <File name="data/wrapper/UusCorpObjectInfo.lua"/>
             <File name="resources/Colors.lua"/>
             <File name="resources/TextIds.lua"/>
             <File name="util/CSVUtilities.lua"/>

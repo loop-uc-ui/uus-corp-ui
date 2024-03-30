@@ -1,5 +1,5 @@
 ---@class UusCorpEvent
----@field id fun():number
+---@field id string|fun():number
 ---@field callback string
 
 ---@class UusCorpCoreEvent
@@ -27,34 +27,41 @@ UusCorpEvents = {
             return PlayerStatus.event()
         end,
         callback = "onUpdatePlayerStatus"
-    }
-}
-
-UusCorpCoreEvents = {
-    ---@type UusCorpCoreEvent
+    },
+    ---@type UusCorpEvent
     OnUpdate = {
         id = "OnUpdate",
         callback = "onUpdate"
     },
-    ---@type UusCorpCoreEvent
+    ---@type UusCorpEvent
     OnLButtonUp = {
         id = "OnLButtonUp",
         callback = "onLButtonUp"
     },
-    ---@type UusCorpCoreEvent
+    ---@type UusCorpEvent
     OnLButtonDown = {
         id = "OnLButtonDown",
         callback = "onUpdate"
     },
-    ---@type UusCorpCoreEvent
+    ---@type UusCorpEvent
     OnRButtonUp = {
         id = "OnRButtonUp",
         callback = "onRButtonUp"
     },
-    ---@type UusCorpCoreEvent
+    ---@type UusCorpEvent
     OnRButtonDown = {
         id = "OnRButtonDown",
         callback = "onRButtonDown"
+    },
+    ---@type UusCorpEvent
+    OnMouseOver = {
+        id = "OnMouseOver",
+        callback = "onMouseOver"
+    },
+    ---@type UusCorpEvent
+    OnMouseOverEnd = {
+        id = "OnMouseOverEnd",
+        callback = "OnMouseOverEnd"
     }
 }
 
@@ -84,14 +91,13 @@ UusCorpData = {
 
 ---@class UusCorpEventHandler
 ---@field name string
----@field getView fun():UusCorpView
----@field coreEvents UusCorpCoreEvent[]?
+---@field getView fun(...):UusCorpView
 ---@field events UusCorpEvent[]?
 ---@field data UusCorpData[]?
 UusCorpEventHandler = {}
 
 ---@param model UusCorpEventHandler
----@return UusCorpEventHandler
+---@return InternalEventHandler
 function UusCorpEventHandler:new(model)
     ---@class InternalEventHandler:UusCorpEventHandler
     local eventHandler = setmetatable(model or {}, self)
@@ -101,57 +107,74 @@ function UusCorpEventHandler:new(model)
     ---@type UusCorpView
     local view
 
-    eventHandler.onInitialize = function ()
-        view = model.getView()
+    local data = {}
+
+    eventHandler.onInitialize = function (...)
+        view = model.getView(...)
+        view:create()
         if model.events ~= nil then
             for i = 1, #model.events do
                 local event = model.events[i]
-                if event == UusCorpEvents.ItemUseRequest then
-                    eventHandler[model.events[i].callback] = function ()
-                        local request = UusCorpUseRequests()
-                        view[model.events[i].callback](view, request.getUseItem(), request.getUseTarget())
-                    end
-                elseif event == UusCorpEvents.SkillUseRequest then
-                    eventHandler[model.events[i].callback] = function ()
-                        local request = UusCorpUseRequests()
-                        view[model.events[i].callback](view, request.getUseSkill(), request.getUseTarget())
-                    end
-                elseif event == UusCorpEvents.SpellUseRequest then
-                    eventHandler[model.events[i].callback] = function ()
-                        local request = UusCorpUseRequests()
-                        view[model.events[i].callback](view, request.getUseSpell(), request.getUseTarget())
-                    end
-                elseif event == UusCorpEvents.VirtueUseRequest then
-                    eventHandler[model.events[i].callback] = function ()
-                        local request = UusCorpUseRequests()
-                        view[model.events[i].callback](view, request.getUseVirtue(), request.getUseTarget())
-                    end
-                end
-            end
-        end
-
-        if eventHandler.coreEvents ~= nil then
-            for i = 1, #model.coreEvents do
-                local event = model.coreEvents[i]
-                if event == UusCorpCoreEvents.OnUpdate then
+                local callback = event.callback
+                if event == UusCorpEvents.OnUpdate then
                     eventHandler[event.callback] = function (timePassed)
                         view:onUpdate(timePassed)
                     end
-                elseif event == UusCorpCoreEvents.OnShown then
+                elseif event == UusCorpEvents.OnShown then
                     eventHandler[event.callback] = function ()
                         view:onShown()
+                    end
+                elseif event == UusCorpEvents.ItemUseRequest then
+                    eventHandler[callback] = function ()
+                        local request = UusCorpUseRequests()
+                        view[callback](view, request.getUseItem(), request.getUseTarget())
+                    end
+                elseif event == UusCorpEvents.SkillUseRequest then
+                    eventHandler[callback] = function ()
+                        local request = UusCorpUseRequests()
+                        view[callback](view, request.getUseSkill(), request.getUseTarget())
+                    end
+                elseif event == UusCorpEvents.SpellUseRequest then
+                    eventHandler[callback] = function ()
+                        local request = UusCorpUseRequests()
+                        view[callback](view, request.getUseSpell(), request.getUseTarget())
+                    end
+                elseif event == UusCorpEvents.VirtueUseRequest then
+                    eventHandler[callback] = function ()
+                        local request = UusCorpUseRequests()
+                        view[callback](view, request.getUseVirtue(), request.getUseTarget())
+                    end
+                elseif event == UusCorpEvents.Container then
+                    table.insert(data, UusCorpData.Container)
+                    eventHandler[callback] = function ()
+                        view[callback](view, UusCorpContainer(view:getId()))
+                    end
+                elseif event == UusCorpEvents.ObjectInfo then
+                    table.insert(data, UusCorpData.ObjectInfo)
+                    eventHandler[callback] = function ()
+                        view[callback](view, UusCorpObjectInfo(view:getId()), UusCorpContainer(view:getId()))
+                    end
+                elseif event == UusCorpEvents.PlayerStatus then
+                    table.insert(data, UusCorpData.PlayerStatus)
+                    eventHandler[callback] = function ()
+                        view[callback](view)
                     end
                 end
             end
         end
 
-        view:setId(tonumber(string.match(view.name, "%d+")) or 0)
-        eventHandler:register(view)
-        view:onInitialize()
+        if view.id ~= nil then
+            view:setId(view.id)
+        elseif view:getId() == nil or view:getId() == 0 then
+            view:setId(tonumber(view.name:match("%d+")) or 0)
+        end
+        eventHandler:register(view, data)
+        view:onInitialize(UusCorpGameObject:new(view:getId()))
+        return view
     end
 
     eventHandler.onShutdown = function ()
-        eventHandler:unregister(view)
+        eventHandler:unregister(view, data)
         view:onShutdown()
     end
 
@@ -159,49 +182,44 @@ function UusCorpEventHandler:new(model)
 end
 
 ---@param view UusCorpView
-function UusCorpEventHandler:register(view)
-    if self.data ~= nil then
-        for i = 1, #self.data do
-            local data = self.data[i]
-            view:registerData(data.getType(), view:getId())
-        end
-    end
-
-    if self.coreEvents ~= nil then
-        for i = 1, #self.coreEvents do
-            local event = self.coreEvents[i]
-            view:registerCoreEvent(event.id, self.name .. "." .. event.callback)
+---@param data UusCorpData[]
+function UusCorpEventHandler:register(view, data)
+    if data ~= nil then
+        for i = 1, #data do
+            local item = data[i]
+            view:registerData(item.getType(), view:getId())
         end
     end
 
     if self.events ~= nil then
         for i = 1, #self.events do
             local event = self.events[i]
-            view:registerEvent(event.id(), self.name .. "." .. event.callback)
+            if type(event.id) == "string" then
+                view:registerCoreEvent(event.id, self.name .. "." .. event.callback)
+            else
+                view:registerEvent(event.id(), self.name .. "." .. event.callback)
+            end
         end
     end
 end
 
 ---@param view UusCorpView
-function UusCorpEventHandler:unregister(view)
-    if self.coreEvents ~= nil then
-        for i = 1, #self.coreEvents do
-            local event = self.coreEvents[i]
-            view:unregisterCoreEvent(event.id)
-        end
-    end
-
+function UusCorpEventHandler:unregister(view, data)
     if self.events ~= nil then
         for i = 1, #self.events do
             local event = self.events[i]
-            view:unregisterEvent(event.id())
+            if type(event.id) == "string" then
+                view:unregisterCoreEvent(event.id)
+            else
+                view:unregisterEvent(event.id())
+            end
         end
     end
 
-    if self.data ~= nil then
-        for i = 1, #self.data do
-            local data = self.data[i]
-            view:unregisterData(data.getType(), view:getId())
+    if data ~= nil then
+        for i = 1, #data do
+            local item = data[i]
+            view:unregisterData(item.getType(), view:getId())
         end
     end
 end

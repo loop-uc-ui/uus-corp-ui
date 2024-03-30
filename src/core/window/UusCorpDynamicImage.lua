@@ -6,9 +6,7 @@ UusCorpDynamicImage = UusCorpView:new {
 ---@param model UusCorpDynamicImage
 ---@return UusCorpDynamicImage
 function UusCorpDynamicImage:new(model)
-    local newObject = setmetatable(model or {}, self)
-    self.__index = self
-    return newObject
+    return UusCorpView.new(self, model) --[[@as UusCorpDynamicImage]]
 end
 
 function UusCorpDynamicImage:setTexture(texture, x, y)

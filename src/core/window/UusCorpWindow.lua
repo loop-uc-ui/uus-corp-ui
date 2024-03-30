@@ -1,14 +1,11 @@
 ---@class UusCorpWindow:UusCorpView
-UusCorpWindow = UusCorpView:new { name  = "UusCorpWindow" }
+---@field children table<string, UusCorpView>?
+UusCorpWindow = UusCorpView:new { name  = "UusCorpWindow", children = {} }
 
 ---@param model UusCorpWindow
 ---@return UusCorpWindow
 function UusCorpWindow:new(model)
-    local newObject = setmetatable(model or {}, self)
-    self.__index = self
-    ---@type table<string, UusCorpView>
-    self.children = {}
-    return newObject
+    return UusCorpView.new(self, model) --[[@as UusCorpWindow]]
 end
 
 function UusCorpWindow:attachToWorldObject(id)
@@ -30,41 +27,43 @@ end
 ---@param child UusCorpView
 ---@return UusCorpView
 function UusCorpWindow:addChild(child)
+    child.name = self.name .. child.name
+    child.parent = self.name
     self.children[child.name] = child
     return child
 end
 
 ---@return UusCorpLabel
 function UusCorpWindow:addLabel(label)
-    return self:addChild(UusCorpLabel:new { name = self.name .. label }) --[[@as UusCorpLabel]]
+    return self:addChild(UusCorpLabel:new { name = label }) --[[@as UusCorpLabel]]
 end
 
 ---@return UusCorpWindow
 function UusCorpWindow:addWindow(window)
-    return self:addChild(UusCorpWindow:new { name = self.name .. window }) --[[@as UusCorpWindow]]
+    return self:addChild(UusCorpWindow:new { name = window }) --[[@as UusCorpWindow]]
 end
 
 ---@return UusCorpStatusBar
 function UusCorpWindow:addStatusBar(statusBar)
-    return self:addChild(UusCorpStatusBar:new { name = self.name .. statusBar }) --[[@as UusCorpStatusBar]]
+    return self:addChild(UusCorpStatusBar:new { name = statusBar }) --[[@as UusCorpStatusBar]]
 end
 
 ---@return UusCorpEditTextBox
 function UusCorpWindow:addEditTextBox(editTextBox)
-    return self:addChild(UusCorpEditTextBox:new { name = self.name .. editTextBox }) --[[@as UusCorpEditTextBox]]
+    return self:addChild(UusCorpEditTextBox:new { name = editTextBox }) --[[@as UusCorpEditTextBox]]
 end
 
 ---@return UusCorpButton
 function UusCorpWindow:addButton(button)
-    return self:addChild(UusCorpButton:new { name = self.name .. button }) --[[@as UusCorpButton]]
+    return self:addChild(UusCorpButton:new { name = button }) --[[@as UusCorpButton]]
 end
 
 ---@return UusCorpScrollWindow
 function UusCorpWindow:addScrollWindow(scrollWindow)
-    return self:addChild(UusCorpScrollWindow:new { name = self.name .. scrollWindow }) --[[@as UusCorpScrollWindow]]
+    return self:addChild(UusCorpScrollWindow:new { name = scrollWindow }) --[[@as UusCorpScrollWindow]]
 end
 
 ---@return UusCorpDynamicImage
 function UusCorpWindow:addDynamicImage(dynamicImage)
-    return self:addChild(UusCorpDynamicImage:new { name = self.name .. dynamicImage }) --[[@as UusCorpDynamicImage]]
+    return self:addChild(UusCorpDynamicImage:new { name = dynamicImage }) --[[@as UusCorpDynamicImage]]
 end

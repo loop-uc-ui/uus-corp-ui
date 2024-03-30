@@ -4,9 +4,7 @@ UusCorpButton = UusCorpWindow:new { name = "UusCorpButton" }
 ---@param model UusCorpButton
 ---@return UusCorpButton
 function UusCorpButton:new(model)
-    local newObject = setmetatable(model or {}, self)
-    self.__index = self
-    return newObject
+    return UusCorpWindow.new(self, model) --[[@as UusCorpButton]]
 end
 
 function UusCorpButton:setText(text)

@@ -1,24 +1,30 @@
 ---@class UusCorpView
 ---@field name string
----@field onInitialize fun(view: UusCorpView)?
----@field Shutdown fun(view: UusCorpView)?
----@field onShown fun(view: UusCorpView)?
----@field onUpdate fun(view: UusCorpView, timePassed: number)?
----@field onLButtonUp fun(view: UusCorpView, flags: number, x: number, y: number)?
----@field onRButtonUp fun(view: UusCorpView, flags: number, x: number, y: number)?
----@field onRButtonDown fun(view: UusCorpView, flags: number, x: number, y: number)?
----@field onLButtonDown fun(view: UusCorpView, flags: number, x: number, y: number)?
+---@field template string?
+---@field parent string?
+---@field id number?
 UusCorpView = { name = "UusCorpView" }
 
----@param model UusCorpView
+---@param model UusCorpView?
 ---@return UusCorpView
 function UusCorpView:new(model)
-    local object = setmetatable(model or {}, self)
+    if type(model) == "string" then
+        model = { name = Active.window()}
+    end
+
+    model = model or {}
+
+    if model.name == nil then
+        model.name = Active.window()
+    end
+
+    local object = setmetatable(model, self)
     self.__index = self
     return object
 end
 
-function UusCorpView:onInitialize() end
+---@param object UusCorpGameObject
+function UusCorpView:onInitialize(object) return self, object end
 
 function UusCorpView:onShown() end
 
@@ -33,6 +39,12 @@ function UusCorpView:onRButtonUp(flags, x, y) return self, flags, x, y end
 function UusCorpView:onLButtonDown(flags, x, y) return self, flags, x, y end
 
 function UusCorpView:onRButtonDown(flags, x, y) return self, flags, x, y end
+
+---@param data UusCorpContainer
+function UusCorpView:onUpdateContainer(data) return self, data end
+
+---@param object UusCorpGameObject
+function UusCorpView:onUpdateObjectInfo(object) return self, object end
 
 function UusCorpView:getPosition()
     return WindowApi.getPosition(self.name)
@@ -58,12 +70,18 @@ function UusCorpView:setShowing(doShow)
     WindowApi.setShowing(self.name, doShow)
 end
 
-function UusCorpView:createFromTemplate(template, parent)
-    return WindowApi.createFromTemplate(self.name, template or self.name, parent or "Root")
-end
-
 function UusCorpView:create(doShow)
-    return WindowApi.createWindow(self.name, doShow == nil or doShow)
+    doShow = doShow == nil or doShow
+    local created = false
+
+    if self.template ~= nil and self.parent ~= nil then
+        created = WindowApi.createFromTemplate(self.name, self.template or self.name, self.parent or "Root")
+    else
+        created = WindowApi.createWindow(self.name, false)
+    end
+
+    self:setShowing(doShow)
+    return created
 end
 
 function UusCorpView:destroy()
@@ -139,4 +157,8 @@ end
 
 function UusCorpView:clearAnchors()
     WindowApi.clearAnchors(self.name)
+end
+
+function UusCorpView:getParent()
+    return WindowApi.getParent(self.name)
 end

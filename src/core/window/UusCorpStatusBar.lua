@@ -4,9 +4,7 @@ UusCorpStatusBar = UusCorpView:new { name = "UusCorpStatusBar" }
 ---@param model UusCorpStatusBar
 ---@return UusCorpStatusBar
 function UusCorpStatusBar:new(model)
-    local newObject = setmetatable(model or {}, self)
-    self.__index = self
-    return newObject
+    return UusCorpView.new(self, model) --[[@as UusCorpStatusBar]]
 end
 
 ---@param tint table

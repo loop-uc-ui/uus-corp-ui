@@ -75,7 +75,7 @@ UusCorpDistanceCounterEventHandler = UusCorpEventHandler:new {
     getView = function ()
         return UusCorpDistanceCounterWindow
     end,
-    coreEvents = {
+    events = {
         UusCorpCoreEvents.OnUpdate
     }
 }

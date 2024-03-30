@@ -1,15 +1,47 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
 	<Windows>
-		<!-- Main container window -->
-        <Button name="ContainerSlotTemplate" inherits="ItemGridSocketTemplate">
-            <EventHandlers>
-                <EventHandler event="OnLButtonDblClk" function="UusCorpContainerRootWindow.onSlotDoubleClick"/>
-				<EventHandler event="OnLButtonDown" function="UusCorpContainerRootWindow.onSlotSingleClick"/>
-				<EventHandler event="OnLButtonUp" function="UusCorpContainerRootWindow.onSlotSingleClickUp"/>
-				<EventHandler event="OnRButtonDown" function="UusCorpContainerRootWindow.onSlotRightClick"/>
-				<EventHandler event="OnMouseOver" function="UusCorpContainerRootWindow.onSlotMouseOver"/>
-				<EventHandler event="OnMouseOverEnd" function="ItemProperties.ClearMouseOverItem"/>
-			</EventHandlers>
+		<Button name="ContainerSlotTemplate" draganddrop="true" texturescale="1.0">
+            <Size>
+                <AbsPoint x="51" y="51" />
+            </Size>
+            <Windows>
+                <DynamicImage name="$parentIcon" texturescale="1.0" handleinput="false" layer="default">
+                    <Size>
+                        <AbsPoint x="48" y="48" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parent"/>
+                    </Anchors>
+                </DynamicImage>
+                <DynamicImage name="$parentIconMulti" texturescale="1.0" handleinput="false" layer="secondary">
+                    <Size>
+                        <AbsPoint x="48" y="48" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="center" relativePoint="center" relativeTo="$parentIcon">
+                            <AbsPoint x="6" y="6" />
+                        </Anchor>
+                    </Anchors>
+                </DynamicImage>
+                <Label name="$parentQuantity" font="UO_DefaultText_15pt" maxchars="6" textalign="left" autoresize="true" wordwrap="false" layer="popup" handleinput="false">
+                    <Size>
+                        <AbsPoint x="60" y="15" />
+                    </Size>
+                    <Anchors>
+                        <Anchor point="bottomleft" relativePoint="bottomleft">
+                            <AbsPoint x="2" y="-2" />
+                        </Anchor>
+                    </Anchors>
+                    <Color r="255" g="255" b="255" a="255" />
+                </Label>
+            </Windows>
+            <TexCoords>
+                <Normal texture="hud_image" x="412" y="971" />
+                <NormalHighlit texture="hud_image" x="462" y="971" />
+                <Disabled texture="hud_image" x="412" y="971" />
+                <Pressed texture="hud_image" x="412" y="971" />
+                <PressedHighlit texture="hud_image" x="462" y="971" />
+            </TexCoords>
         </Button>
 
 		<Window name="ContainerWindow" movable="true" draganddrop="true" >
@@ -22,10 +54,6 @@
 				</Anchor>
 			</Anchors>
 			<EventHandlers>
-				<EventHandler event="OnInitialize" function="UusCorpContainerRootWindow.Initialize" />
-				<EventHandler event="OnShutdown" function="UusCorpContainerRootWindow.onShutdown" />
-				<EventHandler event="OnSetMoving" function="UusCorpContainerRootWindow.OnSetMoving" />
-				<EventHandler event="OnRButtonUp" function="UusCorpContainerRootWindow.onRightClick" />
 				<EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
 			</EventHandlers>
 			<Windows>
@@ -102,6 +130,9 @@
                         </Anchor>
 					</Anchors>
 					<Color r="206" g="217" b="242" a="255" />
+					<EventHandlers>
+						<EventHandler event="OnInitialize" function="UusCorpContainerTitleEventHandler.onInitialize"/>
+					</EventHandlers>
 				</Label>
 
 				<EditBox name="$parentBox" font="inter_medium_16" taborder="1" maxchars="24" scrolling="horz">
@@ -134,6 +165,9 @@
 					<Size>
 						<AbsPoint x="326" y="342" />
 					</Size>
+					<EventHandlers>
+						<EventHandler event="OnInitialize" function="UusCorpContainerGridEventHandler.onInitialize"/>
+					</EventHandlers>
 					<Anchors>
                             <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
                                 <AbsPoint x="0" y="12"/>
