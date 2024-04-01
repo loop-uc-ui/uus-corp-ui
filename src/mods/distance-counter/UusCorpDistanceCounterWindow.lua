@@ -76,7 +76,7 @@ UusCorpDistanceCounterEventHandler = UusCorpEventHandler:new {
         return UusCorpDistanceCounterWindow
     end,
     events = {
-        UusCorpCoreEvents.OnUpdate
+        UusCorpEvents.OnUpdate
     }
 }
 

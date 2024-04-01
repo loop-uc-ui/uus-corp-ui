@@ -3,6 +3,7 @@
 ---@field template string?
 ---@field parent string?
 ---@field id number?
+---@field eventHandler UusCorpEventHandler?
 UusCorpView = { name = "UusCorpView" }
 
 ---@param model UusCorpView?
@@ -23,12 +24,40 @@ function UusCorpView:new(model)
     return object
 end
 
----@param object UusCorpGameObject
-function UusCorpView:onInitialize(object) return self, object end
+function UusCorpView:onInitialize()
+    self:setId(tonumber(self.name:match("%d+")) or 0)
+
+    if self.eventHandler ~= nil then
+        for i = 1, #self.eventHandler.events do
+            local event = self.eventHandler.events[i]
+            if type(event.id) == "string" then
+                self:registerCoreEvent(event.id, self.eventHandler.name .. "." .. event.callback)
+            else
+                self:registerData(event.type(), self:getId())
+                self:registerEvent(event.id(), self.eventHandler.name .. "." .. event.callback)
+            end
+        end
+    end
+
+    return self, object
+end
 
 function UusCorpView:onShown() end
 
-function UusCorpView:onShutdown() end
+function UusCorpView:onShutdown()
+    if self ~= nil and self.eventHandler ~= nil then
+        for i = 1, #self.eventHandler.events do
+            local event = self.eventHandler.events[i]
+            if type(event.id) == "string" then
+                self:unregisterCoreEvent(event.id)
+            else
+                self:unregisterEvent(event.id())
+                self:unregisterData(event.type(), self:getId())
+            end
+        end
+    end
+    self = nil
+ end
 
 function UusCorpView:onUpdate(timePassed) return self, timePassed end
 
@@ -85,8 +114,9 @@ function UusCorpView:create(doShow)
 end
 
 function UusCorpView:destroy()
+    local name = self.name
     self:onShutdown()
-    return WindowApi.destroyWindow(self.name)
+    return WindowApi.destroyWindow(name)
 end
 
 function UusCorpView:assignFocus(doFocus)
