@@ -38,13 +38,6 @@ UusCorpContainerTitleEventHandler = UusCorpEventHandler:new {
     }
 }
 
-UusCorpContainerGridIconEventHandler = UusCorpEventHandler:new {
-    name = "UusCorpContainerGridIconEventHandler",
-    getView = function (...)
-        Debug.Print("testing")
-    end
-}
-
 UusCorpContainerGridEventHandler = UusCorpEventHandler:new {
     name = "UusCorpContainerGridEventHandler",
     ---@return UusCorpContainer

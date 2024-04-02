@@ -44,6 +44,10 @@ end
 
 function UusCorpView:onShown() end
 
+function UusCorpView:onHidden() end
+
+function UusCorpView:onUpdatePlayerStatus() end
+
 function UusCorpView:onShutdown()
     if self ~= nil and self.eventHandler ~= nil then
         for i = 1, #self.eventHandler.events do
@@ -72,7 +76,6 @@ function UusCorpView:onRButtonDown(flags, x, y) return self, flags, x, y end
 ---@param data UusCorpContainer
 function UusCorpView:onUpdateContainer(data) return self, data end
 
----@param object UusCorpGameObject
 function UusCorpView:onUpdateObjectInfo(object) return self, object end
 
 function UusCorpView:getPosition()

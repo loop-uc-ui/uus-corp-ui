@@ -47,7 +47,7 @@ UusCorpEvents = {
     ---@type UusCorpEvent
     OnLButtonDown = {
         id = "OnLButtonDown",
-        callback = "onUpdate"
+        callback = "onLButtonDown"
     },
     ---@type UusCorpEvent
     OnRButtonUp = {
@@ -67,7 +67,7 @@ UusCorpEvents = {
     ---@type UusCorpEvent
     OnMouseOverEnd = {
         id = "OnMouseOverEnd",
-        callback = "OnMouseOverEnd"
+        callback = "onMouseOverEnd"
     }
 }
 
