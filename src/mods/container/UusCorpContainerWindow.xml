@@ -131,7 +131,7 @@
 					</Anchors>
 					<Color r="206" g="217" b="242" a="255" />
 					<EventHandlers>
-						<EventHandler event="OnInitialize" function="UusCorpContainerTitleEventHandler.onInitialize"/>
+						<EventHandler event="OnInitialize" function="UusCorpContainerEventHandler.Title.onInitialize"/>
 					</EventHandlers>
 				</Label>
 
@@ -166,7 +166,7 @@
 						<AbsPoint x="326" y="342" />
 					</Size>
 					<EventHandlers>
-						<EventHandler event="OnInitialize" function="UusCorpContainerGridEventHandler.onInitialize"/>
+						<EventHandler event="OnInitialize" function="UusCorpContainerEventHandler.Grid.onInitialize"/>
 					</EventHandlers>
 					<Anchors>
                             <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">

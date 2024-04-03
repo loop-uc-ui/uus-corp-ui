@@ -1,47 +1,5 @@
----@class UusCorpContainerWindow:UusCorpWindow
----@field scrollWindow UusCorpScrollWindow
-UusCorpContainerWindow = UusCorpWindow:new {
-    name = "ContainerWindow_"
-}
-
----@return UusCorpContainerWindow
-function UusCorpContainerWindow:new(model)
-    local window = UusCorpWindow.new(self, model) --[[@as UusCorpContainerWindow]]
-    window.scrollWindow = window:addScrollWindow("GridView")
-    return window
-end
-
----@param data UusCorpContainer
-function UusCorpContainerWindow:onUpdateContainer(data)
-    for i = 1, data.numItems do
-        -- UusCorpContainerSlotEventHandler.onInitialize {
-        --     name = self:getFullPathName() .. "Slot" .. i .. "_" .. data.ContainedItems[i].objectId,
-        --     data = data
-        -- }
-        -- Debug.Print(self:getFullPathName())
-    end
-end
-
-UusCorpContainerTitleEventHandler = UusCorpEventHandler:new {
-    name = "UusCorpContainerTitleEventHandler",
-    getView = function ()
-        return UusCorpLabel:new {
-            ---@param view UusCorpLabel
-            ---@param data UusCorpContainer
-            onUpdateContainer = function (view, data)
-                view:setText(data.containerName)
-            end
-        }
-    end,
-    events = {
-        UusCorpEvents.Container
-    }
-}
-
-UusCorpContainerGridEventHandler = UusCorpEventHandler:new {
-    name = "UusCorpContainerGridEventHandler",
-    ---@return UusCorpContainer
-    getView = function ()
+UusCorpContainerWindow = {
+    Grid = function ()
         return UusCorpWindow:new {
             ---@param view UusCorpWindow
             ---@param data UusCorpContainer
@@ -55,70 +13,95 @@ UusCorpContainerGridEventHandler = UusCorpEventHandler:new {
                 for i = 1, data.numItems do
                     local x, _ = view:getDimensions()
 
-                    UusCorpSlotEventHandler.onInitialize(
-                        view:addChild(
-                            UusCorpButton:new {
-                                template = "ContainerSlotTemplate",
-                                name = "Slot" .. i,
-                                id = data.ContainedItems[i].objectId,
-
-                                ---@param slot UusCorpButton
-                                onInitialize = function (slot)
-                                    local slotX, _ = slot:getDimensions()
-                                    local rowSize = sizeMultiplier * slotX
-
-                                    if i ~= 1 then
-                                        slot:clearAnchors()
-                                        if rowSize < x then
-                                            slot:addAnchor(
-                                                UusCorpAnchor.new(
-                                                    "right",
-                                                    "left",
-                                                    view.name .. "Slot" .. tostring(i - 1)
-                                                )
-                                            )
-                                            sizeMultiplier = sizeMultiplier + 1
-                                        else
-                                            slot:addAnchor(
-                                                UusCorpAnchor.new(
-                                                    "bottomleft",
-                                                    "topleft",
-                                                    view.name .. "Slot" .. tostring(i - sizeMultiplier)
-                                                )
-                                            )
-                                            sizeMultiplier = 1
-                                        end
-                                    end
-
-                                    slot:onUpdateObjectInfo(UusCorpGameObject:new(slot:getId()))
-                                end,
-
-                                ---@param slot UusCorpButton
-                                ---@param objectInfo UusCorpObjectInfo
-                                ---@param containerData UusCorpContainer
-                                onUpdateObjectInfo = function (slot, objectInfo, containerData)
-                                    local icon = slot:addDynamicImage("Icon")
-                                    icon:setTexture(objectInfo.iconName)
-                                end
-                            }
-                        )
-                    )
+                    view:addChild(UusCorpContainerWindow.Slot(
+                        x,
+                        i,
+                        data.ContainedItems[i].objectId,
+                        sizeMultiplier
+                    ))
                 end
             end
         }
     end,
-    events = {
-        UusCorpEvents.Container
-    }
+    Title = function ()
+        return UusCorpLabel:new {
+            ---@param view UusCorpLabel
+            ---@param data UusCorpContainer
+            onUpdateContainer = function (view, data)
+                view:setText(data.containerName)
+            end
+        }
+    end,
+    Slot = function (x, i, id, sizeMultiplier)
+        return UusCorpButton:new {
+            template = "ContainerSlotTemplate",
+            name = "Slot" .. i,
+            id = id,
+
+            ---@param slot UusCorpButton
+            onInitialize = function (slot)
+                local slotX, _ = slot:getDimensions()
+                local rowSize = sizeMultiplier * slotX
+
+                if i ~= 1 then
+                    slot:clearAnchors()
+                    if rowSize < x then
+                        slot:addAnchor(
+                            UusCorpAnchor.new(
+                                "right",
+                                "left",
+                                view.name .. "Slot" .. tostring(i - 1)
+                            )
+                        )
+                        sizeMultiplier = sizeMultiplier + 1
+                    else
+                        slot:addAnchor(
+                            UusCorpAnchor.new(
+                                "bottomleft",
+                                "topleft",
+                                view.name .. "Slot" .. tostring(i - sizeMultiplier)
+                            )
+                        )
+                        sizeMultiplier = 1
+                    end
+                end
+
+                slot:onUpdateObjectInfo(UusCorpGameObject:new(slot:getId()))
+            end,
+
+            ---@param slot UusCorpButton
+            ---@param objectInfo UusCorpObjectInfo
+            ---@param containerData UusCorpContainer
+            onUpdateObjectInfo = function (slot, objectInfo, containerData)
+                local icon = slot:addDynamicImage("Icon")
+                icon:setTexture(objectInfo.iconName)
+            end
+        }
+    end
 }
 
-UusCorpSlotEventHandler = UusCorpEventHandler:new {
-    name = "UusCorpSlotEventHandler",
-    getView = function (view)
-        return view
-    end,
-    events = {
-        UusCorpEvents.ObjectInfo
+UusCorpContainerEventHandler = {
+    Name = "UusCorpContainerEventHandler",
+    Grid = UusCorpEventHandler:new {
+        name = "UusCorpContainerEventHandler.Grid",
+        getView = UusCorpContainerWindow.Grid,
+        events = {
+            UusCorpEvents.Container
+        }
+    },
+    Title = UusCorpEventHandler:new {
+        name = "UusCorpContainerEventHandler.Title",
+        getView = UusCorpContainerWindow.Title,
+        events = {
+            UusCorpEvents.Container
+        }
+    },
+    Slot = UusCorpEventHandler:new {
+        name = "UusCorpContainerEventHandler.Slot",
+        getView = UusCorpContainerWindow.Slot,
+        events = {
+            UusCorpEvents.ObjectInfo
+        }
     }
 }
 
