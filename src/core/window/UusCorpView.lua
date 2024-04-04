@@ -24,10 +24,60 @@ function UusCorpView:new(model)
     return object
 end
 
+---@param view UusCorpView
+---@param eventHandler UusCorpEventHandler
+local function mapEvents(view, eventHandler)
+    for i = 1, #eventHandler.events do
+        local event = eventHandler.events[i]
+        local callback = event.callback
+        if event == UusCorpEvents.OnUpdate then
+            eventHandler[event.callback] = function (timePassed)
+                view:onUpdate(timePassed)
+            end
+        elseif event == UusCorpEvents.OnShown then
+            eventHandler[event.callback] = function ()
+                view:onShown()
+            end
+        elseif event == UusCorpEvents.ItemUseRequest then
+            eventHandler[callback] = function ()
+                local request = UusCorpUseRequests()
+                view[callback](view, request.getUseItem(), request.getUseTarget())
+            end
+        elseif event == UusCorpEvents.SkillUseRequest then
+            eventHandler[callback] = function ()
+                local request = UusCorpUseRequests()
+                view[callback](view, request.getUseSkill(), request.getUseTarget())
+            end
+        elseif event == UusCorpEvents.SpellUseRequest then
+            eventHandler[callback] = function ()
+                local request = UusCorpUseRequests()
+                view[callback](view, request.getUseSpell(), request.getUseTarget())
+            end
+        elseif event == UusCorpEvents.VirtueUseRequest then
+            eventHandler[callback] = function ()
+                local request = UusCorpUseRequests()
+                view[callback](view, request.getUseVirtue(), request.getUseTarget())
+            end
+        elseif event == UusCorpEvents.Container then
+            eventHandler[callback] = function ()
+                view[callback](view, UusCorpContainer(view:getId()))
+            end
+        elseif event == UusCorpEvents.ObjectInfo then
+            eventHandler[callback] = function ()
+                view[callback](view, UusCorpObjectInfo(view:getId()), UusCorpContainer(view:getId()))
+            end
+        elseif event == UusCorpEvents.PlayerStatus then
+            eventHandler[callback] = function ()
+                view[callback](view)
+            end
+        end
+    end
+end
+
 function UusCorpView:onInitialize()
     self:setId(tonumber(self.name:match("%d+")) or 0)
-
     if self.eventHandler ~= nil then
+        mapEvents(self, self.eventHandler)
         for i = 1, #self.eventHandler.events do
             local event = self.eventHandler.events[i]
             if type(event.id) == "string" then

@@ -13,12 +13,16 @@ UusCorpContainerWindow = {
                 for i = 1, data.numItems do
                     local x, _ = view:getDimensions()
 
-                    view:addChild(UusCorpContainerWindow.Slot(
+                    local slot = UusCorpContainerWindow.Slot(
                         x,
                         i,
                         data.ContainedItems[i].objectId,
-                        sizeMultiplier
-                    ))
+                        sizeMultiplier,
+                        view.name
+                    )
+
+                    view:addChild(slot)
+                    slot:create()
                 end
             end
         }
@@ -32,14 +36,16 @@ UusCorpContainerWindow = {
             end
         }
     end,
-    Slot = function (x, i, id, sizeMultiplier)
+    Slot = function (x, i, id, sizeMultiplier, parent)
         return UusCorpButton:new {
             template = "ContainerSlotTemplate",
             name = "Slot" .. i,
             id = id,
+            eventHandler = UusCorpContainerEventHandler.Slot,
 
             ---@param slot UusCorpButton
-            onInitialize = function (slot)
+            onShown = function (slot)
+                Debug.Print("testing")
                 local slotX, _ = slot:getDimensions()
                 local rowSize = sizeMultiplier * slotX
 
@@ -50,7 +56,7 @@ UusCorpContainerWindow = {
                             UusCorpAnchor.new(
                                 "right",
                                 "left",
-                                view.name .. "Slot" .. tostring(i - 1)
+                                parent .. "Slot" .. tostring(i - 1)
                             )
                         )
                         sizeMultiplier = sizeMultiplier + 1
@@ -59,7 +65,7 @@ UusCorpContainerWindow = {
                             UusCorpAnchor.new(
                                 "bottomleft",
                                 "topleft",
-                                view.name .. "Slot" .. tostring(i - sizeMultiplier)
+                                parent .. "Slot" .. tostring(i - sizeMultiplier)
                             )
                         )
                         sizeMultiplier = 1
@@ -98,9 +104,12 @@ UusCorpContainerEventHandler = {
     },
     Slot = UusCorpEventHandler:new {
         name = "UusCorpContainerEventHandler.Slot",
-        getView = UusCorpContainerWindow.Slot,
+        getView = function (x, i, id, sizeMultiplier, parent)
+            return UusCorpContainerWindow.Slot(x, i, id, sizeMultiplier, parent)
+        end,
         events = {
-            UusCorpEvents.ObjectInfo
+            UusCorpEvents.ObjectInfo,
+            UusCorpEvents.Container
         }
     }
 }

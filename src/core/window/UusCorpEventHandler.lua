@@ -90,51 +90,6 @@ function UusCorpEventHandler:new(model)
     eventHandler.onInitialize = function (...)
         view = model.getView(...)
         view:create()
-        for i = 1, #model.events do
-            local event = model.events[i]
-            local callback = event.callback
-            if event == UusCorpEvents.OnUpdate then
-                eventHandler[event.callback] = function (timePassed)
-                    view:onUpdate(timePassed)
-                end
-            elseif event == UusCorpEvents.OnShown then
-                eventHandler[event.callback] = function ()
-                    view:onShown()
-                end
-            elseif event == UusCorpEvents.ItemUseRequest then
-                eventHandler[callback] = function ()
-                    local request = UusCorpUseRequests()
-                    view[callback](view, request.getUseItem(), request.getUseTarget())
-                end
-            elseif event == UusCorpEvents.SkillUseRequest then
-                eventHandler[callback] = function ()
-                    local request = UusCorpUseRequests()
-                    view[callback](view, request.getUseSkill(), request.getUseTarget())
-                end
-            elseif event == UusCorpEvents.SpellUseRequest then
-                eventHandler[callback] = function ()
-                    local request = UusCorpUseRequests()
-                    view[callback](view, request.getUseSpell(), request.getUseTarget())
-                end
-            elseif event == UusCorpEvents.VirtueUseRequest then
-                eventHandler[callback] = function ()
-                    local request = UusCorpUseRequests()
-                    view[callback](view, request.getUseVirtue(), request.getUseTarget())
-                end
-            elseif event == UusCorpEvents.Container then
-                eventHandler[callback] = function ()
-                    view[callback](view, UusCorpContainer(view:getId()))
-                end
-            elseif event == UusCorpEvents.ObjectInfo then
-                eventHandler[callback] = function ()
-                    view[callback](view, UusCorpObjectInfo(view:getId()), UusCorpContainer(view:getId()))
-                end
-            elseif event == UusCorpEvents.PlayerStatus then
-                eventHandler[callback] = function ()
-                    view[callback](view)
-                end
-            end
-        end
         view.eventHandler = eventHandler
         view:onInitialize()
         return view
