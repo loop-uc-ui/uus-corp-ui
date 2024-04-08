@@ -1,11 +1,17 @@
 ---@class UusCorpWindow:UusCorpView
----@field children table<string, UusCorpView>?
 UusCorpWindow = UusCorpView:new { name  = "UusCorpWindow", children = {} }
 
 ---@param model UusCorpWindow
 ---@return UusCorpWindow
 function UusCorpWindow:new(model)
     return UusCorpView.new(self, model) --[[@as UusCorpWindow]]
+end
+
+function UusCorpWindow:onInitialize(data)
+    UusCorpView.onInitialize(self, data)
+    if self:getParent() == UusCorpRootWindow then
+        self:restorePosition()
+    end
 end
 
 function UusCorpWindow:attachToWorldObject(id)
@@ -29,7 +35,6 @@ end
 function UusCorpWindow:addChild(child)
     child.name = self.name .. child.name
     child.parent = self.name
-    self.children[child.name] = child
     return child
 end
 
@@ -66,4 +71,12 @@ end
 ---@return UusCorpDynamicImage
 function UusCorpWindow:addDynamicImage(dynamicImage)
     return self:addChild(UusCorpDynamicImage:new { name = dynamicImage }) --[[@as UusCorpDynamicImage]]
+end
+
+function UusCorpWindow:onRButtonDown(flags, x, y)
+    if self:getParent() == UusCorpRootWindow then
+        self:destroy()
+    end
+
+    return flags, x, y
 end

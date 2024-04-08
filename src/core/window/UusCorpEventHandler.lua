@@ -34,6 +34,24 @@ UusCorpEvents = {
             return PlayerStatus.type()
         end
     },
+    HealthBarColor = {
+        id = function ()
+            return HealthBarColorData.event()
+        end,
+        callback = "onUpdateHealthBarColor",
+        type = function ()
+            return HealthBarColorData.type()
+        end
+    },
+    MobileStatus = {
+        id = function ()
+            return MobileStatus.event()
+        end,
+        callback = "onUpdateMobileStatus",
+        type = function ()
+            return MobileStatus.type()
+        end
+    },
     ---@type UusCorpEvent
     OnUpdate = {
         id = "OnUpdate",
@@ -68,40 +86,33 @@ UusCorpEvents = {
     OnMouseOverEnd = {
         id = "OnMouseOverEnd",
         callback = "onMouseOverEnd"
+    },
+    ---@type UusCorpEvent
+    OnShutdown = {
+        id = "OnShutdown",
+        callback = "onShutdown"
     }
 }
 
 ---@class UusCorpEventHandler
 ---@field name string
----@field getView fun(...):UusCorpView
----@field events UusCorpEvent[]?
-UusCorpEventHandler = {}
+UusCorpEventHandler = { name = "UusCorpEventHandler" }
 
 ---@param model UusCorpEventHandler
----@return UusCorpEventHandler
 function UusCorpEventHandler:new(model)
-    model.events = model.events or {}
-    local eventHandler = setmetatable(model, self)
+    local this = setmetatable(model, self)
     self.__index = self
-
-    ---@type UusCorpView
-    local view
-
-    eventHandler.onInitialize = function (...)
-        view = model.getView(...)
-        view:create()
-        view.eventHandler = eventHandler
-        view:onInitialize()
-        return view
-    end
-
-    eventHandler.onShutdown = function ()
-        view:onShutdown()
-    end
-
-    return eventHandler
+    return this
 end
 
-function UusCorpEventHandler.onInitialize(...) return ... end
+function UusCorpEventHandler.onInitialize(view)
+    view:onInitialize()
+end
 
-function UusCorpEventHandler.onShutdown() end
+function UusCorpEventHandler.onShutdown(view)
+    view:onShutdown()
+end
+
+function UusCorpEventHandler.onUpdate(timePassed, view)
+    view:onUpdate(timePassed)
+end

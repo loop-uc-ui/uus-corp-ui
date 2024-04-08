@@ -3,13 +3,20 @@
 UusCorpDistanceCounterWindow = UusCorpWindow:new {
     name = "UusCorpDistanceCounterWindow",
 
+    eventHandler = "UusCorpDistanceCounterEventHandler",
+
+    counter = UusCorpLabel:new {
+        name = "UusCorpDistanceCounterWindowCounter"
+    },
+
     ---@param view UusCorpDistanceCounterWindow
     onInitialize = function (view)
+        UusCorpView.onInitialize(view)
         view.counter:setText("")
     end,
 
     ---@param view UusCorpDistanceCounterWindow
-    onUpdate = function (view, _)
+    onUpdate = function (view)
         if not Cursor.hasTarget() then
             view.counter:setText("")
             return
@@ -63,32 +70,5 @@ UusCorpDistanceCounterWindow = UusCorpWindow:new {
             propWindowX * scaleFactor,
             propWindowY * scaleFactor
         )
-    end,
-
-    counter = UusCorpLabel:new {
-        name = "UusCorpDistanceCounterWindowCounter"
-    }
+    end
 }
-
-UusCorpDistanceCounterEventHandler = UusCorpEventHandler:new {
-    name = "UusCorpDistanceCounterEventHandler",
-    getView = function ()
-        return UusCorpDistanceCounterWindow
-    end,
-    events = {
-        UusCorpEvents.OnUpdate
-    }
-}
-
-function UusCorpDistanceCounterWindow.initialize()
-    UusCorpCore.loadResources(
-        "/src/mods/distance-counter",
-        "UusCorpDistanceCounterWindow.xml"
-    )
-
-    UusCorpDistanceCounterWindow:create()
-end
-
--- function UusCorpDistanceCounterWindow.onInitialize()
---     UusCorpDistanceCounterWindow.Label:setText("")
--- end

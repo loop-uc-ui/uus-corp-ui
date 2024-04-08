@@ -16,14 +16,6 @@
             <Size>
                 <AbsPoint x="192" y="148" />
             </Size>
-            <EventHandlers>
-                <EventHandler event="OnInitialize" function="UusCorpPlayerStatusWindow.onInitialize"/>
-                <EventHandler event="OnShutdown" function="UusCorpPlayerStatusWindow.onShutdown"/>
-                <EventHandler event="OnRButtonUp" function="UusCorpPlayerStatusWindow.onRightClick"/>
-                <EventHandler event="OnLButtonDown" function="UusCorpPlayerStatusWindow.onLeftClickDown"/>
-                <EventHandler event="OnLButtonUp" function="UusCorpPlayerStatusWindow.onLeftClickUp"/>
-                <EventHandler event="OnLButtonDblClk" function="UusCorpPlayerStatusWindow.onDoubleClick" />
-            </EventHandlers>
             <Windows>
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>

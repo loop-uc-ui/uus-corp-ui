@@ -82,6 +82,8 @@
             <File name="data/UserSoundSettings.lua" />
             <File name="data/WaypointDisplay.lua" />
             <File name="data/WaypointList.lua" />
+            <File name="data/wrapper/UusCorpSystemData.lua" />
+            <File name="data/wrapper/UusCorpWindowData.lua" />
             <File name="data/wrapper/UusCorpContainer.lua"/>
             <File name="data/wrapper/UusCorpCursor.lua"/>
             <File name="data/wrapper/UusCorpGameObject.lua"/>q  

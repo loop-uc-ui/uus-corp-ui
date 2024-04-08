@@ -11,10 +11,11 @@
 
 		<Files>
 			<File name="UusCorpDistanceCounterWindow.lua" />
+			<File name="UusCorpDistanceCounterEventHandler.lua"/>
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpDistanceCounterWindow.initialize" />
+			<CallFunction name="UusCorpDistanceCounterEventHandler.mod" />
 		</OnInitialize>
 	</UiMod>
 </ModuleFile>

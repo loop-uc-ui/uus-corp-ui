@@ -55,6 +55,7 @@
 			</Anchors>
 			<EventHandlers>
 				<EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
+				<EventHandler event="OnInitialize" function="UusCorpContainerWindow.onInitialize"/>
 			</EventHandlers>
 			<Windows>
 
@@ -130,9 +131,6 @@
                         </Anchor>
 					</Anchors>
 					<Color r="206" g="217" b="242" a="255" />
-					<EventHandlers>
-						<EventHandler event="OnInitialize" function="UusCorpContainerEventHandler.Title.onInitialize"/>
-					</EventHandlers>
 				</Label>
 
 				<EditBox name="$parentBox" font="inter_medium_16" taborder="1" maxchars="24" scrolling="horz">
@@ -165,9 +163,6 @@
 					<Size>
 						<AbsPoint x="326" y="342" />
 					</Size>
-					<EventHandlers>
-						<EventHandler event="OnInitialize" function="UusCorpContainerEventHandler.Grid.onInitialize"/>
-					</EventHandlers>
 					<Anchors>
                             <Anchor point="bottomleft" relativePoint="topleft" relativeTo="$parentTitle">
                                 <AbsPoint x="0" y="12"/>

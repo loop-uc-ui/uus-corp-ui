@@ -3,14 +3,14 @@
 ---@field template string?
 ---@field parent string?
 ---@field id number?
----@field eventHandler UusCorpEventHandler?
+---@field eventHandler string?
 UusCorpView = { name = "UusCorpView" }
 
----@param model UusCorpView?
+---@param model string|UusCorpView?
 ---@return UusCorpView
 function UusCorpView:new(model)
     if type(model) == "string" then
-        model = { name = Active.window()}
+        model = { name = model }
     end
 
     model = model or {}
@@ -24,109 +24,47 @@ function UusCorpView:new(model)
     return object
 end
 
----@param view UusCorpView
----@param eventHandler UusCorpEventHandler
-local function mapEvents(view, eventHandler)
-    for i = 1, #eventHandler.events do
-        local event = eventHandler.events[i]
-        local callback = event.callback
-        if event == UusCorpEvents.OnUpdate then
-            eventHandler[event.callback] = function (timePassed)
-                view:onUpdate(timePassed)
-            end
-        elseif event == UusCorpEvents.OnShown then
-            eventHandler[event.callback] = function ()
-                view:onShown()
-            end
-        elseif event == UusCorpEvents.ItemUseRequest then
-            eventHandler[callback] = function ()
-                local request = UusCorpUseRequests()
-                view[callback](view, request.getUseItem(), request.getUseTarget())
-            end
-        elseif event == UusCorpEvents.SkillUseRequest then
-            eventHandler[callback] = function ()
-                local request = UusCorpUseRequests()
-                view[callback](view, request.getUseSkill(), request.getUseTarget())
-            end
-        elseif event == UusCorpEvents.SpellUseRequest then
-            eventHandler[callback] = function ()
-                local request = UusCorpUseRequests()
-                view[callback](view, request.getUseSpell(), request.getUseTarget())
-            end
-        elseif event == UusCorpEvents.VirtueUseRequest then
-            eventHandler[callback] = function ()
-                local request = UusCorpUseRequests()
-                view[callback](view, request.getUseVirtue(), request.getUseTarget())
-            end
-        elseif event == UusCorpEvents.Container then
-            eventHandler[callback] = function ()
-                view[callback](view, UusCorpContainer(view:getId()))
-            end
-        elseif event == UusCorpEvents.ObjectInfo then
-            eventHandler[callback] = function ()
-                view[callback](view, UusCorpObjectInfo(view:getId()), UusCorpContainer(view:getId()))
-            end
-        elseif event == UusCorpEvents.PlayerStatus then
-            eventHandler[callback] = function ()
-                view[callback](view)
-            end
+function UusCorpView:registerEvents()
+    if self.eventHandler == nil then
+        return nil
+    end
+
+    for _, v in pairs(UusCorpEvents) do
+        if self[v.callback] ~= nil and type(v.id) == "string" then
+            self:registerCoreEvent(v.id, self.eventHandler .. "." .. v.callback)
+        elseif self[v.callback] ~= nil then
+            self:registerData(v.type(), self:getId())
+            self:registerEvent(v.id(), self.name .. "." .. v.callback)
         end
     end
 end
 
-function UusCorpView:onInitialize()
-    self:setId(tonumber(self.name:match("%d+")) or 0)
-    if self.eventHandler ~= nil then
-        mapEvents(self, self.eventHandler)
-        for i = 1, #self.eventHandler.events do
-            local event = self.eventHandler.events[i]
-            if type(event.id) == "string" then
-                self:registerCoreEvent(event.id, self.eventHandler.name .. "." .. event.callback)
-            else
-                self:registerData(event.type(), self:getId())
-                self:registerEvent(event.id(), self.eventHandler.name .. "." .. event.callback)
-            end
-        end
+function UusCorpView:unregisterEvents()
+    if self.eventHandler == nil then
+        return
     end
 
-    return self, object
+    for _, v in pairs(UusCorpEvents) do
+        if self[v.callback] ~= nil and type(v.id) == "string" then
+            self:unregisterCoreEvent(v.id)
+        elseif self[v.callback] ~= nil then
+            self:unregisterEvent(v.id())
+            self:unregisterData(v.type(), self:getId())
+        end
+    end
 end
 
-function UusCorpView:onShown() end
-
-function UusCorpView:onHidden() end
-
-function UusCorpView:onUpdatePlayerStatus() end
+---@param data WindowData?
+function UusCorpView:onInitialize(data)
+    self:registerEvents()
+end
 
 function UusCorpView:onShutdown()
-    if self ~= nil and self.eventHandler ~= nil then
-        for i = 1, #self.eventHandler.events do
-            local event = self.eventHandler.events[i]
-            if type(event.id) == "string" then
-                self:unregisterCoreEvent(event.id)
-            else
-                self:unregisterEvent(event.id())
-                self:unregisterData(event.type(), self:getId())
-            end
-        end
+    if not self:doesExist() then
+        return
     end
-    self = nil
+    self:unregisterEvents()
  end
-
-function UusCorpView:onUpdate(timePassed) return self, timePassed end
-
-function UusCorpView:onLButtonUp(flags, x, y) return self, flags, x, y end
-
-function UusCorpView:onRButtonUp(flags, x, y) return self, flags, x, y end
-
-function UusCorpView:onLButtonDown(flags, x, y) return self, flags, x, y end
-
-function UusCorpView:onRButtonDown(flags, x, y) return self, flags, x, y end
-
----@param data UusCorpContainer
-function UusCorpView:onUpdateContainer(data) return self, data end
-
-function UusCorpView:onUpdateObjectInfo(object) return self, object end
 
 function UusCorpView:getPosition()
     return WindowApi.getPosition(self.name)
@@ -167,9 +105,8 @@ function UusCorpView:create(doShow)
 end
 
 function UusCorpView:destroy()
-    local name = self.name
     self:onShutdown()
-    return WindowApi.destroyWindow(name)
+    return WindowApi.destroyWindow(self.name)
 end
 
 function UusCorpView:assignFocus(doFocus)
@@ -219,6 +156,7 @@ function UusCorpView:unregisterData(type, id)
 end
 
 function UusCorpView:registerCoreEvent(id, callback)
+    Debug.Print(callback)
     WindowApi.registerCoreEventHandler(self.name, id, callback)
 end
 
@@ -243,5 +181,30 @@ function UusCorpView:clearAnchors()
 end
 
 function UusCorpView:getParent()
-    return WindowApi.getParent(self.name)
+    local parent = WindowApi.getParent(self.name)
+    if WindowApi.getParent(self.name) == UusCorpRootWindow.name then
+        return UusCorpRootWindow
+    else
+        return UusCorpWindow:new(parent)
+    end
 end
+
+-- function UusCorpView:onUpdate(timePassed) return self, timePassed end
+
+-- function UusCorpView:onRButtonUp(flags, x, y) return self, flags, x, y end
+
+-- function UusCorpView:onRButtonDown(flags, x, y) return self, flags, x, y end
+
+-- function UusCorpView:onLButtonUp(flags, x, y) return self, flags, x, y end
+
+-- function UusCorpView:onLButtonDown(flags, x, y) return self, flags, x, y end
+
+-- ---@param data WindowData.PlayerStatus
+-- function UusCorpView:onUpdatePlayerStatus(data) return self, data end
+
+-- ---@param data WindowData.MobileStatus
+-- function UusCorpView:onMobileStatusUpdate(data) return self, data end
+
+-- function UusCorpView:onHidden() return self end
+
+-- function UusCorpView:onShown() return self end

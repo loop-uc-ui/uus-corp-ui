@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<!-- <?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<UiMod name="UusCorpBuffs" version="0.1" date="03/07/2023">
 
@@ -22,4 +22,4 @@
             <CallFunction name="UusCorpBuffsWindow.shutdown"/>
         </OnShutdown>
 	</UiMod>
-</ModuleFile>
+</ModuleFile> -->
