@@ -7,7 +7,8 @@
 
 ---@class SkillAllSkillsOther
 
----@class HealthBarColor
+---@class WindowData.HealthBarColor
+---@field VisualStateId number
 
 ---@class AllSkillsSelf
 
@@ -248,7 +249,7 @@ UusCorpWindowData = function ()
     ---@field RecentChatPlayerNameList string[]
     ---@field SkillAllSkillsOther SkillAllSkillsOther
     ---@field PlayerEquipmentSlot Object[]
-    ---@field HealthBarColor HealthBarColor
+    ---@field HealthBarColor table<number, WindowData.HealthBarColor>
     ---@field BadWordList string[]
     ---@field PlayerStatsDataCSV PlayerStat[]
     ---@field AllSkillsSelf AllSkillsSelf

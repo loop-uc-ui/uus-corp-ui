@@ -4,6 +4,10 @@
 ---@field parent string?
 ---@field id number?
 ---@field eventHandler string?
+---@field onUpdate fun(view: UusCorpView, timePassed: number)?
+---@field onUpdateMobileStatus fun(view: UusCorpView)?
+---@field onUpdatePlayerStatus fun(view: UusCorpView)?
+---@field onUpdateHealthBarColor fun(view: UusCorpView)?
 UusCorpView = { name = "UusCorpView" }
 
 ---@param model string|UusCorpView?
@@ -33,8 +37,12 @@ function UusCorpView:registerEvents()
         if self[v.callback] ~= nil and type(v.id) == "string" then
             self:registerCoreEvent(v.id, self.eventHandler .. "." .. v.callback)
         elseif self[v.callback] ~= nil then
-            self:registerData(v.type(), self:getId())
-            self:registerEvent(v.id(), self.name .. "." .. v.callback)
+            if v == UusCorpEvents.PlayerStatus then
+                self:registerData(v.type(), 0)
+            else
+                self:registerData(v.type(), self:getId())
+            end
+            self:registerEvent(v.id(), self.eventHandler .. "." .. v.callback)
         end
     end
 end
@@ -49,7 +57,11 @@ function UusCorpView:unregisterEvents()
             self:unregisterCoreEvent(v.id)
         elseif self[v.callback] ~= nil then
             self:unregisterEvent(v.id())
-            self:unregisterData(v.type(), self:getId())
+            if v == UusCorpEvents.PlayerStatus then
+                self:unregisterData(v.type(), 0)
+            else
+                self:unregisterData(v.type(), self:getId())
+            end
         end
     end
 end
@@ -57,6 +69,7 @@ end
 ---@param data WindowData?
 function UusCorpView:onInitialize(data)
     self:registerEvents()
+    return data
 end
 
 function UusCorpView:onShutdown()

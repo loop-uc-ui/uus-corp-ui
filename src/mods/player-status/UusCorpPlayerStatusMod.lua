@@ -13,6 +13,9 @@ UusCorpPlayerStatusMod = {
         )
 
         UusCorpCore.overrideFunctions(StatusWindow)
+        InterfaceCore.Update = function ()
+            
+        end
         UusCorpPlayerStatusWindow:create()
         -- WindowUtilsWrapper.restoreWindowPosition("PlayerHealthBar", true)
     end

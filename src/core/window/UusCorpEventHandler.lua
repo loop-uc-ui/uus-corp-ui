@@ -91,6 +91,11 @@ UusCorpEvents = {
     OnShutdown = {
         id = "OnShutdown",
         callback = "onShutdown"
+    },
+    ---@type UusCorpEvent
+    OnLButtonDblClk = {
+        id = "OnLButtonDblClk",
+        callback = "onLButtonDblClk"
     }
 }
 
@@ -106,7 +111,7 @@ function UusCorpEventHandler:new(model)
 end
 
 function UusCorpEventHandler.onInitialize(view)
-    view:onInitialize()
+    view:onInitialize(UusCorpWindowData())
 end
 
 function UusCorpEventHandler.onShutdown(view)
@@ -115,4 +120,25 @@ end
 
 function UusCorpEventHandler.onUpdate(timePassed, view)
     view:onUpdate(timePassed)
+end
+
+function UusCorpEventHandler.onUpdatePlayerStatus(view)
+    local data = UusCorpWindowData()
+    view:onUpdatePlayerStatus(data.PlayerStatus, data.PlayerStatsDataCSV)
+end
+
+function UusCorpEventHandler.onUpdateMobileStatus(view)
+    view:onUpdateMobileStatus(UusCorpWindowData().MobileStatus[view:getId()])
+end
+
+function UusCorpEventHandler.onUpdateHealthBarColor(view)
+    view:onUpdateHealthBarColor(UusCorpWindowData().HealthBarColor[view:getId()])
+end
+
+function UusCorpEventHandler.onRButtonDown(view, flags, x, y)
+    view:onRButtonDown(flags, x, y)
+end
+
+function UusCorpEventHandler.onLButtonDblClk(view)
+    view:onLButtonDblClk()
 end

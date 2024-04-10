@@ -1,94 +1,116 @@
 ---@class UusCorpPlayerStatusWindow:UusCorpWindow
 UusCorpPlayerStatusWindow = UusCorpWindow:new {
-    "PlayerHealthBar"
+    name = "PlayerHealthBar",
+    eventHandler = "UusCorpPlayerStatusEventHandler"
 }
 
--- UusCorpPlayerStatusWindow.isPlayerStatusOpen = false
+UusCorpPlayerStatusWindow.isPlayerStatusOpen = false
 
--- UusCorpPlayerStatusWindow.views = {
---     name = UusCorpPlayerStatusWindow:addLabel("Name"),
---     health = {
---         bar = UusCorpPlayerStatusWindow:addStatusBar("HealthBar"),
---         label = UusCorpPlayerStatusWindow:addStatusBar("HealthBarPerc")
---     },
---     mana = {
---         bar = UusCorpPlayerStatusWindow:addStatusBar("ManaBar"),
---         label = UusCorpPlayerStatusWindow:addStatusBar("ManaBarPerc")
---     },
---     stamina = {
---         bar = UusCorpPlayerStatusWindow:addStatusBar("StaminaBar"),
---         label = UusCorpPlayerStatusWindow:addStatusBar("StaminaBarPerc")
---     },
---     stats = {
---         followers = {
---             icon = UusCorpPlayerStatusWindow:addDynamicImage("FollowIcon"),
---             count = UusCorpPlayerStatusWindow:addDynamicImage("FollowCount")
---         },
---         weight = {
---             icon = UusCorpPlayerStatusWindow:addDynamicImage("WeightIcon"),
---             count = UusCorpPlayerStatusWindow:addDynamicImage("WeightCount")
---         }
---     },
---     frames = {
---         peace = UusCorpPlayerStatusWindow:addWindow("Frame"),
---         war = UusCorpPlayerStatusWindow:addWindow("FrameWar")
---     }
--- }
+UusCorpPlayerStatusWindow.views = {
+    name = UusCorpPlayerStatusWindow:addLabel("Name"),
+    health = {
+        bar = UusCorpPlayerStatusWindow:addStatusBar("HealthBar"),
+        label = UusCorpPlayerStatusWindow:addLabel("HealthBarPerc")
+    },
+    mana = {
+        bar = UusCorpPlayerStatusWindow:addStatusBar("ManaBar"),
+        label = UusCorpPlayerStatusWindow:addLabel("ManaBarPerc")
+    },
+    stamina = {
+        bar = UusCorpPlayerStatusWindow:addStatusBar("StaminaBar"),
+        label = UusCorpPlayerStatusWindow:addLabel("StaminaBarPerc")
+    },
+    stats = {
+        followers = {
+            icon = UusCorpPlayerStatusWindow:addDynamicImage("FollowerIcon"),
+            count = UusCorpPlayerStatusWindow:addLabel("FollowerCount")
+        },
+        weight = {
+            icon = UusCorpPlayerStatusWindow:addDynamicImage("WeightIcon"),
+            count = UusCorpPlayerStatusWindow:addLabel("WeightCount")
+        }
+    },
+    frames = {
+        peace = UusCorpPlayerStatusWindow:addWindow("Frame"),
+        war = UusCorpPlayerStatusWindow:addWindow("FrameWar")
+    }
+}
 
--- ---@param data WindowData
--- function UusCorpPlayerStatusWindow:onInitialize(data)
---     self:setId(data.PlayerStatus.PlayerId)
---     UusCorpWindow.onInitialize(self)
--- end
+---@param data WindowData
+function UusCorpPlayerStatusWindow:onInitialize(data)
+    self:setId(data.PlayerStatus.PlayerId)
+    UusCorpWindow.onInitialize(self)
+    self.views.frames.war:setColor(Colors.NotoMurderer)
+end
 
--- ---@param data WindowData.MobileStatus
--- function UusCorpPlayerStatusWindow:onUpdateMbileStatus(data)
---     self.views.name:setText(data.MobName)
--- end
+---@param data WindowData.MobileStatus
+function UusCorpPlayerStatusWindow:onUpdateMobileStatus(data)
+    self.views.name:setText(data.MobName)
+end
 
--- ---@param data WindowData.PlayerStatus
--- function UusCorpPlayerStatusWindow:onUpdatePlayerStatus(data)
---     self.views.frames.peace:setShowing(not data.InWarMode)
---     self.views.frames.war:setShowing(data.InWarMode)
+---@param data WindowData.PlayerStatus
+---@param stats PlayerStat[]
+function UusCorpPlayerStatusWindow:onUpdatePlayerStatus(data, stats)
+    self.views.frames.peace:setShowing(not data.InWarMode)
+    self.views.frames.war:setShowing(data.InWarMode)
+    self.views.health.label:setText(data.CurrentHealth .. " / " .. data.MaxHealth)
+    self.views.mana.label:setText(data.CurrentMana .. " / " .. data.MaxMana)
+    self.views.stamina.label:setText(data.CurrentStamina .. " / " .. data.MaxStamina)
 
---     -- LabelApi.setText(
---     --     UusCorpPlayerStatusWindow.Name .. "Name",
---     --     MobileStatus.name(PlayerStatus.id())
---     -- )
+    local bar = self.views.health.bar
+    bar:setCurrentValue(data.CurrentHealth)
+    bar:setMaxValue(data.MaxHealth)
+    bar:setForegroundTint(Colors.HealthBar[data.VisualStateId + 1])
 
---     -- LabelApi.setText(
---     --     UusCorpPlayerStatusWindow.Name .. "HealthBarPerc",
---     --     PlayerStatus.currentHealth() .. " / " .. PlayerStatus.maxHealth()
---     -- )
---     -- LabelApi.setText(
---     --     UusCorpPlayerStatusWindow.Name .. "ManaBarPerc",
---     --     PlayerStatus.currentMana() .. " / " .. PlayerStatus.maxMana()
---     -- )
---     -- LabelApi.setText(
---     --     UusCorpPlayerStatusWindow.Name .. "StaminaBarPerc",
---     --     PlayerStatus.currentStamina() .. " / " .. PlayerStatus.maxStamina()
---     -- )
+    bar = self.views.mana.bar
+    bar:setCurrentValue(data.CurrentMana)
+    bar:setMaxValue(data.MaxMana)
+    bar:setForegroundTint(Colors.Blue)
 
---     -- local bar = UusCorpPlayerStatusWindow.Name .. "HealthBar"
---     -- StatusBarApi.setCurrentValue(bar, PlayerStatus.currentHealth())
---     -- StatusBarApi.setMaximumValue(bar, PlayerStatus.maxHealth())
+    bar = self.views.stamina.bar
+    bar:setCurrentValue(data.CurrentStamina)
+    bar:setMaxValue(data.MaxStamina)
+    bar:setForegroundTint(Colors.YellowDark)
 
---     -- bar = UusCorpPlayerStatusWindow.Name .. "ManaBar"
---     -- StatusBarApi.setCurrentValue(bar, PlayerStatus.currentMana())
---     -- StatusBarApi.setMaximumValue(bar, PlayerStatus.maxMana())
---     -- StatusBarApi.setForegroundTint(bar, Colors.Blue)
+    local icon = self.views.stats.followers.icon
+    local texture, _, _ = IconApi.getIconData(stats[13].iconId)
+    icon:setDimensions(22, 22)
+    icon:setTexture(texture, 4, 3)
+    icon:setTextureScale(1)
 
---     -- bar = UusCorpPlayerStatusWindow.Name .. "StaminaBar"
---     -- StatusBarApi.setCurrentValue(bar, PlayerStatus.currentStamina())
---     -- StatusBarApi.setMaximumValue(bar, PlayerStatus.maxStamina())
---     -- StatusBarApi.setForegroundTint(bar, Colors.YellowDark)
+    self.views.stats.followers.count:setText(
+        data.Followers .. "/" .. data.MaxFollowers
+    )
 
---     -- setStat(PlayerStatus.followers(), PlayerStatus.maxFollowers(), "Follower")
---     -- setStat(PlayerStatus.weight(), PlayerStatus.maxWeight(), "Weight")
--- end
+    icon = self.views.stats.weight.icon
+    texture, _, _ = IconApi.getIconData(stats[11].iconId)
+    icon:setDimensions(22, 22)
+    icon:setTexture(texture, 4, 3)
+    icon:setTextureScale(1.0)
 
--- function UusCorpPlayerStatusWindow:onUpdateHealthBarColor()
--- end
+    self.views.stats.weight.count:setText(
+        data.Weight .. "/" .. data.MaxWeight
+    )
+end
+
+---@param data WindowData.HealthBarColor
+function UusCorpPlayerStatusWindow:onUpdateHealthBarColor(data)
+    self.views.health.bar:setForegroundTint(
+        Colors.HealthBar[data.VisualStateId + 1]
+    )
+end
+
+function UusCorpPlayerStatusWindow:onRButtonDown(flags)
+    if ButtonFlags.isControl(flags) then
+        ContextMenuApi.requestMenu(self:getId())
+    else
+        UusCorpWindow.onRButtonDown(self, flags)
+    end
+end
+
+function UusCorpPlayerStatusWindow:onLButtonDblClk()
+    UserAction.useItem(self:getId(), false)
+end
 
 -- local isInitialized = false
 
@@ -235,18 +257,6 @@ UusCorpPlayerStatusWindow = UusCorpWindow:new {
 --         MousePosition.x() - 30,
 --         MousePosition.y() - 15
 --     )
--- end
-
--- function UusCorpPlayerStatusWindow.onRightClick(flags)
---     if ButtonFlags.isControl(flags) then
---         ContextMenuApi.requestMenu(PlayerStatus.id())
---     else
---         WindowApi.destroyWindow(UusCorpPlayerStatusWindow.Name)
---     end
--- end
-
--- function UusCorpPlayerStatusWindow.onDoubleClick()
---     UserAction.useItem(PlayerStatus.id(), false)
 -- end
 
 -- function UusCorpPlayerStatusWindow.onLeftClickDown()

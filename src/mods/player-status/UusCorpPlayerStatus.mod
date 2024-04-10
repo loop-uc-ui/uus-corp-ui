@@ -1,4 +1,4 @@
-<!-- <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <ModuleFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<UiMod name="UusCorpPlayerStatus" version="0.1" date="03/07/2023">
 
@@ -10,6 +10,7 @@
 		</Dependencies>
 
 		<Files>
+			<File name="UusCorpPlayerStatusEventHandler.lua" />
 			<File name="UusCorpPlayerStatusWindow.lua" />
 			<File name="UusCorpPlayerStatusMod.lua"/>
 		</Files>
@@ -26,4 +27,4 @@
 			<SavedVariable name="UusCorpPlayerStatusWindow.isPlayerStatusOpen"/>
 		</SavedVariables>
 	</UiMod>
-</ModuleFile> -->
+</ModuleFile>
