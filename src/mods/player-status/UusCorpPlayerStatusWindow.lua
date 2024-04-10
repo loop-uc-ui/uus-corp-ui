@@ -187,68 +187,11 @@ end
 --     UusCorpPlayerStatusWindow.isPlayerStatusOpen = true
 -- end
 
--- function UusCorpPlayerStatusWindow.onShutdown()
---     isInitialized = true
---     WindowDataApi.unregisterData(PlayerStatus.type(), 0)
---     WindowDataApi.unregisterData(MobileStatus.type(), PlayerStatus.id())
---     WindowDataApi.unregisterData(HealthBarColorData.type(), PlayerStatus.id())
---     WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, PlayerStatus.event())
---     WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, MobileStatus.event())
---     WindowApi.unregisterEventHandler(UusCorpPlayerStatusWindow.Name, HealthBarColorData.event())
--- end
-
--- function UusCorpPlayerStatusWindow.updateHealthBarColor()
---     StatusBarApi.setForegroundTint(
---         UusCorpPlayerStatusWindow.Name .. "HealthBar",
---         Colors.HealthBar[HealthBarColorData.visualState(PlayerStatus.id()) + 1]
---     )
--- end
-
 -- function UusCorpPlayerStatusWindow.updateNotoriety()
 --     LabelApi.setTextColor(
 --         UusCorpPlayerStatusWindow.Name .. "Name",
 --         Colors.Notoriety[MobileStatus.notoriety(PlayerStatus.id())]
 --     )
--- end
-
--- function UusCorpPlayerStatusWindow.update()
---     WindowApi.setShowing(Active.window() .. "Frame", not PlayerStatus.inWarMode())
---     WindowApi.setShowing(Active.window() .. "FrameWar", PlayerStatus.inWarMode())
-
---     LabelApi.setText(
---         UusCorpPlayerStatusWindow.Name .. "Name",
---         MobileStatus.name(PlayerStatus.id())
---     )
-
---     LabelApi.setText(
---         UusCorpPlayerStatusWindow.Name .. "HealthBarPerc",
---         PlayerStatus.currentHealth() .. " / " .. PlayerStatus.maxHealth()
---     )
---     LabelApi.setText(
---         UusCorpPlayerStatusWindow.Name .. "ManaBarPerc",
---         PlayerStatus.currentMana() .. " / " .. PlayerStatus.maxMana()
---     )
---     LabelApi.setText(
---         UusCorpPlayerStatusWindow.Name .. "StaminaBarPerc",
---         PlayerStatus.currentStamina() .. " / " .. PlayerStatus.maxStamina()
---     )
-
---     local bar = UusCorpPlayerStatusWindow.Name .. "HealthBar"
---     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentHealth())
---     StatusBarApi.setMaximumValue(bar, PlayerStatus.maxHealth())
-
---     bar = UusCorpPlayerStatusWindow.Name .. "ManaBar"
---     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentMana())
---     StatusBarApi.setMaximumValue(bar, PlayerStatus.maxMana())
---     StatusBarApi.setForegroundTint(bar, Colors.Blue)
-
---     bar = UusCorpPlayerStatusWindow.Name .. "StaminaBar"
---     StatusBarApi.setCurrentValue(bar, PlayerStatus.currentStamina())
---     StatusBarApi.setMaximumValue(bar, PlayerStatus.maxStamina())
---     StatusBarApi.setForegroundTint(bar, Colors.YellowDark)
-
---     setStat(PlayerStatus.followers(), PlayerStatus.maxFollowers(), "Follower")
---     setStat(PlayerStatus.weight(), PlayerStatus.maxWeight(), "Weight")
 -- end
 
 -- function UusCorpPlayerStatusWindow.offset()
@@ -259,16 +202,14 @@ end
 --     )
 -- end
 
--- function UusCorpPlayerStatusWindow.onLeftClickDown()
---     if Cursor.hasTarget() then
---         TargetApi.clickTarget(
---             PlayerStatus.id()
---         )
---     end
--- end
+function UusCorpPlayerStatusWindow:onLButtonDown()
+    if Cursor.hasTarget() then
+        TargetApi.clickTarget(self:getId())
+    end
+end
 
--- function UusCorpPlayerStatusWindow.onLeftClickUp()
---     if Drag.isItem() then
---         DragApi.dragToObject(PlayerStatus.id())
---     end
--- end
+function UusCorpPlayerStatusWindow:onLButtonUp()
+    if Drag.isItem() then
+        DragApi.dragToObject(self:getId())
+    end
+end

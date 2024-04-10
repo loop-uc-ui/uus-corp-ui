@@ -27,5 +27,13 @@ UusCorpPlayerStatusEventHandler = UusCorpEventHandler:new {
 
     onLButtonDblClk = function ()
         UusCorpEventHandler.onLButtonDblClk(UusCorpPlayerStatusWindow)
+    end,
+
+    onLButtonDown = function (flags, x, y)
+        UusCorpEventHandler.onLButtonDown(UusCorpPlayerStatusWindow, flags, x, y)
+    end,
+
+    onLButtonUp = function (flags, x, y)
+        UusCorpEventHandler.onLButtonUp(UusCorpPlayerStatusWindow, flags, x, y)
     end
 }

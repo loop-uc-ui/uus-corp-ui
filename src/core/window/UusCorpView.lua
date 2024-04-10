@@ -8,6 +8,11 @@
 ---@field onUpdateMobileStatus fun(view: UusCorpView)?
 ---@field onUpdatePlayerStatus fun(view: UusCorpView)?
 ---@field onUpdateHealthBarColor fun(view: UusCorpView)?
+---@field onLButtonUp fun(view: UusCorpView, flags: number, x: number, y: number)?
+---@field onLButtonDown fun(view: UusCorpView, flags: number, x: number, y: number)?
+---@field onRButtonUp fun(view: UusCorpView, flags: number, x: number, y: number)?
+---@field onRButtonDown fun(view: UusCorpView, flags: number, x: number, y: number)?
+---@field onLButtonDblClk fun(view: UusCorpView)?
 UusCorpView = { name = "UusCorpView" }
 
 ---@param model string|UusCorpView?

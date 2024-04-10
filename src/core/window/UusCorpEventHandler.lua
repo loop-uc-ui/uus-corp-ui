@@ -139,6 +139,14 @@ function UusCorpEventHandler.onRButtonDown(view, flags, x, y)
     view:onRButtonDown(flags, x, y)
 end
 
+function UusCorpEventHandler.onLButtonDown(view, flags, x, y)
+    view:onLButtonDown(flags, x, y)
+end
+
+function UusCorpEventHandler.onLButtonUp(view, flags, x, y)
+    view:onLButtonUp(flags, x, y)
+end
+
 function UusCorpEventHandler.onLButtonDblClk(view)
     view:onLButtonDblClk()
 end
