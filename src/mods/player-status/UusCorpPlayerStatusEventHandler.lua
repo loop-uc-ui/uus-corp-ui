@@ -3,6 +3,9 @@ UusCorpPlayerStatusEventHandler = UusCorpEventHandler:new {
 
     onInitialize = function ()
         UusCorpEventHandler.onInitialize(UusCorpPlayerStatusWindow)
+        UusCorpPlayerStatusEventHandler.onUpdatePlayerStatus()
+        UusCorpPlayerStatusEventHandler.onUpdateMobileStatus()
+        UusCorpPlayerStatusEventHandler.onUpdateHealthBarColor()
     end,
 
     onShutdown = function ()

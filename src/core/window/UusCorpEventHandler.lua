@@ -111,7 +111,7 @@ function UusCorpEventHandler:new(model)
 end
 
 function UusCorpEventHandler.onInitialize(view)
-    view:onInitialize(UusCorpWindowData())
+    view:onInitialize(UusCorpWindowData(), UusCorpSystemData())
 end
 
 function UusCorpEventHandler.onShutdown(view)

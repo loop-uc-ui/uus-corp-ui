@@ -71,8 +71,9 @@ function UusCorpView:unregisterEvents()
     end
 end
 
----@param data WindowData?
-function UusCorpView:onInitialize(data)
+---@param windowData WindowData?
+---@param systemData SystemData?
+function UusCorpView:onInitialize(windowData, systemData)
     self:registerEvents()
     return data
 end
@@ -205,6 +206,14 @@ function UusCorpView:getParent()
     else
         return UusCorpWindow:new(parent)
     end
+end
+
+function UusCorpView:isMoving()
+    return WindowApi.isMoving(self.name)
+end
+
+function UusCorpView:setMoving(isMoving)
+    WindowApi.setMoving(self.name, isMoving)
 end
 
 -- function UusCorpView:onUpdate(timePassed) return self, timePassed end

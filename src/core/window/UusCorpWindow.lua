@@ -7,8 +7,10 @@ function UusCorpWindow:new(model)
     return UusCorpView.new(self, model) --[[@as UusCorpWindow]]
 end
 
-function UusCorpWindow:onInitialize(data)
-    UusCorpView.onInitialize(self, data)
+---@param windowData WindowData?
+---@param systemData SystemData?
+function UusCorpWindow:onInitialize(windowData, systemData)
+    UusCorpView.onInitialize(self, windowData, systemData)
     if self:getParent() == UusCorpRootWindow then
         self:restorePosition()
     end
@@ -79,4 +81,11 @@ function UusCorpWindow:onRButtonDown(flags, x, y)
     end
 
     return flags, x, y
+end
+
+function UusCorpWindow:onShutdown()
+    if self:getParent() == UusCorpRootWindow then
+        self:savePosition()
+    end
+    UusCorpView.onShutdown(self)
 end

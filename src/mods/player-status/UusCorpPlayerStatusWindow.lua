@@ -36,9 +36,10 @@ UusCorpPlayerStatusWindow.views = {
     }
 }
 
----@param data WindowData
-function UusCorpPlayerStatusWindow:onInitialize(data)
-    self:setId(data.PlayerStatus.PlayerId)
+---@param windowData WindowData
+---@param systemData SystemData
+function UusCorpPlayerStatusWindow:onInitialize(windowData, systemData)
+    self:setId(windowData.PlayerStatus.PlayerId)
     UusCorpWindow.onInitialize(self)
     self.views.frames.war:setColor(Colors.NotoMurderer)
 end
