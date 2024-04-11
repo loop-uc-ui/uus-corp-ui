@@ -110,6 +110,7 @@
             <File name="window/UusCorpRootWindow.lua"/>
             <File name="window/UusCorpScrollWindow.lua"/>
             <File name="window/UusCorpStatusBar.lua"/>
+            <File name="UusCorp.lua"/>
 		</Files>
 
         <OnInitialize>

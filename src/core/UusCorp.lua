@@ -14,6 +14,8 @@ UusCorp = {
             SetOffsetFromParent = WindowApi.setOffsetFromParent,
             GetOffsetFromParent = WindowApi.getOffsetFromParent,
             GetDimensions = WindowApi.getDimensions,
+            SetDimensions = WindowApi.setDimensions,
+            SetUpdateFrequency = WindowApi.setUpdateFrequency,
             IsSticky = WindowApi.isSticky,
             ClearAnchors = WindowApi.clearAnchors,
             AddAnchor = WindowApi.addAnchor,
@@ -62,6 +64,41 @@ UusCorp = {
             GetPosition = WindowApi.getPosition,
             AttachToWorldObject = WindowApi.attachWindowToWorldObject,
             DetachFromWorlObjectt = WindowApi.detachWindowFromWorldObject
+        },
+        Label = {
+            GetText = LabelApi.getText,
+            SetText = LabelApi.setText,
+            SetTextAlignment = LabelApi.setTextAlignment,
+            SetTextColor = LabelApi.setTextColor,
+            SetWorpWrap = LabelApi.setWordWrap
+        },
+        DynamicImage = {
+            HasTexture = DynamicImageApi.hasTexture,
+            SetCustomerShader = DynamicImageApi.setCustomShader,
+            SetRotation = DynamicImageApi.setRotation,
+            SetTexture = DynamicImageApi.setTexture,
+            SetTextureDimensions = DynamicImageApi.setTextureDimensions,
+            SetTextureOrientation = DynamicImageApi.setTextureOrientation,
+            SetTextureScale = DynamicImageApi.setTextureScale,
+            SetTextureSlice = DynamicImageApi.setTextureSlice
+        },
+        Button = {
+            SetText = ButtonApi.setText,
+            GetText = ButtonApi.getText,
+            IsChecked = ButtonApi.isChecked,
+            SetChecked = ButtonApi.setChecked,
+            IsDisabled = ButtonApi.isDisabled,
+            SetDisabled = ButtonApi.setDisabled,
+            SetEnabled = ButtonApi.setEnabled,
+            SetTextColor = ButtonApi.setTextColor,
+            SetTexture = ButtonApi.setTexture,
+            SetHighlight = ButtonApi.setHighlight,
+            IsStayDown = ButtonApi.isStayDown,
+            SetStayDown = ButtonApi.setStayDown
+        },
+        EditTextBox = {
+            GetText = EditTextBoxApi.getText,
+            SetText = EditTextBoxApi.setText
         }
     },
     Data = {
