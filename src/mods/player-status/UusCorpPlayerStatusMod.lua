@@ -12,8 +12,16 @@ UusCorpPlayerStatusMod = {
             PlayerStatus.event()
         )
 
+        local windowUtils = UusCorpCore.copyTable(WindowUtils)
+
+        function WindowUtils.OnLButtonUp()
+            windowUtils.OnLButtonUp()
+            if WindowApi.doesExist("PlayerHealthBar") then
+                WindowApi.setMoving("PlayerHealthBar", false)
+            end
+        end
+
         UusCorpCore.overrideFunctions(StatusWindow)
         UusCorpPlayerStatusWindow:create()
-        -- WindowUtilsWrapper.restoreWindowPosition("PlayerHealthBar", true)
     end
 }

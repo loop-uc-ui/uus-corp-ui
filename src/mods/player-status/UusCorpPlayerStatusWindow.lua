@@ -42,6 +42,18 @@ function UusCorpPlayerStatusWindow:onInitialize(windowData, systemData)
     self:setId(windowData.PlayerStatus.PlayerId)
     UusCorpWindow.onInitialize(self)
     self.views.frames.war:setColor(Colors.NotoMurderer)
+    self:clearAnchors()
+    if self:isMoving() then
+        self:addAnchor(
+            {
+                anchorPoint = "topleft",
+                relativePoint = "topleft",
+                relativeTo = "Root",
+                x =  systemData.MousePosition.x,
+                y = systemData.MousePosition.y
+            }
+        )
+    end
 end
 
 ---@param data WindowData.MobileStatus
@@ -207,10 +219,12 @@ function UusCorpPlayerStatusWindow:onLButtonDown()
     if Cursor.hasTarget() then
         TargetApi.clickTarget(self:getId())
     end
+    self:setMoving(true)
 end
 
 function UusCorpPlayerStatusWindow:onLButtonUp()
     if Drag.isItem() then
         DragApi.dragToObject(self:getId())
     end
+    self:setMoving(false)
 end

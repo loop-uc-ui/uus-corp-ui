@@ -3,9 +3,6 @@ UusCorpPlayerStatusEventHandler = UusCorpEventHandler:new {
 
     onInitialize = function ()
         UusCorpEventHandler.onInitialize(UusCorpPlayerStatusWindow)
-        UusCorpPlayerStatusEventHandler.onUpdatePlayerStatus()
-        UusCorpPlayerStatusEventHandler.onUpdateMobileStatus()
-        UusCorpPlayerStatusEventHandler.onUpdateHealthBarColor()
     end,
 
     onShutdown = function ()
@@ -38,5 +35,9 @@ UusCorpPlayerStatusEventHandler = UusCorpEventHandler:new {
 
     onLButtonUp = function (flags, x, y)
         UusCorpEventHandler.onLButtonUp(UusCorpPlayerStatusWindow, flags, x, y)
+    end,
+
+    onShown = function ()
+        UusCorpEventHandler.onShown(UusCorpPlayerStatusWindow)
     end
 }

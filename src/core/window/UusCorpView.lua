@@ -5,7 +5,7 @@
 ---@field id number?
 ---@field eventHandler string?
 ---@field onUpdate fun(view: UusCorpView, timePassed: number)?
----@field onUpdateMobileStatus fun(view: UusCorpView)?
+---@field onUpdateMobileStatus fun(view: UusCorpView, data: WindowData.MobileStatus)?
 ---@field onUpdatePlayerStatus fun(view: UusCorpView)?
 ---@field onUpdateHealthBarColor fun(view: UusCorpView)?
 ---@field onLButtonUp fun(view: UusCorpView, flags: number, x: number, y: number)?
@@ -13,6 +13,7 @@
 ---@field onRButtonUp fun(view: UusCorpView, flags: number, x: number, y: number)?
 ---@field onRButtonDown fun(view: UusCorpView, flags: number, x: number, y: number)?
 ---@field onLButtonDblClk fun(view: UusCorpView)?
+---@field onShown fun(view: UusCorpView, systemData: SystemData)?
 UusCorpView = { name = "UusCorpView" }
 
 ---@param model string|UusCorpView?
@@ -175,7 +176,6 @@ function UusCorpView:unregisterData(type, id)
 end
 
 function UusCorpView:registerCoreEvent(id, callback)
-    Debug.Print(callback)
     WindowApi.registerCoreEventHandler(self.name, id, callback)
 end
 

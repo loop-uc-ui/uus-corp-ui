@@ -96,6 +96,11 @@ UusCorpEvents = {
     OnLButtonDblClk = {
         id = "OnLButtonDblClk",
         callback = "onLButtonDblClk"
+    },
+    ---@type UusCorpEvent
+    OnShown = {
+        id = "OnShown",
+        callback = "onShown"
     }
 }
 
@@ -110,8 +115,22 @@ function UusCorpEventHandler:new(model)
     return this
 end
 
+---@param view UusCorpView
 function UusCorpEventHandler.onInitialize(view)
     view:onInitialize(UusCorpWindowData(), UusCorpSystemData())
+
+    --- Call events immediately to mitigate delay
+    if view.onUpdatePlayerStatus ~= nil then
+        UusCorpEventHandler.onUpdatePlayerStatus(view)
+    end
+
+    if view.onUpdateMobileStatus ~= nil then
+        UusCorpEventHandler.onUpdateMobileStatus(view)
+    end
+
+    if view.onUpdateHealthBarColor ~= nil then
+        UusCorpEventHandler.onUpdateHealthBarColor(view)
+    end
 end
 
 function UusCorpEventHandler.onShutdown(view)
@@ -149,4 +168,8 @@ end
 
 function UusCorpEventHandler.onLButtonDblClk(view)
     view:onLButtonDblClk()
+end
+
+function UusCorpEventHandler.onShown(view)
+    view:onShown(UusCorpSystemData())
 end
