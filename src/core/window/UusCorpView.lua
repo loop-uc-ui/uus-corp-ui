@@ -103,11 +103,11 @@ function UusCorpView:doesExist()
 end
 
 function UusCorpView:isShowing()
-    return UusCorp.Api.Window.IsShowing(self.name)
+    return WindowApi.isShowing(self.name)
 end
 
 function UusCorpView:setShowing(doShow)
-    UusCorp.Api.Window.SetShowing(self.name, doShow)
+    WindowApi.setShowing(self.name, doShow)
 end
 
 function UusCorpView:create(doShow)
@@ -126,11 +126,11 @@ end
 
 function UusCorpView:destroy()
     self:onShutdown()
-    return UusCorp.Api.Window.Destroy(self.name)
+    return WindowApi.destroyWindow(self.name)
 end
 
 function UusCorpView:assignFocus(doFocus)
-    UusCorp.Api.Window.AssignFocus(self.name, doFocus)
+    WindowApi.assignFocus(self.name, doFocus)
 end
 
 function UusCorpView:addAnchor(anchor)
@@ -138,19 +138,19 @@ function UusCorpView:addAnchor(anchor)
 end
 
 function UusCorpView:setUpdateFrequency(frequency)
-    UusCorp.Api.Window.Set(self.name, frequency)
+    WindowApi.setUpdateFrequency(self.name, frequency)
 end
 
 function UusCorpView:getDimensions()
-    return UusCorp.Api.Window.GetDimensions(self.name)
+    return WindowApi.getDimensions(self.name)
 end
 
 function UusCorpView:setDimensions(x, y)
-    UusCorp.Api.Window.SetDimensions(self.name, x, y)
+    WindowApi.setDimensions(self.name, x, y)
 end
 
 function UusCorpView:forceProcessAnchors()
-    UusCorp.Api.Window.ForceProcessAnchors(self.name)
+    WindowApi.forceProcessAnchors(self.name)
 end
 
 function UusCorpView:setOffsetFromParent(x, y)
@@ -158,7 +158,7 @@ function UusCorpView:setOffsetFromParent(x, y)
 end
 
 function UusCorpView:registerEvent(id, callback)
-    UusCorp.Api.Window.RegisterEventHandler(self.name, id, callback)
+    WindowApi.registerEventHandler(self.name, id, callback)
 end
 
 function UusCorpView:registerData(type, id)
