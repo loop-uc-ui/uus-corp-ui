@@ -3,6 +3,7 @@ UusCorpPlayerStatusEventHandler = UusCorpEventHandler:new {
 
     onInitialize = function ()
         UusCorpEventHandler.onInitialize(UusCorpPlayerStatusWindow)
+        UusCorpPlayerStatusMod.isPlayerStatusOpen = true
     end,
 
     onShutdown = function ()
@@ -23,6 +24,7 @@ UusCorpPlayerStatusEventHandler = UusCorpEventHandler:new {
 
     onRButtonDown = function (flags, x, y)
         UusCorpEventHandler.onRButtonDown(UusCorpPlayerStatusWindow, flags, x, y)
+        UusCorpPlayerStatusMod.isPlayerStatusOpen = false
     end,
 
     onLButtonDblClk = function ()

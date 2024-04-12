@@ -1,4 +1,6 @@
 UusCorpPlayerStatusMod = {
+    isPlayerStatusOpen = false,
+
     onInitialize = function ()
         UusCorpCore.loadResources(
             "/src/mods/player-status",
@@ -22,6 +24,9 @@ UusCorpPlayerStatusMod = {
         end
 
         UusCorpCore.overrideFunctions(StatusWindow)
-        UusCorpPlayerStatusWindow:create()
+
+        if UusCorpPlayerStatusMod.isPlayerStatusOpen then
+            UusCorpPlayerStatusWindow:create()
+        end
     end
 }

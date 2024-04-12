@@ -24,7 +24,7 @@
 		</OnShutdown>
 
 		<SavedVariables>
-			<SavedVariable name="UusCorpPlayerStatusWindow.isPlayerStatusOpen"/>
+			<SavedVariable name="UusCorpPlayerStatusMod.isPlayerStatusOpen"/>
 		</SavedVariables>
 	</UiMod>
 </ModuleFile>
