@@ -4,7 +4,7 @@ UusCorpPlayerStatusWindow = UusCorpWindow:new {
     eventHandler = "UusCorpPlayerStatusEventHandler"
 }
 
-UusCorpPlayerStatusWindow.isPlayerStatusOpen = false
+UusCorpPlayerStatusWindow.isInitialized = false
 
 UusCorpPlayerStatusWindow.views = {
     name = UusCorpPlayerStatusWindow:addLabel("Name"),
@@ -40,6 +40,7 @@ UusCorpPlayerStatusWindow.views = {
 ---@param systemData SystemData
 function UusCorpPlayerStatusWindow:onInitialize(windowData, systemData)
     self:setId(windowData.PlayerStatus.PlayerId)
+    self:setUpdateFrequency(1.0)
     UusCorpWindow.onInitialize(self)
     self.views.frames.war:setColor(Colors.NotoMurderer)
     self:clearAnchors()
@@ -53,6 +54,15 @@ function UusCorpPlayerStatusWindow:onInitialize(windowData, systemData)
                 y = systemData.MousePosition.y
             }
         )
+    end
+end
+
+function UusCorpPlayerStatusWindow:onUpdate()
+    --- We need to restore the position on a delay at startup
+    if not self.isInitialized then
+        self:restorePosition()
+        self:unregisterCoreEvent(UusCorpEvents.OnUpdate.id)
+        self.isInitialized = true
     end
 end
 

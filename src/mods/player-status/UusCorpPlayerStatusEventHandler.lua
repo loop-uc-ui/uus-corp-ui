@@ -41,5 +41,9 @@ UusCorpPlayerStatusEventHandler = UusCorpEventHandler:new {
 
     onShown = function ()
         UusCorpEventHandler.onShown(UusCorpPlayerStatusWindow)
+    end,
+
+    onUpdate = function ()
+        UusCorpEventHandler.onUpdate(0, UusCorpPlayerStatusWindow)
     end
 }

@@ -13,7 +13,6 @@ function UusCorpWindow:onInitialize(windowData, systemData)
     UusCorpView.onInitialize(self, windowData, systemData)
     if self:getParent() == UusCorpRootWindow then
         self:restorePosition()
-        self:savePosition()
     end
 end
 
