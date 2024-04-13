@@ -14,6 +14,7 @@
 ---@field onRButtonDown fun(view: UusCorpView, flags: number, x: number, y: number)?
 ---@field onLButtonDblClk fun(view: UusCorpView)?
 ---@field onShown fun(view: UusCorpView, systemData: SystemData)?
+---@field onUpdateCurrentTarget fun(view: UusCorpView, data: WindowData.CurrentTarget)?
 UusCorpView = { name = "UusCorpView" }
 
 ---@param model string|UusCorpView?
@@ -43,7 +44,7 @@ function UusCorpView:registerEvents()
         if self[v.callback] ~= nil and type(v.id) == "string" then
             self:registerCoreEvent(v.id, self.eventHandler .. "." .. v.callback)
         elseif self[v.callback] ~= nil then
-            if v == UusCorpEvents.PlayerStatus then
+            if v == UusCorpEvents.PlayerStatus or v == UusCorpEvents.CurrentTarget then
                 self:registerData(v.type(), 0)
             else
                 self:registerData(v.type(), self:getId())
@@ -63,7 +64,7 @@ function UusCorpView:unregisterEvents()
             self:unregisterCoreEvent(v.id)
         elseif self[v.callback] ~= nil then
             self:unregisterEvent(v.id())
-            if v == UusCorpEvents.PlayerStatus then
+            if v == UusCorpEvents.PlayerStatus or v == UusCorpEvents.CurrentTarget then
                 self:unregisterData(v.type(), 0)
             else
                 self:unregisterData(v.type(), self:getId())
@@ -76,7 +77,7 @@ end
 ---@param systemData SystemData?
 function UusCorpView:onInitialize(windowData, systemData)
     self:registerEvents()
-    return data
+    return windowData, systemData
 end
 
 function UusCorpView:onShutdown()
@@ -91,7 +92,7 @@ function UusCorpView:getPosition()
 end
 
 function UusCorpView:setId(id)
-    return WindowApi.setId(self.name, id)
+    return WindowApi.setId(self.name, id or 0)
 end
 
 function UusCorpView:getId()
@@ -215,23 +216,3 @@ end
 function UusCorpView:setMoving(isMoving)
     WindowApi.setMoving(self.name, isMoving)
 end
-
--- function UusCorpView:onUpdate(timePassed) return self, timePassed end
-
--- function UusCorpView:onRButtonUp(flags, x, y) return self, flags, x, y end
-
--- function UusCorpView:onRButtonDown(flags, x, y) return self, flags, x, y end
-
--- function UusCorpView:onLButtonUp(flags, x, y) return self, flags, x, y end
-
--- function UusCorpView:onLButtonDown(flags, x, y) return self, flags, x, y end
-
--- ---@param data WindowData.PlayerStatus
--- function UusCorpView:onUpdatePlayerStatus(data) return self, data end
-
--- ---@param data WindowData.MobileStatus
--- function UusCorpView:onMobileStatusUpdate(data) return self, data end
-
--- function UusCorpView:onHidden() return self end
-
--- function UusCorpView:onShown() return self end

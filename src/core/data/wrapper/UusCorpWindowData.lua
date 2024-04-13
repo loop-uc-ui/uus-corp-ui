@@ -202,11 +202,13 @@
 ---@field GC_SHOW_CHAT boolean
 ---@field GC_SHOW_UNAVAILABLE boolean
 
----@class CurrentTarget
+---@class WindowData.CurrentTarget
 ---@field TargetId number
 ---@field HasPaperdoll boolean
 ---@field TargetType number
 ---@field HasTarget boolean
+---@field isMobile fun(): boolean
+---@field isObject fun(): boolean
 
 ---@class SkillDefinition
 ---@field hasEntitlement boolean
@@ -280,12 +282,22 @@ UusCorpWindowData = function ()
     ---@field MobileStatus table<number, WindowData.MobileStatus>
     ---@field ChannelListCount number
     ---@field GChat GChat
-    ---@field CurrentTarget CurrentTarget
+    ---@field CurrentTarget WindowData.CurrentTarget
     ---@field CurrentChannel string
     ---@field SkillList SkillDefinition[]
     ---@field MobileName table<number, MobileName>
     ---@field GChatCount number
     ---@field ItemProperties ItemProperties
-    return WindowData
+    local data = WindowData
+
+    data.CurrentTarget.isMobile = function ()
+        return data.CurrentTarget.TargetType == UusCorpConstants.TargetType.Mobile
+    end
+
+    data.CurrentTarget.isObject = function ()
+        return data.CurrentTarget.TargetType == UusCorpConstants.TargetType.Object
+    end
+
+    return data
 end
 

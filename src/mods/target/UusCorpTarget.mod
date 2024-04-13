@@ -10,11 +10,13 @@
 		</Dependencies>
 		
 		<Files>
+			<File name="UusCorpTargetEventHandler.lua"/>
 			<File name="UusCorpTargetWindow.lua" />
+			<File name="UusCorpTargetMod.lua" />
 		</Files>
 
 		<OnInitialize>
-            <CallFunction name="UusCorpTargetWindow.initialize" />
+            <CallFunction name="UusCorpTargetMod.onInitialize" />
 		</OnInitialize>
 	</UiMod>
 </ModuleFile>

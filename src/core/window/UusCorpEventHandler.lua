@@ -5,6 +5,16 @@
 
 UusCorpEvents = {
     ---@type UusCorpEvent
+    CurrentTarget = {
+        id = function ()
+            return CurrentTarget.event()
+        end,
+        callback = "onUpdateCurrentTarget",
+        type = function ()
+            return CurrentTarget.dataType()
+        end
+    },
+    ---@type UusCorpEvent
     Container = {
         id = function ()
             return Container.event()
@@ -118,6 +128,8 @@ end
 ---@param view UusCorpView
 function UusCorpEventHandler.onInitialize(view)
     view:onInitialize(UusCorpWindowData(), UusCorpSystemData())
+    Debug.Print("test")
+    Debug.Print("hi")
 
     --- Call events immediately to mitigate delay
     if view.onUpdatePlayerStatus ~= nil then
@@ -130,6 +142,10 @@ function UusCorpEventHandler.onInitialize(view)
 
     if view.onUpdateHealthBarColor ~= nil then
         UusCorpEventHandler.onUpdateHealthBarColor(view)
+    end
+
+    if view.onUpdateCurrentTarget ~= nil then
+        UusCorpEventHandler.onUpdateCurrentTarget(view)
     end
 end
 
@@ -152,6 +168,14 @@ end
 
 function UusCorpEventHandler.onUpdateHealthBarColor(view)
     view:onUpdateHealthBarColor(UusCorpWindowData().HealthBarColor[view:getId()])
+end
+
+function UusCorpEventHandler.onUpdateCurrentTarget(view)
+    local data = UusCorpWindowData().CurrentTarget
+    view:onUpdateCurrentTarget(data)
+end
+
+function UusCorpEventHandler.onUpdateObjectInfo(view)
 end
 
 function UusCorpEventHandler.onRButtonDown(view, flags, x, y)
