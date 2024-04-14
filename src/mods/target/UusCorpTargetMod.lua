@@ -35,6 +35,7 @@ UusCorpTargetMod = {
             for _, v in pairs(targets) do
                 if v == CurrentTarget.id() then
                     target = v
+                    break
                 end
             end
 

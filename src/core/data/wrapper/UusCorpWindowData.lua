@@ -209,6 +209,22 @@
 ---@field HasTarget boolean
 ---@field isMobile fun(): boolean
 ---@field isObject fun(): boolean
+---@field isCorpse fun(): boolean
+
+---@class WindowData.ObjectInfo
+---@field iconName string
+---@field iconScale number
+---@field shopQuantity number
+---@field quantity number
+---@field shopName string
+---@field containerId number
+---@field newWidth number
+---@field hueId number
+---@field name string
+---@field hue Color
+---@field objectType number
+---@field shopValue number
+---@field iconId number
 
 ---@class SkillDefinition
 ---@field hasEntitlement boolean
@@ -288,6 +304,7 @@ UusCorpWindowData = function ()
     ---@field MobileName table<number, MobileName>
     ---@field GChatCount number
     ---@field ItemProperties ItemProperties
+    ---@field ObjectInfo table<number, WindowData.ObjectInfo>
     local data = WindowData
 
     data.CurrentTarget.isMobile = function ()
@@ -296,6 +313,10 @@ UusCorpWindowData = function ()
 
     data.CurrentTarget.isObject = function ()
         return data.CurrentTarget.TargetType == UusCorpConstants.TargetType.Object
+    end
+
+    data.CurrentTarget.isCorpse = function ()
+        return data.CurrentTarget.TargetType == UusCorpConstants.TargetType.Corpse
     end
 
     return data

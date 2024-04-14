@@ -20,7 +20,8 @@ UusCorpTargetEventHandler = UusCorpEventHandler:new {
     end,
 
     onUpdateObjectInfo = function ()
-        if UusCorpWindowData().CurrentTarget.isObject() then
+         local target = UusCorpWindowData().CurrentTarget
+        if target.isObject() or target.isCorpse() then
             UusCorpEventHandler.onUpdateObjectInfo(UusCorpTargetWindow)
         end
     end,
@@ -31,5 +32,17 @@ UusCorpTargetEventHandler = UusCorpEventHandler:new {
 
     onLButtonUp = function (flags, x, y)
         UusCorpEventHandler.onLButtonUp(UusCorpTargetWindow, flags, x, y)
+    end,
+
+    onUpdate = function ()
+        if not UusCorpWindowData().CurrentTarget.HasTarget then
+            UusCorpTargetWindow:destroy()
+        else
+            UusCorpEventHandler.onUpdate(0, UusCorpTargetWindow)
+        end
+    end,
+
+    onLButtonDblClk = function ()
+        UusCorpEventHandler.onLButtonDblClk(UusCorpTargetWindow)
     end
 }

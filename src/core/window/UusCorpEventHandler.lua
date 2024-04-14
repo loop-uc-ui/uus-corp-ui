@@ -128,24 +128,30 @@ end
 ---@param view UusCorpView
 function UusCorpEventHandler.onInitialize(view)
     view:onInitialize(UusCorpWindowData(), UusCorpSystemData())
-    Debug.Print("test")
-    Debug.Print("hi")
 
     --- Call events immediately to mitigate delay
     if view.onUpdatePlayerStatus ~= nil then
-        UusCorpEventHandler.onUpdatePlayerStatus(view)
+        _G[view.eventHandler].onUpdatePlayerStatus(view)
     end
 
     if view.onUpdateMobileStatus ~= nil then
-        UusCorpEventHandler.onUpdateMobileStatus(view)
+        _G[view.eventHandler].onUpdateMobileStatus(view)
     end
 
     if view.onUpdateHealthBarColor ~= nil then
-        UusCorpEventHandler.onUpdateHealthBarColor(view)
+        _G[view.eventHandler].onUpdateHealthBarColor(view)
     end
 
     if view.onUpdateCurrentTarget ~= nil then
-        UusCorpEventHandler.onUpdateCurrentTarget(view)
+        _G[view.eventHandler].onUpdateCurrentTarget(view)
+    end
+
+    if view.onUpdateObjectInfo ~= nil then
+        _G[view.eventHandler].onUpdateObjectInfo(view)
+    end
+
+    if view.onUpdateCurrentTarget ~= nil then
+        _G[view.eventHandler].onUpdateCurrentTarget(view)
     end
 end
 
@@ -176,6 +182,7 @@ function UusCorpEventHandler.onUpdateCurrentTarget(view)
 end
 
 function UusCorpEventHandler.onUpdateObjectInfo(view)
+    view:onUpdateObjectInfo(UusCorpWindowData().ObjectInfo[view:getId()])
 end
 
 function UusCorpEventHandler.onRButtonDown(view, flags, x, y)

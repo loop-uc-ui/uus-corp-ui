@@ -15,6 +15,7 @@
 ---@field onLButtonDblClk fun(view: UusCorpView)?
 ---@field onShown fun(view: UusCorpView, systemData: SystemData)?
 ---@field onUpdateCurrentTarget fun(view: UusCorpView, data: WindowData.CurrentTarget)?
+---@field onUpdateObjectInfo fun(view: UusCorpView, data: WindowData.ObjectInfo?)?
 UusCorpView = { name = "UusCorpView" }
 
 ---@param model string|UusCorpView?

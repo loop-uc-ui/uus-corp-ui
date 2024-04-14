@@ -21,32 +21,6 @@ function UusCorpTargetWindow:onInitialize(windowData)
     self:setId(windowData.CurrentTarget.TargetId)
     UusCorpWindow.onInitialize(self)
     self:setScale(1.0)
-
-    -- local id = CurrentTarget.id()
-    -- UusCorpTargetWindow:setId(id)
-    -- UusCorpTargetWindow:setScale(1.0)
-
-    -- if CurrentTarget.isMobile() then
-    --     UusCorpTargetWindow:registerData(MobileStatus.type(), id)
-    --     UusCorpTargetWindow:registerEvent(MobileStatus.event(), "UusCorpTargetWindow.onUpdateMobileStatus")
-    --     UusCorpTargetWindow:registerData(HealthBarColorData.type(), id)
-    --     UusCorpTargetWindow:registerEvent(HealthBarColorData.event(), "UusCorpTargetWindow.onUpdateHealthBarColor")
-
-
-    --     if MobileStatus.status(id) ~= nil then
-    --         UusCorpTargetWindow.onUpdateMobileStatus(id)
-    --     end
-
-    --     if HealthBarColorData.data(id) ~= nil then
-    --         UusCorpTargetWindow.onUpdateHealthBarColor(id)
-    --     end
-    -- elseif CurrentTarget.isObject() or CurrentTarget.isCorpse() then
-    --     UusCorpTargetWindow:registerData(ObjectInfo.type(), id)
-    --     UusCorpTargetWindow:registerEvent(ObjectInfo.event(), "UusCorpTargetWindow.onUpdateObjectInfo")
-    --     UusCorpTargetWindow.StatusBar:setShowing(false)
-    --     UusCorpTargetWindow.HealthBarPercent:setShowing(false)
-    --     UusCorpTargetWindow.onUpdateObjectInfo()
-    -- end
 end
 
 ---@param data WindowData.MobileStatus
@@ -70,54 +44,34 @@ function UusCorpTargetWindow:onUpdateMobileStatus(data)
     )
 end
 
+---@param data WindowData.ObjectInfo
 function UusCorpTargetWindow:onUpdateObjectInfo(data)
+    self.NameLabel:setText(data.name)
+    self.StatusBar:setShowing(false)
+    self.HealthBarPercent:setShowing(false)
 end
 
 
--- function UusCorpTargetWindow.onUpdate()
---     local id = UusCorpTargetWindow:getId()
---     local distance = ObjectApi.getDistanceFromPlayer(id)
+function UusCorpTargetWindow:onUpdate()
+    local distance = ObjectApi.getDistanceFromPlayer(self:getId())
+    if distance <= 0 then
+        self.Distance:setText("")
+    else
+        self.Distance:setText(tostring(distance))
+    end
+end
 
---     if distance <= 0 then
---         UusCorpTargetWindow.Distance:setText("")
---     else
---         UusCorpTargetWindow.Distance:setText(tostring(distance))
---     end
+function UusCorpTargetWindow:onRButtonDown(flags)
+    if ButtonFlags.isControl(flags) then
+        ContextMenuApi.requestMenu(UusCorpTargetWindow:getId())
+    else
+        UusCorpWindow.onRButtonDown(self, flags)
+    end
+end
 
---     if not CurrentTarget.hasTarget() then
---         UusCorpTargetWindow:destroy()
---     end
--- end
-
--- function UusCorpTargetWindow.onShutdown()
---     local id = UusCorpTargetWindow:getId()
-
---     if CurrentTarget.isMobile() then
---         UusCorpTargetWindow:unregisterData(MobileStatus.type(), id)
---         UusCorpTargetWindow:unregisterEvent(MobileStatus.event())
---         UusCorpTargetWindow:unregisterData(HealthBarColorData.type(), id)
---         UusCorpTargetWindow:unregisterEvent(HealthBarColorData.event())
---     elseif CurrentTarget.isObject() or CurrentTarget.isCorpse() then
---         UusCorpTargetWindow:unregisterData(ObjectInfo.type(), id)
---         UusCorpTargetWindow:unregisterEvent(ObjectInfo.event())
---     end
-
---     UusCorpTargetWindow:savePosition()
--- end
-
--- function UusCorpTargetWindow.onUpdateObjectInfo()
---     UusCorpTargetWindow.NameLabel:setText(ObjectInfo.name(UusCorpTargetWindow:getId()))
--- end
-
--- function UusCorpTargetWindow.onRightClick(flags)
---     if ButtonFlags.isControl(flags) then
---         ContextMenuApi.requestMenu(UusCorpTargetWindow:getId())
---     end
--- end
-
--- function UusCorpTargetWindow.onDoubleClick()
---     UserActionApi.useItem(UusCorpTargetWindow:getId(), false)
--- end
+function UusCorpTargetWindow.onLButtonDblClk()
+    UserActionApi.useItem(UusCorpTargetWindow:getId(), false)
+end
 
 ---@param data WindowData.HealthBarColor
 function UusCorpTargetWindow:onUpdateHealthBarColor(data)
