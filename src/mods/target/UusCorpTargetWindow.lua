@@ -64,8 +64,6 @@ end
 function UusCorpTargetWindow:onRButtonDown(flags)
     if ButtonFlags.isControl(flags) then
         ContextMenuApi.requestMenu(UusCorpTargetWindow:getId())
-    else
-        UusCorpWindow.onRButtonDown(self, flags)
     end
 end
 

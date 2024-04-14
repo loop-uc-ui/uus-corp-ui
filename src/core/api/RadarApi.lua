@@ -66,10 +66,6 @@ function RadarApi.isLocationInArea(x, y, facet, area)
     return UORadarIsLocationInArea(x, y, facet, area)
 end
 
-function RadarApi.worldPosToRadar(x, y)
-    return UOGetWorldPosToRadar(x, y)
-end
-
 function RadarApi.radarPosToWorld(offsetX, offsetY, useScale)
     return UOGetRadarPosToWorld(offsetX, offsetY, useScale)
 end
