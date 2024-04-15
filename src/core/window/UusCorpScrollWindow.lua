@@ -11,9 +11,9 @@ function UusCorpScrollWindow:new(model)
 end
 
 function UusCorpScrollWindow:updateScrollRect()
-    ScrollWindowApi.updateScrollRect(self.name)
+    UusCorp.Api.ScrollWindow.UpdateScrollRect(self.name)
 end
 
 function UusCorpScrollWindow:setOffset(offset)
-    ScrollWindowApi.setOffset(self.name, offset)
+    UusCorp.Api.ScrollWindow.SetOffset(self.name, offset)
 end

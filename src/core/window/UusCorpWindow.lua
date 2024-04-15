@@ -17,11 +17,11 @@ function UusCorpWindow:onInitialize(windowData, systemData)
 end
 
 function UusCorpWindow:attachToWorldObject(id)
-    WindowApi.attachWindowToWorldObject(id, self.name)
+    UusCorp.Api.Window.AttachToWorldObject(id, self.name)
 end
 
 function UusCorpWindow:detatchFromWorlObject(id)
-    WindowApi.detachWindowFromWorldObject(id, self.name)
+    UusCorp.Api.Window.DetachFromWorldObject(id, self.name)
 end
 
 function UusCorpWindow:savePosition()

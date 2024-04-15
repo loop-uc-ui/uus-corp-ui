@@ -8,9 +8,9 @@ function UusCorpEditTextBox:new(model)
 end
 
 function UusCorpEditTextBox:getText()
-    return EditTextBoxApi.getText(self.name)
+    return UusCorp.Api.EditTextBox.GetText(self.name)
 end
 
 function UusCorpEditTextBox:setText(text)
-    EditTextBoxApi.setText(self.name, text)
+    UusCorp.Api.EditTextBox.SetText(self.name, text)
 end

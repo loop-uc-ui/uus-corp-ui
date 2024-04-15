@@ -9,20 +9,20 @@ end
 
 ---@param tint table
 function UusCorpStatusBar:setBackgroundTint(tint)
-    StatusBarApi.setBackgroundTint(self.name, tint)
+    UusCorp.Api.StatusBar.SetBackgroundTint(self.name, tint)
 end
 
 ---@param value number
 function UusCorpStatusBar:setCurrentValue(value)
-    StatusBarApi.setCurrentValue(self.name, value)
+    UusCorp.Api.StatusBar.SetCurrentValue(self.name, value)
 end
 
 ---@param value number
 function UusCorpStatusBar:setMaxValue(value)
-    StatusBarApi.setMaximumValue(self.name, value)
+    UusCorp.Api.StatusBar.SetMaxValue(self.name, value)
 end
 
 ---@param tint table
 function UusCorpStatusBar:setForegroundTint(tint)
-    StatusBarApi.setForegroundTint(self.name, tint)
+    UusCorp.Api.StatusBar.SetForegroundTint(self.name, tint)
 end

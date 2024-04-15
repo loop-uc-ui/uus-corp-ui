@@ -89,27 +89,27 @@ function UusCorpView:onShutdown()
  end
 
 function UusCorpView:getPosition()
-    return WindowApi.getPosition(self.name)
+    return UusCorp.Api.Window.GetPosition(self.name)
 end
 
 function UusCorpView:setId(id)
-    return WindowApi.setId(self.name, id or 0)
+    return UusCorp.Api.Window.SetId(self.name, id or 0)
 end
 
 function UusCorpView:getId()
-    return WindowApi.getId(self.name)
+    return UusCorp.Api.Window.GetId(self.name)
 end
 
 function UusCorpView:doesExist()
-    return WindowApi.doesExist(self.name)
+    return UusCorp.Api.Window.DoesExist(self.name)
 end
 
 function UusCorpView:isShowing()
-    return WindowApi.isShowing(self.name)
+    return UusCorp.Api.Window.IsShowing(self.name)
 end
 
 function UusCorpView:setShowing(doShow)
-    WindowApi.setShowing(self.name, doShow)
+    UusCorp.Api.Window.SetShowing(self.name, doShow)
 end
 
 function UusCorpView:create(doShow)
@@ -117,9 +117,9 @@ function UusCorpView:create(doShow)
     local created = false
 
     if self.template ~= nil and self.parent ~= nil then
-        created = WindowApi.createFromTemplate(self.name, self.template or self.name, self.parent or "Root")
+        created = UusCorp.Api.Window.CreateFromTemplate(self.name, self.template or self.name, self.parent or "Root")
     else
-        created = WindowApi.createWindow(self.name, false)
+        created = UusCorp.Api.Window.Create(self.name, false)
     end
 
     self:setShowing(doShow)
@@ -128,82 +128,82 @@ end
 
 function UusCorpView:destroy()
     self:onShutdown()
-    return WindowApi.destroyWindow(self.name)
+    return UusCorp.Api.Window.Destroy(self.name)
 end
 
 function UusCorpView:assignFocus(doFocus)
-    WindowApi.assignFocus(self.name, doFocus)
+    UusCorp.Api.Window.AssignFocus(self.name, doFocus)
 end
 
 function UusCorpView:addAnchor(anchor)
-    WindowApi.addAnchor(self.name, anchor.anchorPoint, anchor.relativeTo, anchor.relativePoint, anchor.x, anchor.y)
+    UusCorp.Api.Window.AddAnchor(self.name, anchor.anchorPoint, anchor.relativeTo, anchor.relativePoint, anchor.x, anchor.y)
 end
 
 function UusCorpView:setUpdateFrequency(frequency)
-    WindowApi.setUpdateFrequency(self.name, frequency)
+    UusCorp.Api.Window.SetUpdateFrequency(self.name, frequency)
 end
 
 function UusCorpView:getDimensions()
-    return WindowApi.getDimensions(self.name)
+    return UusCorp.Api.Window.GetDimensions(self.name)
 end
 
 function UusCorpView:setDimensions(x, y)
-    WindowApi.setDimensions(self.name, x, y)
+    UusCorp.Api.Window.SetDimensions(self.name, x, y)
 end
 
 function UusCorpView:forceProcessAnchors()
-    WindowApi.forceProcessAnchors(self.name)
+    UusCorp.Api.Window.ForceProcessAnchors(self.name)
 end
 
 function UusCorpView:setOffsetFromParent(x, y)
-    return WindowApi.setOffsetFromParent(self.name, x, y)
+    return UusCorp.Api.Window.SetOffsetFromParent(self.name, x, y)
 end
 
 function UusCorpView:registerEvent(id, callback)
-    WindowApi.registerEventHandler(self.name, id, callback)
+    UusCorp.Api.Window.RegisterEventHandler(self.name, id, callback)
 end
 
 function UusCorpView:registerData(type, id)
-    WindowDataApi.registerData(type, id)
+    UusCorp.Api.Window.RegisterData(type, id)
     return self
 end
 
 function UusCorpView:unregisterEvent(id)
-    WindowApi.unregisterEventHandler(self.name, id)
+    UusCorp.Api.Window.UnregisterEventHandler(self.name, id)
 end
 
 function UusCorpView:unregisterData(type, id)
-    WindowDataApi.unregisterData(type, id)
+    UusCorp.Api.Window.UnregisterData(type, id)
     return self
 end
 
 function UusCorpView:registerCoreEvent(id, callback)
-    WindowApi.registerCoreEventHandler(self.name, id, callback)
+    UusCorp.Api.Window.RegisterCoreEventHandler(self.name, id, callback)
 end
 
 function UusCorpView:unregisterCoreEvent(id)
-    WindowApi.unregisterCoreEventHandler(self.name, id)
+    UusCorp.Api.Window.UnregisterCoreEventHandler(self.name, id)
 end
 
 function UusCorpView:setScale(scale)
-    WindowApi.setScale(self.name, scale)
+    UusCorp.Api.Window.SetScale(self.name, scale)
 end
 
 function UusCorpView:setColor(color)
-    WindowApi.setColor(self.name, color)
+    UusCorp.Api.Window.SetColor(self.name, color)
 end
 
 function UusCorpView:setAlpha(alpha)
-    WindowApi.setAlpha(self.name, alpha)
+    UusCorp.Api.Window.SetAlpha(self.name, alpha)
 end
 
 function UusCorpView:clearAnchors()
-    WindowApi.clearAnchors(self.name)
+    UusCorp.Api.Window.ClearAnchors(self.name)
 end
 
 function UusCorpView:getParent()
-    local parent = WindowApi.getParent(self.name)
-    if WindowApi.getParent(self.name) == UusCorpRootWindow.name then
+    local parent = UusCorp.Api.Window.GetParent(self.name)
+    if parent == UusCorpRootWindow.name then
         return UusCorpRootWindow
     else
         return UusCorpWindow:new(parent)
@@ -211,9 +211,9 @@ function UusCorpView:getParent()
 end
 
 function UusCorpView:isMoving()
-    return WindowApi.isMoving(self.name)
+    return UusCorp.Api.Window.IsMoving(self.name)
 end
 
 function UusCorpView:setMoving(isMoving)
-    WindowApi.setMoving(self.name, isMoving)
+    UusCorp.Api.Window.SetMoving(self.name, isMoving)
 end

@@ -10,17 +10,17 @@ function UusCorpDynamicImage:new(model)
 end
 
 function UusCorpDynamicImage:setTexture(texture, x, y)
-    DynamicImageApi.setTexture(self.name, texture, x, y)
+    UusCorp.Api.DynamicImage.SetTexture(self.name, texture, x, y)
 end
 
 function UusCorpDynamicImage:setTextureDimensions(x, y)
-    DynamicImageApi.setTextureDimensions(self.name, x, y)
+    UusCorp.Api.DynamicImage.SetTextureDimensions(self.name, x, y)
 end
 
 function UusCorpDynamicImage:setTextureScale(scale)
-    DynamicImageApi.setTextureScale(self.name, scale)
+    UusCorp.Api.DynamicImage.SetTextureScale(self.name, scale)
 end
 
 function UusCorpDynamicImage:setCustomShader(shader, hue)
-    DynamicImageApi.setCustomShader(self.name, shader, hue)
+    UusCorp.Api.DynamicImage.SetCustomShader(self.name, shader, hue)
 end

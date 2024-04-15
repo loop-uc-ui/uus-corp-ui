@@ -8,13 +8,13 @@ function UusCorpLabel:new(model)
 end
 
 function UusCorpLabel:setText(text)
-    LabelApi.setText(self.name, text)
+    UusCorp.Api.Label.SetText(self.name, text)
 end
 
 function UusCorpLabel:getText()
-    return LabelApi.getText(self.name)
+    return UusCorp.Api.Label.GetText(self.name)
 end
 
 function UusCorpLabel:setTextColor(color)
-    LabelApi.setTextColor(self.name, color)
+    UusCorp.Api.Label.SetTextColor(self.name, color)
 end

@@ -8,9 +8,9 @@ function UusCorpButton:new(model)
 end
 
 function UusCorpButton:setText(text)
-    ButtonApi.setText(self.name, text)
+    UusCorp.Api.Button.SetText(self.name, text)
 end
 
 function UusCorpButton:getText()
-    return ButtonApi.getText(self.name)
+    return UusCorp.Api.Button.GetText(self.name)
 end
