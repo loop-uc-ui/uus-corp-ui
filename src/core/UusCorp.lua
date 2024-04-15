@@ -244,6 +244,13 @@ UusCorp = {
         },
         Label = {
             SetText = function (name, text)
+                if text == nil then
+                    return
+                elseif type(text) == "number" then
+                    text = StringFormatter.fromTid(text)
+                elseif type(text) == "string" then
+                    text = StringFormatter.toWString(text)
+                end
                 LabelSetText(name, text)
             end,
             GetText = function (name)
@@ -779,7 +786,7 @@ UusCorp = {
             SetUpdateFrequency = function (windowName, frequency)
                 WindowSetUpdateFrequency(windowName, frequency)
             end,
-            GetScreenPosition = function (id)
+            GetPosition = function (id)
                 return WindowGetScreenPosition(id)
             end,
             AttachToWorldObject = function (objectId, window)
@@ -787,13 +794,19 @@ UusCorp = {
             end,
             DetachFromWorldObject = function (objectId, window)
                 DetachWindowFromWorldObject(objectId, window)
+            end,
+            RegisterData = function (data, id)
+                RegisterWindowData(data, id or 0)
+            end,
+            UnregisterData = function (data, id)
+                UnregisterWindowData(data, id or 0)
+            end,
+            SavePostion = function (window, closing, alias)
+                WindowUtils.SaveWindowPosition(window, closing, alias)
+            end,
+            RestorePostion = function (window, trackSize, alias, ignoreBounds)
+                WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBounds)
             end
         }
-    },
-    Data = {
-
-    },
-    Constants = {
-
     }
 }
