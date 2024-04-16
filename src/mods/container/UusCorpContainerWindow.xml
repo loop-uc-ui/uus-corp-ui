@@ -55,7 +55,7 @@
 			</Anchors>
 			<EventHandlers>
 				<EventHandler event="OnMouseWheel" function="WindowUtils.Scale" />
-				<EventHandler event="OnInitialize" function="UusCorpContainerWindow.onInitialize"/>
+				<EventHandler event="OnInitialize" function="UusCorpContainerEventHandler.onInitialize"/>
 			</EventHandlers>
 			<Windows>
 

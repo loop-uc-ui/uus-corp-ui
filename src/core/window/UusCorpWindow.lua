@@ -1,7 +1,7 @@
 ---@class UusCorpWindow:UusCorpView
 UusCorpWindow = UusCorpView:new { name  = "UusCorpWindow", children = {} }
 
----@param model UusCorpWindow
+---@param model UusCorpWindow?
 ---@return UusCorpWindow
 function UusCorpWindow:new(model)
     return UusCorpView.new(self, model) --[[@as UusCorpWindow]]

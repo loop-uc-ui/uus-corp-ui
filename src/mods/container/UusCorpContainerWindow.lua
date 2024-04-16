@@ -1,11 +1,44 @@
-UusCorpContainerWindow = {
-    onInitialize = function ()
-        Debug.Print(UusCorpWindowData().UpdateInstanceId)
-        Debug.Print(Active.window())
-        Debug.Print(Active.dynamicWindowId())
+---@class UusCorpContainerWindow:UusCorpWindow
+UusCorpContainerWindow = UusCorpWindow:new {
+    name = "ContainerWindow_",
+
+    template = "ContainerWindow_",
+
+    eventHandler = "UusCorpContainerEventHandler",
+
+    ---@param view UusCorpWindow
+    ---@param windowData WindowData
+    ---@param systemData SystemData
+    onInitialize = function (view, windowData, systemData)
+        view:setId(systemData.DynamicWindowId)
+        UusCorpWindow.onInitialize(view, windowData, systemData)
+    end,
+
+    ---@param view UusCorpWindow
+    ---@param data WindowData.Container
+    onUpdateContainer = function (view, data)
+        for i = 1, #data.ContainedItems do
+            local item = data.ContainedItems[i]
+            local slot = view:addChild(
+                UusCorpContainerSlotWindow:new {
+                    name = "Slot" .. i
+                }
+            ) --[[@as UusCorpContainerSlotWindow]]
+
+            if slot:doesExist() then
+                slot:destroy()
+            end
+
+            slot:create()
+
+            if i == 1 then
+                slot:onUpdateContainer(item, nil)
+            else
+                slot:onUpdateContainer(item, view.name .. "Slot" .. i -1)
+            end
+        end
     end
 }
-
 -- ---@class UusCorpContainerWindow:UusCorpWindow
 -- ---@field maxSlots number
 -- ---@field gridView UusCorpScrollWindow

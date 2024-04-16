@@ -16,6 +16,7 @@
 ---@field onShown fun(view: UusCorpView, systemData: SystemData)?
 ---@field onUpdateCurrentTarget fun(view: UusCorpView, data: WindowData.CurrentTarget)?
 ---@field onUpdateObjectInfo fun(view: UusCorpView, data: WindowData.ObjectInfo?)?
+---@field onUpdateContainer fun(view: UusCorpView, data: WindowData.Container)?
 UusCorpView = { name = "UusCorpView" }
 
 ---@param model string|UusCorpView?

@@ -130,28 +130,10 @@ function UusCorpEventHandler.onInitialize(view)
     view:onInitialize(UusCorpWindowData(), UusCorpSystemData())
 
     --- Call events immediately to mitigate delay
-    if view.onUpdatePlayerStatus ~= nil then
-        _G[view.eventHandler].onUpdatePlayerStatus(view)
-    end
-
-    if view.onUpdateMobileStatus ~= nil then
-        _G[view.eventHandler].onUpdateMobileStatus(view)
-    end
-
-    if view.onUpdateHealthBarColor ~= nil then
-        _G[view.eventHandler].onUpdateHealthBarColor(view)
-    end
-
-    if view.onUpdateCurrentTarget ~= nil then
-        _G[view.eventHandler].onUpdateCurrentTarget(view)
-    end
-
-    if view.onUpdateObjectInfo ~= nil then
-        _G[view.eventHandler].onUpdateObjectInfo(view)
-    end
-
-    if view.onUpdateCurrentTarget ~= nil then
-        _G[view.eventHandler].onUpdateCurrentTarget(view)
+    for _, v in pairs(UusCorpEvents) do
+        if type(v.id) ~= "string" and view[v.callback] ~= nil then
+            _G[view.eventHandler][v.callback](view)
+        end
     end
 end
 
@@ -174,6 +156,10 @@ end
 
 function UusCorpEventHandler.onUpdateHealthBarColor(view)
     view:onUpdateHealthBarColor(UusCorpWindowData().HealthBarColor[view:getId()])
+end
+
+function UusCorpEventHandler.onUpdateContainer(view)
+    view:onUpdateContainer(UusCorpWindowData().ContainerWindow[view:getId()])
 end
 
 function UusCorpEventHandler.onUpdateCurrentTarget(view)

@@ -226,6 +226,19 @@
 ---@field shopValue number
 ---@field iconId number
 
+---@class WindowData.Container
+---@field isSnooped boolean
+---@field containerName string
+---@field numItems number
+---@field ContainedItems WindowData.Container.Item[]
+---@field gumpNumb number
+---@field isCorpse false
+
+---@class WindowData.Container.Item
+---@field objectId number
+---@field gridIndex number
+
+
 ---@class SkillDefinition
 ---@field hasEntitlement boolean
 ---@field skillName string
@@ -305,6 +318,7 @@ UusCorpWindowData = function ()
     ---@field GChatCount number
     ---@field ItemProperties ItemProperties
     ---@field ObjectInfo table<number, WindowData.ObjectInfo>
+    ---@field ContainerWindow table<number, WindowData.Container>
     local data = WindowData
 
     data.CurrentTarget.isMobile = function ()

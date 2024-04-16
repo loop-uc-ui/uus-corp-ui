@@ -1,25 +1,22 @@
----@class UusCorpSlotWindow:UusCorpButton
----@field data UusCorpContainerItem
+---@class UusCorpContainerSlotWindow:UusCorpButton
+---@field onUpdateContainer fun(view: UusCorpContainerSlotWindow, data: WindowData.Container.Item, previousSlot: string?)
 UusCorpContainerSlotWindow = UusCorpButton:new {
     name = "UusCorpContainerSlot",
-    template = "ContainerSlotTemplate"
+
+    template = "ContainerSlotTemplate",
+
+    ---@param view UusCorpButton
+    ---@param data WindowData.Container.Item
+    ---@param previousSlot string?
+    onUpdateContainer = function (view, data, previousSlot)
+        if previousSlot ~= nil then
+            view:addAnchor(
+                {
+                    anchorPoint = "right",
+                    relativePoint = "left",
+                    relativeTo = previousSlot
+                }
+            )
+        end
+    end
 }
-
----@return UusCorpSlotWindow
-function UusCorpContainerSlotWindow:new(model)
-    return UusCorpButton.new(self, model) --[[@as UusCorpSlotWindow]]
-end
-
-function UusCorpContainerSlotWindow:onInitialize()
-end
-
--- UusCorpContainerSlotEventHandler = UusCorpEventHandler:new {
---     name = "UusCorpContainerSlotEventHandler",
---     ---@param model UusCorpSlotWindow
---     getView = function (model)
---         return UusCorpContainerSlotWindow:new(model)
---     end,
---     events = {
---         UusCorpEvents.ObjectInfo
---     }
--- }

@@ -11,7 +11,8 @@
 
 		<Files>
             <File name="UusCorpContainerMod.lua" />
-			<!-- <File name="UusCorpContainerSlotWindow.lua" /> -->
+			<File name="UusCorpContainerSlotWindow.lua" />
+			<File name="UusCorpContainerEventHandler.lua"/>
             <File name="UusCorpContainerWindow.lua" />
             <!-- <File name="UusCorpContainerSlot.lua" />
             <File name="UusCorpContainerRootWindow.lua" /> -->
