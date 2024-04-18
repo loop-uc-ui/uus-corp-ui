@@ -8,6 +8,7 @@ UusCorpContainerSlotWindow = UusCorpButton:new {
     ---@param view UusCorpButton
     ---@param data WindowData.Container.Item
     ---@param previousSlot string?
+    ---@diagnostic disable-next-line: redundant-parameter
     onUpdateContainer = function (view, data, previousSlot)
         if previousSlot ~= nil then
             view:addAnchor(
@@ -17,6 +18,14 @@ UusCorpContainerSlotWindow = UusCorpButton:new {
                     relativeTo = previousSlot
                 }
             )
+        else
+            local _, parentWidth = view:getParent():getDimensions()
+            local _, itemWidth = view:getDimensions()
+            local index = data.gridIndex
         end
+    end,
+
+    onUpdateObjectInfo = function (view, data)
+        
     end
 }

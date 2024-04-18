@@ -1,12 +1,14 @@
 ---@class UusCorpScrollWindow:UusCorpWindow
 ---@field scrollChild UusCorpWindow?
-UusCorpScrollWindow = UusCorpWindow:new { name = "UusCorpScrollWindow" }
+UusCorpScrollWindow = UusCorpWindow:new {
+    name = "UusCorpScrollWindow"
+}
 
 ---@param model UusCorpScrollWindow
 ---@return UusCorpScrollWindow
 function UusCorpScrollWindow:new(model)
     local this = UusCorpWindow.new(self, model) --[[@as UusCorpScrollWindow]]
-    this.scrollChild = this:addWindow("ScrollChild")
+    this.scrollChild = model.scrollChild or UusCorpWindow:new { name = self.name .. "ScrollChild" }
     return this
 end
 
@@ -16,4 +18,8 @@ end
 
 function UusCorpScrollWindow:setOffset(offset)
     UusCorp.Api.ScrollWindow.SetOffset(self.name, offset)
+end
+
+function UusCorpScrollWindow:addChild(child)
+    return UusCorpWindow.addChild(self.scrollChild, child)
 end

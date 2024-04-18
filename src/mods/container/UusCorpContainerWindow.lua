@@ -1,10 +1,17 @@
 ---@class UusCorpContainerWindow:UusCorpWindow
+---@field grid fun(view: UusCorpContainerWindow): UusCorpScrollWindow
 UusCorpContainerWindow = UusCorpWindow:new {
     name = "ContainerWindow_",
 
     template = "ContainerWindow_",
 
     eventHandler = "UusCorpContainerEventHandler",
+
+    ---@param view UusCorpWindow
+    ---@return UusCorpScrollWindow
+    grid = function (view)
+        return view:addScrollWindow("GridView")
+    end,
 
     ---@param view UusCorpWindow
     ---@param windowData WindowData
@@ -14,12 +21,13 @@ UusCorpContainerWindow = UusCorpWindow:new {
         UusCorpWindow.onInitialize(view, windowData, systemData)
     end,
 
-    ---@param view UusCorpWindow
+    ---@param view UusCorpContainerWindow
     ---@param data WindowData.Container
     onUpdateContainer = function (view, data)
         for i = 1, #data.ContainedItems do
             local item = data.ContainedItems[i]
-            local slot = view:addChild(
+            local grid = view:grid()
+            local slot = grid:addChild(
                 UusCorpContainerSlotWindow:new {
                     name = "Slot" .. i
                 }
@@ -34,8 +42,12 @@ UusCorpContainerWindow = UusCorpWindow:new {
             if i == 1 then
                 slot:onUpdateContainer(item, nil)
             else
-                slot:onUpdateContainer(item, view.name .. "Slot" .. i -1)
+                slot:onUpdateContainer(
+                    item,
+                    grid.scrollChild.name .. "Slot" .. i -1
+                )
             end
+            grid:renderGrid()
         end
     end
 }

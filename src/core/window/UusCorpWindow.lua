@@ -1,5 +1,5 @@
 ---@class UusCorpWindow:UusCorpView
-UusCorpWindow = UusCorpView:new { name  = "UusCorpWindow", children = {} }
+UusCorpWindow = UusCorpView:new { name  = "UusCorpWindow" }
 
 ---@param model UusCorpWindow?
 ---@return UusCorpWindow
@@ -67,7 +67,9 @@ end
 
 ---@return UusCorpScrollWindow
 function UusCorpWindow:addScrollWindow(scrollWindow)
-    return self:addChild(UusCorpScrollWindow:new { name = scrollWindow }) --[[@as UusCorpScrollWindow]]
+    scrollWindow = self:addChild(UusCorpScrollWindow:new { name = scrollWindow })  --[[@as UusCorpScrollWindow]]
+    scrollWindow.scrollChild.name = scrollWindow.name .. "ScrollChild"
+    return scrollWindow
 end
 
 ---@return UusCorpDynamicImage
