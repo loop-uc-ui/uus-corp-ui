@@ -20,7 +20,7 @@ UusCorpTargetEventHandler = UusCorpEventHandler:new {
     end,
 
     onUpdateObjectInfo = function ()
-         local target = UusCorpWindowData().CurrentTarget
+        local target = UusCorpWindowData().CurrentTarget
         if target.isObject() or target.isCorpse() then
             UusCorpEventHandler.onUpdateObjectInfo(UusCorpTargetWindow)
         end

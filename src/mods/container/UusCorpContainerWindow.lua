@@ -24,9 +24,12 @@ UusCorpContainerWindow = UusCorpWindow:new {
     ---@param view UusCorpContainerWindow
     ---@param data WindowData.Container
     onUpdateContainer = function (view, data)
+        local sizeMultiplier = 1
+
         for i = 1, #data.ContainedItems do
             local item = data.ContainedItems[i]
             local grid = view:grid()
+            local x, _ = grid.scrollChild:getDimensions()
             local slot = grid:addChild(
                 UusCorpContainerSlotWindow:new {
                     name = "Slot" .. i
@@ -39,15 +42,31 @@ UusCorpContainerWindow = UusCorpWindow:new {
 
             slot:create()
 
-            if i == 1 then
-                slot:onUpdateContainer(item, nil)
-            else
-                slot:onUpdateContainer(
-                    item,
-                    grid.scrollChild.name .. "Slot" .. i -1
-                )
+            local slotX, _ = slot:getDimensions()
+            local rowSize = sizeMultiplier * slotX
+
+            if i ~= 1 then
+                slot:clearAnchors()
+                if rowSize < x then
+                    slot:addAnchor(
+                        UusCorpAnchor.new(
+                            "right",
+                            "left",
+                            grid.scrollChild.name .. "Slot" .. tostring(i - 1)
+                        )
+                    )
+                    sizeMultiplier = sizeMultiplier + 1
+                else
+                    slot:addAnchor(
+                        UusCorpAnchor.new(
+                            "bottomleft",
+                            "topleft",
+                            grid.scrollChild.name .. "Slot" .. tostring(i - sizeMultiplier)
+                        )
+                    )
+                    sizeMultiplier = 1
+                end
             end
-            grid:renderGrid()
         end
     end
 }

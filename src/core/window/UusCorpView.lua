@@ -6,8 +6,8 @@
 ---@field eventHandler string?
 ---@field onUpdate fun(view: UusCorpView, timePassed: number)?
 ---@field onUpdateMobileStatus fun(view: UusCorpView, data: WindowData.MobileStatus)?
----@field onUpdatePlayerStatus fun(view: UusCorpView)?
----@field onUpdateHealthBarColor fun(view: UusCorpView)?
+---@field onUpdatePlayerStatus fun(view: UusCorpView, data: WindowData.PlayerStatus, csv: PlayerStat[])?
+---@field onUpdateHealthBarColor fun(view: UusCorpView, data: WindowData.HealthBarColor)?
 ---@field onLButtonUp fun(view: UusCorpView, flags: number, x: number, y: number)?
 ---@field onLButtonDown fun(view: UusCorpView, flags: number, x: number, y: number)?
 ---@field onRButtonUp fun(view: UusCorpView, flags: number, x: number, y: number)?

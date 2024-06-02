@@ -137,27 +137,34 @@ function UusCorpEventHandler.onInitialize(view)
     end
 end
 
+---@param view UusCorpView
 function UusCorpEventHandler.onShutdown(view)
     view:onShutdown()
 end
 
+---@param timePassed number
+---@param view UusCorpView
 function UusCorpEventHandler.onUpdate(timePassed, view)
     view:onUpdate(timePassed)
 end
 
+---@param view UusCorpView
 function UusCorpEventHandler.onUpdatePlayerStatus(view)
     local data = UusCorpWindowData()
     view:onUpdatePlayerStatus(data.PlayerStatus, data.PlayerStatsDataCSV)
 end
 
+---@param view UusCorpView
 function UusCorpEventHandler.onUpdateMobileStatus(view)
     view:onUpdateMobileStatus(UusCorpWindowData().MobileStatus[view:getId()])
 end
 
+---@param view UusCorpView
 function UusCorpEventHandler.onUpdateHealthBarColor(view)
     view:onUpdateHealthBarColor(UusCorpWindowData().HealthBarColor[view:getId()])
 end
 
+---@param view UusCorpView
 function UusCorpEventHandler.onUpdateContainer(view)
     view:onUpdateContainer(UusCorpWindowData().ContainerWindow[view:getId()])
 end
