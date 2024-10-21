@@ -1,5 +1,6 @@
 ---@class UusCorpScrollWindow:UusCorpWindow
 ---@field scrollChild UusCorpWindow?
+---@field onPostInitialize fun(view: UusCorpScrollWindow, windowData: WindowData?, systemData: SystemData?)?
 UusCorpScrollWindow = UusCorpWindow:new {
     name = "UusCorpScrollWindow"
 }

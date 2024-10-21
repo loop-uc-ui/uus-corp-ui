@@ -180,9 +180,9 @@ function WindowApi.doesExist(windowName)
     return DoesWindowNameExist(windowName)
 end
 
-function WindowApi.createFromTemplate(windowName, template, parent)
+function WindowApi.createFromTemplate(windowName, template, parent, show)
     if not WindowApi.doesExist(windowName) then
-        CreateWindowFromTemplate(windowName, template, parent or "Root")
+        CreateWindowFromTemplateShow(windowName, template, parent or "Root", show == nil or show)
         return true
     end
 

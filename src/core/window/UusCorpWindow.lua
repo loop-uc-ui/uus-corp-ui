@@ -1,10 +1,14 @@
 ---@class UusCorpWindow:UusCorpView
+---@field onPostInitialize fun(view: UusCorpWindow, windowData: WindowData?, systemData: SystemData?)?
+---@field children table<string, UusCorpView>?
 UusCorpWindow = UusCorpView:new { name  = "UusCorpWindow" }
 
 ---@param model UusCorpWindow?
 ---@return UusCorpWindow
 function UusCorpWindow:new(model)
-    return UusCorpView.new(self, model) --[[@as UusCorpWindow]]
+    local window = UusCorpView.new(self, model) --[[@as UusCorpWindow]]
+    window.children = window.children or {}
+    return window
 end
 
 ---@param windowData WindowData?
@@ -13,6 +17,12 @@ function UusCorpWindow:onInitialize(windowData, systemData)
     UusCorpView.onInitialize(self, windowData, systemData)
     if self:getParent() == UusCorpRootWindow then
         self:restorePosition()
+    end
+
+    for _, v in pairs(self.children) do
+        -- Debug.Print(v.name)
+        -- v:create(self:isShowing())
+        -- v:setParent(v.parent)
     end
 end
 
@@ -37,6 +47,7 @@ end
 function UusCorpWindow:addChild(child)
     child.name = self.name .. child.name
     child.parent = self.name
+    self.children[child.name] = child
     return child
 end
 
@@ -90,4 +101,11 @@ function UusCorpWindow:onShutdown()
         self:savePosition()
     end
     UusCorpView.onShutdown(self)
+end
+
+function UusCorpWindow:destroy()
+    for _, v in pairs(self.children) do
+        v:destroy()
+    end
+    UusCorpView.destroy(self)
 end

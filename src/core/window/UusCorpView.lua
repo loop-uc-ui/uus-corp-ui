@@ -4,6 +4,7 @@
 ---@field parent string?
 ---@field id number?
 ---@field eventHandler string?
+---@field onPostInitialize fun(view: UusCorpView, windowData: WindowData?, systemData: SystemData?)?
 ---@field onUpdate fun(view: UusCorpView, timePassed: number)?
 ---@field onUpdateMobileStatus fun(view: UusCorpView, data: WindowData.MobileStatus)?
 ---@field onUpdatePlayerStatus fun(view: UusCorpView, data: WindowData.PlayerStatus, csv: PlayerStat[])?
@@ -33,6 +34,7 @@ function UusCorpView:new(model)
     end
 
     local object = setmetatable(model, self)
+    object.parent = object.parent or "Root"
     self.__index = self
     return object
 end
@@ -79,6 +81,9 @@ end
 ---@param systemData SystemData?
 function UusCorpView:onInitialize(windowData, systemData)
     self:registerEvents()
+    if self.onPostInitialize ~= nil then
+        self:onPostInitialize(windowData, systemData)
+    end
     return windowData, systemData
 end
 
@@ -117,8 +122,13 @@ function UusCorpView:create(doShow)
     doShow = doShow == nil or doShow
     local created = false
 
-    if self.template ~= nil and self.parent ~= nil then
-        created = UusCorp.Api.Window.CreateFromTemplate(self.name, self.template or self.name, self.parent or "Root")
+    if self.template ~= nil then
+        created = UusCorp.Api.Window.CreateFromTemplate(
+            self.name,
+            self.template or self.name,
+            self.parent or "Root",
+            false
+        )
     else
         created = UusCorp.Api.Window.Create(self.name, false)
     end
@@ -217,4 +227,8 @@ end
 
 function UusCorpView:setMoving(isMoving)
     UusCorp.Api.Window.SetMoving(self.name, isMoving)
+end
+
+function UusCorpView:setParent(parent)
+    UusCorp.Api.Window.SetParent(self.name, parent)
 end

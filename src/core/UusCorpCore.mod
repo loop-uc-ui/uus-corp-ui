@@ -106,6 +106,10 @@
             <File name="window/UusCorpRootWindow.lua"/>
             <File name="window/UusCorpScrollWindow.lua"/>
             <File name="window/UusCorpStatusBar.lua"/>
+            <File name="template/UusCorpWindowLifeCycle.lua"/>
+            <File name="template/UusCorpGenericWindow.lua"/>
+            <File name="template/UusCorpGenericLabel.lua"/>
+            <File name="template/UusCorpGenericButton.lua"/>
             <File name="UusCorp.lua"/>
 		</Files>
 

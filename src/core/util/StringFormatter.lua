@@ -70,3 +70,13 @@ end
 function StringFormatter.replaceTokens(token, array)
     ReplaceTokens(token, array)
 end
+
+function StringFormatter.randomString()
+    local charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    local result = ""
+    for i = 1, 12 do
+        local rand = math.random(1, #charset)
+        result = result .. charset:sub(rand, rand)
+    end
+    return result
+end

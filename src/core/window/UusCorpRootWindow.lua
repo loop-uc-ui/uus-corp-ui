@@ -1,5 +1,5 @@
 ---@class UusCorpRootWindow:UusCorpWindow
-UusCorpRootWindow = UusCorpWindow:new {
+UusCorpRootWindow = UusCorpView:new {
     name = "Root",
     eventHandler = "UusCorpRootEventHandler"
 }

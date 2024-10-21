@@ -694,9 +694,9 @@ UusCorp = {
             SetColor = function (windowName, color)
                 WindowSetTintColor(windowName, color.r, color.g, color.b)
             end,
-            CreateFromTemplate = function (windowName, template, parent)
+            CreateFromTemplate = function (windowName, template, parent, doShow)
                 if not UusCorp.Api.Window.DoesExist(windowName) then
-                    CreateWindowFromTemplate(windowName, template or windowName, parent or "Root")
+                    CreateWindowFromTemplateShow(windowName, template or windowName, parent or "Root", doShow == nil or doShow)
                     return true
                 end
                 return false

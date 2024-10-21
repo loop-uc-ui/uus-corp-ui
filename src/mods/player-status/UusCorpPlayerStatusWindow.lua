@@ -39,6 +39,17 @@ UusCorpPlayerStatusWindow.views = {
 ---@param windowData WindowData
 ---@param systemData SystemData
 function UusCorpPlayerStatusWindow:onInitialize(windowData, systemData)
+    local window = UusCorpGenericWindow:new {
+        name = "Test",
+        onPostInitialize = function (view, _, _)
+            local label = UusCorpLabel:new()
+            label:create()
+            -- label:setText("hi")
+            -- label:setParent(view.name)
+        end
+    }
+    window:create()
+    
     self:setId(windowData.PlayerStatus.PlayerId)
     self:setUpdateFrequency(1.0)
     UusCorpWindow.onInitialize(self)
