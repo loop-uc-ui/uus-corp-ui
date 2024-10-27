@@ -404,7 +404,6 @@
 
 ---@class Events
 ---@field OnInitialize fun(self: Window)?
----@field OnPostInitialize fun(self: Window)?
 ---@field OnLButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnRButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnShutdown fun(self: Window)?
@@ -524,12 +523,21 @@ local Window = function (model)
     local _template = model.template or "UusCorpWindow"
     local _events = model.events or {}
     local _frame = _name .. "Frame"
+    local _background = _name .. "Background"
 
     ---@class Window
     local window = {}
 
-    window.disableFrame = function ()
-        UusCorp.Api.Window.Destroy(_frame)
+    window.toggleFrame = function (doShow)
+        if UusCorp.Api.Window.DoesExist(_frame) then
+            UusCorp.Api.Window.SetShowing(_frame, doShow)
+        end
+    end
+
+    window.toggleBackground = function (doShow)
+        if UusCorp.Api.Window.DoesExist(_background) then
+            UusCorp.Api.Window.SetShowing(_background, doShow)
+        end
     end
 
     window.setChildren = function (children)
@@ -749,8 +757,7 @@ local Window = function (model)
             for k, _ in pairs(_events) do
                 local isCore = UusCorp.Constants.CoreEvents[k] ~= nil
                 local skip = k == UusCorp.Constants.CoreEvents.OnInitialize or
-                    k == UusCorp.Constants.CoreEvents.OnShutdown or
-                    k == "OnPostInitialize"
+                    k == UusCorp.Constants.CoreEvents.OnShutdown
 
                 if isCore and not skip then
                     window.registerCoreEventHandler(k, "UusCorp.EventHandler." .. k)
@@ -788,13 +795,8 @@ local Window = function (model)
                 end
             )
 
-            window.events.onPostInitialize()
-        end,
-
-        onPostInitialize = function ()
-            if _events.OnPostInitialize ~= nil then
-                _events.OnPostInitialize(window)
-            end
+            window.toggleBackground(window.isParentRoot())
+            window.toggleFrame(window.isParentRoot())
         end,
 
         onShutdown = function ()

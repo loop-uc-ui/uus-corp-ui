@@ -7,8 +7,10 @@ local Button = function (text, onLButtonUp, onShown)
             OnInitialize = function (self)
                 self.setDimensions(130, 41)
                 self.setText(text)
-            end,
-            OnPostInitialize = onShown
+                if onShown ~= nil then
+                    onShown(self)
+                end
+            end
         }
     }
 end
