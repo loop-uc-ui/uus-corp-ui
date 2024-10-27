@@ -1,17 +1,17 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-        <Button name="MenuItemTemplate" font="inter_medium_20">
+        <Button name="UusCorpButton" font="inter_medium_20">
             <Size>
                 <AbsPoint x="130" y="41"/>
             </Size>
         </Button>
 
-        <Window name="UusCorpMainMenuWindow" movable="true" layer="popup">
+        <Window name="UusCorpWindow" movable="true" layer="popup">
             <Size>
                 <AbsPoint x="214" y="440"/>
             </Size>
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="UusCorp.EventHandler.OnInitialize"/>
+                <EventHandler event="OnInitialize" function="UusCorp.EventHandler.onInitialize"/>
             </EventHandlers>
             <Anchors>
                 <Anchor point="center" relativePoint="center" relativeTo="Root">

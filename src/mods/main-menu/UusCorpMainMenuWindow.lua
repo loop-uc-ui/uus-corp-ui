@@ -1,17 +1,100 @@
-UusCorpMainMenuWindow = {}
+---@return Button
+local Button = function (text, onLButtonUp, onShown)
+    return UusCorp.Interface.Button {
+        template = "UusCorpButton",
+        events = {
+            OnLButtonUp = onLButtonUp,
+            ---@param self Button
+            OnInitialize = function (self)
+                self.setText(text)
+                self.setTextColor(UusCorp.Constants.ButtonStates.Normal, UusCorp.Constants.Colors.OffWhite)
+            end,
+            OnPostInitialize = onShown
+        }
+    }
+end
 
-UusCorpMainMenuWindow.Name = "UusCorpMainMenuWindow"
-
-UusCorpMainMenuWindow.Buttons = {
-    Debug = UusCorpMainMenuWindow.Name .. "DebugItemButton",
-    ExitGame = UusCorpMainMenuWindow.Name .. "ExitGameItemButton",
-    LogOut = UusCorpMainMenuWindow.Name .. "LogOutItemButton",
-    Agents = UusCorpMainMenuWindow.Name .. "AgentsSettingsItemButton",
-    Macros = UusCorpMainMenuWindow.Name .. "MacrosItemButton",
-    Actions = UusCorpMainMenuWindow.Name .. "ActionsItemButton",
-    Help = UusCorpMainMenuWindow.Name .. "HelpItemButton",
-    Store = UusCorpMainMenuWindow.Name .. "UOStoreItemButton",
-    Settings = UusCorpMainMenuWindow.Name .. "UserSettingsItemButton"
+UusCorpMainMenuWindow = UusCorp.Interface.Window {
+    name = "UusCorpMainMenuWindow",
+    template = "UusCorpWindow",
+    events = {
+        OnInitialize = function (self)
+            self.setChildren {
+                Button(
+                    3000128,
+                    function ()
+                        EventApi.broadcast(Events.logOut())
+                    end,
+                    ---@param button Button
+                    function (button)
+                        button.anchorToParenTop()
+                    end
+                ),
+                Button(
+                    1077859,
+                    function ()
+                        InterfaceCore.OnExitGame()
+                    end
+                ),
+                Button(
+                    L"Settings",
+                    function ()
+                        if self:doesExist() then
+                            ToggleWindowByName("UusCorpSettingsWindow", "")
+                            self.setShowing(false)
+                        else
+                            ToggleWindowByName("SettingsWindow", "")
+                        end
+                    end
+                ),
+                Button(
+                    L"Store",
+                    function ()
+                        EventApi.broadcast(Events.store())
+                        self.setShowing(false)
+                    end
+                ),
+                Button(
+                    L"Agents",
+                    function ()
+                        ToggleWindowByName("OrganizerWindow", "")
+                        self.setShowing(false)
+                    end
+                ),
+                Button(
+                    3000172,
+                    function ()
+                        ToggleWindowByName("MacroWindow", "")
+                        self.setShowing(false)
+                    end
+                ),
+                Button(
+                    1079812,
+                    function ()
+                        ToggleWindowByName("ActionsWindow", "")
+                        self.setShowing(false)
+                    end
+                ),
+                Button(
+                    1061037,
+                    function ()
+                        EventApi.broadcast(Events.help())
+                        self.setShowing(false)
+                    end
+                ),
+                Button(
+                    L"Debug",
+                    function ()
+                        ToggleWindowByName("DebugWindow", "")
+                        self.setShowing(false)
+                    end
+                )
+            }
+        end,
+        OnRButtonUp = function (self)
+            self.setShowing(false)
+        end
+    }
 }
 
 function UusCorpMainMenuWindow.initialize()
@@ -37,8 +120,8 @@ function UusCorpMainMenuWindow.initialize()
         end
 
         WindowApi.setShowing(
-            UusCorpMainMenuWindow.Name,
-            not WindowApi.isShowing(UusCorpMainMenuWindow.Name)
+            UusCorpMainMenuWindow:getName(),
+            not WindowApi.isShowing(UusCorpMainMenuWindow:getName())
         )
     end
 
@@ -51,53 +134,5 @@ function UusCorpMainMenuWindow.initialize()
     -- Destroy the old main menu menu, so our custom one
     -- takes precendence
     WindowApi.destroyWindow("MainMenuWindow")
-    WindowApi.createWindow(UusCorpMainMenuWindow.Name, false)
-end
-
-function UusCorpMainMenuWindow.onInitialize()
-    ButtonApi.setText(UusCorpMainMenuWindow.Buttons.Debug, L"Debug")
-    ButtonApi.setText(UusCorpMainMenuWindow.Buttons.ExitGame, 1077859)
-    ButtonApi.setText(UusCorpMainMenuWindow.Buttons.LogOut, 3000128)
-    ButtonApi.setText(UusCorpMainMenuWindow.Buttons.Agents, L"Agents")
-    ButtonApi.setText(UusCorpMainMenuWindow.Buttons.Macros, 3000172)
-    ButtonApi.setText(UusCorpMainMenuWindow.Buttons.Actions, 1079812)
-    ButtonApi.setText(UusCorpMainMenuWindow.Buttons.Help, 1061037)
-    ButtonApi.setText(UusCorpMainMenuWindow.Buttons.Store, L"Store")
-    ButtonApi.setText(UusCorpMainMenuWindow.Buttons.Settings, L"Settings")
-end
-
-function UusCorpMainMenuWindow.onButtonClick()
-    local window = Active.window()
-
-    if window == UusCorpMainMenuWindow.Buttons.Debug then
-        ToggleWindowByName("DebugWindow", "")
-    elseif window == UusCorpMainMenuWindow.Buttons.ExitGame then
-        InterfaceCore.OnExitGame()
-        return
-    elseif window == UusCorpMainMenuWindow.Buttons.LogOut then
-        EventApi.broadcast(Events.logOut())
-        return
-    elseif window == UusCorpMainMenuWindow.Buttons.Agents then
-        ToggleWindowByName("OrganizerWindow", "")
-    elseif window == UusCorpMainMenuWindow.Buttons.Macros then
-        ToggleWindowByName("MacroWindow", "")
-    elseif window == UusCorpMainMenuWindow.Buttons.Actions then
-        ToggleWindowByName("ActionsWindow", "")
-    elseif window == UusCorpMainMenuWindow.Buttons.Help then
-        EventApi.broadcast(Events.help())
-    elseif window == UusCorpMainMenuWindow.Buttons.Store then
-        EventApi.broadcast(Events.store())
-    elseif window == UusCorpMainMenuWindow.Buttons.Settings then
-        if WindowApi.doesExist("UusCorpSettingsWindow") then
-            ToggleWindowByName("UusCorpSettingsWindow", "")
-        else
-            ToggleWindowByName("SettingsWindow", "")
-        end
-    end
-
-    WindowApi.setShowing(UusCorpMainMenuWindow.Name, false)
-end
-
-function UusCorpMainMenuWindow.onRightClick()
-    WindowApi.setShowing(UusCorpMainMenuWindow.Name, false)
+    WindowApi.createWindow(UusCorpMainMenuWindow:getName(), false)
 end

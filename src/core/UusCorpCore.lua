@@ -4,6 +4,7 @@ function UusCorpCore.initialize()
     UusCorpCore.loadResources("/src/core/template", "ItemGridSocketTemplate.xml")
     UusCorpCore.loadResources("/src/core/textures", "UusCorpTextures.xml")
     UusCorpCore.loadResources("/src/core/template", "SimpleWindowFrame.xml")
+    UusCorpCore.loadResources("/src/core", "UusCorp.xml")
 end
 
 function UusCorpCore.loadResources(path, file)
