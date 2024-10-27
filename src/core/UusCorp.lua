@@ -814,7 +814,6 @@ local Window = function (model)
         onLButtonUp = function (flags, x, y)
             if _events.OnLButtonUp ~= nil then
                 _events.OnLButtonUp(window, flags, x, y)
-                return
             end
 
             local child = UusCorp.Utils.Array.Find(
@@ -832,7 +831,6 @@ local Window = function (model)
         onLButtonDown = function (flags, x, y)
             if _events.OnLButtonDown ~= nil then
                 _events.OnLButtonDown(window, flags, x, y)
-                return
             end
 
             local child = UusCorp.Utils.Array.Find(
@@ -848,9 +846,13 @@ local Window = function (model)
         end,
 
         onRButtonUp = function (flags, x, y)
+            if window.isParentRoot() and _events.OnRButtonUp == nil then
+                window.destroy()
+                return
+            end
+
             if _events.OnRButtonUp ~= nil then
                 _events.OnRButtonUp(window, flags, x, y)
-                return
             end
 
             local child = UusCorp.Utils.Array.Find(
