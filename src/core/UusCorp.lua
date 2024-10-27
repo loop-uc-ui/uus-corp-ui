@@ -734,7 +734,8 @@ local Window = function (model)
             for k, _ in pairs(_events) do
                 local isCore = UusCorp.Constants.CoreEvents[k] ~= nil
                 local skip = k == UusCorp.Constants.CoreEvents.OnInitialize or
-                    k == UusCorp.Constants.CoreEvents.OnShutdown
+                    k == UusCorp.Constants.CoreEvents.OnShutdown or
+                    k == "OnPostInitialize"
 
                 if isCore and not skip then
                     window.registerCoreEventHandler(k, "UusCorp.EventHandler." .. k)
@@ -904,6 +905,10 @@ local Button = function (model)
     ---@class Button:Window
     local button = Window(model)
 
+    button.getTextDimensions = function ()
+        UusCorp.Api.Button.GetTextDimensions(button.getName())
+    end
+
     button.setText = function (text)
         UusCorp.Api.Button.SetText(button.getName(), UusCorp.Utils.String.ToWString(text))
     end
@@ -954,6 +959,9 @@ UusCorp = {
             end
         },
         Button = {
+            GetTextDimensions = function (id)
+                return ButtonGetTextDimensions(id)
+            end,
             SetText = function(id, text)
                 ButtonSetText(id, text)
             end,

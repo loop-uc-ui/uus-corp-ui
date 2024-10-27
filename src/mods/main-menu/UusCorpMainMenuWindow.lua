@@ -1,11 +1,11 @@
 ---@return Button
 local Button = function (text, onLButtonUp, onShown)
     return UusCorp.Interface.Button {
-        template = "UusCorpButton",
         events = {
             OnLButtonUp = onLButtonUp,
             ---@param self Button
             OnInitialize = function (self)
+                self.setDimensions(130, 41)
                 self.setText(text)
                 self.setTextColor(UusCorp.Constants.ButtonStates.Normal, UusCorp.Constants.Colors.OffWhite)
             end,
@@ -16,9 +16,10 @@ end
 
 UusCorpMainMenuWindow = UusCorp.Interface.Window {
     name = "UusCorpMainMenuWindow",
-    template = "UusCorpWindow",
     events = {
         OnInitialize = function (self)
+            self.setDimensions(214, 440)
+            self.setColor { r = 255, g = 255, b = 255 }
             self.setChildren {
                 Button(
                     3000128,
