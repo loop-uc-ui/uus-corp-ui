@@ -1,16 +1,15 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
-        <Button name="UusCorpButton" font="inter_medium_20"/>
+        <Button name="UusCorpButton" font="inter_medium_20">
+            <TextColors>
+                <Normal r="206" g="217" b="242" a="255"/>
+            </TextColors>
+        </Button>
 
         <Window name="UusCorpWindow" movable="true" layer="popup">
             <EventHandlers>
-                <EventHandler event="OnInitialize" function="UusCorp.EventHandler.onInitialize"/>
+                <EventHandler event="OnInitialize" function="UusCorp.EventHandler.OnInitialize"/>
             </EventHandlers>
-            <Anchors>
-                <Anchor point="center" relativePoint="center" relativeTo="Root">
-                    <AbsPoint x="0" y="0"/>
-                </Anchor>
-            </Anchors>
             <Windows>
                 <!-- Body background -->
                 <FullResizeImage name="$parentWindowBackground" inherits="UO_Simple_Black_Background">

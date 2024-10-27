@@ -523,9 +523,14 @@ local Window = function (model)
     local _name = model.name or UusCorp.Utils.String.Random()
     local _template = model.template or "UusCorpWindow"
     local _events = model.events or {}
+    local _frame = _name .. "Frame"
 
     ---@class Window
     local window = {}
+
+    window.disableFrame = function ()
+        UusCorp.Api.Window.Destroy(_frame)
+    end
 
     window.setChildren = function (children)
         _children = children
@@ -675,11 +680,21 @@ local Window = function (model)
         UusCorp.Api.Window.AddAnchor(_name, anchorPoint, relativeTo, relativePoint, x, y)
     end
 
-    window.anchorToParenTop = function ()
+    window.anchorToParenTop = function (x, y)
         window.addAnchor(
             UusCorp.Constants.AnchorPoints.Top,
             window.getParent(),
             UusCorp.Constants.AnchorPoints.Top,
+            x or 0,
+            y or 0
+        )
+    end
+
+    window.anchorToParentCenter = function (x, y)
+        window.addAnchor(
+            UusCorp.Constants.AnchorPoints.Center,
+            window.getParent(),
+            UusCorp.Constants.AnchorPoints.Center,
             x or 0,
             y or 0
         )
@@ -1792,7 +1807,8 @@ UusCorp = {
             BottomLeft = "bottomleft",
             TopLeft = "topleft",
             Top = "top",
-            Bottom = "bottom"
+            Bottom = "bottom",
+            Center = "center"
         },
         WindowNames = {
             Root = "Root"

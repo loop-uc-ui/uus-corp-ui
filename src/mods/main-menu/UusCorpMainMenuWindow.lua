@@ -7,7 +7,6 @@ local Button = function (text, onLButtonUp, onShown)
             OnInitialize = function (self)
                 self.setDimensions(130, 41)
                 self.setText(text)
-                self.setTextColor(UusCorp.Constants.ButtonStates.Normal, UusCorp.Constants.Colors.OffWhite)
             end,
             OnPostInitialize = onShown
         }
@@ -19,7 +18,7 @@ UusCorpMainMenuWindow = UusCorp.Interface.Window {
     events = {
         OnInitialize = function (self)
             self.setDimensions(214, 440)
-            self.setColor { r = 255, g = 255, b = 255 }
+            self.anchorToParentCenter()
             self.setChildren {
                 Button(
                     3000128,
@@ -40,7 +39,7 @@ UusCorpMainMenuWindow = UusCorp.Interface.Window {
                 Button(
                     L"Settings",
                     function ()
-                        if self:doesExist() then
+                        if self.doesExist() then
                             ToggleWindowByName("UusCorpSettingsWindow", "")
                             self.setShowing(false)
                         else
@@ -106,11 +105,6 @@ function UusCorpMainMenuWindow.initialize()
         Events.bugReport()
     )
 
-    UusCorpCore.loadResources(
-        "/src/mods/main-menu",
-        "UusCorpMainMenuWindow.xml"
-    )
-
     function InterfaceCore.OnExitGame()
         EventApi.broadcast(Events.exitGame())
     end
@@ -135,5 +129,5 @@ function UusCorpMainMenuWindow.initialize()
     -- Destroy the old main menu menu, so our custom one
     -- takes precendence
     WindowApi.destroyWindow("MainMenuWindow")
-    WindowApi.createWindow(UusCorpMainMenuWindow:getName(), false)
+    UusCorpMainMenuWindow.create(false)
 end
