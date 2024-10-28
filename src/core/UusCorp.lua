@@ -411,6 +411,7 @@
 ---@field OnShown fun(self: Window)?
 ---@field OnLButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnRButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnUpdate fun(self: Window, timePassed: integer, systemData: SystemData, windowData: WindowData)?
 
 ---@class SystemData
 ---@field TrackingPointer SystemData.TrackingPointer
@@ -463,6 +464,7 @@
 ---@field Paperdoll SystemData.Paperdoll
 
 ---@class WindowData
+---@field Cursor WindowData.Cursor
 ---@field RecentChatPlayerNameList string[]
 ---@field SkillAllSkillsOther SkillAllSkillsOther
 ---@field PlayerEquipmentSlot Object[]
@@ -505,6 +507,9 @@
 ---@field ItemProperties ItemProperties
 ---@field ObjectInfo table<number, WindowData.ObjectInfo>
 ---@field ContainerWindow table<number, WindowData.Container>
+
+---@class WindowData.Cursor
+---@field target boolean
 
 ---@class WindowModel
 ---@field name string?
@@ -909,6 +914,18 @@ local Window = function (model)
                     item.events.onShown()
                 end
             )
+        end,
+        onUpdate = function (timePassed, systemData, windowData)
+            if _events.OnUpdate ~= nil then
+                _events.OnUpdate(window, timePassed, systemData, windowData)
+            end
+
+            UusCorp.Utils.Array.ForEach(
+                _children,
+                function (item)
+                    item.events.onUpdate(timePassed, systemData, windowData)
+                end
+            )
         end
     }
 
@@ -945,6 +962,22 @@ local Button = function (model)
     end
 
     return button
+end
+
+---@param model WindowModel?
+---@return Label
+local Label = function (model)
+    model = model or {}
+    model.template = model.template or "UusCorpLabel"
+
+    ---@class Label:Window
+    local label = Window(model)
+
+    label.setText = function (text)
+        UusCorp.Api.Label.SetText(label.getName(), UusCorp.Utils.String.ToWString(text))
+    end
+
+    return label
 end
 
 UusCorp = {
@@ -1765,6 +1798,11 @@ UusCorp = {
             RestorePostion = function(window, trackSize, alias, ignoreBounds)
                 WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBounds)
             end
+        },
+        InterfaCore = {
+            GetScaleFactor = function ()
+                return 1 / InterfaceCore.scale
+            end
         }
     },
     Data = {
@@ -1805,7 +1843,8 @@ UusCorp = {
             OnLButtonUp = "OnLButtonUp",
             OnLButtonDown = "OnLButtonDown",
             OnRButtonUp = "OnRButtonUp",
-            OnRButtonDown = "OnRButtonDown"
+            OnRButtonDown = "OnRButtonDown",
+            OnUpdate = "OnUpdate"
         },
         AnchorPoints = {
             BottomLeft = "bottomleft",
@@ -1837,6 +1876,11 @@ UusCorp = {
         }
     },
     Interface = {
+        Defaults = {
+            ResiszeWindow = Window {
+                name = "ResizeWindow"
+            }
+        },
         ---@param model WindowModel?
         ---@return Window
         Window = function (model)
@@ -1850,6 +1894,13 @@ UusCorp = {
             local button = Button(model)
             UusCorp.EventHandler.Windows[button.getName()] = button
             return button
+        end,
+        ---@param model WindowModel?
+        ---@return Label
+        Label = function (model)
+            local label = Label(model)
+            UusCorp.EventHandler.Windows[label.getName()] = label
+            return label
         end
     },
     Utils = {
@@ -1957,6 +2008,10 @@ UusCorp = {
         OnShown = function ()
             local window = UusCorp.EventHandler.Windows[Active.window()]
             window.events.onShown()
+        end,
+        OnUpdate = function (timePassed)
+            local window = UusCorp.EventHandler.Windows[Active.window()]
+            window.events.onUpdate(timePassed, UusCorp.Data.System(), UusCorp.Data.Window())
         end
     }
 }

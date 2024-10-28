@@ -4,7 +4,14 @@
             <TextColors>
                 <Normal r="206" g="217" b="242" a="255"/>
             </TextColors>
-        </Button>  
+        </Button>
+
+        <Label name="UusCorpLabel" font="inter_medium_18">
+            <Size>
+                <AbsPoint x="54" y="18" />
+            </Size>
+            <Color r="206" g="217" b="242" a="255" />
+        </Label>
 
         <Window name="UusCorpWindow" movable="true">
             <EventHandlers>
