@@ -10,6 +10,11 @@
 ---@class WindowData.HealthBarColor
 ---@field VisualStateId number
 
+---@class WindowData.ObjectHandle
+---@field ObjectId integer[]
+---@field Names string[]
+---@field Notoriety integer[]
+
 ---@class AllSkillsSelf
 
 ---@class PlayerStat
@@ -403,7 +408,7 @@
 ---@field Name string
 
 ---@class Events
----@field OnInitialize fun(self: Window)?
+---@field OnInitialize fun(self: Window, systemData: SystemData, windowData: WindowData)?
 ---@field OnLButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnRButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnShutdown fun(self: Window)?
@@ -412,6 +417,7 @@
 ---@field OnLButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnRButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnUpdate fun(self: Window, timePassed: integer, systemData: SystemData, windowData: WindowData)?
+---@field OnUpdateMobileName fun(self: Window, windowData: MobileName)?
 
 ---@class SystemData
 ---@field TrackingPointer SystemData.TrackingPointer
@@ -507,6 +513,7 @@
 ---@field ItemProperties ItemProperties
 ---@field ObjectInfo table<number, WindowData.ObjectInfo>
 ---@field ContainerWindow table<number, WindowData.Container>
+---@field ObjectHandle WindowData.ObjectHandle
 
 ---@class WindowData.Cursor
 ---@field target boolean
@@ -529,6 +536,7 @@ local Window = function (model)
     local _events = model.events or {}
     local _frame = _name .. "Frame"
     local _background = _name .. "Background"
+    local _data = {}
 
     ---@class Window
     local window = {}
@@ -543,6 +551,10 @@ local Window = function (model)
         if UusCorp.Api.Window.DoesExist(_background) then
             UusCorp.Api.Window.SetShowing(_background, doShow)
         end
+    end
+
+    window.attachToObject = function ()
+        UusCorp.Api.Window.AttachToWorldObject(window.getId(), window.getName())
     end
 
     window.setChildren = function (children)
@@ -561,8 +573,9 @@ local Window = function (model)
         UusCorp.Api.Window.SetId(_name, id)
     end
 
+    ---@return Window
     window.getParent = function ()
-        return UusCorp.Api.Window.GetParent(_name)
+        return UusCorp.Interface.Window { name = UusCorp.Api.Window.GetParent(_name) }
     end
 
     window.setParent = function (parent)
@@ -570,7 +583,7 @@ local Window = function (model)
     end
 
     window.isParentRoot = function ()
-        return window.getParent() == UusCorp.Constants.WindowNames.Root
+        return window.getParent().getName() == UusCorp.Constants.WindowNames.Root
     end
 
     window.registerCoreEventHandler = function (event, callback)
@@ -696,7 +709,7 @@ local Window = function (model)
     window.anchorToParenTop = function (x, y)
         window.addAnchor(
             UusCorp.Constants.AnchorPoints.Top,
-            window.getParent(),
+            window.getParent().getName(),
             UusCorp.Constants.AnchorPoints.Top,
             x or 0,
             y or 0
@@ -706,7 +719,7 @@ local Window = function (model)
     window.anchorToParentCenter = function (x, y)
         window.addAnchor(
             UusCorp.Constants.AnchorPoints.Center,
-            window.getParent(),
+            window.getParent().getName(),
             UusCorp.Constants.AnchorPoints.Center,
             x or 0,
             y or 0
@@ -742,6 +755,7 @@ local Window = function (model)
     end
 
     window.create = function (doShow)
+        doShow = doShow == nil or doShow
         if _template == nil then
             return UusCorp.Api.Window.Create(_name, doShow)
         else
@@ -749,25 +763,33 @@ local Window = function (model)
         end
     end
 
-    window.registerData = function (data, id)
-        UusCorp.Api.Window.RegisterData(data, id)
+    window.registerData = function (type, id)
+        UusCorp.Api.Window.RegisterData(type, id)
     end
 
-    window.unregisterData = function (data, id)
-        UusCorp.Api.Window.UnregisterData(data, id)
+    window.unregisterData = function (type, id)
+        UusCorp.Api.Window.UnregisterData(type, id)
     end
 
     window.events = {
-        onInitialize = function ()
-            for k, _ in pairs(_events) do
+        onInitialize = function (systemData, windowData)
+            local id = UusCorp.Utils.String.ExtractNumber(_name)
+
+            if id ~= 0 then
+                window.setId(id)
+            end
+
+            for k, v in pairs(_events) do
+                local dataEvent = UusCorp.Constants.DataEvents[k]
                 local isCore = UusCorp.Constants.CoreEvents[k] ~= nil
                 local skip = k == UusCorp.Constants.CoreEvents.OnInitialize or
                     k == UusCorp.Constants.CoreEvents.OnShutdown
 
                 if isCore and not skip then
                     window.registerCoreEventHandler(k, "UusCorp.EventHandler." .. k)
-                elseif not isCore and not skip then
-                    window.registerEventHandler(k, "UusCorp.EventHandler." .. k)
+                elseif dataEvent ~= nil then
+                    window.registerData(dataEvent.getType(), window.getId())
+                    window.registerEventHandler(dataEvent.getEvent(), "UusCorp.EventHandler." .. k)
                 end
             end
 
@@ -777,7 +799,7 @@ local Window = function (model)
             )
 
             if _events.OnInitialize ~= nil then
-                _events.OnInitialize(window)
+                _events.OnInitialize(window, systemData, windowData)
             end
 
             window.restorePosition()
@@ -787,7 +809,7 @@ local Window = function (model)
                 function (item, index)
                     item.create(true)
                     item.setParent(_name)
-                    item.events.onInitialize()
+                    item.events.onInitialize(systemData, windowData)
                     if index > 1 then
                         item.addAnchor(
                             "bottomleft",
@@ -915,6 +937,7 @@ local Window = function (model)
                 end
             )
         end,
+
         onUpdate = function (timePassed, systemData, windowData)
             if _events.OnUpdate ~= nil then
                 _events.OnUpdate(window, timePassed, systemData, windowData)
@@ -924,6 +947,19 @@ local Window = function (model)
                 _children,
                 function (item)
                     item.events.onUpdate(timePassed, systemData, windowData)
+                end
+            )
+        end,
+
+        onUpdateMobileName = function ()
+            if _events.OnUpdateMobileName ~= nil then
+                _events.OnUpdateMobileName(window, UusCorp.Data.Window().MobileName[window.getId()])
+            end
+
+            UusCorp.Utils.Array.ForEach(
+                _children,
+                function (item, index)
+                    item.events.onUpdateMobileName()
                 end
             )
         end
@@ -975,6 +1011,14 @@ local Label = function (model)
 
     label.setText = function (text)
         UusCorp.Api.Label.SetText(label.getName(), UusCorp.Utils.String.ToWString(text))
+    end
+
+    label.setTextColor = function (color)
+        UusCorp.Api.Label.SetTextColor(label.getName(), color)
+    end
+
+    label.setTextAlignment = function (alignment)
+        UusCorp.Api.Label.SetTextAlignment(label.getName(), alignment)
     end
 
     return label
@@ -1808,6 +1852,7 @@ UusCorp = {
     Data = {
         ---@return WindowData
         Window = function()
+            ---@type WindowData
             local data = WindowData
 
             data.CurrentTarget.isMobile = function()
@@ -1834,6 +1879,17 @@ UusCorp = {
             Mobile = 2,
             Object = 3,
             Corpse = 4
+        },
+        DataEvents = {
+            OnUpdateMobileName = {
+                getType = function ()
+                    return WindowData.MobileName.Type
+                end,
+                getEvent = function ()
+                    return WindowData.MobileName.Event
+                end,
+                name = "OnUpdateMobileName"
+            }
         },
         CoreEvents = {
             OnInitialize = "OnInitialize",
@@ -1879,7 +1935,16 @@ UusCorp = {
         Defaults = {
             ResiszeWindow = Window {
                 name = "ResizeWindow"
-            }
+            },
+
+            ---@class ObjectHandleWindow
+            ---@field CreateObjectHandles fun()
+            ---@field DestroyObjectHandles fun()
+            ObjectHandleWindow = ObjectHandleWindow,
+
+            ---@class ItemProperties
+            ---@field UpdateItemPropertiesData fun()
+            ItemProperties = ItemProperties
         },
         ---@param model WindowModel?
         ---@return Window
@@ -1908,6 +1973,21 @@ UusCorp = {
             ---@generic T
             ---@param array T[]
             ---@param find fun(item: T): boolean
+            ---@return integer
+            IndexOf = function (array, find)
+                for i = 1, #array do
+                    local item = array[i]
+                    if find(item) then
+                        return i
+                    end
+                end
+
+                return -1
+            end,
+
+            ---@generic T
+            ---@param array T[]
+            ---@param find fun(item: T): boolean
             ---@return T?
             Find = function (array, find)
                 for i = 1, #array do
@@ -1929,16 +2009,36 @@ UusCorp = {
                 end
             end
         },
+
+        Table = {
+            ---@generic K
+            ---@generic V
+            ---@param table table<K, V>
+            ---@return table<K,V>
+            Copy = function (table)
+                local newTable = {}
+                for k, v in pairs(table) do
+                    newTable[k] = v
+                end
+                return newTable
+            end
+        },
+
         String = {
+            ExtractNumber = function (text)
+                return tonumber(string.match(text, "%d+") or 0)
+            end,
+
             Random = function()
-                local charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                local charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 local result = ""
-                for i = 1, 12 do
+                for i = 1, 24 do
                     local rand = math.random(1, #charset)
                     result = result .. charset:sub(rand, rand)
                 end
                 return result
             end,
+
             FromWString = function(text)
                 if type(text) == "string" then
                     return text
@@ -1946,6 +2046,7 @@ UusCorp = {
                     return UusCorp.Api.String.WStringToString(text)
                 end
             end,
+
             ToWString = function(text)
                 if type(text) == "number" then
                     return UusCorp.Api.String.GetStringFromTid(text)
@@ -1957,6 +2058,7 @@ UusCorp = {
                     return UusCorp.Api.String.StringToWString(tostring(text))
                 end
             end,
+
             Lower = function(text)
                 if type(text) == "string" then
                     return string.lower(text)
@@ -1964,6 +2066,7 @@ UusCorp = {
                     return string.lower(UusCorp.Utils.String.FromWString(text))
                 end
             end,
+
             Upper = function(text)
                 if type(text) == "string" then
                     return string.upper(text)
@@ -1978,7 +2081,7 @@ UusCorp = {
         Windows = {},
         OnInitialize = function()
             local window = UusCorp.EventHandler.Windows[Active.window()]
-            window.events.onInitialize()
+            window.events.onInitialize(UusCorp.Data.System(), UusCorp.Data.Window())
         end,
         OnShutdown = function()
             local window = UusCorp.EventHandler.Windows[Active.window()]
@@ -2012,6 +2115,10 @@ UusCorp = {
         OnUpdate = function (timePassed)
             local window = UusCorp.EventHandler.Windows[Active.window()]
             window.events.onUpdate(timePassed, UusCorp.Data.System(), UusCorp.Data.Window())
+        end,
+        OnUpdateMobileName = function ()
+            local window = UusCorp.EventHandler.Windows[Active.window()]
+            window.events.onUpdateMobileName()
         end
     }
 }

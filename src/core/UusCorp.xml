@@ -6,6 +6,8 @@
             </TextColors>
         </Button>
 
+        <Button name="UusCorpButton18" inherits="UusCorpButton" font="inter_medium_18"/>
+
         <Label name="UusCorpLabel" font="inter_medium_18">
             <Size>
                 <AbsPoint x="54" y="18" />
@@ -21,16 +23,16 @@
                 <!-- Body background -->
                 <FullResizeImage name="$parentBackground" inherits="UO_Simple_Black_Background">
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft"/>
-                        <Anchor point="bottomright" relativePoint="bottomright"/>
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent"/>
                     </Anchors>
                 </FullResizeImage>
 
                 <!-- Inner Frame Boilerplate -->
                 <FullResizeImage name="$parentFrame" inherits="UO_Simple_Frame" layer="background" frameonly="true">
                     <Anchors>
-                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parent"/>
-                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parent" />
+                        <Anchor point="topleft" relativePoint="topleft" relativeTo="$parentBackground"/>
+                        <Anchor point="bottomright" relativePoint="bottomright" relativeTo="$parentBackground" />
                     </Anchors>
                 </FullResizeImage>
                 <!-- End of Inner Frame Boilerplate -->

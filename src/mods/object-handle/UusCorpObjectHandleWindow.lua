@@ -1,4 +1,51 @@
 UusCorpObjectHandleWindow = {}
+
+local function Label(index)
+    return UusCorp.Interface.Button {
+        template = "UusCorpButton18",
+        events = {
+            ---@param self Button
+            OnInitialize = function (self, _, windowData)
+                local name = tostring(windowData.ObjectHandle.Names[index])
+                name = name:sub(1, 32)
+                self.setText(name)
+                local parent = self.getParent()
+                self.setDimensions(#name * 11, 32)
+                parent.setDimensions(#name * 11, 36)
+            end,
+
+            OnRButtonUp = function (self, flags, x, y)
+                self.getParent().destroy()
+            end
+        }
+    }
+end
+
+local function Handle(id)
+    return UusCorp.Interface.Window {
+        name = "ObjectHandleWindow" .. id,
+        events = {
+            OnInitialize = function (self, _, windowData)
+                self.setAlpha(0.75)
+                local index = UusCorp.Utils.Array.IndexOf(
+                    windowData.ObjectHandle.ObjectId,
+                    function (item)
+                        return item == self.getId()
+                    end
+                )
+                self.setChildren { Label(index) }
+                self.attachToObject()
+            end,
+
+            OnUpdate = function (self)
+                if not UusCorp.Api.Object.IsValid(self.getId()) then
+                    self.destroy()
+                end
+            end
+        }
+    }
+end
+
 UusCorpObjectHandleWindow.Name = "ObjectHandleWindow"
 UusCorpObjectHandleWindow.Label = "Name"
 
@@ -8,106 +55,41 @@ function UusCorpObjectHandleWindow.initialize()
         "UusCorpObjectHandleWindow.xml"
     )
 
-    ObjectHandleWindow.CreateObjectHandles = function ()
-        for i = 1, #ObjectHandles.objectId() do
-            local id = ObjectHandles.objectId()[i]
-
-            if ObjectApi.isValid(id) then
-                WindowApi.createFromTemplate(
-                    UusCorpObjectHandleWindow.Name .. id,
-                    UusCorpObjectHandleWindow.Name,
-                    "Root"
-                )
+    UusCorp.Interface.Defaults.ObjectHandleWindow.CreateObjectHandles = function ()
+        UusCorp.Utils.Array.ForEach(
+            UusCorp.Data.Window().ObjectHandle.ObjectId,
+            function (item, _)
+                if UusCorp.Api.Object.IsValid(item) then
+                    Handle(item).create()
+                end
             end
-        end
+        )
     end
 
-    ObjectHandleWindow.DestroyObjectHandles = function ()
-        for i = 1, #ObjectHandles.objectId() do
-            local id =  ObjectHandles.objectId()[i]
-            if  ObjectApi.isValid(id) then
-                WindowApi.destroyWindow(
-                    UusCorpObjectHandleWindow.Name .. id
-                )
+    UusCorp.Interface.Defaults.ObjectHandleWindow.DestroyObjectHandles = function ()
+        UusCorp.Utils.Array.ForEach(
+            UusCorp.Data.Window().ObjectHandle.ObjectId,
+            function (item, _)
+                UusCorp.Api.Window.Destroy(UusCorpObjectHandleWindow.Name .. item)
             end
-        end
+        )
     end
 
-    local itemProperties = UusCorpCore.copyTable(ItemProperties)
+    local copy = UusCorp.Utils.Table.Copy(UusCorp.Interface.Defaults.ItemProperties --[[@as table]])
 
-    function ItemProperties.UpdateItemPropertiesData()
+    UusCorp.Interface.Defaults.ItemProperties = function ()
         if (string.find(Active.mouseOverWindow(), UusCorpObjectHandleWindow.Name)) then
             ItemPropertiesData.clearActiveItem()
         else
-            itemProperties.UpdateItemPropertiesData()
+            copy--[[@as ItemProperties]].UpdateItemPropertiesData()
         end
     end
-end
-
-function UusCorpObjectHandleWindow.onInitialize()
-    local window = Active.window()
-    local id = tonumber(string.gsub(window, UusCorpObjectHandleWindow.Name, ""), 10)
-    WindowApi.setId(window, id)
-
-    local index = 0
-
-    for i = 1, #ObjectHandles.objectId() do
-        local objectId = ObjectHandles.objectId()[i]
-        if objectId == id then
-            index = i
-            break
-        end
-    end
-
-    LabelApi.setText(
-        window .. UusCorpObjectHandleWindow.Label,
-        ObjectHandles.names()[index]
-    )
-
-    local notoriety = Colors.Notoriety[ObjectHandles.notoriety()[index]]
-
-    LabelApi.setTextColor(
-        window .. UusCorpObjectHandleWindow.Label,
-        notoriety or Colors.OffWhite
-    )
-
-    WindowApi.attachWindowToWorldObject(
-        id,
-        window
-    )
-
-    local x, y = WindowApi.getDimensions(
-        window .. UusCorpObjectHandleWindow.Label
-    )
-
-    WindowApi.setDimensions(
-        window,
-        x,
-        y
-    )
-end
-
-function UusCorpObjectHandleWindow.onUpdate()
-    if not ObjectApi.isValid(WindowApi.getId(Active.window())) then
-        WindowApi.destroyWindow(Active.window())
-    end
-end
-
-function UusCorpObjectHandleWindow.onRightClick()
-    WindowApi.destroyWindow(Active.window())
 end
 
 function UusCorpObjectHandleWindow.onDoubleClick()
     UserActionApi.useItem(
         WindowApi.getId(Active.window()),
         false
-    )
-end
-
-function UusCorpObjectHandleWindow.onShutdown()
-    WindowApi.detachWindowFromWorldObject(
-        WindowApi.getId(Active.window()),
-        Active.window()
     )
 end
 
