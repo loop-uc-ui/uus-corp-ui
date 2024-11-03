@@ -1,4 +1,6 @@
-UusCorpObjectHandleWindow = {}
+UusCorpObjectHandleWindow = {
+    Name = "ObjectHandleWindow"
+}
 
 local function Label(index, id)
     return UusCorp.Interface.Button {
@@ -50,7 +52,7 @@ end
 
 local function Handle(id)
     return UusCorp.Interface.Window {
-        name = "ObjectHandleWindow" .. id,
+        name = UusCorpObjectHandleWindow.Name .. id,
         events = {
             OnInitialize = function (self)
                 self.setAlpha(0.65)
@@ -75,15 +77,7 @@ local function Handle(id)
     }
 end
 
-UusCorpObjectHandleWindow.Name = "ObjectHandleWindow"
-UusCorpObjectHandleWindow.Label = "Name"
-
 function UusCorpObjectHandleWindow.initialize()
-    UusCorpCore.loadResources(
-        "/src/mods/object-handle",
-        "UusCorpObjectHandleWindow.xml"
-    )
-
     UusCorp.Interface.Defaults.ObjectHandleWindow.CreateObjectHandles = function ()
         UusCorp.Utils.Array.ForEach(
             UusCorp.Data.Window().ObjectHandle.ObjectId,
@@ -107,27 +101,10 @@ function UusCorpObjectHandleWindow.initialize()
     local copy = UusCorp.Utils.Table.Copy(UusCorp.Interface.Defaults.ItemProperties --[[@as table]])
 
     UusCorp.Interface.Defaults.ItemProperties = function ()
-        if (string.find(Active.mouseOverWindow(), UusCorpObjectHandleWindow.Name)) then
+        if (string.find(UusCorp.Data.System().MouseOverWindow.name, UusCorpObjectHandleWindow.Name)) then
             ItemPropertiesData.clearActiveItem()
         else
             copy--[[@as ItemProperties]].UpdateItemPropertiesData()
         end
-    end
-end
-
-function UusCorpObjectHandleWindow.onDoubleClick()
-    UserActionApi.useItem(
-        WindowApi.getId(Active.window()),
-        false
-    )
-end
-
-function UusCorpObjectHandleWindow.onMouseDrag()
-    local id = WindowApi.getId(Active.window())
-    if ObjectApi.isMobile(id) then
-        Active.setMobile(id)
-        EventApi.broadcast(Events.beginHealthBarDrag())
-    elseif ObjectApi.isValid(id) then
-        DragApi.setObjectMouseClickData(id, Drag.sourceObject())
     end
 end

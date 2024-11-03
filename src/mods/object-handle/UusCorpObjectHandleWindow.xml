@@ -1,5 +1,0 @@
-<Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
-	<Windows>
-        <Button name="UusCorpObjectHandleButton" inherits="UusCorpButton" autoresizewidth="true"/>
-    </Windows>
-</Interface>

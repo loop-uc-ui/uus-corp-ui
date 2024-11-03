@@ -2001,6 +2001,10 @@ UusCorp = {
                 name = "ResizeWindow"
             },
 
+            RootWindow = {
+                name = "Root"
+            },
+
             ---@class ObjectHandleWindow
             ---@field CreateObjectHandles fun()
             ---@field DestroyObjectHandles fun()
@@ -2008,7 +2012,11 @@ UusCorp = {
 
             ---@class ItemProperties
             ---@field UpdateItemPropertiesData fun()
-            ItemProperties = ItemProperties
+            ItemProperties = ItemProperties,
+
+            ---@class ItemPropertiesData
+            ---@field clearActiveItem fun()
+            ItemPropertiesData = ItemPropertiesData
         },
         ---@param model WindowModel?
         ---@return Window
