@@ -418,6 +418,7 @@
 ---@field OnRButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnUpdate fun(self: Window, timePassed: integer, systemData: SystemData, windowData: WindowData)?
 ---@field OnUpdateMobileName fun(self: Window, windowData: MobileName)?
+---@field OnLButtonDblClk fun(self: Window, flags: integer, x: integer, y: integer)?
 
 ---@class SystemData
 ---@field TrackingPointer SystemData.TrackingPointer
@@ -958,8 +959,21 @@ local Window = function (model)
 
             UusCorp.Utils.Array.ForEach(
                 _children,
-                function (item, index)
+                function (item, _)
                     item.events.onUpdateMobileName()
+                end
+            )
+        end,
+
+        onLButtonDblClk = function (flags, x, y)
+            if _events.OnLButtonDblClk ~= nil then
+                _events.OnLButtonDblClk(window, flags, x, y)
+            end
+
+            UusCorp.Utils.Array.ForEach(
+                _children,
+                function (item,  _)
+                    item.events.onLButtonDblClk(flags, x, y)
                 end
             )
         end
@@ -1900,7 +1914,8 @@ UusCorp = {
             OnLButtonDown = "OnLButtonDown",
             OnRButtonUp = "OnRButtonUp",
             OnRButtonDown = "OnRButtonDown",
-            OnUpdate = "OnUpdate"
+            OnUpdate = "OnUpdate",
+            OnLButtonDblClk = "OnLButtonDblClk"
         },
         AnchorPoints = {
             BottomLeft = "bottomleft",
@@ -2119,6 +2134,10 @@ UusCorp = {
         OnUpdateMobileName = function ()
             local window = UusCorp.EventHandler.Windows[Active.window()]
             window.events.onUpdateMobileName()
+        end,
+        OnLButtonDblClk = function (flags, x, y)
+            local window = UusCorp.EventHandler.Windows[Active.window()]
+            window.events.onLButtonDblClk(flags, x, y)
         end
     }
 }

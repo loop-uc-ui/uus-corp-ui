@@ -1,6 +1,6 @@
 UusCorpObjectHandleWindow = {}
 
-local function Label(index)
+local function Label(index, id)
     return UusCorp.Interface.Button {
         template = "UusCorpButton18",
         events = {
@@ -12,10 +12,18 @@ local function Label(index)
                 local parent = self.getParent()
                 self.setDimensions(#name * 11, 32)
                 parent.setDimensions(#name * 11, 36)
+                self.setId(id)
             end,
 
-            OnRButtonUp = function (self, flags, x, y)
+            OnRButtonUp = function (self)
                 self.getParent().destroy()
+            end,
+
+            OnLButtonDblClk = function (self)
+                UusCorp.Api.UserAction.UseItem(
+                    self.getId(),
+                    false
+                )
             end
         }
     }
@@ -33,7 +41,8 @@ local function Handle(id)
                         return item == self.getId()
                     end
                 )
-                self.setChildren { Label(index) }
+                local label = Label(index, id)
+                self.setChildren { label }
                 self.attachToObject()
             end,
 
