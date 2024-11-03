@@ -34,6 +34,15 @@ local function Label(index, id)
             OnMouseOverEnd = function (self)
                 self.getParent().setAlpha(0.65)
                 self.getParent().setLayer(UusCorp.Constants.WindowLayers.Background)
+            end,
+
+            OnMouseDrag = function (_)
+                if UusCorp.Api.Object.IsMobile(id) then
+                    UusCorp.Data.System().ActiveMobile.Id = id
+                    UusCorp.Api.Event.Broadcast(UusCorp.Constants.Broadcasts.BeginHealthBarDrag())
+                elseif UusCorp.Api.Object.IsValid(id) then
+                    UusCorp.Api.Drag.SetObjectMouseClickData(id, UusCorp.Constants.DragSource.Object())
+                end
             end
         }
     }

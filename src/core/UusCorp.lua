@@ -421,6 +421,7 @@
 ---@field OnLButtonDblClk fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnMouseOver fun(self: Window)?
 ---@field OnMouseOverEnd fun(self: Window)?
+---@field OnMouseDrag fun(self: Window)?
 
 ---@class SystemData
 ---@field TrackingPointer SystemData.TrackingPointer
@@ -994,6 +995,12 @@ local Window = function (model)
         onMouseOverEnd = function ()
             if _events.OnMouseOverEnd ~= nil then
                 _events.OnMouseOverEnd(window)
+            end
+        end,
+
+        onMouseDrag = function ()
+            if _events.OnMouseDrag ~= nil then
+                _events.OnMouseDrag(window)
             end
         end
     }
@@ -1908,10 +1915,23 @@ UusCorp = {
         end
     },
     Constants = {
+        DragSource = {
+            Object = function ()
+                return UusCorp.Data.System().DragSource["SOURCETYPE_OBJECT"]
+            end
+        },
         TargetType = {
             Mobile = 2,
             Object = 3,
             Corpse = 4
+        },
+        Broadcasts = {
+            Help = function ()
+                return UusCorp.Data.System().Events["REQUEST_OPEN_HELP_MENU"]
+            end,
+            BeginHealthBarDrag = function ()
+                return UusCorp.Data.System().Events["BEGIN_DRAG_HEALTHBAR_WINDOW"]
+            end
         },
         DataEvents = {
             OnUpdateMobileName = {
@@ -1936,7 +1956,8 @@ UusCorp = {
             OnUpdate = "OnUpdate",
             OnLButtonDblClk = "OnLButtonDblClk",
             OnMouseOver = "OnMouseOver",
-            OnMouseOverEnd = "OnMouseOverEnd"
+            OnMouseOverEnd = "OnMouseOverEnd",
+            OnMouseDrag = "OnMouseDrag"
         },
         AnchorPoints = {
             BottomLeft = "bottomleft",
@@ -2174,6 +2195,10 @@ UusCorp = {
         OnMouseOverEnd = function ()
             local window = UusCorp.EventHandler.Windows[Active.window()]
             window.events.onMouseOverEnd()
+        end,
+        OnMouseDrag = function ()
+            local window = UusCorp.EventHandler.Windows[Active.window()]
+            window.events.onMouseDrag()
         end
     }
 }

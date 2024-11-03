@@ -10,7 +10,10 @@ local Label = function ()
             end,
 
             ---@param self Label
-            OnUpdate = function (self, _, systemData, windowData)
+            OnUpdate = function (self)
+                local systemData = UusCorp.Data.System()
+                local windowData = UusCorp.Data.Window()
+
                 if not windowData.Cursor.target then
                     self.setText("")
                     return
