@@ -24,6 +24,16 @@ local function Label(index, id)
                     self.getId(),
                     false
                 )
+            end,
+
+            OnMouseOver = function (self)
+                self.getParent().setAlpha(1.0)
+                self.getParent().setLayer(UusCorp.Constants.WindowLayers.Default)
+            end,
+
+            OnMouseOverEnd = function (self)
+                self.getParent().setAlpha(0.50)
+                self.getParent().setLayer(UusCorp.Constants.WindowLayers.Background)
             end
         }
     }
@@ -34,7 +44,8 @@ local function Handle(id)
         name = "ObjectHandleWindow" .. id,
         events = {
             OnInitialize = function (self, _, windowData)
-                self.setAlpha(0.75)
+                self.setAlpha(0.50)
+                self.setLayer(UusCorp.Constants.WindowLayers.Background)
                 local index = UusCorp.Utils.Array.IndexOf(
                     windowData.ObjectHandle.ObjectId,
                     function (item)

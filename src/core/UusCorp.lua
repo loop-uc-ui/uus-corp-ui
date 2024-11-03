@@ -419,6 +419,8 @@
 ---@field OnUpdate fun(self: Window, timePassed: integer, systemData: SystemData, windowData: WindowData)?
 ---@field OnUpdateMobileName fun(self: Window, windowData: MobileName)?
 ---@field OnLButtonDblClk fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnMouseOver fun(self: Window)?
+---@field OnMouseOverEnd fun(self: Window)?
 
 ---@class SystemData
 ---@field TrackingPointer SystemData.TrackingPointer
@@ -576,7 +578,8 @@ local Window = function (model)
 
     ---@return Window
     window.getParent = function ()
-        return UusCorp.Interface.Window { name = UusCorp.Api.Window.GetParent(_name) }
+        return UusCorp.EventHandler.Windows[UusCorp.Api.Window.GetParent(_name)] or
+            UusCorp.Interface.Window { name = UusCorp.Api.Window.GetParent(_name) }
     end
 
     window.setParent = function (parent)
@@ -625,6 +628,10 @@ local Window = function (model)
 
     window.setAlpha = function (alpha)
         UusCorp.Api.Window.SetAlpha(_name, alpha)
+    end
+
+    window.setLayer = function (layer)
+        UusCorp.Api.Window.SetLayer(_name, layer)
     end
 
     window.getScale = function ()
@@ -830,13 +837,13 @@ local Window = function (model)
         onShutdown = function ()
             window.savePosition()
 
-            if _events.OnShutdown ~= nil then
-                _events.OnShutdown(window)
-            end
-
             UusCorp.Utils.Array.ForEach(_children, function (item)
                 item:destroy()
             end)
+
+            if _events.OnShutdown ~= nil then
+                _events.OnShutdown(window)
+            end
         end,
 
         onLButtonUp = function (flags, x, y)
@@ -976,6 +983,18 @@ local Window = function (model)
                     item.events.onLButtonDblClk(flags, x, y)
                 end
             )
+        end,
+
+        onMouseOver = function ()
+            if _events.OnMouseOver ~= nil then
+                _events.OnMouseOver(window)
+            end
+        end,
+
+        onMouseOverEnd = function ()
+            if _events.OnMouseOverEnd ~= nil then
+                _events.OnMouseOverEnd(window)
+            end
         end
     }
 
@@ -1915,7 +1934,9 @@ UusCorp = {
             OnRButtonUp = "OnRButtonUp",
             OnRButtonDown = "OnRButtonDown",
             OnUpdate = "OnUpdate",
-            OnLButtonDblClk = "OnLButtonDblClk"
+            OnLButtonDblClk = "OnLButtonDblClk",
+            OnMouseOver = "OnMouseOver",
+            OnMouseOverEnd = "OnMouseOverEnd"
         },
         AnchorPoints = {
             BottomLeft = "bottomleft",
@@ -1926,6 +1947,13 @@ UusCorp = {
         },
         WindowNames = {
             Root = "Root"
+        },
+        WindowLayers = {
+            Background = 0,
+            Default = 1,
+            Secondary = 2,
+            Popup = 3,
+            Overlay = 4
         },
         ButtonStates = {
             Normal = 0,
@@ -2138,6 +2166,14 @@ UusCorp = {
         OnLButtonDblClk = function (flags, x, y)
             local window = UusCorp.EventHandler.Windows[Active.window()]
             window.events.onLButtonDblClk(flags, x, y)
+        end,
+        OnMouseOver = function ()
+            local window = UusCorp.EventHandler.Windows[Active.window()]
+            window.events.onMouseOver()
+        end,
+        OnMouseOverEnd = function ()
+            local window = UusCorp.EventHandler.Windows[Active.window()]
+            window.events.onMouseOverEnd()
         end
     }
 }
