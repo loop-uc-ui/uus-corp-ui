@@ -408,7 +408,7 @@
 ---@field Name string
 
 ---@class Events
----@field OnInitialize fun(self: Window, systemData: SystemData, windowData: WindowData)?
+---@field OnInitialize fun(self: Window)?
 ---@field OnLButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnRButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnShutdown fun(self: Window)?
@@ -416,7 +416,7 @@
 ---@field OnShown fun(self: Window)?
 ---@field OnLButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnRButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnUpdate fun(self: Window, timePassed: integer, systemData: SystemData, windowData: WindowData)?
+---@field OnUpdate fun(self: Window, timePassed: integer)?
 ---@field OnUpdateMobileName fun(self: Window, windowData: MobileName)?
 ---@field OnLButtonDblClk fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnMouseOver fun(self: Window)?
@@ -780,7 +780,7 @@ local Window = function (model)
     end
 
     window.events = {
-        onInitialize = function (systemData, windowData)
+        onInitialize = function ()
             local id = UusCorp.Utils.String.ExtractNumber(_name)
 
             if id ~= 0 then
@@ -807,7 +807,7 @@ local Window = function (model)
             )
 
             if _events.OnInitialize ~= nil then
-                _events.OnInitialize(window, systemData, windowData)
+                _events.OnInitialize(window)
             end
 
             window.restorePosition()
@@ -817,7 +817,7 @@ local Window = function (model)
                 function (item, index)
                     item.create(true)
                     item.setParent(_name)
-                    item.events.onInitialize(systemData, windowData)
+                    item.events.onInitialize()
                     if index > 1 then
                         item.addAnchor(
                             "bottomleft",
@@ -2124,7 +2124,7 @@ UusCorp = {
         Windows = {},
         OnInitialize = function()
             local window = UusCorp.EventHandler.Windows[Active.window()]
-            window.events.onInitialize(UusCorp.Data.System(), UusCorp.Data.Window())
+            window.events.onInitialize()
         end,
         OnShutdown = function()
             local window = UusCorp.EventHandler.Windows[Active.window()]
@@ -2157,7 +2157,7 @@ UusCorp = {
         end,
         OnUpdate = function (timePassed)
             local window = UusCorp.EventHandler.Windows[Active.window()]
-            window.events.onUpdate(timePassed, UusCorp.Data.System(), UusCorp.Data.Window())
+            window.events.onUpdate(timePassed)
         end,
         OnUpdateMobileName = function ()
             local window = UusCorp.EventHandler.Windows[Active.window()]

@@ -80,6 +80,7 @@ UusCorpMainMenuWindow = UusCorp.Interface.Window {
                 Button(
                     1061037,
                     function ()
+                        UusCorp.Api.Event.Broadcast(Events.help())
                         EventApi.broadcast(Events.help())
                         self.setShowing(false)
                     end

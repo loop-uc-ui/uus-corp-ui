@@ -5,8 +5,8 @@ local function Label(index, id)
         template = "UusCorpButton18",
         events = {
             ---@param self Button
-            OnInitialize = function (self, _, windowData)
-                local name = tostring(windowData.ObjectHandle.Names[index])
+            OnInitialize = function (self)
+                local name = tostring(UusCorp.Data.Window().ObjectHandle.Names[index])
                 name = name:sub(1, 32)
                 self.setText(name)
                 local parent = self.getParent()
@@ -32,7 +32,7 @@ local function Label(index, id)
             end,
 
             OnMouseOverEnd = function (self)
-                self.getParent().setAlpha(0.50)
+                self.getParent().setAlpha(0.65)
                 self.getParent().setLayer(UusCorp.Constants.WindowLayers.Background)
             end
         }
@@ -43,11 +43,11 @@ local function Handle(id)
     return UusCorp.Interface.Window {
         name = "ObjectHandleWindow" .. id,
         events = {
-            OnInitialize = function (self, _, windowData)
-                self.setAlpha(0.50)
+            OnInitialize = function (self)
+                self.setAlpha(0.65)
                 self.setLayer(UusCorp.Constants.WindowLayers.Background)
                 local index = UusCorp.Utils.Array.IndexOf(
-                    windowData.ObjectHandle.ObjectId,
+                    UusCorp.Data.Window().ObjectHandle.ObjectId,
                     function (item)
                         return item == self.getId()
                     end
