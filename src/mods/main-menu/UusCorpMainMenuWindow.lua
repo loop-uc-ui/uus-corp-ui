@@ -99,38 +99,3 @@ UusCorpMainMenuWindow = UusCorp.Interface.Window {
         end
     }
 }
-
-function UusCorpMainMenuWindow.initialize()
-    WindowApi.destroyWindow("BugReportWindow")
-
-    WindowApi.unregisterEventHandler(
-        "Root",
-        Events.bugReport()
-    )
-
-    function InterfaceCore.OnExitGame()
-        EventApi.broadcast(Events.exitGame())
-    end
-
-    function Actions.ToggleMainMenu()
-        if Cursor.hasTarget() or CurrentTarget.hasTarget() then
-            return
-        end
-
-        WindowApi.setShowing(
-            UusCorpMainMenuWindow:getName(),
-            not WindowApi.isShowing(UusCorpMainMenuWindow:getName())
-        )
-    end
-
-    WindowApi.registerEventHandler(
-        "Root",
-        Events.onEscape(),
-        "Actions.ToggleMainMenu"
-    )
-
-    -- Destroy the old main menu menu, so our custom one
-    -- takes precendence
-    WindowApi.destroyWindow("MainMenuWindow")
-    UusCorpMainMenuWindow.create(false)
-end

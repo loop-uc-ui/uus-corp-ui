@@ -603,8 +603,8 @@ local Window = function (model)
         UusCorp.Api.Window.RegisterEventHandler(_name, event, callback)
     end
 
-    window.unregisterEventHandler = function (event, callback)
-        UusCorp.Api.Window.RegisterEventHandler(_name, event, callback)
+    window.unregisterEventHandler = function (event)
+        UusCorp.Api.Window.UnregisterEventHandler(_name, event)
     end
 
     window.isMoving = function ()
@@ -1931,6 +1931,15 @@ UusCorp = {
             end,
             BeginHealthBarDrag = function ()
                 return UusCorp.Data.System().Events["BEGIN_DRAG_HEALTHBAR_WINDOW"]
+            end,
+            BugReport = function ()
+                return UusCorp.Data.System().Events["BUG_REPORT_SCREEN"]
+            end,
+            ExitGame = function ()
+                return UusCorp.Data.System().Events["EXIT_GAME"]
+            end,
+            EscapeKeyProcessed = function ()
+                return UusCorp.Data.System().Events["ESCAPE_KEY_PROCESSED"]
             end
         },
         DataEvents = {
@@ -2001,8 +2010,16 @@ UusCorp = {
                 name = "ResizeWindow"
             },
 
-            RootWindow = {
+            RootWindow = Window {
                 name = "Root"
+            },
+
+            MainMenuWindow = Window {
+                name = "MainMenuWindow"
+            },
+
+            BugReportWindow = Window {
+                name = "BugReportWindow"
             },
 
             ---@class ObjectHandleWindow
@@ -2016,7 +2033,15 @@ UusCorp = {
 
             ---@class ItemPropertiesData
             ---@field clearActiveItem fun()
-            ItemPropertiesData = ItemPropertiesData
+            ItemPropertiesData = ItemPropertiesData,
+
+            ---@class InterfaceCore
+            ---@field OnExitGame fun()
+            InterfaceCore = InterfaceCore,
+
+            ---@class Actions
+            ---@field ToggleMainMenu fun()
+            Actions = Actions
         },
         ---@param model WindowModel?
         ---@return Window

@@ -11,10 +11,11 @@
 
 		<Files>
 			<File name="UusCorpMainMenuWindow.lua" />
+			<File name="UusCorpMainMenuMod.lua" />
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpMainMenuWindow.initialize" />
+			<CallFunction name="UusCorpMainMenuMod.Initialize" />
 		</OnInitialize>
 	</UiMod>
 </ModuleFile>
