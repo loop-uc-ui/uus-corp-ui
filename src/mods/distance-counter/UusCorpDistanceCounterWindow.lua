@@ -82,7 +82,3 @@ UusCorpDistanceCounterWindow = UusCorp.Interface.Window {
         end
     }
 }
-
-function UusCorpDistanceCounterWindow.initialize()
-    UusCorpDistanceCounterWindow.create(true)
-end
