@@ -14,7 +14,7 @@
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpResizeMod.onInitialize" />
+			<CallFunction name="UusCorpResizeMod.OnInitialize" />
 		</OnInitialize>
 		
 	</UiMod>

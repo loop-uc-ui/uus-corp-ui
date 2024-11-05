@@ -1064,6 +1064,36 @@ local Label = function (model)
     return label
 end
 
+---@class ModModel
+---@field OnInitialize fun(self: Mod)
+---@field Name string
+---@field Path string
+
+---@param model ModModel
+---@return Mod
+local Mod = function (model)
+    ---@class Mod
+    local mod = {}
+
+    mod.OnInitialize = function ()
+        model.OnInitialize(mod)
+    end
+
+    mod.Initialize = function ()
+        UusCorp.Api.Mod.Initialize(model.Name)
+    end
+
+    mod.LoadResource = function (file)
+        UusCorp.Api.Mod.LoadResources(
+            "Data/Interface/Default/uus-corp-ui" .. model.Path,
+            SystemData.Directories.Interface .. "/" .. SystemData.Settings.Interface.customUiName .. model.Path,
+            file
+        )
+    end
+
+    return mod
+end
+
 UusCorp = {
     Api = {
         Ability = {
@@ -1408,6 +1438,9 @@ UusCorp = {
             end
         },
         Mod = {
+            LoadResources = function(path, file, resource)
+                LoadResources(path, file, resource)
+            end,
             SetEnabled = function(moduleName, isEnabled)
                 ModuleSetEnabled(moduleName, isEnabled)
             end,
@@ -1507,11 +1540,6 @@ UusCorp = {
             end,
             GetAreaCount = function(facet)
                 return UORadarGetAreaCount(facet)
-            end
-        },
-        Resources = {
-            LoadResources = function(path, file, resource)
-                LoadResources(path, file, resource)
             end
         },
         ScrollWindow = {
@@ -2233,5 +2261,6 @@ UusCorp = {
             local window = UusCorp.EventHandler.Windows[Active.window()]
             window.events.onMouseDrag()
         end
-    }
+    },
+    Mod = Mod
 }

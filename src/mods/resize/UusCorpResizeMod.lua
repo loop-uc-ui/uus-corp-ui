@@ -1,30 +1,37 @@
-UusCorpResizeMod = {}
+UusCorpResizeMod = UusCorp.Mod {
+    Name = "UusCorpResize",
 
-function UusCorpResizeMod.onInitialize()
-    UusCorpCore.loadResources(
-        "/src/mods/resize",
-        "UusCorpResizeWindow.xml"
-    )
+    Path = "/src/mods/resize",
 
-    WindowApi.setShowing("ResizeWindowFrame", false)
+    OnInitialize = function (self)
+        self.LoadResource("UusCorpResizeWindow.xml")
+        UusCorp.Api.Window.SetShowing("ResizeWindowFrame", false)
+        UusCorp.Api.Window.CreateFromTemplate(
+            "UusCorpResizeWindowFrame",
+            "UusCorpResizeFrame",
+            "Root",
+            true
+        )
+        UusCorp.Api.Window.Destroy("ResizeWindowResizeButton")
+        UusCorp.Api.Window.CreateFromTemplate(
+            "ResizeWindowResizeButton",
+            "UusCorpResizeButton",
+            "Root",
+            true
+        )
 
-    WindowApi.createFromTemplate(
-        "UusCorpResizeWindowFrame",
-        "UusCorpResizeFrame",
-        "Root"
-    )
-
-    WindowApi.destroyWindow("ResizeWindowResizeButton")
-
-    WindowApi.createFromTemplate(
-        "ResizeWindowResizeButton",
-        "UusCorpResizeButton",
-        "Root"
-    )
-
-    WindowApi.setParent("ResizeWindowLock", "Root")
-    WindowApi.clearAnchors("ResizeWindowLock")
-    WindowApi.setLayer("ResizeWindowLock", Window.Layers.DEFAULT)
-    WindowApi.addAnchor("ResizeWindowLock", "left", "ResizeWindowResizeButton", "right", -3, -3)
-    WindowApi.unregisterCoreEventHandler("ResizeWindowLock", "OnMouseOver")
-end
+        local lock = "ResizeWindowLock"
+        UusCorp.Api.Window.SetParent(lock, "Root")
+        UusCorp.Api.Window.ClearAnchors(lock)
+        UusCorp.Api.Window.SetLayer(lock, UusCorp.Constants.WindowLayers.Default)
+        UusCorp.Api.Window.AddAnchor(
+            lock,
+            "left",
+            "ResizeWindowResizeButton",
+            "right",
+            -3,
+            -3
+        )
+        UusCorp.Api.Window.UnregisterCoreEventHandler(lock, UusCorp.Constants.CoreEvents.OnMouseOver)
+    end
+}
