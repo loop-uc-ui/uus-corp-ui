@@ -724,7 +724,7 @@ local Window = function (model)
     end
 
     window.addAnchor = function (anchorPoint, relativeTo, relativePoint, x, y)
-        UusCorp.Api.Window.AddAnchor(_name, anchorPoint, relativeTo, relativePoint, x, y)
+        UusCorp.Api.Window.AddAnchor(_name, anchorPoint, relativeTo, relativePoint, x or 0, y or 0)
     end
 
     window.anchorToParenTop = function (x, y)
@@ -2151,6 +2151,9 @@ UusCorp = {
                 g = 217,
                 b = 242
             }
+        },
+        TextAlignment = {
+            Center = "center"
         }
     },
     Interface = {

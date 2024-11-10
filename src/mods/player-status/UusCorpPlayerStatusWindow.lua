@@ -10,21 +10,20 @@ local function Name(id)
             ---@param self Label
             OnUpdateMobileStatus = function (self, mobileStatus)
                 self.matchParentWidth(0.9)
-                self.setTextAlignment("center")
+                self.setTextAlignment(UusCorp.Constants.TextAlignment.Center)
                 self.setText(mobileStatus.MobName)
             end
         }
     }
 end
 
-local function HealthStatusBar(id, onInit)
+local function HealthStatusBar(id)
     return UusCorp.Interface.StatusBar {
         events = {
             ---@param self StatusBar
             OnInitialize = function (self)
                 self.setId(id)
                 self.setForegroundTint(Colors.Red)
-                onInit()
             end,
 
             ---@param self StatusBar
@@ -37,14 +36,33 @@ local function HealthStatusBar(id, onInit)
     }
 end
 
-local function ManaStatusBar(id, onInit)
+---@param id integer
+---@param onUpdate fun(self: Label, playerStatus: WindowData.PlayerStatus)
+---@return Label
+local function StatusLabel(id, onUpdate)
+    return UusCorp.Interface.Label {
+        events = {
+            OnInitialize = function (self)
+                self.setId(id)
+            end,
+
+            ---@param self Label
+            OnUpdatePlayerStatus = function (self, playerStatus)
+                self.setTextAlignment(UusCorp.Constants.TextAlignment.Center)
+                self.matchParentWidth(0.9)
+                onUpdate(self, playerStatus)
+            end
+        }
+    }
+end
+
+local function ManaStatusBar(id)
     return UusCorp.Interface.StatusBar {
         events = {
             ---@param self StatusBar
             OnInitialize = function (self)
                 self.setId(id)
                 self.setForegroundTint(Colors.Blue)
-                onInit()
             end,
 
             ---@param self StatusBar
@@ -57,14 +75,13 @@ local function ManaStatusBar(id, onInit)
     }
 end
 
-local function StaminaStatusBar(id, onInit)
+local function StaminaStatusBar(id)
     return UusCorp.Interface.StatusBar {
         events = {
             ---@param self StatusBar
             OnInitialize = function (self)
                 self.setId(id)
                 self.setForegroundTint(Colors.YellowDark)
-                onInit()
             end,
 
             ---@param self StatusBar
@@ -84,21 +101,36 @@ function UusCorpPlayerStatusWindow()
             OnInitialize = function (self)
                 local id = UusCorp.Data.Window().PlayerStatus.PlayerId
                 local name = Name(id)
-                local health = HealthStatusBar(id, function ()
-                    
+
+                local health = HealthStatusBar(id)
+                local healthLabel = StatusLabel(id, function (label, playerStatus)
+                    label.setText(playerStatus.CurrentHealth .. "/" .. playerStatus.MaxHealth)
+                    label.clearAnchors()
+                    label.addAnchor(UusCorp.Constants.AnchorPoints.Center, health.getName(), UusCorp.Constants.AnchorPoints.Center)
                 end)
-                local mana = ManaStatusBar(id, function ()
-                    
+
+                local mana = ManaStatusBar(id)
+                local manaLabel = StatusLabel(id , function (label, playerStatus)
+                    label.setText(playerStatus.CurrentMana .. "/" .. playerStatus.MaxMana)
+                    label.clearAnchors()
+                    label.addAnchor(UusCorp.Constants.AnchorPoints.Center, mana.getName(), UusCorp.Constants.AnchorPoints.Center)
                 end)
-                local stamina = StaminaStatusBar(id, function ()
-                    
+
+                local stamina = StaminaStatusBar(id)
+                local staminaLabel = StatusLabel(id , function (label, playerStatus)
+                    label.setText(playerStatus.CurrentStamina .. "/" .. playerStatus.MaxStamina)
+                    label.clearAnchors()
+                    label.addAnchor(UusCorp.Constants.AnchorPoints.Center, stamina.getName(), UusCorp.Constants.AnchorPoints.Center)
                 end)
 
                 self.setChildren {
                     name,
                     health,
+                    healthLabel,
                     mana,
-                    stamina
+                    manaLabel,
+                    stamina,
+                    staminaLabel
                 }
             end,
             OnRButtonUp = function (self, flags, x, y)
