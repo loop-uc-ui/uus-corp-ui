@@ -12,7 +12,7 @@
 			</TexCoords>
 		</HorizontalResizeImage>
     
-        <StatusBar name="UusCorpStatusBar" foreground="StatusBarForground">
+        <StatusBar name="UusCorpStatusBar" foreground="StatusBarForground" handleinput="false">
             <Size>
                 <AbsPoint x="168" y="24"/>
             </Size>

@@ -10,8 +10,9 @@ local function Name(id)
             ---@param self Label
             OnUpdateMobileStatus = function (self, mobileStatus)
                 self.matchParentWidth(0.9)
-                self.setTextAlignment(UusCorp.Constants.TextAlignment.Center)
+                self.centerText()
                 self.setText(mobileStatus.MobName)
+                self.setColor(UusCorp.Constants.Colors.Notoriety[mobileStatus.Notoriety + 1])
             end
         }
     }
@@ -23,7 +24,7 @@ local function HealthStatusBar(id)
             ---@param self StatusBar
             OnInitialize = function (self)
                 self.setId(id)
-                self.setForegroundTint(Colors.Red)
+                self.setForegroundTint(UusCorp.Constants.Colors.Red)
             end,
 
             ---@param self StatusBar
@@ -31,6 +32,11 @@ local function HealthStatusBar(id)
                 self.setMaxValue(playerStatus.MaxHealth)
                 self.matchParentWidth(0.9)
                 self.setCurrentValue(playerStatus.CurrentHealth)
+            end,
+
+            ---@param self StatusBar
+            OnUpdateHealthBarColor = function (self, healthBarColor)
+                self.setForegroundTint(UusCorp.Constants.Colors.HealhBar[healthBarColor.VisualStateId + 1])
             end
         }
     }
@@ -48,7 +54,7 @@ local function StatusLabel(id, onUpdate)
 
             ---@param self Label
             OnUpdatePlayerStatus = function (self, playerStatus)
-                self.setTextAlignment(UusCorp.Constants.TextAlignment.Center)
+                self.centerText()
                 self.matchParentWidth(0.9)
                 onUpdate(self, playerStatus)
             end
@@ -62,7 +68,7 @@ local function ManaStatusBar(id)
             ---@param self StatusBar
             OnInitialize = function (self)
                 self.setId(id)
-                self.setForegroundTint(Colors.Blue)
+                self.setForegroundTint(UusCorp.Constants.Colors.Blue)
             end,
 
             ---@param self StatusBar
@@ -81,7 +87,7 @@ local function StaminaStatusBar(id)
             ---@param self StatusBar
             OnInitialize = function (self)
                 self.setId(id)
-                self.setForegroundTint(Colors.YellowDark)
+                self.setForegroundTint(UusCorp.Constants.Colors.YellowDark)
             end,
 
             ---@param self StatusBar
@@ -100,27 +106,28 @@ function UusCorpPlayerStatusWindow()
         events = {
             OnInitialize = function (self)
                 local id = UusCorp.Data.Window().PlayerStatus.PlayerId
+                self.setId(id)
                 local name = Name(id)
 
                 local health = HealthStatusBar(id)
                 local healthLabel = StatusLabel(id, function (label, playerStatus)
                     label.setText(playerStatus.CurrentHealth .. "/" .. playerStatus.MaxHealth)
                     label.clearAnchors()
-                    label.addAnchor(UusCorp.Constants.AnchorPoints.Center, health.getName(), UusCorp.Constants.AnchorPoints.Center)
+                    label.centerInWindow(health)
                 end)
 
                 local mana = ManaStatusBar(id)
                 local manaLabel = StatusLabel(id , function (label, playerStatus)
                     label.setText(playerStatus.CurrentMana .. "/" .. playerStatus.MaxMana)
                     label.clearAnchors()
-                    label.addAnchor(UusCorp.Constants.AnchorPoints.Center, mana.getName(), UusCorp.Constants.AnchorPoints.Center)
+                    label.centerInWindow(mana)
                 end)
 
                 local stamina = StaminaStatusBar(id)
                 local staminaLabel = StatusLabel(id , function (label, playerStatus)
                     label.setText(playerStatus.CurrentStamina .. "/" .. playerStatus.MaxStamina)
                     label.clearAnchors()
-                    label.addAnchor(UusCorp.Constants.AnchorPoints.Center, stamina.getName(), UusCorp.Constants.AnchorPoints.Center)
+                    label.centerInWindow(stamina)
                 end)
 
                 self.setChildren {
@@ -133,8 +140,27 @@ function UusCorpPlayerStatusWindow()
                     staminaLabel
                 }
             end,
-            OnRButtonUp = function (self, flags, x, y)
+
+            OnRButtonUp = function (self)
                 self.setShowing(false)
+            end,
+
+            OnLButtonDblClk = function (self)
+                UusCorp.Api.UserAction.UseItem(self.getId(), false)
+            end,
+
+            OnUpdatePlayerStatus = function (self, playerStatus)
+                if playerStatus.InWarMode then
+                    self.getFrame().setColor(UusCorp.Constants.Colors.Red)
+                else
+                    self.getFrame().setColor(UusCorp.Constants.Colors.White)
+                end
+            end,
+
+            OnLButtonDown = function (self)
+                if UusCorp.Data.Window().Cursor.target then
+                    UusCorp.Api.Target.LeftClick(self.getId())
+                end
             end
         }
     }

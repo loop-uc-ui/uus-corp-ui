@@ -545,10 +545,13 @@ local Window = function (model)
     local _events = model.events or {}
     local _frame = _name .. "Frame"
     local _background = _name .. "Background"
-    local _data = {}
 
     ---@class Window
     local window = {}
+
+    window.getFrame = function ()
+        return UusCorp.Interface.Window { name = _frame}
+    end
 
     window.toggleFrame = function (doShow)
         if UusCorp.Api.Window.DoesExist(_frame) then
@@ -600,7 +603,7 @@ local Window = function (model)
     end
 
     window.isParentRoot = function ()
-        return window.getParent().getName() == UusCorp.Constants.WindowNames.Root
+        return window.getParent().getName() == UusCorp.Interface.Defaults.RootWindow.getName()
     end
 
     window.registerCoreEventHandler = function (event, callback)
@@ -737,14 +740,18 @@ local Window = function (model)
         )
     end
 
-    window.anchorToParentCenter = function (x, y)
+    window.centerInWindow = function (toCenter, x, y)
         window.addAnchor(
             UusCorp.Constants.AnchorPoints.Center,
-            window.getParent().getName(),
+            toCenter.getName(),
             UusCorp.Constants.AnchorPoints.Center,
             x or 0,
             y or 0
         )
+    end
+
+    window.anchorToParentCenter = function (x, y)
+        window.centerInWindow(window.getParent(), x, y)
     end
 
     window.isFocused = function ()
@@ -1127,6 +1134,10 @@ local Label = function (model)
 
     label.setTextAlignment = function (alignment)
         UusCorp.Api.Label.SetTextAlignment(label.getName(), alignment)
+    end
+
+    label.centerText = function ()
+        label.setTextAlignment(UusCorp.Constants.TextAlignment.Center)
     end
 
     return label
@@ -2084,7 +2095,7 @@ UusCorp = {
                 name = "OnUpdatePlayerStatus"
             },
             OnUpdateHealthBarColor = {
-                geType = function ()
+                getType = function ()
                     return UusCorp.Data.Window().HealthBarColor.Type
                 end,
                 getEvent = function ()
@@ -2124,9 +2135,6 @@ UusCorp = {
             Bottom = "bottom",
             Center = "center"
         },
-        WindowNames = {
-            Root = "Root"
-        },
         WindowLayers = {
             Background = 0,
             Default = 1,
@@ -2146,10 +2154,56 @@ UusCorp = {
             MenuSelection = "MenuSelection"
         },
         Colors = {
+            White = {
+                r = 255,
+                g = 255,
+                b = 255
+            },
             OffWhite = {
                 r = 206,
                 g = 217,
                 b = 242
+            },
+            Red = {
+                r = 164,
+                g = 32,
+                b = 32
+            },
+            YellowDark = {
+                r = 164,
+                g = 164,
+                b = 32
+            },
+            Blue = {
+                r = 32,
+                g = 32,
+                b = 164
+            },
+            HealhBar = {
+                {
+                    r = 164,
+                    g = 32,
+                    b = 32
+                }, --Healthy
+                {
+                    r = 32,
+                    g = 164,
+                    b = 32
+                }, --Poisoned
+                {
+                    r = 128,
+                    g = 128,
+                    b = 128
+                } --Cursed
+            },
+            Notoriety = {
+                { r=128, g=200, b=255 }, --Innocent
+                { r=0 , g=180, b=0 }, --Friendly
+                { r=225, g=225, b=225 }, --Attackable
+                { r=225, g=225, b=225 }, --Criminal
+                { r=242, g=159, b=77  }, --Enemy
+                { r=255, g=64,  b=64  }, --Murderer
+                { r=255, g=255, b=0   } --Invulnerable
             }
         },
         TextAlignment = {
@@ -2195,6 +2249,7 @@ UusCorp = {
             ---@field ToggleMainMenu fun()
             Actions = Actions
         },
+
         ---@param model WindowModel?
         ---@return Window
         Window = function (model)
