@@ -2042,9 +2042,14 @@ UusCorp = {
 
             return data
         end,
-        ---@return SystemData
+        ---@return UusCorpSystemData
         System = function()
-            return SystemData
+            ---@class UusCorpSystemData:SystemData
+            local system = SystemData
+            system.isDragItem = function ()
+                return system.DragItem.DragType == SystemData.DragItem.TYPE_ITEM
+            end
+            return system
         end
     },
     Constants = {
@@ -2057,6 +2062,11 @@ UusCorp = {
             Mobile = 2,
             Object = 3,
             Corpse = 4
+        },
+        ButtonFlags = {
+            Control = 8,
+            Alt = 32,
+            Shift = 4
         },
         Broadcasts = {
             Help = function ()

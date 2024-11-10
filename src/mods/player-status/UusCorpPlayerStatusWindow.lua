@@ -141,8 +141,12 @@ function UusCorpPlayerStatusWindow()
                 }
             end,
 
-            OnRButtonUp = function (self)
-                self.setShowing(false)
+            OnRButtonUp = function (self, flags)
+                if flags == UusCorp.Constants.ButtonFlags.Control then
+                    UusCorp.Api.ContextMenu.RequestMenu(self.getId())
+                else
+                    self.setShowing(false)
+                end
             end,
 
             OnLButtonDblClk = function (self)
@@ -160,6 +164,13 @@ function UusCorpPlayerStatusWindow()
             OnLButtonDown = function (self)
                 if UusCorp.Data.Window().Cursor.target then
                     UusCorp.Api.Target.LeftClick(self.getId())
+                end
+            end,
+
+            OnLButtonUp = function (self)
+                Debug.Print(UusCorp.Data.System().isDragItem())
+                if UusCorp.Data.System().isDragItem() then
+                    UusCorp.Api.Drag.DragToObject(self.getId())
                 end
             end
         }
