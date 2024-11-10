@@ -1,5 +1,23 @@
 <Interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../Interface.xsd">
     <Windows>
+        <HorizontalResizeImage name="StatusBarForground" texture="StatusBar" texturescale="2.0" alpha="0.7">
+			<Size>
+				<AbsPoint x="168" y="24" />
+			</Size>
+			<Sizes left="162" middle="0" right="0" />
+			<TexCoords>
+				<Left x="0" y="24" />
+				<Middle x="81" y="24" />
+				<Right x="162" y="24" />
+			</TexCoords>
+		</HorizontalResizeImage>
+    
+        <StatusBar name="UusCorpStatusBar" foreground="StatusBarForground">
+            <Size>
+                <AbsPoint x="168" y="24"/>
+            </Size>
+        </StatusBar>
+
         <Button name="UusCorpButton" font="inter_medium_20">
             <TextColors>
                 <Normal r="206" g="217" b="242" a="255"/>

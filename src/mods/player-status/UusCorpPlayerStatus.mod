@@ -14,7 +14,7 @@
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpPlayerStatusWindow.initialize" />
+			<CallFunction name="UusCorpPlayerStatusWindowMod.initialize" />
 		</OnInitialize>
 
 		<OnShutdown>

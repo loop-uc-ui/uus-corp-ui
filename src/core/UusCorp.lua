@@ -97,6 +97,8 @@
 ---@field Damage number
 ---@field FireResist number
 ---@field Dexterity number
+---@field Type integer
+---@field Event integer
 
 ---@class WaypointDisplay
 ---@field currentDisplayMode string
@@ -422,6 +424,9 @@
 ---@field OnMouseOver fun(self: Window)?
 ---@field OnMouseOverEnd fun(self: Window)?
 ---@field OnMouseDrag fun(self: Window)?
+---@field OnUpdatePlayerStatus fun(self: Window, playerStatus: WindowData.PlayerStatus)?
+---@field OnUpdateMobileStatus fun(self: Window, mobileStatus: WindowData.MobileStatus)?
+---@field OnUpdateHealthBarColor fun(self: Window, healthBarColor: WindowData.HealthBarColor)?
 
 ---@class SystemData
 ---@field TrackingPointer SystemData.TrackingPointer
@@ -585,6 +590,13 @@ local Window = function (model)
 
     window.setParent = function (parent)
         UusCorp.Api.Window.SetParent(_name, parent)
+    end
+
+    window.matchParentWidth = function (percent)
+        local parent = window.getParent()
+        local x, _ = parent.getDimensions()
+        local _, y = window.getDimensions()
+        window.setDimensions(x * percent, y)
     end
 
     window.isParentRoot = function ()
@@ -797,7 +809,11 @@ local Window = function (model)
                 if isCore and not skip then
                     window.registerCoreEventHandler(k, "UusCorp.EventHandler." .. k)
                 elseif dataEvent ~= nil then
-                    window.registerData(dataEvent.getType(), window.getId())
+                    if k == UusCorp.Constants.DataEvents.OnUpdatePlayerStatus then
+                        window.registerData(dataEvent.getType(), 0)
+                    else
+                        window.registerData(dataEvent.getType(), window.getId())
+                    end
                     window.registerEventHandler(dataEvent.getEvent(), "UusCorp.EventHandler." .. k)
                 end
             end
@@ -806,6 +822,13 @@ local Window = function (model)
                 UusCorp.Constants.CoreEvents.OnShutdown,
                 "UusCorp.EventHandler." .. UusCorp.Constants.CoreEvents.OnShutdown
             )
+
+            if window.isParentRoot() and _events.OnRButtonUp == nil then
+                window.registerCoreEventHandler(
+                    UusCorp.Constants.CoreEvents.OnRButtonUp,
+                    "UusCorp.EventHandler." .. UusCorp.Constants.CoreEvents.OnRButtonUp
+                )
+            end
 
             if _events.OnInitialize ~= nil then
                 _events.OnInitialize(window)
@@ -833,6 +856,12 @@ local Window = function (model)
 
             window.toggleBackground(window.isParentRoot())
             window.toggleFrame(window.isParentRoot())
+
+            for k, v in pairs(window.events) do
+                if UusCorp.Constants.DataEvents[k] then
+                    v()
+                end
+            end
         end,
 
         onShutdown = function ()
@@ -1002,6 +1031,45 @@ local Window = function (model)
             if _events.OnMouseDrag ~= nil then
                 _events.OnMouseDrag(window)
             end
+        end,
+
+        onUpdatePlayerStatus = function ()
+            if _events.OnUpdatePlayerStatus ~= nil then
+                _events.OnUpdatePlayerStatus(window, UusCorp.Data.Window().PlayerStatus)
+            end
+
+            UusCorp.Utils.Array.ForEach(
+                _children,
+                function (item,  _)
+                    item.events.onUpdatePlayerStatus()
+                end
+            )
+        end,
+
+        onUpdateMobileStatus = function ()
+            if _events.OnUpdateMobileStatus ~= nil then
+                _events.OnUpdateMobileStatus(window, UusCorp.Data.Window().MobileStatus[window.getId()])
+            end
+
+            UusCorp.Utils.Array.ForEach(
+                _children,
+                function (item,  _)
+                    item.events.onUpdateMobileStatus()
+                end
+            )
+        end,
+
+        onUpdateHealthBarColor = function ()
+            if _events.OnUpdateHealthBarColor ~= nil then
+                _events.OnUpdateHealthBarColor(window, UusCorp.Data.Window().HealthBarColor[window.getId()])
+            end
+
+            UusCorp.Utils.Array.ForEach(
+                _children,
+                function (item,  _)
+                    item.events.onUpdateHealthBarColor()
+                end
+            )
         end
     }
 
@@ -1062,6 +1130,32 @@ local Label = function (model)
     end
 
     return label
+end
+
+local StatusBar = function (model)
+    model = model or {}
+    model.template = model.template or "UusCorpStatusBar"
+
+    ---@class StatusBar:Window
+    local statusBar = Window(model)
+
+    statusBar.setMaxValue = function (maxValue)
+        UusCorp.Api.StatusBar.SetMaxValue(statusBar.getName(), maxValue)
+    end
+
+    statusBar.setCurrentValue = function (currentValue)
+        UusCorp.Api.StatusBar.SetCurrentValue(statusBar.getName(), currentValue)
+    end
+
+    statusBar.setBackgroundTint = function (tint)
+        UusCorp.Api.StatusBar.SetBackgroundTint(statusBar.getName(), tint)
+    end
+
+    statusBar.setForegroundTint = function (tint)
+        UusCorp.Api.StatusBar.SetForegroundTint(statusBar.getName(), tint)
+    end
+
+    return statusBar
 end
 
 ---@class ModModel
@@ -1979,6 +2073,33 @@ UusCorp = {
                     return WindowData.MobileName.Event
                 end,
                 name = "OnUpdateMobileName"
+            },
+            OnUpdatePlayerStatus = {
+                getType = function ()
+                    return UusCorp.Data.Window().PlayerStatus.Type
+                end,
+                getEvent = function ()
+                    return UusCorp.Data.Window().PlayerStatus.Event
+                end,
+                name = "OnUpdatePlayerStatus"
+            },
+            OnUpdateHealthBarColor = {
+                geType = function ()
+                    return UusCorp.Data.Window().HealthBarColor.Type
+                end,
+                getEvent = function ()
+                    return UusCorp.Data.Window().HealthBarColor.Event
+                end,
+                name = "OnUpdateHealthBarColor"
+            },
+            OnUpdateMobileStatus = {
+                getType = function ()
+                    return UusCorp.Data.Window().MobileStatus.Type
+                end,
+                getEvent = function ()
+                    return UusCorp.Data.Window().MobileStatus.Event
+                end,
+                name = "OnUpdateMobileStatus"
             }
         },
         CoreEvents = {
@@ -2078,6 +2199,7 @@ UusCorp = {
             UusCorp.EventHandler.Windows[window.getName()] = window
             return window
         end,
+
         ---@param model WindowModel?
         ---@return Button
         Button = function(model)
@@ -2085,12 +2207,21 @@ UusCorp = {
             UusCorp.EventHandler.Windows[button.getName()] = button
             return button
         end,
+
         ---@param model WindowModel?
         ---@return Label
         Label = function (model)
             local label = Label(model)
             UusCorp.EventHandler.Windows[label.getName()] = label
             return label
+        end,
+
+        ---@param model WindowModel?
+        ---@return StatusBar
+        StatusBar = function (model)
+            local statusBar = StatusBar(model)
+            UusCorp.EventHandler.Windows[statusBar.getName()] = statusBar
+            return statusBar
         end
     },
     Utils = {
@@ -2139,13 +2270,26 @@ UusCorp = {
             ---@generic K
             ---@generic V
             ---@param table table<K, V>
-            ---@return table<K,V>
+            ---@return table<K, V>
             Copy = function (table)
                 local newTable = {}
                 for k, v in pairs(table) do
                     newTable[k] = v
                 end
                 return newTable
+            end,
+
+            ---@generic K
+            ---@generic V
+            ---@param table table<K, V>
+            ---@return table<K, V>
+            OverrideFunctions = function (table)
+                for k, v in pairs(table) do
+                    if type(v) == "function" then
+                        table[k] = function () end
+                    end
+                end
+                return table
             end
         },
 
@@ -2260,6 +2404,18 @@ UusCorp = {
         OnMouseDrag = function ()
             local window = UusCorp.EventHandler.Windows[Active.window()]
             window.events.onMouseDrag()
+        end,
+        OnUpdatePlayerStatus = function ()
+            local window = UusCorp.EventHandler.Windows[Active.window()]
+            window.events.onUpdatePlayerStatus()
+        end,
+        OnUpdateMobileStatus = function ()
+            local window = UusCorp.EventHandler.Windows[Active.window()]
+            window.events.onUpdateMobileStatus()
+        end,
+        OnUpdateHealthBarColor = function ()
+            local window = UusCorp.EventHandler.Windows[Active.window()]
+            window.events.onUpdateHealthBarColor()
         end
     },
     Mod = Mod

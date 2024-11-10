@@ -50,7 +50,7 @@ local function Label(index, id)
     }
 end
 
-local function Handle(id)
+function UusCorpObjectHandle(id)
     return UusCorp.Interface.Window {
         name = UusCorpObjectHandleWindow.Name .. id,
         events = {
@@ -75,36 +75,4 @@ local function Handle(id)
             end
         }
     }
-end
-
-function UusCorpObjectHandleWindow.initialize()
-    UusCorp.Interface.Defaults.ObjectHandleWindow.CreateObjectHandles = function ()
-        UusCorp.Utils.Array.ForEach(
-            UusCorp.Data.Window().ObjectHandle.ObjectId,
-            function (item, _)
-                if UusCorp.Api.Object.IsValid(item) then
-                    Handle(item).create()
-                end
-            end
-        )
-    end
-
-    UusCorp.Interface.Defaults.ObjectHandleWindow.DestroyObjectHandles = function ()
-        UusCorp.Utils.Array.ForEach(
-            UusCorp.Data.Window().ObjectHandle.ObjectId,
-            function (item, _)
-                UusCorp.Api.Window.Destroy(UusCorpObjectHandleWindow.Name .. item)
-            end
-        )
-    end
-
-    local copy = UusCorp.Utils.Table.Copy(UusCorp.Interface.Defaults.ItemProperties --[[@as table]])
-
-    UusCorp.Interface.Defaults.ItemProperties = function ()
-        if (string.find(UusCorp.Data.System().MouseOverWindow.name, UusCorpObjectHandleWindow.Name)) then
-            ItemPropertiesData.clearActiveItem()
-        else
-            copy--[[@as ItemProperties]].UpdateItemPropertiesData()
-        end
-    end
 end
