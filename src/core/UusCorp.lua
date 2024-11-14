@@ -427,6 +427,7 @@
 ---@field OnUpdatePlayerStatus fun(self: Window, playerStatus: WindowData.PlayerStatus)?
 ---@field OnUpdateMobileStatus fun(self: Window, mobileStatus: WindowData.MobileStatus)?
 ---@field OnUpdateHealthBarColor fun(self: Window, healthBarColor: WindowData.HealthBarColor)?
+---@field OnEndHealthBarDrag fun(self: Window)?
 
 ---@class SystemData
 ---@field TrackingPointer SystemData.TrackingPointer
@@ -779,6 +780,9 @@ local Window = function (model)
     end
 
     window.destroy = function ()
+        UusCorp.Utils.Array.ForEach(_children, function (item)
+            item:destroy()
+        end)
         return UusCorp.Api.Window.Destroy(_name)
     end
 
@@ -809,12 +813,17 @@ local Window = function (model)
 
             for k, v in pairs(_events) do
                 local dataEvent = UusCorp.Constants.DataEvents[k]
+                local systemEvent = UusCorp.Constants.SystemEvents[k]
                 local isCore = UusCorp.Constants.CoreEvents[k] ~= nil
                 local skip = k == UusCorp.Constants.CoreEvents.OnInitialize or
                     k == UusCorp.Constants.CoreEvents.OnShutdown
 
                 if isCore and not skip then
                     window.registerCoreEventHandler(k, "UusCorp.EventHandler." .. k)
+                elseif systemEvent ~= nil then
+                    Debug.Print(systemEvent.getEvent())
+                    Debug.Print(k)
+                    window.registerEventHandler(systemEvent.getEvent(), "UusCorp.EventHandler." .. k)
                 elseif dataEvent ~= nil then
                     if k == UusCorp.Constants.DataEvents.OnUpdatePlayerStatus then
                         window.registerData(dataEvent.getType(), 0)
@@ -880,6 +889,25 @@ local Window = function (model)
 
             if _events.OnShutdown ~= nil then
                 _events.OnShutdown(window)
+            end
+
+            for k, _ in pairs(_events) do
+                local dataEvent = UusCorp.Constants.DataEvents[k]
+                local systemEvent = UusCorp.Constants.SystemEvents[k]
+                local isCore = UusCorp.Constants.CoreEvents[k] ~= nil
+
+                if isCore then
+                    window.unregisterCoreEventHandler(k, "UusCorp.EventHandler." .. k)
+                elseif systemEvent ~= nil then
+                    window.unregisterEventHandler(systemEvent.getEvent())
+                elseif dataEvent ~= nil then
+                    if k == UusCorp.Constants.DataEvents.OnUpdatePlayerStatus then
+                        window.unregisterData(dataEvent.getType(), 0)
+                    else
+                        window.unregisterData(dataEvent.getType(), window.getId())
+                    end
+                    window.unregisterEventHandler(dataEvent.getEvent())
+                end
             end
         end,
 
@@ -1075,6 +1103,19 @@ local Window = function (model)
                 _children,
                 function (item,  _)
                     item.events.onUpdateHealthBarColor()
+                end
+            )
+        end,
+
+        onEndHealthBarDrag = function ()
+            if _events.OnEndHealthBarDrag ~= nil then
+                _events.OnEndHealthBarDrag(window)
+            end
+
+            UusCorp.Utils.Array.ForEach(
+                _children,
+                function (item,  _)
+                    item.events.OnEndHealthBarDrag()
                 end
             )
         end
@@ -2123,6 +2164,14 @@ UusCorp = {
                 name = "OnUpdateMobileStatus"
             }
         },
+        SystemEvents = {
+            OnEndHealthBarDrag = {
+                getEvent = function ()
+                    return UusCorp.Data.System().Events.END_DRAG_HEALTHBAR_WINDOW
+                end,
+                name = "OnEndHealthBarDrag"
+            }
+        },
         CoreEvents = {
             OnInitialize = "OnInitialize",
             OnShown = "OnShown",
@@ -2484,6 +2533,10 @@ UusCorp = {
         OnUpdateHealthBarColor = function ()
             local window = UusCorp.EventHandler.Windows[Active.window()]
             window.events.onUpdateHealthBarColor()
+        end,
+        OnEndHealthBarDrag = function ()
+            local window = UusCorp.EventHandler.Windows[Active.window()]
+            window.events.onEndHealthBarDrag()
         end
     },
     Mod = Mod

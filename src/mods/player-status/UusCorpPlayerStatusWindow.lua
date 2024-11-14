@@ -168,10 +168,13 @@ function UusCorpPlayerStatusWindow()
             end,
 
             OnLButtonUp = function (self)
-                Debug.Print(UusCorp.Data.System().isDragItem())
                 if UusCorp.Data.System().isDragItem() then
                     UusCorp.Api.Drag.DragToObject(self.getId())
                 end
+            end,
+
+            OnEndHealthBarDrag = function (self)
+                self.setMoving(false)
             end
         }
     }
