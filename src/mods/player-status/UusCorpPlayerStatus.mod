@@ -11,10 +11,11 @@
 
 		<Files>
             <File name="UusCorpPlayerStatusWindow.lua" />
+			<File name="UusCorpPlayerStatusMod.lua" />
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpPlayerStatusWindowMod.initialize" />
+			<CallFunction name="UusCorpPlayerStatusMod.OnInitialize" />
 		</OnInitialize>
 
 		<OnShutdown>

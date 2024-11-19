@@ -5,21 +5,10 @@ UusCorpObjectHandleMod = UusCorp.Mod {
 
     OnInitialize = function ()
         UusCorp.Interface.Defaults.ObjectHandleWindow.CreateObjectHandles = function ()
-            UusCorp.Utils.Array.ForEach(
-                UusCorp.Data.Window().ObjectHandle.ObjectId,
-                function (item, _)
-                    if UusCorp.Api.Object.IsValid(item) then
-                        UusCorpObjectHandle(item).create()
-                    end
-                end
-            )
-        end
-
-        UusCorp.Interface.Defaults.ObjectHandleWindow.DestroyObjectHandles = function ()
-            UusCorp.Utils.Array.ForEach(
-                UusCorp.Data.Window().ObjectHandle.ObjectId,
-                function (item, _)
-                    UusCorp.Api.Window.Destroy(UusCorpObjectHandleWindow.Name .. item)
+            UusCorp.Utils.Table.ForEach(
+                UusCorp.ObjectHandles().getHandles(),
+                function (_, v)
+                    UusCorpObjectHandle(v).create()
                 end
             )
         end
@@ -27,7 +16,7 @@ UusCorpObjectHandleMod = UusCorp.Mod {
         local copy = UusCorp.Utils.Table.Copy(UusCorp.Interface.Defaults.ItemProperties --[[@as table]])
 
         UusCorp.Interface.Defaults.ItemProperties = function ()
-            if (string.find(UusCorp.Data.System().MouseOverWindow.name, UusCorpObjectHandleWindow.Name)) then
+            if (string.find(UusCorp.MouseOver().getWindow(), UusCorpObjectHandleWindow.Name)) then
                 UusCorp.Interface.Defaults.ItemPropertiesData.clearActiveItem()
             else
                 copy--[[@as ItemProperties]].UpdateItemPropertiesData()

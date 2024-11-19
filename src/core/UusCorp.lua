@@ -14,6 +14,7 @@
 ---@field ObjectId integer[]
 ---@field Names string[]
 ---@field Notoriety integer[]
+---@field IsMobile boolean[]
 
 ---@class AllSkillsSelf
 
@@ -533,6 +534,944 @@
 ---@field template string?
 ---@field events Events?
 
+local Api = {
+    Ability = {
+        GetMaxRacialAbilities = function()
+            return GetMaxRacialAbilities()
+        end,
+        GetRacialAbilityId = function(index)
+            return GetRacialAbilityId(index) + 3000
+        end,
+        GetAbilityData = function(id)
+            return GetAbilityData(id)
+        end,
+        GetWeapnAbilityId = function(index)
+            return GetWeaponAbilityId(index) + 1000
+        end
+    },
+    AnimatedImage = {
+        SetTexture = function(imageName, texture)
+            AnimatedImageSetTexture(imageName, texture)
+        end,
+        StartAnimation = function(imageName, startFrame, loop, hideWhenDone, delay)
+            AnimatedImageStartAnimation(imageName, startFrame, loop, hideWhenDone, delay)
+        end,
+        StopAnimaton = function(imageName)
+            AnimatedImageStopAnimation(imageName)
+        end,
+        SetPlaySpeed = function(imageName, fps)
+            AnimatedImageSetPlaySpeed(imageName, fps)
+        end
+    },
+    Button = {
+        GetTextDimensions = function (id)
+            return ButtonGetTextDimensions(id)
+        end,
+        SetText = function(id, text)
+            ButtonSetText(id, text)
+        end,
+        GetText = function(id)
+            return ButtonGetText(id)
+        end,
+        SetDisabled = function(id, isDisabled)
+            ButtonSetDisabledFlag(id, isDisabled)
+        end,
+        IsDisabled = function(id)
+            return ButtonGetDisabledFlag(id)
+        end,
+        SetEnabled = function(id, isEnabled)
+            ButtonSetCheckButtonFlag(id, isEnabled)
+        end,
+        SetChecked = function(id, isChecked)
+            ButtonSetPressedFlag(id, isChecked)
+        end,
+        IsChecked = function(id)
+            return ButtonGetPressedFlag(id)
+        end,
+        SetTexture = function(id, state, texture, x, y)
+            ButtonSetTexture(id, state, texture, x, y)
+        end,
+        SetHighlight = function(id, doHighlight)
+            ButtonSetHighlightFlag(id, doHighlight)
+        end,
+        SetStayDown = function(id, stayDown)
+            ButtonSetStayDownFlag(id, stayDown)
+        end,
+        IsStayDown = function(id)
+            return ButtonGetStayDownFlag(id)
+        end,
+        SetTextColor = function(id, r, g, b, a)
+            ButtonSetTextColor(id, r, g, b, a)
+        end
+    },
+    Chat = {
+        SendChat = function(channel, text)
+            SendChat(channel, text)
+        end,
+        PrintToChatWindow = function(wString, filter)
+            PrintWStringToChatWindow(wString, filter)
+        end
+    },
+    CircleImage = {
+        SetTexture = function(id, texture, xCord, yCord)
+            CircleImageSetTexture(id, texture, xCord, yCord)
+        end,
+        SetTextureScale = function(id, scale)
+            CircleImageSetTextureScale(id, scale)
+        end,
+        SetRotation = function(id, rotation)
+            CircleImageSetRotation(id, rotation)
+        end
+    },
+    ComboBox = {
+        AddItem = function(id, item)
+            ComboBoxAddMenuItem(id, item)
+        end,
+        ClearItems = function(id)
+            ComboBoxClearMenuItems(id)
+        end,
+        SetSelectedItem = function(id, item)
+            ComboBoxSetSelectedMenuItem(id, item)
+        end,
+        GetSelectedItem = function(id)
+            return ComboBoxGetSelectedMenuItem(id)
+        end
+    },
+    ContextMenu = {
+        RequestMenu = function(id)
+            RequestContextMenu(id)
+        end
+    },
+    CSV = {
+        Load = function(path, name)
+            UOBuildTableFromCSV(path, name)
+        end,
+        Unload = function(name)
+            UOUnloadCSVTable(name)
+        end
+    },
+    Drag = {
+        DragToObject = function(id)
+            DragSlotDropObjectToObject(id)
+        end,
+        SetActionMouseClickData = function(userAction, actionId, iconId)
+            DragSlotSetActionMouseClickData(userAction, actionId, iconId)
+        end,
+        SetObjectMouseClickData = function(objectId, dragSource)
+            DragSlotSetObjectMouseClickData(objectId, dragSource)
+        end,
+        DropOnPaperdollEquipment = function(objectId)
+            DragSlotDropObjectToPaperdollEquipment(objectId)
+        end,
+        DropOnPaperdoll = function(paperdollId)
+            DragSlotDropObjectToPaperdoll(paperdollId)
+        end,
+        DropOnObjectAtIndex = function(objectId, gridIndex)
+            DragSlotDropObjectToObjectAtIndex(objectId, gridIndex)
+        end,
+        DropOnContainer = function(containerId, gridIndex)
+            DragSlotDropObjectToContainer(containerId, gridIndex)
+        end,
+        AutoPickupObject = function(objectId)
+            DragSlotAutoPickupObject(objectId)
+        end
+    },
+    DynamicImage = {
+        SetTexture = function(dynamicImageName, texture, x, y)
+            DynamicImageSetTexture(dynamicImageName, texture or "", x or 0, y or 0)
+        end,
+        SetTextureScale = function(dynamicImageName, textureScale)
+            DynamicImageSetTextureScale(dynamicImageName, textureScale)
+        end,
+        SetTextureDimensions = function(dynamicImageName, x, y)
+            DynamicImageSetTextureDimensions(dynamicImageName, x, y)
+        end,
+        SetTextureOrientation = function(dynamicImageName, mirrored)
+            DynamicImageSetTextureOrientation(dynamicImageName, mirrored)
+        end,
+        SetTextureSlice = function(dynamicImageName, sliceName)
+            DynamicImageSetTextureSlice(dynamicImageName, sliceName)
+        end,
+        SetRotation = function(dynamicImageName, rotation)
+            DynamicImageSetRotation(dynamicImageName, rotation)
+        end,
+        HasTexture = function(dynamicImageName)
+            return DynamicImageHasTexture(dynamicImageName)
+        end,
+        SetCustomShader = function(dynamicImageName, shader, hue)
+            DynamicImageSetCustomShader(dynamicImageName, shader, hue)
+        end
+    },
+    EditTextBox = {
+        SetText = function(editBoxName, text)
+            TextEditBoxSetText(editBoxName, text or L "")
+        end,
+        GetText = function(editBoxName)
+            return TextEditBoxGetText(editBoxName)
+        end,
+        GetTextLines = function(editBoxName)
+            return TextEditBoxGetTextLines(editBoxName)
+        end,
+        InsertText = function(editBoxName, text)
+            TextEditBoxInsertText(editBoxName, text)
+        end,
+        SetTextColor = function(editBoxName, color)
+            TextEditBoxSetTextColor(editBoxName, color.r, color.g, color.b)
+        end,
+        GetTextColor = function(editBoxName)
+            return TextEditBoxGetTextColor(editBoxName)
+        end,
+        SelectAll = function(editBoxName)
+            TextEditBoxSelectAll(editBoxName)
+        end,
+        SetFont = function(editBoxName, fontName, lineSpacing)
+            TextEditBoxSetFont(editBoxName, fontName, lineSpacing)
+        end,
+        GetFont = function(editBoxName)
+            return TextEditBoxGetFont(editBoxName)
+        end,
+        GetHistory = function(editBoxName)
+            return TextEditBoxGetHistory(editBoxName)
+        end,
+        SetHistory = function(editBoxName, history)
+            TextEditBoxSetHistory(editBoxName, history)
+        end,
+        HandleKeyDown = function(editBoxName, handle)
+            TextEditBoxSetHandleKeyDown(editBoxName, handle)
+        end
+    },
+    Event = {
+        Broadcast = function(event)
+            BroadcastEvent(event)
+        end
+    },
+    Gump = {
+        OnLeftClick = function(gumpId, windowName)
+            GenericGumpOnClicked(gumpId, windowName)
+        end,
+        OnDoubleClick = function(gumpId, windowName)
+            GenericGumpOnDoubleClicked(gumpId, windowName)
+        end,
+        OnRightClick = function(gumpId)
+            GenericGumpOnRClicked(gumpId)
+        end,
+        GetTooltipText = function(gumpId, windowName)
+            return GenericGumpGetToolTipText(gumpId, windowName)
+        end,
+        OpenWebBrowser = function(link)
+            OpenWebBrowser(tostring(link))
+        end,
+        OnCloseContainer = function(id)
+            GumpManagerOnCloseContainer(id)
+        end,
+        GetItemPropertiesObjectId = function(gumpId, windowName)
+            return GenericGumpGetItemPropertiesId(gumpId, windowName)
+        end
+    },
+    Icon = {
+        GetIconData = function(textureId)
+            return GetIconData(textureId)
+        end,
+        GetTextureSize = function(textureId)
+            return UOGetTextureSize(textureId)
+        end,
+        RequestTileArt = function(type, width, height)
+            return RequestTileArt(type, width, height)
+        end
+    },
+    Label = {
+        SetText = function(name, text)
+            if text == nil then
+                return
+            elseif type(text) == "number" then
+                text = StringFormatter.fromTid(text)
+            elseif type(text) == "string" then
+                text = StringFormatter.toWString(text)
+            end
+            LabelSetText(name, text)
+        end,
+        GetText = function(name)
+            return LabelGetText(name)
+        end,
+        SetTextColor = function(name, color)
+            LabelSetTextColor(name, color.r, color.g, color.b)
+        end,
+        SetTextAlignment = function(name, alignment)
+            LabelSetTextAlign(name, alignment)
+        end,
+        SetWordWrap = function(name, wordWrap)
+            LabelSetWordWrap(name, wordWrap)
+        end
+    },
+    ListBox = {
+        SetDataTable = function(name, data)
+            ListBoxSetDataTable(name, data)
+        end,
+        GetDataIndex = function(name, rowIndex)
+            return ListBoxGetDataIndex(name, rowIndex)
+        end,
+        SetDisplayOrder = function(name, orderArray)
+            ListBoxSetDisplayOrder(name, orderArray)
+        end,
+        SetVisibleRowCount = function(name, count)
+            ListBoxSetVisibleRowCount(name, count)
+        end
+    },
+    LogDisplay = {
+        ShowTimestamp = function(name, doShow)
+            LogDisplaySetShowTimestamp(name, doShow == nil or doShow)
+        end,
+        IsTimestampShowing = function(name)
+            return LogDisplayGetShowTimestamp(name)
+        end,
+        ShowLogName = function(name, doShow)
+            LogDisplaySetShowLogName(name, doShow == nil or doShow)
+        end,
+        ShowFilterName = function(name, ndoShow)
+            LogDisplaySetShowFilterName(name, doShow == nil or doShow)
+        end,
+        AddLog = function(name, log, bool)
+            LogDisplayAddLog(name, log, bool == nil or bool)
+        end,
+        RemoveLog = function(name, log)
+            LogDisplayRemoveLog(name, log)
+        end,
+        SetFilterColor = function(name, log, level, color)
+            LogDisplaySetFilterColor(name, log, level, color.r, color.g, color.b)
+        end,
+        SetFilterState = function(name, log, filterId, filter)
+            LogDisplaySetFilterState(name, log, filterId, filter)
+        end,
+        SetTextFadeTime = function(name, time)
+            LogDisplaySetTextFadeTime(name, time)
+        end,
+        GetTextFadeTime = function(name)
+            return LogDisplayGetTextFadeTime(name)
+        end,
+        IsScrollbarActive = function(name)
+            return LogDisplayIsScrollbarActive(name)
+        end,
+        SetFont = function(name, font)
+            LogDisplaySetFont(name, font)
+        end,
+        GetFont = function(name)
+            return LogDisplayGetFont(name)
+        end,
+        ScrollToBottom = function()
+            LogDisplayScrollToBottom(name)
+        end,
+        IsScrolledToBottom = function(name)
+            return LogDisplayIsScrolledToBottom(name)
+        end,
+        ResetLineFadeTime = function(name)
+            LogDisplayResetLineFadeTime(name)
+        end,
+        ShowScrollbar = function(name, showScrollbar)
+            LogDisplayShowScrollbar(name, showScrollbar)
+        end,
+        ScrollToTop = function(name)
+            LogDisplayScrollToTop(name)
+        end,
+        IsScrolledToTop = function(name)
+            return LogDisplayIsScrolledToTop(name)
+        end
+    },
+    Mod = {
+        LoadResources = function(path, file, resource)
+            LoadResources(path, file, resource)
+        end,
+        SetEnabled = function(moduleName, isEnabled)
+            ModuleSetEnabled(moduleName, isEnabled)
+        end,
+        Initialize = function(moduleName)
+            ModuleInitialize(moduleName)
+        end,
+        GetData = function()
+            return ModulesGetData()
+        end,
+        InitializeRestricted = function()
+            ModulesInitializeRestricted()
+        end,
+        InitializeAllEnabled = function()
+            ModulesInitializeAllEnabled()
+        end,
+        LoadModuleAsRestricted = function(modFilePath, allowRaw)
+            ModuleRestrictedLoad(modFilePath, allowRaw)
+        end,
+        LoadModule = function(modFilePath, setName, allowRaw)
+            ModuleLoad(modFilePath, setName, allowRaw)
+        end,
+        LoadModulesFromList = function(listFilePath, setName, allowRaw)
+            ModulesLoadFromListFile(listFilePath, setName, allowRaw)
+        end,
+        LoadModulesFromDirectory = function(directory, setName)
+            ModulesLoadFromDirectory(directory, setName)
+        end
+    },
+    Object = {
+        GetDistanceFromPlayer = function(id)
+            return GetDistanceFromPlayer(id)
+        end,
+        IsValid = function(id)
+            return IsValidObject(id)
+        end,
+        IsMobile = function(id)
+            return IsMobile(id)
+        end,
+        GetPaperdollObject = function(paperdollId, scale)
+            return GetPaperdollObject(paperdollId, scale or 1.0)
+        end
+    },
+    Radar = {
+        SetWindowSize = function(sizeX, sizeY, boolOne, centerOnPlayer)
+            UORadarSetWindowSize(sizeX, sizeY, boolOne, centerOnPlayer)
+        end,
+        GetFacet = function()
+            return UOGetRadarFacet()
+        end,
+        GetArea = function()
+            return UOGetRadarArea()
+        end,
+        SetOffset = function(offsetX, offsetY)
+            UORadarSetWindowOffset(offsetX, offsetY)
+        end,
+        GetMaxZoom = function(facet, area)
+            return UORadarGetMaxZoomForMap(facet, area)
+        end,
+        SetZoom = function(zoom)
+            UOSetRadarZoom(zoom)
+        end,
+        SetCenterOnPlayer = function(isCenter)
+            UORadarSetCenterOnPlayer(isCenter)
+        end,
+        GetPhysicalFacet = function()
+            return UOGetPhysicalRadarFacet()
+        end,
+        GetPhysicalArea = function(facet, area)
+            return UORadarGetAreaDimensions(facet, area)
+        end,
+        GetFacetLabel = function(facet)
+            return UORadarGetFacetLabel(facet)
+        end,
+        GetAreaLabel = function(facet, area)
+            return UORadarGetAreaLabel(facet, area)
+        end,
+        GetFacetDimensions = function(num)
+            return UORadarGetFacetDimensions(num)
+        end,
+        GetCenter = function()
+            return UOGetRadarCenter()
+        end,
+        SetRotation = function(rotation)
+            UOSetRadarRotation(rotation)
+        end,
+        CenterOnLocation = function(x, y, facet, area, bool)
+            UOCenterRadarOnLocation(x, y, facet, area, bool)
+        end,
+        IsLocationInArea = function(x, y, facet, area)
+            return UORadarIsLocationInArea(x, y, facet, area)
+        end,
+        TranslateRadarPositionToWorldPosition = function(offsetX, offsetY, useScale)
+            return UOGetRadarPosToWorld(offsetX, offsetY, useScale)
+        end,
+        TranslateWorldPositionToRadarPosition = function(x, y)
+            return UOGetWorldPosToRadar(x, y)
+        end,
+        GetAreaCount = function(facet)
+            return UORadarGetAreaCount(facet)
+        end
+    },
+    ScrollWindow = {
+        SetOffset = function(id, offset)
+            ScrollWindowSetOffset(id, offset)
+        end,
+        UpdateScrollRect = function(id)
+            ScrollWindowUpdateScrollRect(id)
+        end
+    },
+    Settings = {
+        NotifyChange = function()
+            --This is some variable that the client understands
+            needsReload = UserSettingsChanged()
+            return needsReload
+        end
+    },
+    Slider = {
+        SetCurrentPosition = function(id, position)
+            SliderBarSetCurrentPosition(id, position)
+        end,
+        GetCurrentPosition = function(id)
+            return SliderBarGetCurrentPosition(id)
+        end
+    },
+    StatusBar = {
+        SetMaxValue = function(id, value)
+            StatusBarSetMaximumValue(id, value or 0)
+        end,
+        SetCurrentValue = function(id, value)
+            StatusBarSetCurrentValue(id, value or 0)
+        end,
+        SetForegroundTint = function(id, color)
+            StatusBarSetForegroundTint(id, color.r, color.g, color.b)
+        end,
+        SetBackgroundTint = function(id, color)
+            StatusBarSetBackgroundTint(id, color.r, color.g, color.b)
+        end
+    },
+    String = {
+        GetStringFromTid = function(tid)
+            return GetStringFromTid(tid)
+        end,
+        StringToWString = function(string)
+            return StringToWString(string)
+        end,
+        WStringToString = function(wString)
+            return WStringToString(wString)
+        end
+    },
+    Target = {
+        LeftClick = function(id)
+            HandleSingleLeftClkTarget(id)
+        end,
+        GetAllMobileTargets = function()
+            return GetAllMobileTargets()
+        end
+    },
+    TextLog = {
+        Create = function(name, num)
+            TextLogCreate(name, num)
+        end,
+        Destroy = function()
+            TextLogDestroy(name)
+        end,
+        SetEnabled = function(name, isEnable)
+            TextLogSetEnabled(name, isEnable == nil or isEnable)
+        end,
+        Clear = function(name)
+            TextLogClear(name)
+        end,
+        SetIncrementalSaving = function(name, doSave, path)
+            TextLogSetIncrementalSaving(name, doSave, path)
+        end,
+        IsEnabled = function(name)
+            return TextLogGetEnabled(name)
+        end,
+        GetNumEntries = function(name)
+            return TextLogGetNumEntries(name)
+        end,
+        GetEntry = function(name, index)
+            return TextLogGetEntry(name, index)
+        end,
+        AddEntry = function(name, filterId, text)
+            TextLogAddEntry(name, filterId, text)
+        end
+    },
+    Time = {
+        GetCurrentDateTime = function()
+            return GetCurrentDateTime()
+        end
+    },
+    UserAction = {
+        UseItem = function(id, flag)
+            UserActionUseItem(id, flag)
+        end,
+        ToggleWarMode = function()
+            UserActionToggleWarMode()
+        end
+    },
+    Viewport = {
+        Update = function(x1, y1, x2, y2)
+            UpdateViewport(x1, y1, x2, y2)
+        end
+    },
+    Waypoint = {
+        SetFacet = function(facet)
+            UOSetWaypointMapFacet(facet)
+        end,
+        Create = function(type, facet, x, y, id)
+            UOCreateUserWaypoint(type, facet, x, y, id)
+        end,
+        Delete = function(id)
+            UODeleteUserWaypoint(id)
+        end,
+        Edit = function(id)
+            UOEditUserWaypoint(id)
+        end,
+        ResetFacet = function()
+            UOResetWaypointMapFacet()
+        end,
+        SetTypeDisplayInfo = function()
+            UOSetWaypointTypeDisplayInfo()
+        end,
+        SetDisplayMode = function(mode)
+            UOSetWaypointDisplayMode(mode)
+        end,
+        GetInfo = function(id)
+            return UOGetWaypointInfo(id)
+        end
+    },
+    Window = {
+        Destroy = function(windowName)
+            if DoesWindowNameExist(windowName) then
+                DestroyWindow(windowName)
+                return true
+            end
+
+            return false
+        end,
+        DoesExist = function(windowName)
+            return DoesWindowNameExist(windowName)
+        end,
+        SetShowing = function(windowName, show)
+            WindowSetShowing(windowName, show)
+        end,
+        IsShowing = function(windowName)
+            return WindowGetShowing(windowName)
+        end,
+        SetLayer = function(windowName, layer)
+            WindowSetLayer(windowName, layer)
+        end,
+        GetLayer = function(windowName)
+            return WindowGetLayer(windowName)
+        end,
+        SetHandleInput = function(windowName, handleInput)
+            WindowHandleInput(windowName, handleInput)
+        end,
+        GetHandleInput = function(windowName)
+            return WindowGetHandleInput(windowName)
+        end,
+        SetPopable = function(windowName, popable)
+            WindowSetPopable(windowName, popable)
+        end,
+        IsPopable = function(windowName)
+            return windowGetPopable(windowName)
+        end,
+        SetMovable = function(windowName, movable)
+            WindowSetMovable(windowName, movable)
+        end,
+        IsMovable = function(windowName)
+            return WindowGetMovable(windowName)
+        end,
+        SetOffsetFromParent = function(windowName, xOffset, yOffset)
+            WindowSetOffsetFromParent(windowName, xOffset, yOffset)
+        end,
+        GetOffsetFromParent = function(windowName)
+            return WindowGetOffsetFromParent(windowName)
+        end,
+        SetDimensions = function(windowName, xOffset, yOffset)
+            WindowSetDimensions(windowName, xOffset, yOffset)
+        end,
+        GetDimensions = function(windowName)
+            return WindowGetDimensions(windowName)
+        end,
+        IsSticky = function(windowName)
+            return WindowIsSticky(windowName)
+        end,
+        ClearAnchors = function(windowName)
+            WindowClearAnchors(windowName)
+        end,
+        AddAnchor = function(windowName, anchorPoint, relativeTo, relativePoint, pointX, pointY)
+            WindowAddAnchor(windowName, anchorPoint, relativeTo, relativePoint, pointX or 0, pointY or 0)
+        end,
+        GetAnchor = function(windowName, anchorId)
+            return WindowGetAnchor(windowName, anchorId)
+        end,
+        GetAnchorCount = function(windowName)
+            return WindowGetAnchorCount(windowName)
+        end,
+        ForceProcessAnchors = function(windowName)
+            WindowForceProcessAnchors(windowName)
+        end,
+        AssignFocus = function(windowName, doFocus)
+            return WindowAssignFocus(windowName, doFocus)
+        end,
+        HasFocus = function(windowName)
+            return WindowHasFocus(windowName)
+        end,
+        SetResizing = function(windowName, isResizing)
+            WindowSetResizing(windowName, isResizing)
+        end,
+        IsResizing = function(windowName)
+            return WindowGetResizing(windowName)
+        end,
+        StartAlphaAnimation = function(windowName, animType, startAlpha, endAlpha, duration, setStartBeforeDelay,
+                                       delay, numLoop)
+            WindowStartAlphaAnimation(windowName, animType, startAlpha, endAlpha, duration, setStartBeforeDelay,
+                delay, numLoop)
+        end,
+        StopAlphaAnimation = function(windowName)
+            WindowStopAlphaAnimation(windowName)
+        end,
+        StopScaleAnimation = function(windowName)
+            WindowStopScaleAnimation(windowName)
+        end,
+        StartScaleAnimation = function(windowName, animType, startX, startY, endX, endY, duration,
+                                       setStartBeforeDelay, delay, numLoop)
+            WindowStartScaleAnimation(
+                windowName,
+                animType,
+                startX,
+                startY,
+                endX,
+                endY,
+                duration,
+                setStartBeforeDelay,
+                delay,
+                numLoop
+            )
+        end,
+        StopPositionAnimation = function(windowName)
+            WindowStopPositionAnimation(windowName)
+        end,
+        SetAlpha = function(windowName, alpha)
+            WindowSetAlpha(windowName, alpha)
+        end,
+        GetAlpha = function(windowName)
+            return WindowGetAlpha(windowName)
+        end,
+        SetColor = function(windowName, color)
+            WindowSetTintColor(windowName, color.r, color.g, color.b)
+        end,
+        GetColor = function(windowName)
+            return WindowGetTintColor(windowName)
+        end,
+        CreateFromTemplate = function(windowName, template, parent, doShow)
+            if not DoesWindowNameExist(windowName) then
+                CreateWindowFromTemplateShow(windowName, template or windowName, parent or "Root",
+                    doShow == nil or doShow)
+                return true
+            end
+            return false
+        end,
+        Create = function(windowName, doShow)
+            if not DoesWindowNameExist(windowName) then
+                CreateWindow(windowName, doShow == nil or doShow)
+                return true
+            end
+            return false
+        end,
+        ToggleWindow = function()
+            if not DoesWindowNameExist(windowName) then
+                return Api.Window.Create(windowName, true)
+            end
+            return true
+        end,
+        SetId = function(windowName, id)
+            WindowSetId(windowName, id)
+        end,
+        GetId = function(windowName)
+            return WindowGetId(windowName)
+        end,
+        SetTabOrder = function(windowName, tabOrder)
+            WindowSetTabOrder(windowName, tabOrder)
+        end,
+        GetTabOrder = function(windowName)
+            return WindowGetTabOrder(windowName)
+        end,
+        SetMoving = function(windowName, isMoving)
+            WindowSetMoving(windowName, isMoving)
+        end,
+        IsMoving = function(windowName)
+            return WindowGetMoving(windowName)
+        end,
+        RegisterEventHandler = function(windowName, event, callback)
+            WindowRegisterEventHandler(windowName, event, callback)
+        end,
+        UnregisterEventHandler = function(windowName, event)
+            WindowUnregisterEventHandler(windowName, event)
+        end,
+        RegisterCoreEventHandler = function(windowName, event, callback)
+            WindowRegisterCoreEventHandler(windowName, event, callback)
+        end,
+        UnregisterCoreEventHandler = function(windowName, event)
+            WindowUnregisterCoreEventHandler(windowName, event)
+        end,
+        SetParent = function(windowName, parentId)
+            WindowSetParent(windowName, parentId)
+        end,
+        GetParent = function(windowName)
+            return WindowGetParent(windowName)
+        end,
+        SetScale = function(windowName, scale)
+            WindowSetScale(windowName, scale)
+        end,
+        GetScale = function(windowName)
+            return WindowGetScale(windowName)
+        end,
+        SetRelativeScale = function(windowName, scale)
+            WindowSetRelativeScale(windowName, scale)
+        end,
+        SetResizeOnChildren = function(windowName, isRecursive, borderSpacing)
+            WindowResizeOnChildren(windowName, isRecursive, borderSpacing)
+        end,
+        SetGameActionTrigger = function(windowName, action)
+            WindowSetGameActionTrigger(windowName, action)
+        end,
+        SetGameActionData = function(windowName, actionType, actionId, actionText)
+            WindowSetGameActionData(windowName, actionType, actionId, actionText)
+        end,
+        SetGameActionButton = function(windowName, button)
+            WindowSetGameActionButton(windowName, button)
+        end,
+        GetGameActionButton = function(windowName)
+            return WindowGetGameActionButton(windowName)
+        end,
+        IsGameActionLocked = function(windowName)
+            return WindowIsGameActionLocked(windowName)
+        end,
+        SetDrawWhenInterfaceHidden = function(windowName, doDraw)
+            WindowSetDrawWhenInterfaceHidden(windowName, doDraw)
+        end,
+        RestoreDefaults = function(windowName)
+            WindowRestoreDefaultSettings(windowName)
+        end,
+        SetUpdateFrequency = function(windowName, frequency)
+            WindowSetUpdateFrequency(windowName, frequency)
+        end,
+        GetPosition = function(id)
+            return WindowGetScreenPosition(id)
+        end,
+        AttachToWorldObject = function(objectId, window)
+            AttachWindowToWorldObject(objectId, window)
+        end,
+        DetachFromWorldObject = function(objectId, window)
+            DetachWindowFromWorldObject(objectId, window)
+        end,
+        RegisterData = function(data, id)
+            RegisterWindowData(data, id or 0)
+        end,
+        UnregisterData = function(data, id)
+            UnregisterWindowData(data, id or 0)
+        end,
+        SavePostion = function(window, closing, alias)
+            WindowUtils.SaveWindowPosition(window, closing, alias)
+        end,
+        RestorePostion = function(window, trackSize, alias, ignoreBounds)
+            WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBounds)
+        end
+    },
+    InterfaCore = {
+        GetScaleFactor = function ()
+            return 1 / InterfaceCore.scale
+        end
+    }
+}
+
+---@return UusCorpData
+local Data = function ()
+    ---@type WindowData
+    local windowData = WindowData
+
+    ---@type SystemData
+    local systemData = SystemData
+
+    ---@class UusCorpData
+    local data = {}
+
+    data.isCurrentTargetMobile = function()
+        return windowData.CurrentTarget.TargetType == UusCorpConstants.TargetType.Mobile
+    end
+
+    data.isCurrentTargetObject = function()
+        return windowData.CurrentTarget.TargetType == UusCorp.Constants.TargetType.Object
+    end
+
+    data.isCurrentTargetCorpse = function()
+        return windowData.CurrentTarget.TargetType == UusCorpConstants.TargetType.Corpse
+    end
+
+    data.hasCurrentTarget = function ()
+        return windowData.CurrentTarget.HasTarget
+    end
+
+    data.isCursorTarget = function ()
+        return windowData.Cursor.target
+    end
+
+    data.setActiveMovile = function (id)
+        systemData.ActiveMobile.Id = id
+    end
+
+    data.isDraggingItem = function ()
+        return systemData.DragItem.DragType == SystemData.DragItem.TYPE_ITEM
+    end
+
+    data.getDraggingObject = function ()
+        return systemData.DragSource["SOURCETYPE_OBJECT"]
+    end
+
+    data.getEventHelp = function ()
+        return systemData.Events["REQUEST_OPEN_HELP_MENU"]
+    end
+
+    data.getEventBeginDragHealthBar = function ()
+        return systemData.Events["BEGIN_DRAG_HEALTHBAR_WINDOW"]
+    end
+
+    data.getEventEndDragHealthBar = function ()
+        return systemData.Events["END_DRAG_HEALTHBAR_WINDOW"]
+    end
+
+    data.getEventBugReport = function ()
+        return systemData.Events["BUG_REPORT_SCREEN"]
+    end
+
+    data.getEventExitGame = function ()
+        return systemData.Events["EXIT_GAME"]
+    end
+
+    data.getEventEscapeKey = function ()
+        return systemData.Events["ESCAPE_KEY_PROCESSED"]
+    end
+
+    data.getPlayerStatus = function ()
+        return windowData.PlayerStatus
+    end
+
+    data.getMobileStatus = function (id)
+        return windowData.MobileStatus[id]
+    end
+
+    data.getHealthBarColor = function (id)
+        return windowData.HealthBarColor[id]
+    end
+
+    data.getMobileName = function (id)
+        return windowData.MobileName[id]
+    end
+
+    return data
+end
+
+local Drag = function ()
+    ---@type SystemData
+    local systemData = SystemData
+    local data = {}
+
+    data.isDraggingItem = function ()
+        return systemData.DragItem.DragType == SystemData.DragItem.TYPE_ITEM
+    end
+
+    data.getDraggingObject = function ()
+        return systemData.DragSource["SOURCETYPE_OBJECT"]
+    end
+
+    return data
+end
+
+local Object = function (id)
+    local object = {}
+
+    object.isMobile = function ()
+        return Api.Object.IsMobile(id)
+    end
+
+    object.isValid = function ()
+        return Api.Object.IsValid(id)
+    end
+
+    return object
+end
 
 ---@param model WindowModel?
 ---@return Window
@@ -555,19 +1494,19 @@ local Window = function (model)
     end
 
     window.toggleFrame = function (doShow)
-        if UusCorp.Api.Window.DoesExist(_frame) then
-            UusCorp.Api.Window.SetShowing(_frame, doShow)
+        if Api.Window.DoesExist(_frame) then
+            Api.Window.SetShowing(_frame, doShow)
         end
     end
 
     window.toggleBackground = function (doShow)
-        if UusCorp.Api.Window.DoesExist(_background) then
-            UusCorp.Api.Window.SetShowing(_background, doShow)
+        if Api.Window.DoesExist(_background) then
+            Api.Window.SetShowing(_background, doShow)
         end
     end
 
     window.attachToObject = function ()
-        UusCorp.Api.Window.AttachToWorldObject(window.getId(), window.getName())
+        Api.Window.AttachToWorldObject(window.getId(), window.getName())
     end
 
     window.setChildren = function (children)
@@ -579,21 +1518,21 @@ local Window = function (model)
     end
 
     window.getId = function ()
-        return UusCorp.Api.Window.GetId(_name)
+        return Api.Window.GetId(_name)
     end
 
     window.setId = function (id)
-        UusCorp.Api.Window.SetId(_name, id)
+        Api.Window.SetId(_name, id)
     end
 
     ---@return Window
     window.getParent = function ()
-        return UusCorp.EventHandler.Windows[UusCorp.Api.Window.GetParent(_name)] or
-            UusCorp.Interface.Window { name = UusCorp.Api.Window.GetParent(_name) }
+        return UusCorp.EventHandler.Windows[Api.Window.GetParent(_name)] or
+            UusCorp.Interface.Window { name = Api.Window.GetParent(_name) }
     end
 
     window.setParent = function (parent)
-        UusCorp.Api.Window.SetParent(_name, parent)
+        Api.Window.SetParent(_name, parent)
     end
 
     window.matchParentWidth = function (percent)
@@ -608,127 +1547,127 @@ local Window = function (model)
     end
 
     window.registerCoreEventHandler = function (event, callback)
-        UusCorp.Api.Window.RegisterCoreEventHandler(_name, event, callback)
+        Api.Window.RegisterCoreEventHandler(_name, event, callback)
     end
 
-    window.unregisterCoreEventHandler = function (event, callback)
-        UusCorp.Api.Window.RegisterCoreEventHandler(_name, event, callback)
+    window.unregisterCoreEventHandler = function (event)
+        Api.Window.UnregisterCoreEventHandler(_name, event)
     end
 
     window.registerEventHandler = function (event, callback)
-        UusCorp.Api.Window.RegisterEventHandler(_name, event, callback)
+        Api.Window.RegisterEventHandler(_name, event, callback)
     end
 
     window.unregisterEventHandler = function (event)
-        UusCorp.Api.Window.UnregisterEventHandler(_name, event)
+        Api.Window.UnregisterEventHandler(_name, event)
     end
 
     window.isMoving = function ()
-        return UusCorp.Api.Window.IsMoving(_name)
+        return Api.Window.IsMoving(_name)
     end
 
     window.setMoving = function (isMoving)
-        UusCorp.Api.Window.SetMoving(_name, isMoving)
+        Api.Window.SetMoving(_name, isMoving)
     end
 
     window.getDimensions = function ()
-        return UusCorp.Api.Window.GetDimensions(_name)
+        return Api.Window.GetDimensions(_name)
     end
 
     window.setDimensions = function (x, y)
-        UusCorp.Api.Window.SetDimensions(_name, x, y)
+        Api.Window.SetDimensions(_name, x, y)
     end
 
     window.getAlpha = function ()
-        return UusCorp.Api.Window.GetAlpha(_name)
+        return Api.Window.GetAlpha(_name)
     end
 
     window.setAlpha = function (alpha)
-        UusCorp.Api.Window.SetAlpha(_name, alpha)
+        Api.Window.SetAlpha(_name, alpha)
     end
 
     window.setLayer = function (layer)
-        UusCorp.Api.Window.SetLayer(_name, layer)
+        Api.Window.SetLayer(_name, layer)
     end
 
     window.getScale = function ()
-        return UusCorp.Api.Window.GetScale(_name)
+        return Api.Window.GetScale(_name)
     end
 
     window.setScale = function (scale)
-        UusCorp.Api.Window.SetScale(_name, scale)
+        Api.Window.SetScale(_name, scale)
     end
 
     window.getOffsetFromParent = function ()
-        return UusCorp.Api.Window.GetOffsetFromParent(_name)
+        return Api.Window.GetOffsetFromParent(_name)
     end
 
     window.setOffsetFromParent = function (x, y)
-        UusCorp.Api.Window.SetOffsetFromParent(_name, x, y)
+        Api.Window.SetOffsetFromParent(_name, x, y)
     end
 
     window.getColor = function ()
-        return UusCorp.Api.Window.GetColor(_name)
+        return Api.Window.GetColor(_name)
     end
 
     window.setColor = function (color)
-        UusCorp.Api.Window.SetColor(_name, color)
+        Api.Window.SetColor(_name, color)
     end
 
     window.getPosition = function ()
-        return UusCorp.Api.Window.GetPosition(_name)
+        return Api.Window.GetPosition(_name)
     end
 
     window.restorePosition = function ()
         if window.isParentRoot() then
-            UusCorp.Api.Window.RestorePostion(_name)
+            Api.Window.RestorePostion(_name)
         end
     end
 
     window.savePosition = function ()
         if window.isParentRoot() then
-            UusCorp.Api.Window.SavePostion(_name)
+            Api.Window.SavePostion(_name)
         end
     end
 
     window.isShowing = function ()
-        return UusCorp.Api.Window.IsShowing(_name)
+        return Api.Window.IsShowing(_name)
     end
 
     window.setShowing = function (isShowing)
-        UusCorp.Api.Window.SetShowing(_name, isShowing)
+        Api.Window.SetShowing(_name, isShowing)
     end
 
     window.isPopable = function ()
-        return UusCorp.Api.Window.IsPopable(_name)
+        return Api.Window.IsPopable(_name)
     end
 
     window.setPopable = function (isPopable)
-        UusCorp.Api.Window.SetPopable(_name, isPopable)
+        Api.Window.SetPopable(_name, isPopable)
     end
 
     window.isMovable = function ()
-        return UusCorp.Api.Window.IsMovable(_name)
+        return Api.Window.IsMovable(_name)
     end
 
     window.setMovable = function (isMovable)
-        UusCorp.Api.Window.SetMovable(_name, isMovable)
+        Api.Window.SetMovable(_name, isMovable)
     end
 
     window.isSticky = function ()
-        return UusCorp.Api.Window.IsSticky(_name)
+        return Api.Window.IsSticky(_name)
     end
 
     window.clearAnchors = function ()
-        UusCorp.Api.Window.ClearAnchors(_name)
+        Api.Window.ClearAnchors(_name)
     end
 
     window.forceProcessAnchors = function ()
-        UusCorp.Api.Window.ForceProcessAnchors(_name)
+        Api.Window.ForceProcessAnchors(_name)
     end
 
     window.addAnchor = function (anchorPoint, relativeTo, relativePoint, x, y)
-        UusCorp.Api.Window.AddAnchor(_name, anchorPoint, relativeTo, relativePoint, x or 0, y or 0)
+        Api.Window.AddAnchor(_name, anchorPoint, relativeTo, relativePoint, x or 0, y or 0)
     end
 
     window.anchorToParenTop = function (x, y)
@@ -756,51 +1695,48 @@ local Window = function (model)
     end
 
     window.isFocused = function ()
-        return UusCorp.Api.Window.HasFocus(_name)
+        return Api.Window.HasFocus(_name)
     end
 
     window.setFocus = function (doFocus)
-        UusCorp.Api.Window.AssignFocus(_name, doFocus)
+        Api.Window.AssignFocus(_name, doFocus)
     end
 
     window.isResizing = function ()
-        return UusCorp.Api.Window.IsResizing(_name)
+        return Api.Window.IsResizing(_name)
     end
 
     window.setResizing = function (isResizing)
-        UusCorp.Api.Window.SetResizing(_name, isResizing)
+        Api.Window.SetResizing(_name, isResizing)
     end
 
     window.setRelativeScale = function (scale)
-        UusCorp.Api.Window.SetRelativeScale(_name, scale)
+        Api.Window.SetRelativeScale(_name, scale)
     end
 
     window.doesExist = function ()
-        return UusCorp.Api.Window.DoesExist(_name)
+        return Api.Window.DoesExist(_name)
     end
 
     window.destroy = function ()
-        UusCorp.Utils.Array.ForEach(_children, function (item)
-            item:destroy()
-        end)
-        return UusCorp.Api.Window.Destroy(_name)
+        return Api.Window.Destroy(_name)
     end
 
     window.create = function (doShow)
         doShow = doShow == nil or doShow
         if _template == nil then
-            return UusCorp.Api.Window.Create(_name, doShow)
+            return Api.Window.Create(_name, doShow)
         else
-            return UusCorp.Api.Window.CreateFromTemplate(_name, _template, "Root", doShow)
+            return Api.Window.CreateFromTemplate(_name, _template, "Root", doShow)
         end
     end
 
     window.registerData = function (type, id)
-        UusCorp.Api.Window.RegisterData(type, id)
+        Api.Window.RegisterData(type, id)
     end
 
     window.unregisterData = function (type, id)
-        UusCorp.Api.Window.UnregisterData(type, id)
+        Api.Window.UnregisterData(type, id)
     end
 
     window.events = {
@@ -821,8 +1757,6 @@ local Window = function (model)
                 if isCore and not skip then
                     window.registerCoreEventHandler(k, "UusCorp.EventHandler." .. k)
                 elseif systemEvent ~= nil then
-                    Debug.Print(systemEvent.getEvent())
-                    Debug.Print(k)
                     window.registerEventHandler(systemEvent.getEvent(), "UusCorp.EventHandler." .. k)
                 elseif dataEvent ~= nil then
                     if k == UusCorp.Constants.DataEvents.OnUpdatePlayerStatus then
@@ -897,7 +1831,7 @@ local Window = function (model)
                 local isCore = UusCorp.Constants.CoreEvents[k] ~= nil
 
                 if isCore then
-                    window.unregisterCoreEventHandler(k, "UusCorp.EventHandler." .. k)
+                    window.unregisterCoreEventHandler(k)
                 elseif systemEvent ~= nil then
                     window.unregisterEventHandler(systemEvent.getEvent())
                 elseif dataEvent ~= nil then
@@ -1026,7 +1960,7 @@ local Window = function (model)
 
         onUpdateMobileName = function ()
             if _events.OnUpdateMobileName ~= nil then
-                _events.OnUpdateMobileName(window, UusCorp.Data.Window().MobileName[window.getId()])
+                _events.OnUpdateMobileName(window, UusCorp.Data.getMobileName(window.getId()))
             end
 
             UusCorp.Utils.Array.ForEach(
@@ -1070,7 +2004,7 @@ local Window = function (model)
 
         onUpdatePlayerStatus = function ()
             if _events.OnUpdatePlayerStatus ~= nil then
-                _events.OnUpdatePlayerStatus(window, UusCorp.Data.Window().PlayerStatus)
+                _events.OnUpdatePlayerStatus(window, UusCorp.Data.getPlayerStatus())
             end
 
             UusCorp.Utils.Array.ForEach(
@@ -1083,7 +2017,7 @@ local Window = function (model)
 
         onUpdateMobileStatus = function ()
             if _events.OnUpdateMobileStatus ~= nil then
-                _events.OnUpdateMobileStatus(window, UusCorp.Data.Window().MobileStatus[window.getId()])
+                _events.OnUpdateMobileStatus(window, UusCorp.Data.getMobileStatus(window.getId()))
             end
 
             UusCorp.Utils.Array.ForEach(
@@ -1096,7 +2030,7 @@ local Window = function (model)
 
         onUpdateHealthBarColor = function ()
             if _events.OnUpdateHealthBarColor ~= nil then
-                _events.OnUpdateHealthBarColor(window, UusCorp.Data.Window().HealthBarColor[window.getId()])
+                _events.OnUpdateHealthBarColor(window, UusCorp.Data.getHealthBarColor(window.getId()))
             end
 
             UusCorp.Utils.Array.ForEach(
@@ -1115,11 +2049,29 @@ local Window = function (model)
             UusCorp.Utils.Array.ForEach(
                 _children,
                 function (item,  _)
-                    item.events.OnEndHealthBarDrag()
+                    item.events.onEndHealthBarDrag()
                 end
             )
         end
     }
+
+    return window
+end
+
+---Returns a wrapped window, for use with windows
+---provided by the default interface
+---@param name string
+---@param default table?
+---@return DefaultWindow
+local DefaultWindow = function (name, default)
+    ---@class DefaultWindow:Window
+    local window = Window {
+        name = name
+    }
+
+    window.getDefault = function ()
+        return default
+    end
 
     return window
 end
@@ -1134,23 +2086,23 @@ local Button = function (model)
     local button = Window(model)
 
     button.getTextDimensions = function ()
-        UusCorp.Api.Button.GetTextDimensions(button.getName())
+        Api.Button.GetTextDimensions(button.getName())
     end
 
     button.setText = function (text)
-        UusCorp.Api.Button.SetText(button.getName(), UusCorp.Utils.String.ToWString(text))
+        Api.Button.SetText(button.getName(), UusCorp.Utils.String.ToWString(text))
     end
 
     button.getText = function ()
-        return UusCorp.Api.Button.GetText(button.getName())
+        return Api.Button.GetText(button.getName())
     end
 
     button.setTexture = function (state, texture, x, y)
-        UusCorp.Api.Button.SetTexture(button.getName(), state, texture, x, y)
+        Api.Button.SetTexture(button.getName(), state, texture, x, y)
     end
 
     button.setTextColor = function (state, color)
-        UusCorp.Api.Button.SetTextColor(button.getName(), state, color.r, color.g, color.b)
+        Api.Button.SetTextColor(button.getName(), state, color.r, color.g, color.b)
     end
 
     return button
@@ -1166,15 +2118,15 @@ local Label = function (model)
     local label = Window(model)
 
     label.setText = function (text)
-        UusCorp.Api.Label.SetText(label.getName(), UusCorp.Utils.String.ToWString(text))
+        Api.Label.SetText(label.getName(), UusCorp.Utils.String.ToWString(text))
     end
 
     label.setTextColor = function (color)
-        UusCorp.Api.Label.SetTextColor(label.getName(), color)
+        Api.Label.SetTextColor(label.getName(), color)
     end
 
     label.setTextAlignment = function (alignment)
-        UusCorp.Api.Label.SetTextAlignment(label.getName(), alignment)
+        Api.Label.SetTextAlignment(label.getName(), alignment)
     end
 
     label.centerText = function ()
@@ -1192,19 +2144,19 @@ local StatusBar = function (model)
     local statusBar = Window(model)
 
     statusBar.setMaxValue = function (maxValue)
-        UusCorp.Api.StatusBar.SetMaxValue(statusBar.getName(), maxValue)
+        Api.StatusBar.SetMaxValue(statusBar.getName(), maxValue)
     end
 
     statusBar.setCurrentValue = function (currentValue)
-        UusCorp.Api.StatusBar.SetCurrentValue(statusBar.getName(), currentValue)
+        Api.StatusBar.SetCurrentValue(statusBar.getName(), currentValue)
     end
 
     statusBar.setBackgroundTint = function (tint)
-        UusCorp.Api.StatusBar.SetBackgroundTint(statusBar.getName(), tint)
+        Api.StatusBar.SetBackgroundTint(statusBar.getName(), tint)
     end
 
     statusBar.setForegroundTint = function (tint)
-        UusCorp.Api.StatusBar.SetForegroundTint(statusBar.getName(), tint)
+        Api.StatusBar.SetForegroundTint(statusBar.getName(), tint)
     end
 
     return statusBar
@@ -1226,11 +2178,11 @@ local Mod = function (model)
     end
 
     mod.Initialize = function ()
-        UusCorp.Api.Mod.Initialize(model.Name)
+        Api.Mod.Initialize(model.Name)
     end
 
     mod.LoadResource = function (file)
-        UusCorp.Api.Mod.LoadResources(
+        Api.Mod.LoadResources(
             "Data/Interface/Default/uus-corp-ui" .. model.Path,
             SystemData.Directories.Interface .. "/" .. SystemData.Settings.Interface.customUiName .. model.Path,
             file
@@ -1240,863 +2192,147 @@ local Mod = function (model)
     return mod
 end
 
+local Cursor = function ()
+    ---@type WindowData.Cursor
+    local data = WindowData.Cursor
+    local cursor = {}
+
+    cursor.isTarget = function ()
+        return data.target
+    end
+
+    return cursor
+end
+
+local CurrentTarget = function ()
+    ---@type WindowData.CurrentTarget
+    local data = WindowData.CurrentTarget
+    local currentTarget = {}
+
+    currentTarget.hasTarget = function ()
+        return data.HasTarget
+    end
+
+    currentTarget.isMobile = function ()
+        return data.TargetType == 2
+    end
+
+    currentTarget.isCorpse = function ()
+        return data.TargetType == 4
+    end
+
+    currentTarget.isObject = function ()
+        return data.TargetType == 3
+    end
+
+    return currentTarget
+end
+
+local PlayerStatus = function ()
+    ---@type WindowData
+    local windowData = WindowData
+
+    local playerStatus = {}
+
+    playerStatus.getId = function ()
+        return windowData.PlayerStatus.PlayerId
+    end
+
+    playerStatus.geEvent = function ()
+        return windowData.PlayerStatus.Event
+    end
+
+    return playerStatus
+end
+
+local Mobile = function (id)
+    ---@type SystemData
+    local systemData = SystemData
+    local mobile = {}
+
+    mobile.setActive = function ()
+        systemData.ActiveMobile.Id = id
+    end
+
+    return mobile
+end
+
+local Mouse = function ()
+    ---@type SystemData
+    local systemData = SystemData
+    local mouse = {}
+
+    mouse.getPosition = function ()
+        return systemData.MousePosition
+    end
+
+    return mouse
+end
+
+local ObjectHandles = function ()
+    ---@type WindowData.ObjectHandle
+    local windowData = WindowData.ObjectHandle
+    local data = {}
+
+    ---@return table<integer, ObjectHandle>
+    data.getHandles = function ()
+        ---@class ObjectHandle
+        ---@field id integer
+        ---@field name string
+        ---@field isMobile boolean
+        ---@field isValid fun(): boolean
+
+        return UusCorp.Utils.Array.MapToTable(
+            windowData.ObjectId,
+            function (item)
+                return item
+            end,
+            function (item, index)
+                return {
+                    id = item,
+                    name = UusCorp.Utils.String.FromWString(windowData.Names[index]),
+                    notoriety = windowData.Notoriety[index],
+                    isMobile = windowData.IsMobile[index],
+                    isValid = function ()
+                        return UusCorp.Object(item).isValid()
+                            and UusCorp.Utils.Array.Find(windowData.ObjectId, function (id)
+                                return id == item
+                            end)
+                    end
+                }
+            end
+        )
+    end
+
+    data.getHandle = function (id)
+        return data.getHandles()[id]
+    end
+
+    return data
+end
+
+local MouseOver = function ()
+    ---@type SystemData
+    local systemData = SystemData
+    local data = {}
+
+    data.getWindow = function ()
+        return systemData.MouseOverWindow.name
+    end
+
+    return data
+end
+
 UusCorp = {
-    Api = {
-        Ability = {
-            GetMaxRacialAbilities = function()
-                return GetMaxRacialAbilities()
-            end,
-            GetRacialAbilityId = function(index)
-                return GetRacialAbilityId(index) + 3000
-            end,
-            GetAbilityData = function(id)
-                return GetAbilityData(id)
-            end,
-            GetWeapnAbilityId = function(index)
-                return GetWeaponAbilityId(index) + 1000
-            end
-        },
-        AnimatedImage = {
-            SetTexture = function(imageName, texture)
-                AnimatedImageSetTexture(imageName, texture)
-            end,
-            StartAnimation = function(imageName, startFrame, loop, hideWhenDone, delay)
-                AnimatedImageStartAnimation(imageName, startFrame, loop, hideWhenDone, delay)
-            end,
-            StopAnimaton = function(imageName)
-                AnimatedImageStopAnimation(imageName)
-            end,
-            SetPlaySpeed = function(imageName, fps)
-                AnimatedImageSetPlaySpeed(imageName, fps)
-            end
-        },
-        Button = {
-            GetTextDimensions = function (id)
-                return ButtonGetTextDimensions(id)
-            end,
-            SetText = function(id, text)
-                ButtonSetText(id, text)
-            end,
-            GetText = function(id)
-                return ButtonGetText(id)
-            end,
-            SetDisabled = function(id, isDisabled)
-                ButtonSetDisabledFlag(id, isDisabled)
-            end,
-            IsDisabled = function(id)
-                return ButtonGetDisabledFlag(id)
-            end,
-            SetEnabled = function(id, isEnabled)
-                ButtonSetCheckButtonFlag(id, isEnabled)
-            end,
-            SetChecked = function(id, isChecked)
-                ButtonSetPressedFlag(id, isChecked)
-            end,
-            IsChecked = function(id)
-                return ButtonGetPressedFlag(id)
-            end,
-            SetTexture = function(id, state, texture, x, y)
-                ButtonSetTexture(id, state, texture, x, y)
-            end,
-            SetHighlight = function(id, doHighlight)
-                ButtonSetHighlightFlag(id, doHighlight)
-            end,
-            SetStayDown = function(id, stayDown)
-                ButtonSetStayDownFlag(id, stayDown)
-            end,
-            IsStayDown = function(id)
-                return ButtonGetStayDownFlag(id)
-            end,
-            SetTextColor = function(id, r, g, b, a)
-                ButtonSetTextColor(id, r, g, b, a)
-            end
-        },
-        Chat = {
-            SendChat = function(channel, text)
-                SendChat(channel, text)
-            end,
-            PrintToChatWindow = function(wString, filter)
-                PrintWStringToChatWindow(wString, filter)
-            end
-        },
-        CircleImage = {
-            SetTexture = function(id, texture, xCord, yCord)
-                CircleImageSetTexture(id, texture, xCord, yCord)
-            end,
-            SetTextureScale = function(id, scale)
-                CircleImageSetTextureScale(id, scale)
-            end,
-            SetRotation = function(id, rotation)
-                CircleImageSetRotation(id, rotation)
-            end
-        },
-        ComboBox = {
-            AddItem = function(id, item)
-                ComboBoxAddMenuItem(id, item)
-            end,
-            ClearItems = function(id)
-                ComboBoxClearMenuItems(id)
-            end,
-            SetSelectedItem = function(id, item)
-                ComboBoxSetSelectedMenuItem(id, item)
-            end,
-            GetSelectedItem = function(id)
-                return ComboBoxGetSelectedMenuItem(id)
-            end
-        },
-        ContextMenu = {
-            RequestMenu = function(id)
-                RequestContextMenu(id)
-            end
-        },
-        CSV = {
-            Load = function(path, name)
-                UOBuildTableFromCSV(path, name)
-            end,
-            Unload = function(name)
-                UOUnloadCSVTable(name)
-            end
-        },
-        Drag = {
-            DragToObject = function(id)
-                DragSlotDropObjectToObject(id)
-            end,
-            SetActionMouseClickData = function(userAction, actionId, iconId)
-                DragSlotSetActionMouseClickData(userAction, actionId, iconId)
-            end,
-            SetObjectMouseClickData = function(objectId, dragSource)
-                DragSlotSetObjectMouseClickData(objectId, dragSource)
-            end,
-            DropOnPaperdollEquipment = function(objectId)
-                DragSlotDropObjectToPaperdollEquipment(objectId)
-            end,
-            DropOnPaperdoll = function(paperdollId)
-                DragSlotDropObjectToPaperdoll(paperdollId)
-            end,
-            DropOnObjectAtIndex = function(objectId, gridIndex)
-                DragSlotDropObjectToObjectAtIndex(objectId, gridIndex)
-            end,
-            DropOnContainer = function(containerId, gridIndex)
-                DragSlotDropObjectToContainer(containerId, gridIndex)
-            end,
-            AutoPickupObject = function(objectId)
-                DragSlotAutoPickupObject(objectId)
-            end
-        },
-        DynamicImage = {
-            SetTexture = function(dynamicImageName, texture, x, y)
-                DynamicImageSetTexture(dynamicImageName, texture or "", x or 0, y or 0)
-            end,
-            SetTextureScale = function(dynamicImageName, textureScale)
-                DynamicImageSetTextureScale(dynamicImageName, textureScale)
-            end,
-            SetTextureDimensions = function(dynamicImageName, x, y)
-                DynamicImageSetTextureDimensions(dynamicImageName, x, y)
-            end,
-            SetTextureOrientation = function(dynamicImageName, mirrored)
-                DynamicImageSetTextureOrientation(dynamicImageName, mirrored)
-            end,
-            SetTextureSlice = function(dynamicImageName, sliceName)
-                DynamicImageSetTextureSlice(dynamicImageName, sliceName)
-            end,
-            SetRotation = function(dynamicImageName, rotation)
-                DynamicImageSetRotation(dynamicImageName, rotation)
-            end,
-            HasTexture = function(dynamicImageName)
-                return DynamicImageHasTexture(dynamicImageName)
-            end,
-            SetCustomShader = function(dynamicImageName, shader, hue)
-                DynamicImageSetCustomShader(dynamicImageName, shader, hue)
-            end
-        },
-        EditTextBox = {
-            SetText = function(editBoxName, text)
-                TextEditBoxSetText(editBoxName, text or L "")
-            end,
-            GetText = function(editBoxName)
-                return TextEditBoxGetText(editBoxName)
-            end,
-            GetTextLines = function(editBoxName)
-                return TextEditBoxGetTextLines(editBoxName)
-            end,
-            InsertText = function(editBoxName, text)
-                TextEditBoxInsertText(editBoxName, text)
-            end,
-            SetTextColor = function(editBoxName, color)
-                TextEditBoxSetTextColor(editBoxName, color.r, color.g, color.b)
-            end,
-            GetTextColor = function(editBoxName)
-                return TextEditBoxGetTextColor(editBoxName)
-            end,
-            SelectAll = function(editBoxName)
-                TextEditBoxSelectAll(editBoxName)
-            end,
-            SetFont = function(editBoxName, fontName, lineSpacing)
-                TextEditBoxSetFont(editBoxName, fontName, lineSpacing)
-            end,
-            GetFont = function(editBoxName)
-                return TextEditBoxGetFont(editBoxName)
-            end,
-            GetHistory = function(editBoxName)
-                return TextEditBoxGetHistory(editBoxName)
-            end,
-            SetHistory = function(editBoxName, history)
-                TextEditBoxSetHistory(editBoxName, history)
-            end,
-            HandleKeyDown = function(editBoxName, handle)
-                TextEditBoxSetHandleKeyDown(editBoxName, handle)
-            end
-        },
-        Event = {
-            Broadcast = function(event)
-                BroadcastEvent(event)
-            end
-        },
-        Gump = {
-            OnLeftClick = function(gumpId, windowName)
-                GenericGumpOnClicked(gumpId, windowName)
-            end,
-            OnDoubleClick = function(gumpId, windowName)
-                GenericGumpOnDoubleClicked(gumpId, windowName)
-            end,
-            OnRightClick = function(gumpId)
-                GenericGumpOnRClicked(gumpId)
-            end,
-            GetTooltipText = function(gumpId, windowName)
-                return GenericGumpGetToolTipText(gumpId, windowName)
-            end,
-            OpenWebBrowser = function(link)
-                OpenWebBrowser(tostring(link))
-            end,
-            OnCloseContainer = function(id)
-                GumpManagerOnCloseContainer(id)
-            end,
-            GetItemPropertiesObjectId = function(gumpId, windowName)
-                return GenericGumpGetItemPropertiesId(gumpId, windowName)
-            end
-        },
-        Icon = {
-            GetIconData = function(textureId)
-                return GetIconData(textureId)
-            end,
-            GetTextureSize = function(textureId)
-                return UOGetTextureSize(textureId)
-            end,
-            RequestTileArt = function(type, width, height)
-                return RequestTileArt(type, width, height)
-            end
-        },
-        Label = {
-            SetText = function(name, text)
-                if text == nil then
-                    return
-                elseif type(text) == "number" then
-                    text = StringFormatter.fromTid(text)
-                elseif type(text) == "string" then
-                    text = StringFormatter.toWString(text)
-                end
-                LabelSetText(name, text)
-            end,
-            GetText = function(name)
-                return LabelGetText(name)
-            end,
-            SetTextColor = function(name, color)
-                LabelSetTextColor(name, color.r, color.g, color.b)
-            end,
-            SetTextAlignment = function(name, alignment)
-                LabelSetTextAlign(name, alignment)
-            end,
-            SetWordWrap = function(name, wordWrap)
-                LabelSetWordWrap(name, wordWrap)
-            end
-        },
-        ListBox = {
-            SetDataTable = function(name, data)
-                ListBoxSetDataTable(name, data)
-            end,
-            GetDataIndex = function(name, rowIndex)
-                return ListBoxGetDataIndex(name, rowIndex)
-            end,
-            SetDisplayOrder = function(name, orderArray)
-                ListBoxSetDisplayOrder(name, orderArray)
-            end,
-            SetVisibleRowCount = function(name, count)
-                ListBoxSetVisibleRowCount(name, count)
-            end
-        },
-        LogDisplay = {
-            ShowTimestamp = function(name, doShow)
-                LogDisplaySetShowTimestamp(name, doShow == nil or doShow)
-            end,
-            IsTimestampShowing = function(name)
-                return LogDisplayGetShowTimestamp(name)
-            end,
-            ShowLogName = function(name, doShow)
-                LogDisplaySetShowLogName(name, doShow == nil or doShow)
-            end,
-            ShowFilterName = function(name, ndoShow)
-                LogDisplaySetShowFilterName(name, doShow == nil or doShow)
-            end,
-            AddLog = function(name, log, bool)
-                LogDisplayAddLog(name, log, bool == nil or bool)
-            end,
-            RemoveLog = function(name, log)
-                LogDisplayRemoveLog(name, log)
-            end,
-            SetFilterColor = function(name, log, level, color)
-                LogDisplaySetFilterColor(name, log, level, color.r, color.g, color.b)
-            end,
-            SetFilterState = function(name, log, filterId, filter)
-                LogDisplaySetFilterState(name, log, filterId, filter)
-            end,
-            SetTextFadeTime = function(name, time)
-                LogDisplaySetTextFadeTime(name, time)
-            end,
-            GetTextFadeTime = function(name)
-                return LogDisplayGetTextFadeTime(name)
-            end,
-            IsScrollbarActive = function(name)
-                return LogDisplayIsScrollbarActive(name)
-            end,
-            SetFont = function(name, font)
-                LogDisplaySetFont(name, font)
-            end,
-            GetFont = function(name)
-                return LogDisplayGetFont(name)
-            end,
-            ScrollToBottom = function()
-                LogDisplayScrollToBottom(name)
-            end,
-            IsScrolledToBottom = function(name)
-                return LogDisplayIsScrolledToBottom(name)
-            end,
-            ResetLineFadeTime = function(name)
-                LogDisplayResetLineFadeTime(name)
-            end,
-            ShowScrollbar = function(name, showScrollbar)
-                LogDisplayShowScrollbar(name, showScrollbar)
-            end,
-            ScrollToTop = function(name)
-                LogDisplayScrollToTop(name)
-            end,
-            IsScrolledToTop = function(name)
-                return LogDisplayIsScrolledToTop(name)
-            end
-        },
-        Mod = {
-            LoadResources = function(path, file, resource)
-                LoadResources(path, file, resource)
-            end,
-            SetEnabled = function(moduleName, isEnabled)
-                ModuleSetEnabled(moduleName, isEnabled)
-            end,
-            Initialize = function(moduleName)
-                ModuleInitialize(moduleName)
-            end,
-            GetData = function()
-                return ModulesGetData()
-            end,
-            InitializeRestricted = function()
-                ModulesInitializeRestricted()
-            end,
-            InitializeAllEnabled = function()
-                ModulesInitializeAllEnabled()
-            end,
-            LoadModuleAsRestricted = function(modFilePath, allowRaw)
-                ModuleRestrictedLoad(modFilePath, allowRaw)
-            end,
-            LoadModule = function(modFilePath, setName, allowRaw)
-                ModuleLoad(modFilePath, setName, allowRaw)
-            end,
-            LoadModulesFromList = function(listFilePath, setName, allowRaw)
-                ModulesLoadFromListFile(listFilePath, setName, allowRaw)
-            end,
-            LoadModulesFromDirectory = function(directory, setName)
-                ModulesLoadFromDirectory(directory, setName)
-            end
-        },
-        Object = {
-            GetDistanceFromPlayer = function(id)
-                return GetDistanceFromPlayer(id)
-            end,
-            IsValid = function(id)
-                return IsValidObject(id)
-            end,
-            IsMobile = function(id)
-                return IsMobile(id)
-            end,
-            GetPaperdollObject = function(paperdollId, scale)
-                return GetPaperdollObject(paperdollId, scale or 1.0)
-            end
-        },
-        Radar = {
-            SetWindowSize = function(sizeX, sizeY, boolOne, centerOnPlayer)
-                UORadarSetWindowSize(sizeX, sizeY, boolOne, centerOnPlayer)
-            end,
-            GetFacet = function()
-                return UOGetRadarFacet()
-            end,
-            GetArea = function()
-                return UOGetRadarArea()
-            end,
-            SetOffset = function(offsetX, offsetY)
-                UORadarSetWindowOffset(offsetX, offsetY)
-            end,
-            GetMaxZoom = function(facet, area)
-                return UORadarGetMaxZoomForMap(facet, area)
-            end,
-            SetZoom = function(zoom)
-                UOSetRadarZoom(zoom)
-            end,
-            SetCenterOnPlayer = function(isCenter)
-                UORadarSetCenterOnPlayer(isCenter)
-            end,
-            GetPhysicalFacet = function()
-                return UOGetPhysicalRadarFacet()
-            end,
-            GetPhysicalArea = function(facet, area)
-                return UORadarGetAreaDimensions(facet, area)
-            end,
-            GetFacetLabel = function(facet)
-                return UORadarGetFacetLabel(facet)
-            end,
-            GetAreaLabel = function(facet, area)
-                return UORadarGetAreaLabel(facet, area)
-            end,
-            GetFacetDimensions = function(num)
-                return UORadarGetFacetDimensions(num)
-            end,
-            GetCenter = function()
-                return UOGetRadarCenter()
-            end,
-            SetRotation = function(rotation)
-                UOSetRadarRotation(rotation)
-            end,
-            CenterOnLocation = function(x, y, facet, area, bool)
-                UOCenterRadarOnLocation(x, y, facet, area, bool)
-            end,
-            IsLocationInArea = function(x, y, facet, area)
-                return UORadarIsLocationInArea(x, y, facet, area)
-            end,
-            TranslateRadarPositionToWorldPosition = function(offsetX, offsetY, useScale)
-                return UOGetRadarPosToWorld(offsetX, offsetY, useScale)
-            end,
-            TranslateWorldPositionToRadarPosition = function(x, y)
-                return UOGetWorldPosToRadar(x, y)
-            end,
-            GetAreaCount = function(facet)
-                return UORadarGetAreaCount(facet)
-            end
-        },
-        ScrollWindow = {
-            SetOffset = function(id, offset)
-                ScrollWindowSetOffset(id, offset)
-            end,
-            UpdateScrollRect = function(id)
-                ScrollWindowUpdateScrollRect(id)
-            end
-        },
-        Settings = {
-            NotifyChange = function()
-                --This is some variable that the client understands
-                needsReload = UserSettingsChanged()
-                return needsReload
-            end
-        },
-        Slider = {
-            SetCurrentPosition = function(id, position)
-                SliderBarSetCurrentPosition(id, position)
-            end,
-            GetCurrentPosition = function(id)
-                return SliderBarGetCurrentPosition(id)
-            end
-        },
-        StatusBar = {
-            SetMaxValue = function(id, value)
-                StatusBarSetMaximumValue(id, value or 0)
-            end,
-            SetCurrentValue = function(id, value)
-                StatusBarSetCurrentValue(id, value or 0)
-            end,
-            SetForegroundTint = function(id, color)
-                StatusBarSetForegroundTint(id, color.r, color.g, color.b)
-            end,
-            SetBackgroundTint = function(id, color)
-                StatusBarSetBackgroundTint(id, color.r, color.g, color.b)
-            end
-        },
-        String = {
-            GetStringFromTid = function(tid)
-                return GetStringFromTid(tid)
-            end,
-            StringToWString = function(string)
-                return StringToWString(string)
-            end,
-            WStringToString = function(wString)
-                return WStringToString(wString)
-            end
-        },
-        Target = {
-            LeftClick = function(id)
-                HandleSingleLeftClkTarget(id)
-            end,
-            GetAllMobileTargets = function()
-                return GetAllMobileTargets()
-            end
-        },
-        TextLog = {
-            Create = function(name, num)
-                TextLogCreate(name, num)
-            end,
-            Destroy = function()
-                TextLogDestroy(name)
-            end,
-            SetEnabled = function(name, isEnable)
-                TextLogSetEnabled(name, isEnable == nil or isEnable)
-            end,
-            Clear = function(name)
-                TextLogClear(name)
-            end,
-            SetIncrementalSaving = function(name, doSave, path)
-                TextLogSetIncrementalSaving(name, doSave, path)
-            end,
-            IsEnabled = function(name)
-                return TextLogGetEnabled(name)
-            end,
-            GetNumEntries = function(name)
-                return TextLogGetNumEntries(name)
-            end,
-            GetEntry = function(name, index)
-                return TextLogGetEntry(name, index)
-            end,
-            AddEntry = function(name, filterId, text)
-                TextLogAddEntry(name, filterId, text)
-            end
-        },
-        Time = {
-            GetCurrentDateTime = function()
-                return GetCurrentDateTime()
-            end
-        },
-        UserAction = {
-            UseItem = function(id, flag)
-                UserActionUseItem(id, flag)
-            end,
-            ToggleWarMode = function()
-                UserActionToggleWarMode()
-            end
-        },
-        Viewport = {
-            Update = function(x1, y1, x2, y2)
-                UpdateViewport(x1, y1, x2, y2)
-            end
-        },
-        Waypoint = {
-            SetFacet = function(facet)
-                UOSetWaypointMapFacet(facet)
-            end,
-            Create = function(type, facet, x, y, id)
-                UOCreateUserWaypoint(type, facet, x, y, id)
-            end,
-            Delete = function(id)
-                UODeleteUserWaypoint(id)
-            end,
-            Edit = function(id)
-                UOEditUserWaypoint(id)
-            end,
-            ResetFacet = function()
-                UOResetWaypointMapFacet()
-            end,
-            SetTypeDisplayInfo = function()
-                UOSetWaypointTypeDisplayInfo()
-            end,
-            SetDisplayMode = function(mode)
-                UOSetWaypointDisplayMode(mode)
-            end,
-            GetInfo = function(id)
-                return UOGetWaypointInfo(id)
-            end
-        },
-        Window = {
-            Destroy = function(windowName)
-                if UusCorp.Api.Window.DoesExist(windowName) then
-                    DestroyWindow(windowName)
-                    return true
-                end
-
-                return false
-            end,
-            DoesExist = function(windowName)
-                return DoesWindowNameExist(windowName)
-            end,
-            SetShowing = function(windowName, show)
-                WindowSetShowing(windowName, show)
-            end,
-            IsShowing = function(windowName)
-                return WindowGetShowing(windowName)
-            end,
-            SetLayer = function(windowName, layer)
-                WindowSetLayer(windowName, layer)
-            end,
-            GetLayer = function(windowName)
-                return WindowGetLayer(windowName)
-            end,
-            SetHandleInput = function(windowName, handleInput)
-                WindowHandleInput(windowName, handleInput)
-            end,
-            GetHandleInput = function(windowName)
-                return WindowGetHandleInput(windowName)
-            end,
-            SetPopable = function(windowName, popable)
-                WindowSetPopable(windowName, popable)
-            end,
-            IsPopable = function(windowName)
-                return windowGetPopable(windowName)
-            end,
-            SetMovable = function(windowName, movable)
-                WindowSetMovable(windowName, movable)
-            end,
-            IsMovable = function(windowName)
-                return WindowGetMovable(windowName)
-            end,
-            SetOffsetFromParent = function(windowName, xOffset, yOffset)
-                WindowSetOffsetFromParent(windowName, xOffset, yOffset)
-            end,
-            GetOffsetFromParent = function(windowName)
-                return WindowGetOffsetFromParent(windowName)
-            end,
-            SetDimensions = function(windowName, xOffset, yOffset)
-                WindowSetDimensions(windowName, xOffset, yOffset)
-            end,
-            GetDimensions = function(windowName)
-                return WindowGetDimensions(windowName)
-            end,
-            IsSticky = function(windowName)
-                return WindowIsSticky(windowName)
-            end,
-            ClearAnchors = function(windowName)
-                WindowClearAnchors(windowName)
-            end,
-            AddAnchor = function(windowName, anchorPoint, relativeTo, relativePoint, pointX, pointY)
-                WindowAddAnchor(windowName, anchorPoint, relativeTo, relativePoint, pointX or 0, pointY or 0)
-            end,
-            GetAnchor = function(windowName, anchorId)
-                return WindowGetAnchor(windowName, anchorId)
-            end,
-            GetAnchorCount = function(windowName)
-                return WindowGetAnchorCount(windowName)
-            end,
-            ForceProcessAnchors = function(windowName)
-                WindowForceProcessAnchors(windowName)
-            end,
-            AssignFocus = function(windowName, doFocus)
-                return WindowAssignFocus(windowName, doFocus)
-            end,
-            HasFocus = function(windowName)
-                return WindowHasFocus(windowName)
-            end,
-            SetResizing = function(windowName, isResizing)
-                WindowSetResizing(windowName, isResizing)
-            end,
-            IsResizing = function(windowName)
-                return WindowGetResizing(windowName)
-            end,
-            StartAlphaAnimation = function(windowName, animType, startAlpha, endAlpha, duration, setStartBeforeDelay,
-                                           delay, numLoop)
-                WindowStartAlphaAnimation(windowName, animType, startAlpha, endAlpha, duration, setStartBeforeDelay,
-                    delay, numLoop)
-            end,
-            StopAlphaAnimation = function(windowName)
-                WindowStopAlphaAnimation(windowName)
-            end,
-            StopScaleAnimation = function(windowName)
-                WindowStopScaleAnimation(windowName)
-            end,
-            StartScaleAnimation = function(windowName, animType, startX, startY, endX, endY, duration,
-                                           setStartBeforeDelay, delay, numLoop)
-                WindowStartScaleAnimation(
-                    windowName,
-                    animType,
-                    startX,
-                    startY,
-                    endX,
-                    endY,
-                    duration,
-                    setStartBeforeDelay,
-                    delay,
-                    numLoop
-                )
-            end,
-            StopPositionAnimation = function(windowName)
-                WindowStopPositionAnimation(windowName)
-            end,
-            SetAlpha = function(windowName, alpha)
-                WindowSetAlpha(windowName, alpha)
-            end,
-            GetAlpha = function(windowName)
-                return WindowGetAlpha(windowName)
-            end,
-            SetColor = function(windowName, color)
-                WindowSetTintColor(windowName, color.r, color.g, color.b)
-            end,
-            GetColor = function(windowName)
-                return WindowGetTintColor(windowName)
-            end,
-            CreateFromTemplate = function(windowName, template, parent, doShow)
-                if not UusCorp.Api.Window.DoesExist(windowName) then
-                    CreateWindowFromTemplateShow(windowName, template or windowName, parent or "Root",
-                        doShow == nil or doShow)
-                    return true
-                end
-                return false
-            end,
-            Create = function(windowName, doShow)
-                if not UusCorp.Api.Window.DoesExist(windowName) then
-                    CreateWindow(windowName, doShow == nil or doShow)
-                    return true
-                end
-                return false
-            end,
-            ToggleWindow = function()
-                if not UusCorp.Api.Window.DoesExist(windowName) then
-                    return UusCorp.Api.Window.Create(windowName, true)
-                end
-                return true
-            end,
-            SetId = function(windowName, id)
-                WindowSetId(windowName, id)
-            end,
-            GetId = function(windowName)
-                return WindowGetId(windowName)
-            end,
-            SetTabOrder = function(windowName, tabOrder)
-                WindowSetTabOrder(windowName, tabOrder)
-            end,
-            GetTabOrder = function(windowName)
-                return WindowGetTabOrder(windowName)
-            end,
-            SetMoving = function(windowName, isMoving)
-                WindowSetMoving(windowName, isMoving)
-            end,
-            IsMoving = function(windowName)
-                return WindowGetMoving(windowName)
-            end,
-            RegisterEventHandler = function(windowName, event, callback)
-                WindowRegisterEventHandler(windowName, event, callback)
-            end,
-            UnregisterEventHandler = function(windowName, event)
-                WindowUnregisterEventHandler(windowName, event)
-            end,
-            RegisterCoreEventHandler = function(windowName, event, callback)
-                WindowRegisterCoreEventHandler(windowName, event, callback)
-            end,
-            UnregisterCoreEventHandler = function(windowName, event)
-                WindowUnregisterCoreEventHandler(windowName, event)
-            end,
-            SetParent = function(windowName, parentId)
-                WindowSetParent(windowName, parentId)
-            end,
-            GetParent = function(windowName)
-                return WindowGetParent(windowName)
-            end,
-            SetScale = function(windowName, scale)
-                WindowSetScale(windowName, scale)
-            end,
-            GetScale = function(windowName)
-                return WindowGetScale(windowName)
-            end,
-            SetRelativeScale = function(windowName, scale)
-                WindowSetRelativeScale(windowName, scale)
-            end,
-            SetResizeOnChildren = function(windowName, isRecursive, borderSpacing)
-                WindowResizeOnChildren(windowName, isRecursive, borderSpacing)
-            end,
-            SetGameActionTrigger = function(windowName, action)
-                WindowSetGameActionTrigger(windowName, action)
-            end,
-            SetGameActionData = function(windowName, actionType, actionId, actionText)
-                WindowSetGameActionData(windowName, actionType, actionId, actionText)
-            end,
-            SetGameActionButton = function(windowName, button)
-                WindowSetGameActionButton(windowName, button)
-            end,
-            GetGameActionButton = function(windowName)
-                return WindowGetGameActionButton(windowName)
-            end,
-            IsGameActionLocked = function(windowName)
-                return WindowIsGameActionLocked(windowName)
-            end,
-            SetDrawWhenInterfaceHidden = function(windowName, doDraw)
-                WindowSetDrawWhenInterfaceHidden(windowName, doDraw)
-            end,
-            RestoreDefaults = function(windowName)
-                WindowRestoreDefaultSettings(windowName)
-            end,
-            SetUpdateFrequency = function(windowName, frequency)
-                WindowSetUpdateFrequency(windowName, frequency)
-            end,
-            GetPosition = function(id)
-                return WindowGetScreenPosition(id)
-            end,
-            AttachToWorldObject = function(objectId, window)
-                AttachWindowToWorldObject(objectId, window)
-            end,
-            DetachFromWorldObject = function(objectId, window)
-                DetachWindowFromWorldObject(objectId, window)
-            end,
-            RegisterData = function(data, id)
-                RegisterWindowData(data, id or 0)
-            end,
-            UnregisterData = function(data, id)
-                UnregisterWindowData(data, id or 0)
-            end,
-            SavePostion = function(window, closing, alias)
-                WindowUtils.SaveWindowPosition(window, closing, alias)
-            end,
-            RestorePostion = function(window, trackSize, alias, ignoreBounds)
-                WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBounds)
-            end
-        },
-        InterfaCore = {
-            GetScaleFactor = function ()
-                return 1 / InterfaceCore.scale
-            end
-        }
-    },
-    Data = {
-        ---@return WindowData
-        Window = function()
-            ---@type WindowData
-            local data = WindowData
-
-            data.CurrentTarget.isMobile = function()
-                return data.CurrentTarget.TargetType == UusCorpConstants.TargetType.Mobile
-            end
-
-            data.CurrentTarget.isObject = function()
-                return data.CurrentTarget.TargetType == UusCorpConstants.TargetType.Object
-            end
-
-            data.CurrentTarget.isCorpse = function()
-                return data.CurrentTarget.TargetType == UusCorpConstants.TargetType.Corpse
-            end
-
-            return data
-        end,
-        ---@return UusCorpSystemData
-        System = function()
-            ---@class UusCorpSystemData:SystemData
-            local system = SystemData
-            system.isDragItem = function ()
-                return system.DragItem.DragType == SystemData.DragItem.TYPE_ITEM
-            end
-            return system
-        end
-    },
+    Api = Api,
+    CurrentTarget = CurrentTarget,
+    Cursor = Cursor,
+    Data = Data(),
+    Drag = Drag,
     Constants = {
         DragSource = {
             Object = function ()
-                return UusCorp.Data.System().DragSource["SOURCETYPE_OBJECT"]
+                return UusCorp.Data.getDraggingObject()
             end
         },
         TargetType = {
@@ -2111,19 +2347,19 @@ UusCorp = {
         },
         Broadcasts = {
             Help = function ()
-                return UusCorp.Data.System().Events["REQUEST_OPEN_HELP_MENU"]
+                return UusCorp.Data.getEventHelp()
             end,
             BeginHealthBarDrag = function ()
-                return UusCorp.Data.System().Events["BEGIN_DRAG_HEALTHBAR_WINDOW"]
+                return UusCorp.Data.getEventBeginDragHealthBar()
             end,
             BugReport = function ()
-                return UusCorp.Data.System().Events["BUG_REPORT_SCREEN"]
+                return UusCorp.Data.getEventBugReport()
             end,
             ExitGame = function ()
-                return UusCorp.Data.System().Events["EXIT_GAME"]
+                return UusCorp.Data.getEventExitGame()
             end,
             EscapeKeyProcessed = function ()
-                return UusCorp.Data.System().Events["ESCAPE_KEY_PROCESSED"]
+                return UusCorp.Data.getEventEscapeKey()
             end
         },
         DataEvents = {
@@ -2138,28 +2374,28 @@ UusCorp = {
             },
             OnUpdatePlayerStatus = {
                 getType = function ()
-                    return UusCorp.Data.Window().PlayerStatus.Type
+                    return UusCorp.Data.getPlayerStatus().Type
                 end,
                 getEvent = function ()
-                    return UusCorp.Data.Window().PlayerStatus.Event
+                    return UusCorp.Data.getPlayerStatus().Event
                 end,
                 name = "OnUpdatePlayerStatus"
             },
             OnUpdateHealthBarColor = {
                 getType = function ()
-                    return UusCorp.Data.Window().HealthBarColor.Type
+                    return WindowData.HealthBarColor.Type
                 end,
                 getEvent = function ()
-                    return UusCorp.Data.Window().HealthBarColor.Event
+                    return WindowData.HealthBarColor.Event
                 end,
                 name = "OnUpdateHealthBarColor"
             },
             OnUpdateMobileStatus = {
                 getType = function ()
-                    return UusCorp.Data.Window().MobileStatus.Type
+                    return WindowData.MobileStatus.Type
                 end,
                 getEvent = function ()
-                    return UusCorp.Data.Window().MobileStatus.Event
+                    return WindowData.MobileStatus.Event
                 end,
                 name = "OnUpdateMobileStatus"
             }
@@ -2167,7 +2403,7 @@ UusCorp = {
         SystemEvents = {
             OnEndHealthBarDrag = {
                 getEvent = function ()
-                    return UusCorp.Data.System().Events.END_DRAG_HEALTHBAR_WINDOW
+                    return UusCorp.Data.getEventEndDragHealthBar()
                 end,
                 name = "OnEndHealthBarDrag"
             }
@@ -2271,21 +2507,17 @@ UusCorp = {
     },
     Interface = {
         Defaults = {
-            ResiszeWindow = Window {
-                name = "ResizeWindow"
-            },
+            ResiszeWindow = DefaultWindow("ResizeWindow", ResizeWindow),
 
-            RootWindow = Window {
-                name = "Root"
-            },
+            RootWindow = DefaultWindow("Root", nil),
 
-            MainMenuWindow = Window {
-                name = "MainMenuWindow"
-            },
+            MainMenuWindow = DefaultWindow("MainMenuWindow", MainMenuWindow),
 
-            BugReportWindow = Window {
-                name = "BugReportWindow"
-            },
+            BugReportWindow = DefaultWindow("BugReportWindow", BugReportWindow),
+
+            StatusWindow = DefaultWindow("StatusWindow", StatusWindow),
+
+            TargetWindow = DefaultWindow("TargetWindow", TargetWindow),
 
             ---@class ObjectHandleWindow
             ---@field CreateObjectHandles fun()
@@ -2343,6 +2575,26 @@ UusCorp = {
     },
     Utils = {
         Array = {
+            ---@generic K
+            ---@generic V
+            ---@generic T
+            ---@param array T[]
+            ---@param getKey fun(item: T, index: integer): K
+            ---@param getValue fun(item: T, index: integer): V
+            ---@return table<K,V>
+            MapToTable = function (array, getKey, getValue)
+                local newTable = {}
+
+                UusCorp.Utils.Array.ForEach(
+                    array,
+                    function (item, index)
+                        newTable[getKey(item, index)] = getValue(item, index)
+                    end
+                )
+
+                return newTable
+            end,
+
             ---@generic T
             ---@param array T[]
             ---@param find fun(item: T): boolean
@@ -2384,6 +2636,16 @@ UusCorp = {
         },
 
         Table = {
+            ---@generic K
+            ---@generic V
+            ---@param table table<K, V>
+            ---@param forEach fun(k: K, v: V)
+            ForEach = function (table, forEach)
+                for k, v in pairs(table) do
+                    forEach(k, v)
+                end
+            end,
+
             ---@generic K
             ---@generic V
             ---@param table table<K, V>
@@ -2429,19 +2691,19 @@ UusCorp = {
                 if type(text) == "string" then
                     return text
                 else
-                    return UusCorp.Api.String.WStringToString(text)
+                    return Api.String.WStringToString(text)
                 end
             end,
 
             ToWString = function(text)
                 if type(text) == "number" then
-                    return UusCorp.Api.String.GetStringFromTid(text)
+                    return Api.String.GetStringFromTid(text)
                 elseif type(text) == "wstring" then
                     return text
                 elseif type(text) == "string" then
-                    return UusCorp.Api.String.StringToWString(text)
+                    return Api.String.StringToWString(text)
                 else
-                    return UusCorp.Api.String.StringToWString(tostring(text))
+                    return Api.String.StringToWString(tostring(text))
                 end
             end,
 
@@ -2539,5 +2801,11 @@ UusCorp = {
             window.events.onEndHealthBarDrag()
         end
     },
-    Mod = Mod
+    Mobile = Mobile,
+    Mod = Mod,
+    Mouse = Mouse,
+    MouseOver = MouseOver,
+    Object = Object,
+    ObjectHandles = ObjectHandles,
+    PlayerStatus = PlayerStatus
 }

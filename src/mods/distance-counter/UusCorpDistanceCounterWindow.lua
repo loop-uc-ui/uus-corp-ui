@@ -11,10 +11,7 @@ local Label = function ()
 
             ---@param self Label
             OnUpdate = function (self)
-                local systemData = UusCorp.Data.System()
-                local windowData = UusCorp.Data.Window()
-
-                if not windowData.Cursor.target then
+                if not UusCorp.Cursor().isTarget() then
                     self.setText("")
                     return
                 end
@@ -31,7 +28,7 @@ local Label = function ()
                 local borderY = posY + resizeY
 
                 -- If we're outside the ResizeWndow then clear the text
-                local mousePosition = systemData.MousePosition
+                local mousePosition = UusCorp.Mouse().getPosition()
                 local outsideX = mousePosition.x > borderX or mousePosition.x < posX
                 local outsideY = mousePosition.y > borderY or mousePosition.y < posY
 

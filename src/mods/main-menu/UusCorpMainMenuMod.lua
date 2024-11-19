@@ -13,10 +13,10 @@ UusCorpMainMenuMod = {
         end
 
         UusCorp.Interface.Defaults.Actions.ToggleMainMenu = function ()
-            local cursor = UusCorp.Data.Window().Cursor
-            local curentTarget = UusCorp.Data.Window().CurrentTarget.HasTarget
+            local cursor = UusCorp.Cursor().isTarget()
+            local currentTarget = UusCorp.CurrentTarget().hasTarget()
 
-            if cursor.target or curentTarget then
+            if cursor or currentTarget then
                 return
             end
 
