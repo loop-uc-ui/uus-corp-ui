@@ -1,5 +1,5 @@
 UusCorpDistanceCounterMod = {
     Initialize = function ()
-        UusCorpDistanceCounterWindow.create(true)
+        UusCorpDistanceCounterWindow:create(true)
     end
 }

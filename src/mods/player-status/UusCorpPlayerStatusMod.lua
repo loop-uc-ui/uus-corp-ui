@@ -5,12 +5,12 @@ UusCorpPlayerStatusMod = UusCorp.Mod {
 
     OnInitialize = function ()
         local statusWindow = UusCorp.Interface.Defaults.StatusWindow
-        statusWindow.setShowing(false)
-        statusWindow.unregisterEventHandler(UusCorp.PlayerStatus().geEvent())
-        UusCorp.Utils.Table.OverrideFunctions(statusWindow.getDefault())
+        statusWindow:setShowing(false)
+        statusWindow:unregisterEventHandler(UusCorp.PlayerStatus().geEvent())
+        UusCorp.Utils.Table.OverrideFunctions(statusWindow:getDefault())
         local window = UusCorpPlayerStatusWindow()
-        window.create(true)
-        window.setShowing(true)
-        window.setOffsetFromParent(0, 0)
+        window:create(true)
+        window:setShowing(true)
+        window:setOffsetFromParent(0, 0)
     end
 }

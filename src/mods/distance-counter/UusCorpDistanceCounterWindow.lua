@@ -6,21 +6,21 @@ local Label = function ()
         events = {
             ---@param self Label
             OnInitialize = function (self)
-                self.setText("")
+                self:setText("")
             end,
 
             ---@param self Label
             OnUpdate = function (self)
                 if not UusCorp.Cursor().isTarget() then
-                    self.setText("")
+                    self:setText("")
                     return
                 end
 
                 local scaleFactor = UusCorp.Api.InterfaCore.GetScaleFactor()
 
-                local resizeWindow = UusCorp.Interface.Defaults.ResiszeWindow
-                local posX, posY = resizeWindow.getPosition()
-                local resizeX, resizeY = resizeWindow.getDimensions()
+                local resizeWindow = UusCorp.Interface.Defaults.ResizeWindow
+                local posX, posY = resizeWindow:getPosition()
+                local resizeX, resizeY = resizeWindow:getDimensions()
                 resizeX = resizeX / scaleFactor
                 resizeY = resizeY / scaleFactor
 
@@ -33,7 +33,7 @@ local Label = function ()
                 local outsideY = mousePosition.y > borderY or mousePosition.y < posY
 
                 if outsideX or outsideY then
-                    self.setText("")
+                    self:setText("")
                     return
                 end
 
@@ -47,9 +47,10 @@ local Label = function ()
                 local x = xDelta * xDelta
                 local y = yDelta * yDelta
 
-                self.setText(tostring(math.floor(math.sqrt(x + y) / 32)))
+                --TODO 64 is a magic number, find a better way to calculate distance
+                self:setText(tostring(math.floor(math.sqrt(x + y) / 64)))
 
-                local width, height = UusCorpDistanceCounterWindow.getDimensions()
+                local width, height = UusCorpDistanceCounterWindow:getDimensions()
 
                 -- Set the window position
                 local windowOffset = 16
@@ -60,7 +61,7 @@ local Label = function ()
                 local mouseY = mousePosition.y
                 local propWindowY = mouseY - windowOffset - (height / scaleFactor)
 
-                UusCorpDistanceCounterWindow.setOffsetFromParent(
+                UusCorpDistanceCounterWindow:setOffsetFromParent(
                     propWindowX * scaleFactor,
                     propWindowY * scaleFactor
                 )
@@ -73,9 +74,9 @@ UusCorpDistanceCounterWindow = UusCorp.Interface.Window {
     name = "UusCorpDistanceCounterWindow",
     events = {
         OnInitialize = function (self)
-            self.setChildren { Label() }
-            self.toggleBackground(false)
-            self.toggleFrame(false)
+            self:setChildren { Label() }
+            self:toggleBackground(false)
+            self:toggleFrame(false)
         end
     }
 }

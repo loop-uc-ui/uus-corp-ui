@@ -6,37 +6,37 @@ local function Label(objectHandle)
             ---@param self Button
             OnInitialize = function (self)
                 local name = objectHandle.name:sub(1, 32)
-                self.setText(name)
-                local parent = self.getParent()
-                self.setDimensions(#name * 11, 32)
-                parent.setDimensions(#name * 11, 36)
-                self.setId(objectHandle.id)
+                self:setText(name)
+                local parent = self:getParent()
+                self:setDimensions(#name * 11, 32)
+                parent:setDimensions(#name * 11, 36)
+                self:setId(objectHandle.id)
             end,
 
             OnRButtonUp = function (self)
-                self.getParent().destroy()
+                self:getParent():destroy()
             end,
 
             OnLButtonDblClk = function (self)
                 UusCorp.Api.UserAction.UseItem(
-                    self.getId(),
+                    self:getId(),
                     false
                 )
             end,
 
             OnMouseOver = function (self)
-                self.getParent().setAlpha(1.0)
-                self.getParent().setLayer(UusCorp.Constants.WindowLayers.Default)
+                self:getParent():setAlpha(1.0)
+                self:getParent():setLayer(UusCorp.Constants.WindowLayers.Default)
             end,
 
             OnMouseOverEnd = function (self)
-                self.getParent().setAlpha(0.65)
-                self.getParent().setLayer(UusCorp.Constants.WindowLayers.Background)
+                self:getParent():setAlpha(0.65)
+                self:getParent():setLayer(UusCorp.Constants.WindowLayers.Background)
             end,
 
             OnMouseDrag = function (_)
                 if objectHandle.isMobile then
-                    UusCorp.Mobile(objectHandle.id).setActive()
+                    UusCorp.Mobile(objectHandle.id):setActive()
                     UusCorp.Api.Event.Broadcast(UusCorp.Constants.Broadcasts.BeginHealthBarDrag())
                 elseif objectHandle.isValid() then
                     UusCorp.Api.Drag.SetObjectMouseClickData(objectHandle.id, UusCorp.Constants.DragSource.Object())
@@ -52,16 +52,16 @@ function UusCorpObjectHandle(objectHandle)
         name = "ObjectHandleWindow" .. objectHandle.id,
         events = {
             OnInitialize = function (self)
-                self.setAlpha(0.65)
-                self.setLayer(UusCorp.Constants.WindowLayers.Background)
+                self:setAlpha(0.65)
+                self:setLayer(UusCorp.Constants.WindowLayers.Background)
                 local label = Label(objectHandle)
-                self.setChildren { label }
-                self.attachToObject()
+                self:setChildren { label }
+                self:attachToObject()
             end,
 
             OnUpdate = function (self)
                 if not objectHandle.isValid() then
-                    self.destroy()
+                    self:destroy()
                 end
             end
         }

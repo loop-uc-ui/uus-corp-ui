@@ -5,8 +5,8 @@ local Button = function (text, onLButtonUp, onShown)
             OnLButtonUp = onLButtonUp,
             ---@param self Button
             OnInitialize = function (self)
-                self.setDimensions(130, 41)
-                self.setText(text)
+                self:setDimensions(130, 41)
+                self:setText(text)
                 if onShown ~= nil then
                     onShown(self)
                 end
@@ -19,9 +19,9 @@ UusCorpMainMenuWindow = UusCorp.Interface.Window {
     name = "UusCorpMainMenuWindow",
     events = {
         OnInitialize = function (self)
-            self.setDimensions(214, 440)
-            self.anchorToParentCenter()
-            self.setChildren {
+            self:setDimensions(214, 440)
+            self:anchorToParentCenter()
+            self:setChildren {
                 Button(
                     3000128,
                     function ()
@@ -29,7 +29,7 @@ UusCorpMainMenuWindow = UusCorp.Interface.Window {
                     end,
                     ---@param button Button
                     function (button)
-                        button.anchorToParenTop()
+                        button:anchorToParentTop()
                     end
                 ),
                 Button(
@@ -41,9 +41,9 @@ UusCorpMainMenuWindow = UusCorp.Interface.Window {
                 Button(
                     L"Settings",
                     function ()
-                        if self.doesExist() then
+                        if self:doesExist() then
                             ToggleWindowByName("UusCorpSettingsWindow", "")
-                            self.setShowing(false)
+                            self:setShowing(false)
                         else
                             ToggleWindowByName("SettingsWindow", "")
                         end
@@ -53,28 +53,28 @@ UusCorpMainMenuWindow = UusCorp.Interface.Window {
                     L"Store",
                     function ()
                         EventApi.broadcast(Events.store())
-                        self.setShowing(false)
+                        self:setShowing(false)
                     end
                 ),
                 Button(
                     L"Agents",
                     function ()
                         ToggleWindowByName("OrganizerWindow", "")
-                        self.setShowing(false)
+                        self:setShowing(false)
                     end
                 ),
                 Button(
                     3000172,
                     function ()
                         ToggleWindowByName("MacroWindow", "")
-                        self.setShowing(false)
+                        self:setShowing(false)
                     end
                 ),
                 Button(
                     1079812,
                     function ()
                         ToggleWindowByName("ActionsWindow", "")
-                        self.setShowing(false)
+                        self:setShowing(false)
                     end
                 ),
                 Button(
@@ -82,20 +82,20 @@ UusCorpMainMenuWindow = UusCorp.Interface.Window {
                     function ()
                         UusCorp.Api.Event.Broadcast(Events.help())
                         EventApi.broadcast(Events.help())
-                        self.setShowing(false)
+                        self:setShowing(false)
                     end
                 ),
                 Button(
                     L"Debug",
                     function ()
                         ToggleWindowByName("DebugWindow", "")
-                        self.setShowing(false)
+                        self:setShowing(false)
                     end
                 )
             }
         end,
         OnRButtonUp = function (self)
-            self.setShowing(false)
+            self:setShowing(false)
         end
     }
 }

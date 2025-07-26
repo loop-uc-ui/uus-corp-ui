@@ -4,22 +4,25 @@ UusCorpObjectHandleMod = UusCorp.Mod {
     Path = "/src/mods/object-handle",
 
     OnInitialize = function ()
-        UusCorp.Interface.Defaults.ObjectHandleWindow.CreateObjectHandles = function ()
+        UusCorp.Interface.Defaults.ObjectHandleWindow:getDefault().CreateObjectHandles = function ()
             UusCorp.Utils.Table.ForEach(
                 UusCorp.ObjectHandles().getHandles(),
                 function (_, v)
-                    UusCorpObjectHandle(v).create()
+                    UusCorpObjectHandle(v):create()
                 end
             )
         end
 
-        local copy = UusCorp.Utils.Table.Copy(UusCorp.Interface.Defaults.ItemProperties --[[@as table]])
+        -- Store the original function before overriding it
+        local originalItemProperties = UusCorp.Interface.Defaults.ItemProperties
 
-        UusCorp.Interface.Defaults.ItemProperties = function ()
-            if (string.find(UusCorp.MouseOver().getWindow(), UusCorpObjectHandleWindow.Name)) then
+        ---@diagnostic disable-next-line: duplicate-set-field
+        UusCorp.Interface.Defaults.ItemProperties.UpdateItemPropertiesData = function()
+            if (string.find(UusCorp.MouseOver().getWindow(), UusCorpObjectHandleWindow:getName())) then
                 UusCorp.Interface.Defaults.ItemPropertiesData.clearActiveItem()
             else
-                copy--[[@as ItemProperties]].UpdateItemPropertiesData()
+                -- Call the original function
+                originalItemProperties.UpdateItemPropertiesData()
             end
         end
     end

@@ -1,8 +1,8 @@
 UusCorpMainMenuMod = {
     Initialize = function ()
-        UusCorp.Interface.Defaults.BugReportWindow.destroy()
+        UusCorp.Interface.Defaults.BugReportWindow:destroy()
 
-        UusCorp.Interface.Defaults.RootWindow.unregisterEventHandler(
+        UusCorp.Interface.Defaults.RootWindow:unregisterEventHandler(
             UusCorp.Constants.Broadcasts.BugReport()
         )
 
@@ -20,19 +20,19 @@ UusCorpMainMenuMod = {
                 return
             end
 
-            UusCorpMainMenuWindow.setShowing(
-                not UusCorpMainMenuWindow.isShowing()
+            UusCorpMainMenuWindow:setShowing(
+                not UusCorpMainMenuWindow:isShowing()
             )
         end
 
-        UusCorp.Interface.Defaults.RootWindow.registerEventHandler(
+        UusCorp.Interface.Defaults.RootWindow:registerEventHandler(
             UusCorp.Constants.Broadcasts.EscapeKeyProcessed(),
             "Actions.ToggleMainMenu"
         )
 
-        -- Destroy the old main menu menu, so our custom one
-        -- takes precendence
-        UusCorp.Interface.Defaults.MainMenuWindow.destroy()
-        UusCorpMainMenuWindow.create(false)
+        -- -- Destroy the old main menu menu, so our custom one
+        -- -- takes precendence
+        UusCorp.Interface.Defaults.MainMenuWindow:destroy()
+        UusCorpMainMenuWindow:create(false)
     end
 }

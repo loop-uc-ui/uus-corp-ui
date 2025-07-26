@@ -4,15 +4,15 @@ local function Name(id)
             ---@param self Label
             OnInitialize = function (self)
                 self.setId(id)
-                self.anchorToParenTop(0, 4)
+                self:anchorToParentTop(0, 4)
             end,
 
             ---@param self Label
             OnUpdateMobileStatus = function (self, mobileStatus)
-                self.matchParentWidth(0.9)
-                self.centerText()
-                self.setText(mobileStatus.MobName)
-                self.setColor(UusCorp.Constants.Colors.Notoriety[mobileStatus.Notoriety + 1])
+                self:matchParentWidth(0.9)
+                self:centerText()
+                self:setText(mobileStatus.MobName)
+                self:setColor(UusCorp.Constants.Colors.Notoriety[mobileStatus.Notoriety + 1])
             end
         }
     }
@@ -23,20 +23,20 @@ local function HealthStatusBar(id)
         events = {
             ---@param self StatusBar
             OnInitialize = function (self)
-                self.setId(id)
-                self.setForegroundTint(UusCorp.Constants.Colors.Red)
+                self:setId(id)
+                self:setForegroundTint(UusCorp.Constants.Colors.Red)
             end,
 
             ---@param self StatusBar
             OnUpdatePlayerStatus = function (self, playerStatus)
-                self.setMaxValue(playerStatus.MaxHealth)
-                self.matchParentWidth(0.9)
-                self.setCurrentValue(playerStatus.CurrentHealth)
+                self:setMaxValue(playerStatus.MaxHealth)
+                self:matchParentWidth(0.9)
+                self:setCurrentValue(playerStatus.CurrentHealth)
             end,
 
             ---@param self StatusBar
             OnUpdateHealthBarColor = function (self, healthBarColor)
-                self.setForegroundTint(UusCorp.Constants.Colors.HealhBar[healthBarColor.VisualStateId + 1])
+                self:setForegroundTint(UusCorp.Constants.Colors.HealthBar[healthBarColor.VisualStateId + 1])
             end
         }
     }
@@ -49,13 +49,13 @@ local function StatusLabel(id, onUpdate)
     return UusCorp.Interface.Label {
         events = {
             OnInitialize = function (self)
-                self.setId(id)
+                self:setId(id)
             end,
 
             ---@param self Label
             OnUpdatePlayerStatus = function (self, playerStatus)
-                self.centerText()
-                self.matchParentWidth(0.9)
+                self:centerText()
+                self:matchParentWidth(0.9)
                 onUpdate(self, playerStatus)
             end
         }
@@ -67,15 +67,15 @@ local function ManaStatusBar(id)
         events = {
             ---@param self StatusBar
             OnInitialize = function (self)
-                self.setId(id)
-                self.setForegroundTint(UusCorp.Constants.Colors.Blue)
+                self:setId(id)
+                self:setForegroundTint(UusCorp.Constants.Colors.Blue)
             end,
 
             ---@param self StatusBar
             OnUpdatePlayerStatus = function (self, playerStatus)
-                self.setMaxValue(playerStatus.MaxMana)
-                self.matchParentWidth(0.9)
-                self.setCurrentValue(playerStatus.CurrentMana)
+                self:setMaxValue(playerStatus.MaxMana)
+                self:matchParentWidth(0.9)
+                self:setCurrentValue(playerStatus.CurrentMana)
             end
         }
     }
