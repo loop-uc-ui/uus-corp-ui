@@ -3,7 +3,6 @@ local function Label(objectHandle)
     return UusCorp.Interface.Button {
         template = "UusCorpButton18",
         events = {
-            ---@param self Button
             OnInitialize = function (self)
                 local name = objectHandle.name:sub(1, 32)
                 self:setText(name)

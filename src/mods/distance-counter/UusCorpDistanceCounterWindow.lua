@@ -2,12 +2,10 @@
 local Label = function ()
     return UusCorp.Interface.Label {
         events = {
-            ---@param self Label
             OnInitialize = function (self)
                 self:setText("")
             end,
 
-            ---@param self Label
             OnUpdate = function (self)
                 if not UusCorp.Cursor().isTarget() then
                     self:setText("")

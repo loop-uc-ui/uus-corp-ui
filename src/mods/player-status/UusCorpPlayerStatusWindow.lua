@@ -1,13 +1,11 @@
 local function Name(id)
     return UusCorp.Interface.Label {
         events = {
-            ---@param self Label
             OnInitialize = function (self)
                 self:setId(id)
                 self:anchorToParentTop(0, 4)
             end,
 
-            ---@param self Label
             OnUpdateMobileStatus = function (self, mobileStatus)
                 self:matchParentWidth(0.9)
                 self:centerText()
@@ -21,20 +19,17 @@ end
 local function HealthStatusBar(id)
     return UusCorp.Interface.StatusBar {
         events = {
-            ---@param self StatusBar
             OnInitialize = function (self)
                 self:setId(id)
                 self:setForegroundTint(UusCorp.Constants.Colors.Red)
             end,
 
-            ---@param self StatusBar
             OnUpdatePlayerStatus = function (self, playerStatus)
                 self:setMaxValue(playerStatus.MaxHealth)
                 self:matchParentWidth(0.9)
                 self:setCurrentValue(playerStatus.CurrentHealth)
             end,
 
-            ---@param self StatusBar
             OnUpdateHealthBarColor = function (self, healthBarColor)
                 self:setForegroundTint(UusCorp.Constants.Colors.HealthBar[healthBarColor.VisualStateId + 1])
             end
@@ -52,7 +47,6 @@ local function StatusLabel(id, onUpdate)
                 self:setId(id)
             end,
 
-            ---@param self Label
             OnUpdatePlayerStatus = function (self, playerStatus)
                 self:centerText()
                 self:matchParentWidth(0.9)
@@ -65,13 +59,11 @@ end
 local function ManaStatusBar(id)
     return UusCorp.Interface.StatusBar {
         events = {
-            ---@param self StatusBar
             OnInitialize = function (self)
                 self:setId(id)
                 self:setForegroundTint(UusCorp.Constants.Colors.Blue)
             end,
 
-            ---@param self StatusBar
             OnUpdatePlayerStatus = function (self, playerStatus)
                 self:setMaxValue(playerStatus.MaxMana)
                 self:matchParentWidth(0.9)
@@ -84,13 +76,11 @@ end
 local function StaminaStatusBar(id)
     return UusCorp.Interface.StatusBar {
         events = {
-            ---@param self StatusBar
             OnInitialize = function (self)
                 self:setId(id)
                 self:setForegroundTint(UusCorp.Constants.Colors.YellowDark)
             end,
 
-            ---@param self StatusBar
             OnUpdatePlayerStatus = function (self, playerStatus)
                 self:setMaxValue(playerStatus.MaxStamina)
                 self:matchParentWidth(0.9)

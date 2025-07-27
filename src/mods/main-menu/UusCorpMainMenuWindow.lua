@@ -3,7 +3,7 @@ local Button = function (text, onLButtonUp, onShown)
     return UusCorp.Interface.Button {
         events = {
             OnLButtonUp = onLButtonUp,
-            ---@param self Button
+
             OnInitialize = function (self)
                 self:setDimensions(130, 41)
                 self:setText(text)

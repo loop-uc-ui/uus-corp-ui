@@ -410,26 +410,6 @@
 ---@field Id number
 ---@field Name string
 
----@class EventsModel
----@field OnInitialize fun(self: Window)?
----@field OnLButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnRButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnShutdown fun(self: Window)?
----@field OnHidden fun(self: Window)?
----@field OnShown fun(self: Window)?
----@field OnLButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnRButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnUpdate fun(self: Window, timePassed: integer)?
----@field OnUpdateMobileName fun(self: Window, windowData: MobileName)?
----@field OnLButtonDblClk fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnMouseOver fun(self: Window)?
----@field OnMouseOverEnd fun(self: Window)?
----@field OnMouseDrag fun(self: Window)?
----@field OnUpdatePlayerStatus fun(self: Window, playerStatus: WindowData.PlayerStatus)?
----@field OnUpdateMobileStatus fun(self: Window, mobileStatus: WindowData.MobileStatus)?
----@field OnUpdateHealthBarColor fun(self: Window, healthBarColor: WindowData.HealthBarColor)?
----@field OnEndHealthBarDrag fun(self: Window)?
-
 ---@class SystemData
 ---@field TrackingPointer SystemData.TrackingPointer
 ---@field BindingActionString string
@@ -528,11 +508,6 @@
 
 ---@class WindowData.Cursor
 ---@field target boolean
-
----@class WindowModel
----@field name string?
----@field template string?
----@field events EventsModel?
 
 
 local DefaultUIClasses = {
@@ -747,27 +722,6 @@ local DefaultUIClasses = {
     ---@field MouseOver fun() Handles mouse over
     ---@field Shutdown fun() Shuts down the buff window
     ---@field UpdateStatus fun(iconId: integer) Updates the status
-
-    ---@class BugReportWindow
-    ---@field NUM_MACROS integer Number of macros
-    ---@field NUM_MACRO_ICONS integer Number of macro icons
-    ---@field MACRO_ICONS_ID_BASE integer Macro icons ID base
-    ---@field activeId integer Active ID
-    ---@field iconNum integer Icon number
-    ---@field bugTypes table Table of bug types
-    ---@field Size integer Size of bug types
-    ---@field selectedType integer Selected bug type
-    ---@field TID table Table of TID values
-    ---@field Initialize fun() Initializes the bug report window
-    ---@field Update fun(timePassed: number) Updates the bug report window
-    ---@field Shutdown fun() Shuts down the bug report window
-    ---@field Hide fun() Hides the bug report window
-    ---@field OnOpen fun() Handles window open
-    ---@field OnClose fun() Handles window close
-    ---@field OnSelectBugType fun() Handles select bug type
-    ---@field SelectBugType fun(type: integer) Selects bug type
-    ---@field OnSubmit fun() Handles submit
-    ---@field OnClear fun() Handles clear
 
     ---@class CenterScreenText
     ---@field EnableIgnoreSummons boolean Whether to ignore summons
@@ -1955,21 +1909,6 @@ local DefaultUIClasses = {
     ---@field KeyRecorded fun() Handles key recorded event
     ---@field KeyCancelRecord fun() Cancels key recording
 
-    ---@class MainMenuWindow
-    ---@field TID table Table of TIDs for menu items
-    ---@field Initialize fun() Initializes the main menu window
-    ---@field Shutdown fun() Shuts down the main menu window
-    ---@field OnLogOut fun() Handles the log out action
-    ---@field OnOpenUserSettings fun() Opens the user settings window
-    ---@field OnOpenMacros fun() Opens the macros window
-    ---@field OnOpenActions fun() Opens the actions window
-    ---@field OnOpenBugReportItem fun() Opens the bug report window
-    ---@field OnOpenHelp fun() Opens the help menu
-    ---@field OnOpenUOStore fun() Opens the Ultima Store
-    ---@field ToggleSettingsWindow fun() Toggles the settings window
-    ---@field ToggleBugReportWindow fun() Toggles the bug report window
-    ---@field OnToggleAgentsSettings fun() Toggles the agents settings window
-
     ---@class MapCommon
     ---@field ForcedUpdate boolean Whether a forced update is needed
     ---@field ActiveView string|nil The current active map view
@@ -2369,39 +2308,6 @@ local DefaultUIClasses = {
 
     ---@class ObjectHandle
     ---@field DestroyObjectWindow fun(objectId: integer) Destroys the object handle window for a given object ID
-
-    ---@class ObjectHandleWindow
-    ---@field Active boolean Whether object handles are currently active
-    ---@field hasWindow table Table tracking which object IDs have handle windows
-    ---@field ObjectsData table Data for all objects currently handled
-    ---@field ReverseObjectLookUp table Reverse lookup from object ID to index
-    ---@field grayColor table Default gray color for object handles
-    ---@field whiteColor table Default white color for object handles
-    ---@field WindowShiftOffset integer Offset for window shifting
-    ---@field mouseOverId integer ID of the object currently under the mouse
-    ---@field Notoriety table Table of notoriety types (NONE, INNOCENT, FRIEND, CANATTACK, CRIMINAL, ENEMY, MURDERER, INVULNERABLE)
-    ---@field TextColors table Table mapping notoriety to text color (r, g, b)
-    ---@field REFRESH_DELAY number Delay between refreshes
-    ---@field RefreshTimer number Timer for refresh logic
-    ---@field CurrentFilter string Current filter string for object names
-    ---@field ObjectHandleScale number Scale for object handle windows
-    ---@field ObjectHandleAlpha number Alpha for object handle windows
-    ---@field lastItem integer Last item processed for scavenging
-    ---@field cooldown number Cooldown timer for scavenging
-    ---@field ForceIgnore integer|nil Object ID to force ignore
-    ---@field Initialize fun() Initializes the object handle system
-    ---@field retrieveObjectsData fun(objectsData: table): boolean Retrieves object data from WindowData
-    ---@field CreateObjectHandles fun() Creates object handle windows for all objects on screen
-    ---@field DestroyObjectHandles fun() Destroys all object handle windows
-    ---@field OnClickClose fun() Handles close button click on an object handle window
-    ---@field OnRClick fun() Handles right-click on an object handle window (context menu)
-    ---@field OnDblClick fun() Handles double-click on an object handle window (use object)
-    ---@field OnItemClicked fun() Handles item click on an object handle window (target or drag)
-    ---@field OnLButtonUp fun() Handles left button up on an object handle window
-    ---@field OnMouseOver fun() Handles mouse over on an object handle window (shows tooltip)
-    ---@field CreateSingle fun(objectId: integer, name: string, noto: integer, isMobile: boolean) Creates a single object handle window
-    ---@field OnUpdate fun(timePassed: number) Periodic update for object handle logic
-    ---@field OnMouseOverEnd fun() Handles mouse leaving an object handle window
 
     ---@class OrganizerWindow
     ---@field VisibleItems integer Number of visible items in the organizer list
@@ -2823,25 +2729,6 @@ local DefaultUIClasses = {
     ---@field OnTextChanged fun(text: string) Handles text change events and enforces max length
     ---@field Shutdown fun() Shuts down and hides the rename window
 
-    ---@class ResizeWindow
-    ---@field HANDLE_SIZE integer Size of the resize handles
-    ---@field IsMoving boolean Whether the window is currently being moved
-    ---@field Locked boolean Whether the resize window is locked
-    ---@field Initialize fun() Initializes the resize window and sets up UI and event handlers
-    ---@field LockTooltip fun() Shows a tooltip for the lock/unlock button
-    ---@field Lock fun() Toggles the locked state of the resize window
-    ---@field Shutdown fun() Saves the window position and performs cleanup
-    ---@field Update fun(timePassed: number) Updates the resize window state and viewport
-    ---@field UpdateViewport fun() Updates the viewport based on window dimensions
-    ---@field StartMoving fun() Starts moving the resize window if not locked
-    ---@field StopMoving fun() Stops moving and updates the viewport
-    ---@field OnResizeBegin fun() Begins the resize operation
-    ---@field OnResizeEnd fun() Ends the resize operation and updates handles and viewport
-    ---@field UpdateHandles fun(windowWidth: number, windowHeight: number) Updates the dimensions of the resize handles
-    ---@field SendViewportData fun(windowWidth: number, windowHeight: number) Sends updated viewport data
-    ---@field UpdateWindow fun() Updates the window position, size, and handles
-    ---@field OnViewportChanged fun() Handles viewport change events and updates window
-
     ---@class SettingsWindow
     ---@field IGNORE_LIST_ALL integer Constant for all ignore list
     ---@field IGNORE_LIST_CONF integer Constant for confirmed ignore list
@@ -3135,120 +3022,11 @@ local DefaultUIClasses = {
     ---@field Shutdown fun() Handles shutdown for a static text window
     ---@field Update fun(timePassed: number) Updates fade and removal of static text windows
 
-    ---@class StatusWindow
-    ---@field CurPlayerId integer Current player ID
-    ---@field Skills table Table of skill definitions (sop, TCName)
-    ---@field Notoriety table Table of notoriety types
-    ---@field TextColors table Table mapping notoriety to text color (r, g, b)
-    ---@field Locked boolean Whether the status window is locked
-    ---@field HPLocked boolean Whether the HP window is locked
-    ---@field MANALocked boolean Whether the Mana window is locked
-    ---@field STAMLocked boolean Whether the Stamina window is locked
-    ---@field DisableDelta number Time delta for disabling input
-    ---@field TempDisabled boolean Whether input is temporarily disabled
-    ---@field MPHeight integer Height of the mana bar
-    ---@field MPWidth integer Width of the mana bar
-    ---@field LastMPHeight integer Last height of the mana bar
-    ---@field HPHeight integer Height of the health bar
-    ---@field HPWidth integer Width of the health bar
-    ---@field LastHPHeight integer Last height of the health bar
-    ---@field TCToolsHandle boolean Whether the TC tools handle is active
-    ---@field Initialize fun(reinit?: boolean) Initializes the status window and sets up UI/data
-    ---@field Shutdown fun() Shuts down the status window and saves positions
-    ---@field Latency_OnMouseOver fun() Shows tooltip for latency
-    ---@field LockTooltip fun() Shows tooltip for lock button
-    ---@field Lock fun() Toggles the locked state of the status window
-    ---@field LockTooltipHP fun() Shows tooltip for HP lock button
-    ---@field LockHP fun() Toggles the locked state of the HP window
-    ---@field LockTooltipMANA fun() Shows tooltip for Mana lock button
-    ---@field LockMANA fun() Toggles the locked state of the Mana window
-    ---@field LockTooltipSTAM fun() Shows tooltip for Stamina lock button
-    ---@field LockSTAM fun() Toggles the locked state of the Stamina window
-    ---@field MenuTooltip fun() Shows tooltip for the menu button
-    ---@field Menu fun() Opens the context menu for the player
-    ---@field UpdateLatency fun() Updates the latency bar display
-    ---@field ClickOutside fun() Disables input for the advanced status window
-    ---@field EnableInput fun(timePassed: number) Enables input after a delay
-    ---@field UpdateStatus fun() Updates the status window with current player data
-    ---@field OnLButtonUp fun() Handles left button up (drag/drop or target)
-    ---@field OnLButtonDown fun() Handles left button down (start moving window)
-    ---@field OnHPLButtonUp fun() Handles left button up on HP window
-    ---@field OnHPLButtonDown fun() Handles left button down on HP window
-    ---@field OnMLANAButtonUp fun() Handles left button up on Mana window
-    ---@field OnMANALButtonDown fun() Handles left button down on Mana window
-    ---@field OnSTAMLButtonUp fun() Handles left button up on Stamina window
-    ---@field OnSTAMLButtonDown fun() Handles left button down on Stamina window
-    ---@field GuardsButton_OnLButtonUp fun() Sends a guards help chat command
-    ---@field GuardsButton_OnMouseOver fun() Shows tooltip for guards button
-    ---@field OnRButtonUp fun() Opens the context menu for the player
-    ---@field UpdateLabelContent fun() Updates the health, mana, and stamina label content
-    ---@field OnMouseOver fun() Handles mouse over for the status window
-    ---@field OnMouseOverEnd fun() Handles mouse over end for the status window
-    ---@field ToggleStrLabel fun() Toggles the display of stat labels
-    ---@field OnMouseDlbClk fun() Uses the player item on double click
-    ---@field TCTools fun() Opens the TC tools context menu
-    ---@field TCToolsTooltip fun() Shows tooltip for TC tools
-    ---@field TCToolsOver fun() Handles mouse over for TC tools
-    ---@field TCToolsOnLButtonDown fun() Starts moving the TC tools window
-    ---@field TCToolsOverend fun() Handles mouse out for TC tools
-    ---@field SetMana fun(current: integer, maximum: integer) Sets the mana bar height
-    ---@field SetHealth fun(current: integer, maximum: integer) Sets the health bar height
-    ---@field ChangeStyle fun(style: integer) Changes the status window style
-    ---@field ToggleButtons fun() Toggles the display of status window buttons
-    ---@field TCContextMenuCallback fun(returnCode: any, param: any) Handles TC context menu actions
-    ---@field EditSkill fun(id: integer, value: any, max: any, min: any) Edits a skill value
-    ---@field EditStr fun(id: any, value: any, max: any, min: any) Edits a stat value
-
     ---@class StringUtils
     ---@field SORT_ORDER_UP integer Constant for ascending sort order
     ---@field SORT_ORDER_DOWN integer Constant for descending sort order
     ---@field FormatNumberWString fun(number: number): wstring Formats a number as a wstring with commas
     ---@field SortByString fun(string1: string, string2: string, order: integer): boolean Sorts two strings by order
-
-    ---@class TargetWindow
-    ---@field TargetId integer Current target ID
-    ---@field HasTarget boolean Whether there is a current target
-    ---@field TargetType integer Type of the current target
-    ---@field MobileType integer Constant for mobile target type
-    ---@field ObjectType integer Constant for object target type
-    ---@field CorpseType integer Constant for corpse target type
-    ---@field Buttons table Array of button window names
-    ---@field Delta number Time delta for periodic updates
-    ---@field DeltaC number Time delta for button refresh
-    ---@field CurrentCreature table|nil Data for the current creature
-    ---@field RegisterTime table Table tracking registration times for targets
-    ---@field PreviousTargets table Array of previous target IDs
-    ---@field Locked boolean Whether the target window is locked
-    ---@field KnownPlayers table Table of known player IDs
-    ---@field KnownTamable table Table of known tamable creature IDs
-    ---@field Initialize fun() Initializes the target window and sets up UI/data
-    ---@field Shutdown fun() Shuts down the target window and unregisters data
-    ---@field ClearPreviousTarget fun() Clears the previous target and resets state
-    ---@field UnregisterPreviousTargetData fun() Unregisters data for the previous target
-    ---@field UpdateMobile fun() Updates the target window for a mobile target
-    ---@field ForceUpdate fun(timePassed: number) Periodically updates and refreshes the target window
-    ---@field RefreshButtons fun() Refreshes the state of action buttons
-    ---@field GetActionsList fun(mobileId: integer): table Gets the list of actions for a mobile
-    ---@field UpdateButtons fun() Updates the action buttons for the current target
-    ---@field UpdateObject fun() Updates the target window for an object target
-    ---@field UpdateCorpse fun() Updates the target window for a corpse target
-    ---@field UpdateTarget fun() Updates the target window based on the current target type
-    ---@field MobileStatusUpdate fun() Updates the status for a mobile target
-    ---@field UpdateStatus fun(targetId: integer) Updates the health/status for a target
-    ---@field HandleUpdateNameEvent fun() Handles name update events
-    ---@field UpdateName fun(targetId: integer) Updates the name label for a target
-    ---@field HandleTintHealthBarEvent fun() Handles health bar tint events
-    ---@field TintHealthBar fun(mobileId: integer) Tints the health bar for a target
-    ---@field UpdateObjectInfo fun() Updates object info for the current target
-    ---@field OnItemDblClicked fun() Handles double-click on the target window
-    ---@field OnRClick fun() Handles right-click on the target window
-    ---@field OnLClick fun() Handles left-click on the target window
-    ---@field OnMouseOver fun() Handles mouse over for the target window
-    ---@field OnMouseOverEnd fun() Handles mouse over end for the target window
-    ---@field ButtonsUse fun() Handles use of an action button
-    ---@field OnMoveStart fun() Handles start of window move
-    ---@field Lock fun() Toggles the locked state of the target window
-    ---@field LockTooltip fun() Shows tooltip for the lock button
 
     ---@class TextParsing
     ---@field OverHeadError table Color for overhead error text (r, g, b)
@@ -3894,14 +3672,14 @@ local DefaultUIClasses = {
 
 
 ---@class Events
----@field _model EventsModel? The model containing event data.
+---@field _model WindowEventsModel? The model containing event data.
 ---@field _window Window The window to which events are attached.
 local Events = {}
 Events.__index = Events
 
 ---@generic T:Window
 ---@param window T The window to attach events to.
----@param model EventsModel? Optional model containing event data.
+---@param model WindowEventsModel? Optional model containing event data.
 ---@return Events
 function Events:new(window, model)
     local instance = setmetatable({}, self)
@@ -4252,6 +4030,31 @@ end
 -- Window
 -- ========================================================================== --
 
+---@class WindowEventsModel
+---@field OnInitialize fun(self: Window)?
+---@field OnLButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnRButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnShutdown fun(self: Window)?
+---@field OnHidden fun(self: Window)?
+---@field OnShown fun(self: Window)?
+---@field OnLButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnRButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnUpdate fun(self: Window, timePassed: integer)?
+---@field OnUpdateMobileName fun(self: Window, windowData: MobileName)?
+---@field OnLButtonDblClk fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnMouseOver fun(self: Window)?
+---@field OnMouseOverEnd fun(self: Window)?
+---@field OnMouseDrag fun(self: Window)?
+---@field OnUpdatePlayerStatus fun(self: Window, playerStatus: WindowData.PlayerStatus)?
+---@field OnUpdateMobileStatus fun(self: Window, mobileStatus: WindowData.MobileStatus)?
+---@field OnUpdateHealthBarColor fun(self: Window, healthBarColor: WindowData.HealthBarColor)?
+---@field OnEndHealthBarDrag fun(self: Window)?
+
+---@class WindowModel
+---@field name string?
+---@field template string?
+---@field events WindowEventsModel?
+
 ---@class Window
 ---@field _children Window[] A list of child windows.
 ---@field _name string The unique name of the window.
@@ -4571,12 +4374,37 @@ end
 -- Button
 -- ========================================================================== --
 
+---@class ButtonEventsModel : WindowEventsModel
+---@field OnInitialize fun(self: Button)?
+---@field OnLButtonUp fun(self: Button, flags: integer, x: integer, y: integer)?
+---@field OnRButtonUp fun(self: Button, flags: integer, x: integer, y: integer)?
+---@field OnShutdown fun(self: Button)?
+---@field OnHidden fun(self: Button)?
+---@field OnShown fun(self: Button)?
+---@field OnLButtonDown fun(self: Button, flags: integer, x: integer, y: integer)?
+---@field OnRButtonDown fun(self: Button, flags: integer, x: integer, y: integer)?
+---@field OnUpdate fun(self: Button, timePassed: integer)?
+---@field OnUpdateMobileName fun(self: Button, windowData: MobileName)?
+---@field OnLButtonDblClk fun(self: Button, flags: integer, x: integer, y: integer)?
+---@field OnMouseOver fun(self: Button)?
+---@field OnMouseOverEnd fun(self: Button)?
+---@field OnMouseDrag fun(self: Button)?
+---@field OnUpdatePlayerStatus fun(self: Button, playerStatus: WindowData.PlayerStatus)?
+---@field OnUpdateMobileStatus fun(self: Button, mobileStatus: WindowData.MobileStatus)?
+---@field OnUpdateHealthBarColor fun(self: Button, healthBarColor: WindowData.HealthBarColor)?
+---@field OnEndHealthBarDrag fun(self: Button)?
+
+---@class ButtonModel : WindowModel
+---@field name string?
+---@field template string?
+---@field events ButtonEventsModel?
+
 ---@class Button: Window
 local Button = {}
 Button.__index = Button
 setmetatable(Button, Window)
 
----@param model WindowModel?
+---@param model ButtonModel?
 ---@return Button
 function Button:new(model)
     model = model or {}
@@ -4610,12 +4438,37 @@ end
 -- Label
 -- ========================================================================== --
 
+---@class LabelEventsModel : WindowEventsModel
+---@field OnInitialize fun(self: Label)?
+---@field OnLButtonUp fun(self: Label, flags: integer, x: integer, y: integer)?
+---@field OnRButtonUp fun(self: Label, flags: integer, x: integer, y: integer)?
+---@field OnShutdown fun(self: Label)?
+---@field OnHidden fun(self: Label)?
+---@field OnShown fun(self: Label)?
+---@field OnLButtonDown fun(self: Label, flags: integer, x: integer, y: integer)?
+---@field OnRButtonDown fun(self: Label, flags: integer, x: integer, y: integer)?
+---@field OnUpdate fun(self: Label, timePassed: integer)?
+---@field OnUpdateMobileName fun(self: Label, windowData: MobileName)?
+---@field OnLButtonDblClk fun(self: Label, flags: integer, x: integer, y: integer)?
+---@field OnMouseOver fun(self: Label)?
+---@field OnMouseOverEnd fun(self: Label)?
+---@field OnMouseDrag fun(self: Label)?
+---@field OnUpdatePlayerStatus fun(self: Label, playerStatus: WindowData.PlayerStatus)?
+---@field OnUpdateMobileStatus fun(self: Label, mobileStatus: WindowData.MobileStatus)?
+---@field OnUpdateHealthBarColor fun(self: Label, healthBarColor: WindowData.HealthBarColor)?
+---@field OnEndHealthBarDrag fun(self: Label)?
+
+---@class LabelModel : WindowModel
+---@field name string?
+---@field template string?
+---@field events LabelEventsModel?
+
 ---@class Label: Window
 local Label = {}
 Label.__index = Label
 setmetatable(Label, Window)
 
----@param model WindowModel?
+---@param model LabelModel?
 ---@return Label
 function Label:new(model)
     model = model or {}
@@ -4645,12 +4498,37 @@ end
 -- StatusBar
 -- ========================================================================== --
 
+---@class StatusBarEventsModel : WindowEventsModel
+---@field OnInitialize fun(self: StatusBar)?
+---@field OnLButtonUp fun(self: StatusBar, flags: integer, x: integer, y: integer)?
+---@field OnRButtonUp fun(self: StatusBar, flags: integer, x: integer, y: integer)?
+---@field OnShutdown fun(self: StatusBar)?
+---@field OnHidden fun(self: StatusBar)?
+---@field OnShown fun(self: StatusBar)?
+---@field OnLButtonDown fun(self: StatusBar, flags: integer, x: integer, y: integer)?
+---@field OnRButtonDown fun(self: StatusBar, flags: integer, x: integer, y: integer)?
+---@field OnUpdate fun(self: StatusBar, timePassed: integer)?
+---@field OnUpdateMobileName fun(self: StatusBar, windowData: MobileName)?
+---@field OnLButtonDblClk fun(self: StatusBar, flags: integer, x: integer, y: integer)?
+---@field OnMouseOver fun(self: StatusBar)?
+---@field OnMouseOverEnd fun(self: StatusBar)?
+---@field OnMouseDrag fun(self: StatusBar)?
+---@field OnUpdatePlayerStatus fun(self: StatusBar, playerStatus: WindowData.PlayerStatus)?
+---@field OnUpdateMobileStatus fun(self: StatusBar, mobileStatus: WindowData.MobileStatus)?
+---@field OnUpdateHealthBarColor fun(self: StatusBar, healthBarColor: WindowData.HealthBarColor)?
+---@field OnEndHealthBarDrag fun(self: StatusBar)?
+
+---@class StatusBarModel : WindowModel
+---@field name string?
+---@field template string?
+---@field events StatusBarEventsModel?
+
 ---@class StatusBar: Window
 local StatusBar = {}
 StatusBar.__index = StatusBar
 setmetatable(StatusBar, Window)
 
----@param model WindowModel?
+---@param model StatusBarModel?
 ---@return StatusBar
 function StatusBar:new(model)
     model = model or {}
@@ -7057,6 +6935,12 @@ function UusCorp.Constants.Broadcasts.BugReport()
     return SystemData.Events["BUG_REPORT_SCREEN"]
 end
 
+---@class DataEvent
+---@field getType fun(): integer
+---@field getEvent fun(): integer
+---@field name string
+
+---@type table<string, DataEvent>
 UusCorp.Constants.DataEvents = {}
 
 UusCorp.Constants.DataEvents.OnUpdateMobileName = {
@@ -7099,6 +6983,11 @@ UusCorp.Constants.DataEvents.OnUpdateMobileStatus = {
     name = "OnUpdateMobileStatus"
 }
 
+---@class SystemEvent
+---@field getEvent fun(): integer
+---@field name string
+
+---@type table<string, SystemEvent>
 UusCorp.Constants.SystemEvents = {}
 
 UusCorp.Constants.SystemEvents.OnEndHealthBarDrag = {
@@ -7186,31 +7075,243 @@ UusCorp.Interface = {}
 
 UusCorp.Interface.Defaults = {}
 
+---@class ResizeWindow
+---@field HANDLE_SIZE integer Size of the resize handles
+---@field IsMoving boolean Whether the window is currently being moved
+---@field Locked boolean Whether the resize window is locked
+---@field Initialize fun() Initializes the resize window and sets up UI and event handlers
+---@field LockTooltip fun() Shows a tooltip for the lock/unlock button
+---@field Lock fun() Toggles the locked state of the resize window
+---@field Shutdown fun() Saves the window position and performs cleanup
+---@field Update fun(timePassed: number) Updates the resize window state and viewport
+---@field UpdateViewport fun() Updates the viewport based on window dimensions
+---@field StartMoving fun() Starts moving the resize window if not locked
+---@field StopMoving fun() Stops moving and updates the viewport
+---@field OnResizeBegin fun() Begins the resize operation
+---@field OnResizeEnd fun() Ends the resize operation and updates handles and viewport
+---@field UpdateHandles fun(windowWidth: number, windowHeight: number) Updates the dimensions of the resize handles
+---@field SendViewportData fun(windowWidth: number, windowHeight: number) Sends updated viewport data
+---@field UpdateWindow fun() Updates the window position, size, and handles
+---@field OnViewportChanged fun() Handles viewport change events and updates window
+
+---@class ResizeWindowWrapper : DefaultWindow
+---@field getDefault fun(self: ResizeWindowWrapper): ResizeWindow
 UusCorp.Interface.Defaults.ResizeWindow = DefaultWindow:new("ResizeWindow", function ()
     return ResizeWindow
 end)
 
+---@class RootWindow
+
+---@class RootWindowWrapper : DefaultWindow
+---@field getDefault fun(self: RootWindowWrapper): RootWindow
 UusCorp.Interface.Defaults.RootWindow = DefaultWindow:new("Root", function ()
     return {}
 end)
 
+---@class MainMenuWindow
+---@field TID table Table of TIDs for menu items
+---@field Initialize fun() Initializes the main menu window
+---@field Shutdown fun() Shuts down the main menu window
+---@field OnLogOut fun() Handles the log out action
+---@field OnOpenUserSettings fun() Opens the user settings window
+---@field OnOpenMacros fun() Opens the macros window
+---@field OnOpenActions fun() Opens the actions window
+---@field OnOpenBugReportItem fun() Opens the bug report window
+---@field OnOpenHelp fun() Opens the help menu
+---@field OnOpenUOStore fun() Opens the Ultima Store
+---@field ToggleSettingsWindow fun() Toggles the settings window
+---@field ToggleBugReportWindow fun() Toggles the bug report window
+---@field OnToggleAgentsSettings fun() Toggles the agents settings window
+
+---@class MainMenuWindowWrapper : DefaultWindow
+---@field getDefault fun(self: MainMenuWindowWrapper): MainMenuWindow
 UusCorp.Interface.Defaults.MainMenuWindow = DefaultWindow:new("MainMenuWindow", function ()
     return MainMenuWindow
 end)
 
+---@class BugReportWindow
+---@field NUM_MACROS integer Number of macros
+---@field NUM_MACRO_ICONS integer Number of macro icons
+---@field MACRO_ICONS_ID_BASE integer Macro icons ID base
+---@field activeId integer Active ID
+---@field iconNum integer Icon number
+---@field bugTypes table Table of bug types
+---@field Size integer Size of bug types
+---@field selectedType integer Selected bug type
+---@field TID table Table of TID values
+---@field Initialize fun() Initializes the bug report window
+---@field Update fun(timePassed: number) Updates the bug report window
+---@field Shutdown fun() Shuts down the bug report window
+---@field Hide fun() Hides the bug report window
+---@field OnOpen fun() Handles window open
+---@field OnClose fun() Handles window close
+---@field OnSelectBugType fun() Handles select bug type
+---@field SelectBugType fun(type: integer) Selects bug type
+---@field OnSubmit fun() Handles submit
+---@field OnClear fun() Handles clear
+
+---@class BugReportWindowWrapper : DefaultWindow
+---@field getDefault fun(self: BugReportWindowWrapper): BugReportWindow
 UusCorp.Interface.Defaults.BugReportWindow = DefaultWindow:new("BugReportWindow", function ()
     return BugReportWindow
 end)
 
+---@class StatusWindow
+---@field CurPlayerId integer Current player ID
+---@field Skills table Table of skill definitions (sop, TCName)
+---@field Notoriety table Table of notoriety types
+---@field TextColors table Table mapping notoriety to text color (r, g, b)
+---@field Locked boolean Whether the status window is locked
+---@field HPLocked boolean Whether the HP window is locked
+---@field MANALocked boolean Whether the Mana window is locked
+---@field STAMLocked boolean Whether the Stamina window is locked
+---@field DisableDelta number Time delta for disabling input
+---@field TempDisabled boolean Whether input is temporarily disabled
+---@field MPHeight integer Height of the mana bar
+---@field MPWidth integer Width of the mana bar
+---@field LastMPHeight integer Last height of the mana bar
+---@field HPHeight integer Height of the health bar
+---@field HPWidth integer Width of the health bar
+---@field LastHPHeight integer Last height of the health bar
+---@field TCToolsHandle boolean Whether the TC tools handle is active
+---@field Initialize fun(reinit?: boolean) Initializes the status window and sets up UI/data
+---@field Shutdown fun() Shuts down the status window and saves positions
+---@field Latency_OnMouseOver fun() Shows tooltip for latency
+---@field LockTooltip fun() Shows tooltip for lock button
+---@field Lock fun() Toggles the locked state of the status window
+---@field LockTooltipHP fun() Shows tooltip for HP lock button
+---@field LockHP fun() Toggles the locked state of the HP window
+---@field LockTooltipMANA fun() Shows tooltip for Mana lock button
+---@field LockMANA fun() Toggles the locked state of the Mana window
+---@field LockTooltipSTAM fun() Shows tooltip for Stamina lock button
+---@field LockSTAM fun() Toggles the locked state of the Stamina window
+---@field MenuTooltip fun() Shows tooltip for the menu button
+---@field Menu fun() Opens the context menu for the player
+---@field UpdateLatency fun() Updates the latency bar display
+---@field ClickOutside fun() Disables input for the advanced status window
+---@field EnableInput fun(timePassed: number) Enables input after a delay
+---@field UpdateStatus fun() Updates the status window with current player data
+---@field OnLButtonUp fun() Handles left button up (drag/drop or target)
+---@field OnLButtonDown fun() Handles left button down (start moving window)
+---@field OnHPLButtonUp fun() Handles left button up on HP window
+---@field OnHPLButtonDown fun() Handles left button down on HP window
+---@field OnMLANAButtonUp fun() Handles left button up on Mana window
+---@field OnMANALButtonDown fun() Handles left button down on Mana window
+---@field OnSTAMLButtonUp fun() Handles left button up on Stamina window
+---@field OnSTAMLButtonDown fun() Handles left button down on Stamina window
+---@field GuardsButton_OnLButtonUp fun() Sends a guards help chat command
+---@field GuardsButton_OnMouseOver fun() Shows tooltip for guards button
+---@field OnRButtonUp fun() Opens the context menu for the player
+---@field UpdateLabelContent fun() Updates the health, mana, and stamina label content
+---@field OnMouseOver fun() Handles mouse over for the status window
+---@field OnMouseOverEnd fun() Handles mouse over end for the status window
+---@field ToggleStrLabel fun() Toggles the display of stat labels
+---@field OnMouseDlbClk fun() Uses the player item on double click
+---@field TCTools fun() Opens the TC tools context menu
+---@field TCToolsTooltip fun() Shows tooltip for TC tools
+---@field TCToolsOver fun() Handles mouse over for TC tools
+---@field TCToolsOnLButtonDown fun() Starts moving the TC tools window
+---@field TCToolsOverend fun() Handles mouse out for TC tools
+---@field SetMana fun(current: integer, maximum: integer) Sets the mana bar height
+---@field SetHealth fun(current: integer, maximum: integer) Sets the health bar height
+---@field ChangeStyle fun(style: integer) Changes the status window style
+---@field ToggleButtons fun() Toggles the display of status window buttons
+---@field TCContextMenuCallback fun(returnCode: any, param: any) Handles TC context menu actions
+---@field EditSkill fun(id: integer, value: any, max: any, min: any) Edits a skill value
+---@field EditStr fun(id: any, value: any, max: any, min: any) Edits a stat value
+
+---@class StatusWindowWrapper : DefaultWindow
+---@field getDefault fun(self: StatusWindowWrapper): StatusWindow
 UusCorp.Interface.Defaults.StatusWindow = DefaultWindow:new("StatusWindow", function ()
     return StatusWindow
 end)
 
+---@class TargetWindow
+---@field TargetId integer Current target ID
+---@field HasTarget boolean Whether there is a current target
+---@field TargetType integer Type of the current target
+---@field MobileType integer Constant for mobile target type
+---@field ObjectType integer Constant for object target type
+---@field CorpseType integer Constant for corpse target type
+---@field Buttons table Array of button window names
+---@field Delta number Time delta for periodic updates
+---@field DeltaC number Time delta for button refresh
+---@field CurrentCreature table|nil Data for the current creature
+---@field RegisterTime table Table tracking registration times for targets
+---@field PreviousTargets table Array of previous target IDs
+---@field Locked boolean Whether the target window is locked
+---@field KnownPlayers table Table of known player IDs
+---@field KnownTamable table Table of known tamable creature IDs
+---@field Initialize fun() Initializes the target window and sets up UI/data
+---@field Shutdown fun() Shuts down the target window and unregisters data
+---@field ClearPreviousTarget fun() Clears the previous target and resets state
+---@field UnregisterPreviousTargetData fun() Unregisters data for the previous target
+---@field UpdateMobile fun() Updates the target window for a mobile target
+---@field ForceUpdate fun(timePassed: number) Periodically updates and refreshes the target window
+---@field RefreshButtons fun() Refreshes the state of action buttons
+---@field GetActionsList fun(mobileId: integer): table Gets the list of actions for a mobile
+---@field UpdateButtons fun() Updates the action buttons for the current target
+---@field UpdateObject fun() Updates the target window for an object target
+---@field UpdateCorpse fun() Updates the target window for a corpse target
+---@field UpdateTarget fun() Updates the target window based on the current target type
+---@field MobileStatusUpdate fun() Updates the status for a mobile target
+---@field UpdateStatus fun(targetId: integer) Updates the health/status for a target
+---@field HandleUpdateNameEvent fun() Handles name update events
+---@field UpdateName fun(targetId: integer) Updates the name label for a target
+---@field HandleTintHealthBarEvent fun() Handles health bar tint events
+---@field TintHealthBar fun(mobileId: integer) Tints the health bar for a target
+---@field UpdateObjectInfo fun() Updates object info for the current target
+---@field OnItemDblClicked fun() Handles double-click on the target window
+---@field OnRClick fun() Handles right-click on the target window
+---@field OnLClick fun() Handles left-click on the target window
+---@field OnMouseOver fun() Handles mouse over for the target window
+---@field OnMouseOverEnd fun() Handles mouse over end for the target window
+---@field ButtonsUse fun() Handles use of an action button
+---@field OnMoveStart fun() Handles start of window move
+---@field Lock fun() Toggles the locked state of the target window
+---@field LockTooltip fun() Shows tooltip for the lock button
+
+---@class TargetWindowWrapper : DefaultWindow
+---@field getDefault fun(self: TargetWindowWrapper): TargetWindow
 UusCorp.Interface.Defaults.TargetWindow = DefaultWindow:new("TargetWindow", function ()
     return TargetWindow
 end)
 
+---@class ObjectHandleWindow
+---@field Active boolean Whether object handles are currently active
+---@field hasWindow table Table tracking which object IDs have handle windows
+---@field ObjectsData table Data for all objects currently handled
+---@field ReverseObjectLookUp table Reverse lookup from object ID to index
+---@field grayColor table Default gray color for object handles
+---@field whiteColor table Default white color for object handles
+---@field WindowShiftOffset integer Offset for window shifting
+---@field mouseOverId integer ID of the object currently under the mouse
+---@field Notoriety table Table of notoriety types (NONE, INNOCENT, FRIEND, CANATTACK, CRIMINAL, ENEMY, MURDERER, INVULNERABLE)
+---@field TextColors table Table mapping notoriety to text color (r, g, b)
+---@field REFRESH_DELAY number Delay between refreshes
+---@field RefreshTimer number Timer for refresh logic
+---@field CurrentFilter string Current filter string for object names
+---@field ObjectHandleScale number Scale for object handle windows
+---@field ObjectHandleAlpha number Alpha for object handle windows
+---@field lastItem integer Last item processed for scavenging
+---@field cooldown number Cooldown timer for scavenging
+---@field ForceIgnore integer|nil Object ID to force ignore
+---@field Initialize fun() Initializes the object handle system
+---@field retrieveObjectsData fun(objectsData: table): boolean Retrieves object data from WindowData
+---@field CreateObjectHandles fun() Creates object handle windows for all objects on screen
+---@field DestroyObjectHandles fun() Destroys all object handle windows
+---@field OnClickClose fun() Handles close button click on an object handle window
+---@field OnRClick fun() Handles right-click on an object handle window (context menu)
+---@field OnDblClick fun() Handles double-click on an object handle window (use object)
+---@field OnItemClicked fun() Handles item click on an object handle window (target or drag)
+---@field OnLButtonUp fun() Handles left button up on an object handle window
+---@field OnMouseOver fun() Handles mouse over on an object handle window (shows tooltip)
+---@field CreateSingle fun(objectId: integer, name: string, noto: integer, isMobile: boolean) Creates a single object handle window
+---@field OnUpdate fun(timePassed: number) Periodic update for object handle logic
+---@field OnMouseOverEnd fun() Handles mouse leaving an object handle window
 
+---@class ObjectHandleWindowWrapper : DefaultWindow
+---@field getDefault fun(self: ObjectHandleWindowWrapper): ObjectHandleWindow
 UusCorp.Interface.Defaults.ObjectHandleWindow = DefaultWindow:new("ObjectHandleWindow", function ()
     return ObjectHandleWindow
 end)
@@ -7239,7 +7340,7 @@ function UusCorp.Interface.Window(model)
     return window
 end
 
----@param model WindowModel?
+---@param model ButtonModel?
 ---@return Button
 function UusCorp.Interface.Button(model)
     local button = Button:new(model)
@@ -7247,7 +7348,7 @@ function UusCorp.Interface.Button(model)
     return button
 end
 
----@param model WindowModel?
+---@param model LabelModel?
 ---@return Label
 function UusCorp.Interface.Label(model)
     local label = Label:new(model)
@@ -7255,7 +7356,7 @@ function UusCorp.Interface.Label(model)
     return label
 end
 
----@param model WindowModel?
+---@param model StatusBarModel?
 ---@return StatusBar
 function UusCorp.Interface.StatusBar(model)
     local statusBar = StatusBar:new(model)
