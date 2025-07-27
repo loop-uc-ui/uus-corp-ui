@@ -6,7 +6,7 @@ UusCorpPlayerStatusMod = UusCorp.Mod {
     OnInitialize = function ()
         local statusWindow = UusCorp.Interface.Defaults.StatusWindow
         statusWindow:setShowing(false)
-        statusWindow:unregisterEventHandler(UusCorp.PlayerStatus().geEvent())
+        statusWindow:unregisterEventHandler(UusCorp.Data.PlayerStatus():getEvent())
         UusCorp.Utils.Table.OverrideFunctions(statusWindow:getDefault())
         local window = UusCorpPlayerStatusWindow()
         window:create(true)

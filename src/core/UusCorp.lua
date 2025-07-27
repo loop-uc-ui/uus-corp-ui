@@ -7,15 +7,6 @@
 
 ---@class SkillAllSkillsOther
 
----@class WindowData.HealthBarColor
----@field VisualStateId number
-
----@class WindowData.ObjectHandle
----@field ObjectId integer[]
----@field Names string[]
----@field Notoriety integer[]
----@field IsMobile boolean[]
-
 ---@class AllSkillsSelf
 
 ---@class PlayerStat
@@ -37,69 +28,6 @@
 ---@field ObjectId number
 ---@field textHueDataCount number
 ---@field gumppicNumDataCount number
-
----@class WindowData.PlayerStatus
----@field StatCap number
----@field StamRegen number
----@field StatLock number[]
----@field Intelligence number
----@field IncreaseManaMax number
----@field InWarMode boolean
----@field Race number
----@field TithingPoints number
----@field Gold number
----@field EnhancePotions number
----@field IncreaseStamMax number
----@field ReflectPhysicalDamage number
----@field CurrentMana number
----@field IncreaseStr number
----@field IncreaseHitPointsMax number
----@field SwingSpeedIncrease number
----@field HitPointRegen number
----@field MaxPhysicalResist number
----@field Strength number
----@field MaxStamina number
----@field CurrentHealth number
----@field IncreaseMana number
----@field MaxEnergyResist number
----@field CurrentStamina number
----@field MaxWeight number
----@field DamageChangeIncrease number
----@field MaxHealth number
----@field PlayerId number
----@field MaxFollowers number
----@field LowerManaCost number
----@field MaxColdResist number
----@field FasterCastRecovery number
----@field SpellDamageIncrease number
----@field MaxDefenseChanceIncrease number
----@field IncreaseStam number
----@field IncreaseHitPoints number
----@field LowerReagentCost number
----@field ManaRegen number
----@field Luck number
----@field Weight number
----@field ColdResist number
----@field Followers number
----@field HitChanceIncrease number
----@field EnergyResist number
----@field MaxMana number
----@field PhysicalResist number
----@field MaxPoisonResist number
----@field MaxDamage number
----@field IncreaseInt number
----@field FasterCasting number
----@field MaxFireResist number
----@field IncreaseDex number
----@field DefenseChanceIncrease number
----@field VisualStateId number
----@field Dead number
----@field PoisonResist number
----@field Damage number
----@field FireResist number
----@field Dexterity number
----@field Type integer
----@field Event integer
 
 ---@class WaypointDisplay
 ---@field currentDisplayMode string
@@ -192,32 +120,9 @@
 ---@field RealSkillValue number
 ---@field SkillCap number
 
----@class WindowData.MobileStatus
----@field MaxMana number
----@field Gender number
----@field MobName string
----@field MaxStamina number
----@field CurrentHealth number
----@field Race number
----@field MyPet boolean
----@field CurrentStamina number
----@field IsDead boolean
----@field CurrentMana number
----@field MaxHealth number
----@field Notoriety number
-
 ---@class GChat
 ---@field GC_SHOW_CHAT boolean
 ---@field GC_SHOW_UNAVAILABLE boolean
-
----@class WindowData.CurrentTarget
----@field TargetId number
----@field HasPaperdoll boolean
----@field TargetType number
----@field HasTarget boolean
----@field isMobile fun(): boolean
----@field isObject fun(): boolean
----@field isCorpse fun(): boolean
 
 ---@class WindowData.ObjectInfo
 ---@field iconName string
@@ -290,9 +195,6 @@
 ---@class SystemData.PlayState
 ---@field isConnected boolean
 
----@class SystemData.Window
----@field name string
-
 ---@class SystemData.UpdateProcessedTime
 ---@field Time number
 
@@ -331,10 +233,6 @@
 ---@field particleFilter number
 ---@field displayFoliage boolean
 
----@class SystemData.Position
----@field x number
----@field y number
-
 ---@class SystemData.Size
 ---@field height number
 ---@field width number
@@ -364,9 +262,6 @@
 
 ---@class SystemData.RequestInfo
 ---@field ObjectId number
-
----@class SystemData.ActiveMobile
----@field Id number
 
 ---@class SystemData.ActiveContainer
 ---@field SlotsWide number
@@ -505,9 +400,6 @@
 ---@field ObjectInfo table<number, WindowData.ObjectInfo>
 ---@field ContainerWindow table<number, WindowData.Container>
 ---@field ObjectHandle WindowData.ObjectHandle
-
----@class WindowData.Cursor
----@field target boolean
 
 
 local DefaultUIClasses = {
@@ -3919,7 +3811,7 @@ end
 function Events:onUpdateMobileName()
     local window = self._window
     if self._model.OnUpdateMobileName ~= nil then
-        self._model.OnUpdateMobileName(window, UusCorp.Data().getMobileName(window:getId()))
+        self._model.OnUpdateMobileName(window, UusCorp.Data.MobileName(window:getId()))
     end
 
     UusCorp.Utils.Array.ForEach(
@@ -3968,7 +3860,7 @@ end
 function Events:onUpdatePlayerStatus()
     local window = self._window
     if self._model.OnUpdatePlayerStatus ~= nil then
-        self._model.OnUpdatePlayerStatus(window, UusCorp.Data().getPlayerStatus())
+        self._model.OnUpdatePlayerStatus(window, UusCorp.Data.PlayerStatus())
     end
 
     UusCorp.Utils.Array.ForEach(
@@ -3983,7 +3875,7 @@ function Events:onUpdateMobileStatus()
     local window = self._window
 
     if self._model.OnUpdateMobileStatus ~= nil then
-        self._model.OnUpdateMobileStatus(window, UusCorp.Data().getMobileStatus(window:getId()))
+        self._model.OnUpdateMobileStatus(window, UusCorp.Data.MobileStatus(window:getId()))
     end
 
     UusCorp.Utils.Array.ForEach(
@@ -3998,7 +3890,7 @@ function Events:onUpdateHealthBarColor()
     local window = self._window
 
     if self._model.OnUpdateHealthBarColor ~= nil then
-        self._model.OnUpdateHealthBarColor(window, UusCorp.Data().getHealthBarColor(window:getId()))
+        self._model.OnUpdateHealthBarColor(window, UusCorp.Data.HealthBarColor(window:getId()))
     end
 
     UusCorp.Utils.Array.ForEach(
@@ -4040,14 +3932,14 @@ end
 ---@field OnLButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnRButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnUpdate fun(self: Window, timePassed: integer)?
----@field OnUpdateMobileName fun(self: Window, windowData: MobileName)?
+---@field OnUpdateMobileName fun(self: Window, windowData: MobileNameWrapper)?
 ---@field OnLButtonDblClk fun(self: Window, flags: integer, x: integer, y: integer)?
 ---@field OnMouseOver fun(self: Window)?
 ---@field OnMouseOverEnd fun(self: Window)?
 ---@field OnMouseDrag fun(self: Window)?
----@field OnUpdatePlayerStatus fun(self: Window, playerStatus: WindowData.PlayerStatus)?
----@field OnUpdateMobileStatus fun(self: Window, mobileStatus: WindowData.MobileStatus)?
----@field OnUpdateHealthBarColor fun(self: Window, healthBarColor: WindowData.HealthBarColor)?
+---@field OnUpdatePlayerStatus fun(self: Window, playerStatus: PlayerStatusWrapper)?
+---@field OnUpdateMobileStatus fun(self: Window, mobileStatus: MobileStatusWrapper)?
+---@field OnUpdateHealthBarColor fun(self: Window, healthBarColor: HealthBarColorWrapper)?
 ---@field OnEndHealthBarDrag fun(self: Window)?
 
 ---@class WindowModel
@@ -4384,14 +4276,14 @@ end
 ---@field OnLButtonDown fun(self: Button, flags: integer, x: integer, y: integer)?
 ---@field OnRButtonDown fun(self: Button, flags: integer, x: integer, y: integer)?
 ---@field OnUpdate fun(self: Button, timePassed: integer)?
----@field OnUpdateMobileName fun(self: Button, windowData: MobileName)?
+---@field OnUpdateMobileName fun(self: Button, windowData: MobileNameWrapper)?
 ---@field OnLButtonDblClk fun(self: Button, flags: integer, x: integer, y: integer)?
 ---@field OnMouseOver fun(self: Button)?
 ---@field OnMouseOverEnd fun(self: Button)?
 ---@field OnMouseDrag fun(self: Button)?
----@field OnUpdatePlayerStatus fun(self: Button, playerStatus: WindowData.PlayerStatus)?
----@field OnUpdateMobileStatus fun(self: Button, mobileStatus: WindowData.MobileStatus)?
----@field OnUpdateHealthBarColor fun(self: Button, healthBarColor: WindowData.HealthBarColor)?
+---@field OnUpdatePlayerStatus fun(self: Button, playerStatus: PlayerStatusWrapper)?
+---@field OnUpdateMobileStatus fun(self: Button, mobileStatus: MobileStatusWrapper)?
+---@field OnUpdateHealthBarColor fun(self: Button, healthBarColor: HealthBarColorWrapper)?
 ---@field OnEndHealthBarDrag fun(self: Button)?
 
 ---@class ButtonModel : WindowModel
@@ -4448,14 +4340,14 @@ end
 ---@field OnLButtonDown fun(self: Label, flags: integer, x: integer, y: integer)?
 ---@field OnRButtonDown fun(self: Label, flags: integer, x: integer, y: integer)?
 ---@field OnUpdate fun(self: Label, timePassed: integer)?
----@field OnUpdateMobileName fun(self: Label, windowData: MobileName)?
+---@field OnUpdateMobileName fun(self: Label, windowData: MobileNameWrapper)?
 ---@field OnLButtonDblClk fun(self: Label, flags: integer, x: integer, y: integer)?
 ---@field OnMouseOver fun(self: Label)?
 ---@field OnMouseOverEnd fun(self: Label)?
 ---@field OnMouseDrag fun(self: Label)?
----@field OnUpdatePlayerStatus fun(self: Label, playerStatus: WindowData.PlayerStatus)?
----@field OnUpdateMobileStatus fun(self: Label, mobileStatus: WindowData.MobileStatus)?
----@field OnUpdateHealthBarColor fun(self: Label, healthBarColor: WindowData.HealthBarColor)?
+---@field OnUpdatePlayerStatus fun(self: Label, playerStatus: PlayerStatusWrapper)?
+---@field OnUpdateMobileStatus fun(self: Label, mobileStatus: MobileStatusWrapper)?
+---@field OnUpdateHealthBarColor fun(self: Label, healthBarColor: HealthBarColorWrapper)?
 ---@field OnEndHealthBarDrag fun(self: Label)?
 
 ---@class LabelModel : WindowModel
@@ -4508,14 +4400,14 @@ end
 ---@field OnLButtonDown fun(self: StatusBar, flags: integer, x: integer, y: integer)?
 ---@field OnRButtonDown fun(self: StatusBar, flags: integer, x: integer, y: integer)?
 ---@field OnUpdate fun(self: StatusBar, timePassed: integer)?
----@field OnUpdateMobileName fun(self: StatusBar, windowData: MobileName)?
+---@field OnUpdateMobileName fun(self: StatusBar, windowData: MobileNameWrapper)?
 ---@field OnLButtonDblClk fun(self: StatusBar, flags: integer, x: integer, y: integer)?
 ---@field OnMouseOver fun(self: StatusBar)?
 ---@field OnMouseOverEnd fun(self: StatusBar)?
 ---@field OnMouseDrag fun(self: StatusBar)?
----@field OnUpdatePlayerStatus fun(self: StatusBar, playerStatus: WindowData.PlayerStatus)?
----@field OnUpdateMobileStatus fun(self: StatusBar, mobileStatus: WindowData.MobileStatus)?
----@field OnUpdateHealthBarColor fun(self: StatusBar, healthBarColor: WindowData.HealthBarColor)?
+---@field OnUpdatePlayerStatus fun(self: StatusBar, playerStatus: PlayerStatusWrapper)?
+---@field OnUpdateMobileStatus fun(self: StatusBar, mobileStatus: MobileStatusWrapper)?
+---@field OnUpdateHealthBarColor fun(self: StatusBar, healthBarColor: HealthBarColorWrapper)?
 ---@field OnEndHealthBarDrag fun(self: StatusBar)?
 
 ---@class StatusBarModel : WindowModel
@@ -5242,6 +5134,7 @@ end
 
 -- ========================================================================== --
 -- Api - Label
+-- ========================================================================== --
 
 
 UusCorp.Api.Label = {}
@@ -6750,143 +6643,6 @@ function UusCorp.Api.InterfaCore.GetScaleFactor()
     return 1 / InterfaceCore.scale
 end
 
-function UusCorp.CurrentTarget()
-    ---@type WindowData.CurrentTarget
-    local data = WindowData.CurrentTarget
-    local currentTarget = {}
-
-    currentTarget.hasTarget = function ()
-        return data.HasTarget
-    end
-
-    currentTarget.isMobile = function ()
-        return data.TargetType == 2
-    end
-
-    currentTarget.isCorpse = function ()
-        return data.TargetType == 4
-    end
-
-    currentTarget.isObject = function ()
-        return data.TargetType == 3
-    end
-
-    return currentTarget
-end
-
-function UusCorp.Cursor()
-    ---@type WindowData.Cursor
-    local data = WindowData.Cursor
-    local cursor = {}
-
-    cursor.isTarget = function ()
-        return data.target
-    end
-
-    return cursor
-end
-
-function UusCorp.Data()
-    ---@type WindowData
-    local windowData = WindowData
-
-    ---@type SystemData
-    local systemData = SystemData
-
-    ---@class UusCorpData
-    local data = {}
-
-    data.isCurrentTargetMobile = function()
-        return windowData.CurrentTarget.TargetType == UusCorp.Constants.TargetType.Mobile
-    end
-
-    data.isCurrentTargetObject = function()
-        return windowData.CurrentTarget.TargetType == UusCorp.Constants.TargetType.Object
-    end
-
-    data.isCurrentTargetCorpse = function()
-        return windowData.CurrentTarget.TargetType == UusCorp.Constants.TargetType.Corpse
-    end
-
-    data.hasCurrentTarget = function ()
-        return windowData.CurrentTarget.HasTarget
-    end
-
-    data.isCursorTarget = function ()
-        return windowData.Cursor.target
-    end
-
-    data.setActiveMovile = function (id)
-        systemData.ActiveMobile.Id = id
-    end
-
-    data.isDraggingItem = function ()
-        return systemData.DragItem.DragType == SystemData.DragItem.TYPE_ITEM
-    end
-
-    data.getDraggingObject = function ()
-        return systemData.DragSource["SOURCETYPE_OBJECT"]
-    end
-
-    data.getEventHelp = function ()
-        return systemData.Events["REQUEST_OPEN_HELP_MENU"]
-    end
-
-    data.getEventBeginDragHealthBar = function ()
-        return systemData.Events["BEGIN_DRAG_HEALTHBAR_WINDOW"]
-    end
-
-    data.getEventEndDragHealthBar = function ()
-        return systemData.Events["END_DRAG_HEALTHBAR_WINDOW"]
-    end
-
-    data.getEventBugReport = function ()
-        return systemData.Events["BUG_REPORT_SCREEN"]
-    end
-
-    data.getEventExitGame = function ()
-        return systemData.Events["EXIT_GAME"]
-    end
-
-    data.getEventEscapeKey = function ()
-        return systemData.Events["ESCAPE_KEY_PROCESSED"]
-    end
-
-    data.getPlayerStatus = function ()
-        return windowData.PlayerStatus
-    end
-
-    data.getMobileStatus = function (id)
-        return windowData.MobileStatus[id]
-    end
-
-    data.getHealthBarColor = function (id)
-        return windowData.HealthBarColor[id]
-    end
-
-    data.getMobileName = function (id)
-        return windowData.MobileName[id]
-    end
-
-    return data
-end
-
-function UusCorp.Drag()
-    ---@type SystemData
-    local systemData = SystemData
-    local data = {}
-
-    data.isDraggingItem = function ()
-        return systemData.DragItem.DragType == SystemData.DragItem.TYPE_ITEM
-    end
-
-    data.getDraggingObject = function ()
-        return systemData.DragSource["SOURCETYPE_OBJECT"]
-    end
-
-    return data
-end
-
 -- ========================================================================== --
 -- Constants
 -- ========================================================================== --
@@ -6955,10 +6711,10 @@ UusCorp.Constants.DataEvents.OnUpdateMobileName = {
 
 UusCorp.Constants.DataEvents.OnUpdatePlayerStatus = {
     getType = function ()
-        return UusCorp.Data().getPlayerStatus().Type
+        return UusCorp.Data.PlayerStatus():getType()
     end,
     getEvent = function ()
-        return UusCorp.Data().getPlayerStatus().Event
+        return UusCorp.Data.PlayerStatus():getEvent()
     end,
     name = "OnUpdatePlayerStatus"
 }
@@ -7060,6 +6816,539 @@ UusCorp.Constants.Colors.Notoriety = {
 
 UusCorp.Constants.TextAlignment = {}
 UusCorp.Constants.TextAlignment.Center = "center"
+
+-- ========================================================================== --
+-- Data
+-- ========================================================================== --
+
+UusCorp.Data = {}
+
+-- ========================================================================== --
+-- Data - Active Mobile
+-- ========================================================================== --
+
+---@class SystemData.ActiveMobile
+---@field Id number
+
+---@class ActiveMobileWrapper
+local ActiveMobile = {}
+ActiveMobile.__index = ActiveMobile
+
+function ActiveMobile:new()
+    return setmetatable({}, self)
+end
+
+---@return SystemData.ActiveMobile
+function ActiveMobile:getData()
+    return SystemData.ActiveMobile
+end
+
+function ActiveMobile:getId()
+    return self:getData().Id
+end
+
+function ActiveMobile:setId(id)
+    self:getData().Id = id
+end
+
+function UusCorp.Data.ActiveMobile()
+    return ActiveMobile:new()
+end
+
+
+-- ========================================================================== --
+-- Data - Current Target
+-- ========================================================================== --
+
+---@class WindowData.CurrentTarget
+---@field TargetId number
+---@field HasPaperdoll boolean
+---@field TargetType number
+---@field HasTarget boolean
+---@field isMobile fun(): boolean
+---@field isObject fun(): boolean
+---@field isCorpse fun(): boolean
+
+---@class CurrentTargetWrapper
+local CurrentTarget = {}
+CurrentTarget.__index = CurrentTarget
+
+function CurrentTarget:new()
+    return setmetatable({}, self)
+end
+
+---@return WindowData.CurrentTarget
+function CurrentTarget:getData()
+    return WindowData.CurrentTarget
+end
+
+function CurrentTarget:hasTarget()
+    return self:getData().HasTarget
+end
+
+function CurrentTarget:isMobile()
+    return self:getData().TargetType == 2
+end
+
+function CurrentTarget:isCorpse()
+    return self:getData().TargetType == 4
+end
+
+function CurrentTarget:isObject()
+    return self:getData().TargetType == 3
+end
+
+function CurrentTarget:getId()
+    return self:getData().TargetId
+end
+
+function UusCorp.Data.CurrentTarget()
+    return CurrentTarget:new()
+end
+
+-- ========================================================================== --
+-- Data - Cursor
+-- ========================================================================== --
+
+---@class WindowData.Cursor
+---@field target boolean
+
+---@class CursorDataWrapper
+local Cursor = {}
+Cursor.__index = Cursor
+
+function Cursor:new()
+    return setmetatable({}, self)
+end
+
+---@return WindowData.Cursor
+function Cursor:getData()
+    return WindowData.Cursor
+end
+
+function Cursor:isTarget()
+    return self:getData().target
+end
+
+function UusCorp.Data.Cursor()
+    return Cursor:new()
+end
+
+-- ========================================================================== --
+-- Data - Drag
+-- ========================================================================== --
+
+---@class DragDataWrapper
+local Drag = {}
+Drag.__index = Drag
+
+function Drag:new()
+    return setmetatable({}, self)
+end
+
+---@return table<string, number>
+function Drag:getDragItemData()
+    return SystemData.DragItem
+end
+
+---@return table<string, number>
+function Drag:getDragSourceData()
+    return SystemData.DragSource
+end
+
+function Drag:isDraggingItem()
+    return self:getDragItemData().DragType == SystemData.DragItem.TYPE_ITEM
+end
+
+function Drag:getDraggingObject()
+    return self:getDragSourceData()["SOURCETYPE_OBJECT"]
+end
+
+function UusCorp.Data.Drag()
+    return Drag:new()
+end
+
+-- ========================================================================== --
+-- Data - Health Bar Color
+-- ========================================================================== --
+
+---@class WindowData.HealthBarColor
+---@field VisualStateId number
+
+---@class HealthBarColorWrapper
+---@field _id number
+local HealthBarColor = {}
+HealthBarColor.__index = HealthBarColor
+
+function HealthBarColor:new(id)
+    local instance = setmetatable({}, self)
+    instance._id = id
+    return instance
+end
+
+---@return WindowData.HealthBarColor
+function HealthBarColor:getData()
+    return WindowData.HealthBarColor[self._id]
+end
+
+function HealthBarColor:getVisualStateId()
+    return self:getData().VisualStateId
+end
+
+function HealthBarColor:getVisualStateColor()
+    return UusCorp.Constants.Colors.HealhBar[self:getVisualStateId() + 1]
+end
+
+function UusCorp.Data.HealthBarColor(id)
+    return HealthBarColor:new(id)
+end
+
+-- ========================================================================== --
+-- Data - Mobile Name
+-- ========================================================================== --
+
+---@class MobileNameWrapper
+---@field _id number
+local MobileName = {}
+MobileName.__index = MobileName
+
+function MobileName:new(id)
+    local instance = setmetatable({}, self)
+    instance._id = id
+    return instance
+end
+
+---@return MobileName
+function MobileName:getData()
+    return WindowData.MobileName[self._id]
+end
+
+function MobileName:getName()
+    return self:getData().MobName
+end
+
+function UusCorp.Data.MobileName(id)
+    return MobileName:new(id)
+end
+
+-- ========================================================================== --
+-- Data - Mobile Status
+-- ========================================================================== --
+
+---@class WindowData.MobileStatus
+---@field MaxMana number
+---@field Gender number
+---@field MobName string
+---@field MaxStamina number
+---@field CurrentHealth number
+---@field Race number
+---@field MyPet boolean
+---@field CurrentStamina number
+---@field IsDead boolean
+---@field CurrentMana number
+---@field MaxHealth number
+---@field Notoriety number
+
+---@class MobileStatusWrapper
+---@field _id number
+local MobileStatus = {}
+MobileStatus.__index = MobileStatus
+
+function MobileStatus:new(id)
+    local instance = setmetatable({}, self)
+    instance._id = id
+    return instance
+end
+
+---@return WindowData.MobileStatus
+function MobileStatus:getData()
+    return WindowData.MobileStatus[self._id]
+end
+
+function MobileStatus:getName()
+    return self:getData().MobName
+end
+
+function MobileStatus:getNotoriety()
+    return self:getData().Notoriety
+end
+
+function MobileStatus:getNotorietyColor()
+    return UusCorp.Constants.Colors.Notoriety[self:getNotoriety() + 1]
+end
+
+function UusCorp.Data.MobileStatus(id)
+    return MobileStatus:new(id)
+end
+
+-- ========================================================================== --
+-- Data - Mouse
+-- ========================================================================== --
+
+---@class SystemData.Position
+---@field x number
+---@field y number
+
+---@class MouseDataWrapper
+local Mouse = {}
+Mouse.__index = Mouse
+
+function Mouse:new()
+    return setmetatable({}, self)
+end
+
+---@return SystemData.Position
+function Mouse:getPosition()
+    return SystemData.MousePosition
+end
+
+function UusCorp.Data.Mouse()
+    return Mouse:new()
+end
+
+-- ========================================================================== --
+-- Data - Mouse Over
+-- ========================================================================== --
+
+---@class SystemData.Window
+---@field name string
+
+---@class MouseOverDataWrapper
+local MouseOver = {}
+MouseOver.__index = MouseOver
+
+function MouseOver:new()
+    return setmetatable({}, self)
+end
+
+---@return string
+function MouseOver:getWindow()
+    return SystemData.MouseOverWindow.name
+end
+
+function UusCorp.Data.MouseOver()
+    return MouseOver:new()
+end
+
+-- ========================================================================== --
+-- Data - Object
+-- ========================================================================== --
+
+---@class ObjectWrapper
+---@field _id number
+local Object = {}
+Object.__index = Object
+
+function Object:new(id)
+    local instance = setmetatable({}, self)
+    instance._id = id
+    return instance
+end
+
+function Object:isValid()
+    return UusCorp.Api.Object.IsValid(self._id)
+end
+
+function Object:isMobile()
+    return UusCorp.Api.Object.IsMobile(self._id)
+end
+
+function UusCorp.Data.Object(id)
+    return Object:new(id)
+end
+
+-- ========================================================================== --
+-- Data - Object Handles
+-- ========================================================================== --
+
+---@class WindowData.ObjectHandle
+---@field ObjectId integer[]
+---@field Names string[]
+---@field Notoriety integer[]
+---@field IsMobile boolean[]
+
+---@class ObjectHandle
+---@field id integer
+---@field name string
+---@field isMobile boolean
+---@field isValid fun(): boolean
+
+---@class ObjectHandleDataWrapper
+local ObjectHandles = {}
+ObjectHandles.__index = ObjectHandle
+
+function ObjectHandles:new()
+    return setmetatable({}, self)
+end
+
+---@return WindowData.ObjectHandle
+function ObjectHandles:getData()
+    return WindowData.ObjectHandle
+end
+
+---@return table<number, ObjectHandle>
+function ObjectHandles:getHandles()
+    local windowData = self:getData()
+
+    return UusCorp.Utils.Array.MapToTable(
+        windowData.ObjectId,
+        function (item)
+            return item
+        end,
+        function (item, index)
+            return {
+                id = item,
+                name = UusCorp.Utils.String.FromWString(windowData.Names[index]),
+                notoriety = windowData.Notoriety[index],
+                isMobile = windowData.IsMobile[index],
+                isValid = function ()
+                    return UusCorp.Data.Object(item):isValid()
+                        and UusCorp.Utils.Array.Find(windowData.ObjectId, function (id)
+                            return id == item
+                        end)
+                end
+            }
+        end
+    )
+end
+
+function ObjectHandles:getHandle(id)
+    return self:getHandles()[id]
+end
+
+function UusCorp.Data.ObjectHandles()
+    return ObjectHandles:new()
+end
+
+-- ========================================================================== --
+-- Data - Player Status
+-- ========================================================================== --
+
+---@class WindowData.PlayerStatus
+---@field StatCap number
+---@field StamRegen number
+---@field StatLock number[]
+---@field Intelligence number
+---@field IncreaseManaMax number
+---@field InWarMode boolean
+---@field Race number
+---@field TithingPoints number
+---@field Gold number
+---@field EnhancePotions number
+---@field IncreaseStamMax number
+---@field ReflectPhysicalDamage number
+---@field CurrentMana number
+---@field IncreaseStr number
+---@field IncreaseHitPointsMax number
+---@field SwingSpeedIncrease number
+---@field HitPointRegen number
+---@field MaxPhysicalResist number
+---@field Strength number
+---@field MaxStamina number
+---@field CurrentHealth number
+---@field IncreaseMana number
+---@field MaxEnergyResist number
+---@field CurrentStamina number
+---@field MaxWeight number
+---@field DamageChangeIncrease number
+---@field MaxHealth number
+---@field PlayerId number
+---@field MaxFollowers number
+---@field LowerManaCost number
+---@field MaxColdResist number
+---@field FasterCastRecovery number
+---@field SpellDamageIncrease number
+---@field MaxDefenseChanceIncrease number
+---@field IncreaseStam number
+---@field IncreaseHitPoints number
+---@field LowerReagentCost number
+---@field ManaRegen number
+---@field Luck number
+---@field Weight number
+---@field ColdResist number
+---@field Followers number
+---@field HitChanceIncrease number
+---@field EnergyResist number
+---@field MaxMana number
+---@field PhysicalResist number
+---@field MaxPoisonResist number
+---@field MaxDamage number
+---@field IncreaseInt number
+---@field FasterCasting number
+---@field MaxFireResist number
+---@field IncreaseDex number
+---@field DefenseChanceIncrease number
+---@field VisualStateId number
+---@field Dead number
+---@field PoisonResist number
+---@field Damage number
+---@field FireResist number
+---@field Dexterity number
+---@field Type integer
+---@field Event integer
+
+---@class PlayerStatusWrapper
+local PlayerStatus = {}
+PlayerStatus.__index = PlayerStatus
+
+function PlayerStatus:new()
+    return setmetatable({}, self)
+end
+
+---@return WindowData.PlayerStatus
+function PlayerStatus:getData()
+    return WindowData.PlayerStatus
+end
+
+function PlayerStatus:getStatCap()
+    return self:getData().StatCap
+end
+
+function PlayerStatus:getCurrentMana()
+    return self:getData().CurrentMana
+end
+
+function PlayerStatus:getMaxMana()
+    return self:getData().MaxMana
+end
+
+function PlayerStatus:getCurrentHealth()
+    return self:getData().CurrentHealth
+end
+
+function PlayerStatus:getMaxHealth()
+    return self:getData().MaxHealth
+end
+
+function PlayerStatus:getCurrentStamina()
+    return self:getData().CurrentStamina
+end
+
+function PlayerStatus:getMaxStamina()
+    return self:getData().MaxStamina
+end
+
+function PlayerStatus:isInWarMode()
+    return self:getData().InWarMode
+end
+
+function PlayerStatus:getId()
+    return self:getData().PlayerId
+end
+
+---@return integer
+function PlayerStatus:getEvent()
+    return self:getData().Event
+end
+
+---@return integer
+function PlayerStatus:getType()
+    return self:getData().Type
+end
+
+function UusCorp.Data.PlayerStatus()
+    return PlayerStatus:new()
+end
 
 -- ========================================================================== --
 -- Interface
@@ -7633,18 +7922,6 @@ function UusCorp.EventHandler.OnEndHealthBarDrag()
     window._events:onEndHealthBarDrag()
 end
 
-function UusCorp.Mobile(id)
-    ---@type SystemData
-    local systemData = SystemData
-    local mobile = {}
-
-    mobile.setActive = function ()
-        systemData.ActiveMobile.Id = id
-    end
-
-    return mobile
-end
-
 function UusCorp.Mod(model)
     ---@class Mod
     local mod = {}
@@ -7666,101 +7943,4 @@ function UusCorp.Mod(model)
     end
 
     return mod
-end
-
-function UusCorp.Mouse()
-    ---@type SystemData
-    local systemData = SystemData
-    local mouse = {}
-
-    mouse.getPosition = function ()
-        return systemData.MousePosition
-    end
-
-    return mouse
-end
-
-function UusCorp.MouseOver()
-    ---@type SystemData
-    local systemData = SystemData
-    local data = {}
-
-    data.getWindow = function ()
-        return systemData.MouseOverWindow.name
-    end
-
-    return data
-end
-
-function UusCorp.Object(id)
-    local object = {}
-
-    object.isMobile = function ()
-        return UusCorp.Api.Object.IsMobile(id)
-    end
-
-    object.isValid = function ()
-        return UusCorp.Api.Object.IsValid(id)
-    end
-
-    return object
-end
-
-function UusCorp.ObjectHandles()
-    ---@type WindowData.ObjectHandle
-    local windowData = WindowData.ObjectHandle
-    local data = {}
-
-    ---@return table<integer, ObjectHandle>
-    data.getHandles = function ()
-        ---@class ObjectHandle
-        ---@field id integer
-        ---@field name string
-        ---@field isMobile boolean
-        ---@field isValid fun(): boolean
-
-        return UusCorp.Utils.Array.MapToTable(
-            windowData.ObjectId,
-            function (item)
-                return item
-            end,
-            function (item, index)
-                return {
-                    id = item,
-                    name = UusCorp.Utils.String.FromWString(windowData.Names[index]),
-                    notoriety = windowData.Notoriety[index],
-                    isMobile = windowData.IsMobile[index],
-                    isValid = function ()
-                        return UusCorp.Object(item).isValid()
-                            and UusCorp.Utils.Array.Find(windowData.ObjectId, function (id)
-                                return id == item
-                            end)
-                    end
-                }
-            end
-        )
-    end
-
-    data.getHandle = function (id)
-        return data.getHandles()[id]
-    end
-
-    return data
-end
-
-function UusCorp.PlayerStatus()
-    ---@type WindowData
-    local windowData = WindowData
-
-    local playerStatus = {}
-
-    playerStatus.getId = function ()
-        return windowData.PlayerStatus.PlayerId
-    end
-
-    playerStatus.geEvent = function ()
-        return windowData.PlayerStatus.Event
-    end
-
-    return playerStatus
 end

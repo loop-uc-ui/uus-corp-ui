@@ -8,7 +8,7 @@ UusCorpObjectHandleMod = UusCorp.Mod {
 
         oldWindow:getDefault().CreateObjectHandles = function ()
             UusCorp.Utils.Table.ForEach(
-                UusCorp.ObjectHandles().getHandles(),
+                UusCorp.Data.ObjectHandles():getHandles(),
                 function (_, v)
                     UusCorpObjectHandle(v):create()
                 end
@@ -20,7 +20,7 @@ UusCorpObjectHandleMod = UusCorp.Mod {
 
         ---@diagnostic disable-next-line: duplicate-set-field
         UusCorp.Interface.Defaults.ItemProperties.UpdateItemPropertiesData = function()
-            if (string.find(UusCorp.MouseOver().getWindow(), oldWindow:getName())) then
+            if (string.find(UusCorp.Data.MouseOver():getWindow(), oldWindow:getName())) then
                 UusCorp.Interface.Defaults.ItemPropertiesData.clearActiveItem()
             else
                 -- Call the original function

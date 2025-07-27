@@ -16,8 +16,8 @@ UusCorpMainMenuMod = UusCorp.Mod {
 
         ---@diagnostic disable-next-line: inject-field
         UusCorp.Interface.Defaults.Actions.ToggleMainMenu = function ()
-            local cursor = UusCorp.Cursor().isTarget()
-            local currentTarget = UusCorp.CurrentTarget().hasTarget()
+            local cursor = UusCorp.Data.Cursor():isTarget()
+            local currentTarget = UusCorp.Data.CurrentTarget():hasTarget()
 
             if cursor or currentTarget then
                 return

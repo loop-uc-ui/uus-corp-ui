@@ -9,8 +9,8 @@ local function Name(id)
             OnUpdateMobileStatus = function (self, mobileStatus)
                 self:matchParentWidth(0.9)
                 self:centerText()
-                self:setText(mobileStatus.MobName)
-                self:setColor(UusCorp.Constants.Colors.Notoriety[mobileStatus.Notoriety + 1])
+                self:setText(mobileStatus:getName())
+                self:setColor(mobileStatus:getNotorietyColor())
             end
         }
     }
@@ -25,20 +25,20 @@ local function HealthStatusBar(id)
             end,
 
             OnUpdatePlayerStatus = function (self, playerStatus)
-                self:setMaxValue(playerStatus.MaxHealth)
+                self:setMaxValue(playerStatus:getMaxHealth())
                 self:matchParentWidth(0.9)
-                self:setCurrentValue(playerStatus.CurrentHealth)
+                self:setCurrentValue(playerStatus:getCurrentHealth())
             end,
 
             OnUpdateHealthBarColor = function (self, healthBarColor)
-                self:setForegroundTint(UusCorp.Constants.Colors.HealthBar[healthBarColor.VisualStateId + 1])
+                self:setForegroundTint(healthBarColor:getVisualStateColor())
             end
         }
     }
 end
 
 ---@param id integer
----@param onUpdate fun(self: Label, playerStatus: WindowData.PlayerStatus)
+---@param onUpdate fun(self: Label, playerStatus: PlayerStatusWrapper)
 ---@return Label
 local function StatusLabel(id, onUpdate)
     return UusCorp.Interface.Label {
@@ -65,9 +65,9 @@ local function ManaStatusBar(id)
             end,
 
             OnUpdatePlayerStatus = function (self, playerStatus)
-                self:setMaxValue(playerStatus.MaxMana)
+                self:setMaxValue(playerStatus:getMaxMana())
                 self:matchParentWidth(0.9)
-                self:setCurrentValue(playerStatus.CurrentMana)
+                self:setCurrentValue(playerStatus:getCurrentMana())
             end
         }
     }
@@ -82,9 +82,9 @@ local function StaminaStatusBar(id)
             end,
 
             OnUpdatePlayerStatus = function (self, playerStatus)
-                self:setMaxValue(playerStatus.MaxStamina)
+                self:setMaxValue(playerStatus:getMaxStamina())
                 self:matchParentWidth(0.9)
-                self:setCurrentValue(playerStatus.CurrentStamina)
+                self:setCurrentValue(playerStatus:getCurrentStamina())
             end
         }
     }
@@ -95,27 +95,27 @@ function UusCorpPlayerStatusWindow()
         name = "PlayerHealthBar",
         events = {
             OnInitialize = function (self)
-                local id = UusCorp.PlayerStatus().getId()
+                local id = UusCorp.Data.PlayerStatus():getId()
                 self:setId(id)
                 local name = Name(id)
 
                 local health = HealthStatusBar(id)
                 local healthLabel = StatusLabel(id, function (label, playerStatus)
-                    label:setText(playerStatus.CurrentHealth .. "/" .. playerStatus.MaxHealth)
+                    label:setText(playerStatus:getCurrentHealth() .. "/" .. playerStatus:getMaxHealth())
                     label:clearAnchors()
                     label:centerInWindow(health)
                 end)
 
                 local mana = ManaStatusBar(id)
                 local manaLabel = StatusLabel(id , function (label, playerStatus)
-                    label:setText(playerStatus.CurrentMana .. "/" .. playerStatus.MaxMana)
+                    label:setText(playerStatus:getCurrentMana() .. "/" .. playerStatus:getMaxMana())
                     label:clearAnchors()
                     label:centerInWindow(mana)
                 end)
 
                 local stamina = StaminaStatusBar(id)
                 local staminaLabel = StatusLabel(id , function (label, playerStatus)
-                    label:setText(playerStatus.CurrentStamina .. "/" .. playerStatus.MaxStamina)
+                    label:setText(playerStatus:getCurrentStamina() .. "/" .. playerStatus:getMaxStamina())
                     label:clearAnchors()
                     label:centerInWindow(stamina)
                 end)
@@ -145,7 +145,7 @@ function UusCorpPlayerStatusWindow()
 
             OnUpdatePlayerStatus = function (self, playerStatus)
                 self:setDimensions(192, 148)
-                if playerStatus.InWarMode then
+                if playerStatus:isInWarMode() then
                     self:getFrame():setColor(UusCorp.Constants.Colors.Red)
                 else
                     self:getFrame():setColor(UusCorp.Constants.Colors.White)
@@ -153,7 +153,7 @@ function UusCorpPlayerStatusWindow()
             end,
 
             OnLButtonDown = function (self)
-                if UusCorp.Cursor().isTarget() then
+                if UusCorp.Data.Cursor():isTarget() then
                     UusCorp.Api.Target.LeftClick(self:getId())
                 end
             end,

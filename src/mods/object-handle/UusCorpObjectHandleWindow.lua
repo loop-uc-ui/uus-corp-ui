@@ -35,7 +35,7 @@ local function Label(objectHandle)
 
             OnMouseDrag = function (_)
                 if objectHandle.isMobile then
-                    UusCorp.Mobile(objectHandle.id):setActive()
+                    UusCorp.Data.ActiveMobile():setId(objectHandle.id)
                     UusCorp.Api.Event.Broadcast(UusCorp.Constants.Broadcasts.BeginHealthBarDrag())
                 elseif objectHandle.isValid() then
                     UusCorp.Api.Drag.SetObjectMouseClickData(objectHandle.id, UusCorp.Constants.DragSource.Object())
