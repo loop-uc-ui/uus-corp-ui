@@ -1,5 +1,7 @@
-UusCorpMainMenuMod = {
-    Initialize = function ()
+UusCorpMainMenuMod = UusCorp.Mod {
+    Name = "UusCorpMainMenu",
+    Path = "/src/mods/main-menu",
+    OnInitialize = function ()
         UusCorp.Interface.Defaults.BugReportWindow:destroy()
 
         UusCorp.Interface.Defaults.RootWindow:unregisterEventHandler(
@@ -12,6 +14,7 @@ UusCorpMainMenuMod = {
             )
         end
 
+        ---@diagnostic disable-next-line: inject-field
         UusCorp.Interface.Defaults.Actions.ToggleMainMenu = function ()
             local cursor = UusCorp.Cursor().isTarget()
             local currentTarget = UusCorp.CurrentTarget().hasTarget()

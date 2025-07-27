@@ -1,5 +1,3 @@
--- ---@class UusCorpDistanceCounterWindow:UusCorpWindow
--- UusCorpDistanceCounterWindow = UusCorpWindow:new("UusCorpDistanceCounterWindow")
 
 local Label = function ()
     return UusCorp.Interface.Label {

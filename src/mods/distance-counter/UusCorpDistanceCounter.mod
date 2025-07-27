@@ -15,7 +15,7 @@
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpDistanceCounterMod.Initialize" />
+			<CallFunction name="UusCorpDistanceCounterMod.OnInitialize" />
 		</OnInitialize>
 	</UiMod>
 </ModuleFile>

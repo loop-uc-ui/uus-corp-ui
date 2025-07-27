@@ -15,7 +15,7 @@
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpMainMenuMod.Initialize" />
+			<CallFunction name="UusCorpMainMenuMod.OnInitialize" />
 		</OnInitialize>
 	</UiMod>
 </ModuleFile>
