@@ -3,7 +3,7 @@ local function Name(id)
         events = {
             ---@param self Label
             OnInitialize = function (self)
-                self.setId(id)
+                self:setId(id)
                 self:anchorToParentTop(0, 4)
             end,
 
@@ -86,15 +86,15 @@ local function StaminaStatusBar(id)
         events = {
             ---@param self StatusBar
             OnInitialize = function (self)
-                self.setId(id)
-                self.setForegroundTint(UusCorp.Constants.Colors.YellowDark)
+                self:setId(id)
+                self:setForegroundTint(UusCorp.Constants.Colors.YellowDark)
             end,
 
             ---@param self StatusBar
             OnUpdatePlayerStatus = function (self, playerStatus)
-                self.setMaxValue(playerStatus.MaxStamina)
-                self.matchParentWidth(0.9)
-                self.setCurrentValue(playerStatus.CurrentStamina)
+                self:setMaxValue(playerStatus.MaxStamina)
+                self:matchParentWidth(0.9)
+                self:setCurrentValue(playerStatus.CurrentStamina)
             end
         }
     }
@@ -106,31 +106,31 @@ function UusCorpPlayerStatusWindow()
         events = {
             OnInitialize = function (self)
                 local id = UusCorp.PlayerStatus().getId()
-                self.setId(id)
+                self:setId(id)
                 local name = Name(id)
 
                 local health = HealthStatusBar(id)
                 local healthLabel = StatusLabel(id, function (label, playerStatus)
-                    label.setText(playerStatus.CurrentHealth .. "/" .. playerStatus.MaxHealth)
-                    label.clearAnchors()
-                    label.centerInWindow(health)
+                    label:setText(playerStatus.CurrentHealth .. "/" .. playerStatus.MaxHealth)
+                    label:clearAnchors()
+                    label:centerInWindow(health)
                 end)
 
                 local mana = ManaStatusBar(id)
                 local manaLabel = StatusLabel(id , function (label, playerStatus)
-                    label.setText(playerStatus.CurrentMana .. "/" .. playerStatus.MaxMana)
-                    label.clearAnchors()
-                    label.centerInWindow(mana)
+                    label:setText(playerStatus.CurrentMana .. "/" .. playerStatus.MaxMana)
+                    label:clearAnchors()
+                    label:centerInWindow(mana)
                 end)
 
                 local stamina = StaminaStatusBar(id)
                 local staminaLabel = StatusLabel(id , function (label, playerStatus)
-                    label.setText(playerStatus.CurrentStamina .. "/" .. playerStatus.MaxStamina)
-                    label.clearAnchors()
-                    label.centerInWindow(stamina)
+                    label:setText(playerStatus.CurrentStamina .. "/" .. playerStatus.MaxStamina)
+                    label:clearAnchors()
+                    label:centerInWindow(stamina)
                 end)
 
-                self.setChildren {
+                self:setChildren {
                     name,
                     health,
                     healthLabel,
@@ -143,39 +143,39 @@ function UusCorpPlayerStatusWindow()
 
             OnRButtonUp = function (self, flags)
                 if flags == UusCorp.Constants.ButtonFlags.Control then
-                    UusCorp.Api.ContextMenu.RequestMenu(self.getId())
+                    UusCorp.Api.ContextMenu.RequestMenu(self:getId())
                 else
-                    self.setShowing(false)
+                    self:setShowing(false)
                 end
             end,
 
             OnLButtonDblClk = function (self)
-                UusCorp.Api.UserAction.UseItem(self.getId(), false)
+                UusCorp.Api.UserAction.UseItem(self:getId(), false)
             end,
 
             OnUpdatePlayerStatus = function (self, playerStatus)
-                self.setDimensions(192, 148)
+                self:setDimensions(192, 148)
                 if playerStatus.InWarMode then
-                    self.getFrame().setColor(UusCorp.Constants.Colors.Red)
+                    self:getFrame():setColor(UusCorp.Constants.Colors.Red)
                 else
-                    self.getFrame().setColor(UusCorp.Constants.Colors.White)
+                    self:getFrame():setColor(UusCorp.Constants.Colors.White)
                 end
             end,
 
             OnLButtonDown = function (self)
                 if UusCorp.Cursor().isTarget() then
-                    UusCorp.Api.Target.LeftClick(self.getId())
+                    UusCorp.Api.Target.LeftClick(self:getId())
                 end
             end,
 
             OnLButtonUp = function (self)
                 if UusCorp.Drag().isDraggingItem() then
-                    UusCorp.Api.Drag.DragToObject(self.getId())
+                    UusCorp.Api.Drag.DragToObject(self:getId())
                 end
             end,
 
             OnEndHealthBarDrag = function (self)
-                self.setMoving(false)
+                self:setMoving(false)
             end
         }
     }

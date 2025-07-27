@@ -3911,7 +3911,6 @@ function Events:new(window, model)
 end
 
 function Events:onInitialize()
-    Debug.Print("Events:onInitialize() - " .. self._window:getName())
     local window = self._window
     local id = UusCorp.Utils.String.ExtractNumber(window:getName())
 
@@ -4278,6 +4277,22 @@ function Window:new(model)
     return instance
 end
 
+---@return Window
+function Window:getFrame()
+    if self._frameWindow == nil then
+        self._frameWindow = Window:new { name = self._frame }
+    end
+    return self._frameWindow
+end
+
+---@return Window
+function Window:getBackground()
+    if self._backgroundWindow == nil then
+        self._backgroundWindow = Window:new { name = self._background }
+    end
+    return self._backgroundWindow
+end
+
 function Window:toggleFrame(doShow)
     if UusCorp.Api.Window.DoesExist(self._frame) then
         UusCorp.Api.Window.SetShowing(self._frame, doShow)
@@ -4360,7 +4375,6 @@ function Window:getDimensions()
 end
 
 function Window:setDimensions(x, y)
-    Debug.Print("type - " .. type(self))
     UusCorp.Api.Window.SetDimensions(self._name, x, y)
 end
 
@@ -4509,7 +4523,6 @@ function Window:destroy()
 end
 
 function Window:create(doShow)
-    Debug.Print("Creating window: " .. self._name)
     doShow = doShow == nil or doShow
     if self._template == nil then
         return UusCorp.Api.Window.Create(self._name, doShow)
@@ -4532,7 +4545,6 @@ end
 
 
 ---@class DefaultWindow: Window
----@field _default table The default data associated with the window.
 local DefaultWindow = {}
 DefaultWindow.__index = DefaultWindow
 setmetatable(DefaultWindow, Window)
@@ -4541,19 +4553,20 @@ setmetatable(DefaultWindow, Window)
 ---provided by the default interface
 ---@generic T
 ---@param name string
----@param default table
+---@param getDefault fun(): T The function to get the default data for the window.
 ---@return DefaultWindow
-function DefaultWindow:new(name, default)
+function DefaultWindow:new(name, getDefault)
     -- Call the base Window constructor and set the metatable to DefaultWindow
-    local instance = Window.new(self, { name = name, _default = default })
+    local instance = Window.new(self, { name = name })
     setmetatable(instance, self)
+    instance._getDefault = getDefault
     return instance --[[@as DefaultWindow]]
 end
 
+---@return table
 function DefaultWindow:getDefault()
-    return self._default
+    return self._getDefault()
 end
-
 -- ========================================================================== --
 -- Button
 -- ========================================================================== --
@@ -7046,64 +7059,54 @@ end
 
 UusCorp.Constants.DataEvents = {}
 
-function UusCorp.Constants.DataEvents.OnUpdateMobileName()
-    return {
-        getType = function ()
-            return WindowData.MobileName.Type
-        end,
-        getEvent = function ()
-            return WindowData.MobileName.Event
-        end,
-        name = "OnUpdateMobileName"
-    }
-end
+UusCorp.Constants.DataEvents.OnUpdateMobileName = {
+    getType = function ()
+        return WindowData.MobileName.Type
+    end,
+    getEvent = function ()
+        return WindowData.MobileName.Event
+    end,
+    name = "OnUpdateMobileName"
+}
 
-function UusCorp.Constants.DataEvents.OnUpdatePlayerStatus()
-    return {
-        getType = function ()
-            return UusCorp.Data().getPlayerStatus().Type
-        end,
-        getEvent = function ()
-            return UusCorp.Data().getPlayerStatus().Event
-        end,
-        name = "OnUpdatePlayerStatus"
-    }
-end
+UusCorp.Constants.DataEvents.OnUpdatePlayerStatus = {
+    getType = function ()
+        return UusCorp.Data().getPlayerStatus().Type
+    end,
+    getEvent = function ()
+        return UusCorp.Data().getPlayerStatus().Event
+    end,
+    name = "OnUpdatePlayerStatus"
+}
 
-function UusCorp.Constants.DataEvents.OnUpdateHealthBarColor()
-    return {
-        getType = function ()
-            return WindowData.HealthBarColor.Type
-        end,
-        getEvent = function ()
+UusCorp.Constants.DataEvents.OnUpdateHealthBarColor = {
+    getType = function ()
+        return WindowData.HealthBarColor.Type
+    end,
+    getEvent = function ()
             return WindowData.HealthBarColor.Event
         end,
-        name = "OnUpdateHealthBarColor"
-    }
-end
+    name = "OnUpdateHealthBarColor"
+}
 
-function UusCorp.Constants.DataEvents.OnUpdateMobileStatus()
-    return {
-        getType = function ()
-            return WindowData.MobileStatus.Type
-        end,
-        getEvent = function ()
-            return WindowData.MobileStatus.Event
-        end,
-        name = "OnUpdateMobileStatus"
-    }
-end
+UusCorp.Constants.DataEvents.OnUpdateMobileStatus = {
+    getType = function ()
+        return WindowData.MobileStatus.Type
+    end,
+    getEvent = function ()
+        return WindowData.MobileStatus.Event
+    end,
+    name = "OnUpdateMobileStatus"
+}
 
 UusCorp.Constants.SystemEvents = {}
 
-function UusCorp.Constants.SystemEvents.OnEndHealthBarDrag()
-    return {
-        getEvent = function ()
-            return SystemData.Events["END_DRAG_HEALTHBAR_WINDOW"]
-        end,
-        name = "OnEndHealthBarDrag"
-    }
-end
+UusCorp.Constants.SystemEvents.OnEndHealthBarDrag = {
+    getEvent = function ()
+        return SystemData.Events["END_DRAG_HEALTHBAR_WINDOW"]
+    end,
+    name = "OnEndHealthBarDrag"
+}
 
 UusCorp.Constants.CoreEvents = {}
 UusCorp.Constants.CoreEvents.OnInitialize = "OnInitialize"
@@ -7183,20 +7186,34 @@ UusCorp.Interface = {}
 
 UusCorp.Interface.Defaults = {}
 
-UusCorp.Interface.Defaults.ResizeWindow = DefaultWindow:new("ResizeWindow", ResizeWindow)
+UusCorp.Interface.Defaults.ResizeWindow = DefaultWindow:new("ResizeWindow", function ()
+    return ResizeWindow
+end)
 
-UusCorp.Interface.Defaults.RootWindow = DefaultWindow:new("Root", {})
+UusCorp.Interface.Defaults.RootWindow = DefaultWindow:new("Root", function ()
+    return {}
+end)
 
-UusCorp.Interface.Defaults.MainMenuWindow = DefaultWindow:new("MainMenuWindow", MainMenuWindow)
+UusCorp.Interface.Defaults.MainMenuWindow = DefaultWindow:new("MainMenuWindow", function ()
+    return MainMenuWindow
+end)
 
-UusCorp.Interface.Defaults.BugReportWindow = DefaultWindow:new("BugReportWindow", BugReportWindow)
+UusCorp.Interface.Defaults.BugReportWindow = DefaultWindow:new("BugReportWindow", function ()
+    return BugReportWindow
+end)
 
-UusCorp.Interface.Defaults.StatusWindow = DefaultWindow:new("StatusWindow", StatusWindow)
+UusCorp.Interface.Defaults.StatusWindow = DefaultWindow:new("StatusWindow", function ()
+    return StatusWindow
+end)
 
-UusCorp.Interface.Defaults.TargetWindow = DefaultWindow:new("TargetWindow", TargetWindow)
+UusCorp.Interface.Defaults.TargetWindow = DefaultWindow:new("TargetWindow", function ()
+    return TargetWindow
+end)
 
----@type ObjectHandleWindow
-UusCorp.Interface.Defaults.ObjectHandleWindow = ObjectHandleWindow
+
+UusCorp.Interface.Defaults.ObjectHandleWindow = DefaultWindow:new("ObjectHandleWindow", function ()
+    return ObjectHandleWindow
+end)
 
 ---@type ItemProperties
 UusCorp.Interface.Defaults.ItemProperties = ItemProperties
@@ -7426,8 +7443,6 @@ UusCorp.EventHandler.Windows = {}
 
 function UusCorp.EventHandler.OnInitialize()
     local window = UusCorp.EventHandler.Windows[Active.window()]
-    Debug.Print(window:getName() .. " OnInitialize")
-    Debug.Print("Events: " .. type(window._events))
     window._events:onInitialize()
 end
 

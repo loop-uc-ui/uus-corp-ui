@@ -13,7 +13,7 @@ UusCorpTargetMod = UusCorp.Mod {
         default:unregisterEventHandler(ObjectInfo.event())
         default:unregisterEventHandler(HealthBarColorData.event())
         default:unregisterCoreEventHandler("OnUpdate")
-        oldWindow:setShowing(false)
+        default:setShowing(false)
 
         WindowDataApi.registerData(CurrentTarget.dataType(), 0)
         WindowApi.registerEventHandler("Root", CurrentTarget.event(), "UusCorpTargetWindow.createWindow")
