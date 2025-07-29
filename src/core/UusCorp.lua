@@ -7982,7 +7982,6 @@ end
 
 function Mod:initialize()
     Api.Mod.Initialize(self.Name)
-    self:onInitialize()
 end
 
 function Mod:loadResources()
@@ -7998,20 +7997,9 @@ function Mod:loadResources()
     )
 end
 
----@return Context
-function Mod.getContext()
-    return {
-        Api = Api,
-        Data = Data,
-        Utils = Utils,
-        Constants = Constants,
-        Views = Views
-    }
-end
-
 function Mod:onInitialize()
     self:loadResources()
-    self._onInitialize(self.getContext())
+    self._onInitialize(Context)
 end
 
 local ModManager = {}
@@ -8038,7 +8026,7 @@ function UusCorp.Mod(model)
     local mod = Mod:new(model)
     ModManager.Mods[model.Name] = mod
     ModManager.Initializers[model.Name] = function ()
-        mod:initialize()
+        mod:onInitialize()
     end
     return Mod:new(model)
 end

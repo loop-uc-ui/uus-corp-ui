@@ -1,4 +1,4 @@
---- @param context Context
+---@param context Context
 ---@param objectHandle ObjectHandle
 local function Label(context, objectHandle)
     return context.Views.Button {
@@ -69,42 +69,34 @@ local function UusCorpObjectHandle(context, objectHandle)
     }
 end
 
-local UusCorpObjectHandleMod = function ()
-    return UusCorp.Mod {
-        Name = "UusCorpObjectHandle",
+UusCorpObjectHandleMod = UusCorp.Mod {
+    Name = "UusCorpObjectHandle",
 
-        Path = "/src/mods/object-handle",
+    Path = "/src/mods/object-handle",
 
-        OnInitialize = function (context)
-            local oldWindow = context.Views.Defaults.ObjectHandleWindow
+    OnInitialize = function (context)
+        local oldWindow = context.Views.Defaults.ObjectHandleWindow
 
-            oldWindow:getDefault().CreateObjectHandles = function ()
-                context.Utils.Table.ForEach(
-                    context.Data.ObjectHandles():getHandles(),
-                    function (_, v)
-                        UusCorpObjectHandle(context, v):create()
-                    end
-                )
-            end
-
-            -- Store the original function before overriding it
-            local copy = context.Utils.Table.Copy(context.Views.Defaults.ItemProperties)
-
-            ---@diagnostic disable-next-line: duplicate-set-field
-            context.Views.Defaults.ItemProperties.UpdateItemPropertiesData = function()
-                if (string.find(context.Data.MouseOver():getWindow(), oldWindow:getName())) then
-                    context.Views.Defaults.ItemPropertiesData.clearActiveItem()
-                else
-                    -- Call the original function
-                    copy--[[@as ItemProperties]].UpdateItemPropertiesData()
+        oldWindow:getDefault().CreateObjectHandles = function ()
+            context.Utils.Table.ForEach(
+                context.Data.ObjectHandles():getHandles(),
+                function (_, v)
+                    UusCorpObjectHandle(context, v):create()
                 end
+            )
+        end
+
+        -- Store the original function before overriding it
+        local copy = context.Utils.Table.Copy(context.Views.Defaults.ItemProperties)
+
+        ---@diagnostic disable-next-line: duplicate-set-field
+        context.Views.Defaults.ItemProperties.UpdateItemPropertiesData = function()
+            if (string.find(context.Data.MouseOver():getWindow(), oldWindow:getName())) then
+                context.Views.Defaults.ItemPropertiesData.clearActiveItem()
+            else
+                -- Call the original function
+                copy--[[@as ItemProperties]].UpdateItemPropertiesData()
             end
         end
-    }
-end
-
-UusCorpObjectHandleModInitializer = {
-    OnInitialize = function ()
-        return UusCorpObjectHandleMod():onInitialize()
     end
 }
