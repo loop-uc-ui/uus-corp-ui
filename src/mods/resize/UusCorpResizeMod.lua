@@ -3,17 +3,20 @@ UusCorpResizeMod = UusCorp.Mod {
 
     Path = "/src/mods/resize",
 
-    OnInitialize = function (self)
-        self.LoadResource("UusCorpResizeWindow.xml")
-        UusCorp.Api.Window.SetShowing("ResizeWindowFrame", false)
-        UusCorp.Api.Window.CreateFromTemplate(
+    Files = {
+        "UusCorpResizeWindow.xml"
+    },
+
+    OnInitialize = function (context)
+        context.Api.Window.SetShowing("ResizeWindowFrame", false)
+        context.Api.Window.CreateFromTemplate(
             "UusCorpResizeWindowFrame",
             "UusCorpResizeFrame",
             "Root",
             true
         )
-        UusCorp.Api.Window.Destroy("ResizeWindowResizeButton")
-        UusCorp.Api.Window.CreateFromTemplate(
+        context.Api.Window.Destroy("ResizeWindowResizeButton")
+        context.Api.Window.CreateFromTemplate(
             "ResizeWindowResizeButton",
             "UusCorpResizeButton",
             "Root",
@@ -21,10 +24,10 @@ UusCorpResizeMod = UusCorp.Mod {
         )
 
         local lock = "ResizeWindowLock"
-        UusCorp.Api.Window.SetParent(lock, "Root")
-        UusCorp.Api.Window.ClearAnchors(lock)
-        UusCorp.Api.Window.SetLayer(lock, UusCorp.Constants.WindowLayers.Default)
-        UusCorp.Api.Window.AddAnchor(
+        context.Api.Window.SetParent(lock, "Root")
+        context.Api.Window.ClearAnchors(lock)
+        context.Api.Window.SetLayer(lock, context.Constants.WindowLayers.Default)
+        context.Api.Window.AddAnchor(
             lock,
             "left",
             "ResizeWindowResizeButton",
@@ -32,6 +35,6 @@ UusCorpResizeMod = UusCorp.Mod {
             -3,
             -3
         )
-        UusCorp.Api.Window.UnregisterCoreEventHandler(lock, UusCorp.Constants.CoreEvents.OnMouseOver)
+        context.Api.Window.UnregisterCoreEventHandler(lock, context.Constants.CoreEvents.OnMouseOver)
     end
 }

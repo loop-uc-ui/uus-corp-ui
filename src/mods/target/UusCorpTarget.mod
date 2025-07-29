@@ -14,7 +14,7 @@
 		</Files>
 
 		<OnInitialize>
-            <CallFunction name="UusCorpTargetWindow.initialize" />
+            <CallFunction name="UusCorp.ModInitializer.UusCorpTarget" />
 		</OnInitialize>
 	</UiMod>
 </ModuleFile>

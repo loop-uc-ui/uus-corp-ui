@@ -3,9 +3,9 @@ UusCorpTargetMod = UusCorp.Mod {
 
     Path = "/src/mods/target",
 
-    OnInitialize = function (self)
-        local default = UusCorp.Interface.Defaults.TargetWindow
-        UusCorp.Utils.Table.OverrideFunctions(default:getDefault())
+    OnInitialize = function (context)
+        local default = context.Views.Defaults.TargetWindow
+        context.Utils.Table.OverrideFunctions(default:getDefault())
         default:unregisterData(CurrentTarget.dataType(), 0)
         default:unregisterEventHandler(CurrentTarget.event())
         default:unregisterEventHandler(MobileStatus.event())

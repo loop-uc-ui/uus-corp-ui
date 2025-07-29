@@ -10,12 +10,11 @@
 		</Dependencies>
 
 		<Files>
-			<File name="UusCorpDistanceCounterWindow.lua" />
 			<File name="UusCorpDistanceCounterMod.lua" />
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpDistanceCounterMod.OnInitialize" />
+			<CallFunction name="UusCorp.ModInitializer.UusCorpDistanceCounter" />
 		</OnInitialize>
 	</UiMod>
 </ModuleFile>

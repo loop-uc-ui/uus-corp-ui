@@ -10,20 +10,11 @@
 		</Dependencies>
 
 		<Files>
-            <File name="UusCorpPlayerStatusWindow.lua" />
 			<File name="UusCorpPlayerStatusMod.lua" />
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpPlayerStatusMod.OnInitialize" />
+			<CallFunction name="UusCorp.ModInitializer.UusCorpPlayerStatus" />
 		</OnInitialize>
-
-		<OnShutdown>
-			<CallFunction name="UusCorpPlayerStatusWindow.shutdown"/>
-		</OnShutdown>
-
-		<SavedVariables>
-			<SavedVariable name="UusCorpPlayerStatusWindow.isPlayerStatusOpen"/>
-		</SavedVariables>
 	</UiMod>
 </ModuleFile>

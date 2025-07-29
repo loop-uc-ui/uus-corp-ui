@@ -3557,919 +3557,46 @@ local DefaultUIClasses = {
     ---@field knownWindows table Table mapping window names to HighlightEffect instances
 }
 
-
--- ========================================================================== --
--- Events
--- ========================================================================== --
-
-
----@class Events
----@field _model WindowEventsModel? The model containing event data.
----@field _window Window The window to which events are attached.
-local Events = {}
-Events.__index = Events
-
----@generic T:Window
----@param window T The window to attach events to.
----@param model WindowEventsModel? Optional model containing event data.
----@return Events
-function Events:new(window, model)
-    local instance = setmetatable({}, self)
-    instance._window = window
-    instance._model = model
-    return instance
-end
-
-function Events:onInitialize()
-    local window = self._window
-    local id = UusCorp.Utils.String.ExtractNumber(window:getName())
-
-    if id ~= 0 then
-        window:setId(id)
-    end
-
-    for k, _ in pairs(self._model) do
-        local dataEvent = UusCorp.Constants.DataEvents[k]
-        local systemEvent = UusCorp.Constants.SystemEvents[k]
-        local isCore = UusCorp.Constants.CoreEvents[k] ~= nil
-        local skip = k == UusCorp.Constants.CoreEvents.OnInitialize or
-            k == UusCorp.Constants.CoreEvents.OnShutdown
-
-        if isCore and not skip then
-            window:registerCoreEventHandler(k, "UusCorp.EventHandler." .. k)
-        elseif systemEvent ~= nil then
-            window:registerEventHandler(systemEvent.getEvent(), "UusCorp.EventHandler." .. k)
-        elseif dataEvent ~= nil then
-            if k == UusCorp.Constants.DataEvents.OnUpdatePlayerStatus then
-                window:registerData(dataEvent.getType(), 0)
-            else
-                window:registerData(dataEvent.getType(), window:getId())
-            end
-            window:registerEventHandler(dataEvent.getEvent(), "UusCorp.EventHandler." .. k)
-        end
-    end
-
-    window:registerCoreEventHandler(
-        UusCorp.Constants.CoreEvents.OnShutdown,
-        "UusCorp.EventHandler." .. UusCorp.Constants.CoreEvents.OnShutdown
-    )
-
-    if window:isParentRoot() and self._model.OnRButtonUp == nil then
-        window:registerCoreEventHandler(
-            UusCorp.Constants.CoreEvents.OnRButtonUp,
-            "UusCorp.EventHandler." .. UusCorp.Constants.CoreEvents.OnRButtonUp
-        )
-    end
-
-    if self._model.OnInitialize ~= nil then
-        self._model.OnInitialize(window)
-    end
-
-    window:restorePosition()
-
-    UusCorp.Utils.Array.ForEach(
-        window._children,
-        function (item, index)
-            item:create(true)
-            item:setParent(window:getName())
-            item._events:onInitialize()
-            if index > 1 then
-                item:addAnchor(
-                    "bottomleft",
-                    window._children[index - 1]:getName(),
-                    "topleft",
-                    0,
-                    8
-                )
-            end
-        end
-    )
-
-    window:toggleBackground(window:isParentRoot())
-    window:toggleFrame(window:isParentRoot())
-
-    for k, v in pairs(self) do
-        if UusCorp.Constants.DataEvents[k] then
-            v()
-        end
-    end
-end
-
-function Events:onShutdown()
-    local window = self._window
-    window:savePosition()
-
-    UusCorp.Utils.Array.ForEach(window._children, function (item)
-        item:destroy()
-    end)
-
-    if self._model.OnShutdown ~= nil then
-        self._model.OnShutdown(window)
-    end
-
-    for k, _ in pairs(self._model) do
-        local dataEvent = UusCorp.Constants.DataEvents[k]
-        local systemEvent = UusCorp.Constants.SystemEvents[k]
-        local isCore = UusCorp.Constants.CoreEvents[k] ~= nil
-
-        if isCore then
-            window:unregisterCoreEventHandler(k)
-        elseif systemEvent ~= nil then
-            window:unregisterEventHandler(systemEvent.getEvent())
-        elseif dataEvent ~= nil then
-            if k == UusCorp.Constants.DataEvents.OnUpdatePlayerStatus then
-                window:unregisterData(dataEvent.getType(), 0)
-            else
-                window:unregisterData(dataEvent.getType(), window:getId())
-            end
-            window:unregisterEventHandler(dataEvent.getEvent())
-        end
-    end
-end
-
-function Events:onLButtonUp(flags, x, y)
-    local window = self._window
-    if self._model.OnLButtonUp ~= nil then
-        self._model.OnLButtonUp(window, flags, x, y)
-    end
-
-    local child = UusCorp.Utils.Array.Find(
-        window._children,
-        function (item)
-            return item:getName() == Active.window()
-        end
-    )
-
-    if child ~= nil then
-        child._events:onLButtonUp(flags, x, y)
-    end
-end
-
-function Events:onLButtonDown(flags, x, y)
-    local window = self._window
-
-    if self._model.OnLButtonDown ~= nil then
-        self._model.OnLButtonDown(window, flags, x, y)
-    end
-
-    local child = UusCorp.Utils.Array.Find(
-        window._children,
-        function (item)
-            return item:getName() == Active.window()
-        end
-    )
-
-    if child ~= nil then
-        child._events:onLButtonDown(flags, x, y)
-    end
-end
-
-function Events:onRButtonUp(flags, x, y)
-    local window = self._window
-    if window:isParentRoot() and self._model.OnRButtonUp == nil then
-        window:destroy()
-        return
-    end
-
-    if self._model.OnRButtonUp ~= nil then
-        self._model.OnRButtonUp(window, flags, x, y)
-    end
-
-    local child = UusCorp.Utils.Array.Find(
-        window._children,
-        function (item)
-            return item:getName() == Active.window()
-        end
-    )
-
-    if child ~= nil then
-        child._events:onRButtonUp(flags, x, y)
-    end
-end
-
-function Events:onRButtonDown(flags, x, y)
-    local window = self._window
-    if self._model.OnRButtonDown ~= nil then
-        self._model.OnRButtonDown(window, flags, x, y)
-        return
-    end
-
-    local child = UusCorp.Utils.Array.Find(
-        window._children,
-        function (item)
-            return item:getName() == Active.window()
-        end
-    )
-
-    if child ~= nil then
-        child._events:onRButtonDown(flags, x, y)
-    end
-end
-
-function Events:onHidden()
-    local window = self._window
-    if self._model.OnHidden ~= nil then
-        self._model.OnHidden(window)
-    end
-
-    UusCorp.Utils.Array.ForEach(
-        window._children,
-        function (item)
-            item._events:onHidden()
-        end
-    )
-end
-
-function Events:onShown()
-    local window = self._window
-    if self._model.OnShown ~= nil then
-        self._model.OnShown(window)
-    end
-
-    UusCorp.Utils.Array.ForEach(
-        window._children,
-        function (item)
-            item._events:onShown()
-        end
-    )
-end
-
-function Events:onUpdate(timePassed, systemData, windowData)
-    local window = self._window
-    if self._model.OnUpdate ~= nil then
-        self._model.OnUpdate(window, timePassed, systemData, windowData)
-    end
-
-    UusCorp.Utils.Array.ForEach(
-        window._children,
-        function (item)
-            item._events:onUpdate(timePassed, systemData, windowData)
-        end
-    )
-end
-
-function Events:onUpdateMobileName()
-    local window = self._window
-    if self._model.OnUpdateMobileName ~= nil then
-        self._model.OnUpdateMobileName(window, UusCorp.Data.MobileName(window:getId()))
-    end
-
-    UusCorp.Utils.Array.ForEach(
-        window._children,
-        function (item, _)
-            item._events:onUpdateMobileName()
-        end
-    )
-end
-
-function Events:onLButtonDblClk(flags, x, y)
-    local window = self._window
-    if self._model.OnLButtonDblClk ~= nil then
-        self._model.OnLButtonDblClk(window, flags, x, y)
-    end
-
-    UusCorp.Utils.Array.ForEach(
-        window._children,
-        function (item,  _)
-            item._events:onLButtonDblClk(flags, x, y)
-        end
-    )
-end
-
-function Events:onMouseOver()
-    local window = self._window
-    if self._model.OnMouseOver ~= nil then
-        self._model.OnMouseOver(window)
-    end
-end
-
-function Events:onMouseOverEnd()
-    local window = self._window
-    if self._model.OnMouseOverEnd ~= nil then
-        self._model.OnMouseOverEnd(window)
-    end
-end
-
-function Events:onMouseDrag()
-    local window = self._window
-    if self._model.OnMouseDrag ~= nil then
-        self._model.OnMouseDrag(window)
-    end
-end
-
-function Events:onUpdatePlayerStatus()
-    local window = self._window
-    if self._model.OnUpdatePlayerStatus ~= nil then
-        self._model.OnUpdatePlayerStatus(window, UusCorp.Data.PlayerStatus())
-    end
-
-    UusCorp.Utils.Array.ForEach(
-        window._children,
-        function (item,  _)
-            item._events:onUpdatePlayerStatus()
-        end
-    )
-end
-
-function Events:onUpdateMobileStatus()
-    local window = self._window
-
-    if self._model.OnUpdateMobileStatus ~= nil then
-        self._model.OnUpdateMobileStatus(window, UusCorp.Data.MobileStatus(window:getId()))
-    end
-
-    UusCorp.Utils.Array.ForEach(
-        window._children,
-        function (item,  _)
-            item._events:onUpdateMobileStatus()
-        end
-    )
-end
-
-function Events:onUpdateHealthBarColor()
-    local window = self._window
-
-    if self._model.OnUpdateHealthBarColor ~= nil then
-        self._model.OnUpdateHealthBarColor(window, UusCorp.Data.HealthBarColor(window:getId()))
-    end
-
-    UusCorp.Utils.Array.ForEach(
-        window._children,
-        function (item,  _)
-            item._events:onUpdateHealthBarColor()
-        end
-    )
-end
-
-function Events:onEndHealthBarDrag()
-    local window = self._window
-
-    if self._model.OnEndHealthBarDrag ~= nil then
-        self._model.OnEndHealthBarDrag(window)
-    end
-
-    UusCorp.Utils.Array.ForEach(
-        window._children,
-        function (item,  _)
-            item._events:onEndHealthBarDrag()
-        end
-    )
-end
-
-
-
--- ========================================================================== --
--- Window
--- ========================================================================== --
-
----@class WindowEventsModel
----@field OnInitialize fun(self: Window)?
----@field OnLButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnRButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnShutdown fun(self: Window)?
----@field OnHidden fun(self: Window)?
----@field OnShown fun(self: Window)?
----@field OnLButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnRButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnUpdate fun(self: Window, timePassed: integer)?
----@field OnUpdateMobileName fun(self: Window, windowData: MobileNameWrapper)?
----@field OnLButtonDblClk fun(self: Window, flags: integer, x: integer, y: integer)?
----@field OnMouseOver fun(self: Window)?
----@field OnMouseOverEnd fun(self: Window)?
----@field OnMouseDrag fun(self: Window)?
----@field OnUpdatePlayerStatus fun(self: Window, playerStatus: PlayerStatusWrapper)?
----@field OnUpdateMobileStatus fun(self: Window, mobileStatus: MobileStatusWrapper)?
----@field OnUpdateHealthBarColor fun(self: Window, healthBarColor: HealthBarColorWrapper)?
----@field OnEndHealthBarDrag fun(self: Window)?
-
----@class WindowModel
----@field name string?
----@field template string?
----@field events WindowEventsModel?
-
----@class Window
----@field _children Window[] A list of child windows.
----@field _name string The unique name of the window.
----@field _template string The template used to create the window.
----@field _events Events A table of event callbacks.
----@field _frame string The name of the window's frame component.
----@field _background string The name of the window's background component.
-local Window = {}
-Window.__index = Window
-
----@param model WindowModel?
-function Window:new(model)
-    model = model or {}
-    local instance = setmetatable({}, self)
-
-    instance._children = {}
-    instance._name = model.name or UusCorp.Utils.String.Random()
-    instance._template = model.template or "UusCorpWindow"
-    instance._frame = instance._name .. "Frame"
-    instance._background = instance._name .. "Background"
-    instance._events = Events:new(instance, model.events or {})
-
-    return instance
-end
-
----@return Window
-function Window:getFrame()
-    if self._frameWindow == nil then
-        self._frameWindow = Window:new { name = self._frame }
-    end
-    return self._frameWindow
-end
-
----@return Window
-function Window:getBackground()
-    if self._backgroundWindow == nil then
-        self._backgroundWindow = Window:new { name = self._background }
-    end
-    return self._backgroundWindow
-end
-
-function Window:toggleFrame(doShow)
-    if UusCorp.Api.Window.DoesExist(self._frame) then
-        UusCorp.Api.Window.SetShowing(self._frame, doShow)
-    end
-end
-
-function Window:toggleBackground(doShow)
-    if UusCorp.Api.Window.DoesExist(self._background) then
-        UusCorp.Api.Window.SetShowing(self._background, doShow)
-    end
-end
-
-function Window:attachToObject()
-    UusCorp.Api.Window.AttachToWorldObject(self:getId(), self:getName())
-end
-
-function Window:setChildren(children)
-    self._children = children
-end
-
-function Window:getName()
-    return self._name
-end
-
-function Window:getId()
-    return UusCorp.Api.Window.GetId(self._name)
-end
-
-function Window:setId(id)
-    UusCorp.Api.Window.SetId(self._name, id)
-end
-
----@return Window
-function Window:getParent()
-    return UusCorp.EventHandler.Windows[UusCorp.Api.Window.GetParent(self._name)] or
-        Window:new { name = UusCorp.Api.Window.GetParent(self._name) }
-end
-
-function Window:setParent(parent)
-    UusCorp.Api.Window.SetParent(self._name, parent)
-end
-
-function Window:matchParentWidth(percent)
-    local parent = self:getParent()
-    local x, _ = parent:getDimensions()
-    local _, y = self:getDimensions()
-    self:setDimensions(x * percent, y)
-end
-
-function Window:isParentRoot()
-    return UusCorp.Api.Window.GetParent(self._name) == UusCorp.Interface.Defaults.RootWindow:getName()
-end
-
-function Window:registerCoreEventHandler(event, callback)
-    UusCorp.Api.Window.RegisterCoreEventHandler(self._name, event, callback)
-end
-
-function Window:unregisterCoreEventHandler(event)
-    UusCorp.Api.Window.UnregisterCoreEventHandler(self._name, event)
-end
-
-function Window:registerEventHandler(event, callback)
-    UusCorp.Api.Window.RegisterEventHandler(self._name, event, callback)
-end
-
-function Window:unregisterEventHandler(event)
-    UusCorp.Api.Window.UnregisterEventHandler(self._name, event)
-end
-
-function Window:isMoving()
-    return UusCorp.Api.Window.IsMoving(self._name)
-end
-
-function Window:setMoving(isMoving)
-    UusCorp.Api.Window.SetMoving(self._name, isMoving)
-end
-
-function Window:getDimensions()
-    return UusCorp.Api.Window.GetDimensions(self._name)
-end
-
-function Window:setDimensions(x, y)
-    UusCorp.Api.Window.SetDimensions(self._name, x, y)
-end
-
-function Window:getAlpha()
-    return UusCorp.Api.Window.GetAlpha(self._name)
-end
-
-function Window:setAlpha(alpha)
-    UusCorp.Api.Window.SetAlpha(self._name, alpha)
-end
-
-function Window:setLayer(layer)
-    UusCorp.Api.Window.SetLayer(self._name, layer)
-end
-
-function Window:getScale()
-    return UusCorp.Api.Window.GetScale(self._name)
-end
-
-function Window:setScale(scale)
-    UusCorp.Api.Window.SetScale(self._name, scale)
-end
-
-function Window:getOffsetFromParent()
-    return UusCorp.Api.Window.GetOffsetFromParent(self._name)
-end
-
-function Window:setOffsetFromParent(x, y)
-    UusCorp.Api.Window.SetOffsetFromParent(self._name, x, y)
-end
-
-function Window:getColor()
-    return UusCorp.Api.Window.GetColor(self._name)
-end
-
-function Window:setColor(color)
-    UusCorp.Api.Window.SetColor(self._name, color)
-end
-
-function Window:getPosition()
-    return UusCorp.Api.Window.GetPosition(self._name)
-end
-
-function Window:restorePosition()
-    if self:isParentRoot() then
-        UusCorp.Api.Window.RestorePosition(self._name)
-    end
-end
-
-function Window:savePosition()
-    if self:isParentRoot() then
-        UusCorp.Api.Window.SavePosition(self._name)
-    end
-end
-
-function Window:isShowing()
-    return UusCorp.Api.Window.IsShowing(self._name)
-end
-
-function Window:setShowing(isShowing)
-    UusCorp.Api.Window.SetShowing(self._name, isShowing)
-end
-
-function Window:isPopable()
-    return UusCorp.Api.Window.IsPopable(self._name)
-end
-
-function Window:setPopable(isPopable)
-    UusCorp.Api.Window.SetPopable(self._name, isPopable)
-end
-
-function Window:isMovable()
-    return UusCorp.Api.Window.IsMovable(self._name)
-end
-
-function Window:setMovable(isMovable)
-    UusCorp.Api.Window.SetMovable(self._name, isMovable)
-end
-
-function Window:isSticky()
-    return UusCorp.Api.Window.IsSticky(self._name)
-end
-
-function Window:clearAnchors()
-    UusCorp.Api.Window.ClearAnchors(self._name)
-end
-
-function Window:forceProcessAnchors()
-    UusCorp.Api.Window.ForceProcessAnchors(self._name)
-end
-
-function Window:addAnchor(anchorPoint, relativeTo, relativePoint, x, y)
-    UusCorp.Api.Window.AddAnchor(self._name, anchorPoint, relativeTo, relativePoint, x or 0, y or 0)
-end
-
-function Window:anchorToParentTop(x, y)
-    self:addAnchor(
-        UusCorp.Constants.AnchorPoints.Top,
-        self:getParent():getName(),
-        UusCorp.Constants.AnchorPoints.Top,
-        x or 0,
-        y or 0
-    )
-end
-
-function Window:centerInWindow(toCenter, x, y)
-    self:addAnchor(
-        UusCorp.Constants.AnchorPoints.Center,
-        toCenter:getName(),
-        UusCorp.Constants.AnchorPoints.Center,
-        x or 0,
-        y or 0
-    )
-end
-
-function Window:anchorToParentCenter(x, y)
-    self:centerInWindow(self:getParent(), x, y)
-end
-
-function Window:isFocused()
-    return UusCorp.Api.Window.HasFocus(self._name)
-end
-
-function Window:setFocus(doFocus)
-    UusCorp.Api.Window.AssignFocus(self._name, doFocus)
-end
-
-function Window:isResizing()
-    return UusCorp.Api.Window.IsResizing(self._name)
-end
-
-function Window:setResizing(isResizing)
-    UusCorp.Api.Window.SetResizing(self._name, isResizing)
-end
-
-function Window:setRelativeScale(scale)
-    UusCorp.Api.Window.SetRelativeScale(self._name, scale)
-end
-
-function Window:doesExist()
-    return UusCorp.Api.Window.DoesExist(self._name)
-end
-
-function Window:destroy()
-    return UusCorp.Api.Window.Destroy(self._name)
-end
-
-function Window:create(doShow)
-    doShow = doShow == nil or doShow
-    if self._template == nil then
-        return UusCorp.Api.Window.Create(self._name, doShow)
-    else
-        return UusCorp.Api.Window.CreateFromTemplate(self._name, self._template, "Root", doShow)
-    end
-end
-
-function Window:registerData(type, id)
-    UusCorp.Api.Window.RegisterData(type, id)
-end
-
-function Window:unregisterData(type, id)
-    UusCorp.Api.Window.UnregisterData(type, id)
-end
-
--- ========================================================================== --
--- Default Window
--- ========================================================================== --
-
-
----@class DefaultWindow: Window
-local DefaultWindow = {}
-DefaultWindow.__index = DefaultWindow
-setmetatable(DefaultWindow, Window)
-
----Returns a wrapped window, for use with windows
----provided by the default interface
----@generic T
----@param name string
----@param getDefault fun(): T The function to get the default data for the window.
----@return DefaultWindow
-function DefaultWindow:new(name, getDefault)
-    -- Call the base Window constructor and set the metatable to DefaultWindow
-    local instance = Window.new(self, { name = name })
-    setmetatable(instance, self)
-    instance._getDefault = getDefault
-    return instance --[[@as DefaultWindow]]
-end
-
----@return table
-function DefaultWindow:getDefault()
-    return self._getDefault()
-end
--- ========================================================================== --
--- Button
--- ========================================================================== --
-
----@class ButtonEventsModel : WindowEventsModel
----@field OnInitialize fun(self: Button)?
----@field OnLButtonUp fun(self: Button, flags: integer, x: integer, y: integer)?
----@field OnRButtonUp fun(self: Button, flags: integer, x: integer, y: integer)?
----@field OnShutdown fun(self: Button)?
----@field OnHidden fun(self: Button)?
----@field OnShown fun(self: Button)?
----@field OnLButtonDown fun(self: Button, flags: integer, x: integer, y: integer)?
----@field OnRButtonDown fun(self: Button, flags: integer, x: integer, y: integer)?
----@field OnUpdate fun(self: Button, timePassed: integer)?
----@field OnUpdateMobileName fun(self: Button, windowData: MobileNameWrapper)?
----@field OnLButtonDblClk fun(self: Button, flags: integer, x: integer, y: integer)?
----@field OnMouseOver fun(self: Button)?
----@field OnMouseOverEnd fun(self: Button)?
----@field OnMouseDrag fun(self: Button)?
----@field OnUpdatePlayerStatus fun(self: Button, playerStatus: PlayerStatusWrapper)?
----@field OnUpdateMobileStatus fun(self: Button, mobileStatus: MobileStatusWrapper)?
----@field OnUpdateHealthBarColor fun(self: Button, healthBarColor: HealthBarColorWrapper)?
----@field OnEndHealthBarDrag fun(self: Button)?
-
----@class ButtonModel : WindowModel
----@field name string?
----@field template string?
----@field events ButtonEventsModel?
-
----@class Button: Window
-local Button = {}
-Button.__index = Button
-setmetatable(Button, Window)
-
----@param model ButtonModel?
----@return Button
-function Button:new(model)
-    model = model or {}
-    model.template = model.template or "UusCorpButton"
-    local instance = Window.new(self, model)
-    setmetatable(instance, self)
-    return instance --[[@as Button]]
-end
-
-function Button:getTextDimensions()
-    UusCorp.Api.Button.GetTextDimensions(self:getName())
-end
-
-function Button:setText(text)
-    UusCorp.Api.Button.SetText(self:getName(), UusCorp.Utils.String.ToWString(text))
-end
-
-function Button:getText()
-    return UusCorp.Api.Button.GetText(self:getName())
-end
-
-function Button:setTexture(state, texture, x, y)
-    UusCorp.Api.Button.SetTexture(self:getName(), state, texture, x, y)
-end
-
-function Button:setTextColor(state, color)
-    UusCorp.Api.Button.SetTextColor(self:getName(), state, color.r, color.g, color.b)
-end
-
--- ========================================================================== --
--- Label
--- ========================================================================== --
-
----@class LabelEventsModel : WindowEventsModel
----@field OnInitialize fun(self: Label)?
----@field OnLButtonUp fun(self: Label, flags: integer, x: integer, y: integer)?
----@field OnRButtonUp fun(self: Label, flags: integer, x: integer, y: integer)?
----@field OnShutdown fun(self: Label)?
----@field OnHidden fun(self: Label)?
----@field OnShown fun(self: Label)?
----@field OnLButtonDown fun(self: Label, flags: integer, x: integer, y: integer)?
----@field OnRButtonDown fun(self: Label, flags: integer, x: integer, y: integer)?
----@field OnUpdate fun(self: Label, timePassed: integer)?
----@field OnUpdateMobileName fun(self: Label, windowData: MobileNameWrapper)?
----@field OnLButtonDblClk fun(self: Label, flags: integer, x: integer, y: integer)?
----@field OnMouseOver fun(self: Label)?
----@field OnMouseOverEnd fun(self: Label)?
----@field OnMouseDrag fun(self: Label)?
----@field OnUpdatePlayerStatus fun(self: Label, playerStatus: PlayerStatusWrapper)?
----@field OnUpdateMobileStatus fun(self: Label, mobileStatus: MobileStatusWrapper)?
----@field OnUpdateHealthBarColor fun(self: Label, healthBarColor: HealthBarColorWrapper)?
----@field OnEndHealthBarDrag fun(self: Label)?
-
----@class LabelModel : WindowModel
----@field name string?
----@field template string?
----@field events LabelEventsModel?
-
----@class Label: Window
-local Label = {}
-Label.__index = Label
-setmetatable(Label, Window)
-
----@param model LabelModel?
----@return Label
-function Label:new(model)
-    model = model or {}
-    model.template = model.template or "UusCorpLabel"
-    local instance = Window.new(self, model)
-    setmetatable(instance, self)
-    return instance --[[@as Label]]
-end
-
-function Label:setText(text)
-    UusCorp.Api.Label.SetText(self:getName(), UusCorp.Utils.String.ToWString(text))
-end
-
-function Label:setTextColor(color)
-    UusCorp.Api.Label.SetTextColor(self:getName(), color)
-end
-
-function Label:setTextAlignment(alignment)
-    UusCorp.Api.Label.SetTextAlignment(self:getName(), alignment)
-end
-
-function Label:centerText()
-    self:setTextAlignment(UusCorp.Constants.TextAlignment.Center)
-end
-
--- ========================================================================== --
--- StatusBar
--- ========================================================================== --
-
----@class StatusBarEventsModel : WindowEventsModel
----@field OnInitialize fun(self: StatusBar)?
----@field OnLButtonUp fun(self: StatusBar, flags: integer, x: integer, y: integer)?
----@field OnRButtonUp fun(self: StatusBar, flags: integer, x: integer, y: integer)?
----@field OnShutdown fun(self: StatusBar)?
----@field OnHidden fun(self: StatusBar)?
----@field OnShown fun(self: StatusBar)?
----@field OnLButtonDown fun(self: StatusBar, flags: integer, x: integer, y: integer)?
----@field OnRButtonDown fun(self: StatusBar, flags: integer, x: integer, y: integer)?
----@field OnUpdate fun(self: StatusBar, timePassed: integer)?
----@field OnUpdateMobileName fun(self: StatusBar, windowData: MobileNameWrapper)?
----@field OnLButtonDblClk fun(self: StatusBar, flags: integer, x: integer, y: integer)?
----@field OnMouseOver fun(self: StatusBar)?
----@field OnMouseOverEnd fun(self: StatusBar)?
----@field OnMouseDrag fun(self: StatusBar)?
----@field OnUpdatePlayerStatus fun(self: StatusBar, playerStatus: PlayerStatusWrapper)?
----@field OnUpdateMobileStatus fun(self: StatusBar, mobileStatus: MobileStatusWrapper)?
----@field OnUpdateHealthBarColor fun(self: StatusBar, healthBarColor: HealthBarColorWrapper)?
----@field OnEndHealthBarDrag fun(self: StatusBar)?
-
----@class StatusBarModel : WindowModel
----@field name string?
----@field template string?
----@field events StatusBarEventsModel?
-
----@class StatusBar: Window
-local StatusBar = {}
-StatusBar.__index = StatusBar
-setmetatable(StatusBar, Window)
-
----@param model StatusBarModel?
----@return StatusBar
-function StatusBar:new(model)
-    model = model or {}
-    model.template = model.template or "UusCorpStatusBar"
-    local instance = Window.new(self, model)
-    setmetatable(instance, self)
-    return instance --[[@as StatusBar]]
-end
-
-function StatusBar:setMaxValue(maxValue)
-    UusCorp.Api.StatusBar.SetMaxValue(self:getName(), maxValue)
-end
-
-function StatusBar:setCurrentValue(currentValue)
-    UusCorp.Api.StatusBar.SetCurrentValue(self:getName(), currentValue)
-end
-
-function StatusBar:setBackgroundTint(tint)
-    UusCorp.Api.StatusBar.SetBackgroundTint(self:getName(), tint)
-end
-
-function StatusBar:setForegroundTint(tint)
-    UusCorp.Api.StatusBar.SetForegroundTint(self:getName(), tint)
-end
-
--- ========================================================================== --
--- Uus Corp Library
--- ========================================================================== --
-
-UusCorp = {}
-
--- ========================================================================== --
--- Api
--- ========================================================================== --
-
-
-UusCorp.Api = {}
+---@class Api
+local Api = {}
+
+---@class Constants
+local Constants = {}
+
+---@class Views
+local Views = {}
+
+---@class Data
+local Data = {}
+
+---@class Utils
+local Utils = {}
+
+---@class Context
+---@field Api Api
+---@field Data Data
+---@field Utils Utils
+---@field Constants Constants
+---@field Views Views
+local Context = {
+    Api = Api,
+    Data = Data,
+    Utils = Utils,
+    Constants = Constants,
+    Views = Views
+}
 
 -- ========================================================================== --
 -- Api - Ability
 -- ========================================================================== --
 
 
-UusCorp.Api.Ability = {}
+Api.Ability = {}
 
 ---
 --- Returns the maximum number of racial abilities.
 ---@return number The maximum number of racial abilities.
-function UusCorp.Api.Ability.GetMaxRacialAbilities()
+function Api.Ability.GetMaxRacialAbilities()
     return GetMaxRacialAbilities()
 end
 
@@ -4477,7 +3604,7 @@ end
 --- Gets the racial ability ID for a given index.
 ---@param index number The index of the racial ability.
 ---@return number The racial ability ID.
-function UusCorp.Api.Ability.GetRacialAbilityId(index)
+function Api.Ability.GetRacialAbilityId(index)
     return GetRacialAbilityId(index) + 3000
 end
 
@@ -4485,7 +3612,7 @@ end
 --- Gets the ability data for a given ID.
 ---@param id number The ID of the ability.
 ---@return any The ability data.
-function UusCorp.Api.Ability.GetAbilityData(id)
+function Api.Ability.GetAbilityData(id)
     return GetAbilityData(id)
 end
 
@@ -4493,7 +3620,7 @@ end
 --- Gets the weapon ability ID for a given index.
 ---@param index number The index of the weapon ability.
 ---@return number The weapon ability ID.
-function UusCorp.Api.Ability.GetWeapnAbilityId(index)
+function Api.Ability.GetWeapnAbilityId(index)
     return GetWeaponAbilityId(index) + 1000
 end
 
@@ -4501,13 +3628,13 @@ end
 -- Api - Animated Image
 -- ========================================================================== --
 
-UusCorp.Api.AnimatedImage = {}
+Api.AnimatedImage = {}
 
 ---
 --- Sets the texture for an animated image.
 ---@param imageName string The name of the animated image.
 ---@param texture string The texture to set.
-function UusCorp.Api.AnimatedImage.SetTexture(imageName, texture)
+function Api.AnimatedImage.SetTexture(imageName, texture)
     AnimatedImageSetTexture(imageName, texture)
 end
 
@@ -4518,14 +3645,14 @@ end
 ---@param loop boolean Whether the animation should loop.
 ---@param hideWhenDone boolean Whether the image should be hidden when the animation is done.
 ---@param delay number The delay before the animation starts.
-function UusCorp.Api.AnimatedImage.StartAnimation(imageName, startFrame, loop, hideWhenDone, delay)
+function Api.AnimatedImage.StartAnimation(imageName, startFrame, loop, hideWhenDone, delay)
     AnimatedImageStartAnimation(imageName, startFrame, loop, hideWhenDone, delay)
 end
 
 ---
 --- Stops the animation for an animated image.
 ---@param imageName string The name of the animated image.
-function UusCorp.Api.AnimatedImage.StopAnimaton(imageName)
+function Api.AnimatedImage.StopAnimaton(imageName)
     AnimatedImageStopAnimation(imageName)
 end
 
@@ -4533,7 +3660,7 @@ end
 --- Sets the play speed of an animated image.
 ---@param imageName string The name of the animated image.
 ---@param fps number The frames per second.
-function UusCorp.Api.AnimatedImage.SetPlaySpeed(imageName, fps)
+function Api.AnimatedImage.SetPlaySpeed(imageName, fps)
     AnimatedImageSetPlaySpeed(imageName, fps)
 end
 
@@ -4541,13 +3668,13 @@ end
 -- Api - Button
 -- ========================================================================== --
 
-UusCorp.Api.Button = {}
+Api.Button = {}
 
 ---
 --- Gets the text dimensions of a button.
 ---@param id string The ID of the button.
 ---@return number, number The width and height of the button text.
-function UusCorp.Api.Button.GetTextDimensions(id)
+function Api.Button.GetTextDimensions(id)
     return ButtonGetTextDimensions(id)
 end
 
@@ -4555,7 +3682,7 @@ end
 --- Sets the text of a button.
 ---@param id string The ID of the button.
 ---@param text string The text to set.
-function UusCorp.Api.Button.SetText(id, text)
+function Api.Button.SetText(id, text)
     ButtonSetText(id, text)
 end
 
@@ -4563,7 +3690,7 @@ end
 --- Gets the text of a button.
 ---@param id string The ID of the button.
 ---@return string The text of the button.
-function UusCorp.Api.Button.GetText(id)
+function Api.Button.GetText(id)
     return ButtonGetText(id)
 end
 
@@ -4571,7 +3698,7 @@ end
 --- Sets the disabled flag of a button.
 ---@param id string The ID of the button.
 ---@param isDisabled boolean Whether the button is disabled.
-function UusCorp.Api.Button.SetDisabled(id, isDisabled)
+function Api.Button.SetDisabled(id, isDisabled)
     ButtonSetDisabledFlag(id, isDisabled)
 end
 
@@ -4579,7 +3706,7 @@ end
 --- Gets the disabled flag of a button.
 ---@param id string The ID of the button.
 ---@return boolean Whether the button is disabled.
-function UusCorp.Api.Button.IsDisabled(id)
+function Api.Button.IsDisabled(id)
     return ButtonGetDisabledFlag(id)
 end
 
@@ -4587,7 +3714,7 @@ end
 --- Sets the enabled flag of a button.
 ---@param id string The ID of the button.
 ---@param isEnabled boolean Whether the button is enabled.
-function UusCorp.Api.Button.SetEnabled(id, isEnabled)
+function Api.Button.SetEnabled(id, isEnabled)
     ButtonSetCheckButtonFlag(id, isEnabled)
 end
 
@@ -4595,7 +3722,7 @@ end
 --- Sets the pressed flag of a button.
 ---@param id string The ID of the button.
 ---@param isChecked boolean Whether the button is pressed.
-function UusCorp.Api.Button.SetChecked(id, isChecked)
+function Api.Button.SetChecked(id, isChecked)
     ButtonSetPressedFlag(id, isChecked)
 end
 
@@ -4603,7 +3730,7 @@ end
 --- Gets the pressed flag of a button.
 ---@param id string The ID of the button.
 ---@return boolean Whether the button is pressed.
-function UusCorp.Api.Button.IsChecked(id)
+function Api.Button.IsChecked(id)
     return ButtonGetPressedFlag(id)
 end
 
@@ -4614,7 +3741,7 @@ end
 ---@param texture string The texture to set.
 ---@param x number The x-coordinate of the texture.
 ---@param y number The y-coordinate of the texture.
-function UusCorp.Api.Button.SetTexture(id, state, texture, x, y)
+function Api.Button.SetTexture(id, state, texture, x, y)
     ButtonSetTexture(id, state, texture, x, y)
 end
 
@@ -4622,7 +3749,7 @@ end
 --- Sets the highlight flag of a button.
 ---@param id string The ID of the button.
 ---@param doHighlight boolean Whether to highlight the button.
-function UusCorp.Api.Button.SetHighlight(id, doHighlight)
+function Api.Button.SetHighlight(id, doHighlight)
     ButtonSetHighlightFlag(id, doHighlight)
 end
 
@@ -4630,7 +3757,7 @@ end
 --- Sets the stay down flag of a button.
 ---@param id string The ID of the button.
 ---@param stayDown boolean Whether the button should stay down.
-function UusCorp.Api.Button.SetStayDown(id, stayDown)
+function Api.Button.SetStayDown(id, stayDown)
     ButtonSetStayDownFlag(id, stayDown)
 end
 
@@ -4638,7 +3765,7 @@ end
 --- Gets the stay down flag of a button.
 ---@param id string The ID of the button.
 ---@return boolean Whether the button stays down.
-function UusCorp.Api.Button.IsStayDown(id)
+function Api.Button.IsStayDown(id)
     return ButtonGetStayDownFlag(id)
 end
 
@@ -4649,7 +3776,7 @@ end
 ---@param g number The green component of the color.
 ---@param b number The blue component of the color.
 ---@param a number The alpha component of the color.
-function UusCorp.Api.Button.SetTextColor(id, r, g, b, a)
+function Api.Button.SetTextColor(id, r, g, b, a)
     ButtonSetTextColor(id, r, g, b, a)
 end
 
@@ -4657,13 +3784,13 @@ end
 -- Api - Chat
 -- ========================================================================== --
 
-UusCorp.Api.Chat = {}
+Api.Chat = {}
 
 ---
 --- Sends a chat message.
 ---@param channel string The channel to send the message to.
 ---@param text string The message to send.
-function UusCorp.Api.Chat.SendChat(channel, text)
+function Api.Chat.SendChat(channel, text)
     SendChat(channel, text)
 end
 
@@ -4671,7 +3798,7 @@ end
 --- Prints a message to the chat window.
 ---@param wString string The message to print.
 ---@param filter string The filter to use.
-function UusCorp.Api.Chat.PrintToChatWindow(wString, filter)
+function Api.Chat.PrintToChatWindow(wString, filter)
     PrintWStringToChatWindow(wString, filter)
 end
 
@@ -4679,7 +3806,7 @@ end
 -- Api - Circle Image
 -- ========================================================================== --
 
-UusCorp.Api.CircleImage = {}
+Api.CircleImage = {}
 
 ---
 --- Sets the texture for a circle image.
@@ -4687,7 +3814,7 @@ UusCorp.Api.CircleImage = {}
 ---@param texture string The texture to set.
 ---@param xCord number The x-coordinate of the texture.
 ---@param yCord number The y-coordinate of the texture.
-function UusCorp.Api.CircleImage.SetTexture(id, texture, xCord, yCord)
+function Api.CircleImage.SetTexture(id, texture, xCord, yCord)
     CircleImageSetTexture(id, texture, xCord, yCord)
 end
 
@@ -4695,7 +3822,7 @@ end
 --- Sets the texture scale for a circle image.
 ---@param id string The ID of the circle image.
 ---@param scale number The scale to set.
-function UusCorp.Api.CircleImage.SetTextureScale(id, scale)
+function Api.CircleImage.SetTextureScale(id, scale)
     CircleImageSetTextureScale(id, scale)
 end
 
@@ -4703,7 +3830,7 @@ end
 --- Sets the rotation for a circle image.
 ---@param id string The ID of the circle image.
 ---@param rotation number The rotation to set.
-function UusCorp.Api.CircleImage.SetRotation(id, rotation)
+function Api.CircleImage.SetRotation(id, rotation)
     CircleImageSetRotation(id, rotation)
 end
 
@@ -4712,20 +3839,20 @@ end
 -- ========================================================================== --
 
 
-UusCorp.Api.ComboBox = {}
+Api.ComboBox = {}
 
 ---
 --- Adds an item to a combo box.
 ---@param id string The ID of the combo box.
 ---@param item string The item to add.
-function UusCorp.Api.ComboBox.AddItem(id, item)
+function Api.ComboBox.AddItem(id, item)
     ComboBoxAddMenuItem(id, item)
 end
 
 ---
 --- Clears the items from a combo box.
 ---@param id string The ID of the combo box.
-function UusCorp.Api.ComboBox.ClearItems(id)
+function Api.ComboBox.ClearItems(id)
     ComboBoxClearMenuItems(id)
 end
 
@@ -4733,7 +3860,7 @@ end
 --- Sets the selected item in a combo box.
 ---@param id string The ID of the combo box.
 ---@param item string The item to select.
-function UusCorp.Api.ComboBox.SetSelectedItem(id, item)
+function Api.ComboBox.SetSelectedItem(id, item)
     ComboBoxSetSelectedMenuItem(id, item)
 end
 
@@ -4741,7 +3868,7 @@ end
 --- Gets the selected item from a combo box.
 ---@param id string The ID of the combo box.
 ---@return string The selected item.
-function UusCorp.Api.ComboBox.GetSelectedItem(id)
+function Api.ComboBox.GetSelectedItem(id)
     return ComboBoxGetSelectedMenuItem(id)
 end
 
@@ -4750,12 +3877,12 @@ end
 -- ========================================================================== --
 
 
-UusCorp.Api.ContextMenu = {}
+Api.ContextMenu = {}
 
 ---
 --- Requests a context menu.
 ---@param id number The ID of the context menu.
-function UusCorp.Api.ContextMenu.RequestMenu(id)
+function Api.ContextMenu.RequestMenu(id)
     RequestContextMenu(id)
 end
 
@@ -4764,20 +3891,20 @@ end
 -- ========================================================================== --
 
 
-UusCorp.Api.CSV = {}
+Api.CSV = {}
 
 ---
 --- Loads a CSV file.
 ---@param path string The path to the CSV file.
 ---@param name string The name to give the loaded data.
-function UusCorp.Api.CSV.Load(path, name)
+function Api.CSV.Load(path, name)
     UOBuildTableFromCSV(path, name)
 end
 
 ---
 --- Unloads a CSV file.
 ---@param name string The name of the CSV data to unload.
-function UusCorp.Api.CSV.Unload(name)
+function Api.CSV.Unload(name)
     UOUnloadCSVTable(name)
 end
 
@@ -4785,12 +3912,12 @@ end
 -- Api - Drag
 -- ========================================================================== --
 
-UusCorp.Api.Drag = {}
+Api.Drag = {}
 
 ---
 --- Drags an object to another object.
 ---@param id number The ID of the object to drag to.
-function UusCorp.Api.Drag.DragToObject(id)
+function Api.Drag.DragToObject(id)
     DragSlotDropObjectToObject(id)
 end
 
@@ -4799,7 +3926,7 @@ end
 ---@param userAction string The user action.
 ---@param actionId number The action ID.
 ---@param iconId number The icon ID.
-function UusCorp.Api.Drag.SetActionMouseClickData(userAction, actionId, iconId)
+function Api.Drag.SetActionMouseClickData(userAction, actionId, iconId)
     DragSlotSetActionMouseClickData(userAction, actionId, iconId)
 end
 
@@ -4807,21 +3934,21 @@ end
 --- Sets the mouse click data for an object.
 ---@param objectId number The object ID.
 ---@param dragSource string The drag source.
-function UusCorp.Api.Drag.SetObjectMouseClickData(objectId, dragSource)
+function Api.Drag.SetObjectMouseClickData(objectId, dragSource)
     DragSlotSetObjectMouseClickData(objectId, dragSource)
 end
 
 ---
 --- Drops an object on the paperdoll equipment.
 ---@param objectId number The object ID.
-function UusCorp.Api.Drag.DropOnPaperdollEquipment(objectId)
+function Api.Drag.DropOnPaperdollEquipment(objectId)
     DragSlotDropObjectToPaperdollEquipment(objectId)
 end
 
 ---
 --- Drops an object on the paperdoll.
 ---@param paperdollId number The paperdoll ID.
-function UusCorp.Api.Drag.DropOnPaperdoll(paperdollId)
+function Api.Drag.DropOnPaperdoll(paperdollId)
     DragSlotDropObjectToPaperdoll(paperdollId)
 end
 
@@ -4829,7 +3956,7 @@ end
 --- Drops an object on an object at a given index.
 ---@param objectId number The object ID.
 ---@param gridIndex number The grid index.
-function UusCorp.Api.Drag.DropOnObjectAtIndex(objectId, gridIndex)
+function Api.Drag.DropOnObjectAtIndex(objectId, gridIndex)
     DragSlotDropObjectToObjectAtIndex(objectId, gridIndex)
 end
 
@@ -4837,14 +3964,14 @@ end
 --- Drops an object on a container.
 ---@param containerId number The container ID.
 ---@param gridIndex number The grid index.
-function UusCorp.Api.Drag.DropOnContainer(containerId, gridIndex)
+function Api.Drag.DropOnContainer(containerId, gridIndex)
     DragSlotDropObjectToContainer(containerId, gridIndex)
 end
 
 ---
 --- Automatically picks up an object.
 ---@param objectId number The object ID.
-function UusCorp.Api.Drag.AutoPickupObject(objectId)
+function Api.Drag.AutoPickupObject(objectId)
     DragSlotAutoPickupObject(objectId)
 end
 
@@ -4852,7 +3979,7 @@ end
 -- Api - Dynamic Image
 -- ========================================================================== --
 
-UusCorp.Api.DynamicImage = {}
+Api.DynamicImage = {}
 
 ---
 --- Sets the texture for a dynamic image.
@@ -4860,7 +3987,7 @@ UusCorp.Api.DynamicImage = {}
 ---@param texture string The texture to set.
 ---@param x number The x-coordinate of the texture.
 ---@param y number The y-coordinate of the texture.
-function UusCorp.Api.DynamicImage.SetTexture(dynamicImageName, texture, x, y)
+function Api.DynamicImage.SetTexture(dynamicImageName, texture, x, y)
     DynamicImageSetTexture(dynamicImageName, texture or "", x or 0, y or 0)
 end
 
@@ -4868,7 +3995,7 @@ end
 --- Sets the texture scale for a dynamic image.
 ---@param dynamicImageName string The name of the dynamic image.
 ---@param textureScale number The scale to set.
-function UusCorp.Api.DynamicImage.SetTextureScale(dynamicImageName, textureScale)
+function Api.DynamicImage.SetTextureScale(dynamicImageName, textureScale)
     DynamicImageSetTextureScale(dynamicImageName, textureScale)
 end
 
@@ -4877,7 +4004,7 @@ end
 ---@param dynamicImageName string The name of the dynamic image.
 ---@param x number The width of the texture.
 ---@param y number The height of the texture.
-function UusCorp.Api.DynamicImage.SetTextureDimensions(dynamicImageName, x, y)
+function Api.DynamicImage.SetTextureDimensions(dynamicImageName, x, y)
     DynamicImageSetTextureDimensions(dynamicImageName, x, y)
 end
 
@@ -4885,7 +4012,7 @@ end
 --- Sets the texture orientation for a dynamic image.
 ---@param dynamicImageName string The name of the dynamic image.
 ---@param mirrored boolean Whether the texture is mirrored.
-function UusCorp.Api.DynamicImage.SetTextureOrientation(dynamicImageName, mirrored)
+function Api.DynamicImage.SetTextureOrientation(dynamicImageName, mirrored)
     DynamicImageSetTextureOrientation(dynamicImageName, mirrored)
 end
 
@@ -4893,7 +4020,7 @@ end
 --- Sets the texture slice for a dynamic image.
 ---@param dynamicImageName string The name of the dynamic image.
 ---@param sliceName string The name of the slice.
-function UusCorp.Api.DynamicImage.SetTextureSlice(dynamicImageName, sliceName)
+function Api.DynamicImage.SetTextureSlice(dynamicImageName, sliceName)
     DynamicImageSetTextureSlice(dynamicImageName, sliceName)
 end
 
@@ -4901,7 +4028,7 @@ end
 --- Sets the rotation for a dynamic image.
 ---@param dynamicImageName string The name of the dynamic image.
 ---@param rotation number The rotation to set.
-function UusCorp.Api.DynamicImage.SetRotation(dynamicImageName, rotation)
+function Api.DynamicImage.SetRotation(dynamicImageName, rotation)
     DynamicImageSetRotation(dynamicImageName, rotation)
 end
 
@@ -4909,7 +4036,7 @@ end
 --- Checks if a dynamic image has a texture.
 ---@param dynamicImageName string The name of the dynamic image.
 ---@return boolean Whether the dynamic image has a texture.
-function UusCorp.Api.DynamicImage.HasTexture(dynamicImageName)
+function Api.DynamicImage.HasTexture(dynamicImageName)
     return DynamicImageHasTexture(dynamicImageName)
 end
 
@@ -4918,7 +4045,7 @@ end
 ---@param dynamicImageName string The name of the dynamic image.
 ---@param shader string The shader to set.
 ---@param hue number The hue to use.
-function UusCorp.Api.DynamicImage.SetCustomShader(dynamicImageName, shader, hue)
+function Api.DynamicImage.SetCustomShader(dynamicImageName, shader, hue)
     DynamicImageSetCustomShader(dynamicImageName, shader, hue)
 end
 
@@ -4927,13 +4054,13 @@ end
 -- ========================================================================== --
 
 
-UusCorp.Api.EditTextBox = {}
+Api.EditTextBox = {}
 
 ---
 --- Sets the text of an edit box.
 ---@param editBoxName string The name of the edit box.
 ---@param text string The text to set.
-function UusCorp.Api.EditTextBox.SetText(editBoxName, text)
+function Api.EditTextBox.SetText(editBoxName, text)
     TextEditBoxSetText(editBoxName, text or L"")
 end
 
@@ -4941,7 +4068,7 @@ end
 --- Gets the text of an edit box.
 ---@param editBoxName string The name of the edit box.
 ---@return string The text of the edit box.
-function UusCorp.Api.EditTextBox.GetText(editBoxName)
+function Api.EditTextBox.GetText(editBoxName)
     return TextEditBoxGetText(editBoxName)
 end
 
@@ -4949,7 +4076,7 @@ end
 --- Gets the text lines of an edit box.
 ---@param editBoxName string The name of the edit box.
 ---@return table The text lines of the edit box.
-function UusCorp.Api.EditTextBox.GetTextLines(editBoxName)
+function Api.EditTextBox.GetTextLines(editBoxName)
     return TextEditBoxGetTextLines(editBoxName)
 end
 
@@ -4957,7 +4084,7 @@ end
 --- Inserts text into an edit box.
 ---@param editBoxName string The name of the edit box.
 ---@param text string The text to insert.
-function UusCorp.Api.EditTextBox.InsertText(editBoxName, text)
+function Api.EditTextBox.InsertText(editBoxName, text)
     TextEditBoxInsertText(editBoxName, text)
 end
 
@@ -4965,7 +4092,7 @@ end
 --- Sets the text color of an edit box.
 ---@param editBoxName string The name of the edit box.
 ---@param color table The color to set.
-function UusCorp.Api.EditTextBox.SetTextColor(editBoxName, color)
+function Api.EditTextBox.SetTextColor(editBoxName, color)
     TextEditBoxSetTextColor(editBoxName, color.r, color.g, color.b)
 end
 
@@ -4973,14 +4100,14 @@ end
 --- Gets the text color of an edit box.
 ---@param editBoxName string The name of the edit box.
 ---@return number, number, number The red, green, and blue components of the color.
-function UusCorp.Api.EditTextBox.GetTextColor(editBoxName)
+function Api.EditTextBox.GetTextColor(editBoxName)
     return TextEditBoxGetTextColor(editBoxName)
 end
 
 ---
 --- Selects all text in an edit box.
 ---@param editBoxName string The name of the edit box.
-function UusCorp.Api.EditTextBox.SelectAll(editBoxName)
+function Api.EditTextBox.SelectAll(editBoxName)
     TextEditBoxSelectAll(editBoxName)
 end
 
@@ -4989,7 +4116,7 @@ end
 ---@param editBoxName string The name of the edit box.
 ---@param fontName string The name of the font.
 ---@param lineSpacing number The line spacing.
-function UusCorp.Api.EditTextBox.SetFont(editBoxName, fontName, lineSpacing)
+function Api.EditTextBox.SetFont(editBoxName, fontName, lineSpacing)
     TextEditBoxSetFont(editBoxName, fontName, lineSpacing)
 end
 
@@ -4997,7 +4124,7 @@ end
 --- Gets the font of an edit box.
 ---@param editBoxName string The name of the edit box.
 ---@return string, number The name of the font and the line spacing.
-function UusCorp.Api.EditTextBox.GetFont(editBoxName)
+function Api.EditTextBox.GetFont(editBoxName)
     return TextEditBoxGetFont(editBoxName)
 end
 
@@ -5005,7 +4132,7 @@ end
 --- Gets the history of an edit box.
 ---@param editBoxName string The name of the edit box.
 ---@return table The history of the edit box.
-function UusCorp.Api.EditTextBox.GetHistory(editBoxName)
+function Api.EditTextBox.GetHistory(editBoxName)
     return TextEditBoxGetHistory(editBoxName)
 end
 
@@ -5013,7 +4140,7 @@ end
 --- Sets the history of an edit box.
 ---@param editBoxName string The name of the edit box.
 ---@param history table The history to set.
-function UusCorp.Api.EditTextBox.SetHistory(editBoxName, history)
+function Api.EditTextBox.SetHistory(editBoxName, history)
     TextEditBoxSetHistory(editBoxName, history)
 end
 
@@ -5021,7 +4148,7 @@ end
 --- Sets whether an edit box handles key down events.
 ---@param editBoxName string The name of the edit box.
 ---@param handle boolean Whether to handle key down events.
-function UusCorp.Api.EditTextBox.HandleKeyDown(editBoxName, handle)
+function Api.EditTextBox.HandleKeyDown(editBoxName, handle)
     TextEditBoxSetHandleKeyDown(editBoxName, handle)
 end
 
@@ -5029,12 +4156,12 @@ end
 -- Api - Event
 -- ========================================================================== --
 
-UusCorp.Api.Event = {}
+Api.Event = {}
 
 ---
 --- Broadcasts an event.
 ---@param event string The event to broadcast.
-function UusCorp.Api.Event.Broadcast(event)
+function Api.Event.Broadcast(event)
     BroadcastEvent(event)
 end
 
@@ -5043,13 +4170,13 @@ end
 -- ========================================================================== --
 
 
-UusCorp.Api.Gump = {}
+Api.Gump = {}
 
 ---
 --- Handles a left click on a gump.
 ---@param gumpId number The ID of the gump.
 ---@param windowName string The name of the window.
-function UusCorp.Api.Gump.OnLeftClick(gumpId, windowName)
+function Api.Gump.OnLeftClick(gumpId, windowName)
     GenericGumpOnClicked(gumpId, windowName)
 end
 
@@ -5057,14 +4184,14 @@ end
 --- Handles a double click on a gump.
 ---@param gumpId number The ID of the gump.
 ---@param windowName string The name of the window.
-function UusCorp.Api.Gump.OnDoubleClick(gumpId, windowName)
+function Api.Gump.OnDoubleClick(gumpId, windowName)
     GenericGumpOnDoubleClicked(gumpId, windowName)
 end
 
 ---
 --- Handles a right click on a gump.
 ---@param gumpId number The ID of the gump.
-function UusCorp.Api.Gump.OnRightClick(gumpId)
+function Api.Gump.OnRightClick(gumpId)
     GenericGumpOnRClicked(gumpId)
 end
 
@@ -5073,21 +4200,21 @@ end
 ---@param gumpId number The ID of the gump.
 ---@param windowName string The name of the window.
 ---@return string The tooltip text.
-function UusCorp.Api.Gump.GetTooltipText(gumpId, windowName)
+function Api.Gump.GetTooltipText(gumpId, windowName)
     return GenericGumpGetToolTipText(gumpId, windowName)
 end
 
 ---
 --- Opens a web browser.
 ---@param link string The link to open.
-function UusCorp.Api.Gump.OpenWebBrowser(link)
+function Api.Gump.OpenWebBrowser(link)
     OpenWebBrowser(tostring(link))
 end
 
 ---
 --- Handles closing a container.
 ---@param id number The ID of the container.
-function UusCorp.Api.Gump.OnCloseContainer(id)
+function Api.Gump.OnCloseContainer(id)
     GumpManagerOnCloseContainer(id)
 end
 
@@ -5096,7 +4223,7 @@ end
 ---@param gumpId number The ID of the gump.
 ---@param windowName string The name of the window.
 ---@return number The item properties object ID.
-function UusCorp.Api.Gump.GetItemPropertiesObjectId(gumpId, windowName)
+function Api.Gump.GetItemPropertiesObjectId(gumpId, windowName)
     return GenericGumpGetItemPropertiesId(gumpId, windowName)
 end
 
@@ -5104,13 +4231,13 @@ end
 -- Api - Icon
 -- ========================================================================== --
 
-UusCorp.Api.Icon = {}
+Api.Icon = {}
 
 ---
 --- Gets the icon data for a texture ID.
 ---@param textureId number The texture ID.
 ---@return any The icon data.
-function UusCorp.Api.Icon.GetIconData(textureId)
+function Api.Icon.GetIconData(textureId)
     return GetIconData(textureId)
 end
 
@@ -5118,7 +4245,7 @@ end
 --- Gets the texture size for a texture ID.
 ---@param textureId number The texture ID.
 ---@return number, number The width and height of the texture.
-function UusCorp.Api.Icon.GetTextureSize(textureId)
+function Api.Icon.GetTextureSize(textureId)
     return UOGetTextureSize(textureId)
 end
 
@@ -5128,7 +4255,7 @@ end
 ---@param width number The width of the tile art.
 ---@param height number The height of the tile art.
 ---@return any The tile art.
-function UusCorp.Api.Icon.RequestTileArt(type, width, height)
+function Api.Icon.RequestTileArt(type, width, height)
     return RequestTileArt(type, width, height)
 end
 
@@ -5137,13 +4264,13 @@ end
 -- ========================================================================== --
 
 
-UusCorp.Api.Label = {}
+Api.Label = {}
 
 ---
 --- Sets the text of a label.
 ---@param name string The name of the label.
 ---@param text string|number The text to set.
-function UusCorp.Api.Label.SetText(name, text)
+function Api.Label.SetText(name, text)
     if text == nil then
         return
     elseif type(text) == "number" then
@@ -5158,7 +4285,7 @@ end
 --- Gets the text of a label.
 ---@param name string The name of the label.
 ---@return string The text of the label.
-function UusCorp.Api.Label.GetText(name)
+function Api.Label.GetText(name)
     return LabelGetText(name)
 end
 
@@ -5166,7 +4293,7 @@ end
 --- Sets the text color of a label.
 ---@param name string The name of the label.
 ---@param color table The color to set.
-function UusCorp.Api.Label.SetTextColor(name, color)
+function Api.Label.SetTextColor(name, color)
     LabelSetTextColor(name, color.r, color.g, color.b)
 end
 
@@ -5174,7 +4301,7 @@ end
 --- Sets the text alignment of a label.
 ---@param name string The name of the label.
 ---@param alignment string The alignment to set.
-function UusCorp.Api.Label.SetTextAlignment(name, alignment)
+function Api.Label.SetTextAlignment(name, alignment)
     LabelSetTextAlign(name, alignment)
 end
 
@@ -5182,22 +4309,22 @@ end
 --- Sets the word wrap of a label.
 ---@param name string The name of the label.
 ---@param wordWrap boolean Whether to wrap words.
-function UusCorp.Api.Label.SetWordWrap(name, wordWrap)
+function Api.Label.SetWordWrap(name, wordWrap)
     LabelSetWordWrap(name, wordWrap)
 end
 
 -- ========================================================================== --
--- Api -ListBox
+-- Api - List Box
 -- ========================================================================== --
 
 
-UusCorp.Api.ListBox = {}
+Api.ListBox = {}
 
 ---
 --- Sets the data table for a list box.
 ---@param name string The name of the list box.
 ---@param data table The data table to set.
-function UusCorp.Api.ListBox.SetDataTable(name, data)
+function Api.ListBox.SetDataTable(name, data)
     ListBoxSetDataTable(name, data)
 end
 
@@ -5206,7 +4333,7 @@ end
 ---@param name string The name of the list box.
 ---@param rowIndex number The row index.
 ---@return number The data index.
-function UusCorp.Api.ListBox.GetDataIndex(name, rowIndex)
+function Api.ListBox.GetDataIndex(name, rowIndex)
     return ListBoxGetDataIndex(name, rowIndex)
 end
 
@@ -5214,7 +4341,7 @@ end
 --- Sets the display order for a list box.
 ---@param name string The name of the list box.
 ---@param orderArray table The display order to set.
-function UusCorp.Api.ListBox.SetDisplayOrder(name, orderArray)
+function Api.ListBox.SetDisplayOrder(name, orderArray)
     ListBoxSetDisplayOrder(name, orderArray)
 end
 
@@ -5222,7 +4349,7 @@ end
 --- Sets the visible row count for a list box.
 ---@param name string The name of the list box.
 ---@param count number The visible row count to set.
-function UusCorp.Api.ListBox.SetVisibleRowCount(name, count)
+function Api.ListBox.SetVisibleRowCount(name, count)
     ListBoxSetVisibleRowCount(name, count)
 end
 
@@ -5230,13 +4357,13 @@ end
 -- Api - Log Display
 -- ========================================================================== --
 
-UusCorp.Api.LogDisplay = {}
+Api.LogDisplay = {}
 
 ---
 --- Sets whether to show timestamps in a log display.
 ---@param name string The name of the log display.
 ---@param doShow boolean Whether to show timestamps.
-function UusCorp.Api.LogDisplay.ShowTimestamp(name, doShow)
+function Api.LogDisplay.ShowTimestamp(name, doShow)
     LogDisplaySetShowTimestamp(name, doShow == nil or doShow)
 end
 
@@ -5244,7 +4371,7 @@ end
 --- Gets whether timestamps are showing in a log display.
 ---@param name string The name of the log display.
 ---@return boolean Whether timestamps are showing.
-function UusCorp.Api.LogDisplay.IsTimestampShowing(name)
+function Api.LogDisplay.IsTimestampShowing(name)
     return LogDisplayGetShowTimestamp(name)
 end
 
@@ -5252,7 +4379,7 @@ end
 --- Sets whether to show the log name in a log display.
 ---@param name string The name of the log display.
 ---@param doShow boolean Whether to show the log name.
-function UusCorp.Api.LogDisplay.ShowLogName(name, doShow)
+function Api.LogDisplay.ShowLogName(name, doShow)
     LogDisplaySetShowLogName(name, doShow == nil or doShow)
 end
 
@@ -5260,7 +4387,7 @@ end
 --- Sets whether to show the filter name in a log display.
 ---@param name string The name of the log display.
 ---@param doShow boolean Whether to show the filter name.
-function UusCorp.Api.LogDisplay.ShowFilterName(name, doShow)
+function Api.LogDisplay.ShowFilterName(name, doShow)
     LogDisplaySetShowFilterName(name, doShow == nil or doShow)
 end
 
@@ -5269,7 +4396,7 @@ end
 ---@param name string The name of the log display.
 ---@param log string The log to add.
 ---@param bool boolean A boolean value.
-function UusCorp.Api.LogDisplay.AddLog(name, log, bool)
+function Api.LogDisplay.AddLog(name, log, bool)
     LogDisplayAddLog(name, log, bool == nil or bool)
 end
 
@@ -5277,7 +4404,7 @@ end
 --- Removes a log from a log display.
 ---@param name string The name of the log display.
 ---@param log string The log to remove.
-function UusCorp.Api.LogDisplay.RemoveLog(name, log)
+function Api.LogDisplay.RemoveLog(name, log)
     LogDisplayRemoveLog(name, log)
 end
 
@@ -5287,7 +4414,7 @@ end
 ---@param log string The log to set the color for.
 ---@param level number The level of the filter.
 ---@param color table The color to set.
-function UusCorp.Api.LogDisplay.SetFilterColor(name, log, level, color)
+function Api.LogDisplay.SetFilterColor(name, log, level, color)
     LogDisplaySetFilterColor(name, log, level, color.r, color.g, color.b)
 end
 
@@ -5297,7 +4424,7 @@ end
 ---@param log string The log to set the state for.
 ---@param filterId number The ID of the filter.
 ---@param filter any The filter to set.
-function UusCorp.Api.LogDisplay.SetFilterState(name, log, filterId, filter)
+function Api.LogDisplay.SetFilterState(name, log, filterId, filter)
     LogDisplaySetFilterState(name, log, filterId, filter)
 end
 
@@ -5305,7 +4432,7 @@ end
 --- Sets the text fade time for a log display.
 ---@param name string The name of the log display.
 ---@param time number The fade time to set.
-function UusCorp.Api.LogDisplay.SetTextFadeTime(name, time)
+function Api.LogDisplay.SetTextFadeTime(name, time)
     LogDisplaySetTextFadeTime(name, time)
 end
 
@@ -5313,7 +4440,7 @@ end
 --- Gets the text fade time for a log display.
 ---@param name string The name of the log display.
 ---@return number The text fade time.
-function UusCorp.Api.LogDisplay.GetTextFadeTime(name)
+function Api.LogDisplay.GetTextFadeTime(name)
     return LogDisplayGetTextFadeTime(name)
 end
 
@@ -5321,7 +4448,7 @@ end
 --- Gets whether the scrollbar is active in a log display.
 ---@param name string The name of the log display.
 ---@return boolean Whether the scrollbar is active.
-function UusCorp.Api.LogDisplay.IsScrollbarActive(name)
+function Api.LogDisplay.IsScrollbarActive(name)
     return LogDisplayIsScrollbarActive(name)
 end
 
@@ -5329,7 +4456,7 @@ end
 --- Sets the font for a log display.
 ---@param name string The name of the log display.
 ---@param font string The font to set.
-function UusCorp.Api.LogDisplay.SetFont(name, font)
+function Api.LogDisplay.SetFont(name, font)
     LogDisplaySetFont(name, font)
 end
 
@@ -5337,14 +4464,14 @@ end
 --- Gets the font for a log display.
 ---@param name string The name of the log display.
 ---@return string The font.
-function UusCorp.Api.LogDisplay.GetFont(name)
+function Api.LogDisplay.GetFont(name)
     return LogDisplayGetFont(name)
 end
 
 ---
 --- Scrolls a log display to the bottom.
 ---@param name string The name of the log display.
-function UusCorp.Api.LogDisplay.ScrollToBottom(name)
+function Api.LogDisplay.ScrollToBottom(name)
     LogDisplayScrollToBottom(name)
 end
 
@@ -5352,14 +4479,14 @@ end
 --- Gets whether a log display is scrolled to the bottom.
 ---@param name string The name of the log display.
 ---@return boolean Whether the log display is scrolled to the bottom.
-function UusCorp.Api.LogDisplay.IsScrolledToBottom(name)
+function Api.LogDisplay.IsScrolledToBottom(name)
     return LogDisplayIsScrolledToBottom(name)
 end
 
 ---
 --- Resets the line fade time for a log display.
 ---@param name string The name of the log display.
-function UusCorp.Api.LogDisplay.ResetLineFadeTime(name)
+function Api.LogDisplay.ResetLineFadeTime(name)
     LogDisplayResetLineFadeTime(name)
 end
 
@@ -5367,14 +4494,14 @@ end
 --- Sets whether to show the scrollbar in a log display.
 ---@param name string The name of the log display.
 ---@param showScrollbar boolean Whether to show the scrollbar.
-function UusCorp.Api.LogDisplay.ShowScrollbar(name, showScrollbar)
+function Api.LogDisplay.ShowScrollbar(name, showScrollbar)
     LogDisplayShowScrollbar(name, showScrollbar)
 end
 
 ---
 --- Scrolls a log display to the top.
 ---@param name string The name of the log display.
-function UusCorp.Api.LogDisplay.ScrollToTop(name)
+function Api.LogDisplay.ScrollToTop(name)
     LogDisplayScrollToTop(name)
 end
 
@@ -5382,7 +4509,7 @@ end
 --- Gets whether a log display is scrolled to the top.
 ---@param name string The name of the log display.
 ---@return boolean Whether the log display is scrolled to the top.
-function UusCorp.Api.LogDisplay.IsScrolledToTop(name)
+function Api.LogDisplay.IsScrolledToTop(name)
     return LogDisplayIsScrolledToTop(name)
 end
 
@@ -5391,14 +4518,14 @@ end
 -- ========================================================================== --
 
 
-UusCorp.Api.Mod = {}
+Api.Mod = {}
 
 ---
 --- Loads resources for a mod.
 ---@param path string The path to the resources.
 ---@param file string The file to load.
 ---@param resource string The resource to load.
-function UusCorp.Api.Mod.LoadResources(path, file, resource)
+function Api.Mod.LoadResources(path, file, resource)
     LoadResources(path, file, resource)
 end
 
@@ -5406,33 +4533,33 @@ end
 --- Sets whether a module is enabled.
 ---@param moduleName string The name of the module.
 ---@param isEnabled boolean Whether the module is enabled.
-function UusCorp.Api.Mod.SetEnabled(moduleName, isEnabled)
+function Api.Mod.SetEnabled(moduleName, isEnabled)
     ModuleSetEnabled(moduleName, isEnabled)
 end
 
 ---
 --- Initializes a module.
 ---@param moduleName string The name of the module.
-function UusCorp.Api.Mod.Initialize(moduleName)
+function Api.Mod.Initialize(moduleName)
     ModuleInitialize(moduleName)
 end
 
 ---
 --- Gets the data for all modules.
 ---@return any The data for all modules.
-function UusCorp.Api.Mod.GetData()
+function Api.Mod.GetData()
     return ModulesGetData()
 end
 
 ---
 --- Initializes restricted modules.
-function UusCorp.Api.Mod.InitializeRestricted()
+function Api.Mod.InitializeRestricted()
     ModulesInitializeRestricted()
 end
 
 ---
 --- Initializes all enabled modules.
-function UusCorp.Api.Mod.InitializeAllEnabled()
+function Api.Mod.InitializeAllEnabled()
     ModulesInitializeAllEnabled()
 end
 
@@ -5440,7 +4567,7 @@ end
 --- Loads a module as restricted.
 ---@param modFilePath string The path to the module file.
 ---@param allowRaw boolean Whether to allow raw loading.
-function UusCorp.Api.Mod.LoadModuleAsRestricted(modFilePath, allowRaw)
+function Api.Mod.LoadModuleAsRestricted(modFilePath, allowRaw)
     ModuleRestrictedLoad(modFilePath, allowRaw)
 end
 
@@ -5449,7 +4576,7 @@ end
 ---@param modFilePath string The path to the module file.
 ---@param setName string The name of the set.
 ---@param allowRaw boolean Whether to allow raw loading.
-function UusCorp.Api.Mod.LoadModule(modFilePath, setName, allowRaw)
+function Api.Mod.LoadModule(modFilePath, setName, allowRaw)
     ModuleLoad(modFilePath, setName, allowRaw)
 end
 
@@ -5458,7 +4585,7 @@ end
 ---@param listFilePath string The path to the list file.
 ---@param setName string The name of the set.
 ---@param allowRaw boolean Whether to allow raw loading.
-function UusCorp.Api.Mod.LoadModulesFromList(listFilePath, setName, allowRaw)
+function Api.Mod.LoadModulesFromList(listFilePath, setName, allowRaw)
     ModulesLoadFromListFile(listFilePath, setName, allowRaw)
 end
 
@@ -5466,7 +4593,7 @@ end
 --- Loads modules from a directory.
 ---@param directory string The directory to load modules from.
 ---@param setName string The name of the set.
-function UusCorp.Api.Mod.LoadModulesFromDirectory(directory, setName)
+function Api.Mod.LoadModulesFromDirectory(directory, setName)
     ModulesLoadFromDirectory(directory, setName)
 end
 
@@ -5474,13 +4601,13 @@ end
 -- Api - Object
 -- ========================================================================== --
 
-UusCorp.Api.Object = {}
+Api.Object = {}
 
 ---
 --- Gets the distance of an object from the player.
 ---@param id number The ID of the object.
 ---@return number The distance of the object from the player.
-function UusCorp.Api.Object.GetDistanceFromPlayer(id)
+function Api.Object.GetDistanceFromPlayer(id)
     return GetDistanceFromPlayer(id)
 end
 
@@ -5488,7 +4615,7 @@ end
 --- Checks if an object is valid.
 ---@param id number The ID of the object.
 ---@return boolean Whether the object is valid.
-function UusCorp.Api.Object.IsValid(id)
+function Api.Object.IsValid(id)
     return IsValidObject(id)
 end
 
@@ -5496,7 +4623,7 @@ end
 --- Checks if an object is a mobile.
 ---@param id number The ID of the object.
 ---@return boolean Whether the object is a mobile.
-function UusCorp.Api.Object.IsMobile(id)
+function Api.Object.IsMobile(id)
     return IsMobile(id)
 end
 
@@ -5505,7 +4632,7 @@ end
 ---@param paperdollId number The paperdoll ID.
 ---@param scale number The scale of the object.
 ---@return any The paperdoll object.
-function UusCorp.Api.Object.GetPaperdollObject(paperdollId, scale)
+function Api.Object.GetPaperdollObject(paperdollId, scale)
     return GetPaperdollObject(paperdollId, scale or 1.0)
 end
 
@@ -5514,7 +4641,7 @@ end
 -- ========================================================================== --
 
 
-UusCorp.Api.Radar = {}
+Api.Radar = {}
 
 ---
 --- Sets the window size for the radar.
@@ -5522,21 +4649,21 @@ UusCorp.Api.Radar = {}
 ---@param sizeY number The height of the window.
 ---@param boolOne boolean A boolean value.
 ---@param centerOnPlayer boolean Whether to center the radar on the player.
-function UusCorp.Api.Radar.SetWindowSize(sizeX, sizeY, boolOne, centerOnPlayer)
+function Api.Radar.SetWindowSize(sizeX, sizeY, boolOne, centerOnPlayer)
     UORadarSetWindowSize(sizeX, sizeY, boolOne, centerOnPlayer)
 end
 
 ---
 --- Gets the facet for the radar.
 ---@return any The facet for the radar.
-function UusCorp.Api.Radar.GetFacet()
+function Api.Radar.GetFacet()
     return UOGetRadarFacet()
 end
 
 ---
 --- Gets the area for the radar.
 ---@return any The area for the radar.
-function UusCorp.Api.Radar.GetArea()
+function Api.Radar.GetArea()
     return UOGetRadarArea()
 end
 
@@ -5544,7 +4671,7 @@ end
 --- Sets the offset for the radar.
 ---@param offsetX number The x-offset.
 ---@param offsetY number The y-offset.
-function UusCorp.Api.Radar.SetOffset(offsetX, offsetY)
+function Api.Radar.SetOffset(offsetX, offsetY)
     UORadarSetWindowOffset(offsetX, offsetY)
 end
 
@@ -5553,28 +4680,28 @@ end
 ---@param facet any The facet of the map.
 ---@param area any The area of the map.
 ---@return number The maximum zoom.
-function UusCorp.Api.Radar.GetMaxZoom(facet, area)
+function Api.Radar.GetMaxZoom(facet, area)
     return UORadarGetMaxZoomForMap(facet, area)
 end
 
 ---
 --- Sets the zoom for the radar.
 ---@param zoom number The zoom to set.
-function UusCorp.Api.Radar.SetZoom(zoom)
+function Api.Radar.SetZoom(zoom)
     UOSetRadarZoom(zoom)
 end
 
 ---
 --- Sets whether to center the radar on the player.
 ---@param isCenter boolean Whether to center the radar on the player.
-function UusCorp.Api.Radar.SetCenterOnPlayer(isCenter)
+function Api.Radar.SetCenterOnPlayer(isCenter)
     UORadarSetCenterOnPlayer(isCenter)
 end
 
 ---
 --- Gets the physical facet for the radar.
 ---@return any The physical facet for the radar.
-function UusCorp.Api.Radar.GetPhysicalFacet()
+function Api.Radar.GetPhysicalFacet()
     return UOGetPhysicalRadarFacet()
 end
 
@@ -5583,7 +4710,7 @@ end
 ---@param facet any The facet of the map.
 ---@param area any The area of the map.
 ---@return any The physical area for the radar.
-function UusCorp.Api.Radar.GetPhysicalArea(facet, area)
+function Api.Radar.GetPhysicalArea(facet, area)
     return UORadarGetAreaDimensions(facet, area)
 end
 
@@ -5591,7 +4718,7 @@ end
 --- Gets the facet label for the radar.
 ---@param facet any The facet of the map.
 ---@return string The facet label.
-function UusCorp.Api.Radar.GetFacetLabel(facet)
+function Api.Radar.GetFacetLabel(facet)
     return UORadarGetFacetLabel(facet)
 end
 
@@ -5600,7 +4727,7 @@ end
 ---@param facet any The facet of the map.
 ---@param area any The area of the map.
 ---@return string The area label.
-function UusCorp.Api.Radar.GetAreaLabel(facet, area)
+function Api.Radar.GetAreaLabel(facet, area)
     return UORadarGetAreaLabel(facet, area)
 end
 
@@ -5608,21 +4735,21 @@ end
 --- Gets the facet dimensions for the radar.
 ---@param num number A number.
 ---@return any The facet dimensions.
-function UusCorp.Api.Radar.GetFacetDimensions(num)
+function Api.Radar.GetFacetDimensions(num)
     return UORadarGetFacetDimensions(num)
 end
 
 ---
 --- Gets the center of the radar.
 ---@return any The center of the radar.
-function UusCorp.Api.Radar.GetCenter()
+function Api.Radar.GetCenter()
     return UOGetRadarCenter()
 end
 
 ---
 --- Sets the rotation for the radar.
 ---@param rotation number The rotation to set.
-function UusCorp.Api.Radar.SetRotation(rotation)
+function Api.Radar.SetRotation(rotation)
     UOSetRadarRotation(rotation)
 end
 
@@ -5633,7 +4760,7 @@ end
 ---@param facet any The facet of the map.
 ---@param area any The area of the map.
 ---@param bool boolean A boolean value.
-function UusCorp.Api.Radar.CenterOnLocation(x, y, facet, area, bool)
+function Api.Radar.CenterOnLocation(x, y, facet, area, bool)
     UOCenterRadarOnLocation(x, y, facet, area, bool)
 end
 
@@ -5644,7 +4771,7 @@ end
 ---@param facet any The facet of the map.
 ---@param area any The area of the map.
 ---@return boolean Whether the location is in the area.
-function UusCorp.Api.Radar.IsLocationInArea(x, y, facet, area)
+function Api.Radar.IsLocationInArea(x, y, facet, area)
     return UORadarIsLocationInArea(x, y, facet, area)
 end
 
@@ -5654,7 +4781,7 @@ end
 ---@param offsetY number The y-offset of the radar position.
 ---@param useScale boolean Whether to use the scale.
 ---@return any The world position.
-function UusCorp.Api.Radar.TranslateRadarPositionToWorldPosition(offsetX, offsetY, useScale)
+function Api.Radar.TranslateRadarPositionToWorldPosition(offsetX, offsetY, useScale)
     return UOGetRadarPosToWorld(offsetX, offsetY, useScale)
 end
 
@@ -5663,7 +4790,7 @@ end
 ---@param x number The x-coordinate of the world position.
 ---@param y number The y-coordinate of the world position.
 ---@return any The radar position.
-function UusCorp.Api.Radar.TranslateWorldPositionToRadarPosition(x, y)
+function Api.Radar.TranslateWorldPositionToRadarPosition(x, y)
     return UOGetWorldPosToRadar(x, y)
 end
 
@@ -5671,7 +4798,7 @@ end
 --- Gets the area count for a facet.
 ---@param facet any The facet.
 ---@return number The area count.
-function UusCorp.Api.Radar.GetAreaCount(facet)
+function Api.Radar.GetAreaCount(facet)
     return UORadarGetAreaCount(facet)
 end
 
@@ -5679,20 +4806,20 @@ end
 -- Api - Scroll Window
 -- ========================================================================== --
 
-UusCorp.Api.ScrollWindow = {}
+Api.ScrollWindow = {}
 
 ---
 --- Sets the offset for a scroll window.
 ---@param id string The ID of the scroll window.
 ---@param offset number The offset to set.
-function UusCorp.Api.ScrollWindow.SetOffset(id, offset)
+function Api.ScrollWindow.SetOffset(id, offset)
     ScrollWindowSetOffset(id, offset)
 end
 
 ---
 --- Updates the scroll rect for a scroll window.
 ---@param id string The ID of the scroll window.
-function UusCorp.Api.ScrollWindow.UpdateScrollRect(id)
+function Api.ScrollWindow.UpdateScrollRect(id)
     ScrollWindowUpdateScrollRect(id)
 end
 
@@ -5700,12 +4827,12 @@ end
 -- Api - Settings
 -- ========================================================================== --
 
-UusCorp.Api.Settings = {}
+Api.Settings = {}
 
 ---
 --- Notifies that the user settings have changed.
 ---@return boolean Whether the settings need to be reloaded.
-function UusCorp.Api.Settings.NotifyChange()
+function Api.Settings.NotifyChange()
     --This is some variable that the client understands
     needsReload = UserSettingsChanged()
     return needsReload
@@ -5715,13 +4842,13 @@ end
 -- Api - Slider
 -- ========================================================================== --
 
-UusCorp.Api.Slider = {}
+Api.Slider = {}
 
 ---
 --- Sets the current position of a slider.
 ---@param id string The ID of the slider.
 ---@param position number The position to set.
-function UusCorp.Api.Slider.SetCurrentPosition(id, position)
+function Api.Slider.SetCurrentPosition(id, position)
     SliderBarSetCurrentPosition(id, position)
 end
 
@@ -5729,7 +4856,7 @@ end
 --- Gets the current position of a slider.
 ---@param id string The ID of the slider.
 ---@return number The current position of the slider.
-function UusCorp.Api.Slider.GetCurrentPosition(id)
+function Api.Slider.GetCurrentPosition(id)
     return SliderBarGetCurrentPosition(id)
 end
 
@@ -5737,13 +4864,13 @@ end
 -- Api - Status Bar
 -- ========================================================================== --
 
-UusCorp.Api.StatusBar = {}
+Api.StatusBar = {}
 
 ---
 --- Sets the maximum value of a status bar.
 ---@param id string The ID of the status bar.
 ---@param value number The maximum value to set.
-function UusCorp.Api.StatusBar.SetMaxValue(id, value)
+function Api.StatusBar.SetMaxValue(id, value)
     StatusBarSetMaximumValue(id, value or 0)
 end
 
@@ -5751,7 +4878,7 @@ end
 --- Sets the current value of a status bar.
 ---@param id string The ID of the status bar.
 ---@param value number The current value to set.
-function UusCorp.Api.StatusBar.SetCurrentValue(id, value)
+function Api.StatusBar.SetCurrentValue(id, value)
     StatusBarSetCurrentValue(id, value or 0)
 end
 
@@ -5759,7 +4886,7 @@ end
 --- Sets the foreground tint of a status bar.
 ---@param id string The ID of the status bar.
 ---@param color table The color to set.
-function UusCorp.Api.StatusBar.SetForegroundTint(id, color)
+function Api.StatusBar.SetForegroundTint(id, color)
     StatusBarSetForegroundTint(id, color.r, color.g, color.b)
 end
 
@@ -5767,7 +4894,7 @@ end
 --- Sets the background tint of a status bar.
 ---@param id string The ID of the status bar.
 ---@param color table The color to set.
-function UusCorp.Api.StatusBar.SetBackgroundTint(id, color)
+function Api.StatusBar.SetBackgroundTint(id, color)
     StatusBarSetBackgroundTint(id, color.r, color.g, color.b)
 end
 
@@ -5775,13 +4902,13 @@ end
 -- Api - String
 -- ========================================================================== --
 
-UusCorp.Api.String = {}
+Api.String = {}
 
 ---
 --- Gets a string from a TID.
 ---@param tid number The TID.
 ---@return string The string.
-function UusCorp.Api.String.GetStringFromTid(tid)
+function Api.String.GetStringFromTid(tid)
     return GetStringFromTid(tid)
 end
 
@@ -5789,7 +4916,7 @@ end
 --- Converts a string to a wstring.
 ---@param string string The string to convert.
 ---@return wstring The wstring.
-function UusCorp.Api.String.StringToWString(string)
+function Api.String.StringToWString(string)
     return StringToWString(string)
 end
 
@@ -5797,7 +4924,7 @@ end
 --- Converts a wstring to a string.
 ---@param wString wstring The wstring to convert.
 ---@return string The string.
-function UusCorp.Api.String.WStringToString(wString)
+function Api.String.WStringToString(wString)
     return WStringToString(wString)
 end
 
@@ -5805,19 +4932,19 @@ end
 -- Api - Target
 -- ========================================================================== --
 
-UusCorp.Api.Target = {}
+Api.Target = {}
 
 ---
 --- Handles a single left click on a target.
 ---@param id number The ID of the target.
-function UusCorp.Api.Target.LeftClick(id)
+function Api.Target.LeftClick(id)
     HandleSingleLeftClkTarget(id)
 end
 
 ---
 --- Gets all mobile targets.
 ---@return table All mobile targets.
-function UusCorp.Api.Target.GetAllMobileTargets()
+function Api.Target.GetAllMobileTargets()
     return GetAllMobileTargets()
 end
 
@@ -5825,20 +4952,20 @@ end
 -- Api - Text Log
 -- ========================================================================== --
 
-UusCorp.Api.TextLog = {}
+Api.TextLog = {}
 
 ---
 --- Creates a text log.
 ---@param name string The name of the text log.
 ---@param num number A number.
-function UusCorp.Api.TextLog.Create(name, num)
+function Api.TextLog.Create(name, num)
     TextLogCreate(name, num)
 end
 
 ---
 --- Destroys a text log.
 ---@param name string The name of the text log.
-function UusCorp.Api.TextLog.Destroy(name)
+function Api.TextLog.Destroy(name)
     TextLogDestroy(name)
 end
 
@@ -5846,14 +4973,14 @@ end
 --- Sets whether a text log is enabled.
 ---@param name string The name of the text log.
 ---@param isEnable boolean Whether the text log is enabled.
-function UusCorp.Api.TextLog.SetEnabled(name, isEnable)
+function Api.TextLog.SetEnabled(name, isEnable)
     TextLogSetEnabled(name, isEnable == nil or isEnable)
 end
 
 ---
 --- Clears a text log.
 ---@param name string The name of the text log.
-function UusCorp.Api.TextLog.Clear(name)
+function Api.TextLog.Clear(name)
     TextLogClear(name)
 end
 
@@ -5862,7 +4989,7 @@ end
 ---@param name string The name of the text log.
 ---@param doSave boolean Whether to do incremental saving.
 ---@param path string The path to save to.
-function UusCorp.Api.TextLog.SetIncrementalSaving(name, doSave, path)
+function Api.TextLog.SetIncrementalSaving(name, doSave, path)
     TextLogSetIncrementalSaving(name, doSave, path)
 end
 
@@ -5870,7 +4997,7 @@ end
 --- Gets whether a text log is enabled.
 ---@param name string The name of the text log.
 ---@return boolean Whether the text log is enabled.
-function UusCorp.Api.TextLog.IsEnabled(name)
+function Api.TextLog.IsEnabled(name)
     return TextLogGetEnabled(name)
 end
 
@@ -5878,7 +5005,7 @@ end
 --- Gets the number of entries in a text log.
 ---@param name string The name of the text log.
 ---@return number The number of entries.
-function UusCorp.Api.TextLog.GetNumEntries(name)
+function Api.TextLog.GetNumEntries(name)
     return TextLogGetNumEntries(name)
 end
 
@@ -5887,7 +5014,7 @@ end
 ---@param name string The name of the text log.
 ---@param index number The index of the entry.
 ---@return any The entry.
-function UusCorp.Api.TextLog.GetEntry(name, index)
+function Api.TextLog.GetEntry(name, index)
     return TextLogGetEntry(name, index)
 end
 
@@ -5896,7 +5023,7 @@ end
 ---@param name string The name of the text log.
 ---@param filterId number The ID of the filter.
 ---@param text string The text of the entry.
-function UusCorp.Api.TextLog.AddEntry(name, filterId, text)
+function Api.TextLog.AddEntry(name, filterId, text)
     TextLogAddEntry(name, filterId, text)
 end
 
@@ -5904,12 +5031,12 @@ end
 -- Api - Time
 -- ========================================================================== --
 
-UusCorp.Api.Time = {}
+Api.Time = {}
 
 ---
 --- Gets the current date and time.
 ---@return any The current date and time.
-function UusCorp.Api.Time.GetCurrentDateTime()
+function Api.Time.GetCurrentDateTime()
     return GetCurrentDateTime()
 end
 
@@ -5917,19 +5044,19 @@ end
 -- Api - User Action
 -- ========================================================================== --
 
-UusCorp.Api.UserAction = {}
+Api.UserAction = {}
 
 ---
 --- Uses an item.
 ---@param id number The ID of the item.
 ---@param flag boolean A flag.
-function UusCorp.Api.UserAction.UseItem(id, flag)
+function Api.UserAction.UseItem(id, flag)
     UserActionUseItem(id, flag)
 end
 
 ---
 --- Toggles war mode.
-function UusCorp.Api.UserAction.ToggleWarMode()
+function Api.UserAction.ToggleWarMode()
     UserActionToggleWarMode()
 end
 
@@ -5937,7 +5064,7 @@ end
 -- Api - Viewport
 -- ========================================================================== --
 
-UusCorp.Api.Viewport = {}
+Api.Viewport = {}
 
 ---
 --- Updates the viewport.
@@ -5945,7 +5072,7 @@ UusCorp.Api.Viewport = {}
 ---@param y1 number The y1 coordinate.
 ---@param x2 number The x2 coordinate.
 ---@param y2 number The y2 coordinate.
-function UusCorp.Api.Viewport.Update(x1, y1, x2, y2)
+function Api.Viewport.Update(x1, y1, x2, y2)
     UpdateViewport(x1, y1, x2, y2)
 end
 
@@ -5953,12 +5080,12 @@ end
 -- Api - Waypoint
 -- ========================================================================== --
 
-UusCorp.Api.Waypoint = {}
+Api.Waypoint = {}
 
 ---
 --- Sets the facet for the waypoint map.
 ---@param facet any The facet to set.
-function UusCorp.Api.Waypoint.SetFacet(facet)
+function Api.Waypoint.SetFacet(facet)
     UOSetWaypointMapFacet(facet)
 end
 
@@ -5969,40 +5096,40 @@ end
 ---@param x number The x-coordinate of the waypoint.
 ---@param y number The y-coordinate of the waypoint.
 ---@param id number The ID of the waypoint.
-function UusCorp.Api.Waypoint.Create(type, facet, x, y, id)
+function Api.Waypoint.Create(type, facet, x, y, id)
     UOCreateUserWaypoint(type, facet, x, y, id)
 end
 
 ---
 --- Deletes a user waypoint.
 ---@param id number The ID of the waypoint to delete.
-function UusCorp.Api.Waypoint.Delete(id)
+function Api.Waypoint.Delete(id)
     UODeleteUserWaypoint(id)
 end
 
 ---
 --- Edits a user waypoint.
 ---@param id number The ID of the waypoint to edit.
-function UusCorp.Api.Waypoint.Edit(id)
+function Api.Waypoint.Edit(id)
     UOEditUserWaypoint(id)
 end
 
 ---
 --- Resets the facet for the waypoint map.
-function UusCorp.Api.Waypoint.ResetFacet()
+function Api.Waypoint.ResetFacet()
     UOResetWaypointMapFacet()
 end
 
 ---
 --- Sets the display info for a waypoint type.
-function UusCorp.Api.Waypoint.SetTypeDisplayInfo()
+function Api.Waypoint.SetTypeDisplayInfo()
     UOSetWaypointTypeDisplayInfo()
 end
 
 ---
 --- Sets the display mode for waypoints.
 ---@param mode any The display mode to set.
-function UusCorp.Api.Waypoint.SetDisplayMode(mode)
+function Api.Waypoint.SetDisplayMode(mode)
     UOSetWaypointDisplayMode(mode)
 end
 
@@ -6010,7 +5137,7 @@ end
 --- Gets the info for a waypoint.
 ---@param id number The ID of the waypoint.
 ---@return any The waypoint info.
-function UusCorp.Api.Waypoint.GetInfo(id)
+function Api.Waypoint.GetInfo(id)
     return UOGetWaypointInfo(id)
 end
 
@@ -6018,14 +5145,14 @@ end
 -- Api - Window
 -- ========================================================================== --
 
-UusCorp.Api.Window = {}
+Api.Window = {}
 
 ---
 --- Destroys a window.
 ---@param windowName string The name of the window to destroy.
 ---@return boolean Whether the window was destroyed.
-function UusCorp.Api.Window.Destroy(windowName)
-    if UusCorp.Api.Window.DoesExist(windowName) then
+function Api.Window.Destroy(windowName)
+    if Api.Window.DoesExist(windowName) then
         DestroyWindow(windowName)
         return true
     end
@@ -6037,7 +5164,7 @@ end
 --- Checks if a window exists.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the window exists.
-function UusCorp.Api.Window.DoesExist(windowName)
+function Api.Window.DoesExist(windowName)
     return DoesWindowNameExist(windowName)
 end
 
@@ -6045,7 +5172,7 @@ end
 --- Sets the showing state of a window.
 ---@param windowName string The name of the window.
 ---@param show boolean Whether to show the window.
-function UusCorp.Api.Window.SetShowing(windowName, show)
+function Api.Window.SetShowing(windowName, show)
     WindowSetShowing(windowName, show)
 end
 
@@ -6053,7 +5180,7 @@ end
 --- Gets the showing state of a window.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the window is showing.
-function UusCorp.Api.Window.IsShowing(windowName)
+function Api.Window.IsShowing(windowName)
     return WindowGetShowing(windowName)
 end
 
@@ -6061,7 +5188,7 @@ end
 --- Sets the layer of a window.
 ---@param windowName string The name of the window.
 ---@param layer number The layer to set.
-function UusCorp.Api.Window.SetLayer(windowName, layer)
+function Api.Window.SetLayer(windowName, layer)
     WindowSetLayer(windowName, layer)
 end
 
@@ -6069,7 +5196,7 @@ end
 --- Gets the layer of a window.
 ---@param windowName string The name of the window.
 ---@return number The layer of the window.
-function UusCorp.Api.Window.GetLayer(windowName)
+function Api.Window.GetLayer(windowName)
     return WindowGetLayer(windowName)
 end
 
@@ -6077,7 +5204,7 @@ end
 --- Sets whether a window handles input.
 ---@param windowName string The name of the window.
 ---@param handleInput boolean Whether to handle input.
-function UusCorp.Api.Window.SetHandleInput(windowName, handleInput)
+function Api.Window.SetHandleInput(windowName, handleInput)
     WindowHandleInput(windowName, handleInput)
 end
 
@@ -6085,7 +5212,7 @@ end
 --- Gets whether a window handles input.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the window handles input.
-function UusCorp.Api.Window.GetHandleInput(windowName)
+function Api.Window.GetHandleInput(windowName)
     return WindowGetHandleInput(windowName)
 end
 
@@ -6093,7 +5220,7 @@ end
 --- Sets whether a window is popable.
 ---@param windowName string The name of the window.
 ---@param popable boolean Whether the window is popable.
-function UusCorp.Api.Window.SetPopable(windowName, popable)
+function Api.Window.SetPopable(windowName, popable)
     WindowSetPopable(windowName, popable)
 end
 
@@ -6101,7 +5228,7 @@ end
 --- Gets whether a window is popable.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the window is popable.
-function UusCorp.Api.Window.IsPopable(windowName)
+function Api.Window.IsPopable(windowName)
     return windowGetPopable(windowName)
 end
 
@@ -6109,7 +5236,7 @@ end
 --- Sets whether a window is movable.
 ---@param windowName string The name of the window.
 ---@param movable boolean Whether the window is movable.
-function UusCorp.Api.Window.SetMovable(windowName, movable)
+function Api.Window.SetMovable(windowName, movable)
     WindowSetMovable(windowName, movable)
 end
 
@@ -6117,7 +5244,7 @@ end
 --- Gets whether a window is movable.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the window is movable.
-function UusCorp.Api.Window.IsMovable(windowName)
+function Api.Window.IsMovable(windowName)
     return WindowGetMovable(windowName)
 end
 
@@ -6126,7 +5253,7 @@ end
 ---@param windowName string The name of the window.
 ---@param xOffset number The x-offset.
 ---@param yOffset number The y-offset.
-function UusCorp.Api.Window.SetOffsetFromParent(windowName, xOffset, yOffset)
+function Api.Window.SetOffsetFromParent(windowName, xOffset, yOffset)
     WindowSetOffsetFromParent(windowName, xOffset, yOffset)
 end
 
@@ -6134,7 +5261,7 @@ end
 --- Gets the offset from the parent of a window.
 ---@param windowName string The name of the window.
 ---@return number, number The x-offset and y-offset.
-function UusCorp.Api.Window.GetOffsetFromParent(windowName)
+function Api.Window.GetOffsetFromParent(windowName)
     return WindowGetOffsetFromParent(windowName)
 end
 
@@ -6143,7 +5270,7 @@ end
 ---@param windowName string The name of the window.
 ---@param xOffset number The width.
 ---@param yOffset number The height.
-function UusCorp.Api.Window.SetDimensions(windowName, xOffset, yOffset)
+function Api.Window.SetDimensions(windowName, xOffset, yOffset)
     WindowSetDimensions(windowName, xOffset, yOffset)
 end
 
@@ -6151,7 +5278,7 @@ end
 --- Gets the dimensions of a window.
 ---@param windowName string The name of the window.
 ---@return number, number The width and height.
-function UusCorp.Api.Window.GetDimensions(windowName)
+function Api.Window.GetDimensions(windowName)
     return WindowGetDimensions(windowName)
 end
 
@@ -6159,14 +5286,14 @@ end
 --- Checks if a window is sticky.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the window is sticky.
-function UusCorp.Api.Window.IsSticky(windowName)
+function Api.Window.IsSticky(windowName)
     return WindowIsSticky(windowName)
 end
 
 ---
 --- Clears the anchors of a window.
 ---@param windowName string The name of the window.
-function UusCorp.Api.Window.ClearAnchors(windowName)
+function Api.Window.ClearAnchors(windowName)
     WindowClearAnchors(windowName)
 end
 
@@ -6178,7 +5305,7 @@ end
 ---@param relativePoint string The relative point.
 ---@param pointX number The x-point.
 ---@param pointY number The y-point.
-function UusCorp.Api.Window.AddAnchor(windowName, anchorPoint, relativeTo, relativePoint, pointX, pointY)
+function Api.Window.AddAnchor(windowName, anchorPoint, relativeTo, relativePoint, pointX, pointY)
     WindowAddAnchor(windowName, anchorPoint, relativeTo, relativePoint, pointX or 0, pointY or 0)
 end
 
@@ -6187,7 +5314,7 @@ end
 ---@param windowName string The name of the window.
 ---@param anchorId number The ID of the anchor.
 ---@return any The anchor.
-function UusCorp.Api.Window.GetAnchor(windowName, anchorId)
+function Api.Window.GetAnchor(windowName, anchorId)
     return WindowGetAnchor(windowName, anchorId)
 end
 
@@ -6195,14 +5322,14 @@ end
 --- Gets the anchor count of a window.
 ---@param windowName string The name of the window.
 ---@return number The anchor count.
-function UusCorp.Api.Window.GetAnchorCount(windowName)
+function Api.Window.GetAnchorCount(windowName)
     return WindowGetAnchorCount(windowName)
 end
 
 ---
 --- Forces a window to process its anchors.
 ---@param windowName string The name of the window.
-function UusCorp.Api.Window.ForceProcessAnchors(windowName)
+function Api.Window.ForceProcessAnchors(windowName)
     WindowForceProcessAnchors(windowName)
 end
 
@@ -6211,7 +5338,7 @@ end
 ---@param windowName string The name of the window.
 ---@param doFocus boolean Whether to focus the window.
 ---@return boolean Whether focus was assigned.
-function UusCorp.Api.Window.AssignFocus(windowName, doFocus)
+function Api.Window.AssignFocus(windowName, doFocus)
     return WindowAssignFocus(windowName, doFocus)
 end
 
@@ -6219,7 +5346,7 @@ end
 --- Checks if a window has focus.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the window has focus.
-function UusCorp.Api.Window.HasFocus(windowName)
+function Api.Window.HasFocus(windowName)
     return WindowHasFocus(windowName)
 end
 
@@ -6227,7 +5354,7 @@ end
 --- Sets the resizing state of a window.
 ---@param windowName string The name of the window.
 ---@param isResizing boolean Whether the window is resizing.
-function UusCorp.Api.Window.SetResizing(windowName, isResizing)
+function Api.Window.SetResizing(windowName, isResizing)
     WindowSetResizing(windowName, isResizing)
 end
 
@@ -6235,7 +5362,7 @@ end
 --- Gets the resizing state of a window.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the window is resizing.
-function UusCorp.Api.Window.IsResizing(windowName)
+function Api.Window.IsResizing(windowName)
     return WindowGetResizing(windowName)
 end
 
@@ -6249,7 +5376,7 @@ end
 ---@param setStartBeforeDelay boolean Whether to set the start before the delay.
 ---@param delay number The delay before the animation starts.
 ---@param numLoop number The number of times to loop the animation.
-function UusCorp.Api.Window.StartAlphaAnimation(windowName, animType, startAlpha, endAlpha, duration, setStartBeforeDelay, delay, numLoop)
+function Api.Window.StartAlphaAnimation(windowName, animType, startAlpha, endAlpha, duration, setStartBeforeDelay, delay, numLoop)
     WindowStartAlphaAnimation(windowName, animType, startAlpha, endAlpha, duration, setStartBeforeDelay,
         delay, numLoop)
 end
@@ -6257,14 +5384,14 @@ end
 ---
 --- Stops the alpha animation on a window.
 ---@param windowName string The name of the window.
-function UusCorp.Api.Window.StopAlphaAnimation(windowName)
+function Api.Window.StopAlphaAnimation(windowName)
     WindowStopAlphaAnimation(windowName)
 end
 
 ---
 --- Stops the scale animation on a window.
 ---@param windowName string The name of the window.
-function UusCorp.Api.Window.StopScaleAnimation(windowName)
+function Api.Window.StopScaleAnimation(windowName)
     WindowStopScaleAnimation(windowName)
 end
 
@@ -6280,7 +5407,7 @@ end
 ---@param setStartBeforeDelay boolean Whether to set the start before the delay.
 ---@param delay number The delay before the animation starts.
 ---@param numLoop number The number of times to loop the animation.
-function UusCorp.Api.Window.StartScaleAnimation(windowName, animType, startX, startY, endX, endY, duration, setStartBeforeDelay, delay, numLoop)
+function Api.Window.StartScaleAnimation(windowName, animType, startX, startY, endX, endY, duration, setStartBeforeDelay, delay, numLoop)
     WindowStartScaleAnimation(
         windowName,
         animType,
@@ -6298,7 +5425,7 @@ end
 ---
 --- Stops the position animation on a window.
 ---@param windowName string The name of the window.
-function UusCorp.Api.Window.StopPositionAnimation(windowName)
+function Api.Window.StopPositionAnimation(windowName)
     WindowStopPositionAnimation(windowName)
 end
 
@@ -6306,7 +5433,7 @@ end
 --- Sets the alpha of a window.
 ---@param windowName string The name of the window.
 ---@param alpha number The alpha to set.
-function UusCorp.Api.Window.SetAlpha(windowName, alpha)
+function Api.Window.SetAlpha(windowName, alpha)
     WindowSetAlpha(windowName, alpha)
 end
 
@@ -6314,7 +5441,7 @@ end
 --- Gets the alpha of a window.
 ---@param windowName string The name of the window.
 ---@return number The alpha of the window.
-function UusCorp.Api.Window.GetAlpha(windowName)
+function Api.Window.GetAlpha(windowName)
     return WindowGetAlpha(windowName)
 end
 
@@ -6322,7 +5449,7 @@ end
 --- Sets the color of a window.
 ---@param windowName string The name of the window.
 ---@param color table The color to set.
-function UusCorp.Api.Window.SetColor(windowName, color)
+function Api.Window.SetColor(windowName, color)
     WindowSetTintColor(windowName, color.r, color.g, color.b)
 end
 
@@ -6330,7 +5457,7 @@ end
 --- Gets the color of a window.
 ---@param windowName string The name of the window.
 ---@return number, number, number The red, green, and blue components of the color.
-function UusCorp.Api.Window.GetColor(windowName)
+function Api.Window.GetColor(windowName)
     return WindowGetTintColor(windowName)
 end
 
@@ -6341,8 +5468,8 @@ end
 ---@param parent string The name of the parent window.
 ---@param doShow boolean Whether to show the window.
 ---@return boolean Whether the window was created.
-function UusCorp.Api.Window.CreateFromTemplate(windowName, template, parent, doShow)
-    if not UusCorp.Api.Window.DoesExist(windowName) then
+function Api.Window.CreateFromTemplate(windowName, template, parent, doShow)
+    if not Api.Window.DoesExist(windowName) then
         CreateWindowFromTemplateShow(windowName, template or windowName, parent or "Root",
             doShow == nil or doShow)
         return true
@@ -6355,8 +5482,8 @@ end
 ---@param windowName string The name of the window.
 ---@param doShow boolean Whether to show the window.
 ---@return boolean Whether the window was created.
-function UusCorp.Api.Window.Create(windowName, doShow)
-    if not UusCorp.Api.Window.DoesExist(windowName) then
+function Api.Window.Create(windowName, doShow)
+    if not Api.Window.DoesExist(windowName) then
         CreateWindow(windowName, doShow == nil or doShow)
         return true
     end
@@ -6367,9 +5494,9 @@ end
 --- Toggles a window.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the window was created or shown.
-function UusCorp.Api.Window.ToggleWindow(windowName)
-    if not UusCorp.Api.Window.DoesExist(windowName) then
-        return UusCorp.Api.Window.Create(windowName, true)
+function Api.Window.ToggleWindow(windowName)
+    if not Api.Window.DoesExist(windowName) then
+        return Api.Window.Create(windowName, true)
     end
     return true
 end
@@ -6378,7 +5505,7 @@ end
 --- Sets the ID of a window.
 ---@param windowName string The name of the window.
 ---@param id number The ID to set.
-function UusCorp.Api.Window.SetId(windowName, id)
+function Api.Window.SetId(windowName, id)
     WindowSetId(windowName, id)
 end
 
@@ -6386,7 +5513,7 @@ end
 --- Gets the ID of a window.
 ---@param windowName string The name of the window.
 ---@return number The ID of the window.
-function UusCorp.Api.Window.GetId(windowName)
+function Api.Window.GetId(windowName)
     return WindowGetId(windowName)
 end
 
@@ -6394,7 +5521,7 @@ end
 --- Sets the tab order of a window.
 ---@param windowName string The name of the window.
 ---@param tabOrder number The tab order to set.
-function UusCorp.Api.Window.SetTabOrder(windowName, tabOrder)
+function Api.Window.SetTabOrder(windowName, tabOrder)
     WindowSetTabOrder(windowName, tabOrder)
 end
 
@@ -6402,7 +5529,7 @@ end
 --- Gets the tab order of a window.
 ---@param windowName string The name of the window.
 ---@return number The tab order of the window.
-function UusCorp.Api.Window.GetTabOrder(windowName)
+function Api.Window.GetTabOrder(windowName)
     return WindowGetTabOrder(windowName)
 end
 
@@ -6410,7 +5537,7 @@ end
 --- Sets the moving state of a window.
 ---@param windowName string The name of the window.
 ---@param isMoving boolean Whether the window is moving.
-function UusCorp.Api.Window.SetMoving(windowName, isMoving)
+function Api.Window.SetMoving(windowName, isMoving)
     WindowSetMoving(windowName, isMoving)
 end
 
@@ -6418,7 +5545,7 @@ end
 --- Gets the moving state of a window.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the window is moving.
-function UusCorp.Api.Window.IsMoving(windowName)
+function Api.Window.IsMoving(windowName)
     return WindowGetMoving(windowName)
 end
 
@@ -6427,7 +5554,7 @@ end
 ---@param windowName string The name of the window.
 ---@param event string The event to register.
 ---@param callback function The callback function.
-function UusCorp.Api.Window.RegisterEventHandler(windowName, event, callback)
+function Api.Window.RegisterEventHandler(windowName, event, callback)
     WindowRegisterEventHandler(windowName, event, callback)
 end
 
@@ -6435,7 +5562,7 @@ end
 --- Unregisters an event handler for a window.
 ---@param windowName string The name of the window.
 ---@param event string The event to unregister.
-function UusCorp.Api.Window.UnregisterEventHandler(windowName, event)
+function Api.Window.UnregisterEventHandler(windowName, event)
     WindowUnregisterEventHandler(windowName, event)
 end
 
@@ -6444,7 +5571,7 @@ end
 ---@param windowName string The name of the window.
 ---@param event string The event to register.
 ---@param callback function The callback function.
-function UusCorp.Api.Window.RegisterCoreEventHandler(windowName, event, callback)
+function Api.Window.RegisterCoreEventHandler(windowName, event, callback)
     WindowRegisterCoreEventHandler(windowName, event, callback)
 end
 
@@ -6452,7 +5579,7 @@ end
 --- Unregisters a core event handler for a window.
 ---@param windowName string The name of the window.
 ---@param event string The event to unregister.
-function UusCorp.Api.Window.UnregisterCoreEventHandler(windowName, event)
+function Api.Window.UnregisterCoreEventHandler(windowName, event)
     WindowUnregisterCoreEventHandler(windowName, event)
 end
 
@@ -6460,7 +5587,7 @@ end
 --- Sets the parent of a window.
 ---@param windowName string The name of the window.
 ---@param parentId string The ID of the parent window.
-function UusCorp.Api.Window.SetParent(windowName, parentId)
+function Api.Window.SetParent(windowName, parentId)
     WindowSetParent(windowName, parentId)
 end
 
@@ -6468,7 +5595,7 @@ end
 --- Gets the parent of a window.
 ---@param windowName string The name of the window.
 ---@return string The parent of the window.
-function UusCorp.Api.Window.GetParent(windowName)
+function Api.Window.GetParent(windowName)
     return WindowGetParent(windowName)
 end
 
@@ -6476,7 +5603,7 @@ end
 --- Sets the scale of a window.
 ---@param windowName string The name of the window.
 ---@param scale number The scale to set.
-function UusCorp.Api.Window.SetScale(windowName, scale)
+function Api.Window.SetScale(windowName, scale)
     WindowSetScale(windowName, scale)
 end
 
@@ -6484,7 +5611,7 @@ end
 --- Gets the scale of a window.
 ---@param windowName string The name of the window.
 ---@return number The scale of the window.
-function UusCorp.Api.Window.GetScale(windowName)
+function Api.Window.GetScale(windowName)
     return WindowGetScale(windowName)
 end
 
@@ -6492,7 +5619,7 @@ end
 --- Sets the relative scale of a window.
 ---@param windowName string The name of the window.
 ---@param scale number The relative scale to set.
-function UusCorp.Api.Window.SetRelativeScale(windowName, scale)
+function Api.Window.SetRelativeScale(windowName, scale)
     WindowSetRelativeScale(windowName, scale)
 end
 
@@ -6501,7 +5628,7 @@ end
 ---@param windowName string The name of the window.
 ---@param isRecursive boolean Whether to resize recursively.
 ---@param borderSpacing number The border spacing.
-function UusCorp.Api.Window.SetResizeOnChildren(windowName, isRecursive, borderSpacing)
+function Api.Window.SetResizeOnChildren(windowName, isRecursive, borderSpacing)
     WindowResizeOnChildren(windowName, isRecursive, borderSpacing)
 end
 
@@ -6509,7 +5636,7 @@ end
 --- Sets the game action trigger for a window.
 ---@param windowName string The name of the window.
 ---@param action any The action to set.
-function UusCorp.Api.Window.SetGameActionTrigger(windowName, action)
+function Api.Window.SetGameActionTrigger(windowName, action)
     WindowSetGameActionTrigger(windowName, action)
 end
 
@@ -6519,7 +5646,7 @@ end
 ---@param actionType any The type of the action.
 ---@param actionId number The ID of the action.
 ---@param actionText string The text of the action.
-function UusCorp.Api.Window.SetGameActionData(windowName, actionType, actionId, actionText)
+function Api.Window.SetGameActionData(windowName, actionType, actionId, actionText)
     WindowSetGameActionData(windowName, actionType, actionId, actionText)
 end
 
@@ -6527,7 +5654,7 @@ end
 --- Sets the game action button for a window.
 ---@param windowName string The name of the window.
 ---@param button any The button to set.
-function UusCorp.Api.Window.SetGameActionButton(windowName, button)
+function Api.Window.SetGameActionButton(windowName, button)
     WindowSetGameActionButton(windowName, button)
 end
 
@@ -6535,7 +5662,7 @@ end
 --- Gets the game action button for a window.
 ---@param windowName string The name of the window.
 ---@return any The game action button.
-function UusCorp.Api.Window.GetGameActionButton(windowName)
+function Api.Window.GetGameActionButton(windowName)
     return WindowGetGameActionButton(windowName)
 end
 
@@ -6543,7 +5670,7 @@ end
 --- Checks if the game action is locked for a window.
 ---@param windowName string The name of the window.
 ---@return boolean Whether the game action is locked.
-function UusCorp.Api.Window.IsGameActionLocked(windowName)
+function Api.Window.IsGameActionLocked(windowName)
     return WindowIsGameActionLocked(windowName)
 end
 
@@ -6551,14 +5678,14 @@ end
 --- Sets whether to draw a window when the interface is hidden.
 ---@param windowName string The name of the window.
 ---@param doDraw boolean Whether to draw the window.
-function UusCorp.Api.Window.SetDrawWhenInterfaceHidden(windowName, doDraw)
+function Api.Window.SetDrawWhenInterfaceHidden(windowName, doDraw)
     WindowSetDrawWhenInterfaceHidden(windowName, doDraw)
 end
 
 ---
 --- Restores the default settings for a window.
 ---@param windowName string The name of the window.
-function UusCorp.Api.Window.RestoreDefaults(windowName)
+function Api.Window.RestoreDefaults(windowName)
     WindowRestoreDefaultSettings(windowName)
 end
 
@@ -6566,7 +5693,7 @@ end
 --- Sets the update frequency for a window.
 ---@param windowName string The name of the window.
 ---@param frequency number The update frequency to set.
-function UusCorp.Api.Window.SetUpdateFrequency(windowName, frequency)
+function Api.Window.SetUpdateFrequency(windowName, frequency)
     WindowSetUpdateFrequency(windowName, frequency)
 end
 
@@ -6574,7 +5701,7 @@ end
 --- Gets the screen position of a window.
 ---@param id string The ID of the window.
 ---@return number, number The x and y coordinates of the window.
-function UusCorp.Api.Window.GetPosition(id)
+function Api.Window.GetPosition(id)
     return WindowGetScreenPosition(id)
 end
 
@@ -6582,7 +5709,7 @@ end
 --- Attaches a window to a world object.
 ---@param objectId number The ID of the world object.
 ---@param window string The name of the window.
-function UusCorp.Api.Window.AttachToWorldObject(objectId, window)
+function Api.Window.AttachToWorldObject(objectId, window)
     AttachWindowToWorldObject(objectId, window)
 end
 
@@ -6590,7 +5717,7 @@ end
 --- Detaches a window from a world object.
 ---@param objectId number The ID of the world object.
 ---@param window string The name of the window.
-function UusCorp.Api.Window.DetachFromWorldObject(objectId, window)
+function Api.Window.DetachFromWorldObject(objectId, window)
     DetachWindowFromWorldObject(objectId, window)
 end
 
@@ -6598,7 +5725,7 @@ end
 --- Registers window data.
 ---@param data any The data to register.
 ---@param id number The ID of the data.
-function UusCorp.Api.Window.RegisterData(data, id)
+function Api.Window.RegisterData(data, id)
     RegisterWindowData(data, id or 0)
 end
 
@@ -6606,7 +5733,7 @@ end
 --- Unregisters window data.
 ---@param data any The data to unregister.
 ---@param id number The ID of the data.
-function UusCorp.Api.Window.UnregisterData(data, id)
+function Api.Window.UnregisterData(data, id)
     UnregisterWindowData(data, id or 0)
 end
 
@@ -6615,7 +5742,7 @@ end
 ---@param window string The name of the window.
 ---@param closing boolean Whether the window is closing.
 ---@param alias string An alias for the window.
-function UusCorp.Api.Window.SavePostion(window, closing, alias)
+function Api.Window.SavePosition(window, closing, alias)
     WindowUtils.SaveWindowPosition(window, closing, alias)
 end
 
@@ -6625,7 +5752,7 @@ end
 ---@param trackSize boolean Whether to track the size of the window.
 ---@param alias string An alias for the window.
 ---@param ignoreBounds boolean Whether to ignore the bounds of the window.
-function UusCorp.Api.Window.RestorePosition(window, trackSize, alias, ignoreBounds)
+function Api.Window.RestorePosition(window, trackSize, alias, ignoreBounds)
     WindowUtils.RestoreWindowPosition(window, trackSize, alias, ignoreBounds)
 end
 
@@ -6634,60 +5761,226 @@ end
 -- ========================================================================== --
 
 
-UusCorp.Api.InterfaCore = {}
+Api.InterfaCore = {}
 
 ---
 --- Gets the scale factor of the interface.
 ---@return number The scale factor.
-function UusCorp.Api.InterfaCore.GetScaleFactor()
+function Api.InterfaCore.GetScaleFactor()
     return 1 / InterfaceCore.scale
 end
+
+
+-- ========================================================================== --
+-- Utils
+-- ========================================================================== --
+
+-- ========================================================================== --
+-- Utils - Array
+-- ========================================================================== --
+
+Utils.Array = {}
+
+---@generic K
+---@generic V
+---@generic T
+---@param array T[]
+---@param getKey fun(item: T, index: integer): K
+---@param getValue fun(item: T, index: integer): V
+---@return table<K,V>
+function Utils.Array.MapToTable(array, getKey, getValue)
+    local newTable = {}
+
+    Utils.Array.ForEach(
+        array,
+        function (item, index)
+            newTable[getKey(item, index)] = getValue(item, index)
+        end
+    )
+
+    return newTable
+end
+
+---@generic T
+---@param array T[]
+---@param find fun(item: T): boolean
+---@return integer
+function Utils.Array.IndexOf(array, find)
+    for i = 1, #array do
+        local item = array[i]
+        if find(item) then
+            return i
+        end
+    end
+
+    return -1
+end
+
+---@generic T
+---@param array T[]
+---@param find fun(item: T): boolean
+---@return T?
+function Utils.Array.Find(array, find)
+    for i = 1, #array do
+        local item = array[i]
+        if find(item) then
+            return item
+        end
+    end
+
+    return nil
+end
+
+---@generic T
+---@param array T[]
+---@param forEach fun(item: T, index: integer)
+function Utils.Array.ForEach(array, forEach)
+    for i = 1, #array do
+        local item = array[i]
+        forEach(item, i)
+    end
+end
+
+-- ========================================================================== --
+-- Utils - Table
+-- ========================================================================== --
+
+Utils.Table = {}
+
+---@generic K
+---@generic V
+---@param table table<K, V>
+---@param forEach fun(k: K, v: V)
+function Utils.Table.ForEach(table, forEach)
+    for k, v in pairs(table) do
+        forEach(k, v)
+    end
+end
+
+---@generic K
+---@generic V
+---@param table table<K, V>
+---@return table<K, V>
+function Utils.Table.Copy(table)
+    local newTable = {}
+    for k, v in pairs(table) do
+        newTable[k] = v
+    end
+    return newTable
+end
+
+---@generic K
+---@generic V
+---@param table table<K, V>
+---@return table<K, V>
+function Utils.Table.OverrideFunctions(table)
+    for k, v in pairs(table) do
+        if type(v) == "function" then
+            table[k] = function () end
+        end
+    end
+    return table
+end
+
+-- ========================================================================== --
+-- Utils - String
+-- ========================================================================== --
+
+Utils.String = {}
+
+function Utils.String.ExtractNumber(text)
+    return tonumber(string.match(text, "%d+") or 0)
+end
+
+function Utils.String.Random()
+    local charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    local result = ""
+    for i = 1, 24 do
+        local rand = math.random(1, #charset)
+        result = result .. charset:sub(rand, rand)
+    end
+    return result
+end
+
+function Utils.String.FromWString(text)
+    if type(text) == "string" then
+        return text
+    else
+        return Api.String.WStringToString(text)
+    end
+end
+
+function Utils.String.ToWString(text)
+    if type(text) == "number" then
+        return Api.String.GetStringFromTid(text)
+    elseif type(text) == "wstring" then
+        return text
+    elseif type(text) == "string" then
+        return Api.String.StringToWString(text)
+    else
+        return Api.String.StringToWString(tostring(text))
+    end
+end
+
+function Utils.String.Lower(text)
+    if type(text) == "string" then
+        return string.lower(text)
+    elseif type(text) == "wstring" then
+        return string.lower(Utils.String.FromWString(text))
+    end
+end
+
+function Utils.String.Upper(text)
+    if type(text) == "string" then
+        return string.upper(text)
+    elseif type(text) == "wstring" then
+        return string.upper(Utils.String.FromWString(text))
+    end
+end
+
 
 -- ========================================================================== --
 -- Constants
 -- ========================================================================== --
 
-
-UusCorp.Constants = {}
-
-UusCorp.Constants.TargetType = {
+Constants.TargetType = {
     Mobile = 2,
     Object = 3,
     Corpse = 4
 }
 
-UusCorp.Constants.ButtonFlags = {
+Constants.ButtonFlags = {
     Control = 8,
     Alt = 32,
     Shift = 4
 }
 
-UusCorp.Constants.DragSource = {}
+Constants.DragSource = {}
 
-function UusCorp.Constants.DragSource.Object()
+function Constants.DragSource.Object()
     return SystemData.DragSource["SOURCETYPE_OBJECT"]
 end
 
-UusCorp.Constants.Broadcasts = {}
+Constants.Broadcasts = {}
 
-function UusCorp.Constants.Broadcasts.Help()
+function Constants.Broadcasts.Help()
     return SystemData.Events["REQUEST_OPEN_HELP_MENU"]
 end
 
-function UusCorp.Constants.Broadcasts.BeginHealthBarDrag()
+function Constants.Broadcasts.BeginHealthBarDrag()
     return SystemData.Events["BEGIN_DRAG_HEALTHBAR_WINDOW"]
 end
 
 
-function UusCorp.Constants.Broadcasts.EscapeKeyProcessed()
+function Constants.Broadcasts.EscapeKeyProcessed()
     return SystemData.Events["ESCAPE_KEY_PROCESSED"]
 end
 
-function UusCorp.Constants.Broadcasts.ExitGame()
+function Constants.Broadcasts.ExitGame()
     return SystemData.Events["EXIT_GAME"]
 end
 
-function UusCorp.Constants.Broadcasts.BugReport()
+function Constants.Broadcasts.BugReport()
     return SystemData.Events["BUG_REPORT_SCREEN"]
 end
 
@@ -6697,9 +5990,9 @@ end
 ---@field name string
 
 ---@type table<string, DataEvent>
-UusCorp.Constants.DataEvents = {}
+Constants.DataEvents = {}
 
-UusCorp.Constants.DataEvents.OnUpdateMobileName = {
+Constants.DataEvents.OnUpdateMobileName = {
     getType = function ()
         return WindowData.MobileName.Type
     end,
@@ -6709,17 +6002,17 @@ UusCorp.Constants.DataEvents.OnUpdateMobileName = {
     name = "OnUpdateMobileName"
 }
 
-UusCorp.Constants.DataEvents.OnUpdatePlayerStatus = {
+Constants.DataEvents.OnUpdatePlayerStatus = {
     getType = function ()
-        return UusCorp.Data.PlayerStatus():getType()
+        return WindowData.PlayerStatus.Type
     end,
     getEvent = function ()
-        return UusCorp.Data.PlayerStatus():getEvent()
+        return WindowData.PlayerStatus.Event
     end,
     name = "OnUpdatePlayerStatus"
 }
 
-UusCorp.Constants.DataEvents.OnUpdateHealthBarColor = {
+Constants.DataEvents.OnUpdateHealthBarColor = {
     getType = function ()
         return WindowData.HealthBarColor.Type
     end,
@@ -6729,7 +6022,7 @@ UusCorp.Constants.DataEvents.OnUpdateHealthBarColor = {
     name = "OnUpdateHealthBarColor"
 }
 
-UusCorp.Constants.DataEvents.OnUpdateMobileStatus = {
+Constants.DataEvents.OnUpdateMobileStatus = {
     getType = function ()
         return WindowData.MobileStatus.Type
     end,
@@ -6744,67 +6037,67 @@ UusCorp.Constants.DataEvents.OnUpdateMobileStatus = {
 ---@field name string
 
 ---@type table<string, SystemEvent>
-UusCorp.Constants.SystemEvents = {}
+Constants.SystemEvents = {}
 
-UusCorp.Constants.SystemEvents.OnEndHealthBarDrag = {
+Constants.SystemEvents.OnEndHealthBarDrag = {
     getEvent = function ()
         return SystemData.Events["END_DRAG_HEALTHBAR_WINDOW"]
     end,
     name = "OnEndHealthBarDrag"
 }
 
-UusCorp.Constants.CoreEvents = {}
-UusCorp.Constants.CoreEvents.OnInitialize = "OnInitialize"
-UusCorp.Constants.CoreEvents.OnShown = "OnShown"
-UusCorp.Constants.CoreEvents.OnHidden = "OnHidden"
-UusCorp.Constants.CoreEvents.OnShutdown = "OnShutdown"
-UusCorp.Constants.CoreEvents.OnLButtonUp = "OnLButtonUp"
-UusCorp.Constants.CoreEvents.OnLButtonDown = "OnLButtonDown"
-UusCorp.Constants.CoreEvents.OnRButtonUp = "OnRButtonUp"
-UusCorp.Constants.CoreEvents.OnRButtonDown = "OnRButtonDown"
-UusCorp.Constants.CoreEvents.OnUpdate = "OnUpdate"
-UusCorp.Constants.CoreEvents.OnLButtonDblClk = "OnLButtonDblClk"
-UusCorp.Constants.CoreEvents.OnMouseOver = "OnMouseOver"
-UusCorp.Constants.CoreEvents.OnMouseOverEnd = "OnMouseOverEnd"
-UusCorp.Constants.CoreEvents.OnMouseDrag = "OnMouseDrag"
+Constants.CoreEvents = {}
+Constants.CoreEvents.OnInitialize = "OnInitialize"
+Constants.CoreEvents.OnShown = "OnShown"
+Constants.CoreEvents.OnHidden = "OnHidden"
+Constants.CoreEvents.OnShutdown = "OnShutdown"
+Constants.CoreEvents.OnLButtonUp = "OnLButtonUp"
+Constants.CoreEvents.OnLButtonDown = "OnLButtonDown"
+Constants.CoreEvents.OnRButtonUp = "OnRButtonUp"
+Constants.CoreEvents.OnRButtonDown = "OnRButtonDown"
+Constants.CoreEvents.OnUpdate = "OnUpdate"
+Constants.CoreEvents.OnLButtonDblClk = "OnLButtonDblClk"
+Constants.CoreEvents.OnMouseOver = "OnMouseOver"
+Constants.CoreEvents.OnMouseOverEnd = "OnMouseOverEnd"
+Constants.CoreEvents.OnMouseDrag = "OnMouseDrag"
 
-UusCorp.Constants.AnchorPoints = {}
-UusCorp.Constants.AnchorPoints.BottomLeft = "bottomleft"
-UusCorp.Constants.AnchorPoints.TopLeft = "topleft"
-UusCorp.Constants.AnchorPoints.Top = "top"
-UusCorp.Constants.AnchorPoints.Bottom = "bottom"
-UusCorp.Constants.AnchorPoints.Center = "center"
+Constants.AnchorPoints = {}
+Constants.AnchorPoints.BottomLeft = "bottomleft"
+Constants.AnchorPoints.TopLeft = "topleft"
+Constants.AnchorPoints.Top = "top"
+Constants.AnchorPoints.Bottom = "bottom"
+Constants.AnchorPoints.Center = "center"
 
-UusCorp.Constants.WindowLayers = {}
-UusCorp.Constants.WindowLayers.Background = 0
-UusCorp.Constants.WindowLayers.Default = 1
-UusCorp.Constants.WindowLayers.Secondary = 2
-UusCorp.Constants.WindowLayers.Popup = 3
-UusCorp.Constants.WindowLayers.Overlay = 4
+Constants.WindowLayers = {}
+Constants.WindowLayers.Background = 0
+Constants.WindowLayers.Default = 1
+Constants.WindowLayers.Secondary = 2
+Constants.WindowLayers.Popup = 3
+Constants.WindowLayers.Overlay = 4
 
-UusCorp.Constants.ButtonStates = {}
-UusCorp.Constants.ButtonStates.Normal = 0
-UusCorp.Constants.ButtonStates.Pressed = 1
-UusCorp.Constants.ButtonStates.Disabled = 2
-UusCorp.Constants.ButtonStates.Highlighted = 3
-UusCorp.Constants.ButtonStates.PressedHighlighted = 4
-UusCorp.Constants.ButtonStates.DisabledPressed = 5
+Constants.ButtonStates = {}
+Constants.ButtonStates.Normal = 0
+Constants.ButtonStates.Pressed = 1
+Constants.ButtonStates.Disabled = 2
+Constants.ButtonStates.Highlighted = 3
+Constants.ButtonStates.PressedHighlighted = 4
+Constants.ButtonStates.DisabledPressed = 5
 
-UusCorp.Constants.Textures = {}
-UusCorp.Constants.Textures.MenuSelection = "MenuSelection"
+Constants.Textures = {}
+Constants.Textures.MenuSelection = "MenuSelection"
 
-UusCorp.Constants.Colors = {}
-UusCorp.Constants.Colors.White = { r = 255, g = 255, b = 255 }
-UusCorp.Constants.Colors.OffWhite = { r = 206, g = 217, b = 242 }
-UusCorp.Constants.Colors.Red = { r = 164, g = 32,   b = 32 }
-UusCorp.Constants.Colors.YellowDark = { r = 164, g = 164, b = 32 }
-UusCorp.Constants.Colors.Blue = { r = 32, g = 32, b = 164 }
-UusCorp.Constants.Colors.HealhBar = {
+Constants.Colors = {}
+Constants.Colors.White = { r = 255, g = 255, b = 255 }
+Constants.Colors.OffWhite = { r = 206, g = 217, b = 242 }
+Constants.Colors.Red = { r = 164, g = 32,   b = 32 }
+Constants.Colors.YellowDark = { r = 164, g = 164, b = 32 }
+Constants.Colors.Blue = { r = 32, g = 32, b = 164 }
+Constants.Colors.HealhBar = {
     { r = 164, g = 32, b = 32 }, -- Healthy
     { r = 32, g = 164, b = 32 }, -- Poisoned
     { r = 128, g = 128, b = 128 } -- Cursed
 }
-UusCorp.Constants.Colors.Notoriety = {
+Constants.Colors.Notoriety = {
     { r = 128, g = 200, b = 255 }, -- Innocent
     { r = 0,   g = 180, b = 0   }, -- Friendly
     { r = 225, g = 225, b = 225 }, -- Attackable
@@ -6814,14 +6107,13 @@ UusCorp.Constants.Colors.Notoriety = {
     { r = 255, g = 255, b = 0   } -- Invulnerable
 }
 
-UusCorp.Constants.TextAlignment = {}
-UusCorp.Constants.TextAlignment.Center = "center"
+Constants.TextAlignment = {}
+Constants.TextAlignment.Center = "center"
+
 
 -- ========================================================================== --
 -- Data
 -- ========================================================================== --
-
-UusCorp.Data = {}
 
 -- ========================================================================== --
 -- Data - Active Mobile
@@ -6851,7 +6143,7 @@ function ActiveMobile:setId(id)
     self:getData().Id = id
 end
 
-function UusCorp.Data.ActiveMobile()
+function Data.ActiveMobile()
     return ActiveMobile:new()
 end
 
@@ -6902,7 +6194,7 @@ function CurrentTarget:getId()
     return self:getData().TargetId
 end
 
-function UusCorp.Data.CurrentTarget()
+function Data.CurrentTarget()
     return CurrentTarget:new()
 end
 
@@ -6930,7 +6222,7 @@ function Cursor:isTarget()
     return self:getData().target
 end
 
-function UusCorp.Data.Cursor()
+function Data.Cursor()
     return Cursor:new()
 end
 
@@ -6964,7 +6256,7 @@ function Drag:getDraggingObject()
     return self:getDragSourceData()["SOURCETYPE_OBJECT"]
 end
 
-function UusCorp.Data.Drag()
+function Data.Drag()
     return Drag:new()
 end
 
@@ -6996,10 +6288,10 @@ function HealthBarColor:getVisualStateId()
 end
 
 function HealthBarColor:getVisualStateColor()
-    return UusCorp.Constants.Colors.HealhBar[self:getVisualStateId() + 1]
+    return Constants.Colors.HealhBar[self:getVisualStateId() + 1]
 end
 
-function UusCorp.Data.HealthBarColor(id)
+function Data.HealthBarColor(id)
     return HealthBarColor:new(id)
 end
 
@@ -7027,7 +6319,7 @@ function MobileName:getName()
     return self:getData().MobName
 end
 
-function UusCorp.Data.MobileName(id)
+function Data.MobileName(id)
     return MobileName:new(id)
 end
 
@@ -7074,10 +6366,10 @@ function MobileStatus:getNotoriety()
 end
 
 function MobileStatus:getNotorietyColor()
-    return UusCorp.Constants.Colors.Notoriety[self:getNotoriety() + 1]
+    return Constants.Colors.Notoriety[self:getNotoriety() + 1]
 end
 
-function UusCorp.Data.MobileStatus(id)
+function Data.MobileStatus(id)
     return MobileStatus:new(id)
 end
 
@@ -7102,7 +6394,7 @@ function Mouse:getPosition()
     return SystemData.MousePosition
 end
 
-function UusCorp.Data.Mouse()
+function Data.Mouse()
     return Mouse:new()
 end
 
@@ -7126,7 +6418,7 @@ function MouseOver:getWindow()
     return SystemData.MouseOverWindow.name
 end
 
-function UusCorp.Data.MouseOver()
+function Data.MouseOver()
     return MouseOver:new()
 end
 
@@ -7146,14 +6438,14 @@ function Object:new(id)
 end
 
 function Object:isValid()
-    return UusCorp.Api.Object.IsValid(self._id)
+    return Api.Object.IsValid(self._id)
 end
 
 function Object:isMobile()
-    return UusCorp.Api.Object.IsMobile(self._id)
+    return Api.Object.IsMobile(self._id)
 end
 
-function UusCorp.Data.Object(id)
+function Data.Object(id)
     return Object:new(id)
 end
 
@@ -7175,7 +6467,7 @@ end
 
 ---@class ObjectHandleDataWrapper
 local ObjectHandles = {}
-ObjectHandles.__index = ObjectHandle
+ObjectHandles.__index = ObjectHandles
 
 function ObjectHandles:new()
     return setmetatable({}, self)
@@ -7190,7 +6482,7 @@ end
 function ObjectHandles:getHandles()
     local windowData = self:getData()
 
-    return UusCorp.Utils.Array.MapToTable(
+    return Utils.Array.MapToTable(
         windowData.ObjectId,
         function (item)
             return item
@@ -7198,12 +6490,12 @@ function ObjectHandles:getHandles()
         function (item, index)
             return {
                 id = item,
-                name = UusCorp.Utils.String.FromWString(windowData.Names[index]),
+                name = Utils.String.FromWString(windowData.Names[index]),
                 notoriety = windowData.Notoriety[index],
                 isMobile = windowData.IsMobile[index],
                 isValid = function ()
-                    return UusCorp.Data.Object(item):isValid()
-                        and UusCorp.Utils.Array.Find(windowData.ObjectId, function (id)
+                    return Data.Object(item):isValid()
+                        and Utils.Array.Find(windowData.ObjectId, function (id)
                             return id == item
                         end)
                 end
@@ -7216,7 +6508,7 @@ function ObjectHandles:getHandle(id)
     return self:getHandles()[id]
 end
 
-function UusCorp.Data.ObjectHandles()
+function Data.ObjectHandles()
     return ObjectHandles:new()
 end
 
@@ -7346,23 +6638,1016 @@ function PlayerStatus:getType()
     return self:getData().Type
 end
 
-function UusCorp.Data.PlayerStatus()
+function Data.PlayerStatus()
     return PlayerStatus:new()
+end
+
+
+-- ========================================================================== --
+-- Event Handler
+-- ========================================================================== --
+
+local EventHandler = {}
+
+---@type table<string, Window>
+local Windows = {}
+
+function EventHandler.OnInitialize()
+    local window = Windows[Active.window()]
+    window._events:onInitialize()
+end
+
+function EventHandler.OnShutdown()
+    local window = Windows[Active.window()]
+    window._events:onShutdown()
+    Windows[Active.window()] = nil
+end
+
+function EventHandler.OnLButtonUp(flags, x, y)
+    local window = Windows[Active.window()]
+    window._events:onLButtonUp(flags, x, y)
+end
+
+function EventHandler.OnLButtonDown(flags, x, y)
+    local window = Windows[Active.window()]
+    window._events:onLButtonDown(flags, x, y)
+end
+
+function EventHandler.OnRButtonDown(flags, x, y)
+    local window = Windows[Active.window()]
+    window._events:onRButtonDown(flags, x, y)
+end
+
+function EventHandler.OnRButtonUp(flags, x, y)
+    local window = Windows[Active.window()]
+    window._events:onRButtonUp(flags, x, y)
+end
+
+function EventHandler.OnHidden()
+    local window = Windows[Active.window()]
+    window._events:onHidden()
+end
+
+function EventHandler.OnShown()
+    local window = Windows[Active.window()]
+    window._events:onShown()
+end
+
+function EventHandler.OnUpdate(timePassed)
+    local window = Windows[Active.window()]
+    window._events:onUpdate(timePassed)
+end
+
+function EventHandler.OnUpdateMobileName()
+    local window = Windows[Active.window()]
+    window._events:onUpdateMobileName()
+end
+
+function EventHandler.OnLButtonDblClk(flags, x, y)
+    local window = Windows[Active.window()]
+    window._events:onLButtonDblClk(flags, x, y)
+end
+
+function EventHandler.OnMouseOver()
+    local window = Windows[Active.window()]
+    window._events:onMouseOver()
+end
+
+function EventHandler.OnMouseOverEnd()
+    local window = Windows[Active.window()]
+    window._events:onMouseOverEnd()
+end
+
+function EventHandler.OnMouseDrag()
+    local window = Windows[Active.window()]
+    window._events:onMouseDrag()
+end
+
+function EventHandler.OnUpdatePlayerStatus()
+    local window = Windows[Active.window()]
+    window._events:onUpdatePlayerStatus()
+end
+
+function EventHandler.OnUpdateMobileStatus()
+    local window = Windows[Active.window()]
+    window._events:onUpdateMobileStatus()
+end
+
+function EventHandler.OnUpdateHealthBarColor()
+    local window = Windows[Active.window()]
+    window._events:onUpdateHealthBarColor()
+end
+
+function EventHandler.OnEndHealthBarDrag()
+    local window = Windows[Active.window()]
+    window._events:onEndHealthBarDrag()
+end
+
+-- ========================================================================== --
+-- Events
+-- ========================================================================== --
+
+
+---@class Events
+---@field _model WindowEventsModel? The model containing event data.
+---@field _window Window The window to which events are attached.
+local Events = {}
+Events.__index = Events
+
+---@generic T:Window
+---@param window T The window to attach events to.
+---@param model WindowEventsModel? Optional model containing event data.
+---@return Events
+function Events:new(window, model)
+    local instance = setmetatable({}, self)
+    instance._window = window
+    instance._model = model
+    return instance
+end
+
+function Events:onInitialize()
+    local window = self._window
+    local id = Utils.String.ExtractNumber(window:getName())
+
+    if id ~= 0 then
+        window:setId(id)
+    end
+
+    local prefix = "UusCorp.EventHandler."
+
+    for k, _ in pairs(self._model) do
+        local dataEvent = Constants.DataEvents[k]
+        local systemEvent = Constants.SystemEvents[k]
+        local isCore = Constants.CoreEvents[k] ~= nil
+        local skip = k == Constants.CoreEvents.OnInitialize or
+            k == Constants.CoreEvents.OnShutdown
+
+        local functionName = prefix .. k
+
+        if isCore and not skip then
+            window:registerCoreEventHandler(k, functionName)
+        elseif systemEvent ~= nil then
+            window:registerEventHandler(systemEvent.getEvent(), functionName)
+        elseif dataEvent ~= nil then
+            if k == Constants.DataEvents.OnUpdatePlayerStatus then
+                window:registerData(dataEvent.getType(), 0)
+            else
+                window:registerData(dataEvent.getType(), window:getId())
+            end
+            window:registerEventHandler(dataEvent.getEvent(), functionName)
+        end
+    end
+
+    window:registerCoreEventHandler(
+        Constants.CoreEvents.OnShutdown,
+        prefix .. Constants.CoreEvents.OnShutdown
+    )
+
+    if window:isParentRoot() and self._model.OnRButtonUp == nil then
+        window:registerCoreEventHandler(
+            Constants.CoreEvents.OnRButtonUp,
+            prefix .. Constants.CoreEvents.OnRButtonUp
+        )
+    end
+
+    if self._model.OnInitialize ~= nil then
+        self._model.OnInitialize(window)
+    end
+
+    window:restorePosition()
+
+    Utils.Array.ForEach(
+        window._children,
+        function (item, index)
+            item:create(true)
+            item:setParent(window:getName())
+            item._events:onInitialize()
+            if index > 1 then
+                item:addAnchor(
+                    "bottomleft",
+                    window._children[index - 1]:getName(),
+                    "topleft",
+                    0,
+                    8
+                )
+            end
+        end
+    )
+
+    window:toggleBackground(window:isParentRoot())
+    window:toggleFrame(window:isParentRoot())
+
+    for k, v in pairs(self) do
+        if Constants.DataEvents[k] then
+            v()
+        end
+    end
+end
+
+function Events:onShutdown()
+    local window = self._window
+    window:savePosition()
+
+    Utils.Array.ForEach(window._children, function (item)
+        item:destroy()
+    end)
+
+    if self._model.OnShutdown ~= nil then
+        self._model.OnShutdown(window)
+    end
+
+    for k, _ in pairs(self._model) do
+        local dataEvent = Constants.DataEvents[k]
+        local systemEvent = Constants.SystemEvents[k]
+        local isCore = Constants.CoreEvents[k] ~= nil
+
+        if isCore then
+            window:unregisterCoreEventHandler(k)
+        elseif systemEvent ~= nil then
+            window:unregisterEventHandler(systemEvent.getEvent())
+        elseif dataEvent ~= nil then
+            if k == Constants.DataEvents.OnUpdatePlayerStatus then
+                window:unregisterData(dataEvent.getType(), 0)
+            else
+                window:unregisterData(dataEvent.getType(), window:getId())
+            end
+            window:unregisterEventHandler(dataEvent.getEvent())
+        end
+    end
+end
+
+function Events:onLButtonUp(flags, x, y)
+    local window = self._window
+    if self._model.OnLButtonUp ~= nil then
+        self._model.OnLButtonUp(window, flags, x, y)
+    end
+
+    local child = Utils.Array.Find(
+        window._children,
+        function (item)
+            return item:getName() == Active.window()
+        end
+    )
+
+    if child ~= nil then
+        child._events:onLButtonUp(flags, x, y)
+    end
+end
+
+function Events:onLButtonDown(flags, x, y)
+    local window = self._window
+
+    if self._model.OnLButtonDown ~= nil then
+        self._model.OnLButtonDown(window, flags, x, y)
+    end
+
+    local child = Utils.Array.Find(
+        window._children,
+        function (item)
+            return item:getName() == Active.window()
+        end
+    )
+
+    if child ~= nil then
+        child._events:onLButtonDown(flags, x, y)
+    end
+end
+
+function Events:onRButtonUp(flags, x, y)
+    local window = self._window
+    if window:isParentRoot() and self._model.OnRButtonUp == nil then
+        window:destroy()
+        return
+    end
+
+    if self._model.OnRButtonUp ~= nil then
+        self._model.OnRButtonUp(window, flags, x, y)
+    end
+
+    local child = Utils.Array.Find(
+        window._children,
+        function (item)
+            return item:getName() == Active.window()
+        end
+    )
+
+    if child ~= nil then
+        child._events:onRButtonUp(flags, x, y)
+    end
+end
+
+function Events:onRButtonDown(flags, x, y)
+    local window = self._window
+    if self._model.OnRButtonDown ~= nil then
+        self._model.OnRButtonDown(window, flags, x, y)
+        return
+    end
+
+    local child = Utils.Array.Find(
+        window._children,
+        function (item)
+            return item:getName() == Active.window()
+        end
+    )
+
+    if child ~= nil then
+        child._events:onRButtonDown(flags, x, y)
+    end
+end
+
+function Events:onHidden()
+    local window = self._window
+    if self._model.OnHidden ~= nil then
+        self._model.OnHidden(window)
+    end
+
+    Utils.Array.ForEach(
+        window._children,
+        function (item)
+            item._events:onHidden()
+        end
+    )
+end
+
+function Events:onShown()
+    local window = self._window
+    if self._model.OnShown ~= nil then
+        self._model.OnShown(window)
+    end
+
+    Utils.Array.ForEach(
+        window._children,
+        function (item)
+            item._events:onShown()
+        end
+    )
+end
+
+function Events:onUpdate(timePassed, systemData, windowData)
+    local window = self._window
+    if self._model.OnUpdate ~= nil then
+        self._model.OnUpdate(window, timePassed, systemData, windowData)
+    end
+
+    Utils.Array.ForEach(
+        window._children,
+        function (item)
+            item._events:onUpdate(timePassed, systemData, windowData)
+        end
+    )
+end
+
+function Events:onUpdateMobileName()
+    local window = self._window
+    if self._model.OnUpdateMobileName ~= nil then
+        self._model.OnUpdateMobileName(window, Data.MobileName(window:getId()))
+    end
+
+    Utils.Array.ForEach(
+        window._children,
+        function (item, _)
+            item._events:onUpdateMobileName()
+        end
+    )
+end
+
+function Events:onLButtonDblClk(flags, x, y)
+    local window = self._window
+    if self._model.OnLButtonDblClk ~= nil then
+        self._model.OnLButtonDblClk(window, flags, x, y)
+    end
+
+    Utils.Array.ForEach(
+        window._children,
+        function (item,  _)
+            item._events:onLButtonDblClk(flags, x, y)
+        end
+    )
+end
+
+function Events:onMouseOver()
+    local window = self._window
+    if self._model.OnMouseOver ~= nil then
+        self._model.OnMouseOver(window)
+    end
+end
+
+function Events:onMouseOverEnd()
+    local window = self._window
+    if self._model.OnMouseOverEnd ~= nil then
+        self._model.OnMouseOverEnd(window)
+    end
+end
+
+function Events:onMouseDrag()
+    local window = self._window
+    if self._model.OnMouseDrag ~= nil then
+        self._model.OnMouseDrag(window)
+    end
+end
+
+function Events:onUpdatePlayerStatus()
+    local window = self._window
+    if self._model.OnUpdatePlayerStatus ~= nil then
+        self._model.OnUpdatePlayerStatus(window, Data.PlayerStatus())
+    end
+
+    Utils.Array.ForEach(
+        window._children,
+        function (item,  _)
+            item._events:onUpdatePlayerStatus()
+        end
+    )
+end
+
+function Events:onUpdateMobileStatus()
+    local window = self._window
+
+    if self._model.OnUpdateMobileStatus ~= nil then
+        self._model.OnUpdateMobileStatus(window, Data.MobileStatus(window:getId()))
+    end
+
+    Utils.Array.ForEach(
+        window._children,
+        function (item,  _)
+            item._events:onUpdateMobileStatus()
+        end
+    )
+end
+
+function Events:onUpdateHealthBarColor()
+    local window = self._window
+
+    if self._model.OnUpdateHealthBarColor ~= nil then
+        self._model.OnUpdateHealthBarColor(window, Data.HealthBarColor(window:getId()))
+    end
+
+    Utils.Array.ForEach(
+        window._children,
+        function (item,  _)
+            item._events:onUpdateHealthBarColor()
+        end
+    )
+end
+
+function Events:onEndHealthBarDrag()
+    local window = self._window
+
+    if self._model.OnEndHealthBarDrag ~= nil then
+        self._model.OnEndHealthBarDrag(window)
+    end
+
+    Utils.Array.ForEach(
+        window._children,
+        function (item,  _)
+            item._events:onEndHealthBarDrag()
+        end
+    )
+end
+
+
+
+-- ========================================================================== --
+-- Window
+-- ========================================================================== --
+
+---@class WindowEventsModel
+---@field OnInitialize fun(self: Window)?
+---@field OnLButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnRButtonUp fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnShutdown fun(self: Window)?
+---@field OnHidden fun(self: Window)?
+---@field OnShown fun(self: Window)?
+---@field OnLButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnRButtonDown fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnUpdate fun(self: Window, timePassed: integer)?
+---@field OnUpdateMobileName fun(self: Window, windowData: MobileNameWrapper)?
+---@field OnLButtonDblClk fun(self: Window, flags: integer, x: integer, y: integer)?
+---@field OnMouseOver fun(self: Window)?
+---@field OnMouseOverEnd fun(self: Window)?
+---@field OnMouseDrag fun(self: Window)?
+---@field OnUpdatePlayerStatus fun(self: Window, playerStatus: PlayerStatusWrapper)?
+---@field OnUpdateMobileStatus fun(self: Window, mobileStatus: MobileStatusWrapper)?
+---@field OnUpdateHealthBarColor fun(self: Window, healthBarColor: HealthBarColorWrapper)?
+---@field OnEndHealthBarDrag fun(self: Window)?
+
+---@class WindowModel
+---@field name string?
+---@field template string?
+---@field events WindowEventsModel?
+---@field persistPosition boolean? If true, the window will save its position when closed and restore it when opened again
+
+---@class Window
+---@field _children Window[] A list of child windows.
+---@field _name string The unique name of the window.
+---@field _template string The template used to create the window.
+---@field _events Events A table of event callbacks.
+---@field _frame string The name of the window's frame component.
+---@field _background string The name of the window's background component.
+---@field _persistPosition boolean If true, the window will save its position when closed and restore it when opened again.
+local Window = {}
+Window.__index = Window
+
+---@param model WindowModel?
+function Window:new(model)
+    model = model or {}
+    local instance = setmetatable({}, self)
+
+    instance._children = {}
+    instance._name = model.name or Utils.String.Random()
+    instance._template = model.template or "UusCorpWindow"
+    instance._frame = instance._name .. "Frame"
+    instance._background = instance._name .. "Background"
+    instance._events = Events:new(instance, model.events or {})
+    instance._persistPosition = model.persistPosition or false
+
+    return instance
+end
+
+---@return Window
+function Window:getFrame()
+    if self._frameWindow == nil then
+        self._frameWindow = Window:new { name = self._frame }
+    end
+    return self._frameWindow
+end
+
+---@return Window
+function Window:getBackground()
+    if self._backgroundWindow == nil then
+        self._backgroundWindow = Window:new { name = self._background }
+    end
+    return self._backgroundWindow
+end
+
+function Window:toggleFrame(doShow)
+    if Api.Window.DoesExist(self._frame) then
+        Api.Window.SetShowing(self._frame, doShow)
+    end
+end
+
+function Window:toggleBackground(doShow)
+    if Api.Window.DoesExist(self._background) then
+        Api.Window.SetShowing(self._background, doShow)
+    end
+end
+
+function Window:attachToObject()
+    Api.Window.AttachToWorldObject(self:getId(), self:getName())
+end
+
+function Window:setChildren(children)
+    self._children = children
+end
+
+function Window:getName()
+    return self._name
+end
+
+function Window:getId()
+    return Api.Window.GetId(self._name)
+end
+
+function Window:setId(id)
+    Api.Window.SetId(self._name, id)
+end
+
+---@return Window
+function Window:getParent()
+    return Windows[Api.Window.GetParent(self._name)] or
+        Window:new { name = Api.Window.GetParent(self._name) }
+end
+
+function Window:setParent(parent)
+    Api.Window.SetParent(self._name, parent)
+end
+
+function Window:matchParentWidth(percent)
+    local parent = self:getParent()
+    local x, _ = parent:getDimensions()
+    local _, y = self:getDimensions()
+    self:setDimensions(x * percent, y)
+end
+
+function Window:isParentRoot()
+    return Api.Window.GetParent(self._name) == Views.Defaults.RootWindow:getName()
+end
+
+function Window:registerCoreEventHandler(event, callback)
+    Api.Window.RegisterCoreEventHandler(self._name, event, callback)
+end
+
+function Window:unregisterCoreEventHandler(event)
+    Api.Window.UnregisterCoreEventHandler(self._name, event)
+end
+
+function Window:registerEventHandler(event, callback)
+    Api.Window.RegisterEventHandler(self._name, event, callback)
+end
+
+function Window:unregisterEventHandler(event)
+    Api.Window.UnregisterEventHandler(self._name, event)
+end
+
+function Window:isMoving()
+    return Api.Window.IsMoving(self._name)
+end
+
+function Window:setMoving(isMoving)
+    Api.Window.SetMoving(self._name, isMoving)
+end
+
+function Window:getDimensions()
+    return Api.Window.GetDimensions(self._name)
+end
+
+function Window:setDimensions(x, y)
+    Api.Window.SetDimensions(self._name, x, y)
+end
+
+function Window:getAlpha()
+    return Api.Window.GetAlpha(self._name)
+end
+
+function Window:setAlpha(alpha)
+    Api.Window.SetAlpha(self._name, alpha)
+end
+
+function Window:setLayer(layer)
+    Api.Window.SetLayer(self._name, layer)
+end
+
+function Window:getScale()
+    return Api.Window.GetScale(self._name)
+end
+
+function Window:setScale(scale)
+    Api.Window.SetScale(self._name, scale)
+end
+
+function Window:getOffsetFromParent()
+    return Api.Window.GetOffsetFromParent(self._name)
+end
+
+function Window:setOffsetFromParent(x, y)
+    Api.Window.SetOffsetFromParent(self._name, x, y)
+end
+
+function Window:getColor()
+    return Api.Window.GetColor(self._name)
+end
+
+function Window:setColor(color)
+    Api.Window.SetColor(self._name, color)
+end
+
+function Window:getPosition()
+    return Api.Window.GetPosition(self._name)
+end
+
+function Window:restorePosition()
+    if self._persistPosition and self:isParentRoot() then
+        Api.Window.RestorePosition(self._name)
+    end
+end
+
+function Window:savePosition()
+    if self._persistPosition and self:isParentRoot() then
+        Api.Window.SavePosition(self._name)
+    end
+end
+
+function Window:isShowing()
+    return Api.Window.IsShowing(self._name)
+end
+
+function Window:setShowing(isShowing)
+    Api.Window.SetShowing(self._name, isShowing)
+end
+
+function Window:isPopable()
+    return Api.Window.IsPopable(self._name)
+end
+
+function Window:setPopable(isPopable)
+    Api.Window.SetPopable(self._name, isPopable)
+end
+
+function Window:isMovable()
+    return Api.Window.IsMovable(self._name)
+end
+
+function Window:setMovable(isMovable)
+    Api.Window.SetMovable(self._name, isMovable)
+end
+
+function Window:isSticky()
+    return Api.Window.IsSticky(self._name)
+end
+
+function Window:clearAnchors()
+    Api.Window.ClearAnchors(self._name)
+end
+
+function Window:forceProcessAnchors()
+    Api.Window.ForceProcessAnchors(self._name)
+end
+
+function Window:addAnchor(anchorPoint, relativeTo, relativePoint, x, y)
+    Api.Window.AddAnchor(self._name, anchorPoint, relativeTo, relativePoint, x or 0, y or 0)
+end
+
+function Window:anchorToParentTop(x, y)
+    self:addAnchor(
+        Constants.AnchorPoints.Top,
+        self:getParent():getName(),
+        Constants.AnchorPoints.Top,
+        x or 0,
+        y or 0
+    )
+end
+
+function Window:centerInWindow(toCenter, x, y)
+    self:addAnchor(
+        Constants.AnchorPoints.Center,
+        toCenter:getName(),
+        Constants.AnchorPoints.Center,
+        x or 0,
+        y or 0
+    )
+end
+
+function Window:anchorToParentCenter(x, y)
+    self:centerInWindow(self:getParent(), x, y)
+end
+
+function Window:isFocused()
+    return Api.Window.HasFocus(self._name)
+end
+
+function Window:setFocus(doFocus)
+    Api.Window.AssignFocus(self._name, doFocus)
+end
+
+function Window:isResizing()
+    return Api.Window.IsResizing(self._name)
+end
+
+function Window:setResizing(isResizing)
+    Api.Window.SetResizing(self._name, isResizing)
+end
+
+function Window:setRelativeScale(scale)
+    Api.Window.SetRelativeScale(self._name, scale)
+end
+
+function Window:doesExist()
+    return Api.Window.DoesExist(self._name)
+end
+
+function Window:destroy()
+    return Api.Window.Destroy(self._name)
+end
+
+function Window:create(doShow)
+    doShow = doShow == nil or doShow
+    if self._template == nil then
+        return Api.Window.Create(self._name, doShow)
+    else
+        return Api.Window.CreateFromTemplate(self._name, self._template, "Root", doShow)
+    end
+end
+
+function Window:registerData(type, id)
+    Api.Window.RegisterData(type, id)
+end
+
+function Window:unregisterData(type, id)
+    Api.Window.UnregisterData(type, id)
+end
+
+-- ========================================================================== --
+-- Default Window
+-- ========================================================================== --
+
+
+---@class DefaultWindow: Window
+local DefaultWindow = {}
+DefaultWindow.__index = DefaultWindow
+setmetatable(DefaultWindow, Window)
+
+---Returns a wrapped window, for use with windows
+---provided by the default interface
+---@generic T
+---@param name string
+---@param getDefault fun(): T The function to get the default data for the window.
+---@return DefaultWindow
+function DefaultWindow:new(name, getDefault)
+    -- Call the base Window constructor and set the metatable to DefaultWindow
+    local instance = Window.new(self, { name = name })
+    setmetatable(instance, self)
+    instance._getDefault = getDefault
+    return instance --[[@as DefaultWindow]]
+end
+
+---@return table
+function DefaultWindow:getDefault()
+    return self._getDefault()
+end
+-- ========================================================================== --
+-- Button
+-- ========================================================================== --
+
+---@class ButtonEventsModel : WindowEventsModel
+---@field OnInitialize fun(self: Button)?
+---@field OnLButtonUp fun(self: Button, flags: integer, x: integer, y: integer)?
+---@field OnRButtonUp fun(self: Button, flags: integer, x: integer, y: integer)?
+---@field OnShutdown fun(self: Button)?
+---@field OnHidden fun(self: Button)?
+---@field OnShown fun(self: Button)?
+---@field OnLButtonDown fun(self: Button, flags: integer, x: integer, y: integer)?
+---@field OnRButtonDown fun(self: Button, flags: integer, x: integer, y: integer)?
+---@field OnUpdate fun(self: Button, timePassed: integer)?
+---@field OnUpdateMobileName fun(self: Button, windowData: MobileNameWrapper)?
+---@field OnLButtonDblClk fun(self: Button, flags: integer, x: integer, y: integer)?
+---@field OnMouseOver fun(self: Button)?
+---@field OnMouseOverEnd fun(self: Button)?
+---@field OnMouseDrag fun(self: Button)?
+---@field OnUpdatePlayerStatus fun(self: Button, playerStatus: PlayerStatusWrapper)?
+---@field OnUpdateMobileStatus fun(self: Button, mobileStatus: MobileStatusWrapper)?
+---@field OnUpdateHealthBarColor fun(self: Button, healthBarColor: HealthBarColorWrapper)?
+---@field OnEndHealthBarDrag fun(self: Button)?
+
+---@class ButtonModel : WindowModel
+---@field name string?
+---@field template string?
+---@field events ButtonEventsModel?
+
+---@class Button: Window
+local Button = {}
+Button.__index = Button
+setmetatable(Button, Window)
+
+---@param model ButtonModel?
+---@return Button
+function Button:new(model)
+    model = model or {}
+    model.template = model.template or "UusCorpButton"
+    local instance = Window.new(self, model)
+    setmetatable(instance, self)
+    return instance --[[@as Button]]
+end
+
+function Button:getTextDimensions()
+    Api.Button.GetTextDimensions(self:getName())
+end
+
+function Button:setText(text)
+    Api.Button.SetText(self:getName(), Utils.String.ToWString(text))
+end
+
+function Button:getText()
+    return Api.Button.GetText(self:getName())
+end
+
+function Button:setTexture(state, texture, x, y)
+    Api.Button.SetTexture(self:getName(), state, texture, x, y)
+end
+
+function Button:setTextColor(state, color)
+    Api.Button.SetTextColor(self:getName(), state, color.r, color.g, color.b)
+end
+
+-- ========================================================================== --
+-- Label
+-- ========================================================================== --
+
+---@class LabelEventsModel : WindowEventsModel
+---@field OnInitialize fun(self: Label)?
+---@field OnLButtonUp fun(self: Label, flags: integer, x: integer, y: integer)?
+---@field OnRButtonUp fun(self: Label, flags: integer, x: integer, y: integer)?
+---@field OnShutdown fun(self: Label)?
+---@field OnHidden fun(self: Label)?
+---@field OnShown fun(self: Label)?
+---@field OnLButtonDown fun(self: Label, flags: integer, x: integer, y: integer)?
+---@field OnRButtonDown fun(self: Label, flags: integer, x: integer, y: integer)?
+---@field OnUpdate fun(self: Label, timePassed: integer)?
+---@field OnUpdateMobileName fun(self: Label, windowData: MobileNameWrapper)?
+---@field OnLButtonDblClk fun(self: Label, flags: integer, x: integer, y: integer)?
+---@field OnMouseOver fun(self: Label)?
+---@field OnMouseOverEnd fun(self: Label)?
+---@field OnMouseDrag fun(self: Label)?
+---@field OnUpdatePlayerStatus fun(self: Label, playerStatus: PlayerStatusWrapper)?
+---@field OnUpdateMobileStatus fun(self: Label, mobileStatus: MobileStatusWrapper)?
+---@field OnUpdateHealthBarColor fun(self: Label, healthBarColor: HealthBarColorWrapper)?
+---@field OnEndHealthBarDrag fun(self: Label)?
+
+---@class LabelModel : WindowModel
+---@field name string?
+---@field template string?
+---@field events LabelEventsModel?
+
+---@class Label: Window
+local Label = {}
+Label.__index = Label
+setmetatable(Label, Window)
+
+---@param model LabelModel?
+---@return Label
+function Label:new(model)
+    model = model or {}
+    model.template = model.template or "UusCorpLabel"
+    local instance = Window.new(self, model)
+    setmetatable(instance, self)
+    return instance --[[@as Label]]
+end
+
+function Label:setText(text)
+    Api.Label.SetText(self:getName(), Utils.String.ToWString(text))
+end
+
+function Label:setTextColor(color)
+    Api.Label.SetTextColor(self:getName(), color)
+end
+
+function Label:setTextAlignment(alignment)
+    Api.Label.SetTextAlignment(self:getName(), alignment)
+end
+
+function Label:centerText()
+    self:setTextAlignment(Constants.TextAlignment.Center)
+end
+
+-- ========================================================================== --
+-- StatusBar
+-- ========================================================================== --
+
+---@class StatusBarEventsModel : WindowEventsModel
+---@field OnInitialize fun(self: StatusBar)?
+---@field OnLButtonUp fun(self: StatusBar, flags: integer, x: integer, y: integer)?
+---@field OnRButtonUp fun(self: StatusBar, flags: integer, x: integer, y: integer)?
+---@field OnShutdown fun(self: StatusBar)?
+---@field OnHidden fun(self: StatusBar)?
+---@field OnShown fun(self: StatusBar)?
+---@field OnLButtonDown fun(self: StatusBar, flags: integer, x: integer, y: integer)?
+---@field OnRButtonDown fun(self: StatusBar, flags: integer, x: integer, y: integer)?
+---@field OnUpdate fun(self: StatusBar, timePassed: integer)?
+---@field OnUpdateMobileName fun(self: StatusBar, windowData: MobileNameWrapper)?
+---@field OnLButtonDblClk fun(self: StatusBar, flags: integer, x: integer, y: integer)?
+---@field OnMouseOver fun(self: StatusBar)?
+---@field OnMouseOverEnd fun(self: StatusBar)?
+---@field OnMouseDrag fun(self: StatusBar)?
+---@field OnUpdatePlayerStatus fun(self: StatusBar, playerStatus: PlayerStatusWrapper)?
+---@field OnUpdateMobileStatus fun(self: StatusBar, mobileStatus: MobileStatusWrapper)?
+---@field OnUpdateHealthBarColor fun(self: StatusBar, healthBarColor: HealthBarColorWrapper)?
+---@field OnEndHealthBarDrag fun(self: StatusBar)?
+
+---@class StatusBarModel : WindowModel
+---@field name string?
+---@field template string?
+---@field events StatusBarEventsModel?
+
+---@class StatusBar: Window
+local StatusBar = {}
+StatusBar.__index = StatusBar
+setmetatable(StatusBar, Window)
+
+---@param model StatusBarModel?
+---@return StatusBar
+function StatusBar:new(model)
+    model = model or {}
+    model.template = model.template or "UusCorpStatusBar"
+    local instance = Window.new(self, model)
+    setmetatable(instance, self)
+    return instance --[[@as StatusBar]]
+end
+
+function StatusBar:setMaxValue(maxValue)
+    Api.StatusBar.SetMaxValue(self:getName(), maxValue)
+end
+
+function StatusBar:setCurrentValue(currentValue)
+    Api.StatusBar.SetCurrentValue(self:getName(), currentValue)
+end
+
+function StatusBar:setBackgroundTint(tint)
+    Api.StatusBar.SetBackgroundTint(self:getName(), tint)
+end
+
+function StatusBar:setForegroundTint(tint)
+    Api.StatusBar.SetForegroundTint(self:getName(), tint)
 end
 
 -- ========================================================================== --
 -- Interface
 -- ========================================================================== --
 
-
-UusCorp.Interface = {}
-
 -- ========================================================================== --
 -- Interface - Defaults
 -- ========================================================================== --
 
 
-UusCorp.Interface.Defaults = {}
+Views.Defaults = {}
 
 ---@class ResizeWindow
 ---@field HANDLE_SIZE integer Size of the resize handles
@@ -7385,7 +7670,7 @@ UusCorp.Interface.Defaults = {}
 
 ---@class ResizeWindowWrapper : DefaultWindow
 ---@field getDefault fun(self: ResizeWindowWrapper): ResizeWindow
-UusCorp.Interface.Defaults.ResizeWindow = DefaultWindow:new("ResizeWindow", function ()
+Views.Defaults.ResizeWindow = DefaultWindow:new("ResizeWindow", function ()
     return ResizeWindow
 end)
 
@@ -7393,7 +7678,7 @@ end)
 
 ---@class RootWindowWrapper : DefaultWindow
 ---@field getDefault fun(self: RootWindowWrapper): RootWindow
-UusCorp.Interface.Defaults.RootWindow = DefaultWindow:new("Root", function ()
+Views.Defaults.RootWindow = DefaultWindow:new("Root", function ()
     return {}
 end)
 
@@ -7414,7 +7699,7 @@ end)
 
 ---@class MainMenuWindowWrapper : DefaultWindow
 ---@field getDefault fun(self: MainMenuWindowWrapper): MainMenuWindow
-UusCorp.Interface.Defaults.MainMenuWindow = DefaultWindow:new("MainMenuWindow", function ()
+Views.Defaults.MainMenuWindow = DefaultWindow:new("MainMenuWindow", function ()
     return MainMenuWindow
 end)
 
@@ -7441,7 +7726,7 @@ end)
 
 ---@class BugReportWindowWrapper : DefaultWindow
 ---@field getDefault fun(self: BugReportWindowWrapper): BugReportWindow
-UusCorp.Interface.Defaults.BugReportWindow = DefaultWindow:new("BugReportWindow", function ()
+Views.Defaults.BugReportWindow = DefaultWindow:new("BugReportWindow", function ()
     return BugReportWindow
 end)
 
@@ -7511,7 +7796,7 @@ end)
 
 ---@class StatusWindowWrapper : DefaultWindow
 ---@field getDefault fun(self: StatusWindowWrapper): StatusWindow
-UusCorp.Interface.Defaults.StatusWindow = DefaultWindow:new("StatusWindow", function ()
+Views.Defaults.StatusWindow = DefaultWindow:new("StatusWindow", function ()
     return StatusWindow
 end)
 
@@ -7562,7 +7847,7 @@ end)
 
 ---@class TargetWindowWrapper : DefaultWindow
 ---@field getDefault fun(self: TargetWindowWrapper): TargetWindow
-UusCorp.Interface.Defaults.TargetWindow = DefaultWindow:new("TargetWindow", function ()
+Views.Defaults.TargetWindow = DefaultWindow:new("TargetWindow", function ()
     return TargetWindow
 end)
 
@@ -7601,346 +7886,159 @@ end)
 
 ---@class ObjectHandleWindowWrapper : DefaultWindow
 ---@field getDefault fun(self: ObjectHandleWindowWrapper): ObjectHandleWindow
-UusCorp.Interface.Defaults.ObjectHandleWindow = DefaultWindow:new("ObjectHandleWindow", function ()
+Views.Defaults.ObjectHandleWindow = DefaultWindow:new("ObjectHandleWindow", function ()
     return ObjectHandleWindow
 end)
 
 ---@type ItemProperties
-UusCorp.Interface.Defaults.ItemProperties = ItemProperties
+Views.Defaults.ItemProperties = ItemProperties
 
-UusCorp.Interface.Defaults.ItemPropertiesData = ItemPropertiesData
+Views.Defaults.ItemPropertiesData = ItemPropertiesData
 
-UusCorp.Interface.Defaults.InterfaceCore = InterfaceCore
+Views.Defaults.InterfaceCore = InterfaceCore
 
 ---@type Actions
-UusCorp.Interface.Defaults.Actions = Actions
+Views.Defaults.Actions = Actions
 
 -- ========================================================================== --
--- Library - Window
+-- Interface - Window
 -- ========================================================================== --
-
-UusCorp.Interface.Window = {}
 
 ---@param model WindowModel?
 ---@return Window
-function UusCorp.Interface.Window(model)
+function Views.Window(model)
    local window = Window:new(model)
-    UusCorp.EventHandler.Windows[window:getName()] = window
+    Windows[window:getName()] = window
     return window
 end
 
+-- ========================================================================== --
+-- Interface - Button
+-- ========================================================================== --
+
 ---@param model ButtonModel?
 ---@return Button
-function UusCorp.Interface.Button(model)
+function Views.Button(model)
     local button = Button:new(model)
-    UusCorp.EventHandler.Windows[button:getName()] = button
+    Windows[button:getName()] = button
     return button
 end
 
+-- ========================================================================== --
+-- Interface - Label
+-- ========================================================================== --
+
+
 ---@param model LabelModel?
 ---@return Label
-function UusCorp.Interface.Label(model)
+function Views.Label(model)
     local label = Label:new(model)
-    UusCorp.EventHandler.Windows[label:getName()] = label
+    Windows[label:getName()] = label
     return label
 end
 
+-- ========================================================================== --
+-- Interface - Status Bar
+-- ========================================================================== --
+
+
 ---@param model StatusBarModel?
 ---@return StatusBar
-function UusCorp.Interface.StatusBar(model)
+function Views.StatusBar(model)
     local statusBar = StatusBar:new(model)
-    UusCorp.EventHandler.Windows[statusBar:getName()] = statusBar
+    Windows[statusBar:getName()] = statusBar
     return statusBar
 end
 
 -- ========================================================================== --
--- Library - Utils
+-- Mod
 -- ========================================================================== --
 
-UusCorp.Utils = {}
+---@class ModInitializer
+---@field OnInitialize fun(): Mod Initializes the mod 
 
--- ========================================================================== --
--- Library - Utils - Array
--- ========================================================================== --
+---@class Mod
+---@field Name string Name of the mod
+---@field Path string Path to the mod resources
+---@field Files string[]? list of files to load
+---@field _onInitialize fun(self: Context) Initializes the mod
+local Mod = {}
+Mod.__index = Mod
 
-UusCorp.Utils.Array = {}
+---@class ModModel
+---@field Name string Name of the mod
+---@field Path string Path to the mod resources
+---@field Files string[]? list of files to load
+---@field OnInitialize fun(self: Context) Initializes the mod
 
----@generic K
----@generic V
----@generic T
----@param array T[]
----@param getKey fun(item: T, index: integer): K
----@param getValue fun(item: T, index: integer): V
----@return table<K,V>
-function UusCorp.Utils.Array.MapToTable(array, getKey, getValue)
-    local newTable = {}
+function Mod:new(model)
+    local mod = setmetatable({}, self)
+    mod.Name = model.Name
+    mod.Path = model.Path
+    mod.Files = model.Files or {}
+    mod._onInitialize = model.OnInitialize or function() end
+    return mod
+end
 
-    UusCorp.Utils.Array.ForEach(
-        array,
-        function (item, index)
-            newTable[getKey(item, index)] = getValue(item, index)
+function Mod:initialize()
+    Api.Mod.Initialize(self.Name)
+    self:onInitialize()
+end
+
+function Mod:loadResources()
+    Utils.Array.ForEach(
+        self.Files,
+        function(file)
+            Api.Mod.LoadResources(
+                "Data/Interface/Default/uus-corp-ui" .. self.Path,
+                SystemData.Directories.Interface .. "/" .. SystemData.Settings.Interface.customUiName .. self.Path,
+                file
+            )
         end
     )
-
-    return newTable
 end
 
----@generic T
----@param array T[]
----@param find fun(item: T): boolean
----@return integer
-function UusCorp.Utils.Array.IndexOf(array, find)
-    for i = 1, #array do
-        local item = array[i]
-        if find(item) then
-            return i
-        end
-    end
-
-    return -1
+---@return Context
+function Mod.getContext()
+    return {
+        Api = Api,
+        Data = Data,
+        Utils = Utils,
+        Constants = Constants,
+        Views = Views
+    }
 end
 
----@generic T
----@param array T[]
----@param find fun(item: T): boolean
----@return T?
-function UusCorp.Utils.Array.Find(array, find)
-    for i = 1, #array do
-        local item = array[i]
-        if find(item) then
-            return item
-        end
-    end
-
-    return nil
+function Mod:onInitialize()
+    self:loadResources()
+    self._onInitialize(self.getContext())
 end
 
----@generic T
----@param array T[]
----@param forEach fun(item: T, index: integer)
-function UusCorp.Utils.Array.ForEach(array, forEach)
-    for i = 1, #array do
-        local item = array[i]
-        forEach(item, i)
-    end
-end
+local ModManager = {}
+
+---@type table<string, Mod>
+ModManager.Mods = {}
+
+---@type table<string, function>
+ModManager.Initializers = {}
 
 -- ========================================================================== --
--- Library - Utils - Table
+-- Uus Corp
 -- ========================================================================== --
 
-UusCorp.Utils.Table = {}
+UusCorp = {}
 
----@generic K
----@generic V
----@param table table<K, V>
----@param forEach fun(k: K, v: V)
-function UusCorp.Utils.Table.ForEach(table, forEach)
-    for k, v in pairs(table) do
-        forEach(k, v)
-    end
-end
+UusCorp.EventHandler = EventHandler
 
----@generic K
----@generic V
----@param table table<K, V>
----@return table<K, V>
-function UusCorp.Utils.Table.Copy(table)
-    local newTable = {}
-    for k, v in pairs(table) do
-        newTable[k] = v
-    end
-    return newTable
-end
+UusCorp.ModInitializer = ModManager.Initializers
 
----@generic K
----@generic V
----@param table table<K, V>
----@return table<K, V>
-function UusCorp.Utils.Table.OverrideFunctions(table)
-    for k, v in pairs(table) do
-        if type(v) == "function" then
-            table[k] = function () end
-        end
-    end
-    return table
-end
-
--- ========================================================================== --
--- Library - Utils - String
--- ========================================================================== --
-
-UusCorp.Utils.String = {}
-
-function UusCorp.Utils.String.ExtractNumber(text)
-    return tonumber(string.match(text, "%d+") or 0)
-end
-
-function UusCorp.Utils.String.Random()
-    local charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    local result = ""
-    for i = 1, 24 do
-        local rand = math.random(1, #charset)
-        result = result .. charset:sub(rand, rand)
-    end
-    return result
-end
-
-function UusCorp.Utils.String.FromWString(text)
-    if type(text) == "string" then
-        return text
-    else
-        return UusCorp.Api.String.WStringToString(text)
-    end
-end
-
-function UusCorp.Utils.String.ToWString(text)
-    if type(text) == "number" then
-        return UusCorp.Api.String.GetStringFromTid(text)
-    elseif type(text) == "wstring" then
-        return text
-    elseif type(text) == "string" then
-        return UusCorp.Api.String.StringToWString(text)
-    else
-        return UusCorp.Api.String.StringToWString(tostring(text))
-    end
-end
-
-function UusCorp.Utils.String.Lower(text)
-    if type(text) == "string" then
-        return string.lower(text)
-    elseif type(text) == "wstring" then
-        return string.lower(UusCorp.Utils.String.FromWString(text))
-    end
-end
-
-function UusCorp.Utils.String.Upper(text)
-    if type(text) == "string" then
-        return string.upper(text)
-    elseif type(text) == "wstring" then
-        return string.upper(UusCorp.Utils.String.FromWString(text))
-    end
-end
-
--- ========================================================================== --
--- Library - EventHandler
--- ========================================================================== --
-
-UusCorp.EventHandler = {}
-
----@type table<string, Window>
-UusCorp.EventHandler.Windows = {}
-
-function UusCorp.EventHandler.OnInitialize()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onInitialize()
-end
-
-function UusCorp.EventHandler.OnShutdown()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onShutdown()
-    UusCorp.EventHandler.Windows[Active.window()] = nil
-end
-
-function UusCorp.EventHandler.OnLButtonUp(flags, x, y)
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onLButtonUp(flags, x, y)
-end
-
-function UusCorp.EventHandler.OnLButtonDown(flags, x, y)
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onLButtonDown(flags, x, y)
-end
-
-function UusCorp.EventHandler.OnRButtonDown(flags, x, y)
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onRButtonDown(flags, x, y)
-end
-
-function UusCorp.EventHandler.OnRButtonUp(flags, x, y)
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onRButtonUp(flags, x, y)
-end
-
-function UusCorp.EventHandler.OnHidden()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onHidden()
-end
-
-function UusCorp.EventHandler.OnShown()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onShown()
-end
-
-function UusCorp.EventHandler.OnUpdate(timePassed)
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onUpdate(timePassed)
-end
-
-function UusCorp.EventHandler.OnUpdateMobileName()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onUpdateMobileName()
-end
-
-function UusCorp.EventHandler.OnLButtonDblClk(flags, x, y)
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onLButtonDblClk(flags, x, y)
-end
-
-function UusCorp.EventHandler.OnMouseOver()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onMouseOver()
-end
-
-function UusCorp.EventHandler.OnMouseOverEnd()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onMouseOverEnd()
-end
-
-function UusCorp.EventHandler.OnMouseDrag()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onMouseDrag()
-end
-
-function UusCorp.EventHandler.OnUpdatePlayerStatus()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onUpdatePlayerStatus()
-end
-
-function UusCorp.EventHandler.OnUpdateMobileStatus()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onUpdateMobileStatus()
-end
-
-function UusCorp.EventHandler.OnUpdateHealthBarColor()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onUpdateHealthBarColor()
-end
-
-function UusCorp.EventHandler.OnEndHealthBarDrag()
-    local window = UusCorp.EventHandler.Windows[Active.window()]
-    window._events:onEndHealthBarDrag()
-end
-
+---@param model ModModel
+---@return Mod
 function UusCorp.Mod(model)
-    ---@class Mod
-    local mod = {}
-
-    mod.OnInitialize = function ()
-        model.OnInitialize(mod)
+    local mod = Mod:new(model)
+    ModManager.Mods[model.Name] = mod
+    ModManager.Initializers[model.Name] = function ()
+        mod:initialize()
     end
-
-    mod.Initialize = function ()
-        UusCorp.Api.Mod.Initialize(model.Name)
-    end
-
-    mod.LoadResource = function (file)
-        UusCorp.Api.Mod.LoadResources(
-            "Data/Interface/Default/uus-corp-ui" .. model.Path,
-            SystemData.Directories.Interface .. "/" .. SystemData.Settings.Interface.customUiName .. model.Path,
-            file
-        )
-    end
-
-    return mod
+    return Mod:new(model)
 end

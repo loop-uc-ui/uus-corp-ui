@@ -10,12 +10,11 @@
 		</Dependencies>
 
 		<Files>
-			<File name="UusCorpObjectHandleWindow.lua" />
 			<File name="UusCorpObjectHandleMod.lua"/>
 		</Files>
 
 		<OnInitialize>
-			<CallFunction name="UusCorpObjectHandleMod.OnInitialize" />
+			<CallFunction name="UusCorp.ModInitializer.UusCorpObjectHandle" />
 		</OnInitialize>
 	</UiMod>
 </ModuleFile>
