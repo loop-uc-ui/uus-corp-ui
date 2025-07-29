@@ -7434,7 +7434,7 @@ end
 ---@class DefaultWindow: Window
 local DefaultWindow = {}
 DefaultWindow.__index = DefaultWindow
-setmetatable(DefaultWindow, Window)
+setmetatable(DefaultWindow, { __index = Window })
 
 ---Returns a wrapped window, for use with windows
 ---provided by the default interface
@@ -7486,7 +7486,7 @@ end
 ---@class Button: Window
 local Button = {}
 Button.__index = Button
-setmetatable(Button, Window)
+setmetatable(Button, { __index = Window })
 
 ---@param model ButtonModel?
 ---@return Button
@@ -7550,7 +7550,7 @@ end
 ---@class Label: Window
 local Label = {}
 Label.__index = Label
-setmetatable(Label, Window)
+setmetatable(Label, { __index = Window })
 
 ---@param model LabelModel?
 ---@return Label
@@ -7610,7 +7610,7 @@ end
 ---@class StatusBar: Window
 local StatusBar = {}
 StatusBar.__index = StatusBar
-setmetatable(StatusBar, Window)
+setmetatable(StatusBar, { __index = Window })
 
 ---@param model StatusBarModel?
 ---@return StatusBar
