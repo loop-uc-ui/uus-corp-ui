@@ -13,15 +13,7 @@ function UusCorpGump.initialize()
         "UusCorpJewelryBoxSearch.xml"
     )
 
-    GumpsParsing.GumpMaps[999112].name = "UUS_CORP_OVERRIDE_VendorSearch"
-
-    local gumpParsing = UusCorpCore.copyTable(GumpsParsing)
     local genericGump = UusCorpCore.copyTable(GenericGump)
-
-    function GumpsParsing.MainParsingCheck(timePassed)
-        gumpParsing.MainParsingCheck(timePassed)
-        GumpsParsing.ToShow[999139] = nil -- Supress pet training progress gump
-    end
 
     function GenericGump.OnShown()
         local id = WindowApi.getId(Active.window())
@@ -42,10 +34,6 @@ function UusCorpGump.initialize()
                 "UusCorpJewelryBoxSearch",
                 Active.window()
             )
-        elseif gumpId == UusCorpGump.Ids.VendorSearch or gumpId == UusCorpGump.Ids.VendorSearchStoredSearch then
-            for _, v in pairs(gump.TextEntry) do
-                EditTextBoxApi.setTextColor(v, Colors.OffBlack)
-            end
         end
     end
 

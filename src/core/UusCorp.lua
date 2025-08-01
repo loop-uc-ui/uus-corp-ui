@@ -93,12 +93,6 @@
 ---@field slotId number
 ---@field newWidth number
 
----@class Color
----@field a number
----@field b number
----@field g number
----@field r number
-
 ---@class Radar
 ---@field TexCoordX number
 ---@field TexCoordY number
@@ -3566,6 +3560,8 @@ local Constants = {}
 ---@class Views
 local Views = {}
 
+local _viewsInternal = {}
+
 ---@class Data
 local Data = {}
 
@@ -4091,9 +4087,11 @@ end
 ---
 --- Sets the text color of an edit box.
 ---@param editBoxName string The name of the edit box.
----@param color table The color to set.
-function Api.EditTextBox.SetTextColor(editBoxName, color)
-    TextEditBoxSetTextColor(editBoxName, color.r, color.g, color.b)
+---@param r number The red component of the color.
+---@param g number The green component of the color.
+---@param b number The blue component of the color.
+function Api.EditTextBox.SetTextColor(editBoxName, r, g, b)
+    TextEditBoxSetTextColor(editBoxName, r, g, b)
 end
 
 ---
@@ -5782,6 +5780,24 @@ end
 Utils.Array = {}
 
 ---@generic K
+---@generic R
+---@param array K[]
+---@param mapper fun(k: K, index: number): R
+---@return R[]
+function Utils.Array.MapToArray(array, mapper)
+    local newArray = {}
+
+    Utils.Array.ForEach(
+        array,
+        function (k, index)
+            table.insert(newArray, mapper(k, index))
+        end
+    )
+
+    return newArray
+end
+
+---@generic K
 ---@generic V
 ---@generic T
 ---@param array T[]
@@ -5855,6 +5871,20 @@ function Utils.Table.ForEach(table, forEach)
     for k, v in pairs(table) do
         forEach(k, v)
     end
+end
+
+---@generic K
+---@generic V
+---@param table table<K, V>
+---@param  isFound fun(k: K, v: V): boolean
+---@return V?
+function Utils.Table.Find(table, isFound)
+    for k, v in pairs(table) do
+        if isFound(k, v) then
+            return v
+        end
+    end
+    return nil
 end
 
 ---@generic K
@@ -6087,6 +6117,11 @@ Constants.Textures = {}
 Constants.Textures.MenuSelection = "MenuSelection"
 
 Constants.Colors = {}
+Constants.Colors.OffBlack = {
+    r = 34,
+    g = 34,
+    b = 34
+}
 Constants.Colors.White = { r = 255, g = 255, b = 255 }
 Constants.Colors.OffWhite = { r = 206, g = 217, b = 242 }
 Constants.Colors.Red = { r = 164, g = 32,   b = 32 }
@@ -6259,6 +6294,129 @@ end
 function Data.Drag()
     return Drag:new()
 end
+
+-- ========================================================================== --
+-- Color
+-- ========================================================================== --
+
+---@class Color
+---@field r number
+---@field g number
+---@field b number
+
+
+-- ========================================================================== --
+-- Gump
+-- ========================================================================== --
+
+---@class GumpData
+---@field Gumps table<integer, Gump>
+
+---@class GumpItem
+---@field tid integer
+---@field windowName string
+---@field id integer
+
+---@class GumpWrapper
+---@field windowName string
+---@field id integer
+---@field TextEntry string[]?
+---@field Labels GumpItem[]?
+---@field Images string[]?
+---@field Buttons string[]?
+local Gump = {}
+Gump.__index = Gump
+
+function Gump:new(gump)
+    return setmetatable(gump, self)
+end
+
+function Gump:isVendorSearch()
+    return self.id == 218
+end
+
+function Gump:isVendorStoredSearch()
+    return self.id == 219
+end
+
+---@return EditTextBox
+function Gump:getTextEntries()
+    if not self.TextEntry then
+        return {}
+    end
+
+    return Utils.Array.MapToArray(
+        self.TextEntry,
+        function (k, index)
+            return _viewsInternal.EditTextBox:new {
+                id = index,
+                name = k
+            }
+        end
+    )
+end
+
+---@class GumpsWrapper
+local Gumps = {}
+Gumps.__index = Gumps
+
+function Gumps:new()
+    return setmetatable({}, self)
+end
+
+---@param windowName string? The name of the window.
+---@return GumpWrapper?
+function Gumps:getGump(windowName)
+    windowName = windowName or Active.window()
+
+    if not GumpData then
+        return nil
+    end
+
+    local gump = Utils.Table.Find(
+        GumpData.Gumps,
+        function (_, v)
+            return v.windowName == windowName
+        end
+    )
+
+    if not gump then
+        return nil
+    else
+        return Gump:new {
+            windowName = gump.windowName,
+            id = gump.id,
+            TextEntry = gump.TextEntry or {},
+            Labels = gump.Labels or {},
+            Images = gump.Images or {},
+            Buttons = gump.Buttons or {}
+        }
+    end
+end
+
+---@param windowName? string The name of the window.
+function Gumps:getTextEntries(windowName)
+    local gump = self:getGump(windowName)
+
+    if not gump or not gump.TextEntry then
+        return {}
+    else
+        return Utils.Table.MapToArray(
+            gump.TextEntry,
+            function (_, v)
+                return _viewsInternal.EditTextBox:new {
+                    id = v.id,
+                    name = v.windowName
+                }
+            end
+        )
+    end
+end
+
+function Data.Gumps()
+    return Gumps:new()
+end
+
 
 -- ========================================================================== --
 -- Data - Health Bar Color
@@ -7454,6 +7612,21 @@ end
 function DefaultWindow:getDefault()
     return self._getDefault()
 end
+
+function DefaultWindow:getDefaultFunction(functionName)
+    return self:getDefault()[functionName] or function(...) end
+end
+
+---@param functionName string
+---@param func fun(self: DefaultWindow, ...: any)
+function DefaultWindow:appendToFunction(functionName, func)
+    local originalFunction = self:getDefaultFunction(functionName)
+    self:getDefault()[functionName] = function(...)
+        originalFunction(...)
+        func(self:getDefault(), ...)
+    end
+end
+
 -- ========================================================================== --
 -- Button
 -- ========================================================================== --
@@ -7517,6 +7690,65 @@ end
 function Button:setTextColor(state, color)
     Api.Button.SetTextColor(self:getName(), state, color.r, color.g, color.b)
 end
+
+-- ========================================================================== --
+-- Edit Text Box
+-- ========================================================================== --
+
+---@class EditTextBoxEventsModel : WindowEventsModel
+---@field OnInitialize fun(self: EditTextBox)?
+---@field OnLButtonUp fun(self: EditTextBox, flags: integer, x: integer, y: integer)?
+---@field OnRButtonUp fun(self: EditTextBox, flags: integer, x: integer, y: integer)?
+---@field OnShutdown fun(self: EditTextBox)?
+---@field OnHidden fun(self: EditTextBox)?
+---@field OnShown fun(self: EditTextBox)?
+---@field OnLButtonDown fun(self: EditTextBox, flags: integer, x: integer, y: integer)?
+---@field OnRButtonDown fun(self: EditTextBox, flags: integer, x: integer, y: integer)?
+---@field OnUpdate fun(self: EditTextBox, timePassed: integer)?
+---@field OnUpdateMobileName fun(self: EditTextBox, windowData: MobileNameWrapper)?
+---@field OnLButtonDblClk fun(self: EditTextBox, flags: integer, x: integer, y: integer)?
+---@field OnMouseOver fun(self: EditTextBox)?
+---@field OnMouseOverEnd fun(self: EditTextBox)?
+---@field OnMouseDrag fun(self: EditTextBox)?
+---@field OnUpdatePlayerStatus fun(self: EditTextBox, playerStatus: PlayerStatusWrapper)?
+---@field OnUpdateMobileStatus fun(self: EditTextBox, mobileStatus: MobileStatusWrapper)?
+---@field OnUpdateHealthBarColor fun(self: EditTextBox, healthBarColor: HealthBarColorWrapper)?
+---@field OnEndHealthBarDrag fun(self: EditTextBox)?
+
+---@class EditTextBoxModel : WindowModel
+---@field name string?
+---@field template string?
+---@field events EditTextBoxEventsModel?
+
+---@class EditTextBox: Window
+local EditTextBox = {}
+EditTextBox.__index = EditTextBox
+setmetatable(EditTextBox, { __index = Window })
+
+---@param model EditTextBoxModel?
+---@return EditTextBox
+function EditTextBox:new(model)
+    model = model or {}
+    model.template = model.template or "UusCorpEditTextBox"
+    local instance = Window.new(self, model)
+    setmetatable(instance, self)
+    return instance --[[@as EditTextBox]]
+end
+
+function EditTextBox:setText(text)
+    Api.EditTextBox.SetText(self:getName(), Utils.String.ToWString(text))
+end
+
+function EditTextBox:getText()
+    return Api.EditTextBox.GetText(self:getName())
+end
+
+---@param color Color
+function EditTextBox:setTextColor(color)
+    Api.EditTextBox.SetTextColor(self:getName(), color.r, color.g, color.b)
+end
+
+_viewsInternal.EditTextBox = EditTextBox
 
 -- ========================================================================== --
 -- Label
@@ -7897,6 +8129,18 @@ Views.Defaults.ItemPropertiesData = ItemPropertiesData
 
 Views.Defaults.InterfaceCore = InterfaceCore
 
+---@class GumpsParsingWrapper : DefaultWindow
+---@field getDefault fun(self: GumpsParsingWrapper): GumpsParsing
+Views.Defaults.GumpsParsing = DefaultWindow:new("GumpsParsing", function ()
+    return GumpsParsing
+end)
+
+---@class GenericGumpWrapper : DefaultWindow
+---@field getDefault fun(self: GenericGumpWrapper): GenericGump
+Views.Defaults.GenericGump =  DefaultWindow:new("GenericGump", function ()
+    return GenericGump
+end)
+
 ---@type Actions
 Views.Defaults.Actions = Actions
 
@@ -8028,5 +8272,6 @@ function UusCorp.Mod(model)
     ModManager.Initializers[model.Name] = function ()
         mod:onInitialize()
     end
+    Debug.Print(model.Name)
     return Mod:new(model)
 end
