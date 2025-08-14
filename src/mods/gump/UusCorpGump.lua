@@ -1,44 +1,58 @@
-UusCorpGump = {}
-UusCorpGump.Data = {}
-UusCorpGump.Ids = {
-    JewelryBox = 61,
-    JewelryBoxPartial = 24,
-    VendorSearch = 218,
-    VendorSearchStoredSearch = 219
-}
 
-function UusCorpGump.initialize()
-    UusCorpCore.loadResources(
-        "/src/mods/gump",
-        "UusCorpJewelryBoxSearch.xml"
-    )
-
-    local genericGump = UusCorpCore.copyTable(GenericGump)
-
-    function GenericGump.OnShown()
-        local id = WindowApi.getId(Active.window())
-
-        for k, v in pairs(Gump.gumps()) do
-            if v.windowName == Active.window() then
-                UusCorpGump.Data[id] = Gump.gumpData(k)
-                break
+---@param context Context
+local SearchBox = function (context)
+    return context.Views.EditTextBox {
+        events = {
+            OnInitialize = function (self)
+                self:setDimensions(100, 24)
+                self:anchorToParentTop(0, 0)
             end
-        end
-
-        local gump = UusCorpGump.Data[id]
-        local gumpId = gump.id
-
-        if gumpId == UusCorpGump.Ids.JewelryBox or gumpId == UusCorpGump.Ids.JewelryBoxPartial then
-            WindowApi.createFromTemplate(
-                "UusCorpJewelryBoxSearch",
-                "UusCorpJewelryBoxSearch",
-                Active.window()
-            )
-        end
-    end
-
-    function GenericGump.Shutdown()
-        UusCorpGump.Data[WindowApi.getId(Active.window())] = nil
-        genericGump.Shutdown()
-    end
+        }
+    }
 end
+
+---@param context Context
+---@param gump GumpWindow
+local SearchBoxWindow = function (context, gump)
+    return context.Views.Window {
+        events = {
+            OnInitialize = function (self)
+                self:addAnchor("bottom", gump:getName(), "bottom", 0, 0)
+                self:setDimensions(100, 100)
+                self:setLayer(context.Constants.WindowLayers.Overlay)
+                self:setChildren {
+                    SearchBox(context)
+                }
+            end,
+            OnUpdate = function (self)
+                if not gump:doesExist() then
+                    self:destroy()
+                end
+            end
+        }
+    }
+end
+
+UusCorpJewelryBoxSearch = UusCorp.Mod {
+    Name = "UusCorpJewelryBoxSearch",
+    Path = "/src/mods/gump",
+    OnInitialize = function (context)
+        context.Views.Defaults.GenericGump:appendToFunction(
+            "OnShown",
+            function (_)
+                local gump = context.Views.Gump()
+
+                if not gump then
+                    return
+                end
+
+                Debug.Print("testing hello")
+
+                if gump:isJewelryBox() then
+                    Debug.Print("testing")
+                    SearchBoxWindow(context, gump):create(true)
+                end
+            end
+        )
+    end
+}

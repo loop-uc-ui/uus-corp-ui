@@ -7,13 +7,17 @@ UusCorpClassicVendorSearch = UusCorp.Mod {
         context.Views.Defaults.GenericGump:appendToFunction(
             "OnShown",
             function(_)
-                local gump = context.Data.Gumps():getGump()
+                local gump = context.Views.Gump()
 
                 if not gump then
                     return
-                elseif gump:isVendorSearch() or gump:isVendorStoredSearch() then
+                end
+
+                Debug.Print(gump._id)
+
+                if gump:isVendorSearch() then
                     context.Utils.Array.ForEach(
-                        gump:getTextEntries(),
+                        gump.textEntries,
                         function (item, _)
                             item:setTextColor(context.Constants.Colors.OffBlack)
                         end

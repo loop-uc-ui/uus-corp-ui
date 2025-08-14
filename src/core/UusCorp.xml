@@ -33,6 +33,13 @@
             <Color r="206" g="217" b="242" a="255" />
         </Label>
 
+        <EditBox name="UusCorpEditTextBox" font="inter_medium_18" taborder="1" maxchars="256" scrolling="horz">
+            <TextOffset x="4" y="4" />
+            <Size>
+                <AbsPoint x="54" y="18" />
+            </Size>
+        </EditBox>
+
         <Window name="UusCorpWindow" movable="true">
             <EventHandlers>
                 <EventHandler event="OnInitialize" function="UusCorp.EventHandler.OnInitialize"/>

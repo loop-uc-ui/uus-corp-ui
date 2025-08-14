@@ -3569,11 +3569,6 @@ local Data = {}
 local Utils = {}
 
 ---@class Context
----@field Api Api
----@field Data Data
----@field Utils Utils
----@field Constants Constants
----@field Views Views
 local Context = {
     Api = Api,
     Data = Data,
@@ -5798,6 +5793,35 @@ function Utils.Array.MapToArray(array, mapper)
 end
 
 ---@generic K
+---@param arrays K[][]
+---@return K[]
+function Utils.Array.Concat(arrays)
+    local newArray = {}
+
+    if not arrays or #arrays == 0 then
+        return newArray
+    end
+
+    if #arrays == 1 then
+        return arrays[1]
+    end
+
+    Utils.Array.ForEach(
+        arrays,
+        function (item, _)
+            Utils.Array.ForEach(
+                item,
+                function (subItem, _)
+                    table.insert(newArray, subItem)
+                end
+            )
+        end
+    )
+
+    return newArray
+end
+
+---@generic K
 ---@generic V
 ---@generic T
 ---@param array T[]
@@ -5837,6 +5861,10 @@ end
 ---@param find fun(item: T): boolean
 ---@return T?
 function Utils.Array.Find(array, find)
+    if not array or #array == 0 then
+        return nil
+    end
+
     for i = 1, #array do
         local item = array[i]
         if find(item) then
@@ -5851,6 +5879,10 @@ end
 ---@param array T[]
 ---@param forEach fun(item: T, index: integer)
 function Utils.Array.ForEach(array, forEach)
+    if not array or #array == 0 then
+        return
+    end
+
     for i = 1, #array do
         local item = array[i]
         forEach(item, i)
@@ -6309,113 +6341,10 @@ end
 -- Gump
 -- ========================================================================== --
 
----@class GumpData
----@field Gumps table<integer, Gump>
-
 ---@class GumpItem
 ---@field tid integer
 ---@field windowName string
 ---@field id integer
-
----@class GumpWrapper
----@field windowName string
----@field id integer
----@field TextEntry string[]?
----@field Labels GumpItem[]?
----@field Images string[]?
----@field Buttons string[]?
-local Gump = {}
-Gump.__index = Gump
-
-function Gump:new(gump)
-    return setmetatable(gump, self)
-end
-
-function Gump:isVendorSearch()
-    return self.id == 218
-end
-
-function Gump:isVendorStoredSearch()
-    return self.id == 219
-end
-
----@return EditTextBox
-function Gump:getTextEntries()
-    if not self.TextEntry then
-        return {}
-    end
-
-    return Utils.Array.MapToArray(
-        self.TextEntry,
-        function (k, index)
-            return _viewsInternal.EditTextBox:new {
-                id = index,
-                name = k
-            }
-        end
-    )
-end
-
----@class GumpsWrapper
-local Gumps = {}
-Gumps.__index = Gumps
-
-function Gumps:new()
-    return setmetatable({}, self)
-end
-
----@param windowName string? The name of the window.
----@return GumpWrapper?
-function Gumps:getGump(windowName)
-    windowName = windowName or Active.window()
-
-    if not GumpData then
-        return nil
-    end
-
-    local gump = Utils.Table.Find(
-        GumpData.Gumps,
-        function (_, v)
-            return v.windowName == windowName
-        end
-    )
-
-    if not gump then
-        return nil
-    else
-        return Gump:new {
-            windowName = gump.windowName,
-            id = gump.id,
-            TextEntry = gump.TextEntry or {},
-            Labels = gump.Labels or {},
-            Images = gump.Images or {},
-            Buttons = gump.Buttons or {}
-        }
-    end
-end
-
----@param windowName? string The name of the window.
-function Gumps:getTextEntries(windowName)
-    local gump = self:getGump(windowName)
-
-    if not gump or not gump.TextEntry then
-        return {}
-    else
-        return Utils.Table.MapToArray(
-            gump.TextEntry,
-            function (_, v)
-                return _viewsInternal.EditTextBox:new {
-                    id = v.id,
-                    name = v.windowName
-                }
-            end
-        )
-    end
-end
-
-function Data.Gumps()
-    return Gumps:new()
-end
 
 
 -- ========================================================================== --
@@ -7584,6 +7513,14 @@ function Window:unregisterData(type, id)
     Api.Window.UnregisterData(type, id)
 end
 
+---@param model WindowModel?
+---@return Window
+function Views.Window(model)
+   local window = Window:new(model)
+    Windows[window:getName()] = window
+    return window
+end
+
 -- ========================================================================== --
 -- Default Window
 -- ========================================================================== --
@@ -7691,6 +7628,14 @@ function Button:setTextColor(state, color)
     Api.Button.SetTextColor(self:getName(), state, color.r, color.g, color.b)
 end
 
+---@param model ButtonModel?
+---@return Button
+function Views.Button(model)
+    local button = Button:new(model)
+    Windows[button:getName()] = button
+    return button
+end
+
 -- ========================================================================== --
 -- Edit Text Box
 -- ========================================================================== --
@@ -7747,8 +7692,14 @@ end
 function EditTextBox:setTextColor(color)
     Api.EditTextBox.SetTextColor(self:getName(), color.r, color.g, color.b)
 end
-
-_viewsInternal.EditTextBox = EditTextBox
+    
+---@param model ButtonModel?
+---@return Button
+function Views.EditTextBox(model)
+    local button = Button:new(model)
+    Windows[button:getName()] = button
+    return button
+end
 
 -- ========================================================================== --
 -- Label
@@ -7810,8 +7761,16 @@ function Label:centerText()
     self:setTextAlignment(Constants.TextAlignment.Center)
 end
 
+---@param model LabelModel?
+---@return Label
+function Views.Label(model)
+    local label = Label:new(model)
+    Windows[label:getName()] = label
+    return label
+end
+
 -- ========================================================================== --
--- StatusBar
+-- Status Bar
 -- ========================================================================== --
 
 ---@class StatusBarEventsModel : WindowEventsModel
@@ -7869,6 +7828,97 @@ end
 function StatusBar:setForegroundTint(tint)
     Api.StatusBar.SetForegroundTint(self:getName(), tint)
 end
+
+---@param model StatusBarModel?
+---@return StatusBar
+function Views.StatusBar(model)
+    local statusBar = StatusBar:new(model)
+    Windows[statusBar:getName()] = statusBar
+    return statusBar
+end
+
+-- ========================================================================== --
+-- Gump Window
+-- ========================================================================== --
+
+---@class GumpWindowModel
+---@field windowName string
+---@field TextEntry string[]?
+---@field Labels GumpItem[]?
+---@field Images string[]?
+---@field Buttons string[]?
+
+---@class GumpWindow : Window
+---@field buttons Button[]
+---@field textEntries EditTextBox[]
+---@field _id integer The unique ID of the gump window.
+local GumpWindow = {}
+GumpWindow.__index = GumpWindow
+setmetatable(GumpWindow, { __index = Window })
+
+---@param gump GumpWindowModel
+---@param id integer
+---@return GumpWindow
+function GumpWindow:new(gump, id)
+    local instance = Window.new(self, { name = gump.windowName }) --[[@as GumpWindow]]
+    setmetatable(instance, self)
+
+    instance.buttons = Utils.Array.MapToArray(
+        gump.Buttons,
+        function (buttonName)
+            return Button:new({ name = buttonName })
+        end
+    )
+
+    instance.textEntries = Utils.Array.MapToArray(
+        gump.TextEntry,
+        function (textEntryName)
+            return EditTextBox:new({ name = textEntryName })
+        end
+    )
+
+    instance._children = Utils.Array.Concat {
+        instance.buttons,
+        instance.textEntries
+    }
+
+    instance._id = id
+    return instance --[[@as GumpWindow]]
+end
+
+function GumpWindow:isVendorSearch()
+    return self._id == 999112
+end
+
+function GumpWindow:isJewelryBox()
+    return self._id == 999143
+end
+
+---@param name string?
+---@return GumpWindow?
+function Views.Gump(name)
+    name = name or Active.window()
+    if not GumpData then
+        return nil
+    end
+
+    local id = -1
+
+    local gump = Utils.Table.Find(
+        GumpData.Gumps,
+        function (k, v)
+            id = k
+            return v.windowName == name
+        end
+    )
+
+    if not gump then
+        return nil
+    else
+        return GumpWindow:new(gump, id)
+    end
+end
+
 
 -- ========================================================================== --
 -- Interface
@@ -8145,56 +8195,6 @@ end)
 Views.Defaults.Actions = Actions
 
 -- ========================================================================== --
--- Interface - Window
--- ========================================================================== --
-
----@param model WindowModel?
----@return Window
-function Views.Window(model)
-   local window = Window:new(model)
-    Windows[window:getName()] = window
-    return window
-end
-
--- ========================================================================== --
--- Interface - Button
--- ========================================================================== --
-
----@param model ButtonModel?
----@return Button
-function Views.Button(model)
-    local button = Button:new(model)
-    Windows[button:getName()] = button
-    return button
-end
-
--- ========================================================================== --
--- Interface - Label
--- ========================================================================== --
-
-
----@param model LabelModel?
----@return Label
-function Views.Label(model)
-    local label = Label:new(model)
-    Windows[label:getName()] = label
-    return label
-end
-
--- ========================================================================== --
--- Interface - Status Bar
--- ========================================================================== --
-
-
----@param model StatusBarModel?
----@return StatusBar
-function Views.StatusBar(model)
-    local statusBar = StatusBar:new(model)
-    Windows[statusBar:getName()] = statusBar
-    return statusBar
-end
-
--- ========================================================================== --
 -- Mod
 -- ========================================================================== --
 
@@ -8272,6 +8272,5 @@ function UusCorp.Mod(model)
     ModManager.Initializers[model.Name] = function ()
         mod:onInitialize()
     end
-    Debug.Print(model.Name)
-    return Mod:new(model)
+    return mod
 end
